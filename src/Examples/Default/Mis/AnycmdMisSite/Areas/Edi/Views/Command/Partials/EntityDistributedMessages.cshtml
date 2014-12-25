@@ -1,0 +1,39 @@
+﻿@{
+	var entityTypeCode = "Command";
+	var prifix = "Edi_Command_EntityDistributedMessages_";
+}
+<div class="mini-toolbar" style="border-left: 0; border-right: 0; border-top: 0px; padding: 2px;">
+	<div style="float: left">
+		@{Html.RenderPartial("Partials/UiViewButtons");}
+	</div>
+	<div style="float: right">
+	</div>
+	<div style="clear: both;">
+	</div>
+</div>
+<!--撑满页面-->
+<div class="mini-fit noGridBorder">
+	<div id="@(prifix)datagrid1" class="mini-datagrid" style="width:100%;height:100%;" allowAlternating="true" 
+		url="@Url.Action("GetPlist", new { commandType = "Distributed" })" idfield="Id" multiselect="true" 
+		sizeList="[5,10,20,50]" pageSize="10" allowCellWrap="true">
+		<div property="columns">
+			<div type="indexcolumn" width="20"></div>
+			<div field="ClientName" width="70" headeralign="center" allowsort="false">
+				@Html.IconLabel("ClientName", entityTypeCode)
+			</div>
+			<div field="HumanInfo" width="300" headeralign="center">
+				内容
+			</div>
+			<div field="UserName" width="80" headeralign="center" allowsort="true">
+				@Html.IconLabel("UserName", entityTypeCode)
+			</div>
+			<div field="CreateOn" width="100" headeralign="center" dateformat="yyyy-MM-dd HH:mm:ss" allowsort="true">
+				@Html.IconLabel("CreateOn", entityTypeCode)
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="@Url.Content("~/Scripts/Areas/Edi/Command/EntityDistributedMessages.cshtml.js")"></script>
+@if (Request.IsAjaxRequest()) {
+	<script src="@Url.Content("~/Scripts/tooltipBoot.js")"></script>
+}

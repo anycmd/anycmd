@@ -1,0 +1,31 @@
+﻿@{
+    string area = ViewContext.RouteData.DataTokens["area"].ToString();
+    string ontologyCode = Request.Params["OntologyCode"];
+}
+<script id="detailsTemplate" type="text/x-jquery-tmpl">
+    @{
+        var ontology = Html.CurrentHost().NodeHost.Ontologies[ontologyCode];
+        var elements = ontology.Elements
+            .Where(f => f.Value.Element != null && f.Value.Element.IsEnabled == 1 && f.Value.Element.IsDetailsShow)
+            .OrderBy(e => e.Value.Element.SortCode).Select(e => e.Value.Element);
+        foreach (var element in elements) {
+            var cls = string.IsNullOrWhiteSpace(element.Icon) ? "" : "class='icon-" + element.Code + "'";
+            var htmlWidth = "width: 280px;";
+            if (element.IsTotalLine) {
+                htmlWidth = "width: 100%;";
+                <div style="clear: left;"></div>
+            }
+            <div class="mini-grid-row-selected" style="float: left; @htmlWidth border-bottom:solid 1px #D0D0D0;">
+                <div style="float: left; margin-left: 0px; width: 130px; border-left: solid 1px #D0D0D0;">
+                    @Html.IconLabel(element)
+                </div>
+                <div style="margin-left: 130px; padding: 0px 2px; background-color: #ffffff;">${@element.Code}&nbsp;</div>
+            </div>
+        }
+    }
+    <div style="clear: left;"></div>
+</script>
+<div id="details" class="details">
+</div>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery-tmpl/jquery.tmpl.min.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/Areas/Edi/Entity/Details.cshtml.js")"></script>

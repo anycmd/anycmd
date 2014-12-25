@@ -1,0 +1,104 @@
+﻿@{
+    Layout = "~/Views/Shared/_Index.cshtml";
+    var infoTabView = Html.GetRuntimeUIVIew("Details");
+}
+@section Head{
+}
+<div id="Ac_DicItem_Index_helperSplitter" class="mini-splitter helperSplitter" style="width: 100%; height: 100%;">
+    <div showcollapsebutton="true">
+        <div class="mini-splitter" style="width: 100%; height: 100%;">
+            <div size="380" showcollapsebutton="true">
+                <div class="mini-toolbar" style="border-left: 0; border-right: 0; border-top: 0px; padding: 2px;">
+                    <span style="padding-left: 5px;">字典列表</span>
+                </div>
+                <div class="mini-fit">
+                    <div id="Ac_DicItem_Index_dgDic" class="mini-datagrid" style="width:100%;height:100%;" allowalternating="true"
+                         url="@Url.Action("GetPlistDics", "Dic")" idfield="Id" selectonload="true" multiselect="false"
+                         sizelist="[5,10,20,50]" pagesize="20">
+                        <div property="columns">
+                            <div type="indexcolumn">
+                            </div>
+                            <div type="checkcolumn">
+                            </div>
+                            <div field="Name" width="120" headeralign="center">
+                                名称
+                            </div>
+                            <div field="Code" width="120" headeralign="center">
+                                编码
+                            </div>
+                            <div field="SortCode" width="70" headeralign="center" align="center" allowsort="true">
+                                @Html.IconLabel("SortCode")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div showcollapsebutton="true">
+                <div id="Ac_DicItem_Index_splitter" class="mini-splitter" vertical="true" style="width: 100%; height: 100%;">
+                    <div size="600" showcollapsebutton="true">
+                        <div class="mini-toolbar" style="border-left: 0; border-right: 0; border-top: 0px; padding: 2px;">
+                            <div style="float: left">
+                                @{Html.RenderPartial("Partials/UiViewButtons");}
+                            </div>
+                            <div style="float: right">
+                                <input id="Ac_DicItem_Index_key" class="mini-textbox" emptytext="请输入关键字" style="width: 150px;" />
+                                <a id="Ac_DicItem_Index_btnSearch" class="mini-button">查询</a>
+                            </div>
+                            <div style="clear: both;">
+                            </div>
+                        </div>
+                        <!--撑满页面-->
+                        <div class="mini-fit">
+                            <div id="Ac_DicItem_Index_dgDicItem" class="mini-datagrid" style="width:100%;height:100%;" allowalternating="true"
+                                 url="@Url.Action("GetPlistDicItems")" idfield="Id" multiselect="true" sizelist="[5,10,20,50]" pagesize="20">
+                                <div property="columns">
+                                    <div type="indexcolumn">
+                                    </div>
+                                    <div type="checkcolumn">
+                                    </div>
+                                    <div name="action" width="50" headeralign="center" align="center" cellstyle="padding:0;">
+                                        操作
+                                    </div>
+                                    <div field="Name" width="120" headeralign="center" allowsort="true">
+                                        @Html.IconLabel("Name")
+                                    </div>
+                                    <div field="Code" width="120" headeralign="center" allowsort="true">
+                                        @Html.IconLabel("Code")
+                                    </div>
+                                    <div field="IsEnabled" width="50" allowsort="true">
+                                        @Html.IconLabel("IsEnabled")
+                                    </div>
+                                    <div field="SortCode" width="50" headeralign="center" align="center" allowsort="true">
+                                        @Html.IconLabel("SortCode")
+                                    </div>
+                                    <div field="CreateOn" width="100" headeralign="center" dateformat="yyyy-MM-dd HH:mm:ss" allowsort="true">
+                                        @Html.IconLabel("CreateOn")
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div showcollapsebutton="true">
+                        <div id="Ac_DicItem_Index_tabs1" class="mini-tabs" style="width: 100%; height: 100%; display: none;"
+                             activeindex="0" bodystyle="padding:0;border:0;">
+                            <div name="infoTab" bodycls="inner" title="@infoTabView.Title" iconstyle="background:url(/content/icons/16x16/@infoTabView.Icon)">
+                            </div>
+                            @{
+                                var operationLogView = this.GetOperationLogEntityType();
+                                if (operationLogView.Permit()) {
+                                    <div name="operationLogTab" bodycls="inner" title="@operationLogView.Title" iconstyle="background:url(/content/icons/16x16/@operationLogView.Icon)">
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div size="250" showcollapsebutton="true" visible="false" expanded="false">
+        @{Html.RenderPartial("Partials/HelpPane");}
+    </div>
+</div>
+@section Foot{
+}

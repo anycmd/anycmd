@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Policy
+      xmlns="urn:oasis:names:tc:xacml:2.0:policy:schema:os"
+      xmlns:context="urn:oasis:names:tc:xacml:2.0:context:schema:os"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:md="urn:example:med:schemas:record"
+      xsi:schemaLocation="urn:oasis:names:tc:xacml:2.0:policy:schema:os
+        access_control-xacml-2.0-policy-schema-os.xsd"
+      PolicyId="urn:oasis:names:tc:xacml:2.0:conformance-test:IIF016:policy"
+      RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:deny-overrides">
+    <Description>
+        Policy for Conformance Test IIF016.
+        VariableDefinitions with an Apply that results in ProcessingError
+    </Description>
+    <Target />
+    <VariableDefinition VariableId="urn:oasis:names:tc:xacml:2.0:conformance-test:IIF016:variable1">
+    	<Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:integer-add" >
+            <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:integer-one-and-only">
+    		<ResourceAttributeDesignator
+	          	AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id"
+	          	DataType="http://www.w3.org/2001/XMLSchema#string"
+	          	MustBePresent="true"/>
+            </Apply>
+	    <AttributeValue
+                  DataType="http://www.w3.org/2001/XMLSchema#integer">0</AttributeValue>
+        </Apply>
+    </VariableDefinition>
+    <Rule
+          RuleId="urn:oasis:names:tc:xacml:2.0:conformance-test:IIF016:rule"
+          Effect="Permit">
+        <Description>
+            A subject who is at least 5 years older than Bart
+            Simpson may perform any action on any resource.
+        </Description>
+        <Condition>
+            <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:integer-greater-than-or-equal">
+            	<Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:integer-subtract">
+			<VariableReference
+				VariableId="urn:oasis:names:tc:xacml:2.0:conformance-test:IIF016:variable1" />
+			<AttributeValue
+	        		DataType="http://www.w3.org/2001/XMLSchema#integer">5</AttributeValue>
+		</Apply>
+        	<AttributeValue
+	       		DataType="http://www.w3.org/2001/XMLSchema#integer">5</AttributeValue>
+            </Apply>
+        </Condition>
+    </Rule>
+</Policy>

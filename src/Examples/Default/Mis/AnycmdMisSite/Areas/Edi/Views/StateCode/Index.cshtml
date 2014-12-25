@@ -1,0 +1,59 @@
+﻿@{
+	Layout = "~/Views/Shared/_Index.cshtml";
+	var infoTabView = Html.GetRuntimeUIVIew("Details");
+	var prifix = "Edi_StateCode_Index_";
+}
+<div id="@(prifix)helperSplitter" class="mini-splitter helperSplitter" style="width: 100%; height: 100%;">
+	<div showcollapsebutton="true">
+		<div id="@(prifix)splitter" class="mini-splitter" vertical="true" style="width: 100%; height: 100%;">
+			<div size="430" showcollapsebutton="true">
+				<div class="mini-toolbar" style="border-left: 0; border-right: 0; border-top: 0px; padding: 2px;">
+					<div style="float: left">
+						@{Html.RenderPartial("Partials/UiViewButtons");}
+					</div>
+					<div style="float: right">
+					</div>
+					<div style="clear: both;">
+					</div>
+				</div>
+				<!--撑满页面-->
+				<div class="mini-fit">
+					<div id="@(prifix)datagrid1" class="mini-datagrid" style="width:100%;height:100%;" allowAlternating="true" 
+						url="@Url.Action("GetPlistStateCodes")" idfield="Id" multiselect="true" showFilterRow="true"
+						sizeList="[5,10,20,50]" pagesize="10" showModified="false">
+						<div property="columns">
+							<div type="indexcolumn" width="20"></div>
+							<div type="checkcolumn" width="20"></div>
+							<div name="action" width="30" headeralign="center" align="center" cellstyle="padding:0;">
+								<a id="@(prifix)btnSearchClear" property="filter" class="mini-button" style="float: right;">条件清空</a>
+							</div>
+							<div field="Code" width="50" headeralign="center" allowsort="true">
+								@Html.IconLabel("Code")
+							</div>
+							<div field="ReasonPhrase" width="100" headeralign="center" allowsort="true">
+								@Html.IconLabel("ReasonPhrase")
+								<input id="@(prifix)ReasonPhraseFilter" name="ReasonPhrase" property="filter" class="mini-textbox" style="width: 100%;" />
+							</div>
+							<div field="Description" width="300" headeralign="center" allowsort="true">
+								@Html.IconLabel("Description")
+								<input id="@(prifix)DescriptionFilter" name="Description" property="filter" class="mini-textbox" style="width: 100%;" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div showcollapsebutton="true">
+				<div id="@(prifix)tabs1" class="mini-tabs" style="width: 100%; height: 100%;display:none;"
+					activeindex="0" bodystyle="padding:0;border:0;">
+					<div name="infoTab" bodyCls="inner" title="@infoTabView.Title" iconStyle="background:url(/content/icons/16x16/@infoTabView.Icon)">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div size="250" showcollapsebutton="true" visible="false" expanded="false">
+		@{Html.RenderPartial("Partials/HelpPane");}
+	</div>
+</div>
+@section Foot{
+}

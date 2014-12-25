@@ -1,0 +1,31 @@
+﻿@model string
+@{
+	var prifix = Model;
+}
+<form id="@(prifix)form1" method="post">
+	<input name="DatabaseId" class="mini-hidden" />
+	<div style="padding-left: 11px; padding-bottom: 5px;">
+		<table>
+			<tr>
+				<td>CatalogName</td>
+				<td colspan="3">
+					<input name="CatalogName" class="mini-textbox asLabel" readonly="readonly" />
+				</td>
+			</tr>
+			<tr>
+				<td>Id</td>
+				<td colspan="3">
+					<input name="Id" class="mini-textbox asLabel" readonly="readonly" required="true" style="width: 350px;" />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					说明：
+				</td>
+				<td colspan="3">
+					<input name="Description" class="mini-textarea" style="width: 350px;" />
+				</td>
+			</tr>
+		</table>
+	</div>
+</form>

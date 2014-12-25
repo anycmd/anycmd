@@ -1,0 +1,73 @@
+﻿@{
+	Layout = "~/Views/Shared/_Index.cshtml";
+	var infoTabView = Html.GetRuntimeUIVIew("Details");
+}
+<div id="Ac_ExceptionLog_Index_helperSplitter" class="mini-splitter helperSplitter" style="width: 100%; height: 100%;">
+	<div showcollapsebutton="true">
+		<div id="Ac_ExceptionLog_Index_splitter" class="mini-splitter" vertical="true" style="width: 100%; height: 100%;">
+			<div size="360" showcollapsebutton="true">
+				<div class="mini-toolbar" style="border-left: 0; border-right: 0; border-top: 0px; padding: 2px;">
+					<div style="float: left">
+						@{Html.RenderPartial("Partials/UiViewButtons");}
+					</div>
+					<div style="float: right">
+						等级：
+						<input id="Ac_ExceptionLog_Index_comboLevel" class="mini-combobox" style="width: 125px;"
+							textfield="name" valuefield="code" data="@Html.DicItemJsonArray(Html.GetProperty("Level"))" shownullitem="true" />
+						<input id="Ac_ExceptionLog_Index_key" class="mini-textbox" emptytext="请输入异常关键字" style="width: 150px;" />
+						<a id="Ac_ExceptionLog_Index_btnSearch" class="mini-button">查询</a>
+					</div>
+					<div style="clear: both;">
+					</div>
+				</div>
+				<!--撑满页面-->
+				<div class="mini-fit">
+					<div id="Ac_ExceptionLog_Index_datagrid1" class="mini-datagrid" style="width:100%;height:100%;" allowAlternating="true" 
+						url="@Url.Action("GetPlistExceptionLogs")" idfield="Id" multiselect="true" 
+						sizeList="[5,10,20,50]" pagesize="10">
+						<div property="columns">
+							<div type="indexcolumn" width="20">
+							</div>
+							<div type="checkcolumn" width="20">
+							</div>
+							<div field="Machine" width="100" headeralign="center" allowsort="true">
+								@Html.IconLabel("Machine")
+							</div>
+							<div field="Process" width="50" headeralign="center" allowsort="true">
+								@Html.IconLabel("Process")
+							</div>
+							<div field="BaseDirectory" width="300" headeralign="center" allowsort="true">
+								BaseDirectory
+							</div>
+							<div field="Level" width="50" headeralign="center" allowsort="true">
+								@Html.IconLabel("Level")
+							</div>
+							<div field="Logger" width="180" headeralign="center" allowsort="true">
+								@Html.IconLabel("Logger")
+							</div>
+							<div field="Message" width="300" headeralign="center" allowsort="true">
+								@Html.IconLabel("Message")
+							</div>
+							<div field="LogOn" width="110" headeralign="center" allowinput="false" dateformat="yyyy-MM-dd HH:mm:ss"
+								allowsort="true">
+								@Html.IconLabel("LogOn")
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div showcollapsebutton="true">
+				<div id="Ac_ExceptionLog_Index_tabs1" class="mini-tabs" style="width: 100%; height: 100%;display:none;" activeindex="0"
+					bodystyle="padding:0;border:0;">
+					<div name="infoTab" bodyCls="inner" title="@infoTabView.Title" iconStyle="background:url(/content/icons/16x16/@infoTabView.Icon)">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div size="250" showcollapsebutton="true" visible="false" expanded="false">
+		@{Html.RenderPartial("Partials/HelpPane");}
+	</div>
+</div>
+@section Foot{
+}

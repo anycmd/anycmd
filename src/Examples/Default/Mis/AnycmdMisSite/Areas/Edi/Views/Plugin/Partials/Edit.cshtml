@@ -1,0 +1,45 @@
+﻿@model string
+@{
+	var prifix = Model;
+	var codespace = ViewContext.RouteData.DataTokens["area"].ToString();
+	var entityTypeCode = ViewContext.RouteData.Values["Controller"].ToString();
+}
+<form id="@(prifix)form1" method="post">
+	<input name="Id" class="mini-hidden" />
+	<div style="padding-left: 11px; padding-bottom: 5px;">
+		<table>
+			<tr>
+				<td>@Html.GetProperty("Title", entityTypeCode, codespace).Name：
+				</td>
+				<td colspan="3">
+					<input name="Title" class="mini-textbox" required="true" style="width: 352px;" />
+					@Html.Qtip("Title", entityTypeCode, codespace)
+				</td>
+			</tr>
+			<tr>
+				<td>
+					@Html.IconLabel("AuthorCode", entityTypeCode, codespace)
+				</td>
+				<td>
+					<input name="AuthorCode" class="mini-combobox" style="width:125px;" textField="name" valueField="code" 
+						data="@Html.DeveloperJsonArray()" showNullItem="true" value="" nullItemText="" required="true" />
+					@Html.Qtip("AuthorCode", entityTypeCode, codespace)
+				</td>
+				<td>@Html.GetProperty("IsEnabled", entityTypeCode, codespace).Name：
+				</td>
+				<td>
+					<input name="IsEnabled" class="mini-checkbox" text="是否有效？" truevalue="1" falsevalue="0" />
+					@Html.Qtip("IsEnabled", entityTypeCode, codespace)
+				</td>
+			</tr>
+			<tr>
+				<td>@Html.GetProperty("Description", entityTypeCode, codespace).Name：
+				</td>
+				<td colspan="3">
+					<input name="Description" class="mini-textarea" style="width: 352px; height: 150px;" />
+					@Html.Qtip("Description", entityTypeCode, codespace)
+				</td>
+			</tr>
+		</table>
+	</div>
+</form>

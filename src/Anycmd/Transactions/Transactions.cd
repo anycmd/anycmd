@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Anycmd.Transactions.DistributedTransactionCoordinator">
+    <Position X="0.5" Y="4" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAACAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Transactions\DistributedTransactionCoordinator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Transactions.SuppressedTransactionCoordinator">
+    <Position X="3.25" Y="4" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Transactions\SuppressedTransactionCoordinator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Transactions.TransactionCoordinator">
+    <Position X="1.75" Y="0.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEgAACAQAAACAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Transactions\TransactionCoordinator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Anycmd.Transactions.TransactionCoordinatorFactory">
+    <Position X="4.5" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Transactions\TransactionCoordinatorFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Anycmd.Transactions.ITransactionCoordinator">
+    <Position X="4.5" Y="1.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Transactions\ITransactionCoordinator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Microsoft YaHei UI" Size="9" />
+</ClassDiagram>

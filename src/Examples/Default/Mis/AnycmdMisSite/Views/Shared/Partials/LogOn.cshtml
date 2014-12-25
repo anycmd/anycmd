@@ -1,0 +1,58 @@
+﻿@{
+    if (!User.Identity.IsAuthenticated) {
+        var controller = ViewContext.RouteData.Values["Controller"].ToString().ToLower();
+        var action = ViewContext.RouteData.Values["Action"].ToString().ToLower();
+        bool isHomeLogOnPage = ViewContext.RouteData.DataTokens["area"] == null
+            && controller == "home"
+            && action == "logon";
+        bool isHomeIndexPage = ViewContext.RouteData.DataTokens["area"] == null
+            && controller == "home"
+            && action == "index";
+        if (isHomeLogOnPage) {
+    <script type="text/javascript">
+        window.isHomeLogOnPage = true;
+        window.isLogined = false;
+    </script>
+        }
+    <div id="loginWindow" class="mini-window" title="用户登录" visible="false" iconStyle="background: url(/content/icons/16x16/door_in.png) no-repeat;" style="width: 300px; height: 190px;"
+        showmodal="true" showclosebutton='false'>
+        <div id="loginForm" style="padding: 15px; padding-top: 10px;">
+            <table>
+                <tr>
+                    <td style="width: 50px;">
+                        <label for="LoginName$text">帐号：</label></td>
+                    <td>
+                        <input id="LoginName" name="LoginName" class="mini-textbox" value="xuexs" required="true" style="width: 170px;" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="Password$text">密码：</label></td>
+                    <td>
+                        <input id="Password" name="Password" class="mini-password" value="111111" requirederrortext="密码不能为空" required="true" style="width: 170px;" />
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td style="padding-top: 5px;">
+                        <a id="btnSignIn" class="mini-button" iconStyle="background: url(/content/icons/16x16/arrow_redo.png) no-repeat;" style="width: 60px;">登录</a>
+                        <a id="btnReset" class="mini-button" iconStyle="background: url(/content/icons/16x16/nonepage.png) no-repeat;" style="width: 60px;">重置</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><a id="retrieve" href="#">忘记密码?</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Views/Shared/Partials/LogOn.cshtml.js")"></script>
+    }
+    else {
+    <script type="text/javascript">
+        window.isHomeLogOnPage = true;
+        window.isLogined = true;
+    </script>
+    }
+}

@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Anycmd.EDI.EntityProvider.SqlServer2008.EntityProvider">
+    <Position X="0.5" Y="0.5" Width="3" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Class Name="Anycmd.EDI.EntityProvider.SqlServer2008.EntityProvider.Sql">
+        <TypeIdentifier>
+          <NewMemberFileName>EntityProvider.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>IIQCAAgBQAQgEERAoAAAgoQBAAEADGAABQIABAAgAgA=</HashCode>
+      <FileName>EntityProvider.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="Anycmd.EDI.Commands.IEntityProvider">
+    <Position X="3.75" Y="0.5" Width="2.75" />
+    <TypeIdentifier />
+  </Interface>
+  <Font Name="Microsoft YaHei UI" Size="9" />
+</ClassDiagram>

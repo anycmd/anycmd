@@ -1,0 +1,203 @@
+﻿<link rel="stylesheet" type="text/css" href="@Url.Content("~/Scripts/emotions/emoticon.css")" />
+@model string
+@{
+	var prifix = "Edi_Node_Edit_";
+	var codespace = ViewContext.RouteData.DataTokens["area"].ToString();
+	var entityTypeCode = ViewContext.RouteData.Values["Controller"].ToString();
+}
+<div class="mini-toolbar" style="border-left: 0; border-right: 0; border-top: 0px; padding: 2px;">
+	<div style="float: left">
+		@{Html.RenderPartial("Partials/UiViewButtons");}
+	</div>
+	<div style="float: right">
+	</div>
+	<div style="clear: both;">
+	</div>
+</div>
+<!--撑满页面-->
+<div class="mini-fit">
+	<form id="@(prifix)form1" method="post">
+		<input id="hdIcon" name="Icon" class="mini-hidden" />
+		<div style="padding-left: 11px; padding-bottom: 5px;">
+			<table>
+				<tr>
+					<td>
+						@Html.IconLabel("Name", entityTypeCode, codespace)
+					</td>
+					<td>
+						<input name="Name" class="mini-textbox" emptytext="@Html.GetProperty("Name").GuideWords" required="true" />
+						@Html.Qtip("Name", entityTypeCode, codespace)
+					</td>
+					<td>
+						@Html.IconLabel("Code", entityTypeCode, codespace)
+					</td>
+					<td>
+						<input name="Code" class="mini-textbox" emptytext="@Html.GetProperty("Code").GuideWords" required="true" />
+						@Html.Qtip("Code", entityTypeCode, codespace)
+					</td>
+				</tr>
+				<tr>
+					<td>
+						@Html.IconLabel("Organization", entityTypeCode, codespace)
+					</td>
+					<td>
+						<input name="Organization" class="mini-textbox" emptytext="@Html.GetProperty("Organization").GuideWords" required="true" />
+						@Html.Qtip("Organization", entityTypeCode, codespace)
+					</td>
+					<td>
+						@Html.IconLabel("Steward", entityTypeCode, codespace)
+					</td>
+					<td>
+						<input name="Steward" class="mini-textbox" emptytext="@Html.GetProperty("Steward").GuideWords" required="true" />
+						@Html.Qtip("Steward", entityTypeCode, codespace)
+					</td>
+				</tr>
+				<tr>
+					<td>
+						@Html.IconLabel("Telephone", entityTypeCode, codespace)
+					</td>
+					<td>
+						<input name="Telephone" class="mini-textbox" emptytext="@Html.GetProperty("Telephone").GuideWords" required="true" />
+						@Html.Qtip("Telephone", entityTypeCode, codespace)
+					</td>
+					<td>
+						@Html.IconLabel("Email", entityTypeCode, codespace)
+					</td>
+					<td>
+						<input name="Email" class="mini-textbox" emptytext="@Html.GetProperty("Email").GuideWords" required="false" />
+						@Html.Qtip("Email", entityTypeCode, codespace)
+					</td>
+				</tr>
+				<tr>
+					<td>
+						@Html.IconLabel("Mobile", entityTypeCode, codespace)
+					</td>
+					<td>
+						<input name="Mobile" class="mini-textbox" emptytext="@Html.GetProperty("Mobile").GuideWords" required="false" />
+						@Html.Qtip("Mobile", entityTypeCode, codespace)
+					</td>
+					<td>
+						@Html.IconLabel("QQ", entityTypeCode, codespace)
+					</td>
+					<td>
+						<input name="QQ" class="mini-textbox" emptytext="@Html.GetProperty("QQ").GuideWords" required="false" />
+						@Html.Qtip("QQ", entityTypeCode, codespace)
+					</td>
+				</tr>
+				<tr>
+					<td>
+						@Html.IconLabel("Icon")
+					</td>
+					<td>
+						<div id="msg" style="float: left; margin: 0px; text-align: center; line-height: 30px; border: 0px; height: 30px; width: 30px;"></div>
+						<a href="JavaScript:void(0)" id="message_face">选择图标</a>
+						@Html.Qtip("Icon", entityTypeCode, codespace)
+					</td>
+					<td>
+						@Html.IconLabel("TransferId", entityTypeCode, codespace)
+					</td>
+					<td>
+						<input name="TransferId" class="mini-combobox" required="true"
+							   textfield="Title" valuefield="Id" data="@Html.TransfersJsonArray()" shownullitem="false" />
+						@Html.Qtip("TransferId", entityTypeCode, codespace)
+					</td>
+				</tr>
+				<tr>
+					<td>
+						@Html.IconLabel("IsEnabled", entityTypeCode, codespace)
+					</td>
+					<td>
+						<input name="IsEnabled" class="mini-checkbox" text="@Html.GetProperty("IsEnabled").Name" truevalue="1" falsevalue="0" />
+						@Html.Qtip("IsEnabled", entityTypeCode, codespace)
+					</td>
+					<td>
+						@Html.IconLabel("SortCode", entityTypeCode, codespace)
+					</td>
+					<td>
+						<input name="SortCode" class="mini-textbox" emptytext="@Html.GetProperty("SortCode").GuideWords" vtype="int" value="0" required="true" />
+						@Html.Qtip("SortCode", entityTypeCode, codespace)
+					</td>
+				</tr>
+				<tr>
+					<td>
+						@Html.IconLabel("Id", entityTypeCode, codespace)
+					</td>
+					<td colspan="3">
+						<input name="Id" class="mini-textbox asLabel" allowInput="false" emptytext="@Html.GetProperty("Id").GuideWords" style="width: 362px;" />
+						@Html.Qtip("Id", entityTypeCode, codespace)
+					</td>
+				</tr>
+				<tr>
+					<td>
+						@Html.IconLabel("PublicKey", entityTypeCode, codespace)
+					</td>
+					<td colspan="3">
+						<input name="PublicKey" class="mini-textbox" emptytext="@Html.GetProperty("PublicKey").GuideWords" required="true" style="width: 362px;" />
+						@Html.Qtip("PublicKey", entityTypeCode, codespace)
+					</td>
+				</tr>
+				<tr>
+					<td>
+						@Html.IconLabel("SecretKey", entityTypeCode, codespace)
+					</td>
+					<td colspan="3">
+						<input name="SecretKey" class="mini-textbox" emptytext="@Html.GetProperty("SecretKey").GuideWords" required="true" style="width: 362px;" />
+						@Html.Qtip("SecretKey", entityTypeCode, codespace)
+					</td>
+				</tr>
+				<tr>
+					<td>
+						@Html.IconLabel("AnycmdApiAddress", entityTypeCode, codespace)
+					</td>
+					<td colspan="3">
+						<input name="AnycmdApiAddress" class="mini-textbox" emptytext="@Html.GetProperty("AnycmdApiAddress").GuideWords" required="true" style="width: 362px;" />
+						@Html.Qtip("AnycmdApiAddress", entityTypeCode, codespace)
+					</td>
+				</tr>
+				<tr>
+					<td>
+						@Html.IconLabel("AnycmdWSAddress", entityTypeCode, codespace)
+					</td>
+					<td colspan="3">
+						<input name="AnycmdWSAddress" class="mini-textbox" emptytext="@Html.GetProperty("AnycmdWSAddress").GuideWords" required="true" style="width: 362px;" />
+						@Html.Qtip("AnycmdWSAddress", entityTypeCode, codespace)
+					</td>
+				</tr>
+				<tr>
+					<td>
+						@Html.IconLabel("BeatPeriod", entityTypeCode, codespace)（分钟）
+					</td>
+					<td colspan="3">
+						<input name="BeatPeriod" class="mini-textbox" emptytext="@Html.GetProperty("BeatPeriod").GuideWords" vtype="int" value="0" required="false" style="width: 362px;" />
+						@Html.Qtip("BeatPeriod", entityTypeCode, codespace)
+					</td>
+				</tr>
+				<tr>
+					<td>
+						@Html.IconLabel("Abstract", entityTypeCode, codespace)
+						@Html.Qtip("Abstract", entityTypeCode, codespace)
+					</td>
+					<td colspan="3">
+						<input name="Abstract" class="mini-textarea" required="true" style="width: 362px; height: 100px;" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						@Html.IconLabel("Description", entityTypeCode, codespace)
+						@Html.Qtip("Description", entityTypeCode, codespace)
+					</td>
+					<td colspan="3">
+						<input name="Description" class="mini-textarea" style="width: 362px;" />
+					</td>
+				</tr>
+			</table>
+		</div>
+	</form>
+</div>
+<div id="faceWindow" class="mini-window" visible="false" title="选择图标" style="width: 700px; height: 470px">
+</div>
+<script type="text/javascript" src="@Url.Content("~/Scripts/emotions/jquery.emoticons.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/Areas/Edi/Node/Edit.cshtml.js")"></script>
+@if (Request.IsAjaxRequest()) {
+	<script src="@Url.Content("~/Scripts/tooltipBoot.js")"></script>
+}

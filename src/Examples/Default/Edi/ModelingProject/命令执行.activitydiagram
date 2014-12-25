@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<activityRootModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" dslVersion="1.0.0.0" Id="e9f610f5-78fc-41d4-98df-93d57515a07f" name="Execut" linkedPackageId="3bd60cd6-3bbc-4b8e-b832-5b030b12b68d" xmlns="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ActivityDesigner">
+  <ownedCommentsInternal>
+    <comment Id="6769b080-964a-4290-a5f4-3e30ec92a97a">
+      <elementDefinition Id="dacc44ca-2cd5-4fa5-9388-6d46012fa0b0" />
+      <body>命令执行流程</body>
+    </comment>
+    <comment Id="6c36a0c0-cb07-40e9-b15e-d45d68d5c206">
+      <elementDefinition Id="01fb01e6-5ea1-4e7a-b2b2-73e4f027cab4" />
+      <body>中心节点</body>
+    </comment>
+    <comment Id="0ce6498c-968b-47b2-869e-9c842c2094ad">
+      <elementDefinition Id="8393e232-3b96-4f93-82bf-4a1077f42ee8" />
+      <body>命令在此被转化为Sql命令语句发送到关系数据库执行，成功则转化为成功执行的命令失败则转化为执行失败的命令。</body>
+      <annotatedElements>
+        <opaqueActionMoniker Id="a0ba2c96-64c3-4648-b108-cd7dce17bb29" LastKnownName="执行命令" />
+      </annotatedElements>
+    </comment>
+    <comment Id="c6c046ba-6171-4979-a68c-b0e6af0966b1">
+      <elementDefinition Id="b360335c-2074-462f-98a8-c24cd87cd322" />
+      <body>中心节点不会面向命令的来源节点建造待分发命令。</body>
+      <annotatedElements>
+        <opaqueActionMoniker Id="cf5cd7fd-f951-4266-9162-33fcdac69b0b" LastKnownName="生成待分发命令" />
+      </annotatedElements>
+    </comment>
+  </ownedCommentsInternal>
+  <packagedElements>
+    <activityRootModelHasActivity>
+      <activity Id="7ad5e7f0-6082-425c-bb03-a1d15f5a0314" name="Execut" isAbstract="false" isLeaf="false" isActiveClass="false" isReentrant="false" isReadOnly="false" isSingleExecution="false">
+        <elementDefinition Id="e19eae5c-9abc-4efa-973b-17efd6c1521e" />
+        <nodes>
+          <opaqueAction Id="d84c3ae2-5c47-4e91-8046-80acf1e4d230" name="加载待执行命令" isLeaf="false">
+            <elementDefinition Id="ff760cce-0045-4135-a67e-188c22764b0e" />
+            <flowNodeTargets>
+              <controlFlow Id="88268513-9789-4494-a722-134545f32bab" isLeaf="false">
+                <opaqueActionMoniker Id="1afe2995-203c-4068-b1c8-5dce31d3883d" LastKnownName="命令验证器插件集依次验证命令。如权限、格式、标识、时间戳等的验证" />
+                <elementDefinition Id="f8dc0539-4314-408a-8ed8-cd8f26c861e6" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="1afe2995-203c-4068-b1c8-5dce31d3883d" name="命令验证器插件集依次验证命令。如权限、格式、标识、时间戳等的验证" isLeaf="false">
+            <elementDefinition Id="c1b8e303-b0d5-4955-800d-9664f48493fe" />
+            <flowNodeTargets>
+              <controlFlow Id="60df134b-0a0d-46ac-a2b6-a78ac9246944" isLeaf="false">
+                <forkNodeMoniker Id="96397cdb-86fc-4367-bf90-0f9328e6f44a" LastKnownName="Fork1" />
+                <elementDefinition Id="7663a233-f0c6-4c8e-8fcc-2b9e420dca77" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="c9084130-1bb0-4e01-87bb-c57e1df25814" name="存储入库" isLeaf="false">
+            <elementDefinition Id="6f202351-c15b-47fc-b56c-19bcabcf6d75" />
+            <flowNodeTargets>
+              <controlFlow Id="82efcc15-4b9b-400e-b36e-703f9f410c7b" isLeaf="false">
+                <activityFinalNodeMoniker Id="638496ab-dfbc-46f2-a842-9d22375c42e9" LastKnownName="ActivityFinal1" />
+                <elementDefinition Id="b67b6ce4-7986-49a3-82d3-65f5bf981925" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <activityFinalNode Id="638496ab-dfbc-46f2-a842-9d22375c42e9" name="ActivityFinal1" isLeaf="false">
+            <elementDefinition Id="bb2bd32f-1a61-48ab-a496-92d4e7203304" />
+          </activityFinalNode>
+          <initialNode Id="ee87f815-a8bd-4091-a9d9-7f5586d4e17d" name="Initial1" isLeaf="false">
+            <elementDefinition Id="8810e96a-4650-4c8c-92d0-0296fd0bfcb1" />
+            <flowNodeTargets>
+              <controlFlow Id="077bc358-73f1-4480-9485-41339e5bf2e4" isLeaf="false">
+                <opaqueActionMoniker Id="d84c3ae2-5c47-4e91-8046-80acf1e4d230" LastKnownName="加载待执行命令" />
+                <elementDefinition Id="b0ff1158-6d10-4a44-b9d2-db92097ea6a8" />
+              </controlFlow>
+            </flowNodeTargets>
+          </initialNode>
+          <forkNode Id="96397cdb-86fc-4367-bf90-0f9328e6f44a" name="Fork1" isLeaf="false">
+            <elementDefinition Id="e74e64ed-41db-4a84-82bb-8ee6deeea76b" />
+            <flowNodeTargets>
+              <controlFlow Id="f4be0202-02f5-489d-b0d4-7832a36000c8" isLeaf="false">
+                <opaqueActionMoniker Id="a0ba2c96-64c3-4648-b108-cd7dce17bb29" LastKnownName="执行命令" />
+                <elementDefinition Id="df21f09b-30f2-41a9-8ad0-19a76dc1dbc4" />
+              </controlFlow>
+              <controlFlow Id="cea52442-2ccc-4783-af0a-d8463eb732a3" isLeaf="false">
+                <opaqueActionMoniker Id="cf5cd7fd-f951-4266-9162-33fcdac69b0b" LastKnownName="生成待分发命令" />
+                <elementDefinition Id="d4faae80-8df3-4fff-9452-9c0c3bdff0bc" />
+              </controlFlow>
+            </flowNodeTargets>
+          </forkNode>
+          <opaqueAction Id="cf5cd7fd-f951-4266-9162-33fcdac69b0b" name="生成待分发命令" isLeaf="false">
+            <elementDefinition Id="73846dee-1732-4e65-b8b5-bd44566fb4d8" />
+            <flowNodeTargets>
+              <controlFlow Id="602bba92-a1f5-42c6-9837-c889dd7bce67" isLeaf="false">
+                <joinNodeMoniker Id="744a1e59-5cca-4521-b470-cd3018227b35" LastKnownName="Join1" />
+                <elementDefinition Id="1f1fb591-4f19-4337-81c2-17451e9de2fe" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="a0ba2c96-64c3-4648-b108-cd7dce17bb29" name="执行命令" isLeaf="false">
+            <elementDefinition Id="c17aeb87-3169-4db3-9614-ddb6b8455d7d" />
+            <flowNodeTargets>
+              <controlFlow Id="90c52925-ff25-49b3-891a-1142f88c302e" isLeaf="false">
+                <joinNodeMoniker Id="744a1e59-5cca-4521-b470-cd3018227b35" LastKnownName="Join1" />
+                <elementDefinition Id="22fa137f-16f6-484b-9469-6e2de78cbf97" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <joinNode Id="744a1e59-5cca-4521-b470-cd3018227b35" name="Join1" isLeaf="false">
+            <elementDefinition Id="a9f00d52-f358-49bb-a775-844e276566b9" />
+            <flowNodeTargets>
+              <controlFlow Id="103a9c7d-c83b-4db5-9915-b5dda36e9498" isLeaf="false">
+                <opaqueActionMoniker Id="c9084130-1bb0-4e01-87bb-c57e1df25814" LastKnownName="存储入库" />
+                <elementDefinition Id="f2817209-11c4-4fb9-a585-2cf8b4ba25c2" />
+              </controlFlow>
+            </flowNodeTargets>
+          </joinNode>
+        </nodes>
+      </activity>
+    </activityRootModelHasActivity>
+  </packagedElements>
+  <package Id="3bd60cd6-3bbc-4b8e-b832-5b030b12b68d" name="ModelingProject">
+    <elementDefinition Id="192761a0-3db6-4362-b0f8-57575a58cc7f" />
+    <profileInstances>
+      <packageHasProfileInstances Id="9407d097-4608-474b-9732-f72487ecf8e7">
+        <profileInstance Id="233048f4-388e-4181-b4d8-ab7f6253213b" name="StandardProfileL2">
+          <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+        </profileInstance>
+        <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+      </packageHasProfileInstances>
+      <packageHasProfileInstances Id="a84f28b9-1ebb-46ba-bb61-2dd8256793b2">
+        <profileInstance Id="f025a3ba-2f97-4c4b-a103-4a8fa5993b72" name="StandardProfileL3">
+          <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+        </profileInstance>
+        <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+      </packageHasProfileInstances>
+    </profileInstances>
+  </package>
+</activityRootModel>

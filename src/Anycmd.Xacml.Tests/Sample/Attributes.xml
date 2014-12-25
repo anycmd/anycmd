@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Subjects>
+	<Subject>
+		<SubjectMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+			<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Julius Hibbert</AttributeValue>
+			<SubjectAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:subject:subject-id" DataType="http://www.w3.org/2001/XMLSchema#string" />
+			<Attribute AttributeId="urn:oasis:names:tc:xacml:1.0:example:attribute:role" DataType="http://www.w3.org/2001/XMLSchema#string">
+				<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Physician</AttributeValue>
+			</Attribute>
+		</SubjectMatch>
+	</Subject>
+</Subjects>

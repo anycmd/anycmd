@@ -1,0 +1,45 @@
+﻿@{
+	var prifix = "Ac_RDatabase_TableSpaces_";
+}
+<div class="mini-toolbar" style="border-left: 0; border-right: 0; border-top: 0px; padding: 2px;">
+	<div style="float: left">
+		@{Html.RenderPartial("Partials/UiViewButtons");}
+	</div>
+	<div style="float: right">
+	</div>
+	<div style="clear: both;">
+	</div>
+</div>
+<!--撑满页面-->
+<div class="mini-fit">
+	<div id="@(prifix)datagrid1" class="mini-datagrid" style="width:100%;height:100%;" allowalternating="true"
+		 url="@Url.Action("GetTableSpaces")" idfield="Id" multiselect="true"
+		 pagesize="100" showfooter="false">
+		<div property="columns">
+			<div type="indexcolumn"></div>
+			<div field="Name" width="120" headeralign="center" allowsort="true">
+				Name
+				<input id="@(prifix)NameFilter" name="Name" property="filter" class="mini-textbox" style="width: 100%;" />
+			</div>
+			<div field="Rows" width="60" headeralign="center" allowsort="true">
+				Rows
+			</div>
+			<div field="Reserved" width="100" headeralign="center" allowsort="true">
+				Reserved
+			</div>
+			<div field="Data" width="100" headeralign="center" allowsort="true">
+				Data
+			</div>
+			<div field="IndexSize" width="100" headeralign="center" allowsort="true">
+				IndexSize
+			</div>
+			<div field="UnUsed" width="100" headeralign="center" allowsort="true">
+				UnUsed
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="@Url.Content("~/Scripts/Areas/Ac/RDatabase/TableSpaces.cshtml.js")"></script>
+@if (Request.IsAjaxRequest()) {
+	<script src="@Url.Content("~/Scripts/tooltipBoot.js")"></script>
+}

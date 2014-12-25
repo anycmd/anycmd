@@ -1,0 +1,334 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Anycmd.Xacml.Policy.ApplyBase">
+    <Position X="18.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Policy\ApplyBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.ApplyBaseReadWrite">
+    <Position X="20.75" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAAAAAAAAgAAAAAACAAYAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Policy\ApplyBaseReadWrite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.ApplyElement">
+    <Position X="24" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAQAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Policy\ApplyElement.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.AttributeAssignmentCollection">
+    <Position X="0.5" Y="22" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAABAAAA=</HashCode>
+      <FileName>Xacml\Policy\AttributeAssignmentCollection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.AttributeAssignmentElement">
+    <Position X="9.5" Y="12.75" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAEAAAAAAAAAAIAAAAgAAAAAAA=</HashCode>
+      <FileName>Xacml\Policy\AttributeAssignmentElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.AttributeAssignmentElementReadWrite">
+    <Position X="9.25" Y="8.75" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAAAVIAAEAAAAAAAAAIIAAAAgAAAAAAA=</HashCode>
+      <FileName>Xacml\Policy\AttributeAssignmentElementReadWrite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.AttributeAssignmentReadWriteCollection">
+    <Position X="0.5" Y="20" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAABAAAA=</HashCode>
+      <FileName>Xacml\Policy\AttributeAssignmentReadWriteCollection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.AttributeDesignatorBase">
+    <Position X="0.5" Y="9.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAEIAEEAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Policy\AttributeDesignatorBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.AttributeReferenceBase">
+    <Position X="1.75" Y="6.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAIEABAQAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Policy\AttributeReferenceBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.AttributeSelectorElement">
+    <Position X="3.25" Y="9.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAAABAQAIAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Policy\AttributeSelectorElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.AttributeValueElement">
+    <Position X="6.25" Y="12.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAAAAAAAAAAAAAAAAAAAIAAAAgAABAAAA=</HashCode>
+      <FileName>Xacml\Policy\AttributeValueElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.AttributeValueElementReadWrite">
+    <Position X="6" Y="8.75" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAIAABAVAAAAAAAAAAAAAIIAAAAgAABAAAA=</HashCode>
+      <FileName>Xacml\Policy\AttributeValueElementReadWrite.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.CombinerParameterElement">
+    <Position X="0.5" Y="0.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAQAAAAAAAAAAkAAJQAAAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Policy\CombinerParameterElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.ConditionElement">
+    <Position X="21.25" Y="6" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Policy\ConditionElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.ConditionElementReadWrite">
+    <Position X="20.75" Y="3.75" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAQAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Policy\ConditionElementReadWrite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.FunctionElement">
+    <Position X="3" Y="14.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Policy\FunctionElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.FunctionElementReadWrite">
+    <Position X="3" Y="12" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAQAAAAAAgAAAAAACAAAAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Policy\FunctionElementReadWrite.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.IExpressionCollection">
+    <Position X="0.5" Y="18.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAABAAAA=</HashCode>
+      <FileName>Xacml\Policy\IExpressionCollection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.IExpressionReadWriteCollection">
+    <Position X="0.5" Y="16" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAQAAAAAAAAAAAAAAAACAAAAABAAAA=</HashCode>
+      <FileName>Xacml\Policy\IExpressionReadWriteCollection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.ObligationCollection">
+    <Position X="15.25" Y="9.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAABAAAA=</HashCode>
+      <FileName>Xacml\Policy\ObligationCollection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.ObligationElement">
+    <Position X="18.5" Y="9" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAAACAAAAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Policy\ObligationElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.ObligationElementReadWrite">
+    <Position X="18" Y="5.75" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAACAAAAABASAAAAAAAAACIAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Policy\ObligationElementReadWrite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.ObligationReadWriteCollection">
+    <Position X="15.25" Y="7" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAABAAAAAAAAAAAAAAAAAACAAAAABAAAA=</HashCode>
+      <FileName>Xacml\Policy\ObligationReadWriteCollection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.PolicyCombinerParameterElement">
+    <Position X="0.5" Y="3.75" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAACAAAAAAAAIAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Policy\PolicyCombinerParameterElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.PolicyDocument">
+    <Position X="12.5" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAEAAAAAAAAAAAIAAAAAAAEAACAAAAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Policy\PolicyDocument.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.PolicyDocumentReadWrite">
+    <Position X="8.25" Y="0.5" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>YIAABAEAAAAAABAAAAIACAAAAAMAACgAABAAAARAAAg=</HashCode>
+      <FileName>Xacml\Policy\PolicyDocumentReadWrite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.PolicyElement">
+    <Position X="14.5" Y="18" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AgACAAAAAAAiAAACAAAAACAAAAEgEAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Policy\PolicyElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.PolicyElementReadWrite">
+    <Position X="14.25" Y="11.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AgKCAACAAAAiABAWAABAACAIQAEgEAAAIQABAAAAAAA=</HashCode>
+      <FileName>Xacml\Policy\PolicyElementReadWrite.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.PolicyIdReferenceElement">
+    <Position X="8.75" Y="23.25" Width="3" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAAAAAAAAAAAgAAAAAAAEAAAAAEAAAAAAA=</HashCode>
+      <FileName>Xacml\Policy\PolicyIdReferenceElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.PolicyIdReferenceElementReadWrite">
+    <Position X="8.5" Y="19.25" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAACAAAAAAIBAQAAAAAgAAAAAAAEAAIAAEAAAAAAA=</HashCode>
+      <FileName>Xacml\Policy\PolicyIdReferenceElementReadWrite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.PolicySetCombinerParameterElement">
+    <Position X="4.5" Y="0.5" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgAAAAAAAAAAAAAAAAAAAAAQBAAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Policy\PolicySetCombinerParameterElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.PolicySetElement">
+    <Position X="13" Y="8.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAgAAAAAgAAACAAAAAgAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Policy\PolicySetElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.PolicySetElementReadWrite">
+    <Position X="12" Y="3.25" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAKCAABAAAAgABAUAoBAACAIQAAgAAAQIAAAAAAAAAE=</HashCode>
+      <FileName>Xacml\Policy\PolicySetElementReadWrite.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.PolicySetIdReferenceElement">
+    <Position X="5.25" Y="19" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAAAAAAAAAAAgAABAAAAAAAAAAEAAAAAAA=</HashCode>
+      <FileName>Xacml\Policy\PolicySetIdReferenceElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.PolicySetIdReferenceElementReadWrite">
+    <Position X="5.25" Y="15" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAAIBAQAAAAEgAABAAAAEAAIAAEAAAAAAA=</HashCode>
+      <FileName>Xacml\Policy\PolicySetIdReferenceElementReadWrite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.RuleCollection">
+    <Position X="0.5" Y="14.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAABAAAA=</HashCode>
+      <FileName>Xacml\Policy\RuleCollection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.RuleCombinerParameterElement">
+    <Position X="4.5" Y="2.75" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAABAAAAAAAAAAAAQAAAAAAAAQAAA=</HashCode>
+      <FileName>Xacml\Policy\RuleCombinerParameterElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.RuleElement">
+    <Position X="12.25" Y="15" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAigAAAAAAAAACAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Policy\RuleElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.RuleElementReadWrite">
+    <Position X="9" Y="15" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAikAAAUAABAACAAQAgAAAAAAgAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Policy\RuleElementReadWrite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.RuleReadWriteCollection">
+    <Position X="0.5" Y="12" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAABAQAAAAAAAAAAAAAAAACAAAAABAAAA=</HashCode>
+      <FileName>Xacml\Policy\RuleReadWriteCollection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.StringValueBase">
+    <Position X="8.25" Y="5.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAAAAAAAACAQAAAAAAAAAAMAAFAgAAAAAAA=</HashCode>
+      <FileName>Xacml\Policy\StringValueBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.TargetElement">
+    <Position X="18.25" Y="3.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEACIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Policy\TargetElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.TargetElementReadWrite">
+    <Position X="15" Y="3.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEACIgAEABAQAAAAAAAAACAABAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Policy\TargetElementReadWrite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.VariableDefinitionElement">
+    <Position X="4.75" Y="5.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAABAQAABAAAAAAAAAAAAQAAAAgAAAAAA=</HashCode>
+      <FileName>Xacml\Policy\VariableDefinitionElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.VariableReferenceElement" BaseTypeListCollapsed="true">
+    <Position X="16.25" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>CAAAAABAAAAAABAQAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Policy\VariableReferenceElement.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Enum Name="Anycmd.Xacml.Policy.Effect">
+    <Position X="14.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Xacml\Policy\Effect.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Microsoft YaHei UI" Size="9" />
+</ClassDiagram>

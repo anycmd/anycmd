@@ -1,0 +1,155 @@
+﻿@model Anycmd.Rdb.RdbDescriptor
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    @{
+        ViewBag.Title = "DbDoc";
+        if (Model != null)
+        {
+            ViewBag.Title = Model.Database.CatalogName + "数据库文档";
+        }
+    }
+    <title>@ViewBag.Title</title>
+    <style type="text/css">
+        body {
+            font-family: Tahoma,Verdana,宋体;
+            font-size: 9pt;
+        }
+
+        table, th, td {
+            border: solid 1px #ccc;
+            padding: 2px 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            font-size: 14px;
+            font-weight: bold;
+            background: #EBEBEB;
+        }
+
+        .columnTable, .spanAnchor {
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .columnTable {
+            float: left;
+        }
+
+        .spanAnchor {
+            display: block;
+            float: right;
+            border: solid 1px #ccc;
+            background: #EBEBEB;
+            padding: 2px 7px;
+            color: blue;
+            margin-top: 20px;
+        }
+
+        .highlight {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>@ViewBag.Title</h1>
+    （本文当基于SqlServer数据库，对于术语不做中文翻译。文当内容根据运行时上下文自动生成，任何修改将被下次生成时覆盖。）
+    <span style="display: block; float: right;">Anycmd软件部</span>
+    @if (Model != null && Model.Database != null)
+    {
+        <h2 name="database" id="database">库</h2>
+        <table>
+            <tr>
+                <th>CatalogName</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td>@Model.Database.CatalogName</td>
+                <td>@Model.Database.Description</td>
+            </tr>
+        </table>
+        <h2 name="tables" id="tables">表</h2>
+        <table>
+            <tr>
+                <th></th>
+                <th>SchemaName</th>
+                <th>Name</th>
+                <th>Description</th>
+            </tr>
+            @{
+        var i = 0;
+            }
+            @foreach (var table in Model.AcDomain.DbTables[Model].Values)
+            {
+                <tr>
+                    <td>@(++i)</td>
+                    <td>@table.SchemaName</td>
+                    <td><a href="#@table.Name">@table.Name</a></td>
+                    <td>@table.Description</td>
+                </tr>
+            }
+        </table>
+        <h3>表列</h3>
+        foreach (var table in Model.AcDomain.DbTables[Model].Values)
+        {
+            <br />
+            <div>
+                <h4 class="columnTable" name="@table.Name" id="@table.Name">
+                    @table.SchemaName.@table.Name/@table.Description
+                </h4>
+                <a class="spanAnchor" href="#database">库</a><a class="spanAnchor" href="#tables">表</a><a class="spanAnchor" href="javascript:history.go(-1)">后退</a>
+                <div style="clear: both;"></div>
+            </div>
+            <table>
+                <tr>
+                    <th>Ordinal</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>IsNullable</th>
+                    <th>TypeName</th>
+                    <th>MaxLength</th>
+                    <th>Precision</th>
+                    <th>DateTimePrecision</th>
+                    <th>Scale</th>
+                    <th>IsIdentity</th>
+                    <th>DefaultValue</th>
+                    <th>IsPrimaryKey</th>
+                </tr>
+                @{
+            IReadOnlyDictionary<string, Anycmd.Rdb.DbTableColumn> dbTableColumns;
+            if (Model.AcDomain.DbTableColumns.TryGetDbTableColumns(Model, table, out dbTableColumns))
+            {
+                foreach (var column in dbTableColumns.Values)
+                {
+                    <tr>
+                        <td>@column.Ordinal</td>
+                        <td>@column.Name</td>
+                        <td>@column.Description</td>
+                        <td @Html.Raw(!column.IsNullable ? "class='highlight'" : "")=Html.Raw(!column.IsNullable ? "class='highlight'" : "")>@column.IsNullable</td>
+                        <td>@column.TypeName</td>
+                        <td>@column.MaxLength</td>
+                        <td>@column.Precision</td>
+                        <td>@column.DateTimePrecision</td>
+                        <td>@column.Scale</td>
+                        <td @Html.Raw(column.IsIdentity ? "class='highlight'" : "")=Html.Raw(column.IsIdentity ? "class='highlight'" : "")>@column.IsIdentity</td>
+                        <td>@column.DefaultValue</td>
+                        <td @Html.Raw(column.IsPrimaryKey ? "class='highlight'" : "")=Html.Raw(column.IsPrimaryKey ? "class='highlight'" : "")>@column.IsPrimaryKey</td>
+                    </tr>
+                }
+            }
+                }
+            </table>
+        }
+    }
+    else
+    {
+        <h2 class="highlight">意外的数据库@(Request.Params["catalogName"])</h2>
+    }
+    <br />
+</body>
+</html>

@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<layerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/SimpleShapesModel" dslVersion="1.0.0.0" Id="f9249bec-85e9-4b18-b335-77582487bd8b" xmlns="http://schemas.microsoft.com/VisualStudio/TeamArchitect/LayerDesigner">
+  <comments>
+    <comment Id="f0ad363c-f2a3-416f-83bc-e96c3525241b" name="Comment1">
+      <body>灵活分层</body>
+    </comment>
+  </comments>
+  <layers>
+    <layer Id="4cb88bb9-8b03-4a0d-9215-14aeda7467cb" name="展示层">
+      <childLayers>
+        <layer Id="d9643788-1cd0-4d84-b5b4-b6f73daad7c2" name="Module1">
+          <dependencyToLayers>
+            <dependencyFromLayerToLayer Id="ddcd8aef-11b6-4f05-9cb5-9af856dbc122" direction="Forward">
+              <layerMoniker Id="02f33dfe-7574-48e3-8785-6b23d91e687b" />
+            </dependencyFromLayerToLayer>
+          </dependencyToLayers>
+        </layer>
+        <layer Id="701845cc-0bf5-4265-8b0c-298dfb57cb6f" name="Module2">
+          <dependencyToLayers>
+            <dependencyFromLayerToLayer Id="30bfa3a1-1954-4f27-be73-3b05e68ef6a7" direction="Forward">
+              <layerMoniker Id="c8aa7935-1e5d-4462-857e-fcf34bbb96bd" />
+            </dependencyFromLayerToLayer>
+            <dependencyFromLayerToLayer Id="de315e2c-2e26-46b8-aff9-9916ef3d2913" direction="Forward">
+              <layerMoniker Id="c49424b1-52fe-420e-bcfe-c9fcdb73a93f" />
+            </dependencyFromLayerToLayer>
+            <dependencyFromLayerToLayer Id="d61027c9-f3a8-4be9-982f-fc17924a317d" direction="Forward">
+              <layerMoniker Id="a2216d13-20fd-4ca3-8a4d-9698699f9a6a" />
+            </dependencyFromLayerToLayer>
+          </dependencyToLayers>
+        </layer>
+      </childLayers>
+    </layer>
+    <layer Id="3e0db876-842b-4498-ba1e-8c437be517d7" name="应用层">
+      <childLayers>
+        <layer Id="02f33dfe-7574-48e3-8785-6b23d91e687b" name="Module1">
+          <dependencyToLayers>
+            <dependencyFromLayerToLayer Id="daeab417-ac0a-498f-9941-120ccef4781f" direction="Forward">
+              <layerMoniker Id="67f331be-7b78-4bc9-b0d0-3fd7376ca8bc" />
+            </dependencyFromLayerToLayer>
+            <dependencyFromLayerToLayer Id="fdd96274-5e21-4ff3-9f7f-10d37c71a9b7" direction="Forward">
+              <layerMoniker Id="c49424b1-52fe-420e-bcfe-c9fcdb73a93f" />
+            </dependencyFromLayerToLayer>
+            <dependencyFromLayerToLayer Id="ab20948b-c618-4fc9-838e-a8436dc269de" direction="Forward">
+              <layerMoniker Id="835c1a71-de87-4776-ac2a-b391f28fb239" />
+            </dependencyFromLayerToLayer>
+          </dependencyToLayers>
+        </layer>
+        <layer Id="c8aa7935-1e5d-4462-857e-fcf34bbb96bd" name="Module2">
+          <dependencyToLayers>
+            <dependencyFromLayerToLayer Id="ed8d7a5c-d196-4828-b230-9d7ebfbaf29c" direction="Forward">
+              <layerMoniker Id="c49424b1-52fe-420e-bcfe-c9fcdb73a93f" />
+            </dependencyFromLayerToLayer>
+          </dependencyToLayers>
+        </layer>
+      </childLayers>
+    </layer>
+    <layer Id="5f31adf8-f873-4340-b384-aa5a400cff4b" name="领域层">
+      <childLayers>
+        <layer Id="67f331be-7b78-4bc9-b0d0-3fd7376ca8bc" name="Module1">
+          <dependencyToLayers>
+            <dependencyFromLayerToLayer Id="76aea2c1-56fa-4118-9b0b-2d42a0ed5979" direction="Forward">
+              <layerMoniker Id="835c1a71-de87-4776-ac2a-b391f28fb239" />
+            </dependencyFromLayerToLayer>
+            <dependencyFromLayerToLayer Id="1e8f75f8-9618-4d38-bee6-51b6ce59c94f" direction="Forward">
+              <layerMoniker Id="cfa8f368-fb42-4f80-8f70-bbf7d29eb2b6" />
+            </dependencyFromLayerToLayer>
+          </dependencyToLayers>
+        </layer>
+        <layer Id="c49424b1-52fe-420e-bcfe-c9fcdb73a93f" name="Module2">
+          <dependencyToLayers>
+            <dependencyFromLayerToLayer Id="b8d63b4f-01d7-40fb-8521-d55e89a6e34c" direction="Forward">
+              <layerMoniker Id="46f3c9ca-8b1b-4616-9f4a-e4ac120157fe" />
+            </dependencyFromLayerToLayer>
+            <dependencyFromLayerToLayer Id="e2624a7b-1443-4402-84eb-deac605e92bc" direction="Forward">
+              <layerMoniker Id="a2216d13-20fd-4ca3-8a4d-9698699f9a6a" />
+            </dependencyFromLayerToLayer>
+            <dependencyFromLayerToLayer Id="11a1e6df-7b31-4ef0-a10c-0f9e40b9eade" direction="Forward">
+              <layerMoniker Id="cfa8f368-fb42-4f80-8f70-bbf7d29eb2b6" />
+            </dependencyFromLayerToLayer>
+          </dependencyToLayers>
+        </layer>
+      </childLayers>
+    </layer>
+    <layer Id="a352592c-fd9b-4da5-b8f0-fe9d0d845967" name="基础设施层">
+      <childLayers>
+        <layer Id="835c1a71-de87-4776-ac2a-b391f28fb239" name="Module1" />
+        <layer Id="cfa8f368-fb42-4f80-8f70-bbf7d29eb2b6" name="Module2" />
+        <layer Id="46f3c9ca-8b1b-4616-9f4a-e4ac120157fe" name="Module3" />
+        <layer Id="a2216d13-20fd-4ca3-8a4d-9698699f9a6a" name="Module4" />
+      </childLayers>
+    </layer>
+  </layers>
+</layerModel>

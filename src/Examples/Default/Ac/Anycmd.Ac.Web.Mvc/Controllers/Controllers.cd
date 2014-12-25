@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Anycmd.AC.Web.Mvc.Controllers.AccountController">
+    <Position X="0.5" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>ABQAAGCACAABEIBAAAAAAAQrAgEAAUgAQgEEAAAAAAA=</HashCode>
+      <FileName>Controllers\AccountController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.AC.Web.Mvc.Controllers.AnyLogController">
+    <Position X="8.5" Y="6.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABAAAAAAAAAAAAAIAAAEAAAAEAAAAAAEA=</HashCode>
+      <FileName>Controllers\AnyLogController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.AC.Web.Mvc.Controllers.AppSystemController">
+    <Position X="2.5" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAQACAAAAQABAABAAAAAAAAAAAEAAEAAAAEAAAAAAAA=</HashCode>
+      <FileName>Controllers\AppSystemController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.AC.Web.Mvc.Controllers.ButtonController">
+    <Position X="0.5" Y="7.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>IAQAAAAAAAABAABAAAAAAAAAAAUAAEAEAAEAAAAAAAA=</HashCode>
+      <FileName>Controllers\ButtonController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.AC.Web.Mvc.Controllers.RDatabaseController">
+    <Position X="11" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AkQAIQBBAEABAABAAAAAYARAAEAQKEAAgAEBAgAAEAE=</HashCode>
+      <FileName>Controllers\RDatabaseController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.AC.Web.Mvc.Controllers.DicController">
+    <Position X="2.5" Y="7.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIBAABAAAAAAAAAAAEAAEAAAIEAAAAAAAA=</HashCode>
+      <FileName>Controllers\DicController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.AC.Web.Mvc.Controllers.DicItemController">
+    <Position X="2.5" Y="3.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AIQAAAAAAAABAABAAAAAAAAAAAEAAEAIAAEAAAAAAAA=</HashCode>
+      <FileName>Controllers\DicItemController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.AC.Web.Mvc.Controllers.ExceptionLogController">
+    <Position X="11.25" Y="6.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABAAACAAAAAAAAAAAAAEABAAEAAAAAQAA=</HashCode>
+      <FileName>Controllers\ExceptionLogController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.AC.Web.Mvc.Controllers.PropertyController">
+    <Position X="4.25" Y="3.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAIAAAABAABAAAAAAAEAAgEAAEAAAAEAIAIAAAA=</HashCode>
+      <FileName>Controllers\PropertyController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.AC.Web.Mvc.Controllers.GroupController">
+    <Position X="15.25" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAYAAAAAAAABAEBCAAQQAAAAAgEAAECAQAEAAQAAAAA=</HashCode>
+      <FileName>Controllers\GroupController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.AC.Web.Mvc.Controllers.HelpController">
+    <Position X="2.5" Y="10" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABAABAAAAAAAAAAAAAAAACAAgAAAAAAAA=</HashCode>
+      <FileName>Controllers\HelpController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.AC.Web.Mvc.Controllers.MenuController">
+    <Position X="9" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAABQABAAAAEAAAAAgEAAEIAQAEAAACAAAA=</HashCode>
+      <FileName>Controllers\MenuController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.AC.Web.Mvc.Controllers.EntityTypeController">
+    <Position X="4.5" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAABAABAAAAAAAAQAAEAAEAAAAFAAAAAAAA=</HashCode>
+      <FileName>Controllers\EntityTypeController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.AC.Web.Mvc.Controllers.OperationLogController">
+    <Position X="8.5" Y="4.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAUAAAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Controllers\OperationLogController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.AC.Web.Mvc.Controllers.OrganizationController">
+    <Position X="6.5" Y="8.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAEAAAACBAABAAAAEEAAAAAEAAECAQAEEAAAAQAA=</HashCode>
+      <FileName>Controllers\OrganizationController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.AC.Web.Mvc.Controllers.ResourceTypeController">
+    <Position X="6.5" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAQBAABAAAAAAAAAAAEAAFAAAAEAAAAAQAA=</HashCode>
+      <FileName>Controllers\ResourceTypeController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.AC.Web.Mvc.Controllers.RoleController">
+    <Position X="13" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAQAAEAAABABAABQAAAAgAAAAAEAgEDAFiGACAAAAgQ=</HashCode>
+      <FileName>Controllers\RoleController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.AC.Web.Mvc.Controllers.VisitingLogController">
+    <Position X="11.25" Y="9.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAABAAAAAAAAAAAAAAAAAEAAACEAAAAAAAA=</HashCode>
+      <FileName>Controllers\VisitingLogController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.AC.Web.Mvc.Controllers.FunctionController">
+    <Position X="13.25" Y="6.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAQABAAAQABDAABBAAAAAAAAAAEABMAAAAEAAAAAAAA=</HashCode>
+      <FileName>Controllers\FunctionController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.AC.Web.Mvc.Controllers.DSDSetController">
+    <Position X="9" Y="8.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAABAABAAAAAAAAAAgEAAECAAAMAAAIAAAA=</HashCode>
+      <FileName>Controllers\DSDSetController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.AC.Web.Mvc.Controllers.SSDSetController">
+    <Position X="4.25" Y="7.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAABAAABAABAAAAAAAAAAgEAAEAAAAMAAAIAAAA=</HashCode>
+      <FileName>Controllers\SSDSetController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.AC.Web.Mvc.Controllers.UIViewController">
+    <Position X="6.5" Y="4" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AIQAAAAAQAADAARCAAAAAAAAAgEAAEAAAAEAICAAAAA=</HashCode>
+      <FileName>Controllers\UIViewController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Microsoft YaHei UI" Size="9" />
+</ClassDiagram>

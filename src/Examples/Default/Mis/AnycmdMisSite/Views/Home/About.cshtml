@@ -1,0 +1,33 @@
+﻿@using Anycmd.Web.MarkdownSharp;
+@{
+    ViewBag.Title = "关于";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    <meta charset="UTF-8">
+    <style type="text/css">
+        .table td {
+            border: solid 1px #ccc;
+            padding: 2px 5px;
+        }
+    </style>
+    <script type="text/javascript" charset="UTF-8" src="@Url.Content("~/Scripts/jquery-1.8.3.min.js")"></script>
+</head>
+<body>
+    @{ Html.RenderPartial("Partials/About"); }
+    <div style="clear:left;"></div>
+    @{
+        var onlineReadMeUrl = "http://git.oschina.net/anycmd/anycmd/raw/master/README.md";
+        var webRequest = WebRequest.Create(onlineReadMeUrl);
+        var response = webRequest.GetResponse();
+        var reader = new StreamReader(response.GetResponseStream());
+        var readMeContent = reader.ReadToEnd();
+        Markdown markdown = new Markdown();
+        var htmlBodyContent = markdown.Transform(readMeContent);
+        <div>@Html.Raw(htmlBodyContent)</div>
+    }
+</body>
+</html>

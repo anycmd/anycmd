@@ -1,0 +1,10 @@
+﻿@model Anycmd.ViewModel.UiViewViewModel
+<div rel="@Request.RawUrl">
+    @{
+        if (this.CurrentUser().IsDeveloper()) {
+        <a class="btnTooltip" href="@Url.Action("TooltipEdit", new { pageId = Model.Id })" target="_blank">编辑</a>
+        <a class="btnTooltip" href="@Url.Action("TooltipEdit", new { pageId = Model.Id })" onclick="helper.refreshTooltip(this);return false;" iconcls="icon-reload">刷新</a>
+        }
+    }
+    @Html.Raw(Model.Tooltip)
+</div>

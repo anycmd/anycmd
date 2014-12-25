@@ -1,0 +1,65 @@
+﻿<div class="mini-splitter" style="width: 100%; height: 100%;">
+	<div size="230" showcollapsebutton="true">
+		<div class="mini-toolbar" style="padding: 2px; border-top: 0; border-left: 0; border-right: 0;">
+		</div>
+		<div class="mini-fit">
+			<ul id="Select_treeOrganization" class="mini-tree" style="height: 100%;"
+				url="@Url.Action("GetNodesByParentId", "Organization", new { area = "Ac", rootNodeName = "根" })"
+				showtreeicon="true" textfield="Name" expandOnLoad="true"
+				idfield="Id" parentfield="ParentId" resultastree="false">
+			</ul>
+		</div>
+	</div>
+	<div showcollapsebutton="true">
+		<div class="mini-toolbar" style="border-left: 0; border-right: 0; border-top: 0px; padding: 2px;">
+			<div style="float: left">
+				<input id="Select_chkbIncludedescendants" class="mini-checkbox" text="包括下级" truevalue="1"
+					falsevalue="0" />
+			</div>
+			<div style="float: right; padding-right: 5px;">
+				<input id="Select_selectKey" class="mini-textbox" emptytext="请输入关键字" style="width: 150px;" />
+				<a id="Select_btnSelectSearch" class="mini-button">查询</a>
+			</div>
+			<div style="clear: both;">
+			</div>
+		</div>
+		<div class="mini-fit">
+			<div id="Select_dgOrgChildren" class="mini-datagrid" style="width:100%;height:100%;" allowAlternating="true" 
+				url="@Url.Action("GetPlistChildren", "Organization", new { area = "Ac" })" idfield="Id" multiselect="true" showModified="false"
+				sizeList="[5,10,20,50]" pageSize="20" showFilterRow="true">
+				<div property="columns">
+					<div type="indexcolumn"></div>
+					<div type="checkcolumn"></div>
+					<div name="action" width="70" headeralign="center" align="center" cellstyle="padding:0;">
+						<a id="btnSearchClear" property="filter" class="mini-button" style="float: right;">条件清空</a>
+					</div>
+					<div field="Name" width="150" headeralign="center" allowsort="true">
+						@Html.IconLabel("Name")
+					</div>
+					<div field="ParentName" width="100" headeralign="center" allowsort="true">
+						@Html.IconLabel("ParentName")
+					</div>
+					<div field="ParentCode" width="80" headeralign="center" allowsort="true">
+						@Html.IconLabel("ParentCode")
+					</div>
+					<div field="Code" width="100" headeralign="center" allowsort="true">
+						@Html.IconLabel("Code")
+					</div>
+					<div field="CategoryName" width="100" headeralign="center" align="center" allowsort="true">
+						@Html.IconLabel("CategoryName")
+					</div>
+					<div field="IsEnabled" width="80" headeralign="center" align="center" allowsort="true">
+						@Html.IconLabel("IsEnabled")
+					</div>
+					<div field="SortCode" width="70" headeralign="center" align="center" allowsort="true">
+						@Html.IconLabel("SortCode")
+					</div>
+					<div field="CreateOn" width="130" headeralign="center" dateformat="yyyy-MM-dd HH:mm:ss" allowsort="true">
+						@Html.IconLabel("CreateOn")
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="@Url.Content("~/Scripts/Views/Shared/Partials/SelectOrganization.cshtml.js")"></script>

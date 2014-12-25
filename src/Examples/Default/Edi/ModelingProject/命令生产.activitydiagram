@@ -1,0 +1,225 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<activityRootModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" dslVersion="1.0.0.0" Id="b065b3da-0e08-4ffa-949f-ca917cbdb0b3" name="Produce" linkedPackageId="4c15c361-7542-4ad6-b785-53f3f9319e1d" xmlns="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ActivityDesigner">
+  <ownedCommentsInternal>
+    <comment Id="adbadfbc-638a-4351-a004-f3b151d936ed">
+      <elementDefinition Id="2fcd09be-a8b6-4a9f-8074-64c3874ec409" />
+      <body>命令生产流程</body>
+    </comment>
+    <comment Id="e1336663-0cd2-4af1-b7d8-58e04bd9e5f7">
+      <elementDefinition Id="79c375a6-4147-4614-9e3d-7e57c0d7a4c8" />
+      <body>应用节点|普通节点|
+业务系统代理节点</body>
+    </comment>
+    <comment Id="9c586cd0-27b9-4e61-85b2-82b833b6a676">
+      <elementDefinition Id="6f5210b4-1852-42e4-813f-094804f28b99" />
+      <body>外部系统</body>
+    </comment>
+    <comment Id="ed8fca48-394d-4776-958f-cf1511687b12">
+      <elementDefinition Id="38209faf-d62b-4485-a72a-7af9d55002bb" />
+      <body>本地命令是以本地实体标识标识信息的命令。即本地命令的LocalDataID字段值存储的是本业务系统的本地实体标识。</body>
+      <annotatedElements>
+        <opaqueActionMoniker Id="df414f2a-9510-4df2-bba9-cdb04c2b4e47" LastKnownName="响应数据记录增删改事件，生成本地命令" />
+      </annotatedElements>
+    </comment>
+    <comment Id="859ddeda-a2a9-46e6-b690-4841616811be">
+      <elementDefinition Id="1abaca01-2a0d-4d59-9410-19ed02e0af1b" />
+      <body>每一周期的开始（时间通常在一天的开始）
+注意：周期可以是跨天的，也就是周期的开始在今天而周期的结束在明天。周期以备份开始而不是以备份结束。</body>
+      <annotatedElements>
+        <opaqueActionMoniker Id="b0a2f486-b2d9-43dd-8eb3-273d942c833e" LastKnownName="备份初始数据&#xD;&#xA;（第1周期）" />
+        <opaqueActionMoniker Id="f14da4a8-f782-4034-acfc-cf547141afbf" LastKnownName="备份初始数据&#xD;&#xA;（第2周期）" />
+        <opaqueActionMoniker Id="4e229ece-6bda-4be5-959e-adb034970d4f" LastKnownName="备份初始数据&#xD;&#xA;（第3周期）" />
+        <opaqueActionMoniker Id="95d9359a-9d58-411f-ba67-6dc084f1ec00" LastKnownName="备份初始数据&#xD;&#xA;（第n周期）" />
+      </annotatedElements>
+    </comment>
+    <comment Id="c0d4e4ea-73f5-41b8-8219-6185e5ae4562">
+      <elementDefinition Id="7ab0ad6a-4741-4624-ac95-53e7b38320bd" />
+      <body>每一周期的结束（时间通常在一天的结束但也可能在下一天的开始，但必定在下一周期的开始之前）</body>
+      <annotatedElements>
+        <opaqueActionMoniker Id="0d32e96a-f70f-4578-b48e-2283c83e5c48" LastKnownName="执行命令1" />
+        <opaqueActionMoniker Id="489c420d-a9bc-4fca-ae1f-2425d355175a" LastKnownName="从中心节点下载命令或者从本地代理节点加载命令1" />
+        <opaqueActionMoniker Id="ad39a870-99f4-4fd2-8ca4-6d54bf47504d" LastKnownName="上传命令到中心节点或本地代理节点1" />
+        <opaqueActionMoniker Id="571aaf11-618f-41f2-af26-8f95956e471b" LastKnownName="比对业务数据库和备份数据库计算变化生成命令1" />
+        <opaqueActionMoniker Id="1aced906-77f3-4a3d-92db-28ae797587a7" LastKnownName="比对业务数据库和备份数据库计算变化生成命令" />
+        <opaqueActionMoniker Id="03375f36-d7fa-4b17-8c34-aa327fa74f72" LastKnownName="上传命令到中心节点或本地代理节点" />
+        <opaqueActionMoniker Id="ea60ef2b-ab9f-43a2-8943-592389ae1e41" LastKnownName="从中心节点下载命令或者从本地代理节点加载命令" />
+      </annotatedElements>
+    </comment>
+  </ownedCommentsInternal>
+  <packagedElements>
+    <activityRootModelHasActivity>
+      <activity Id="1a083c70-fc37-4516-b3b0-d68167a2ea2f" name="Produce" isAbstract="false" isLeaf="false" isActiveClass="false" isReentrant="false" isReadOnly="false" isSingleExecution="false">
+        <elementDefinition Id="8524be1e-241a-414e-a9a0-f9b1ec1005e0" />
+        <nodes>
+          <opaqueAction Id="8952edb0-ee02-4d0c-a32d-574192fbe3eb" name="增删改数据记录" isLeaf="false">
+            <elementDefinition Id="9a3a6d1d-23df-4f7d-bcfa-45b04f1e2bfb" />
+            <flowNodeTargets>
+              <controlFlow Id="66554797-e177-4c7c-a940-dde47726f216" isLeaf="false">
+                <opaqueActionMoniker Id="df414f2a-9510-4df2-bba9-cdb04c2b4e47" LastKnownName="响应数据记录增删改事件，生成本地命令" />
+                <elementDefinition Id="fbf57c71-94be-4938-bec9-8a424b29d828" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="ffb2b719-ca78-4829-9cd1-506b09f11cd0" name="存储命令" isLeaf="false">
+            <elementDefinition Id="736df98f-43c9-43b6-a177-09905e897a6c" />
+            <flowNodeTargets>
+              <controlFlow Id="73cd5c50-4a25-4d55-94f0-265ff30efb5e" isLeaf="false">
+                <activityFinalNodeMoniker Id="4feac816-ced8-4da0-9411-fdcb8d60e55f" LastKnownName="ActivityFinal1" />
+                <elementDefinition Id="a965ac57-8c34-4950-803f-289c4d20efe2" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="df414f2a-9510-4df2-bba9-cdb04c2b4e47" name="响应数据记录增删改事件，生成本地命令" isLeaf="false">
+            <elementDefinition Id="acb04ed7-817d-44f3-b32c-38608a24941b" />
+            <flowNodeTargets>
+              <controlFlow Id="baaab1e0-16f2-4f42-9f89-b970843da4c7" isLeaf="false">
+                <opaqueActionMoniker Id="ffb2b719-ca78-4829-9cd1-506b09f11cd0" LastKnownName="存储命令" />
+                <elementDefinition Id="7141b9bb-5ec3-42e6-8015-548fbb7e67ec" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <initialNode Id="faf60a8b-62a1-4e84-a9c8-aa536d89a882" name="Initial1" isLeaf="false">
+            <elementDefinition Id="dc7143be-cd9f-4895-a312-d8f23e2d4499" />
+            <flowNodeTargets>
+              <controlFlow Id="471474e7-2865-4d9f-8608-4e36cea1178b" isLeaf="false">
+                <opaqueActionMoniker Id="8952edb0-ee02-4d0c-a32d-574192fbe3eb" LastKnownName="增删改数据记录" />
+                <elementDefinition Id="eb9c315e-128c-4e91-b6f2-29bc1a0a39f8" />
+              </controlFlow>
+            </flowNodeTargets>
+          </initialNode>
+          <activityFinalNode Id="4feac816-ced8-4da0-9411-fdcb8d60e55f" name="ActivityFinal1" isLeaf="false">
+            <elementDefinition Id="e82c6b38-f729-4da5-9c8f-823f86546e65" />
+          </activityFinalNode>
+          <initialNode Id="eee8b32d-def0-4c80-89c2-c5d671364325" name="Initial11" isLeaf="false">
+            <elementDefinition Id="b9439dd3-dbab-49fd-9990-611f76bfbec2" />
+            <flowNodeTargets>
+              <controlFlow Id="770bffbd-5fd7-44e7-866b-152870500004" isLeaf="false">
+                <opaqueActionMoniker Id="b0a2f486-b2d9-43dd-8eb3-273d942c833e" LastKnownName="备份初始数据&#xD;&#xA;（第1周期）" />
+                <elementDefinition Id="89ecd7c9-a924-4687-847f-978f73aab0a2" />
+              </controlFlow>
+            </flowNodeTargets>
+          </initialNode>
+          <opaqueAction Id="b0a2f486-b2d9-43dd-8eb3-273d942c833e" name="备份初始数据&#xD;&#xA;（第1周期）" isLeaf="false">
+            <elementDefinition Id="8f5708b0-edae-4b9f-99d1-a21e10e6b771" />
+            <flowNodeTargets>
+              <controlFlow Id="534051b6-f067-4af3-9e5f-10deaf75e6d5" isLeaf="false">
+                <opaqueActionMoniker Id="1aced906-77f3-4a3d-92db-28ae797587a7" LastKnownName="比对业务数据库和备份数据库计算变化生成命令" />
+                <elementDefinition Id="99f75a04-65a6-4997-93f9-9d3329e2d9d3" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="1aced906-77f3-4a3d-92db-28ae797587a7" name="比对业务数据库和备份数据库计算变化生成命令" isLeaf="false">
+            <elementDefinition Id="1ff12708-5637-4078-a672-15efee4de45a" />
+            <flowNodeTargets>
+              <controlFlow Id="2c0e2df6-eaa9-4494-bfc4-764c07d44bad" isLeaf="false">
+                <opaqueActionMoniker Id="03375f36-d7fa-4b17-8c34-aa327fa74f72" LastKnownName="上传命令到中心节点或本地代理节点" />
+                <elementDefinition Id="27a4543d-756f-490d-a510-40738c92d939" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="ea60ef2b-ab9f-43a2-8943-592389ae1e41" name="从中心节点下载命令或者从本地代理节点加载命令" isLeaf="false">
+            <elementDefinition Id="cd84077d-cf77-4c9e-9e55-d3b2bc212a9e" />
+            <flowNodeTargets>
+              <controlFlow Id="1a6aa803-1dc0-461e-b197-efcb277b0ca5" isLeaf="false">
+                <opaqueActionMoniker Id="78a75fc6-2c32-424b-ba53-e8b85250da53" LastKnownName="执行命令" />
+                <elementDefinition Id="5b57c33a-aa52-4985-9521-f17d07d04366" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="78a75fc6-2c32-424b-ba53-e8b85250da53" name="执行命令" isLeaf="false">
+            <elementDefinition Id="5ce761b0-a150-4534-891e-b94e9c8f6076" />
+            <flowNodeTargets>
+              <controlFlow Id="6547c508-c3c4-4b69-8688-f77969bca657" isLeaf="false">
+                <opaqueActionMoniker Id="f14da4a8-f782-4034-acfc-cf547141afbf" LastKnownName="备份初始数据&#xD;&#xA;（第2周期）" />
+                <elementDefinition Id="beb2c21c-b64c-4e98-bc50-b18881987753" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="03375f36-d7fa-4b17-8c34-aa327fa74f72" name="上传命令到中心节点或本地代理节点" isLeaf="false">
+            <elementDefinition Id="e0cc621a-6484-47b0-bb51-cecb89788012" />
+            <flowNodeTargets>
+              <controlFlow Id="0f875c81-d7aa-4aa3-86ca-8cddd6844dc0" isLeaf="false">
+                <opaqueActionMoniker Id="ea60ef2b-ab9f-43a2-8943-592389ae1e41" LastKnownName="从中心节点下载命令或者从本地代理节点加载命令" />
+                <elementDefinition Id="1b1fcc14-65f3-41a9-9a67-b47aa670b80c" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="f14da4a8-f782-4034-acfc-cf547141afbf" name="备份初始数据&#xD;&#xA;（第2周期）" isLeaf="false">
+            <elementDefinition Id="0e3f3cdf-fffc-4000-a8eb-a05ed969a8a7" />
+            <flowNodeTargets>
+              <controlFlow Id="305201f1-7681-4278-9abb-44376602f7c8" isLeaf="false">
+                <opaqueActionMoniker Id="571aaf11-618f-41f2-af26-8f95956e471b" LastKnownName="比对业务数据库和备份数据库计算变化生成命令1" />
+                <elementDefinition Id="9cb4b3dc-455c-4f7a-9c59-888e1728e992" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="571aaf11-618f-41f2-af26-8f95956e471b" name="比对业务数据库和备份数据库计算变化生成命令1" isLeaf="false">
+            <elementDefinition Id="3ff7ccb0-410a-44ac-a6f8-2615a28c3f13" />
+            <flowNodeTargets>
+              <controlFlow Id="7f82c6a9-316f-4bcb-88d4-928f9a6ff765" isLeaf="false">
+                <opaqueActionMoniker Id="ad39a870-99f4-4fd2-8ca4-6d54bf47504d" LastKnownName="上传命令到中心节点或本地代理节点1" />
+                <elementDefinition Id="1c7ec8ba-9c61-4503-906a-4bdf749fa31f" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="ad39a870-99f4-4fd2-8ca4-6d54bf47504d" name="上传命令到中心节点或本地代理节点1" isLeaf="false">
+            <elementDefinition Id="1d29b01c-694f-4541-ae2f-1316e47adb1b" />
+            <flowNodeTargets>
+              <controlFlow Id="d1f171e5-829e-4bc9-9c49-c7e33012672c" isLeaf="false">
+                <opaqueActionMoniker Id="489c420d-a9bc-4fca-ae1f-2425d355175a" LastKnownName="从中心节点下载命令或者从本地代理节点加载命令1" />
+                <elementDefinition Id="e08caad8-7fd6-4c44-9ed1-2a8ab361e101" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="489c420d-a9bc-4fca-ae1f-2425d355175a" name="从中心节点下载命令或者从本地代理节点加载命令1" isLeaf="false">
+            <elementDefinition Id="e0b06fd2-a671-4fda-a60c-8cfaf9c8baa3" />
+            <flowNodeTargets>
+              <controlFlow Id="f24c2616-a14f-4c6a-875d-5e3fed1bcffa" isLeaf="false">
+                <opaqueActionMoniker Id="0d32e96a-f70f-4578-b48e-2283c83e5c48" LastKnownName="执行命令1" />
+                <elementDefinition Id="f85ac017-045b-488c-9560-340357204328" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="0d32e96a-f70f-4578-b48e-2283c83e5c48" name="执行命令1" isLeaf="false">
+            <elementDefinition Id="03546fba-a5b4-48b0-96bb-f49df1468db9" />
+            <flowNodeTargets>
+              <controlFlow Id="4cd7dfcb-07a3-4ea0-995a-06bf904ecb33" isLeaf="false">
+                <opaqueActionMoniker Id="4e229ece-6bda-4be5-959e-adb034970d4f" LastKnownName="备份初始数据&#xD;&#xA;（第3周期）" />
+                <elementDefinition Id="1b2a9624-8423-4019-9c0b-f9f307292c29" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="4e229ece-6bda-4be5-959e-adb034970d4f" name="备份初始数据&#xD;&#xA;（第3周期）" isLeaf="false">
+            <elementDefinition Id="22471964-7778-4253-83b9-0c790efbced5" />
+            <flowNodeTargets>
+              <controlFlow Id="4f69b1f7-9952-4a35-8180-a19ac7eabb6c" isLeaf="false">
+                <opaqueActionMoniker Id="95d9359a-9d58-411f-ba67-6dc084f1ec00" LastKnownName="备份初始数据&#xD;&#xA;（第n周期）" />
+                <elementDefinition Id="a777fb13-4d4e-44d7-b58f-d6267caadbc7" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="95d9359a-9d58-411f-ba67-6dc084f1ec00" name="备份初始数据&#xD;&#xA;（第n周期）" isLeaf="false">
+            <elementDefinition Id="d44d3172-0883-4745-9c7a-0b516525c5e5" />
+          </opaqueAction>
+        </nodes>
+      </activity>
+    </activityRootModelHasActivity>
+  </packagedElements>
+  <package Id="4c15c361-7542-4ad6-b785-53f3f9319e1d" name="ModelingProject">
+    <elementDefinition Id="192761a0-3db6-4362-b0f8-57575a58cc7f" />
+    <profileInstances>
+      <packageHasProfileInstances Id="769b8631-4dfb-4d42-b7f3-ea0b2045f685">
+        <profileInstance Id="38a7fdbf-b171-482b-a266-52c1a787eded" name="StandardProfileL2">
+          <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+        </profileInstance>
+        <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+      </packageHasProfileInstances>
+      <packageHasProfileInstances Id="6641a900-2ff8-4346-9978-7cd7a9893217">
+        <profileInstance Id="486cd133-7f1a-4827-8bc3-5990424b5f6f" name="StandardProfileL3">
+          <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+        </profileInstance>
+        <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+      </packageHasProfileInstances>
+    </profileInstances>
+  </package>
+</activityRootModel>

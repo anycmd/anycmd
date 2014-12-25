@@ -1,0 +1,29 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="zh-CN">
+<head>
+    <title>
+        @{
+            if (!string.IsNullOrEmpty(ViewBag.Title))
+            {
+                <text>@ViewBag.Title</text>
+            }
+            else
+            {
+                string area = ViewContext.RouteData.DataTokens["area"].ToString();
+                var controller = ViewContext.RouteData.Values["Controller"].ToString();
+                string action = ViewContext.RouteData.Values["Action"].ToString();
+                var page = Html.GetRuntimeUIVIew(action, controller);
+                <text>@page.Title</text>
+            }
+        }
+    </title>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta charset="UTF-8">
+    <script src="@Url.Content("~/Scripts/boot.js")" type="text/javascript"></script>
+    @RenderSection("Head", required: false)
+</head>
+<body>
+    @RenderBody()
+    @RenderSection("Foot", required: false)
+</body>
+</html>

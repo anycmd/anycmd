@@ -1,0 +1,60 @@
+﻿
+namespace Anycmd.Web.Mvc
+{
+    using Engine.Ac;
+    using Exceptions;
+    using System;
+    using System.Web.Mvc;
+    using ViewModel;
+
+    /// <summary>
+    /// 所有控制器必须继承该类
+    /// </summary>
+    [AuthorizeFilter(Order = 20)]
+    [CompressFilter(Order = 30)]
+    [ExceptionFilter(Order = int.MaxValue)]
+    public class AnycmdController : BaseController
+    {
+        protected EntityTypeState GetEntityType(string codespace, string entityTypeCode)
+        {
+            EntityTypeState entityTypeEntityType;
+            if (!Host.EntityTypeSet.TryGetEntityType(codespace, entityTypeCode, out entityTypeEntityType))
+            {
+                throw new CoreException("意外的实体类型");
+            }
+            return entityTypeEntityType;
+        }
+
+
+        protected ActionResult HandleSeparateGuidString(Action<Guid> action, string id, params char[] separator)
+        {
+            if (action == null)
+            {
+                throw new ArgumentNullException("action");
+            }
+            if (id == null)
+            {
+                throw new ArgumentNullException("id");
+            }
+            string[] ids = id.Split(separator);
+            var idArray = new Guid[ids.Length];
+            for (int i = 0; i < ids.Length; i++)
+            {
+                Guid tmp;
+                if (Guid.TryParse(ids[i], out tmp))
+                {
+                    idArray[i] = tmp;
+                }
+                else
+                {
+                    throw new ValidationException("意外的Guid格式" + ids[i]);
+                }
+            }
+            foreach (var item in idArray)
+            {
+                action(item);
+            }
+            return this.JsonResult(new ResponseData { id = id, success = true });
+        }
+    }
+}

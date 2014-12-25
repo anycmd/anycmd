@@ -1,0 +1,2227 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="AnycmdEdiModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Action">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="OntologyId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Verb" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="IsAllowed" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="IsPersist" Type="bit" Nullable="false" />
+          <Property Name="IsAudit" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="SortCode" Type="int" Nullable="false" />
+          <Property Name="CreateOn" Type="datetime" />
+          <Property Name="CreateUserId" Type="uniqueidentifier" />
+          <Property Name="CreateBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="ModifiedUserId" Type="uniqueidentifier" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="RowGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Etag" Type="timestamp" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="Archive">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="OntologyId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="RdbmsType" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="DataSource" Type="varchar" MaxLength="200" />
+          <Property Name="NumberId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="varchar" MaxLength="50" />
+          <Property Name="Password" Type="varchar" MaxLength="50" />
+          <Property Name="ArchiveOn" Type="datetime" />
+          <Property Name="Description" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreateOn" Type="datetime" />
+          <Property Name="CreateUserId" Type="uniqueidentifier" />
+          <Property Name="CreateBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="ModifiedUserId" Type="uniqueidentifier" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="RowGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Etag" Type="timestamp" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="Batch">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="OntologyId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="NodeId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Type" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="OrganizationCode" Type="varchar" MaxLength="50" />
+          <Property Name="IncludeDescendants" Type="bit" />
+          <Property Name="Total" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreateOn" Type="datetime" />
+          <Property Name="CreateUserId" Type="uniqueidentifier" />
+          <Property Name="CreateBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="ModifiedUserId" Type="uniqueidentifier" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="RowGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Etag" Type="timestamp" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="Element">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="OntologyId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="InfoDicId" Type="uniqueidentifier" />
+          <Property Name="ForeignElementId" Type="uniqueidentifier" />
+          <Property Name="Actions" Type="varchar(max)" />
+          <Property Name="UniqueElementIds" Type="varchar" MaxLength="500" />
+          <Property Name="InfoRules" Type="varchar(max)" />
+          <Property Name="InfoChecks" Type="varchar(max)" />
+          <Property Name="Triggers" Type="varchar(max)" />
+          <Property Name="Code" Type="varchar" MaxLength="36" Nullable="false" />
+          <Property Name="FieldCode" Type="varchar" MaxLength="36" Nullable="false" />
+          <Property Name="OType" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Nullable" Type="bit" Nullable="false" />
+          <Property Name="MaxLength" Type="int" />
+          <Property Name="Name" Type="nvarchar" MaxLength="36" Nullable="false" />
+          <Property Name="Regex" Type="nvarchar" MaxLength="500" />
+          <Property Name="IsInfoIdItem" Type="bit" Nullable="false" />
+          <Property Name="SortCode" Type="int" Nullable="false" />
+          <Property Name="Ref" Type="varchar" MaxLength="50" />
+          <Property Name="Description" Type="nvarchar" MaxLength="500" />
+          <Property Name="DeletionStateCode" Type="int" Nullable="false" />
+          <Property Name="IsEnabled" Type="int" Nullable="false" />
+          <Property Name="GroupId" Type="uniqueidentifier" />
+          <Property Name="Tooltip" Type="nvarchar(max)" />
+          <Property Name="Icon" Type="varchar" MaxLength="200" />
+          <Property Name="IsDetailsShow" Type="bit" Nullable="false" />
+          <Property Name="IsExport" Type="bit" Nullable="false" />
+          <Property Name="IsImport" Type="bit" Nullable="false" />
+          <Property Name="IsInput" Type="bit" Nullable="false" />
+          <Property Name="InputType" Type="varchar" MaxLength="50" />
+          <Property Name="IsTotalLine" Type="bit" Nullable="false" />
+          <Property Name="InputWidth" Type="int" />
+          <Property Name="InputHeight" Type="int" />
+          <Property Name="IsGridColumn" Type="bit" Nullable="false" />
+          <Property Name="Width" Type="int" Nullable="false" />
+          <Property Name="AllowSort" Type="bit" Nullable="false" />
+          <Property Name="AllowFilter" Type="bit" Nullable="false" />
+          <Property Name="CreateOn" Type="datetime" />
+          <Property Name="CreateUserId" Type="uniqueidentifier" />
+          <Property Name="CreateBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="ModifiedUserId" Type="uniqueidentifier" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="RowGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Etag" Type="timestamp" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="InfoDic">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Code" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="SortCode" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="500" />
+          <Property Name="DeletionStateCode" Type="int" Nullable="false" />
+          <Property Name="IsEnabled" Type="int" Nullable="false" />
+          <Property Name="CreateOn" Type="datetime" />
+          <Property Name="CreateUserId" Type="uniqueidentifier" />
+          <Property Name="CreateBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="ModifiedUserId" Type="uniqueidentifier" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="RowGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Etag" Type="timestamp" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="InfoDicItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="InfoDicId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Level" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Code" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="SortCode" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="500" />
+          <Property Name="DeletionStateCode" Type="int" Nullable="false" />
+          <Property Name="IsEnabled" Type="int" Nullable="false" />
+          <Property Name="CreateOn" Type="datetime" />
+          <Property Name="CreateUserId" Type="uniqueidentifier" />
+          <Property Name="CreateBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="ModifiedUserId" Type="uniqueidentifier" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="RowGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Etag" Type="timestamp" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="InfoGroup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="OntologyId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Code" Type="varchar" MaxLength="36" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="SortCode" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="500" />
+          <Property Name="CreateOn" Type="datetime" />
+          <Property Name="CreateUserId" Type="uniqueidentifier" />
+          <Property Name="CreateBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="ModifiedUserId" Type="uniqueidentifier" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="RowGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Etag" Type="timestamp" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="InfoRule">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="IsEnabled" Type="int" Nullable="false" />
+          <Property Name="CreateOn" Type="datetime" />
+          <Property Name="CreateUserId" Type="uniqueidentifier" />
+          <Property Name="CreateBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="ModifiedUserId" Type="uniqueidentifier" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="RowGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Etag" Type="timestamp" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="Node">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="32" Nullable="false" />
+          <Property Name="Code" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Actions" Type="varchar(max)" />
+          <Property Name="Abstract" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Organization" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Steward" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Telephone" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="200" />
+          <Property Name="Mobile" Type="varchar" MaxLength="50" />
+          <Property Name="Qq" Type="varchar" MaxLength="50" />
+          <Property Name="PublicKey" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="SecretKey" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="IsExecuteEnabled" Type="bit" Nullable="false" />
+          <Property Name="IsProduceEnabled" Type="bit" Nullable="false" />
+          <Property Name="IsReceiveEnabled" Type="bit" Nullable="false" />
+          <Property Name="IsDistributeEnabled" Type="bit" Nullable="false" />
+          <Property Name="TransferId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="AnycmdApiAddress" Type="varchar" MaxLength="255" />
+          <Property Name="AnycmdWsAddress" Type="varchar" MaxLength="255" />
+          <Property Name="BeatPeriod" Type="int" />
+          <Property Name="ImageUrl" Type="nvarchar" MaxLength="255" />
+          <Property Name="Icon" Type="varchar" MaxLength="200" />
+          <Property Name="IsEnabled" Type="int" Nullable="false" />
+          <Property Name="DeletionStateCode" Type="int" Nullable="false" />
+          <Property Name="SortCode" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="200" />
+          <Property Name="CreateOn" Type="datetime" />
+          <Property Name="CreateUserId" Type="uniqueidentifier" />
+          <Property Name="CreateBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="ModifiedUserId" Type="uniqueidentifier" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="IncrementId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EntityAction" Type="varchar" MaxLength="500" />
+          <Property Name="EntityElementAction" Type="varchar" MaxLength="1000" />
+          <Property Name="EntityAclPolicy" Type="varchar(max)" />
+          <Property Name="EntityJavascript" Type="varchar(max)" />
+          <Property Name="CreateNodeId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ModifiedNodeId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CreateCommandId" Type="uniqueidentifier" />
+          <Property Name="ModifiedCommandId" Type="uniqueidentifier" />
+          <Property Name="RowGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Etag" Type="timestamp" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="NodeElementAction">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="NodeId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ElementId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ActionId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="IsAudit" Type="bit" Nullable="false" />
+          <Property Name="IsAllowed" Type="bit" Nullable="false" />
+          <Property Name="CreateOn" Type="datetime" />
+          <Property Name="CreateUserId" Type="uniqueidentifier" />
+          <Property Name="CreateBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="ModifiedUserId" Type="uniqueidentifier" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="RowGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Etag" Type="timestamp" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="NodeElementCare">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="NodeId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ElementId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="IsInfoIdItem" Type="bit" Nullable="false" />
+          <Property Name="CreateOn" Type="datetime" />
+          <Property Name="CreateUserId" Type="uniqueidentifier" />
+          <Property Name="CreateBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="ModifiedUserId" Type="uniqueidentifier" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="RowGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Etag" Type="timestamp" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="NodeOntologyCare">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="NodeId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="OntologyId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CreateOn" Type="datetime" />
+          <Property Name="CreateUserId" Type="uniqueidentifier" />
+          <Property Name="CreateBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="ModifiedUserId" Type="uniqueidentifier" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="RowGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Etag" Type="timestamp" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="NodeOntologyOrganization">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="NodeId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="OntologyId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="OrganizationId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Actions" Type="varchar(max)" />
+          <Property Name="CreateOn" Type="datetime" />
+          <Property Name="CreateUserId" Type="uniqueidentifier" />
+          <Property Name="CreateBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="ModifiedUserId" Type="uniqueidentifier" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="RowGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Etag" Type="timestamp" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="NodeTopic">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="NodeId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="TopicId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CreateOn" Type="datetime" />
+          <Property Name="CreateUserId" Type="uniqueidentifier" />
+          <Property Name="CreateBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="ModifiedUserId" Type="uniqueidentifier" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="RowGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Etag" Type="timestamp" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="Ontology">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="MessageProviderId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="EntityProviderId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="EntityDatabaseId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="IsSystem" Type="bit" Nullable="false" />
+          <Property Name="IsOrganizationalEntity" Type="bit" Nullable="false" />
+          <Property Name="IsLogicalDeletionEntity" Type="bit" Nullable="false" />
+          <Property Name="Triggers" Type="varchar(max)" />
+          <Property Name="MessageDatabaseId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="EntitySchemaName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="MessageSchemaName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Code" Type="varchar" MaxLength="36" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="36" Nullable="false" />
+          <Property Name="ServiceIsAlive" Type="bit" Nullable="false" />
+          <Property Name="EntityTableName" Type="varchar" MaxLength="36" Nullable="false" />
+          <Property Name="SortCode" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="50" />
+          <Property Name="ReceivedMessageBufferSize" Type="int" Nullable="false" />
+          <Property Name="EditWidth" Type="int" Nullable="false" />
+          <Property Name="EditHeight" Type="int" Nullable="false" />
+          <Property Name="Icon" Type="varchar" MaxLength="200" />
+          <Property Name="ExecutorLoadCount" Type="int" Nullable="false" />
+          <Property Name="ExecutorSleepTimeSpan" Type="int" Nullable="false" />
+          <Property Name="DispatcherLoadCount" Type="int" Nullable="false" />
+          <Property Name="DispatcherSleepTimeSpan" Type="int" Nullable="false" />
+          <Property Name="IsEnabled" Type="int" Nullable="false" />
+          <Property Name="CanAction" Type="bit" Nullable="false" />
+          <Property Name="CanCommand" Type="bit" Nullable="false" />
+          <Property Name="CanEvent" Type="bit" Nullable="false" />
+          <Property Name="DeletionStateCode" Type="int" Nullable="false" />
+          <Property Name="CreateOn" Type="datetime" />
+          <Property Name="CreateUserId" Type="uniqueidentifier" />
+          <Property Name="CreateBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="ModifiedUserId" Type="uniqueidentifier" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="RowGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Etag" Type="timestamp" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="OntologyOrganization">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="OntologyId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="OrganizationId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Actions" Type="varchar(max)" />
+          <Property Name="CreateOn" Type="datetime" />
+          <Property Name="CreateUserId" Type="uniqueidentifier" />
+          <Property Name="CreateBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="ModifiedUserId" Type="uniqueidentifier" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="RowGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Etag" Type="timestamp" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="Plugin">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FullName" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="AuthorCode" Type="varchar" MaxLength="50" />
+          <Property Name="IsEnabled" Type="int" Nullable="false" />
+          <Property Name="CreateOn" Type="datetime" />
+          <Property Name="CreateUserId" Type="uniqueidentifier" />
+          <Property Name="CreateBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="ModifiedUserId" Type="uniqueidentifier" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="RowGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Etag" Type="timestamp" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="Process">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="OntologyId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="OrganizationCode" Type="varchar" MaxLength="50" />
+          <Property Name="Type" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="NetPort" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="200" />
+          <Property Name="IsEnabled" Type="int" Nullable="false" />
+          <Property Name="CreateOn" Type="datetime" />
+          <Property Name="CreateUserId" Type="uniqueidentifier" />
+          <Property Name="CreateBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="ModifiedUserId" Type="uniqueidentifier" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="RowGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Etag" Type="timestamp" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="Topic">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="OntologyId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Code" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="IsAllowed" Type="bit" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="CreateOn" Type="datetime" />
+          <Property Name="CreateUserId" Type="uniqueidentifier" />
+          <Property Name="CreateBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="ModifiedUserId" Type="uniqueidentifier" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="RowGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Etag" Type="timestamp" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <Association Name="FK_Action_Ontology">
+          <End Role="Ontology" Type="Self.Ontology" Multiplicity="1" />
+          <End Role="Action" Type="Self.Action" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ontology">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Action">
+              <PropertyRef Name="OntologyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Archive_Ontology">
+          <End Role="Ontology" Type="Self.Ontology" Multiplicity="1" />
+          <End Role="Archive" Type="Self.Archive" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ontology">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Archive">
+              <PropertyRef Name="OntologyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Batch_Node">
+          <End Role="Node" Type="Self.Node" Multiplicity="1" />
+          <End Role="Batch" Type="Self.Batch" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Node">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Batch">
+              <PropertyRef Name="NodeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Batch_Ontology">
+          <End Role="Ontology" Type="Self.Ontology" Multiplicity="1" />
+          <End Role="Batch" Type="Self.Batch" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ontology">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Batch">
+              <PropertyRef Name="OntologyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Element_Element">
+          <End Role="Element" Type="Self.Element" Multiplicity="0..1" />
+          <End Role="Element1" Type="Self.Element" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Element">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Element1">
+              <PropertyRef Name="ForeignElementId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Element_InfoDic">
+          <End Role="InfoDic" Type="Self.InfoDic" Multiplicity="0..1" />
+          <End Role="Element" Type="Self.Element" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InfoDic">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Element">
+              <PropertyRef Name="InfoDicId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Element_Ontology">
+          <End Role="Ontology" Type="Self.Ontology" Multiplicity="1" />
+          <End Role="Element" Type="Self.Element" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ontology">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Element">
+              <PropertyRef Name="OntologyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InfoDicItem_InfoDic">
+          <End Role="InfoDic" Type="Self.InfoDic" Multiplicity="1" />
+          <End Role="InfoDicItem" Type="Self.InfoDicItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InfoDic">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InfoDicItem">
+              <PropertyRef Name="InfoDicId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InfoGroup_Ontology">
+          <End Role="Ontology" Type="Self.Ontology" Multiplicity="1" />
+          <End Role="InfoGroup" Type="Self.InfoGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ontology">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InfoGroup">
+              <PropertyRef Name="OntologyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NodeElementAction_Action">
+          <End Role="Action" Type="Self.Action" Multiplicity="1" />
+          <End Role="NodeElementAction" Type="Self.NodeElementAction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Action">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="NodeElementAction">
+              <PropertyRef Name="ActionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NodeElementAction_Element">
+          <End Role="Element" Type="Self.Element" Multiplicity="1" />
+          <End Role="NodeElementAction" Type="Self.NodeElementAction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Element">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="NodeElementAction">
+              <PropertyRef Name="ElementId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NodeElementAction_Node">
+          <End Role="Node" Type="Self.Node" Multiplicity="1" />
+          <End Role="NodeElementAction" Type="Self.NodeElementAction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Node">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="NodeElementAction">
+              <PropertyRef Name="NodeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NodeElementCare_Element">
+          <End Role="Element" Type="Self.Element" Multiplicity="1" />
+          <End Role="NodeElementCare" Type="Self.NodeElementCare" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Element">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="NodeElementCare">
+              <PropertyRef Name="ElementId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NodeElementCare_Node">
+          <End Role="Node" Type="Self.Node" Multiplicity="1" />
+          <End Role="NodeElementCare" Type="Self.NodeElementCare" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Node">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="NodeElementCare">
+              <PropertyRef Name="NodeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NodeOntologyCare_Node">
+          <End Role="Node" Type="Self.Node" Multiplicity="1" />
+          <End Role="NodeOntologyCare" Type="Self.NodeOntologyCare" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Node">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="NodeOntologyCare">
+              <PropertyRef Name="NodeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NodeOntologyCare_Ontology">
+          <End Role="Ontology" Type="Self.Ontology" Multiplicity="1" />
+          <End Role="NodeOntologyCare" Type="Self.NodeOntologyCare" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ontology">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="NodeOntologyCare">
+              <PropertyRef Name="OntologyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NodeOntologyOrganization_Node">
+          <End Role="Node" Type="Self.Node" Multiplicity="1" />
+          <End Role="NodeOntologyOrganization" Type="Self.NodeOntologyOrganization" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Node">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="NodeOntologyOrganization">
+              <PropertyRef Name="NodeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NodeOntologyOrganization_Ontology">
+          <End Role="Ontology" Type="Self.Ontology" Multiplicity="1" />
+          <End Role="NodeOntologyOrganization" Type="Self.NodeOntologyOrganization" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ontology">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="NodeOntologyOrganization">
+              <PropertyRef Name="OntologyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NodeTopic_Node">
+          <End Role="Node" Type="Self.Node" Multiplicity="1" />
+          <End Role="NodeTopic" Type="Self.NodeTopic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Node">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="NodeTopic">
+              <PropertyRef Name="NodeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NodeTopic_Topic">
+          <End Role="Topic" Type="Self.Topic" Multiplicity="1" />
+          <End Role="NodeTopic" Type="Self.NodeTopic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Topic">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="NodeTopic">
+              <PropertyRef Name="TopicId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OntologyOrganization_Ontology">
+          <End Role="Ontology" Type="Self.Ontology" Multiplicity="1" />
+          <End Role="OntologyOrganization" Type="Self.OntologyOrganization" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ontology">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OntologyOrganization">
+              <PropertyRef Name="OntologyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Process_Ontology">
+          <End Role="Ontology" Type="Self.Ontology" Multiplicity="1" />
+          <End Role="Process" Type="Self.Process" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ontology">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Process">
+              <PropertyRef Name="OntologyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Topic_Ontology">
+          <End Role="Ontology" Type="Self.Ontology" Multiplicity="1" />
+          <End Role="Topic" Type="Self.Topic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ontology">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Topic">
+              <PropertyRef Name="OntologyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AnycmdEdiModelStoreContainer">
+          <EntitySet Name="Action" EntityType="Self.Action" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Archive" EntityType="Self.Archive" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Batch" EntityType="Self.Batch" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Element" EntityType="Self.Element" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InfoDic" EntityType="Self.InfoDic" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InfoDicItem" EntityType="Self.InfoDicItem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InfoGroup" EntityType="Self.InfoGroup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InfoRule" EntityType="Self.InfoRule" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Node" EntityType="Self.Node" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NodeElementAction" EntityType="Self.NodeElementAction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NodeElementCare" EntityType="Self.NodeElementCare" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NodeOntologyCare" EntityType="Self.NodeOntologyCare" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NodeOntologyOrganization" EntityType="Self.NodeOntologyOrganization" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NodeTopic" EntityType="Self.NodeTopic" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ontology" EntityType="Self.Ontology" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OntologyOrganization" EntityType="Self.OntologyOrganization" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Plugin" EntityType="Self.Plugin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Process" EntityType="Self.Process" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Topic" EntityType="Self.Topic" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Action_Ontology" Association="Self.FK_Action_Ontology">
+            <End Role="Ontology" EntitySet="Ontology" />
+            <End Role="Action" EntitySet="Action" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Archive_Ontology" Association="Self.FK_Archive_Ontology">
+            <End Role="Ontology" EntitySet="Ontology" />
+            <End Role="Archive" EntitySet="Archive" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Batch_Node" Association="Self.FK_Batch_Node">
+            <End Role="Node" EntitySet="Node" />
+            <End Role="Batch" EntitySet="Batch" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Batch_Ontology" Association="Self.FK_Batch_Ontology">
+            <End Role="Ontology" EntitySet="Ontology" />
+            <End Role="Batch" EntitySet="Batch" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Element_Element" Association="Self.FK_Element_Element">
+            <End Role="Element" EntitySet="Element" />
+            <End Role="Element1" EntitySet="Element" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Element_InfoDic" Association="Self.FK_Element_InfoDic">
+            <End Role="InfoDic" EntitySet="InfoDic" />
+            <End Role="Element" EntitySet="Element" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Element_Ontology" Association="Self.FK_Element_Ontology">
+            <End Role="Ontology" EntitySet="Ontology" />
+            <End Role="Element" EntitySet="Element" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InfoDicItem_InfoDic" Association="Self.FK_InfoDicItem_InfoDic">
+            <End Role="InfoDic" EntitySet="InfoDic" />
+            <End Role="InfoDicItem" EntitySet="InfoDicItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InfoGroup_Ontology" Association="Self.FK_InfoGroup_Ontology">
+            <End Role="Ontology" EntitySet="Ontology" />
+            <End Role="InfoGroup" EntitySet="InfoGroup" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NodeElementAction_Action" Association="Self.FK_NodeElementAction_Action">
+            <End Role="Action" EntitySet="Action" />
+            <End Role="NodeElementAction" EntitySet="NodeElementAction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NodeElementAction_Element" Association="Self.FK_NodeElementAction_Element">
+            <End Role="Element" EntitySet="Element" />
+            <End Role="NodeElementAction" EntitySet="NodeElementAction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NodeElementAction_Node" Association="Self.FK_NodeElementAction_Node">
+            <End Role="Node" EntitySet="Node" />
+            <End Role="NodeElementAction" EntitySet="NodeElementAction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NodeElementCare_Element" Association="Self.FK_NodeElementCare_Element">
+            <End Role="Element" EntitySet="Element" />
+            <End Role="NodeElementCare" EntitySet="NodeElementCare" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NodeElementCare_Node" Association="Self.FK_NodeElementCare_Node">
+            <End Role="Node" EntitySet="Node" />
+            <End Role="NodeElementCare" EntitySet="NodeElementCare" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NodeOntologyCare_Node" Association="Self.FK_NodeOntologyCare_Node">
+            <End Role="Node" EntitySet="Node" />
+            <End Role="NodeOntologyCare" EntitySet="NodeOntologyCare" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NodeOntologyCare_Ontology" Association="Self.FK_NodeOntologyCare_Ontology">
+            <End Role="Ontology" EntitySet="Ontology" />
+            <End Role="NodeOntologyCare" EntitySet="NodeOntologyCare" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NodeOntologyOrganization_Node" Association="Self.FK_NodeOntologyOrganization_Node">
+            <End Role="Node" EntitySet="Node" />
+            <End Role="NodeOntologyOrganization" EntitySet="NodeOntologyOrganization" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NodeOntologyOrganization_Ontology" Association="Self.FK_NodeOntologyOrganization_Ontology">
+            <End Role="Ontology" EntitySet="Ontology" />
+            <End Role="NodeOntologyOrganization" EntitySet="NodeOntologyOrganization" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NodeTopic_Node" Association="Self.FK_NodeTopic_Node">
+            <End Role="Node" EntitySet="Node" />
+            <End Role="NodeTopic" EntitySet="NodeTopic" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NodeTopic_Topic" Association="Self.FK_NodeTopic_Topic">
+            <End Role="Topic" EntitySet="Topic" />
+            <End Role="NodeTopic" EntitySet="NodeTopic" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OntologyOrganization_Ontology" Association="Self.FK_OntologyOrganization_Ontology">
+            <End Role="Ontology" EntitySet="Ontology" />
+            <End Role="OntologyOrganization" EntitySet="OntologyOrganization" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Process_Ontology" Association="Self.FK_Process_Ontology">
+            <End Role="Ontology" EntitySet="Ontology" />
+            <End Role="Process" EntitySet="Process" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Topic_Ontology" Association="Self.FK_Topic_Ontology">
+            <End Role="Ontology" EntitySet="Ontology" />
+            <End Role="Topic" EntitySet="Topic" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AnycmdModel" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2009/11/edm" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+        <EntityContainer Name="EdiEntities" annotation:LazyLoadingEnabled="true" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+          <EntitySet Name="Actions" EntityType="AnycmdModel.Action" />
+          <EntitySet Name="Archives" EntityType="AnycmdModel.Archive" />
+          <EntitySet Name="Batches" EntityType="AnycmdModel.Batch" />
+          <EntitySet Name="Elements" EntityType="AnycmdModel.Element" />
+          <EntitySet Name="InfoDics" EntityType="AnycmdModel.InfoDic" />
+          <EntitySet Name="InfoDicItems" EntityType="AnycmdModel.InfoDicItem" />
+          <EntitySet Name="InfoGroups" EntityType="AnycmdModel.InfoGroup" />
+          <EntitySet Name="InfoRules" EntityType="AnycmdModel.InfoRule" />
+          <EntitySet Name="Nodes" EntityType="AnycmdModel.Node" />
+          <EntitySet Name="NodeElementActions" EntityType="AnycmdModel.NodeElementAction" />
+          <EntitySet Name="NodeElementCares" EntityType="AnycmdModel.NodeElementCare" />
+          <EntitySet Name="NodeOntologyCares" EntityType="AnycmdModel.NodeOntologyCare" />
+          <EntitySet Name="NodeOntologyOrganizations" EntityType="AnycmdModel.NodeOntologyOrganization" />
+          <EntitySet Name="NodeTopics" EntityType="AnycmdModel.NodeTopic" />
+          <EntitySet Name="Ontologies" EntityType="AnycmdModel.Ontology" />
+          <EntitySet Name="OntologyOrganizations" EntityType="AnycmdModel.OntologyOrganization" />
+          <EntitySet Name="Plugins" EntityType="AnycmdModel.Plugin" />
+          <EntitySet Name="Processes" EntityType="AnycmdModel.Process" />
+          <EntitySet Name="Topics" EntityType="AnycmdModel.Topic" />
+          <AssociationSet Name="FK_Action_Ontology" Association="AnycmdModel.FK_Action_Ontology">
+            <End Role="Ontology" EntitySet="Ontologies" />
+            <End Role="Action" EntitySet="Actions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NodeElementAction_Action" Association="AnycmdModel.FK_NodeElementAction_Action">
+            <End Role="Action" EntitySet="Actions" />
+            <End Role="NodeElementAction" EntitySet="NodeElementActions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Archive_Ontology" Association="AnycmdModel.FK_Archive_Ontology">
+            <End Role="Ontology" EntitySet="Ontologies" />
+            <End Role="Archive" EntitySet="Archives" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Batch_Node" Association="AnycmdModel.FK_Batch_Node">
+            <End Role="Node" EntitySet="Nodes" />
+            <End Role="Batch" EntitySet="Batches" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Batch_Ontology" Association="AnycmdModel.FK_Batch_Ontology">
+            <End Role="Ontology" EntitySet="Ontologies" />
+            <End Role="Batch" EntitySet="Batches" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Element_Element" Association="AnycmdModel.FK_Element_Element">
+            <End Role="Element" EntitySet="Elements" />
+            <End Role="Element1" EntitySet="Elements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Element_InfoDic" Association="AnycmdModel.FK_Element_InfoDic">
+            <End Role="InfoDic" EntitySet="InfoDics" />
+            <End Role="Element" EntitySet="Elements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Element_Ontology" Association="AnycmdModel.FK_Element_Ontology">
+            <End Role="Ontology" EntitySet="Ontologies" />
+            <End Role="Element" EntitySet="Elements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NodeElementAction_Element" Association="AnycmdModel.FK_NodeElementAction_Element">
+            <End Role="Element" EntitySet="Elements" />
+            <End Role="NodeElementAction" EntitySet="NodeElementActions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NodeElementCare_Element" Association="AnycmdModel.FK_NodeElementCare_Element">
+            <End Role="Element" EntitySet="Elements" />
+            <End Role="NodeElementCare" EntitySet="NodeElementCares" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InfoDicItem_InfoDic" Association="AnycmdModel.FK_InfoDicItem_InfoDic">
+            <End Role="InfoDic" EntitySet="InfoDics" />
+            <End Role="InfoDicItem" EntitySet="InfoDicItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InfoGroup_Ontology" Association="AnycmdModel.FK_InfoGroup_Ontology">
+            <End Role="Ontology" EntitySet="Ontologies" />
+            <End Role="InfoGroup" EntitySet="InfoGroups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NodeElementAction_Node" Association="AnycmdModel.FK_NodeElementAction_Node">
+            <End Role="Node" EntitySet="Nodes" />
+            <End Role="NodeElementAction" EntitySet="NodeElementActions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NodeElementCare_Node" Association="AnycmdModel.FK_NodeElementCare_Node">
+            <End Role="Node" EntitySet="Nodes" />
+            <End Role="NodeElementCare" EntitySet="NodeElementCares" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NodeEventSubject_Node" Association="AnycmdModel.FK_NodeEventSubject_Node">
+            <End Role="Node" EntitySet="Nodes" />
+            <End Role="NodeTopic" EntitySet="NodeTopics" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NodeOntologyCare_Node" Association="AnycmdModel.FK_NodeOntologyCare_Node">
+            <End Role="Node" EntitySet="Nodes" />
+            <End Role="NodeOntologyCare" EntitySet="NodeOntologyCares" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NodeOntologyOrganization_Node" Association="AnycmdModel.FK_NodeOntologyOrganization_Node">
+            <End Role="Node" EntitySet="Nodes" />
+            <End Role="NodeOntologyOrganization" EntitySet="NodeOntologyOrganizations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NodeOntologyCare_Ontology" Association="AnycmdModel.FK_NodeOntologyCare_Ontology">
+            <End Role="Ontology" EntitySet="Ontologies" />
+            <End Role="NodeOntologyCare" EntitySet="NodeOntologyCares" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NodeOntologyOrganization_Ontology" Association="AnycmdModel.FK_NodeOntologyOrganization_Ontology">
+            <End Role="Ontology" EntitySet="Ontologies" />
+            <End Role="NodeOntologyOrganization" EntitySet="NodeOntologyOrganizations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NodeEventSubject_EventSubject" Association="AnycmdModel.FK_NodeEventSubject_EventSubject">
+            <End Role="Topic" EntitySet="Topics" />
+            <End Role="NodeTopic" EntitySet="NodeTopics" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EventSubject_Ontology" Association="AnycmdModel.FK_EventSubject_Ontology">
+            <End Role="Ontology" EntitySet="Ontologies" />
+            <End Role="Topic" EntitySet="Topics" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OntologyOrganization_Ontology" Association="AnycmdModel.FK_OntologyOrganization_Ontology">
+            <End Role="Ontology" EntitySet="Ontologies" />
+            <End Role="OntologyOrganization" EntitySet="OntologyOrganizations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Process_Ontology" Association="AnycmdModel.FK_Process_Ontology">
+            <End Role="Ontology" EntitySet="Ontologies" />
+            <End Role="Process" EntitySet="Processes" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Action">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="OntologyId" Type="Guid" Nullable="false" />
+          <Property Name="Verb" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsAllowed" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IsPersist" Type="Boolean" Nullable="false" />
+          <Property Name="IsAudit" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SortCode" Type="Int32" Nullable="false" />
+          <Property Name="CreateOn" Type="DateTime" Precision="3" />
+          <Property Name="CreateUserId" Type="Guid" />
+          <Property Name="CreateBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedUserId" Type="Guid" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="RowGuid" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Archive">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="OntologyId" Type="Guid" Nullable="false" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="RdbmsType" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DataSource" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="NumberId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ArchiveOn" Type="DateTime" Precision="3" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreateOn" Type="DateTime" Precision="3" />
+          <Property Name="CreateUserId" Type="Guid" />
+          <Property Name="CreateBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedUserId" Type="Guid" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="RowGuid" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Batch">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="OntologyId" Type="Guid" Nullable="false" />
+          <Property Name="NodeId" Type="Guid" Nullable="false" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="OrganizationCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IncludeDescendants" Type="Boolean" />
+          <Property Name="Total" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreateOn" Type="DateTime" Precision="3" />
+          <Property Name="CreateUserId" Type="Guid" />
+          <Property Name="CreateBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedUserId" Type="Guid" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="RowGuid" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Element">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="OntologyId" Type="Guid" Nullable="false" />
+          <Property Name="InfoDicId" Type="Guid" />
+          <Property Name="ForeignElementId" Type="Guid" />
+          <Property Name="Actions" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="UniqueElementIds" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="InfoRules" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="InfoChecks" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Triggers" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="FieldCode" Type="String" Nullable="false" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="OType" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Nullable" Type="Boolean" Nullable="false" />
+          <Property Name="MaxLength" Type="Int32" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="36" FixedLength="false" Unicode="true" />
+          <Property Name="Regex" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="IsInfoIdItem" Type="Boolean" Nullable="false" />
+          <Property Name="SortCode" Type="Int32" Nullable="false" />
+          <Property Name="Ref" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="DeletionStateCode" Type="Int32" Nullable="false" />
+          <Property Name="IsEnabled" Type="Int32" Nullable="false" />
+          <Property Name="GroupId" Type="Guid" />
+          <Property Name="Tooltip" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Icon" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="IsDetailsShow" Type="Boolean" Nullable="false" />
+          <Property Name="IsExport" Type="Boolean" Nullable="false" />
+          <Property Name="IsImport" Type="Boolean" Nullable="false" />
+          <Property Name="IsInput" Type="Boolean" Nullable="false" />
+          <Property Name="InputType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IsTotalLine" Type="Boolean" Nullable="false" />
+          <Property Name="InputWidth" Type="Int32" />
+          <Property Name="InputHeight" Type="Int32" />
+          <Property Name="IsGridColumn" Type="Boolean" Nullable="false" />
+          <Property Name="Width" Type="Int32" Nullable="false" />
+          <Property Name="AllowSort" Type="Boolean" Nullable="false" />
+          <Property Name="AllowFilter" Type="Boolean" Nullable="false" />
+          <Property Name="CreateOn" Type="DateTime" Precision="3" />
+          <Property Name="CreateUserId" Type="Guid" />
+          <Property Name="CreateBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedUserId" Type="Guid" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="RowGuid" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="InfoDic">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SortCode" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="DeletionStateCode" Type="Int32" Nullable="false" />
+          <Property Name="IsEnabled" Type="Int32" Nullable="false" />
+          <Property Name="CreateOn" Type="DateTime" Precision="3" />
+          <Property Name="CreateUserId" Type="Guid" />
+          <Property Name="CreateBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedUserId" Type="Guid" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="RowGuid" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="InfoDicItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="InfoDicId" Type="Guid" Nullable="false" />
+          <Property Name="Level" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SortCode" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="DeletionStateCode" Type="Int32" Nullable="false" />
+          <Property Name="IsEnabled" Type="Int32" Nullable="false" />
+          <Property Name="CreateOn" Type="DateTime" Precision="3" />
+          <Property Name="CreateUserId" Type="Guid" />
+          <Property Name="CreateBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedUserId" Type="Guid" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="RowGuid" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="InfoGroup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="OntologyId" Type="Guid" Nullable="false" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SortCode" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CreateOn" Type="DateTime" Precision="3" />
+          <Property Name="CreateUserId" Type="Guid" />
+          <Property Name="CreateBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedUserId" Type="Guid" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="RowGuid" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="InfoRule">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="IsEnabled" Type="Int32" Nullable="false" />
+          <Property Name="CreateOn" Type="DateTime" Precision="3" />
+          <Property Name="CreateUserId" Type="Guid" />
+          <Property Name="CreateBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedUserId" Type="Guid" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="RowGuid" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Node">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="true" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Actions" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Abstract" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Organization" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Steward" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Telephone" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Mobile" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Qq" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PublicKey" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SecretKey" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IsExecuteEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="IsProduceEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="IsReceiveEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="IsDistributeEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="TransferId" Type="Guid" Nullable="false" />
+          <Property Name="AnycmdApiAddress" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="AnycmdWsAddress" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="BeatPeriod" Type="Int32" />
+          <Property Name="ImageUrl" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Icon" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="IsEnabled" Type="Int32" Nullable="false" />
+          <Property Name="DeletionStateCode" Type="Int32" Nullable="false" />
+          <Property Name="SortCode" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CreateOn" Type="DateTime" Precision="3" />
+          <Property Name="CreateUserId" Type="Guid" />
+          <Property Name="CreateBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedUserId" Type="Guid" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="IncrementId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EntityAction" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="EntityElementAction" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="EntityAclPolicy" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="EntityJavascript" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CreateNodeId" Type="Guid" Nullable="false" />
+          <Property Name="ModifiedNodeId" Type="Guid" Nullable="false" />
+          <Property Name="CreateCommandId" Type="Guid" />
+          <Property Name="ModifiedCommandId" Type="Guid" />
+          <Property Name="RowGuid" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="NodeElementAction">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="NodeId" Type="Guid" Nullable="false" />
+          <Property Name="ElementId" Type="Guid" Nullable="false" />
+          <Property Name="ActionId" Type="Guid" Nullable="false" />
+          <Property Name="IsAudit" Type="Boolean" Nullable="false" />
+          <Property Name="IsAllowed" Type="Boolean" Nullable="false" />
+          <Property Name="CreateOn" Type="DateTime" Precision="3" />
+          <Property Name="CreateUserId" Type="Guid" />
+          <Property Name="CreateBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedUserId" Type="Guid" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="RowGuid" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="NodeElementCare">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="NodeId" Type="Guid" Nullable="false" />
+          <Property Name="ElementId" Type="Guid" Nullable="false" />
+          <Property Name="IsInfoIdItem" Type="Boolean" Nullable="false" />
+          <Property Name="CreateOn" Type="DateTime" Precision="3" />
+          <Property Name="CreateUserId" Type="Guid" />
+          <Property Name="CreateBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedUserId" Type="Guid" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="RowGuid" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="NodeOntologyCare">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="NodeId" Type="Guid" Nullable="false" />
+          <Property Name="OntologyId" Type="Guid" Nullable="false" />
+          <Property Name="CreateOn" Type="DateTime" Precision="3" />
+          <Property Name="CreateUserId" Type="Guid" />
+          <Property Name="CreateBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedUserId" Type="Guid" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="RowGuid" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="NodeOntologyOrganization">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="NodeId" Type="Guid" Nullable="false" />
+          <Property Name="OntologyId" Type="Guid" Nullable="false" />
+          <Property Name="OrganizationId" Type="Guid" Nullable="false" />
+          <Property Name="Actions" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CreateOn" Type="DateTime" Precision="3" />
+          <Property Name="CreateUserId" Type="Guid" />
+          <Property Name="CreateBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedUserId" Type="Guid" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="RowGuid" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="NodeTopic">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="NodeId" Type="Guid" Nullable="false" />
+          <Property Name="TopicId" Type="Guid" Nullable="false" />
+          <Property Name="CreateOn" Type="DateTime" Precision="3" />
+          <Property Name="CreateUserId" Type="Guid" />
+          <Property Name="CreateBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedUserId" Type="Guid" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="RowGuid" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Ontology">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="MessageProviderId" Type="Guid" Nullable="false" />
+          <Property Name="EntityProviderId" Type="Guid" Nullable="false" />
+          <Property Name="EntityDatabaseId" Type="Guid" Nullable="false" />
+          <Property Name="IsSystem" Type="Boolean" Nullable="false" />
+          <Property Name="IsOrganizationalEntity" Type="Boolean" Nullable="false" />
+          <Property Name="IsLogicalDeletionEntity" Type="Boolean" Nullable="false" />
+          <Property Name="Triggers" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="MessageDatabaseId" Type="Guid" Nullable="false" />
+          <Property Name="EntitySchemaName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MessageSchemaName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="36" FixedLength="false" Unicode="true" />
+          <Property Name="ServiceIsAlive" Type="Boolean" Nullable="false" />
+          <Property Name="EntityTableName" Type="String" Nullable="false" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="SortCode" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ReceivedMessageBufferSize" Type="Int32" Nullable="false" />
+          <Property Name="EditWidth" Type="Int32" Nullable="false" />
+          <Property Name="EditHeight" Type="Int32" Nullable="false" />
+          <Property Name="Icon" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ExecutorLoadCount" Type="Int32" Nullable="false" />
+          <Property Name="ExecutorSleepTimeSpan" Type="Int32" Nullable="false" />
+          <Property Name="DispatcherLoadCount" Type="Int32" Nullable="false" />
+          <Property Name="DispatcherSleepTimeSpan" Type="Int32" Nullable="false" />
+          <Property Name="IsEnabled" Type="Int32" Nullable="false" />
+          <Property Name="CanAction" Type="Boolean" Nullable="false" />
+          <Property Name="CanCommand" Type="Boolean" Nullable="false" />
+          <Property Name="CanEvent" Type="Boolean" Nullable="false" />
+          <Property Name="DeletionStateCode" Type="Int32" Nullable="false" />
+          <Property Name="CreateOn" Type="DateTime" Precision="3" />
+          <Property Name="CreateUserId" Type="Guid" />
+          <Property Name="CreateBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedUserId" Type="Guid" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="RowGuid" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OntologyOrganization">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="OntologyId" Type="Guid" Nullable="false" />
+          <Property Name="OrganizationId" Type="Guid" Nullable="false" />
+          <Property Name="Actions" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CreateOn" Type="DateTime" Precision="3" />
+          <Property Name="CreateUserId" Type="Guid" />
+          <Property Name="CreateBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedUserId" Type="Guid" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="RowGuid" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Plugin">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FullName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AuthorCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IsEnabled" Type="Int32" Nullable="false" />
+          <Property Name="CreateOn" Type="DateTime" Precision="3" />
+          <Property Name="CreateUserId" Type="Guid" />
+          <Property Name="CreateBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedUserId" Type="Guid" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="RowGuid" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Process">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="OntologyId" Type="Guid" Nullable="false" />
+          <Property Name="OrganizationCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NetPort" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="IsEnabled" Type="Int32" Nullable="false" />
+          <Property Name="CreateOn" Type="DateTime" Precision="3" />
+          <Property Name="CreateUserId" Type="Guid" />
+          <Property Name="CreateBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedUserId" Type="Guid" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="RowGuid" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Topic">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="OntologyId" Type="Guid" Nullable="false" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsAllowed" Type="Boolean" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreateOn" Type="DateTime" Precision="3" />
+          <Property Name="CreateUserId" Type="Guid" />
+          <Property Name="CreateBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedUserId" Type="Guid" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="RowGuid" Type="Guid" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Action_Ontology">
+          <End Type="AnycmdModel.Ontology" Role="Ontology" Multiplicity="1" />
+          <End Type="AnycmdModel.Action" Role="Action" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ontology">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Action">
+              <PropertyRef Name="OntologyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NodeElementAction_Action">
+          <End Type="AnycmdModel.Action" Role="Action" Multiplicity="1" />
+          <End Type="AnycmdModel.NodeElementAction" Role="NodeElementAction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Action">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="NodeElementAction">
+              <PropertyRef Name="ActionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Archive_Ontology">
+          <End Type="AnycmdModel.Ontology" Role="Ontology" Multiplicity="1" />
+          <End Type="AnycmdModel.Archive" Role="Archive" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ontology">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Archive">
+              <PropertyRef Name="OntologyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Batch_Node">
+          <End Type="AnycmdModel.Node" Role="Node" Multiplicity="1" />
+          <End Type="AnycmdModel.Batch" Role="Batch" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Node">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Batch">
+              <PropertyRef Name="NodeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Batch_Ontology">
+          <End Type="AnycmdModel.Ontology" Role="Ontology" Multiplicity="1" />
+          <End Type="AnycmdModel.Batch" Role="Batch" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ontology">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Batch">
+              <PropertyRef Name="OntologyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Element_Element">
+          <End Type="AnycmdModel.Element" Role="Element" Multiplicity="0..1" />
+          <End Type="AnycmdModel.Element" Role="Element1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Element">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Element1">
+              <PropertyRef Name="ForeignElementId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Element_InfoDic">
+          <End Type="AnycmdModel.InfoDic" Role="InfoDic" Multiplicity="0..1" />
+          <End Type="AnycmdModel.Element" Role="Element" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InfoDic">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Element">
+              <PropertyRef Name="InfoDicId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Element_Ontology">
+          <End Type="AnycmdModel.Ontology" Role="Ontology" Multiplicity="1" />
+          <End Type="AnycmdModel.Element" Role="Element" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ontology">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Element">
+              <PropertyRef Name="OntologyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NodeElementAction_Element">
+          <End Type="AnycmdModel.Element" Role="Element" Multiplicity="1" />
+          <End Type="AnycmdModel.NodeElementAction" Role="NodeElementAction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Element">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="NodeElementAction">
+              <PropertyRef Name="ElementId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NodeElementCare_Element">
+          <End Type="AnycmdModel.Element" Role="Element" Multiplicity="1" />
+          <End Type="AnycmdModel.NodeElementCare" Role="NodeElementCare" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Element">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="NodeElementCare">
+              <PropertyRef Name="ElementId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InfoDicItem_InfoDic">
+          <End Type="AnycmdModel.InfoDic" Role="InfoDic" Multiplicity="1" />
+          <End Type="AnycmdModel.InfoDicItem" Role="InfoDicItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InfoDic">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InfoDicItem">
+              <PropertyRef Name="InfoDicId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InfoGroup_Ontology">
+          <End Type="AnycmdModel.Ontology" Role="Ontology" Multiplicity="1" />
+          <End Type="AnycmdModel.InfoGroup" Role="InfoGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ontology">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InfoGroup">
+              <PropertyRef Name="OntologyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NodeElementAction_Node">
+          <End Type="AnycmdModel.Node" Role="Node" Multiplicity="1" />
+          <End Type="AnycmdModel.NodeElementAction" Role="NodeElementAction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Node">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="NodeElementAction">
+              <PropertyRef Name="NodeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NodeElementCare_Node">
+          <End Type="AnycmdModel.Node" Role="Node" Multiplicity="1" />
+          <End Type="AnycmdModel.NodeElementCare" Role="NodeElementCare" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Node">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="NodeElementCare">
+              <PropertyRef Name="NodeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NodeEventSubject_Node">
+          <End Type="AnycmdModel.Node" Role="Node" Multiplicity="1" />
+          <End Type="AnycmdModel.NodeTopic" Role="NodeTopic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Node">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="NodeTopic">
+              <PropertyRef Name="NodeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NodeOntologyCare_Node">
+          <End Type="AnycmdModel.Node" Role="Node" Multiplicity="1" />
+          <End Type="AnycmdModel.NodeOntologyCare" Role="NodeOntologyCare" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Node">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="NodeOntologyCare">
+              <PropertyRef Name="NodeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NodeOntologyOrganization_Node">
+          <End Type="AnycmdModel.Node" Role="Node" Multiplicity="1" />
+          <End Type="AnycmdModel.NodeOntologyOrganization" Role="NodeOntologyOrganization" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Node">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="NodeOntologyOrganization">
+              <PropertyRef Name="NodeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NodeOntologyCare_Ontology">
+          <End Type="AnycmdModel.Ontology" Role="Ontology" Multiplicity="1" />
+          <End Type="AnycmdModel.NodeOntologyCare" Role="NodeOntologyCare" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ontology">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="NodeOntologyCare">
+              <PropertyRef Name="OntologyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NodeOntologyOrganization_Ontology">
+          <End Type="AnycmdModel.Ontology" Role="Ontology" Multiplicity="1" />
+          <End Type="AnycmdModel.NodeOntologyOrganization" Role="NodeOntologyOrganization" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ontology">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="NodeOntologyOrganization">
+              <PropertyRef Name="OntologyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NodeEventSubject_EventSubject">
+          <End Type="AnycmdModel.Topic" Role="Topic" Multiplicity="1" />
+          <End Type="AnycmdModel.NodeTopic" Role="NodeTopic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Topic">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="NodeTopic">
+              <PropertyRef Name="TopicId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EventSubject_Ontology">
+          <End Type="AnycmdModel.Ontology" Role="Ontology" Multiplicity="1" />
+          <End Type="AnycmdModel.Topic" Role="Topic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ontology">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Topic">
+              <PropertyRef Name="OntologyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OntologyOrganization_Ontology">
+          <End Type="AnycmdModel.Ontology" Role="Ontology" Multiplicity="1" />
+          <End Type="AnycmdModel.OntologyOrganization" Role="OntologyOrganization" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ontology">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OntologyOrganization">
+              <PropertyRef Name="OntologyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Process_Ontology">
+          <End Type="AnycmdModel.Ontology" Role="Ontology" Multiplicity="1" />
+          <End Type="AnycmdModel.Process" Role="Process" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ontology">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Process">
+              <PropertyRef Name="OntologyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AnycmdEdiModelStoreContainer" CdmEntityContainer="EdiEntities">
+          <EntitySetMapping Name="Actions">
+            <EntityTypeMapping TypeName="AnycmdModel.Action">
+              <MappingFragment StoreEntitySet="Action">
+                <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
+                <ScalarProperty Name="Etag" ColumnName="Etag" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedUserId" ColumnName="ModifiedUserId" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateUserId" ColumnName="CreateUserId" />
+                <ScalarProperty Name="CreateOn" ColumnName="CreateOn" />
+                <ScalarProperty Name="SortCode" ColumnName="SortCode" />
+                <ScalarProperty Name="IsAudit" ColumnName="IsAudit" />
+                <ScalarProperty Name="IsPersist" ColumnName="IsPersist" />
+                <ScalarProperty Name="IsAllowed" ColumnName="IsAllowed" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Verb" ColumnName="Verb" />
+                <ScalarProperty Name="OntologyId" ColumnName="OntologyId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Archives">
+            <EntityTypeMapping TypeName="AnycmdModel.Archive">
+              <MappingFragment StoreEntitySet="Archive">
+                <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
+                <ScalarProperty Name="Etag" ColumnName="Etag" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedUserId" ColumnName="ModifiedUserId" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateUserId" ColumnName="CreateUserId" />
+                <ScalarProperty Name="CreateOn" ColumnName="CreateOn" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ArchiveOn" ColumnName="ArchiveOn" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="NumberId" ColumnName="NumberId" />
+                <ScalarProperty Name="DataSource" ColumnName="DataSource" />
+                <ScalarProperty Name="RdbmsType" ColumnName="RdbmsType" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="OntologyId" ColumnName="OntologyId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Batches">
+            <EntityTypeMapping TypeName="AnycmdModel.Batch">
+              <MappingFragment StoreEntitySet="Batch">
+                <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
+                <ScalarProperty Name="Etag" ColumnName="Etag" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedUserId" ColumnName="ModifiedUserId" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateUserId" ColumnName="CreateUserId" />
+                <ScalarProperty Name="CreateOn" ColumnName="CreateOn" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="IncludeDescendants" ColumnName="IncludeDescendants" />
+                <ScalarProperty Name="OrganizationCode" ColumnName="OrganizationCode" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="NodeId" ColumnName="NodeId" />
+                <ScalarProperty Name="OntologyId" ColumnName="OntologyId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Elements">
+            <EntityTypeMapping TypeName="AnycmdModel.Element">
+              <MappingFragment StoreEntitySet="Element">
+                <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
+                <ScalarProperty Name="Etag" ColumnName="Etag" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedUserId" ColumnName="ModifiedUserId" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateUserId" ColumnName="CreateUserId" />
+                <ScalarProperty Name="CreateOn" ColumnName="CreateOn" />
+                <ScalarProperty Name="AllowFilter" ColumnName="AllowFilter" />
+                <ScalarProperty Name="AllowSort" ColumnName="AllowSort" />
+                <ScalarProperty Name="Width" ColumnName="Width" />
+                <ScalarProperty Name="IsGridColumn" ColumnName="IsGridColumn" />
+                <ScalarProperty Name="InputHeight" ColumnName="InputHeight" />
+                <ScalarProperty Name="InputWidth" ColumnName="InputWidth" />
+                <ScalarProperty Name="IsTotalLine" ColumnName="IsTotalLine" />
+                <ScalarProperty Name="InputType" ColumnName="InputType" />
+                <ScalarProperty Name="IsInput" ColumnName="IsInput" />
+                <ScalarProperty Name="IsImport" ColumnName="IsImport" />
+                <ScalarProperty Name="IsExport" ColumnName="IsExport" />
+                <ScalarProperty Name="IsDetailsShow" ColumnName="IsDetailsShow" />
+                <ScalarProperty Name="Icon" ColumnName="Icon" />
+                <ScalarProperty Name="Tooltip" ColumnName="Tooltip" />
+                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+                <ScalarProperty Name="IsEnabled" ColumnName="IsEnabled" />
+                <ScalarProperty Name="DeletionStateCode" ColumnName="DeletionStateCode" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Ref" ColumnName="Ref" />
+                <ScalarProperty Name="SortCode" ColumnName="SortCode" />
+                <ScalarProperty Name="IsInfoIdItem" ColumnName="IsInfoIdItem" />
+                <ScalarProperty Name="Regex" ColumnName="Regex" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="MaxLength" ColumnName="MaxLength" />
+                <ScalarProperty Name="Nullable" ColumnName="Nullable" />
+                <ScalarProperty Name="OType" ColumnName="OType" />
+                <ScalarProperty Name="FieldCode" ColumnName="FieldCode" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Triggers" ColumnName="Triggers" />
+                <ScalarProperty Name="InfoChecks" ColumnName="InfoChecks" />
+                <ScalarProperty Name="InfoRules" ColumnName="InfoRules" />
+                <ScalarProperty Name="UniqueElementIds" ColumnName="UniqueElementIds" />
+                <ScalarProperty Name="Actions" ColumnName="Actions" />
+                <ScalarProperty Name="ForeignElementId" ColumnName="ForeignElementId" />
+                <ScalarProperty Name="InfoDicId" ColumnName="InfoDicId" />
+                <ScalarProperty Name="OntologyId" ColumnName="OntologyId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InfoDics">
+            <EntityTypeMapping TypeName="AnycmdModel.InfoDic">
+              <MappingFragment StoreEntitySet="InfoDic">
+                <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
+                <ScalarProperty Name="Etag" ColumnName="Etag" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedUserId" ColumnName="ModifiedUserId" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateUserId" ColumnName="CreateUserId" />
+                <ScalarProperty Name="CreateOn" ColumnName="CreateOn" />
+                <ScalarProperty Name="IsEnabled" ColumnName="IsEnabled" />
+                <ScalarProperty Name="DeletionStateCode" ColumnName="DeletionStateCode" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="SortCode" ColumnName="SortCode" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InfoDicItems">
+            <EntityTypeMapping TypeName="AnycmdModel.InfoDicItem">
+              <MappingFragment StoreEntitySet="InfoDicItem">
+                <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
+                <ScalarProperty Name="Etag" ColumnName="Etag" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedUserId" ColumnName="ModifiedUserId" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateUserId" ColumnName="CreateUserId" />
+                <ScalarProperty Name="CreateOn" ColumnName="CreateOn" />
+                <ScalarProperty Name="IsEnabled" ColumnName="IsEnabled" />
+                <ScalarProperty Name="DeletionStateCode" ColumnName="DeletionStateCode" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="SortCode" ColumnName="SortCode" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Level" ColumnName="Level" />
+                <ScalarProperty Name="InfoDicId" ColumnName="InfoDicId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InfoGroups">
+            <EntityTypeMapping TypeName="AnycmdModel.InfoGroup">
+              <MappingFragment StoreEntitySet="InfoGroup">
+                <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
+                <ScalarProperty Name="Etag" ColumnName="Etag" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedUserId" ColumnName="ModifiedUserId" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateUserId" ColumnName="CreateUserId" />
+                <ScalarProperty Name="CreateOn" ColumnName="CreateOn" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="SortCode" ColumnName="SortCode" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="OntologyId" ColumnName="OntologyId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InfoRules">
+            <EntityTypeMapping TypeName="AnycmdModel.InfoRule">
+              <MappingFragment StoreEntitySet="InfoRule">
+                <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
+                <ScalarProperty Name="Etag" ColumnName="Etag" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedUserId" ColumnName="ModifiedUserId" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateUserId" ColumnName="CreateUserId" />
+                <ScalarProperty Name="CreateOn" ColumnName="CreateOn" />
+                <ScalarProperty Name="IsEnabled" ColumnName="IsEnabled" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Nodes">
+            <EntityTypeMapping TypeName="AnycmdModel.Node">
+              <MappingFragment StoreEntitySet="Node">
+                <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
+                <ScalarProperty Name="ModifiedCommandId" ColumnName="ModifiedCommandId" />
+                <ScalarProperty Name="CreateCommandId" ColumnName="CreateCommandId" />
+                <ScalarProperty Name="ModifiedNodeId" ColumnName="ModifiedNodeId" />
+                <ScalarProperty Name="CreateNodeId" ColumnName="CreateNodeId" />
+                <ScalarProperty Name="EntityJavascript" ColumnName="EntityJavascript" />
+                <ScalarProperty Name="EntityAclPolicy" ColumnName="EntityAclPolicy" />
+                <ScalarProperty Name="EntityElementAction" ColumnName="EntityElementAction" />
+                <ScalarProperty Name="EntityAction" ColumnName="EntityAction" />
+                <ScalarProperty Name="IncrementId" ColumnName="IncrementId" />
+                <ScalarProperty Name="Etag" ColumnName="Etag" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedUserId" ColumnName="ModifiedUserId" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateUserId" ColumnName="CreateUserId" />
+                <ScalarProperty Name="CreateOn" ColumnName="CreateOn" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="SortCode" ColumnName="SortCode" />
+                <ScalarProperty Name="DeletionStateCode" ColumnName="DeletionStateCode" />
+                <ScalarProperty Name="IsEnabled" ColumnName="IsEnabled" />
+                <ScalarProperty Name="Icon" ColumnName="Icon" />
+                <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
+                <ScalarProperty Name="BeatPeriod" ColumnName="BeatPeriod" />
+                <ScalarProperty Name="AnycmdWsAddress" ColumnName="AnycmdWsAddress" />
+                <ScalarProperty Name="AnycmdApiAddress" ColumnName="AnycmdApiAddress" />
+                <ScalarProperty Name="TransferId" ColumnName="TransferId" />
+                <ScalarProperty Name="IsDistributeEnabled" ColumnName="IsDistributeEnabled" />
+                <ScalarProperty Name="IsReceiveEnabled" ColumnName="IsReceiveEnabled" />
+                <ScalarProperty Name="IsProduceEnabled" ColumnName="IsProduceEnabled" />
+                <ScalarProperty Name="IsExecuteEnabled" ColumnName="IsExecuteEnabled" />
+                <ScalarProperty Name="SecretKey" ColumnName="SecretKey" />
+                <ScalarProperty Name="PublicKey" ColumnName="PublicKey" />
+                <ScalarProperty Name="Qq" ColumnName="Qq" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="Steward" ColumnName="Steward" />
+                <ScalarProperty Name="Organization" ColumnName="Organization" />
+                <ScalarProperty Name="Abstract" ColumnName="Abstract" />
+                <ScalarProperty Name="Actions" ColumnName="Actions" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NodeElementActions">
+            <EntityTypeMapping TypeName="AnycmdModel.NodeElementAction">
+              <MappingFragment StoreEntitySet="NodeElementAction">
+                <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
+                <ScalarProperty Name="Etag" ColumnName="Etag" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedUserId" ColumnName="ModifiedUserId" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateUserId" ColumnName="CreateUserId" />
+                <ScalarProperty Name="CreateOn" ColumnName="CreateOn" />
+                <ScalarProperty Name="IsAllowed" ColumnName="IsAllowed" />
+                <ScalarProperty Name="IsAudit" ColumnName="IsAudit" />
+                <ScalarProperty Name="ActionId" ColumnName="ActionId" />
+                <ScalarProperty Name="ElementId" ColumnName="ElementId" />
+                <ScalarProperty Name="NodeId" ColumnName="NodeId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NodeElementCares">
+            <EntityTypeMapping TypeName="AnycmdModel.NodeElementCare">
+              <MappingFragment StoreEntitySet="NodeElementCare">
+                <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
+                <ScalarProperty Name="Etag" ColumnName="Etag" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedUserId" ColumnName="ModifiedUserId" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateUserId" ColumnName="CreateUserId" />
+                <ScalarProperty Name="CreateOn" ColumnName="CreateOn" />
+                <ScalarProperty Name="IsInfoIdItem" ColumnName="IsInfoIdItem" />
+                <ScalarProperty Name="ElementId" ColumnName="ElementId" />
+                <ScalarProperty Name="NodeId" ColumnName="NodeId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NodeOntologyCares">
+            <EntityTypeMapping TypeName="AnycmdModel.NodeOntologyCare">
+              <MappingFragment StoreEntitySet="NodeOntologyCare">
+                <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
+                <ScalarProperty Name="Etag" ColumnName="Etag" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedUserId" ColumnName="ModifiedUserId" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateUserId" ColumnName="CreateUserId" />
+                <ScalarProperty Name="CreateOn" ColumnName="CreateOn" />
+                <ScalarProperty Name="OntologyId" ColumnName="OntologyId" />
+                <ScalarProperty Name="NodeId" ColumnName="NodeId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NodeOntologyOrganizations">
+            <EntityTypeMapping TypeName="AnycmdModel.NodeOntologyOrganization">
+              <MappingFragment StoreEntitySet="NodeOntologyOrganization">
+                <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
+                <ScalarProperty Name="Etag" ColumnName="Etag" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedUserId" ColumnName="ModifiedUserId" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateUserId" ColumnName="CreateUserId" />
+                <ScalarProperty Name="CreateOn" ColumnName="CreateOn" />
+                <ScalarProperty Name="Actions" ColumnName="Actions" />
+                <ScalarProperty Name="OrganizationId" ColumnName="OrganizationId" />
+                <ScalarProperty Name="OntologyId" ColumnName="OntologyId" />
+                <ScalarProperty Name="NodeId" ColumnName="NodeId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NodeTopics">
+            <EntityTypeMapping TypeName="AnycmdModel.NodeTopic">
+              <MappingFragment StoreEntitySet="NodeTopic">
+                <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
+                <ScalarProperty Name="Etag" ColumnName="Etag" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedUserId" ColumnName="ModifiedUserId" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateUserId" ColumnName="CreateUserId" />
+                <ScalarProperty Name="CreateOn" ColumnName="CreateOn" />
+                <ScalarProperty Name="TopicId" ColumnName="TopicId" />
+                <ScalarProperty Name="NodeId" ColumnName="NodeId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ontologies">
+            <EntityTypeMapping TypeName="AnycmdModel.Ontology">
+              <MappingFragment StoreEntitySet="Ontology">
+                <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
+                <ScalarProperty Name="Etag" ColumnName="Etag" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedUserId" ColumnName="ModifiedUserId" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateUserId" ColumnName="CreateUserId" />
+                <ScalarProperty Name="CreateOn" ColumnName="CreateOn" />
+                <ScalarProperty Name="DeletionStateCode" ColumnName="DeletionStateCode" />
+                <ScalarProperty Name="CanEvent" ColumnName="CanEvent" />
+                <ScalarProperty Name="CanCommand" ColumnName="CanCommand" />
+                <ScalarProperty Name="CanAction" ColumnName="CanAction" />
+                <ScalarProperty Name="IsEnabled" ColumnName="IsEnabled" />
+                <ScalarProperty Name="DispatcherSleepTimeSpan" ColumnName="DispatcherSleepTimeSpan" />
+                <ScalarProperty Name="DispatcherLoadCount" ColumnName="DispatcherLoadCount" />
+                <ScalarProperty Name="ExecutorSleepTimeSpan" ColumnName="ExecutorSleepTimeSpan" />
+                <ScalarProperty Name="ExecutorLoadCount" ColumnName="ExecutorLoadCount" />
+                <ScalarProperty Name="Icon" ColumnName="Icon" />
+                <ScalarProperty Name="EditHeight" ColumnName="EditHeight" />
+                <ScalarProperty Name="EditWidth" ColumnName="EditWidth" />
+                <ScalarProperty Name="ReceivedMessageBufferSize" ColumnName="ReceivedMessageBufferSize" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="SortCode" ColumnName="SortCode" />
+                <ScalarProperty Name="EntityTableName" ColumnName="EntityTableName" />
+                <ScalarProperty Name="ServiceIsAlive" ColumnName="ServiceIsAlive" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="MessageSchemaName" ColumnName="MessageSchemaName" />
+                <ScalarProperty Name="EntitySchemaName" ColumnName="EntitySchemaName" />
+                <ScalarProperty Name="MessageDatabaseId" ColumnName="MessageDatabaseId" />
+                <ScalarProperty Name="Triggers" ColumnName="Triggers" />
+                <ScalarProperty Name="IsLogicalDeletionEntity" ColumnName="IsLogicalDeletionEntity" />
+                <ScalarProperty Name="IsOrganizationalEntity" ColumnName="IsOrganizationalEntity" />
+                <ScalarProperty Name="IsSystem" ColumnName="IsSystem" />
+                <ScalarProperty Name="EntityDatabaseId" ColumnName="EntityDatabaseId" />
+                <ScalarProperty Name="EntityProviderId" ColumnName="EntityProviderId" />
+                <ScalarProperty Name="MessageProviderId" ColumnName="MessageProviderId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OntologyOrganizations">
+            <EntityTypeMapping TypeName="AnycmdModel.OntologyOrganization">
+              <MappingFragment StoreEntitySet="OntologyOrganization">
+                <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
+                <ScalarProperty Name="Etag" ColumnName="Etag" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedUserId" ColumnName="ModifiedUserId" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateUserId" ColumnName="CreateUserId" />
+                <ScalarProperty Name="CreateOn" ColumnName="CreateOn" />
+                <ScalarProperty Name="Actions" ColumnName="Actions" />
+                <ScalarProperty Name="OrganizationId" ColumnName="OrganizationId" />
+                <ScalarProperty Name="OntologyId" ColumnName="OntologyId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Plugins">
+            <EntityTypeMapping TypeName="AnycmdModel.Plugin">
+              <MappingFragment StoreEntitySet="Plugin">
+                <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
+                <ScalarProperty Name="Etag" ColumnName="Etag" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedUserId" ColumnName="ModifiedUserId" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateUserId" ColumnName="CreateUserId" />
+                <ScalarProperty Name="CreateOn" ColumnName="CreateOn" />
+                <ScalarProperty Name="IsEnabled" ColumnName="IsEnabled" />
+                <ScalarProperty Name="AuthorCode" ColumnName="AuthorCode" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Processes">
+            <EntityTypeMapping TypeName="AnycmdModel.Process">
+              <MappingFragment StoreEntitySet="Process">
+                <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
+                <ScalarProperty Name="Etag" ColumnName="Etag" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedUserId" ColumnName="ModifiedUserId" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateUserId" ColumnName="CreateUserId" />
+                <ScalarProperty Name="CreateOn" ColumnName="CreateOn" />
+                <ScalarProperty Name="IsEnabled" ColumnName="IsEnabled" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="NetPort" ColumnName="NetPort" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="OrganizationCode" ColumnName="OrganizationCode" />
+                <ScalarProperty Name="OntologyId" ColumnName="OntologyId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Topics">
+            <EntityTypeMapping TypeName="AnycmdModel.Topic">
+              <MappingFragment StoreEntitySet="Topic">
+                <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
+                <ScalarProperty Name="Etag" ColumnName="Etag" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedUserId" ColumnName="ModifiedUserId" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateUserId" ColumnName="CreateUserId" />
+                <ScalarProperty Name="CreateOn" ColumnName="CreateOn" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsAllowed" ColumnName="IsAllowed" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="OntologyId" ColumnName="OntologyId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram DiagramId="5c86d5b3072e4c41b68b7856e9bef6d8" Name="Diagram1" >
+        <EntityTypeShape EntityType="AnycmdModel.Action" Width="1.625" PointX="3.625" PointY="57.875" />
+        <EntityTypeShape EntityType="AnycmdModel.Archive" Width="1.625" PointX="3.625" PointY="48.5" />
+        <EntityTypeShape EntityType="AnycmdModel.Batch" Width="1.875" PointX="3.625" PointY="30" />
+        <EntityTypeShape EntityType="AnycmdModel.Element" Width="1.75" PointX="7.625" PointY="22.375" />
+        <EntityTypeShape EntityType="AnycmdModel.InfoDic" Width="1.75" PointX="5.125" PointY="35.25" />
+        <EntityTypeShape EntityType="AnycmdModel.InfoDicItem" Width="1.75" PointX="7.625" PointY="35" />
+        <EntityTypeShape EntityType="AnycmdModel.InfoGroup" Width="1.625" PointX="3.625" PointY="14.25" />
+        <EntityTypeShape EntityType="AnycmdModel.InfoRule" Width="1.625" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="AnycmdModel.Node" Width="2" PointX="3.875" PointY="4.5" />
+        <EntityTypeShape EntityType="AnycmdModel.NodeElementAction" Width="1.875" PointX="10.125" PointY="40.375" />
+        <EntityTypeShape EntityType="AnycmdModel.NodeElementCare" Width="1.75" PointX="10.125" PointY="25.5" />
+        <EntityTypeShape EntityType="AnycmdModel.NodeOntologyCare" Width="1.625" PointX="6.625" PointY="18.625" />
+        <EntityTypeShape EntityType="AnycmdModel.NodeOntologyOrganization" Width="2.375" PointX="3.625" PointY="25.375" />
+        <EntityTypeShape EntityType="AnycmdModel.NodeTopic" Width="1.625" PointX="5.875" PointY="44.625" />
+        <EntityTypeShape EntityType="AnycmdModel.Ontology" Width="2.125" PointX="0.75" PointY="23.125" />
+        <EntityTypeShape EntityType="AnycmdModel.OntologyOrganization" Width="2.125" PointX="3.625" PointY="18.375" />
+        <EntityTypeShape EntityType="AnycmdModel.Plugin" Width="1.5" PointX="0.75" PointY="4.75" />
+        <EntityTypeShape EntityType="AnycmdModel.Process" Width="1.875" PointX="3.625" PointY="53.375" />
+        <EntityTypeShape EntityType="AnycmdModel.Topic" Width="1.625" PointX="3.625" PointY="44.375" />
+        <AssociationConnector Association="AnycmdModel.FK_Action_Ontology" />
+        <AssociationConnector Association="AnycmdModel.FK_NodeElementAction_Action" />
+        <AssociationConnector Association="AnycmdModel.FK_Archive_Ontology" />
+        <AssociationConnector Association="AnycmdModel.FK_Batch_Node" />
+        <AssociationConnector Association="AnycmdModel.FK_Batch_Ontology" />
+        <AssociationConnector Association="AnycmdModel.FK_Element_Element" />
+        <AssociationConnector Association="AnycmdModel.FK_Element_InfoDic" />
+        <AssociationConnector Association="AnycmdModel.FK_Element_Ontology" />
+        <AssociationConnector Association="AnycmdModel.FK_NodeElementAction_Element" />
+        <AssociationConnector Association="AnycmdModel.FK_NodeElementCare_Element" />
+        <AssociationConnector Association="AnycmdModel.FK_InfoDicItem_InfoDic" />
+        <AssociationConnector Association="AnycmdModel.FK_InfoGroup_Ontology" />
+        <AssociationConnector Association="AnycmdModel.FK_NodeElementAction_Node" />
+        <AssociationConnector Association="AnycmdModel.FK_NodeElementCare_Node" />
+        <AssociationConnector Association="AnycmdModel.FK_NodeEventSubject_Node" />
+        <AssociationConnector Association="AnycmdModel.FK_NodeOntologyCare_Node" />
+        <AssociationConnector Association="AnycmdModel.FK_NodeOntologyOrganization_Node" />
+        <AssociationConnector Association="AnycmdModel.FK_NodeOntologyCare_Ontology" />
+        <AssociationConnector Association="AnycmdModel.FK_NodeOntologyOrganization_Ontology" />
+        <AssociationConnector Association="AnycmdModel.FK_NodeEventSubject_EventSubject" />
+        <AssociationConnector Association="AnycmdModel.FK_EventSubject_Ontology" />
+        <AssociationConnector Association="AnycmdModel.FK_OntologyOrganization_Ontology" />
+        <AssociationConnector Association="AnycmdModel.FK_Process_Ontology" />
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

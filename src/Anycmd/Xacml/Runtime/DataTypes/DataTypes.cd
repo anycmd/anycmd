@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Anycmd.Xacml.Runtime.DataTypes.AnyUri" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAgAAAAAAAAgAABAAIAAAAAAAAAgAAAAAIAAAAAAAA=</HashCode>
+      <FileName>Xacml\Runtime\DataTypes\AnyUri.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Anycmd.Xacml.Runtime.DataTypes.Bag" BaseTypeListCollapsed="true">
+    <Position X="2" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAgAAAAAAAAgAAAAAIAAAAAAAAAAAAAAAIAAAAAAAA=</HashCode>
+      <FileName>Xacml\Runtime\DataTypes\Bag.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Anycmd.Xacml.Runtime.DataTypes.Base64Binary" BaseTypeListCollapsed="true">
+    <Position X="3.5" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AJAgAAAAAAAAgAAAgAIAAAAAAAAAAIAAAAIAAAAAAAA=</HashCode>
+      <FileName>Xacml\Runtime\DataTypes\Base64Binary.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Anycmd.Xacml.Runtime.DataTypes.BooleanDataType" BaseTypeListCollapsed="true">
+    <Position X="5.5" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AIAgAAAAAAAAgAAAAAIAAAAAAAAAAAAAAAIAAAAAAAA=</HashCode>
+      <FileName>Xacml\Runtime\DataTypes\BooleanDataType.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Anycmd.Xacml.Runtime.DataTypes.DateDataType" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAgAAAAAAAAgAAAAAIAAAAAAAAAAAAAAAIAAAAAAAA=</HashCode>
+      <FileName>Xacml\Runtime\DataTypes\DateDataType.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Anycmd.Xacml.Runtime.DataTypes.DateTime" BaseTypeListCollapsed="true">
+    <Position X="2" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAgAAAAAAAAgAAAAAIAAAAAAAAAAAAAAAIAAAAAAAA=</HashCode>
+      <FileName>Xacml\Runtime\DataTypes\DateTime.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Anycmd.Xacml.Runtime.DataTypes.DaytimeDuration" BaseTypeListCollapsed="true">
+    <Position X="7.5" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AYAgAAACAAAQkAAAwAIAAAAEAAAAAIAAQAMBIgCAAAA=</HashCode>
+      <FileName>Xacml\Runtime\DataTypes\DayTimeDuration.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Anycmd.Xacml.Runtime.DataTypes.DnsNameDataType" BaseTypeListCollapsed="true">
+    <Position X="12" Y="3" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AJAgIAAAAAAAgAAAgAIAAAAAAAAAAoAAAAIAAAAAAAA=</HashCode>
+      <FileName>Xacml\Runtime\DataTypes\DnsNameDataType.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Anycmd.Xacml.Runtime.DataTypes.DoubleDataType" BaseTypeListCollapsed="true">
+    <Position X="11.5" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AIAgAAAAAAAAgAAAAAIAAAAAAAAAAAAAAAIAAAAAAAA=</HashCode>
+      <FileName>Xacml\Runtime\DataTypes\DoubleDataType.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Anycmd.Xacml.Runtime.DataTypes.FunctionDataType" BaseTypeListCollapsed="true">
+    <Position X="3.5" Y="4" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AIAgAAAAAAAAgAAAAAIAAAAAAAAAAAAAAAIAAAAAAAA=</HashCode>
+      <FileName>Xacml\Runtime\DataTypes\FunctionDataType.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Anycmd.Xacml.Runtime.DataTypes.HexBinary" BaseTypeListCollapsed="true">
+    <Position X="5.25" Y="3.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AJAgAAAAAAAAgAAAgAIAAAAAAAAAAIAAAAIAAAAAAAA=</HashCode>
+      <FileName>Xacml\Runtime\DataTypes\HexBinary.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Anycmd.Xacml.Runtime.DataTypes.IntegerDataType" BaseTypeListCollapsed="true">
+    <Position X="9.75" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AIAgAAAAAAAAgAAAAAIAAAAAAAAAAAAAAAIAAAAAAAA=</HashCode>
+      <FileName>Xacml\Runtime\DataTypes\IntegerDataType.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Anycmd.Xacml.Runtime.DataTypes.IPAddress" BaseTypeListCollapsed="true">
+    <Position X="7.75" Y="6" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AJAgAAAAAAAAgAAAgAMAAAAAAAAAAIAAAAIAAAAAAAA=</HashCode>
+      <FileName>Xacml\Runtime\DataTypes\IPAddressDataType.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Anycmd.Xacml.Runtime.DataTypes.Rfc822Name" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="8.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AJAgAAAEAAAAgAAAgAIAAAIAAAAAAICAAAIAAAAAAAA=</HashCode>
+      <FileName>Xacml\Runtime\DataTypes\Rfc822Name.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Anycmd.Xacml.Runtime.DataTypes.StringDataType" BaseTypeListCollapsed="true">
+    <Position X="2" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAgAAAAAAAAgAAAAAIAAAAAAAAAAAAAAAIAAAAAAAA=</HashCode>
+      <FileName>Xacml\Runtime\DataTypes\StringDataType.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Anycmd.Xacml.Runtime.DataTypes.Time" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAgAAAAAAAAgAAAAAIAAAAAAAAAAAAAAAIAAAAAAAA=</HashCode>
+      <FileName>Xacml\Runtime\DataTypes\Time.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Anycmd.Xacml.Runtime.DataTypes.X500Name" BaseTypeListCollapsed="true">
+    <Position X="9.75" Y="3" Width="2.25" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Class Name="Anycmd.Xacml.Runtime.DataTypes.X500Name.X500RDN">
+        <TypeIdentifier>
+          <NewMemberFileName>Xacml\Runtime\DataTypes\X500Name.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AJAwIAAAAAAAgAgAgAIAAAAAAAAAAIAAAAIAAAAAAAA=</HashCode>
+      <FileName>Xacml\Runtime\DataTypes\X500Name.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Anycmd.Xacml.Runtime.DataTypes.YearMonthDuration" BaseTypeListCollapsed="true">
+    <Position X="3.5" Y="7" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AYAgAAAAAAAAkAAAgAIAAAIAAAAAIIAEAAMIAAAAAAA=</HashCode>
+      <FileName>Xacml\Runtime\DataTypes\YearMonthDuration.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Font Name="Microsoft YaHei UI" Size="9" />
+</ClassDiagram>

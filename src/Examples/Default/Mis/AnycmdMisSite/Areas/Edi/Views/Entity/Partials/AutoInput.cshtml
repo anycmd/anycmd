@@ -1,0 +1,109 @@
+﻿@using Anycmd.Engine.Host.Hecp
+@using Anycmd.Engine.Host.Ac
+@model Anycmd.Engine.Edi.ElementDescriptor
+@{
+    var createAllowType = AllowType.NotAllow;
+    if (Model.Element.ElementActions.ContainsKey(Verb.Create)) {
+        createAllowType = Model.Element.ElementActions[Verb.Create].AllowType;
+    }
+    var updateAllowType = AllowType.NotAllow;
+    if (Model.Element.ElementActions.ContainsKey(Verb.Update)) {
+        updateAllowType = Model.Element.ElementActions[Verb.Update].AllowType;
+    }
+    string asLabel = (createAllowType != AllowType.NotAllow
+        || updateAllowType != AllowType.NotAllow) ? "" : "asLabel";
+    var dbTableColumn = Model.Ontology.EntityProvider.GetElementDataSchema(Model);
+    string htmlRequired = dbTableColumn.IsNullable ? "" : "required='true'";
+    var htmlHeight = Model.Element.InputHeight.HasValue ? "height:" + Model.Element.InputHeight.ToString() + "px;" : "";
+    var htmlWidth = Model.Element.InputWidth.HasValue ? "width:" + Model.Element.InputWidth.ToString() + "px;" : "";
+    var inputType = (Model.Element.InputType ?? "").ToLower();
+    switch (inputType) {
+        case "textbox":
+            asLabel = Model.Element.Code.Equals("ZZJGM", StringComparison.OrdinalIgnoreCase) ? "asLabel" : "";
+            <div style="float: left; padding:2px; width: 120px; @htmlHeight">
+                @Html.IconLabel(Model.Element)
+            </div>
+            <div style="float: left; padding:2px; @htmlHeight">
+                <input name="@Model.Element.Code" class="mini-textbox @asLabel" @Html.Raw(htmlRequired) />
+                @Html.Qtip(Model.Element)
+            </div>
+            break;
+        case "hidden":
+        <input name="@Model.Element.Code" class="mini-hidden @asLabel" @Html.Raw(htmlRequired) />
+            break;
+        case "textarea":
+        <div style="float: left; padding:2px; width: 120px; @htmlHeight">
+            @Html.IconLabel(Model.Element)
+            @Html.Qtip(Model.Element)
+        </div>
+        <div style="float: left; padding:2px;">
+            <input name="@Model.Element.Code" class="mini-textarea @asLabel" style="@htmlWidth @htmlHeight" />
+        </div>
+            break;
+        case "select":
+        <div style="float: left; padding:2px; width: 120px; @htmlHeight">
+            @Html.IconLabel(Model.Element)
+        </div>
+        <div style="float: left; padding:2px; @htmlHeight">
+            <input name="@Model.Element.Code" class="mini-combobox @asLabel" style="width: 125px;"
+                   allowinput="true" valuefromselect="true" emptytext="请选择..." textfield="name"
+                   valuefield="code" data="@Html.InfoDicItemsJsonArray(Model.Element)" shownullitem="true" nullitemtext="请选择..." />
+            @Html.Qtip(Model.Element)
+        </div>
+            break;
+        case "datepicker":
+        <div style="float: left; padding:2px; width: 120px; @htmlHeight">
+            @Html.IconLabel(Model.Element)
+        </div>
+        <div style="float: left; padding:2px; @htmlHeight">
+            <input name="@Model.Element.Code" class="mini-datepicker @asLabel" format="yyyy-MM-dd" allowinput="false" />
+            @Html.Qtip(Model.Element)
+        </div>
+            break;
+        case "yearmonthpicker":
+        <div style="float: left; padding:2px; width: 120px; @htmlHeight">
+            @Html.IconLabel(Model.Element)
+        </div>
+        <div style="float: left; padding:2px; @htmlHeight">
+            <input name="@Model.Element.Code" class="mini-datepicker @asLabel" format="yyyy-MM" allowinput="false" />
+            @Html.Qtip(Model.Element)
+        </div>
+            break;
+        case "yearpicker":
+        <div style="float: left; padding:2px; width: 120px; @htmlHeight">
+            @Html.IconLabel(Model.Element)
+        </div>
+        <div style="float: left; padding:2px; @htmlHeight">
+            <input name="@Model.Element.Code" class="mini-datepicker @asLabel" format="yyyy" allowinput="false" />
+            @Html.Qtip(Model.Element)
+        </div>
+            break;
+        case "datetimepicker":
+        <div style="float: left; padding:2px; width: 120px; @htmlHeight">
+            @Html.IconLabel(Model.Element)
+        </div>
+        <div style="float: left; padding:2px; @htmlHeight">
+            <input name="@Model.Element.Code" class="mini-datepicker @asLabel" format="yyyy-MM-dd hh:mm:ss" allowinput="false" />
+            @Html.Qtip(Model.Element)
+        </div>
+            break;
+        case "email":
+        <div style="float: left; padding:2px; width: 120px; @htmlHeight">
+            @Html.IconLabel(Model.Element)
+        </div>
+        <div style="float: left; padding:2px; @htmlHeight">
+            <input name="@Model.Element.Code" class="mini-textbox @asLabel" vtype="email" @Html.Raw(htmlRequired) />
+            @Html.Qtip(Model.Element)
+        </div>
+            break;
+        case "image":
+        <div style="float: left; padding:2px; width: 120px; @htmlHeight">
+            @Html.IconLabel(Model.Element)
+        </div>
+        <div style="float: left; padding:2px; @htmlHeight">
+            暂不支持
+            @Html.Qtip(Model.Element)
+        </div>
+            break;
+    }
+}

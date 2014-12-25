@@ -1,0 +1,117 @@
+﻿@model string
+@{
+	var prifix = Model;
+	var codespace = ViewContext.RouteData.DataTokens["area"].ToString();
+	var entityTypeCode = ViewContext.RouteData.Values["Controller"].ToString();
+}
+<form id="@(prifix)form1" method="post">
+	<input name="Id" class="mini-hidden" />
+	<div style="padding-left: 11px; padding-bottom: 5px;">
+		<table>
+			<tr>
+				<td>
+					@Html.IconLabel("Code", entityTypeCode, codespace)
+				</td>
+				<td>
+					<input name="Code" class="mini-textbox" required="true" />
+					@Html.Qtip("Code", entityTypeCode, codespace)
+				</td>
+				<td>
+					@Html.IconLabel("Name", entityTypeCode, codespace)
+				</td>
+				<td>
+					<input name="Name" class="mini-textbox" required="true" />
+					@Html.Qtip("Name", entityTypeCode, codespace)
+				</td>
+			</tr>
+			<tr>
+				<td>
+					@Html.IconLabel("DatabaseId", entityTypeCode, codespace)
+				</td>
+				<td>
+					<input name="DatabaseId" class="mini-combobox" style="width: 125px;" valueFromSelect="true" emptyText="请选择..."
+						textfield="catalogName" valuefield="id" data="@Html.DatabaseJsonArray()" shownullitem="true" nullItemText="请选择..." required="true" />
+					@Html.Qtip("DatabaseId", entityTypeCode, codespace)
+				</td>
+				<td>
+					@Html.IconLabel("SchemaName", entityTypeCode, codespace)
+				</td>
+				<td>
+					<input name="SchemaName" class="mini-textbox" required="false" />
+					@Html.Qtip("SchemaName", entityTypeCode, codespace)
+				</td>
+			</tr>
+			<tr>
+				<td>
+					@Html.IconLabel("TableName", entityTypeCode, codespace)
+				</td>
+				<td>
+					<input name="TableName" class="mini-textbox" required="false" />
+					@Html.Qtip("TableName", entityTypeCode, codespace)
+				</td>
+				<td>
+					@Html.IconLabel("Codespace", entityTypeCode, codespace)
+				</td>
+				<td>
+					<input name="Codespace" class="mini-textbox" required="true" />
+					@Html.Qtip("Codespace", entityTypeCode, codespace)
+				</td>
+			</tr>
+			<tr>
+				<td>
+					@Html.IconLabel("SortCode", entityTypeCode, codespace)
+				</td>
+				<td>
+					<input name="SortCode" class="mini-textbox" vtype="int" value="0" required="true" />
+					@Html.Qtip("SortCode", entityTypeCode, codespace)
+				</td>
+				<td>
+					@Html.IconLabel("DeveloperId", entityTypeCode, codespace)
+				</td>
+				<td>
+					<input name="DeveloperId" class="mini-combobox" style="width:125px;" textField="name" valueField="id" 
+						data="@Html.DeveloperJsonArray()" showNullItem="true" value="" nullItemText="" required="true" />
+					@Html.Qtip("DeveloperId", entityTypeCode, codespace)
+				</td>
+			</tr>
+			<tr>
+				<td>
+					@Html.IconLabel("EditWidth", entityTypeCode, codespace)
+				</td>
+				<td>
+					<input name="EditWidth" class="mini-textbox" vtype="int" value="0" required="true" />
+					@Html.Qtip("EditWidth", entityTypeCode, codespace)
+				</td>
+				<td>
+					@Html.IconLabel("EditHeight", entityTypeCode, codespace)
+				</td>
+				<td>
+					<input name="EditHeight" class="mini-textbox" vtype="int" value="0" required="true" />
+					@Html.Qtip("EditHeight", entityTypeCode, codespace)
+				</td>
+			</tr>
+			<tr>
+				<td>
+					@Html.IconLabel("IsOrganizational", entityTypeCode, codespace)
+				</td>
+				<td>
+					<input name="IsOrganizational" class="mini-checkbox" text="@Html.GetProperty("IsOrganizational").Name" truevalue="true" falsevalue="false" />
+					@Html.Qtip("IsOrganizational", entityTypeCode, codespace)
+				</td>
+				<td>
+				</td>
+				<td>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					@Html.IconLabel("Description", entityTypeCode, codespace)
+					@Html.Qtip("Description", entityTypeCode, codespace)
+				</td>
+				<td colspan="3">
+					<input name="Description" class="mini-textarea" style="width: 372px;" />
+				</td>
+			</tr>
+		</table>
+	</div>
+</form>

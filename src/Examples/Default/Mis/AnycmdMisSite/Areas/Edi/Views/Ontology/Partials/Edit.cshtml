@@ -1,0 +1,135 @@
+﻿<link rel="stylesheet" type="text/css" href="@Url.Content("~/Scripts/emotions/emoticon.css")" />
+@model string
+@{
+	var prifix = Model;
+	var codespace = ViewContext.RouteData.DataTokens["area"].ToString();
+	var entityTypeCode = ViewContext.RouteData.Values["Controller"].ToString();
+}
+<form id="@(prifix)form1" method="post">
+	<input name="Id" class="mini-hidden" />
+	<input id="hdIcon" name="Icon" class="mini-hidden" />
+	<div style="padding-left: 11px; padding-bottom: 5px;">
+		<table>
+			<tr>
+				<td>@Html.IconLabel("Code", entityTypeCode, codespace)
+				</td>
+				<td>
+					<input name="Code" class="mini-textbox" required="true" />
+					@Html.Qtip("Code", entityTypeCode, codespace)
+				</td>
+				<td>@Html.IconLabel("Name", entityTypeCode, codespace)
+				</td>
+				<td>
+					<input name="Name" class="mini-textbox" required="true" />
+					@Html.Qtip("Name", entityTypeCode, codespace)
+				</td>
+			</tr>
+			<tr>
+				<td>
+					@Html.IconLabel("Icon")
+				</td>
+				<td>
+					<div id="msg" style="float: left; margin: 0px; text-align: center; line-height: 30px; border: 0px; height: 30px; width: 30px;"></div>
+					<a href="JavaScript:void(0)" id="message_face">选择图标</a>
+					@Html.Qtip("Icon", entityTypeCode, codespace)
+				</td>
+				<td>@Html.IconLabel("SortCode", entityTypeCode, codespace)
+				</td>
+				<td>
+					<input name="SortCode" class="mini-textbox" vtype="int" value="0" required="true" />
+					@Html.Qtip("SortCode", entityTypeCode, codespace)
+				</td>
+			</tr>
+			<tr>
+				<td>
+					@Html.IconLabel("EntityDatabaseId", entityTypeCode, codespace)
+				</td>
+				<td>
+					<input name="EntityDatabaseId" class="mini-combobox" style="width: 125px;" valueFromSelect="true" emptyText="请选择..."
+						textfield="catalogName" valuefield="id" data="@Html.DatabaseJsonArray()" shownullitem="true" nullItemText="请选择..." required="true" />
+					@Html.Qtip("EntityDatabaseId", entityTypeCode, codespace)
+				</td>
+				<td>@Html.IconLabel("EntitySchemaName", entityTypeCode, codespace)
+				</td>
+				<td>
+					<input name="EntitySchemaName" class="mini-textbox" required="true" />
+					@Html.Qtip("EntitySchemaName", entityTypeCode, codespace)
+				</td>
+			</tr>
+			<tr>
+				<td>@Html.IconLabel("EntityTableName", entityTypeCode, codespace)
+				</td>
+				<td>
+					<input name="EntityTableName" class="mini-textbox" required="true" />
+					@Html.Qtip("EntityTableName", entityTypeCode, codespace)
+				</td>
+				<td>
+					@Html.IconLabel("EntityProviderId", entityTypeCode, codespace)
+				</td>
+				<td>
+					<input name="EntityProviderId" class="mini-combobox" style="width: 125px;" valueFromSelect="true" emptyText="请选择..."
+						textfield="title" valuefield="id" data="@Html.EntityProvidersJsonArray()" shownullitem="true" nullItemText="请选择..." required="true" />
+					@Html.Qtip("EntityProviderId", entityTypeCode, codespace)
+				</td>
+			</tr>
+			<tr>
+				<td>
+					@Html.IconLabel("MessageDatabaseId", entityTypeCode, codespace)
+				</td>
+				<td>
+					<input name="MessageDatabaseId" class="mini-combobox" style="width: 125px;" valuefromselect="true" emptytext="请选择..."
+						   textfield="catalogName" valuefield="id" data="@Html.DatabaseJsonArray()" shownullitem="true" nullitemtext="请选择..." required="true" />
+					@Html.Qtip("MessageDatabaseId", entityTypeCode, codespace)
+				</td>
+				<td>@Html.IconLabel("MessageSchemaName", entityTypeCode, codespace)
+				</td>
+				<td>
+					<input name="MessageSchemaName" class="mini-textbox" required="true" />
+					@Html.Qtip("MessageSchemaName", entityTypeCode, codespace)
+				</td>
+			</tr>
+			<tr>
+				<td>@Html.IconLabel("IsEnabled", entityTypeCode, codespace)</td>
+				<td>
+					<input name="IsEnabled" class="mini-combobox" style="width: 125px;" required="true"
+						textfield="name" valuefield="code" data="@Html.DicItemJsonArray(Html.GetProperty("IsEnabled", entityTypeCode, codespace))" shownullitem="false" />
+					@Html.Qtip("IsEnabled", entityTypeCode, codespace)
+				</td>
+				<td>
+					@Html.IconLabel("MessageProviderId", entityTypeCode, codespace)
+				</td>
+				<td>
+					<input name="MessageProviderId" class="mini-combobox" style="width: 125px;" valuefromselect="true" emptytext="请选择..."
+						   textfield="title" valuefield="id" data="@Html.MessageProvidersJsonArray()" shownullitem="true" nullitemtext="请选择..." required="true" />
+					@Html.Qtip("MessageProviderId", entityTypeCode, codespace)
+				</td>
+			</tr>
+			<tr>
+				<td>@Html.IconLabel("EditWidth", entityTypeCode, codespace)
+				</td>
+				<td>
+					<input name="EditWidth" class="mini-textbox" vtype="int" value="0" required="true" />
+					@Html.Qtip("EditWidth", entityTypeCode, codespace)
+				</td>
+				<td>@Html.IconLabel("EditHeight", entityTypeCode, codespace)
+				</td>
+				<td>
+					<input name="EditHeight" class="mini-textbox" vtype="int" value="0" required="true" />
+					@Html.Qtip("EditHeight", entityTypeCode, codespace)
+				</td>
+			</tr>
+			<tr>
+				<td valign="top">
+					@Html.IconLabel("Description", entityTypeCode, codespace)
+					@Html.Qtip("Description", entityTypeCode, codespace)
+				</td>
+				<td colspan="3">
+					<input name="Description" class="mini-textarea" style="width: 372px;" />
+				</td>
+			</tr>
+		</table>
+	</div>
+</form>
+<div id="faceWindow" class="mini-window" visible="false" title="选择图标" style="width: 700px; height: 470px">
+</div>
+<script type="text/javascript" src="@Url.Content("~/Scripts/emotions/jquery.emoticons.js")"></script>

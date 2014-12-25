@@ -1,0 +1,77 @@
+﻿#menu-bar {
+    padding-left: 3px;
+}
+
+.top-menuitem {
+    padding: 2px 8px 2px 8px;
+    height: 16px;
+    cursor: default;
+    float: left;
+    display: block;
+}
+
+.top-menuitem-selected {
+    font-weight: bold;
+}
+
+.buttons .mini-button-text {
+    line-height: 25px;
+    padding-left: 32px;
+    padding-right: 0px;
+    font-size: 14px;
+}
+
+#btnAbout .mini-button-text {
+    line-height: 26px;
+    padding-left: 2px;
+    padding-right: 2px;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+#scrollWrap {
+    width: 250px;
+    height: 36px;
+    overflow: hidden;
+}
+
+#scrollMsg {
+    float: left;
+    text-align: left;
+    padding: 0 10px;
+    font-size: 13px;
+}
+
+    #scrollMsg ul {
+        margin: 0;
+        padding: 0;
+    }
+
+    #scrollMsg li {
+        line-height: 18px;
+        list-style: none;
+    }
+
+#east .mini-calendar {
+    border: 0px;
+}
+
+#visitlogGrid .mini-grid-border {
+    border: 0px;
+}
+
+#layout1 .mini-layout-region {
+    border-width: 0px;
+}
+
+.mini-tabs-bodys {
+    background: inherit;
+    background-color: transparent;
+}
+
+#mainTabs .mini-tabs-bodys {
+    padding: 0px;
+}
+.mini-outlookbar-border{
+    border: none;
+}

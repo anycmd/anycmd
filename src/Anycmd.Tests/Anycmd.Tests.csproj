@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7A396D4A-43DC-416C-9524-0C896B885D66}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Anycmd.Tests</RootNamespace>
+    <AssemblyName>Anycmd.Tests</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
+    <ProductVersion>12.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Moq, Version=4.2.1409.1722, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Moq.4.2.1409.1722\lib\net40\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.7\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="xunit">
+      <HintPath>..\..\packages\xunit.1.9.2\lib\net20\xunit.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AppSystemTest.cs" />
+    <Compile Include="ButtonSetTest.cs" />
+    <Compile Include="DbException.cs" />
+    <Compile Include="DicSetTest.cs" />
+    <Compile Include="DsdSetTest.cs" />
+    <Compile Include="EntityIdTest.cs" />
+    <Compile Include="EntityTypeSetTest.cs" />
+    <Compile Include="FunctionSetTest.cs" />
+    <Compile Include="GroupSetTest.cs" />
+    <Compile Include="MenuTest.cs" />
+    <Compile Include="MoqAcDomain.cs" />
+    <Compile Include="MoqCommonRepository`1.cs" />
+    <Compile Include="OrganizationTest.cs" />
+    <Compile Include="PageTest.cs" />
+    <Compile Include="PrivilegeTest.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RbacServiceTest.cs" />
+    <Compile Include="RoleTest.cs" />
+    <Compile Include="SsdSetTest.cs" />
+    <Compile Include="StateObjectTest.cs" />
+    <Compile Include="SysUserTest.cs" />
+    <Compile Include="TempTest.cs" />
+    <Compile Include="TestHelper.cs" />
+    <Compile Include="TokenTest.cs" />
+    <Compile Include="UnifiedQueriesTest.cs" />
+    <Compile Include="UserSessionTest.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Anycmd.DataContracts\Anycmd.DataContracts.csproj">
+      <Project>{7EBBD487-F38F-475C-BC2C-3EBFACBD8F7D}</Project>
+      <Name>Anycmd.DataContracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Examples\Default\Infrastructure\Anycmd.ViewModel\Anycmd.ViewModel.csproj">
+      <Project>{A82B9D2C-F780-4EAC-8ADA-D9E8108E8155}</Project>
+      <Name>Anycmd.ViewModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Anycmd\Anycmd.csproj">
+      <Project>{A5EE9FFC-35F4-4CAB-9AB0-C9C98E97C8B5}</Project>
+      <Name>Anycmd</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Examples\Default\Ac\Anycmd.Ac.ViewModels\Anycmd.Ac.ViewModels.csproj">
+      <Project>{8d1e81d1-e4b8-41cc-88e3-98539b333b93}</Project>
+      <Name>Anycmd.Ac.ViewModels</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Examples\Default\Infrastructure\Anycmd.Logging\Anycmd.Logging.csproj">
+      <Project>{546a1f79-3490-4518-9a66-ed3bd5625363}</Project>
+      <Name>Anycmd.Logging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Examples\Default\Infrastructure\Anycmd.Web\Anycmd.Web.csproj">
+      <Project>{71629b48-25fc-4368-a123-ab760fbfac9c}</Project>
+      <Name>Anycmd.Web</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="QuerySpecificationSample.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

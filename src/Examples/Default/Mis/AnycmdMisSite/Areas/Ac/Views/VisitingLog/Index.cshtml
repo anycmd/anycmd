@@ -1,0 +1,62 @@
+﻿@{
+    Layout = "~/Views/Shared/_Index.cshtml";
+    var prifix = "Ac_VisitingLog_Index_";
+}
+<div class="mini-toolbar" style="border-left: 0; border-right: 0; border-top: 0px;border-bottom: 0px; padding: 2px;">
+    <div style="float: left">
+        @{Html.RenderPartial("Partials/UiViewButtons");}
+    </div>
+    <div style="float: right">
+        登录时间从
+        <input id="@(prifix)leftVisitOn" class="mini-datepicker" allowinput="false" style="width: 170px;"
+               format="yyyy-MM-dd HH:mm:ss" showtime="true" allowselect="false" />
+        到
+        <input id="@(prifix)rightVisitOn" class="mini-datepicker" allowinput="false" style="width: 170px;"
+               format="yyyy-MM-dd HH:mm:ss" showtime="true" />
+        登录名
+        <input id="@(prifix)key" class="mini-textbox" emptytext="请输入登录名" style="width: 150px;" />
+        <a id="@(prifix)btnSearch" class="mini-button">查询</a>
+    </div>
+    <div style="clear: both;">
+    </div>
+</div>
+<!--撑满页面-->
+<div class="mini-fit">
+    <div id="@(prifix)datagrid1" class="mini-datagrid" style="width:100%;height:100%;" allowalternating="true"
+         url="@Url.Action("GetPlistVisitingLogs")" idfield="Id" multiselect="true"
+         sizelist="[5,10,20,50]" pagesize="20">
+        <div property="columns">
+            <div type="indexcolumn">
+            </div>
+            <div type="checkcolumn">
+            </div>
+            <div field="LoginName" width="60" headeralign="center" allowsort="true">
+                来访账户
+            </div>
+            <div field="Description" width="150" headeralign="center">
+                说明
+            </div>
+            <div field="VisitOn" width="100" headeralign="center" allowinput="false" dateformat="yyyy-MM-dd HH:mm:ss"
+                 allowsort="true">
+                来访时间戳
+            </div>
+            <div field="FromNowString" width="80" headeralign="center" allowinput="false" allowsort="false"
+                 allowsort="true">
+                距离现在
+            </div>
+            <div field="VisitedOn" width="100" headeralign="center" allowinput="false" dateformat="yyyy-MM-dd HH:mm:ss"
+                 allowsort="true">
+                离开时间戳
+            </div>
+            <div field="TimeSpanString" width="60" headeralign="center" allowinput="false" allowsort="false"
+                 allowsort="true">
+                在线时长
+            </div>
+            <div field="IPAddress" width="100" headeralign="center" allowsort="true">
+                来访IP
+            </div>
+        </div>
+    </div>
+</div>
+@section Foot{
+}

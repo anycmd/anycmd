@@ -1,0 +1,37 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "编辑帮助";
+    var prifix = Model;
+    var codespace = ViewContext.RouteData.DataTokens["area"].ToString();
+    var entityTypeCode = ViewContext.RouteData.Values["Controller"].ToString();
+}
+<div class="mini-fit" id="@(prifix)wrapper">
+    <form id="@(prifix)form1" method="post">
+        <input name="Id" class="mini-hidden" />
+        <input id="@(prifix)hdContent" name="Content" class="mini-hidden" />
+        <div style="padding-left: 5px; height: 100%;">
+            <table style="width: 100%;">
+                <tr>
+                    <td valign="top" style="width:100px;">
+                        @Html.IconLabel("Content")
+                        @Html.Qtip("Content", entityTypeCode, codespace)
+                    </td>
+                    <td>
+                        <textarea id="@(prifix)contentEditor" style="display: inline-block; visibility: hidden;"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <a class="mini-button btnOk" iconcls="icon-save" style="width: 60px; margin-right: 10px;">保存</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </form>
+</div>
+@section Foot{
+    <script src="@Url.Content("~/Scripts/kindeditor/kindeditor-min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/kindeditor/lang/zh_CN.js")" type="text/javascript"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Areas/Ac/Help/Edit.cshtml.js")"></script>
+}

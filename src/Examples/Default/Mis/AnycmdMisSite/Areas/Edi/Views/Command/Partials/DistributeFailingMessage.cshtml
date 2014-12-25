@@ -1,0 +1,62 @@
+﻿@{
+	var entityTypeCode = "Command";
+	string codespace = ViewContext.RouteData.DataTokens["area"].ToString();
+	var entityType = Html.GetEntityType(codespace, entityTypeCode);
+	string editWidth = entityType.EditWidth.ToString() + "px";
+	string editHeight = entityType.EditHeight.ToString() + "px";
+	var infoTabView = Html.GetRuntimeUIVIew("Details");
+	var prifix = "Edi_Command_DistributeFailingMessage_";
+}
+<div id="@(prifix)splitter" class="mini-splitter" vertical="true" style="width: 100%; height: 100%;">
+	<div size="270" showcollapsebutton="true">
+		<div class="mini-toolbar" style="border-left: 0; border-right: 0; border-top: 0px; padding: 2px;">
+			<div style="float: left">
+				@{Html.RenderPartial("Partials/UiViewButtons");}
+			</div>
+			<div style="float: right">
+				@{Html.RenderPartial("Partials/CommandFilter");}
+			</div>
+			<div style="clear: both;">
+			</div>
+		</div>
+		<!--撑满页面-->
+		<div class="mini-fit">
+			<div id="@(prifix)datagrid1" class="mini-datagrid" style="width:100%;height:100%;" allowAlternating="true" 
+				url="@Url.Action("GetPlist", new { commandType = "DistributeFailing" })" idfield="Id" multiselect="true" 
+				sizeList="[5,10,20,50]" pagesize="10">
+				<div property="columns">
+					<div type="indexcolumn" width="50"></div>
+					<div type="checkcolumn" width="30"></div>
+					<div name="action" width="50" headeralign="center" align="center" cellstyle="padding:0;">
+					</div>
+					<div field="OrganizationName" width="150" headeralign="center" allowsort="false">
+						@Html.IconLabel("OrganizationName", entityTypeCode)
+					</div>
+					<div field="Description" width="200" headeralign="center" align="center" allowsort="true">
+						@Html.IconLabel("Description", entityTypeCode)
+					</div>
+					<div field="HumanInfo" width="300" headeralign="center">
+						内容
+					</div>
+					<div field="ClientName" width="70" headeralign="center" allowsort="false">
+						@Html.IconLabel("ClientName", entityTypeCode)
+					</div>
+					<div field="CreateOn" width="170" headeralign="center" dateformat="yyyy-MM-dd HH:mm:ss" allowsort="true">
+						@Html.IconLabel("CreateOn", entityTypeCode)
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div showcollapsebutton="true">
+		<div id="@(prifix)tabs1" class="mini-tabs" style="width: 100%; height: 100%;display:none;"
+			activeindex="0" bodystyle="padding:0;border:0;">
+			<div name="infoTab" bodyCls="inner" title="@infoTabView.Title" iconStyle="background:url(/content/icons/16x16/@infoTabView.Icon)">
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="@Url.Content("~/Scripts/Areas/Edi/Command/DistributeFailingMessage.cshtml.js")"></script>
+@if (Request.IsAjaxRequest()) {
+	<script src="@Url.Content("~/Scripts/tooltipBoot.js")"></script>
+}

@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<layerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/SimpleShapesModel" dslVersion="1.0.0.0" Id="2ec6e2ff-25a0-4e4c-8951-65f5b96a2a89" xmlns="http://schemas.microsoft.com/VisualStudio/TeamArchitect/LayerDesigner">
+  <layers>
+    <layer Id="e7d00643-7bec-4d34-b161-34d59a705f4c" name="中心节点">
+      <dependencyToLayers>
+        <dependencyFromLayerToLayer Id="fd916a78-2102-487e-895e-3fc19fede002" direction="Bidirectional">
+          <layerMoniker Id="32c309f0-9681-4bd3-8fb6-fce3e86c358f" />
+        </dependencyFromLayerToLayer>
+      </dependencyToLayers>
+      <childLayers>
+        <layer Id="e3f303c2-be19-4f08-9204-43875320c56b" name="群集节点集" />
+        <layer Id="ad9c5d51-2fbb-43ba-a749-b1a3d1256680" name="分片节点集" />
+        <layer Id="b4b2249e-4859-46d0-a304-f5ee43508ad1" name="前端控制器、路由、负载均衡" />
+      </childLayers>
+    </layer>
+    <layer Id="4db1dffb-5037-4ef1-99d7-a5e9cecaf566" name="发手机短信的业务节点">
+      <dependencyToLayers>
+        <dependencyFromLayerToLayer Id="930bc269-238d-4c30-bc85-3b0e1b6f4422" direction="Bidirectional">
+          <layerMoniker Id="e7d00643-7bec-4d34-b161-34d59a705f4c" />
+        </dependencyFromLayerToLayer>
+      </dependencyToLayers>
+    </layer>
+    <layer Id="2ec8a0e0-07d3-40d6-b64e-5a92f41b22dc" name="培训教师的业务节点">
+      <dependencyToLayers>
+        <dependencyFromLayerToLayer Id="24259f3b-3223-44a3-ada1-857290a0e8ec" direction="Bidirectional">
+          <layerMoniker Id="e7d00643-7bec-4d34-b161-34d59a705f4c" />
+        </dependencyFromLayerToLayer>
+      </dependencyToLayers>
+    </layer>
+    <layer Id="32c309f0-9681-4bd3-8fb6-fce3e86c358f" name="管理和共享文档的业务节点" />
+    <layer Id="fb40ac1e-2f10-4918-9b88-803420235ac3" name="统一认证和管理帐号的业务节点">
+      <dependencyToLayers>
+        <dependencyFromLayerToLayer Id="861a13b0-8254-4479-bb7c-6f800fd59a39" direction="Bidirectional">
+          <layerMoniker Id="e7d00643-7bec-4d34-b161-34d59a705f4c" />
+        </dependencyFromLayerToLayer>
+      </dependencyToLayers>
+    </layer>
+  </layers>
+</layerModel>

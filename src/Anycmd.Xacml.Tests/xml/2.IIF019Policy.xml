@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Policy
+      xmlns="urn:oasis:names:tc:xacml:2.0:policy:schema:os"
+      xmlns:context="urn:oasis:names:tc:xacml:2.0:context:schema:os"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:md="urn:example:med:schemas:record"
+      xsi:schemaLocation="urn:oasis:names:tc:xacml:2.0:policy:schema:os
+        access_control-xacml-2.0-policy-schema-os.xsd"
+      PolicyId="urn:oasis:names:tc:xacml:2.0:conformance-test:IIF019:policy1"
+      RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:deny-overrides">
+    <Description>
+        Policy for Conformance Test IIF019.
+        VariableDefinitions in Policies within PolicySet. Permit
+    </Description>
+    <Target />
+    <VariableDefinition VariableId="urn:oasis:names:tc:xacml:2.0:conformance-test:IIF019:variable1">
+	    <AttributeValue
+                  DataType="http://www.w3.org/2001/XMLSchema#integer">5</AttributeValue>
+    </VariableDefinition>
+    <VariableDefinition VariableId="urn:oasis:names:tc:xacml:2.0:conformance-test:IIF019:variable2">
+            <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:integer-greater-than-or-equal">
+            	<Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:integer-subtract">
+			<VariableReference
+				VariableId="urn:oasis:names:tc:xacml:2.0:conformance-test:IIF019:variable1" />
+			<AttributeValue
+	        		DataType="http://www.w3.org/2001/XMLSchema#integer">0</AttributeValue>
+		</Apply>
+		<VariableReference
+			VariableId="urn:oasis:names:tc:xacml:2.0:conformance-test:IIF019:variable1" />
+            </Apply>
+   </VariableDefinition>
+    <Rule
+          RuleId="urn:oasis:names:tc:xacml:2.0:conformance-test:IIF019:rule"
+          Effect="Permit">
+        <Description>
+            A subject who is at least 5 years older than Bart
+            Simpson may perform any action on any resource.
+        </Description>
+        <Condition>
+		<VariableReference
+			VariableId="urn:oasis:names:tc:xacml:2.0:conformance-test:IIF019:variable2" />
+         </Condition>
+    </Rule>
+</Policy>
+

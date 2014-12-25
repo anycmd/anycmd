@@ -1,0 +1,1514 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{886B357B-E254-4B03-92ED-B4A9BF34EE99}</ProjectGuid>
+    <ProjectTypeGuids>{349C5851-65DF-11DA-9384-00065B846F21};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AnycmdMisSite</RootNamespace>
+    <AssemblyName>AnycmdMisSite</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>false</UseIISExpress>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>4.0</OldToolsVersion>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <MvcProjectUpgradeChecked>true</MvcProjectUpgradeChecked>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\..\..\..\..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\..\..\..\..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\..\..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\packages\Microsoft.AspNet.Mvc.5.2.2\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\packages\Microsoft.AspNet.Razor.3.2.2\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\..\..\..\AssemblyVersion.cs">
+      <Link>Properties\AssemblyVersion.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\..\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\..\bin\Anycmd.Edi.EntityProvider.SqlServer2008.dll">
+      <Link>Plugins\EntityProviders\Bin\Anycmd.Edi.EntityProvider.SqlServer2008.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\bin\Anycmd.Edi.InfoConstraints.dll">
+      <Link>Plugins\InfoConstraints\Bin\Anycmd.Edi.InfoConstraints.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\bin\Anycmd.Edi.InfoStringConverters.dll">
+      <Link>Plugins\InfoStringConverters\Bin\Anycmd.Edi.InfoStringConverters.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\bin\Anycmd.Edi.MessageProvider.SqlServer2008.dll">
+      <Link>Plugins\MessageProviders\Bin\Anycmd.Edi.MessageProvider.SqlServer2008.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\bin\Anycmd.Edi.MessageTransfers.dll">
+      <Link>Plugins\MessageTransfers\Bin\Anycmd.Edi.MessageTransfers.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Home.css" />
+    <Content Include="Content\icons\16x16\accept.png" />
+    <Content Include="Content\icons\32x32\accept.png" />
+    <Content Include="Content\icons\menus\16x16\default.gif" />
+    <Content Include="Content\icons\menus\32x32\backlog.png" />
+    <Content Include="Content\img\east.gif" />
+    <Content Include="Content\img\error.jpg" />
+    <Content Include="Content\img\header.gif" />
+    <Content Include="Content\img\header.jpg" />
+    <Content Include="Content\img\noData.gif" />
+    <Content Include="Content\img\no_photo.png" />
+    <Content Include="Content\img\throbber.gif" />
+    <Content Include="Content\Import\Excel\excel.png" />
+    <Content Include="Content\LogOn\bg.png" />
+    <Content Include="Content\LogOn\loading.gif" />
+    <Content Include="Content\LogOn\LogOn.css" />
+    <Content Include="Content\LogOn\profilepicture.png" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Content\img\titleback.png" />
+    <Content Include="Content\img\wait.gif" />
+    <Content Include="favicon.ico" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\img\offline.png" />
+    <Content Include="Scripts\Areas\Ac\Account\Organizations.cshtml.js" />
+    <Content Include="Scripts\Areas\Ac\DsdSet\Index.cshtml.js" />
+    <Content Include="Scripts\Areas\Ac\DsdSet\Roles.cshtml.js" />
+    <Content Include="Scripts\Areas\Ac\RDatabase\ViewDefinition.cshtml.js" />
+    <Content Include="Scripts\Areas\Ac\SsdSet\Index.cshtml.js" />
+    <Content Include="Scripts\Areas\Ac\SsdSet\Roles.cshtml.js" />
+    <Content Include="Scripts\Areas\Edi\Batch\Index.cshtml.js" />
+    <Content Include="Scripts\Areas\Edi\Command\EntityDistributeMessages.cshtml.js" />
+    <Content Include="Scripts\Areas\Edi\Command\EntityDistributedMessages.cshtml.js" />
+    <Content Include="Scripts\Areas\Edi\Command\EntityDistributeFailingMessages.cshtml.js" />
+    <Content Include="Scripts\Areas\Edi\Command\LocalEvent.cshtml.js" />
+    <Content Include="Scripts\Areas\Edi\Command\ClientEvent.cshtml.js" />
+    <Content Include="Scripts\Areas\Edi\Command\EntityClientEvents.cshtml.js" />
+    <Content Include="Scripts\Areas\Edi\Command\EntityLocalEvents.cshtml.js" />
+    <Content Include="Scripts\Areas\Edi\Element\Checks.cshtml.js" />
+    <Content Include="Scripts\Areas\Edi\Entity\Edit.cshtml.js" />
+    <Content Include="Scripts\Areas\Edi\Command\EntityHandleFailingCommands.cshtml.js" />
+    <Content Include="Scripts\Areas\Edi\Command\EntityReceivedMessages.cshtml.js" />
+    <Content Include="Scripts\Areas\Edi\InfoRule\ElementInfoRules.cshtml.js" />
+    <Content Include="Scripts\Areas\Edi\InfoRule\Index.cshtml.js" />
+    <Content Include="Scripts\Areas\Edi\Node\Edit.cshtml.js" />
+    <Content Include="Scripts\Areas\Edi\Node\Organizations.cshtml.js" />
+    <Content Include="Scripts\Areas\Edi\Node\NodeStateCodes.cshtml.js" />
+    <Content Include="Scripts\Areas\Edi\Ontology\Actions.cshtml.js" />
+    <Content Include="Scripts\Areas\Edi\Ontology\Organizations.cshtml.js" />
+    <Content Include="Scripts\Areas\Edi\Element\TooltipEdit.cshtml.js" />
+    <Content Include="Scripts\Areas\Edi\Ontology\InfoGroups.cshtml.js" />
+    <Content Include="Scripts\Areas\Edi\Node\OntologyNodeCares.cshtml.js" />
+    <Content Include="Scripts\Areas\Edi\Plugin\Index.cshtml.js" />
+    <Content Include="Scripts\Areas\Edi\Process\Index.cshtml.js" />
+    <Content Include="Scripts\Areas\Edi\StateCode\Index.cshtml.js" />
+    <Content Include="Scripts\Areas\Ac\RDatabase\Index.cshtml.js" />
+    <Content Include="Scripts\Areas\Ac\RDatabase\TableColumns.cshtml.js" />
+    <Content Include="Scripts\Areas\Ac\RDatabase\TableSpaces.cshtml.js" />
+    <Content Include="Scripts\Areas\Ac\RDatabase\Tables.cshtml.js" />
+    <Content Include="Scripts\Areas\Ac\RDatabase\ViewColumns.cshtml.js" />
+    <Content Include="Scripts\Areas\Ac\RDatabase\Views.cshtml.js" />
+    <Content Include="Scripts\Areas\Ac\Property\TooltipEdit.cshtml.js" />
+    <Content Include="Scripts\Areas\Ac\Help\Edit.cshtml.js" />
+    <Content Include="Scripts\Areas\Ac\Organization\Accounts.cshtml.js" />
+    <Content Include="Scripts\Areas\Ac\UiView\TooltipEdit.cshtml.js" />
+    <Content Include="Scripts\Areas\Ac\Role\Index.cshtml.js" />
+    <Content Include="Scripts\Areas\Ac\AnyLog\Index.cshtml.js" />
+    <Content Include="Areas\Ac\Views\OperationLog\Partials\Index.cshtml" />
+    <Content Include="Areas\Edi\Views\Command\Partials\ClientEvent.cshtml" />
+    <Content Include="Areas\Edi\Views\Command\Partials\DistributedMessage.cshtml" />
+    <Content Include="Areas\Edi\Views\Command\Partials\DistributeFailingMessage.cshtml" />
+    <Content Include="Areas\Edi\Views\Command\Partials\HandledCommand.cshtml" />
+    <Content Include="Areas\Edi\Views\Command\Partials\HandleFailingCommand.cshtml" />
+    <Content Include="Areas\Edi\Views\Command\Partials\LocalEvent.cshtml" />
+    <Content Include="Areas\Edi\Views\Command\Partials\ReceivedMessage.cshtml" />
+    <Content Include="Areas\Edi\Views\Command\Partials\UnacceptedMessage.cshtml" />
+    <Content Include="Areas\Edi\Views\Entity\Partials\ExportElement.cshtml" />
+    <Content Include="Areas\Edi\Views\Command\Partials\EntityClientEvents.cshtml" />
+    <Content Include="Areas\Edi\Views\Command\Partials\EntityDistributeMessages.cshtml" />
+    <Content Include="Areas\Edi\Views\Command\Partials\EntityDistributedMessages.cshtml" />
+    <Content Include="Areas\Edi\Views\Command\Partials\EntityDistributeFailingMessages.cshtml" />
+    <Content Include="Areas\Edi\Views\Command\Partials\EntityHandledCommands.cshtml" />
+    <Content Include="Areas\Edi\Views\Command\Partials\EntityHandleFailingCommands.cshtml" />
+    <Content Include="Areas\Edi\Views\Command\Partials\EntityLocalEvents.cshtml" />
+    <Content Include="Areas\Edi\Views\Command\Partials\EntityReceivedMessages.cshtml" />
+    <Content Include="Areas\Edi\Views\Entity\Partials\IndexMain.cshtml" />
+    <Content Include="Areas\Edi\Views\Entity\Partials\ImportElement.cshtml" />
+    <Content Include="Areas\Edi\Views\InfoRule\Partials\ElementInfoRules.cshtml" />
+    <Content Include="Areas\Edi\Views\InfoRule\ElementInfoRules.cshtml" />
+    <Content Include="Areas\Edi\Views\Plugin\Index.cshtml" />
+    <Content Include="Areas\Edi\Views\Plugin\Partials\Edit.cshtml" />
+    <Content Include="Content\LogOn\loginform-icon.woff" />
+    <Content Include="Areas\Ac\Views\Help\Edit.cshtml" />
+    <Content Include="Areas\Ac\Views\RDatabase\Partials\ViewDefinition.cshtml" />
+    <Content Include="Areas\Ac\Views\RDatabase\ViewDefinition.cshtml" />
+    <Content Include="Areas\Edi\Views\Element\Checks.cshtml" />
+    <Content Include="Areas\Ac\Views\UIView\Partials\Index.cshtml" />
+    <Content Include="Areas\Ac\Views\ResourceType\Partials\Index.cshtml" />
+    <Content Include="Areas\Ac\Views\Function\Partials\Index.cshtml" />
+    <Content Include="Areas\Ac\Views\Property\Partials\Index.cshtml" />
+    <Content Include="Areas\Edi\Views\InfoDicItem\Partials\Index.cshtml" />
+    <Content Include="Areas\Ac\Views\Account\Organizations.cshtml" />
+    <Content Include="Areas\Ac\Views\Account\Partials\Organizations.cshtml" />
+    <Content Include="Areas\Ac\Views\DsdSet\Index.cshtml" />
+    <Content Include="Areas\Ac\Views\DsdSet\Partials\Edit.cshtml" />
+    <Content Include="Areas\Ac\Views\SsdSet\Index.cshtml" />
+    <Content Include="Areas\Ac\Views\SsdSet\Partials\Edit.cshtml" />
+    <Content Include="Areas\Ac\Views\SsdSet\Partials\Roles.cshtml" />
+    <Content Include="Areas\Ac\Views\SsdSet\Roles.cshtml" />
+    <Content Include="Areas\Ac\Views\DsdSet\Roles.cshtml" />
+    <Content Include="Areas\Ac\Views\DsdSet\Partials\Roles.cshtml" />
+    <None Include="Scripts\jquery-1.8.3.intellisense.js" />
+    <Content Include="Scripts\jquery-1.8.3.js" />
+    <Content Include="Scripts\jquery-1.8.3.min.js" />
+    <Content Include="Scripts\json2.js" />
+    <Content Include="Scripts\kindeditor\asp.net\bin\LitJSON.dll" />
+    <Content Include="Scripts\kindeditor\examples\jquery-ui\css\smoothness\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Scripts\kindeditor\examples\jquery-ui\css\smoothness\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Scripts\kindeditor\examples\jquery-ui\css\smoothness\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Scripts\kindeditor\examples\jquery-ui\css\smoothness\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Scripts\kindeditor\examples\jquery-ui\css\smoothness\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Scripts\kindeditor\examples\jquery-ui\css\smoothness\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Scripts\kindeditor\examples\jquery-ui\css\smoothness\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Scripts\kindeditor\examples\jquery-ui\css\smoothness\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Scripts\kindeditor\examples\jquery-ui\css\smoothness\images\ui-icons_222222_256x240.png" />
+    <Content Include="Scripts\kindeditor\examples\jquery-ui\css\smoothness\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Scripts\kindeditor\examples\jquery-ui\css\smoothness\images\ui-icons_454545_256x240.png" />
+    <Content Include="Scripts\kindeditor\examples\jquery-ui\css\smoothness\images\ui-icons_888888_256x240.png" />
+    <Content Include="Scripts\kindeditor\examples\jquery-ui\css\smoothness\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Scripts\kindeditor\examples\jquery-ui\css\smoothness\jquery-ui-1.9.2.custom.css" />
+    <Content Include="Scripts\kindeditor\examples\jquery-ui\css\smoothness\jquery-ui-1.9.2.custom.min.css" />
+    <Content Include="Scripts\kindeditor\examples\jquery-ui\js\jquery-ui-1.9.2.custom.js" />
+    <Content Include="Scripts\kindeditor\examples\jquery-ui\js\jquery-ui-1.9.2.custom.min.js" />
+    <Content Include="Scripts\kindeditor\examples\jquery.js" />
+    <Content Include="Scripts\kindeditor\lang\ko.js" />
+    <Content Include="Scripts\libs\qtip2\jquery.qtip.css" />
+    <Content Include="Scripts\libs\qtip2\jquery.qtip.js" />
+    <Content Include="Scripts\libs\qtip2\jquery.qtip.min.css" />
+    <Content Include="Scripts\libs\qtip2\jquery.qtip.min.js" />
+    <Content Include="Scripts\miniui\locale\en_US.js" />
+    <Content Include="Scripts\miniui\locale\zh_CN.js" />
+    <Content Include="Scripts\miniui\miniui.js" />
+    <Content Include="Scripts\miniui\themes\blue2003\images\buttonedit\arrowbg.gif" />
+    <Content Include="Scripts\miniui\themes\blue2003\images\buttonedit\btn-hover.gif" />
+    <Content Include="Scripts\miniui\themes\blue2003\images\buttonedit\btn-pressed.gif" />
+    <Content Include="Scripts\miniui\themes\blue2003\images\buttonedit\btn.gif" />
+    <Content Include="Scripts\miniui\themes\blue2003\images\buttonedit\icon3.gif" />
+    <Content Include="Scripts\miniui\themes\blue2003\images\buttonedit\pressed.gif" />
+    <Content Include="Scripts\miniui\themes\blue2003\images\button\button.gif" />
+    <Content Include="Scripts\miniui\themes\blue2003\images\button\disabled.gif" />
+    <Content Include="Scripts\miniui\themes\blue2003\images\button\hover.gif" />
+    <Content Include="Scripts\miniui\themes\blue2003\images\button\pressed.gif" />
+    <Content Include="Scripts\miniui\themes\blue2003\images\calendar\header.gif" />
+    <Content Include="Scripts\miniui\themes\blue2003\images\grid\header.gif" />
+    <Content Include="Scripts\miniui\themes\blue2003\images\layout\east.gif" />
+    <Content Include="Scripts\miniui\themes\blue2003\images\layout\header.gif" />
+    <Content Include="Scripts\miniui\themes\blue2003\images\layout\hover.gif" />
+    <Content Include="Scripts\miniui\themes\blue2003\images\layout\north.gif" />
+    <Content Include="Scripts\miniui\themes\blue2003\images\layout\south.gif" />
+    <Content Include="Scripts\miniui\themes\blue2003\images\layout\west.gif" />
+    <Content Include="Scripts\miniui\themes\blue2003\images\listbox\header.gif" />
+    <Content Include="Scripts\miniui\themes\blue2003\images\menu\hover.gif" />
+    <Content Include="Scripts\miniui\themes\blue2003\images\menu\menu_bg.gif" />
+    <Content Include="Scripts\miniui\themes\blue2003\images\menu\pressed.gif" />
+    <Content Include="Scripts\miniui\themes\blue2003\images\navbar\header.gif" />
+    <Content Include="Scripts\miniui\themes\blue2003\images\pager\first.gif" />
+    <Content Include="Scripts\miniui\themes\blue2003\images\pager\last.gif" />
+    <Content Include="Scripts\miniui\themes\blue2003\images\pager\next.gif" />
+    <Content Include="Scripts\miniui\themes\blue2003\images\pager\prev.gif" />
+    <Content Include="Scripts\miniui\themes\blue2003\images\panel\header.gif" />
+    <Content Include="Scripts\miniui\themes\blue2003\images\splitter\splitter.gif" />
+    <Content Include="Scripts\miniui\themes\blue2003\images\tabs\hover.gif" />
+    <Content Include="Scripts\miniui\themes\blue2003\images\tabs\tab.gif" />
+    <Content Include="Scripts\miniui\themes\blue2003\images\toolbar\header.gif" />
+    <Content Include="Scripts\miniui\themes\blue2003\images\treegrid\collapse.gif" />
+    <Content Include="Scripts\miniui\themes\blue2003\images\treegrid\expand.gif" />
+    <Content Include="Scripts\miniui\themes\blue2003\images\treegrid\header.gif" />
+    <Content Include="Scripts\miniui\themes\blue2003\images\tree\collapse.gif" />
+    <Content Include="Scripts\miniui\themes\blue2003\images\tree\collapseLine.gif" />
+    <Content Include="Scripts\miniui\themes\blue2003\images\tree\expand.gif" />
+    <Content Include="Scripts\miniui\themes\blue2003\images\tree\expandLine.gif" />
+    <Content Include="Scripts\miniui\themes\blue2003\images\tree\firstAndlastcollapse.gif" />
+    <Content Include="Scripts\miniui\themes\blue2003\images\tree\firstAndlastexpand.gif" />
+    <Content Include="Scripts\miniui\themes\blue2003\images\tree\firstCollapseNode.gif" />
+    <Content Include="Scripts\miniui\themes\blue2003\images\tree\firstExpandNode.gif" />
+    <Content Include="Scripts\miniui\themes\blue2003\images\tree\lastCollapseNode.gif" />
+    <Content Include="Scripts\miniui\themes\blue2003\images\tree\lastExpandNode.gif" />
+    <Content Include="Scripts\miniui\themes\blue2003\images\tree\lastline.gif" />
+    <Content Include="Scripts\miniui\themes\blue2003\images\tree\pressed.gif" />
+    <Content Include="Scripts\miniui\themes\blue2003\images\tree\treeline.gif" />
+    <Content Include="Scripts\miniui\themes\blue2003\images\tree\treeNodeLine.gif" />
+    <Content Include="Scripts\miniui\themes\blue2003\images\window\header.gif" />
+    <Content Include="Scripts\miniui\themes\blue2003\skin.css" />
+    <Content Include="Scripts\miniui\themes\blue2010\images\buttonedit\arrowbg.gif" />
+    <Content Include="Scripts\miniui\themes\blue2010\images\buttonedit\btn-hover.gif" />
+    <Content Include="Scripts\miniui\themes\blue2010\images\buttonedit\btn-pressed.gif" />
+    <Content Include="Scripts\miniui\themes\blue2010\images\buttonedit\btn.gif" />
+    <Content Include="Scripts\miniui\themes\blue2010\images\buttonedit\icon3.gif" />
+    <Content Include="Scripts\miniui\themes\blue2010\images\buttonedit\pressed.gif" />
+    <Content Include="Scripts\miniui\themes\blue2010\images\button\button.gif" />
+    <Content Include="Scripts\miniui\themes\blue2010\images\button\disabled.gif" />
+    <Content Include="Scripts\miniui\themes\blue2010\images\button\hover.gif" />
+    <Content Include="Scripts\miniui\themes\blue2010\images\button\pressed.gif" />
+    <Content Include="Scripts\miniui\themes\blue2010\images\calendar\months.gif" />
+    <Content Include="Scripts\miniui\themes\blue2010\images\grid\header.gif" />
+    <Content Include="Scripts\miniui\themes\blue2010\images\layout\east.gif" />
+    <Content Include="Scripts\miniui\themes\blue2010\images\layout\header.gif" />
+    <Content Include="Scripts\miniui\themes\blue2010\images\layout\north.gif" />
+    <Content Include="Scripts\miniui\themes\blue2010\images\layout\south.gif" />
+    <Content Include="Scripts\miniui\themes\blue2010\images\layout\west.gif" />
+    <Content Include="Scripts\miniui\themes\blue2010\images\listbox\header.gif" />
+    <Content Include="Scripts\miniui\themes\blue2010\images\menu\button.gif" />
+    <Content Include="Scripts\miniui\themes\blue2010\images\menu\header.gif" />
+    <Content Include="Scripts\miniui\themes\blue2010\images\menu\hover.gif" />
+    <Content Include="Scripts\miniui\themes\blue2010\images\menu\pressed.gif" />
+    <Content Include="Scripts\miniui\themes\blue2010\images\navbar\header.gif" />
+    <Content Include="Scripts\miniui\themes\blue2010\images\pager\first.gif" />
+    <Content Include="Scripts\miniui\themes\blue2010\images\pager\last.gif" />
+    <Content Include="Scripts\miniui\themes\blue2010\images\pager\next.gif" />
+    <Content Include="Scripts\miniui\themes\blue2010\images\pager\prev.gif" />
+    <Content Include="Scripts\miniui\themes\blue2010\images\panel\header.gif" />
+    <Content Include="Scripts\miniui\themes\blue2010\images\toolbar\header.gif" />
+    <Content Include="Scripts\miniui\themes\blue2010\images\treegrid\collapse.gif" />
+    <Content Include="Scripts\miniui\themes\blue2010\images\treegrid\expand.gif" />
+    <Content Include="Scripts\miniui\themes\blue2010\images\treegrid\header.gif" />
+    <Content Include="Scripts\miniui\themes\blue2010\images\tree\collapse.gif" />
+    <Content Include="Scripts\miniui\themes\blue2010\images\tree\expand.gif" />
+    <Content Include="Scripts\miniui\themes\blue2010\images\tree\hover.gif" />
+    <Content Include="Scripts\miniui\themes\blue2010\images\tree\pressed.gif" />
+    <Content Include="Scripts\miniui\themes\blue2010\images\window\header.gif" />
+    <Content Include="Scripts\miniui\themes\blue2010\skin.css" />
+    <Content Include="Scripts\miniui\themes\blue\images\buttonedit\arrow.gif" />
+    <Content Include="Scripts\miniui\themes\blue\images\buttonedit\arrow_down.gif" />
+    <Content Include="Scripts\miniui\themes\blue\images\buttonedit\arrow_up.gif" />
+    <Content Include="Scripts\miniui\themes\blue\images\buttonedit\btn-hover.gif" />
+    <Content Include="Scripts\miniui\themes\blue\images\buttonedit\btn-pressed.gif" />
+    <Content Include="Scripts\miniui\themes\blue\images\buttonedit\btn.gif" />
+    <Content Include="Scripts\miniui\themes\blue\images\buttonedit\date.gif" />
+    <Content Include="Scripts\miniui\themes\blue\images\buttonedit\icon1.gif" />
+    <Content Include="Scripts\miniui\themes\blue\images\buttonedit\text-bg.gif" />
+    <Content Include="Scripts\miniui\themes\blue\images\button\button.gif" />
+    <Content Include="Scripts\miniui\themes\blue\images\button\hover.gif" />
+    <Content Include="Scripts\miniui\themes\blue\images\button\pressed.gif" />
+    <Content Include="Scripts\miniui\themes\blue\images\calendar\button.gif" />
+    <Content Include="Scripts\miniui\themes\blue\images\calendar\footer.gif" />
+    <Content Include="Scripts\miniui\themes\blue\images\calendar\header.gif" />
+    <Content Include="Scripts\miniui\themes\blue\images\grid\footer.gif" />
+    <Content Include="Scripts\miniui\themes\blue\images\grid\header.gif" />
+    <Content Include="Scripts\miniui\themes\blue\images\layout\east.gif" />
+    <Content Include="Scripts\miniui\themes\blue\images\layout\header.gif" />
+    <Content Include="Scripts\miniui\themes\blue\images\layout\north.gif" />
+    <Content Include="Scripts\miniui\themes\blue\images\layout\south.gif" />
+    <Content Include="Scripts\miniui\themes\blue\images\layout\west.gif" />
+    <Content Include="Scripts\miniui\themes\blue\images\listbox\header.png" />
+    <Content Include="Scripts\miniui\themes\blue\images\menu\hmenu.gif" />
+    <Content Include="Scripts\miniui\themes\blue\images\menu\hover.gif" />
+    <Content Include="Scripts\miniui\themes\blue\images\menu\menu-hover.gif" />
+    <Content Include="Scripts\miniui\themes\blue\images\menu\menu.gif" />
+    <Content Include="Scripts\miniui\themes\blue\images\menu\pressed.png" />
+    <Content Include="Scripts\miniui\themes\blue\images\navbar\collapse.gif" />
+    <Content Include="Scripts\miniui\themes\blue\images\navbar\expand.gif" />
+    <Content Include="Scripts\miniui\themes\blue\images\navbar\header.gif" />
+    <Content Include="Scripts\miniui\themes\blue\images\pager\first.gif" />
+    <Content Include="Scripts\miniui\themes\blue\images\pager\last.gif" />
+    <Content Include="Scripts\miniui\themes\blue\images\pager\next.gif" />
+    <Content Include="Scripts\miniui\themes\blue\images\pager\prev.gif" />
+    <Content Include="Scripts\miniui\themes\blue\images\panel\header.gif" />
+    <Content Include="Scripts\miniui\themes\blue\images\tabs\hover.gif" />
+    <Content Include="Scripts\miniui\themes\blue\images\tabs\pressed.gif" />
+    <Content Include="Scripts\miniui\themes\blue\images\tabs\tab.gif" />
+    <Content Include="Scripts\miniui\themes\blue\images\toolbar\toolbar.gif" />
+    <Content Include="Scripts\miniui\themes\blue\images\tools\close.gif" />
+    <Content Include="Scripts\miniui\themes\blue\images\tools\collapse.gif" />
+    <Content Include="Scripts\miniui\themes\blue\images\tools\expand.gif" />
+    <Content Include="Scripts\miniui\themes\blue\images\treegrid\collapse.gif" />
+    <Content Include="Scripts\miniui\themes\blue\images\treegrid\expand.gif" />
+    <Content Include="Scripts\miniui\themes\blue\images\treegrid\file.png" />
+    <Content Include="Scripts\miniui\themes\blue\images\treegrid\folder.gif" />
+    <Content Include="Scripts\miniui\themes\blue\images\treegrid\header.png" />
+    <Content Include="Scripts\miniui\themes\blue\images\tree\button.gif" />
+    <Content Include="Scripts\miniui\themes\blue\images\tree\folder-open.gif" />
+    <Content Include="Scripts\miniui\themes\blue\images\tree\folder.gif" />
+    <Content Include="Scripts\miniui\themes\blue\images\tree\hover.gif" />
+    <Content Include="Scripts\miniui\themes\blue\images\tree\leaf.gif" />
+    <Content Include="Scripts\miniui\themes\blue\images\tree\pressed.gif" />
+    <Content Include="Scripts\miniui\themes\blue\images\window\header.gif" />
+    <Content Include="Scripts\miniui\themes\blue\skin.css" />
+    <Content Include="Scripts\miniui\themes\default\images\buttonedit\button.png" />
+    <Content Include="Scripts\miniui\themes\default\images\buttonedit\close.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\buttonedit\date.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\buttonedit\down.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\buttonedit\error.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\buttonedit\hover.png" />
+    <Content Include="Scripts\miniui\themes\default\images\buttonedit\icon1.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\buttonedit\icon2.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\buttonedit\pressed.png" />
+    <Content Include="Scripts\miniui\themes\default\images\buttonedit\up.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\buttonedit\_icon3.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\button\button.png" />
+    <Content Include="Scripts\miniui\themes\default\images\button\disabled.png" />
+    <Content Include="Scripts\miniui\themes\default\images\button\hover.png" />
+    <Content Include="Scripts\miniui\themes\default\images\button\icons.png" />
+    <Content Include="Scripts\miniui\themes\default\images\button\menu_arrow.png" />
+    <Content Include="Scripts\miniui\themes\default\images\button\pressed.png" />
+    <Content Include="Scripts\miniui\themes\default\images\button\split-allow-bottom.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\button\split_arrow.png" />
+    <Content Include="Scripts\miniui\themes\default\images\calendar\button.png" />
+    <Content Include="Scripts\miniui\themes\default\images\calendar\header.png" />
+    <Content Include="Scripts\miniui\themes\default\images\calendar\months.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\calendar\next.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\calendar\prev.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\datepicker\date.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\dragdrop\drop-add.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\dragdrop\drop-between.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\dragdrop\drop-no.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\dragdrop\drop-over.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\dragdrop\drop-under.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\dragdrop\drop-yes.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\gantt\arrow_blue_down.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\gantt\arrow_blue_left.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\gantt\arrow_blue_right.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\gantt\arrow_blue_up.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\gantt\arrow_red_down.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\gantt\arrow_red_left.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\gantt\arrow_red_right.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\gantt\arrow_red_up.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\gantt\baseline-milestone.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\gantt\collapse.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\gantt\constraint-finish.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\gantt\constraint-start.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\gantt\expand.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\gantt\finished.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\gantt\gvdp.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\gantt\header.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\gantt\header_bg.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\gantt\milestone-red.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\gantt\milestone.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\gantt\ms-task.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\gantt\notes.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\gantt\offday.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\gantt\summary-top.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\gantt\summary.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\gantt\summary2.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\gantt\taskbg.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\gantt\taskbg2.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\gantt\taskstatus.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\gantt\title_bg.png" />
+    <Content Include="Scripts\miniui\themes\default\images\gantt\warning.png" />
+    <Content Include="Scripts\miniui\themes\default\images\grid\collapse.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\grid\dirty.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\grid\expand.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\grid\footer.png" />
+    <Content Include="Scripts\miniui\themes\default\images\grid\header.png" />
+    <Content Include="Scripts\miniui\themes\default\images\grid\icons.png" />
+    <Content Include="Scripts\miniui\themes\default\images\grid\loading.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\grid\resize.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\grid\sort_asc.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\grid\sort_desc.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\layout\east.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\layout\header.png" />
+    <Content Include="Scripts\miniui\themes\default\images\layout\north.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\layout\south.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\layout\west.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\listbox\error.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\listbox\header.png" />
+    <Content Include="Scripts\miniui\themes\default\images\menu\arrow.png" />
+    <Content Include="Scripts\miniui\themes\default\images\menu\bottom-arrow.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\menu\checked.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\menu\hallow.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\menu\hmenubg.png" />
+    <Content Include="Scripts\miniui\themes\default\images\menu\item.png" />
+    <Content Include="Scripts\miniui\themes\default\images\menu\menubg.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\menu\pressed.png" />
+    <Content Include="Scripts\miniui\themes\default\images\menu\top-arrow.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\messagebox\icon-error.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\messagebox\icon-info.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\messagebox\icon-question.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\messagebox\icon-warning.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\messagebox\loading.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\mygantt\header.png" />
+    <Content Include="Scripts\miniui\themes\default\images\navbar\header.png" />
+    <Content Include="Scripts\miniui\themes\default\images\pager\first.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\pager\last.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\pager\next.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\pager\prev.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\pager\reload.png" />
+    <Content Include="Scripts\miniui\themes\default\images\panel\header.png" />
+    <Content Include="Scripts\miniui\themes\default\images\panel\resize.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\rgantt\bg.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\rgantt\cancel.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\rgantt\hdbg.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\rgantt\pc.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\rgantt\pc_03.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\splitter\buttons.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\splitter\mini-bottom.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\splitter\mini-left.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\splitter\mini-right.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\splitter\mini-top.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\splitter\resize.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\splitter\resize_h.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\supergrid\btn.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\supergrid\col-move-bottom.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\supergrid\col-move-top.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\supergrid\datagrid_header_bg.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\supergrid\datagrid_row_collapse.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\supergrid\datagrid_row_expand.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\supergrid\datagrid_sort_asc.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\supergrid\datagrid_sort_desc.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\supergrid\datagrid_title_bg.png" />
+    <Content Include="Scripts\miniui\themes\default\images\supergrid\dirty.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\supergrid\header-hover.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\supergrid\header-pressed.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\supergrid\header.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\supergrid\invalid_line.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\supergrid\loading.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\supergrid\no.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\supergrid\ok.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\supergrid\rowselected.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\supergrid\row_collapse.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\supergrid\row_expand.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\supergrid\sort_asc.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\supergrid\sort_desc.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\supergrid\title_bg.png" />
+    <Content Include="Scripts\miniui\themes\default\images\supertree\arrows.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\supertree\collapse.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\supertree\expand.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\supertree\file.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\supertree\folder-open.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\supertree\folder.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\supertree\loading.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\tabs\allow_left.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\tabs\allow_right.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\tabs\close.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\tabs\hover.png" />
+    <Content Include="Scripts\miniui\themes\default\images\tabs\tab.png" />
+    <Content Include="Scripts\miniui\themes\default\images\textboxlist\close.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\textboxlist\error.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\textboxlist\loading.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\textbox\error.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\toolbar\toolbar.png" />
+    <Content Include="Scripts\miniui\themes\default\images\tools\close.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\tools\collapse.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\tools\expand.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\tools\max.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\tools\min.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\tools\refresh.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\tools\restore.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\tools\search.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\treegrid\collapse.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\treegrid\expand.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\treegrid\file.png" />
+    <Content Include="Scripts\miniui\themes\default\images\treegrid\folder.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\treegrid\loading.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\tree\arrows.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\tree\button.png" />
+    <Content Include="Scripts\miniui\themes\default\images\tree\collapse.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\tree\collapseLine.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\tree\expand.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\tree\expandLine.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\tree\file.png" />
+    <Content Include="Scripts\miniui\themes\default\images\tree\firstAndlastcollapse.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\tree\firstAndlastexpand.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\tree\firstCollapseNode.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\tree\firstExpandNode.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\tree\folder-open.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\tree\folder.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\tree\hover.png" />
+    <Content Include="Scripts\miniui\themes\default\images\tree\lastCollapseNode.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\tree\lastExpandNode.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\tree\lastline.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\tree\leaf.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\tree\loading.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\tree\treeline.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\tree\treeNodeLine.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\window\footer.png" />
+    <Content Include="Scripts\miniui\themes\default\images\window\header.png" />
+    <Content Include="Scripts\miniui\themes\default\images\_pager\first.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\_pager\last.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\_pager\next.gif" />
+    <Content Include="Scripts\miniui\themes\default\images\_pager\prev.gif" />
+    <Content Include="Scripts\miniui\themes\default\miniui.css" />
+    <Content Include="Scripts\miniui\themes\gray\images\buttonedit\button.gif" />
+    <Content Include="Scripts\miniui\themes\gray\images\buttonedit\error.gif" />
+    <Content Include="Scripts\miniui\themes\gray\images\buttonedit\hover.gif" />
+    <Content Include="Scripts\miniui\themes\gray\images\buttonedit\icon1.gif" />
+    <Content Include="Scripts\miniui\themes\gray\images\buttonedit\icon2.gif" />
+    <Content Include="Scripts\miniui\themes\gray\images\buttonedit\icon3.gif" />
+    <Content Include="Scripts\miniui\themes\gray\images\button\button.gif" />
+    <Content Include="Scripts\miniui\themes\gray\images\button\disabled.gif" />
+    <Content Include="Scripts\miniui\themes\gray\images\button\hover.gif" />
+    <Content Include="Scripts\miniui\themes\gray\images\button\menu_arrow.png" />
+    <Content Include="Scripts\miniui\themes\gray\images\button\split-allow-bottom.gif" />
+    <Content Include="Scripts\miniui\themes\gray\images\button\split_arrow.png" />
+    <Content Include="Scripts\miniui\themes\gray\images\calendar\button.gif" />
+    <Content Include="Scripts\miniui\themes\gray\images\calendar\months.gif" />
+    <Content Include="Scripts\miniui\themes\gray\images\calendar\next.gif" />
+    <Content Include="Scripts\miniui\themes\gray\images\calendar\prev.gif" />
+    <Content Include="Scripts\miniui\themes\gray\images\grid\list.png" />
+    <Content Include="Scripts\miniui\themes\gray\images\grid\loading.gif" />
+    <Content Include="Scripts\miniui\themes\gray\images\menu\arrow.png" />
+    <Content Include="Scripts\miniui\themes\gray\images\menu\checked.gif" />
+    <Content Include="Scripts\miniui\themes\gray\images\menu\hallow.gif" />
+    <Content Include="Scripts\miniui\themes\gray\images\menu\menubg.gif" />
+    <Content Include="Scripts\miniui\themes\gray\images\tools\close.gif" />
+    <Content Include="Scripts\miniui\themes\gray\skin.css" />
+    <Content Include="Scripts\miniui\themes\icons.css" />
+    <Content Include="Scripts\miniui\themes\icons\add.gif" />
+    <Content Include="Scripts\miniui\themes\icons\addfolder.gif" />
+    <Content Include="Scripts\miniui\themes\icons\addnew.gif" />
+    <Content Include="Scripts\miniui\themes\icons\cancel.gif" />
+    <Content Include="Scripts\miniui\themes\icons\cut.png" />
+    <Content Include="Scripts\miniui\themes\icons\date.gif" />
+    <Content Include="Scripts\miniui\themes\icons\downgrade.gif" />
+    <Content Include="Scripts\miniui\themes\icons\download.gif" />
+    <Content Include="Scripts\miniui\themes\icons\edit.gif" />
+    <Content Include="Scripts\miniui\themes\icons\filter.gif" />
+    <Content Include="Scripts\miniui\themes\icons\find.png" />
+    <Content Include="Scripts\miniui\themes\icons\folder-open.gif" />
+    <Content Include="Scripts\miniui\themes\icons\folder.gif" />
+    <Content Include="Scripts\miniui\themes\icons\goto.gif" />
+    <Content Include="Scripts\miniui\themes\icons\help.gif" />
+    <Content Include="Scripts\miniui\themes\icons\help.png" />
+    <Content Include="Scripts\miniui\themes\icons\lock.png" />
+    <Content Include="Scripts\miniui\themes\icons\new.gif" />
+    <Content Include="Scripts\miniui\themes\icons\no.png" />
+    <Content Include="Scripts\miniui\themes\icons\node.png" />
+    <Content Include="Scripts\miniui\themes\icons\noimage.gif" />
+    <Content Include="Scripts\miniui\themes\icons\nowait.gif" />
+    <Content Include="Scripts\miniui\themes\icons\ok.png" />
+    <Content Include="Scripts\miniui\themes\icons\open.gif" />
+    <Content Include="Scripts\miniui\themes\icons\print.gif" />
+    <Content Include="Scripts\miniui\themes\icons\redo.gif" />
+    <Content Include="Scripts\miniui\themes\icons\reload.png" />
+    <Content Include="Scripts\miniui\themes\icons\remove.gif" />
+    <Content Include="Scripts\miniui\themes\icons\save.gif" />
+    <Content Include="Scripts\miniui\themes\icons\search.gif" />
+    <Content Include="Scripts\miniui\themes\icons\sort.gif" />
+    <Content Include="Scripts\miniui\themes\icons\split.gif" />
+    <Content Include="Scripts\miniui\themes\icons\tip.png" />
+    <Content Include="Scripts\miniui\themes\icons\undo.gif" />
+    <Content Include="Scripts\miniui\themes\icons\unlock.gif" />
+    <Content Include="Scripts\miniui\themes\icons\upgrade.gif" />
+    <Content Include="Scripts\miniui\themes\icons\upload.gif" />
+    <Content Include="Scripts\miniui\themes\icons\user.png" />
+    <Content Include="Scripts\miniui\themes\icons\wait.gif" />
+    <Content Include="Scripts\miniui\themes\icons\warning.png" />
+    <Content Include="Scripts\miniui\themes\icons\zoomin.gif" />
+    <Content Include="Scripts\miniui\themes\icons\zoomout.gif" />
+    <Content Include="Scripts\miniui\themes\icons\_help.png" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\buttonedit\arrowbg.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\buttonedit\arrow_down.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\buttonedit\arrow_up.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\buttonedit\arrow_up_hover.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\buttonedit\arrow_up_pressed.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\buttonedit\btn-hover.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\buttonedit\btn-pressed.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\buttonedit\btn.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\buttonedit\hover.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\buttonedit\icon3.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\buttonedit\pressed.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\button\button.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\button\disabled.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\button\hover.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\button\pressed.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\calendar\header.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\grid\header.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\layout\east.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\layout\header.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\layout\hover.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\layout\north.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\layout\south.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\layout\west.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\listbox\header.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\menu\hover.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\menu\menu_bg.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\menu\pressed.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\navbar\collapse.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\navbar\expand.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\navbar\header.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\pager\first.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\pager\last.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\pager\next.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\pager\prev.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\panel\header.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\splitter\splitter.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\tabs\hover.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\tabs\tab.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\toolbar\header.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\tools\close.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\tools\collapse.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\tools\expand.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\tools\max.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\tools\min.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\tools\refresh.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\tools\resume.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\tools\search.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\treegrid\collapse.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\treegrid\expand.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\treegrid\header.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\tree\collapse.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\tree\collapseLine.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\tree\expand.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\tree\expandLine.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\tree\firstAndlastcollapse.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\tree\firstAndlastexpand.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\tree\firstCollapseNode.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\tree\firstExpandNode.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\tree\lastCollapseNode.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\tree\lastExpandNode.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\tree\lastline.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\tree\pressed.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\tree\treeline.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\tree\treeNodeLine.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\images\window\header.gif" />
+    <Content Include="Scripts\miniui\themes\olive2003\skin.css" />
+    <Content Include="Scripts\miniui\ux\portal.css" />
+    <Content Include="Scripts\miniui\ux\Portal.js" />
+    <Content Include="Scripts\tooltipBoot.js" />
+    <Content Include="Scripts\Views\Home\About.cshtml.js" />
+    <Content Include="Scripts\Views\Home\LogOn.cshtml.js" />
+    <Content Include="Scripts\Views\Home\Partials\MyPortal.cshtml.js" />
+    <Content Include="Scripts\Areas\Ac\Account\Groups.cshtml.js" />
+    <Content Include="Scripts\Areas\Ac\Help\Details.cshtml.js" />
+    <Content Include="Scripts\Areas\Ac\Menu\Roles.cshtml.js" />
+    <Content Include="Scripts\Areas\Ac\Function\Index.cshtml.js" />
+    <Content Include="Scripts\Areas\Ac\UiView\Index.cshtml.js" />
+    <Content Include="Scripts\Areas\Ac\UiView\UiViewButtons.cshtml.js" />
+    <Content Include="Scripts\Areas\Ac\Role\Groups.cshtml.js" />
+    <Content Include="Scripts\Areas\Ac\Role\Menus.cshtml.js" />
+    <Content Include="Scripts\Views\Home\Partials\MyDesktop.cshtml.js" />
+    <Content Include="Scripts\Views\Home\prefixfree.min.js" />
+    <Content Include="Scripts\Views\Shared\Partials\SelectOrganization.js" />
+    <Content Include="Scripts\Views\Shared\Partials\SelectContractors.cshtml.js" />
+    <Content Include="Scripts\Areas\Ac\VisitingLog\Index.cshtml.js" />
+    <Content Include="Scripts\emotions\delete_items.gif" />
+    <Content Include="Scripts\emotions\emoticon.css" />
+    <Content Include="Scripts\emotions\index.html" />
+    <Content Include="Scripts\emotions\jquery.emoticons.js" />
+    <Content Include="Scripts\emotions\jquery.min.js" />
+    <Content Include="Scripts\emotions\layer_arrow.png" />
+    <Content Include="Scripts\kindeditor\asp.net\demo.aspx" />
+    <Content Include="Scripts\kindeditor\asp.net\README.txt" />
+    <Content Include="Scripts\kindeditor\examples\auto-height.html" />
+    <Content Include="Scripts\kindeditor\examples\colorpicker.html" />
+    <Content Include="Scripts\kindeditor\examples\custom-plugin.html" />
+    <Content Include="Scripts\kindeditor\examples\custom-theme.html" />
+    <Content Include="Scripts\kindeditor\examples\default.html" />
+    <Content Include="Scripts\kindeditor\examples\dialog.html" />
+    <Content Include="Scripts\kindeditor\examples\dynamic-load.html" />
+    <Content Include="Scripts\kindeditor\examples\file-dialog.html" />
+    <Content Include="Scripts\kindeditor\examples\file-manager.html" />
+    <Content Include="Scripts\kindeditor\examples\filter-mode.html" />
+    <Content Include="Scripts\kindeditor\examples\image-dialog.html" />
+    <Content Include="Scripts\kindeditor\examples\index.css" />
+    <Content Include="Scripts\kindeditor\examples\index.html" />
+    <Content Include="Scripts\kindeditor\examples\jquery-ui.html" />
+    <Content Include="Scripts\kindeditor\examples\jquery.html" />
+    <Content Include="Scripts\kindeditor\examples\multi-image-dialog.html" />
+    <Content Include="Scripts\kindeditor\examples\multi-language.html" />
+    <Content Include="Scripts\kindeditor\examples\newline.html" />
+    <Content Include="Scripts\kindeditor\examples\node.html" />
+    <Content Include="Scripts\kindeditor\examples\paste-type.html" />
+    <Content Include="Scripts\kindeditor\examples\qqstyle.html" />
+    <Content Include="Scripts\kindeditor\examples\readonly.html" />
+    <Content Include="Scripts\kindeditor\examples\simple.html" />
+    <Content Include="Scripts\kindeditor\examples\uploadbutton.html" />
+    <Content Include="Scripts\kindeditor\examples\url-type.html" />
+    <Content Include="Scripts\kindeditor\examples\word-count.html" />
+    <Content Include="Scripts\kindeditor\kindeditor-all-min.js" />
+    <Content Include="Scripts\kindeditor\kindeditor-all.js" />
+    <Content Include="Scripts\kindeditor\kindeditor-min.js" />
+    <Content Include="Scripts\kindeditor\kindeditor.js" />
+    <Content Include="Scripts\kindeditor\lang\ar.js" />
+    <Content Include="Scripts\kindeditor\lang\en.js" />
+    <Content Include="Scripts\kindeditor\lang\zh_CN.js" />
+    <Content Include="Scripts\kindeditor\lang\zh_TW.js" />
+    <Content Include="Scripts\kindeditor\license.txt" />
+    <Content Include="Scripts\kindeditor\plugins\anchor\anchor.js" />
+    <Content Include="Scripts\kindeditor\plugins\autoheight\autoheight.js" />
+    <Content Include="Scripts\kindeditor\plugins\baidumap\baidumap.js" />
+    <Content Include="Scripts\kindeditor\plugins\baidumap\index.html" />
+    <Content Include="Scripts\kindeditor\plugins\baidumap\map.html" />
+    <Content Include="Scripts\kindeditor\plugins\clearhtml\clearhtml.js" />
+    <Content Include="Scripts\kindeditor\plugins\code\code.js" />
+    <Content Include="Scripts\kindeditor\plugins\code\prettify.css" />
+    <Content Include="Scripts\kindeditor\plugins\code\prettify.js" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\emoticons.js" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\0.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\1.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\10.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\100.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\101.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\102.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\103.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\104.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\105.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\106.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\107.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\108.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\109.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\11.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\110.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\111.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\112.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\113.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\114.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\115.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\116.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\117.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\118.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\119.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\12.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\120.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\121.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\122.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\123.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\124.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\125.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\126.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\127.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\128.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\129.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\13.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\130.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\131.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\132.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\133.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\134.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\14.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\15.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\16.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\17.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\18.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\19.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\2.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\20.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\21.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\22.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\23.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\24.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\25.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\26.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\27.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\28.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\29.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\3.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\30.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\31.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\32.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\33.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\34.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\35.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\36.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\37.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\38.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\39.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\4.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\40.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\41.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\42.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\43.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\44.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\45.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\46.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\47.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\48.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\49.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\5.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\50.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\51.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\52.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\53.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\54.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\55.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\56.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\57.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\58.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\59.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\6.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\60.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\61.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\62.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\63.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\64.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\65.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\66.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\67.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\68.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\69.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\7.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\70.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\71.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\72.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\73.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\74.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\75.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\76.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\77.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\78.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\79.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\8.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\80.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\81.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\82.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\83.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\84.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\85.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\86.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\87.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\88.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\89.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\9.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\90.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\91.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\92.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\93.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\94.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\95.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\96.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\97.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\98.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\99.gif" />
+    <Content Include="Scripts\kindeditor\plugins\emoticons\images\static.gif" />
+    <Content Include="Scripts\kindeditor\plugins\filemanager\filemanager.js" />
+    <Content Include="Scripts\kindeditor\plugins\filemanager\images\file-16.gif" />
+    <Content Include="Scripts\kindeditor\plugins\filemanager\images\file-64.gif" />
+    <Content Include="Scripts\kindeditor\plugins\filemanager\images\folder-16.gif" />
+    <Content Include="Scripts\kindeditor\plugins\filemanager\images\folder-64.gif" />
+    <Content Include="Scripts\kindeditor\plugins\filemanager\images\go-up.gif" />
+    <Content Include="Scripts\kindeditor\plugins\flash\flash.js" />
+    <Content Include="Scripts\kindeditor\plugins\image\image.js" />
+    <Content Include="Scripts\kindeditor\plugins\image\images\align_left.gif" />
+    <Content Include="Scripts\kindeditor\plugins\image\images\align_right.gif" />
+    <Content Include="Scripts\kindeditor\plugins\image\images\align_top.gif" />
+    <Content Include="Scripts\kindeditor\plugins\image\images\refresh.png" />
+    <Content Include="Scripts\kindeditor\plugins\insertfile\insertfile.js" />
+    <Content Include="Scripts\kindeditor\plugins\lineheight\lineheight.js" />
+    <Content Include="Scripts\kindeditor\plugins\link\link.js" />
+    <Content Include="Scripts\kindeditor\plugins\map\map.html" />
+    <Content Include="Scripts\kindeditor\plugins\map\map.js" />
+    <Content Include="Scripts\kindeditor\plugins\media\media.js" />
+    <Content Include="Scripts\kindeditor\plugins\multiimage\images\image.png" />
+    <Content Include="Scripts\kindeditor\plugins\multiimage\images\select-files-en.png" />
+    <Content Include="Scripts\kindeditor\plugins\multiimage\images\select-files-zh_CN.png" />
+    <Content Include="Scripts\kindeditor\plugins\multiimage\images\swfupload.swf" />
+    <Content Include="Scripts\kindeditor\plugins\multiimage\multiimage.js" />
+    <Content Include="Scripts\kindeditor\plugins\pagebreak\pagebreak.js" />
+    <Content Include="Scripts\kindeditor\plugins\plainpaste\plainpaste.js" />
+    <Content Include="Scripts\kindeditor\plugins\preview\preview.js" />
+    <Content Include="Scripts\kindeditor\plugins\quickformat\quickformat.js" />
+    <Content Include="Scripts\kindeditor\plugins\table\table.js" />
+    <Content Include="Scripts\kindeditor\plugins\template\html\1.html" />
+    <Content Include="Scripts\kindeditor\plugins\template\html\2.html" />
+    <Content Include="Scripts\kindeditor\plugins\template\html\3.html" />
+    <Content Include="Scripts\kindeditor\plugins\template\template.js" />
+    <Content Include="Scripts\kindeditor\plugins\wordpaste\wordpaste.js" />
+    <Content Include="Scripts\kindeditor\themes\common\anchor.gif" />
+    <Content Include="Scripts\kindeditor\themes\common\blank.gif" />
+    <Content Include="Scripts\kindeditor\themes\common\flash.gif" />
+    <Content Include="Scripts\kindeditor\themes\common\loading.gif" />
+    <Content Include="Scripts\kindeditor\themes\common\media.gif" />
+    <Content Include="Scripts\kindeditor\themes\common\rm.gif" />
+    <Content Include="Scripts\kindeditor\themes\default\background.png" />
+    <Content Include="Scripts\kindeditor\themes\default\default.css" />
+    <Content Include="Scripts\kindeditor\themes\default\default.png" />
+    <Content Include="Scripts\kindeditor\themes\default\extendStyle.css" />
+    <Content Include="Scripts\kindeditor\themes\qq\editor.gif" />
+    <Content Include="Scripts\kindeditor\themes\qq\qq.css" />
+    <Content Include="Scripts\kindeditor\themes\simple\simple.css" />
+    <Content Include="Scripts\kindeditor\themes\extendStyle\extendStyle.css" />
+    <Content Include="Scripts\Areas\Ac\Button\Index.cshtml.js" />
+    <Content Include="Scripts\Areas\Ac\OperationLog\Index.cshtml.js" />
+    <Content Include="Scripts\Areas\Ac\ExceptionLog\Index.cshtml.js" />
+    <Content Include="Scripts\Views\Home\Partials\SkinSelector.cshtml.js" />
+    <Content Include="Scripts\Views\Shared\Details.cshtml.js" />
+    <Content Include="Scripts\Areas\Edi\Node\NodeElementCares.cshtml.js" />
+    <Content Include="Scripts\Areas\Edi\Node\Index.cshtml.js" />
+    <Content Include="Scripts\Areas\Edi\Node\Permissions.cshtml.js" />
+    <Content Include="Scripts\Areas\Edi\Command\DistributeMessage.cshtml.js" />
+    <Content Include="Scripts\Areas\Edi\Command\DistributedMessage.cshtml.js" />
+    <Content Include="Scripts\Areas\Edi\Command\DistributeFailingMessage.cshtml.js" />
+    <Content Include="Scripts\Areas\Edi\Command\HandledCommand.cshtml.js" />
+    <Content Include="Scripts\Areas\Edi\Command\HandleFailingCommand.cshtml.js" />
+    <Content Include="Scripts\Areas\Edi\Command\ReceivedMessage.cshtml.js" />
+    <Content Include="Scripts\Areas\Edi\Command\UnacceptedMessage.cshtml.js" />
+    <Content Include="Scripts\Areas\Edi\InfoDicItem\Index.cshtml.js" />
+    <Content Include="Scripts\Areas\Edi\InfoDic\Index.cshtml.js" />
+    <Content Include="Scripts\Areas\Edi\Element\Index.cshtml.js" />
+    <Content Include="Scripts\Areas\Edi\Ontology\Elements.cshtml.js" />
+    <Content Include="Scripts\Areas\Edi\Ontology\Index.cshtml.js" />
+    <Content Include="Scripts\Areas\Edi\Entity\Details.cshtml.js" />
+    <Content Include="Scripts\Areas\Edi\Entity\Index.cshtml.js" />
+    <Content Include="Scripts\Areas\Edi\Command\EntityHandledCommands.cshtml.js" />
+    <Content Include="Scripts\Areas\Ac\Property\Index.cshtml.js" />
+    <Content Include="Scripts\Areas\Ac\EntityType\Index.cshtml.js" />
+    <Content Include="Scripts\Areas\Edi\Archive\Index.cshtml.js" />
+    <Content Include="Scripts\Areas\Ac\Role\Accounts.cshtml.js" />
+    <Content Include="Scripts\Areas\Ac\Role\Permissions.cshtml.js" />
+    <Content Include="Scripts\Views\Shared\Error.cshtml.js" />
+    <Content Include="Scripts\Views\Shared\Partials\LogOn.cshtml.js" />
+    <Content Include="Scripts\boot.js" />
+    <Content Include="Scripts\helper.js" />
+    <Content Include="Scripts\jquery-bbq\jquery.ba-bbq.js" />
+    <Content Include="Scripts\jquery-bbq\jquery.ba-bbq.min.js" />
+    <Content Include="Scripts\jquery-tmpl\jquery.tmpl.js" />
+    <Content Include="Scripts\jquery-tmpl\jquery.tmpl.min.js" />
+    <Content Include="Scripts\jquery-tmpl\jquery.tmplPlus.js" />
+    <Content Include="Scripts\jquery-tmpl\jquery.tmplPlus.min.js" />
+    <Content Include="Scripts\Areas\Ac\AppSystem\Index.cshtml.js" />
+    <Content Include="Scripts\Areas\Ac\DicItem\Index.cshtml.js" />
+    <Content Include="Scripts\Areas\Ac\Group\Accounts.cshtml.js" />
+    <Content Include="Scripts\Areas\Ac\Group\Index.cshtml.js" />
+    <Content Include="Scripts\Areas\Ac\Group\Roles.cshtml.js" />
+    <Content Include="Scripts\Areas\Ac\Help\Index.cshtml.js" />
+    <Content Include="Scripts\Views\Home\Index.cshtml.js" />
+    <Content Include="Scripts\Areas\Ac\ResourceType\Index.cshtml.js" />
+    <Content Include="Scripts\Areas\Ac\Menu\Children.cshtml.js" />
+    <Content Include="Scripts\Areas\Ac\Organization\Children.cshtml.js" />
+    <Content Include="Scripts\Areas\Ac\Account\Roles.cshtml.js" />
+    <Content Include="Scripts\Areas\Ac\Account\Index.cshtml.js" />
+    <Content Include="Scripts\Areas\Ac\Account\Contractors.cshtml.js" />
+    <Content Include="Scripts\Areas\Ac\Menu\Index.cshtml.js" />
+    <Content Include="Scripts\Areas\Ac\Organization\Index.cshtml.js" />
+    <Content Include="Scripts\Views\Shared\Partials\SelectAccounts.cshtml.js" />
+    <Content Include="Templates\HtmlFormat.html" />
+    <Content Include="Templates\IndexOperations.html" />
+    <Content Include="Templates\OperationControl.html" />
+    <Content Include="copyright.html" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Ac\Views\OperationLog\Partials\OperationLogs.cshtml" />
+    <Content Include="Areas\Ac\Views\OperationLog\OperationLogs.cshtml" />
+    <Content Include="Views\Home\Partials\About.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Ac\Views\Role\Index.cshtml" />
+    <Content Include="Areas\Ac\Views\Account\Index.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Areas\Ac\Views\Organization\Index.cshtml" />
+    <Content Include="Areas\Ac\Views\Organization\Children.cshtml" />
+    <Content Include="Areas\Ac\Views\Role\Partials\Edit.cshtml" />
+    <Content Include="Areas\Ac\Views\Role\Accounts.cshtml" />
+    <Content Include="Areas\Ac\Views\Role\Permissions.cshtml" />
+    <Content Include="Areas\Ac\Views\Account\Contractors.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Ac\Views\Account\Roles.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Ac\Views\Menu\Partials\Edit.cshtml" />
+    <Content Include="Areas\Ac\Views\Menu\Index.cshtml" />
+    <Content Include="Areas\Ac\Views\Menu\Children.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Ac\Views\Group\Partials\Edit.cshtml" />
+    <Content Include="Areas\Ac\Views\Group\Index.cshtml" />
+    <Content Include="Areas\Ac\Views\Group\Accounts.cshtml" />
+    <Content Include="Areas\Ac\Views\Group\Roles.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Ac\Views\ResourceType\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Ac\Views\AppSystem\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Ac\Views\DicItem\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\LogOn.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Ac\Views\EntityType\Index.cshtml" />
+    <Content Include="Areas\Ac\Views\Property\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Ac\Anycmd.Ac.Web.Mvc\Anycmd.Ac.Web.Mvc.csproj">
+      <Project>{846d088e-9fdc-45f5-897f-b9681ac07b1c}</Project>
+      <Name>Anycmd.Ac.Web.Mvc</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Anycmd.DataContracts\Anycmd.DataContracts.csproj">
+      <Project>{7EBBD487-F38F-475C-BC2C-3EBFACBD8F7D}</Project>
+      <Name>Anycmd.DataContracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Infrastructure\Anycmd.Ef\Anycmd.Ef.csproj">
+      <Project>{FE6F62FD-7F74-478C-9B3C-5A66AE1C642D}</Project>
+      <Name>Anycmd.Ef</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Infrastructure\Anycmd.ViewModel\Anycmd.ViewModel.csproj">
+      <Project>{a82b9d2c-f780-4eac-8ada-d9e8108e8155}</Project>
+      <Name>Anycmd.ViewModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Infrastructure\Anycmd.Web\Anycmd.Web.csproj">
+      <Project>{71629B48-25FC-4368-A123-AB760FBFAC9C}</Project>
+      <Name>Anycmd.Web</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Anycmd\Anycmd.csproj">
+      <Project>{A5EE9FFC-35F4-4CAB-9AB0-C9C98E97C8B5}</Project>
+      <Name>Anycmd</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Edi\Anycmd.Edi.Web.Mvc\Anycmd.Edi.Web.Mvc.csproj">
+      <Project>{e2a049a8-6c09-4f45-ac95-aade3eb41897}</Project>
+      <Name>Anycmd.Edi.Web.Mvc</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Anycmd.Mis.Web.Mvc\Anycmd.Mis.Web.Mvc.csproj">
+      <Project>{5FFE02FE-716E-481C-83BE-26C957CE7CDC}</Project>
+      <Name>Anycmd.Mis.Web.Mvc</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Edi\Views\Node\NodeElementCares.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Edi\Views\Node\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Edi\Views\Node\Permissions.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Edi\Views\Command\DistributeMessage.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Edi\Views\Command\DistributedMessage.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Edi\Views\Command\DistributeFailingMessage.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Edi\Views\Command\HandledCommand.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Edi\Views\Command\HandleFailingCommand.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Edi\Views\Command\ReceivedMessage.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Edi\Views\Command\UnacceptedMessage.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Edi\Views\InfoDic\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Edi\Views\InfoDicItem\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Edi\Views\Element\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Edi\Views\Ontology\Elements.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Edi\Views\Ontology\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Edi\Views\Entity\Details.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Edi\Views\Entity\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Edi\Views\Command\EntityHandledCommands.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Edi\Views\Entity\Partials\AutoInput.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\Details.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\Partials\EditBar.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Edi\Views\Node\Partials\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Edi\Views\Ontology\Partials\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Edi\Views\Element\Partials\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Edi\Views\InfoDic\Partials\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Edi\Views\InfoDicItem\Partials\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\_Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Edi\Views\Entity\_Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Ac\Views\EntityType\Partials\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Ac\Views\Property\Partials\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Ac\Views\DicItem\Partials\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Ac\Views\AppSystem\Partials\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Edi\Views\Entity\Partials\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\Partials\LogOn.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Ac\Views\AnyLog\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Ac\Views\OperationLog\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Ac\Views\ExceptionLog\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\Partials\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\Partials\SkinSelector.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Ac\Views\Button\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Ac\Views\Button\Partials\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\Partials\UIViewButtons.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Content\wallpapers\" />
+    <Folder Include="Plugins\Bin\" />
+    <Folder Include="Scripts\emotions\emotions\" />
+    <Folder Include="Scripts\kindeditor\attached\image\" />
+    <Folder Include="Scripts\miniui\themes\gray\images\layout\" />
+    <Folder Include="Scripts\miniui\themes\gray\images\panel\" />
+    <Folder Include="Scripts\miniui\themes\gray\images\splitter\" />
+    <Folder Include="Scripts\miniui\themes\gray\images\tabs\" />
+    <Folder Include="Scripts\miniui\themes\gray\images\treegrid\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Ac\Views\VisitingLog\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Edi\Views\Ontology\InfoGroups.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Edi\Views\Ontology\Partials\InfoGroupEdit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Ac\Views\Organization\Partials\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\_Children.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Ac\Views\UIView\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Ac\Views\UIView\Partials\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Ac\Views\UIView\UIViewButtons.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Ac\Views\ResourceType\Partials\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Scripts\kindeditor\asp.net\file_manager_json.ashx" />
+    <Content Include="Scripts\kindeditor\asp.net\upload_json.ashx" />
+    <Content Include="Areas\Ac\Views\Function\Index.cshtml" />
+    <Content Include="Areas\Ac\Views\Function\Partials\Edit.cshtml" />
+    <Content Include="Areas\Edi\Views\Command\Partials\CommandFilter.cshtml" />
+    <Content Include="Views\Shared\Partials\SelectContractors.cshtml" />
+    <Content Include="Areas\Ac\Views\Role\Groups.cshtml" />
+    <Content Include="Areas\Ac\Views\Role\Menus.cshtml" />
+    <Content Include="Areas\Ac\Views\Account\Partials\Edit.cshtml" />
+    <Content Include="Areas\Ac\Views\Account\Groups.cshtml" />
+    <Content Include="Areas\Ac\Views\Menu\Roles.cshtml" />
+    <Content Include="Areas\Ac\Views\Account\Partials\Roles.cshtml" />
+    <Content Include="Areas\Ac\Views\Account\Partials\Groups.cshtml" />
+    <Content Include="Areas\Ac\Views\Role\Partials\Accounts.cshtml" />
+    <Content Include="Areas\Ac\Views\Role\Partials\Groups.cshtml" />
+    <Content Include="Areas\Ac\Views\Role\Partials\Permissions.cshtml" />
+    <Content Include="Areas\Ac\Views\Role\Partials\Menus.cshtml" />
+    <Content Include="Areas\Ac\Views\Group\Partials\Accounts.cshtml" />
+    <Content Include="Areas\Ac\Views\Group\Partials\Roles.cshtml" />
+    <Content Include="Views\Shared\Partials\Helpline.cshtml" />
+    <Content Include="Areas\Ac\Views\Account\Partials\Contractors.cshtml" />
+    <Content Include="Areas\Ac\Views\Account\Partials\Index.cshtml" />
+    <Content Include="Views\Shared\Partials\SelectBar.cshtml" />
+    <Content Include="Views\Shared\Partials\SelectAccounts.cshtml" />
+    <Content Include="Views\Shared\Partials\Details.cshtml" />
+    <Content Include="Areas\Edi\Views\Entity\Partials\Details.cshtml" />
+    <Content Include="Views\Shared\Partials\HelpPane.cshtml" />
+    <Content Include="Views\Home\Partials\MyPortal.cshtml" />
+    <Content Include="Views\Shared\Helpline.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Ac\Views\UIView\Partials\Tooltip.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Ac\Views\Property\Partials\Tooltip.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Edi\Views\Element\Partials\Tooltip.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Ac\Views\Property\TooltipEdit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Ac\Views\UIView\TooltipEdit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Edi\Views\Element\TooltipEdit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Edi\Views\Command\EntityReceivedMessages.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Edi\Views\Command\EntityDistributeMessages.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Edi\Views\Command\EntityDistributedMessages.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Edi\Views\Command\EntityHandleFailingCommands.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Edi\Views\Command\EntityDistributeFailingMessages.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Edi\Views\Command\Partials\DistributeMessage.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Ac\Views\Organization\Accounts.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\Partials\SelectOrganization.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Edi\Views\Node\Organizations.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Edi\Views\Node\OntologyNodeCares.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Edi\Views\Entity\Import.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Home\Partials\SelfPasswordEdit.cshtml" />
+    <Content Include="Areas\Edi\Views\Archive\Index.cshtml" />
+    <Content Include="Areas\Edi\Views\Archive\Partials\Edit.cshtml" />
+    <Content Include="Areas\Ac\Views\RDatabase\Tables.cshtml" />
+    <Content Include="Areas\Ac\Views\RDatabase\Views.cshtml" />
+    <Content Include="Areas\Ac\Views\RDatabase\TableColumns.cshtml" />
+    <Content Include="Areas\Ac\Views\RDatabase\ViewColumns.cshtml" />
+    <Content Include="Areas\Ac\Views\RDatabase\Partials\Edit.cshtml" />
+    <Content Include="Areas\Ac\Views\RDatabase\Partials\Tables.cshtml" />
+    <Content Include="Areas\Ac\Views\RDatabase\Partials\Views.cshtml" />
+    <Content Include="Areas\Ac\Views\RDatabase\Partials\TableColumns.cshtml" />
+    <Content Include="Areas\Ac\Views\RDatabase\Partials\ViewColumns.cshtml" />
+    <Content Include="Areas\Ac\Views\RDatabase\Partials\TableEdit.cshtml" />
+    <Content Include="Areas\Ac\Views\RDatabase\Partials\ViewEdit.cshtml" />
+    <Content Include="Areas\Ac\Views\RDatabase\Partials\TableColumnEdit.cshtml" />
+    <Content Include="Areas\Ac\Views\RDatabase\Partials\ViewColumnEdit.cshtml" />
+    <Content Include="Areas\Ac\Views\RDatabase\DbDoc.cshtml" />
+    <Content Include="Areas\Ac\Views\RDatabase\DbDocs.cshtml" />
+    <Content Include="Areas\Edi\Views\InfoRule\Partials\Edit.cshtml" />
+    <Content Include="Areas\Edi\Views\InfoRule\Index.cshtml" />
+    <Content Include="Areas\Edi\Views\InfoRule\Partials\ElementEdit.cshtml" />
+    <Content Include="Areas\Edi\Views\Ontology\Actions.cshtml" />
+    <Content Include="Areas\Edi\Views\Ontology\Partials\ActionEdit.cshtml" />
+    <Content Include="Areas\Edi\Views\Command\LocalEvent.cshtml" />
+    <Content Include="Areas\Edi\Views\Command\ClientEvent.cshtml" />
+    <Content Include="Areas\Edi\Views\Command\EntityLocalEvents.cshtml" />
+    <Content Include="Areas\Edi\Views\Command\EntityClientEvents.cshtml" />
+    <Content Include="Areas\Edi\Views\Ontology\Organizations.cshtml" />
+    <Content Include="Areas\Ac\Views\RDatabase\TableSpaces.cshtml" />
+    <Content Include="Areas\Ac\Views\RDatabase\Partials\TableSpaces.cshtml" />
+    <Content Include="Areas\Edi\Views\StateCode\Partials\Edit.cshtml" />
+    <Content Include="Areas\Edi\Views\StateCode\Index.cshtml" />
+    <Content Include="Areas\Edi\Views\Process\Partials\Edit.cshtml" />
+    <Content Include="Areas\Edi\Views\Process\Index.cshtml" />
+    <Content Include="Areas\Edi\Views\Batch\Partials\Edit.cshtml" />
+    <Content Include="Areas\Edi\Views\Batch\Index.cshtml" />
+    <Content Include="Areas\Ac\Views\Web.config" />
+    <None Include="Scripts\miniui\themes\blue2003\images\button\Thumbs.db" />
+    <None Include="Scripts\miniui\themes\blue2003\images\treegrid\Thumbs.db" />
+    <None Include="Scripts\miniui\themes\blue2003\images\tree\Thumbs.db" />
+    <None Include="Scripts\miniui\themes\blue2010\images\treegrid\Thumbs.db" />
+    <None Include="Scripts\miniui\themes\olive2003\images\buttonedit\Thumbs.db" />
+    <None Include="Scripts\miniui\themes\olive2003\images\tree\Thumbs.db" />
+    <Content Include="Areas\Ac\Views\Account\Partials\PasswordEdit.cshtml" />
+    <Content Include="Views\Home\LogOn.cshtml" />
+    <Content Include="Areas\Edi\Views\Web.config" />
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Ac\Views\RDatabase\Index.cshtml" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v12.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349C5851-65DF-11DA-9384-00065B846F21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>6808</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:20130</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+    <MonoDevelop>
+      <Properties VerifyCodeBehindFields="True" VerifyCodeBehindEvents="True">
+        <XspParameters Port="8080" Address="127.0.0.1" SslMode="None" SslProtocol="Default" KeyType="None" CertFile="" KeyFile="" PasswordOptions="None" Password="" Verbose="True" />
+      </Properties>
+    </MonoDevelop>
+  </ProjectExtensions>
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

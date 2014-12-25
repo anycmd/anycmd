@@ -1,0 +1,45 @@
+﻿<div class="mini-toolbar" style="border-left: 0; border-right: 0; border-top: 0px; padding: 2px;">
+	<div style="float: left">
+		@{Html.RenderPartial("Partials/UiViewButtons");}
+	</div>
+	<div style="float: right">
+		<input id="Ac_Role_Accounts_key" class="mini-textbox" emptytext="请输入关键字" style="width: 150px;" />
+		<a id="Ac_Role_Accounts_btnSearch" class="mini-button">查询</a>
+	</div>
+	<div style="clear: both;">
+	</div>
+</div>
+<!--撑满页面-->
+<div class="mini-fit">
+	<div id="Ac_Role_Accounts_datagrid1" class="mini-datagrid" style="width:100%;height:100%;" allowAlternating="true" 
+		url="@Url.Action("GetPlistRoleAccounts", "Account")" idfield="Id" multiselect="true" 
+		sizeList="[5,10,20,50]" pagesize="10">
+		<div property="columns">
+			<div type="indexcolumn">
+			</div>
+			<div type="checkcolumn">
+			</div>
+			<div name="action" width="50" headeralign="center" align="center" cellstyle="padding:0;">
+			</div>
+			<div field="LoginName" width="120" headeralign="center" allowsort="true">
+				@Html.IconLabel("LoginName","Account")
+			</div>
+			<div field="IsEnabled" width="80" headeralign="center" allowsort="true">
+				@Html.IconLabel("IsEnabled","Account")
+			</div>
+			<div field="CreateBy" width="80" headeralign="center" allowsort="true">
+				添加人
+			</div>
+			<div field="CreateOn" width="140" headeralign="center" dateformat="yyyy-MM-dd HH:mm:ss" allowsort="true">
+				@Html.IconLabel("CreateOn")
+			</div>
+		</div>
+	</div>
+</div>
+<div id="Select_win1" class="mini-window" iconcls="icon-user" title="添加角色成员账户" style="width: 700px; height: 400px;"
+	 showmaxbutton="true" showfooter="true" showtoolbar="true"
+	 showmodal="true" allowresize="true" allowdrag="true">
+	@{ Html.RenderPartial("Partials/SelectBar"); }
+	@{ Html.RenderPartial("Partials/SelectAccounts"); }
+</div>
+<script type="text/javascript" src="@Url.Content("~/Scripts/Areas/Ac/Role/Accounts.cshtml.js")"></script>

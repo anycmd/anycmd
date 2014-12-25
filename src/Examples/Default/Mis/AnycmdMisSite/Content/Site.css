@@ -1,0 +1,173 @@
+﻿.hidden {
+    display: none;
+}
+
+form label, .details label, .mini-grid-cellInner label {
+    padding-left: 10px;
+}
+
+.mini-tree-nodeshow {
+    cursor: pointer;
+}
+
+.needHelp {
+    cursor: help;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+fieldset {
+    border: solid 1px #aaa;
+}
+
+.hideFieldset {
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 0;
+}
+
+    .hideFieldset .fieldset-body {
+        display: none;
+    }
+
+.mini-splitter-border, .mini-splitter-border .mini-grid-border {
+    border: 0px;
+}
+
+.noGridBorder .mini-grid-border {
+    border: 0px;
+}
+
+.gridCellIcon {
+    height: 20px;
+    width: 18px;
+    background-position: 50% 50%;
+    display: inline-block;
+    background-repeat: no-repeat;
+}
+
+.icon-collapse-east {
+    background: url("img/east.gif") no-repeat;
+}
+
+.tooltip {
+    padding: 0px 3px;
+    color: white;
+    font-size: 12px;
+    background: red;
+}
+
+.qtip-pageHelp {
+    max-width: 500px;
+    font-size: 12px;
+    line-height: 18px;
+}
+
+    .qtip-pageHelp .qtip-content {
+        max-width: 500px;
+        max-height: 200px;
+        overflow: auto;
+    }
+
+.qtip-fieldHelp {
+    max-width: 400px;
+    font-size: 12px;
+    line-height: 18px;
+}
+
+    .qtip-fieldHelp .qtip-content {
+        max-width: 400px;
+        max-height: 200px;
+        overflow: auto;
+    }
+
+.qtip-cellTooltip {
+    max-width: 450px;
+    font-size: 12px;
+    line-height: 18px;
+}
+
+    .qtip-cellTooltip .qtip-content {
+        max-width: 450px;
+        max-height: 200px;
+        overflow: auto;
+    }
+
+.qtip-elementHelp {
+    max-width: 400px;
+    font-size: 12px;
+    line-height: 18px;
+}
+
+    .qtip-elementHelp .qtip-content {
+        max-width: 400px;
+        max-height: 200px;
+        overflow: auto;
+    }
+
+.asLabel .mini-textbox-border,
+.asLabel .mini-textbox-input,
+.asLabel .mini-buttonedit-border,
+.asLabel .mini-buttonedit-input,
+.asLabel .mini-textboxlist-border {
+    border: 0;
+    background: none;
+    cursor: default;
+}
+
+.asLabel .mini-buttonedit-button,
+.asLabel .mini-textboxlist-close {
+    display: none;
+}
+
+.asLabel .mini-textboxlist-item {
+    padding-right: 8px;
+}
+
+.emptyGridBg {
+    background: url(img/noData.gif) no-repeat center top;
+    height: 100%;
+}
+
+.errorGridBg {
+    background: url(img/error.jpg) no-repeat center top;
+    height: 100%;
+}
+.mini-splitter-handler {
+    background: #fff;
+}
+.mini-toolbar{
+    border-left: 0px;
+}
+/*******************小图标开始***********************/
+.icon-pkey, .icon-enabled, .icon-disabled {
+    height: 16px;
+    overflow: hidden;
+    margin: auto;
+    text-align: center;
+    display: block;
+}
+
+.width16px {
+    width: 16px;
+}
+
+.icon-pkey {
+    background: url(icons/pkey.png) no-repeat;
+    float: left;
+}
+
+.icon-enabled {
+    background: url(icons/16x16/accept.png) no-repeat;
+}
+
+.icon-disabled {
+    background: url(icons/16x16/exclamation.png) no-repeat;
+}
+/*******************小图标结束***********************/

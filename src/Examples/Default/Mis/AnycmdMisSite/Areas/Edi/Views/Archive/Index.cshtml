@@ -1,0 +1,59 @@
+﻿@{
+	Layout = "~/Views/Shared/_Index.cshtml";
+	string ontologyCode = Request.Params["ontologyCode"];
+	var infoTabView = Html.GetRuntimeUIVIew("Details");
+	var entityTab = Html.GetRuntimeUIVIew("Index", "Entity");
+	var prifix = "Edi_Archive_Index_";
+}
+<div id="@(prifix)helperSplitter" class="mini-splitter helperSplitter" style="width: 100%; height: 100%;">
+	<div showcollapsebutton="true">
+		<div class="mini-splitter" style="width: 100%; height: 100%;">
+			<div size="300" showcollapsebutton="true">
+				<div class="mini-toolbar" style="border: 0; padding: 2px;">
+					<div style="float: left">
+						@{Html.RenderPartial("Partials/UiViewButtons");}
+					</div>
+					<div style="float: right">
+					</div>
+					<div style="clear: both;">
+					</div>
+				</div>
+				<!--撑满页面-->
+				<div class="mini-fit">
+					<div id="@(prifix)datagrid1" class="mini-datagrid" style="width:100%;height:100%;" allowAlternating="true" 
+						url="@Url.Action("GetPlistArchives", new { ontologyCode = ontologyCode })" idfield="Id" multiselect="false" showModified="false"
+						sizeList="[5,10,20,50]" pagesize="10" showFilterRow="true">
+						<div property="columns">
+							<div type="indexcolumn"></div>
+							<div type="checkcolumn"></div>
+							<div name="action" width="70" headeralign="center" align="center" cellstyle="padding:0;">
+								<a id="@(prifix)btnSearchClear" property="filter" class="mini-button" style="float: right;">条件清空</a>
+							</div>
+							<div field="Title" width="170" headeralign="center" allowsort="true">
+								@Html.IconLabel("Title")
+								<input id="@(prifix)TitleFilter" name="Title" property="filter" class="mini-textbox" style="width: 100%;" />
+							</div>
+							<div field="ArchiveOn" width="170" headeralign="center" dateformat="yyyy-MM-dd HH:mm:ss" allowsort="true">
+								@Html.IconLabel("ArchiveOn")
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div showcollapsebutton="true">
+				<div id="@(prifix)tabs1" class="mini-tabs" style="width: 100%; height: 100%;display:none;"
+					activeindex="0" bodystyle="padding:0;border:0;">
+					<div name="infoTab" bodyCls="inner" title="@infoTabView.Title" iconStyle="background:url(/content/icons/16x16/@infoTabView.Icon)">
+					</div>
+					<div name="dataTab" title="归档数据" iconStyle="background:url(/content/icons/16x16/@entityTab.Icon)">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="faceWindow" class="mini-window" visible="false" title="选择图标" style="width: 700px; height: 470px">
+		</div>
+	</div>
+	<div size="250" showcollapsebutton="true" visible="false" expanded="false">
+		@{Html.RenderPartial("Partials/HelpPane");}
+	</div>
+</div>

@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F0B62C33-D009-458B-AF0E-42A689597097}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Anycmd.Edi.Service.Tests</RootNamespace>
+    <AssemblyName>Anycmd.Edi.Service.Tests</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
+    <ProductVersion>12.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="CommandExetension.cs" />
+    <Compile Include="ApiTest.cs" />
+    <Compile Include="EnumTest.cs" />
+    <Compile Include="InfoStringConverterTest.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TempTest.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\..\..\..\..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\..\..\..\..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\..\..\..\..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack, Version=4.0.34.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\packages\ServiceStack.4.0.34\lib\net40\ServiceStack.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ServiceStack.Client, Version=4.0.34.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\packages\ServiceStack.Client.4.0.34\lib\net40\ServiceStack.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Common, Version=4.0.33.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\packages\ServiceStack.Common.4.0.34\lib\net40\ServiceStack.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Interfaces, Version=4.0.0.0, Culture=neutral, PublicKeyToken=e06fbc6124f57c43, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\packages\ServiceStack.Interfaces.4.0.34\lib\portable-wp80+sl5+net40+win8+monotouch+monoandroid\ServiceStack.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Text">
+      <HintPath>..\..\..\..\..\packages\ServiceStack.Text.4.0.34\lib\net40\ServiceStack.Text.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="xunit">
+      <HintPath>..\..\..\..\..\packages\xunit.1.9.2\lib\net20\xunit.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Anycmd.DataContracts\Anycmd.DataContracts.csproj">
+      <Project>{7EBBD487-F38F-475C-BC2C-3EBFACBD8F7D}</Project>
+      <Name>Anycmd.DataContracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Infrastructure\Anycmd.Ef\Anycmd.Ef.csproj">
+      <Project>{FE6F62FD-7F74-478C-9B3C-5A66AE1C642D}</Project>
+      <Name>Anycmd.Ef</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Infrastructure\Anycmd.Logging\Anycmd.Logging.csproj">
+      <Project>{546A1F79-3490-4518-9A66-ED3BD5625363}</Project>
+      <Name>Anycmd.Logging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Infrastructure\Anycmd.Web\Anycmd.Web.csproj">
+      <Project>{71629b48-25fc-4368-a123-ab760fbfac9c}</Project>
+      <Name>Anycmd.Web</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Anycmd\Anycmd.csproj">
+      <Project>{A5EE9FFC-35F4-4CAB-9AB0-C9C98E97C8B5}</Project>
+      <Name>Anycmd</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Anycmd.Edi.Application\Anycmd.Edi.Application.csproj">
+      <Project>{2106A327-42D8-4EFA-B02C-4545A2C6A844}</Project>
+      <Name>Anycmd.Edi.Application</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Anycmd.Edi.Client\Anycmd.Edi.Client.csproj">
+      <Project>{5968F1FF-F4F5-4CFC-9F6E-A4EC04540737}</Project>
+      <Name>Anycmd.Edi.Client</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Anycmd.Edi.InfoStringConverters\Anycmd.Edi.InfoStringConverters.csproj">
+      <Project>{6F2AC695-1D43-46F2-841E-A93B41B851BE}</Project>
+      <Name>Anycmd.Edi.InfoStringConverters</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Anycmd.Edi.MessageServices\Anycmd.Edi.MessageServices.csproj">
+      <Project>{DD134C5A-B6F3-42C2-BC7E-5E5A9EE67829}</Project>
+      <Name>Anycmd.Edi.MessageServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Anycmd.Edi.ServiceModel\Anycmd.Edi.ServiceModel.csproj">
+      <Project>{B06290D0-ED50-42FB-92CF-E3694C77034D}</Project>
+      <Name>Anycmd.Edi.ServiceModel</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\..\bin\Anycmd.Edi.EntityProvider.SqlServer2008.dll">
+      <Link>Plugins\EntityProviders\Bin\Anycmd.Edi.EntityProvider.SqlServer2008.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\bin\Anycmd.Edi.InfoConstraints.dll">
+      <Link>Plugins\InfoConstraints\Bin\Anycmd.Edi.InfoConstraints.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\bin\Anycmd.Edi.InfoStringConverters.dll">
+      <Link>Plugins\InfoStringConverters\Bin\Anycmd.Edi.InfoStringConverters.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\bin\Anycmd.Edi.MessageProvider.SqlServer2008.dll">
+      <Link>Plugins\MessageProviders\Bin\Anycmd.Edi.MessageProvider.SqlServer2008.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\bin\Anycmd.Edi.MessageTransfers.dll">
+      <Link>Plugins\MessageTransfers\Bin\Anycmd.Edi.MessageTransfers.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Plugins\Bin\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

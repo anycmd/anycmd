@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Anycmd.Rdb.DbTable">
+    <Position X="8" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAgAAAAAAAAAAQAAAAAAAAAAAAAAFAAQAA=</HashCode>
+      <FileName>Rdb\DbTable.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Rdb.DbTableColumn">
+    <Position X="3.25" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAgAACAABIAAAQAABJAAFAAAAAQAVQAdAA=</HashCode>
+      <FileName>Rdb\DbTableColumn.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Rdb.DbView">
+    <Position X="8" Y="3" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAgAAAAAAAAAAQAAAAAAAAAAAAAAFAAQAA=</HashCode>
+      <FileName>Rdb\DbView.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Rdb.DbViewColumn">
+    <Position X="3.25" Y="5.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAQAAAgAACAABIAAAQAABIAAFAAAAAQAFQAcAA=</HashCode>
+      <FileName>Rdb\DbViewColumn.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Rdb.RdbDescriptor">
+    <Position X="0.5" Y="0.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>ACAAEAAAAECgiKAAgAKAAFAAAAAACMABEAgAAFAgAAA=</HashCode>
+      <FileName>Rdb\RdbDescriptor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Rdb.RDatabase" BaseTypeListCollapsed="true">
+    <Position X="5.75" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAQCCABAAACgAiAAhEAAAAgACAgAAAACAhAAABgQAAA=</HashCode>
+      <FileName>Rdb\RDatabase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Anycmd.Rdb.SQLServerMetaDataService" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="6.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAQAOAIAAAAIAAAAAkAAIAAAAAAAAACAgAwAAAAAAAA=</HashCode>
+      <FileName>Rdb\SQLServerMetaDataService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Anycmd.Rdb.DbTableSpace">
+    <Position X="10" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAgAAkAAAAAIAAQAAAAAAFAAAAAAAAAAAAA=</HashCode>
+      <FileName>Rdb\DbTableSpace.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Anycmd.Rdb.IRDatabase">
+    <Position X="10.5" Y="5.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAgAABAAAAAgACAAAAAACABAAABAQAAA=</HashCode>
+      <FileName>Rdb\IRDatabase.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Anycmd.Rdb.IRdbMetaDataService">
+    <Position X="8" Y="5.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAMAIAAAAAAAAAAkAAIAAAAAAAAAAAgAQAAAAAAAA=</HashCode>
+      <FileName>Rdb\IRdbMetaDataService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Anycmd.Rdb.IDbTableColumns">
+    <Position X="5.75" Y="7.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAIAAAAA=</HashCode>
+      <FileName>Rdb\IDbTableColumns.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Anycmd.Rdb.IDbTables">
+    <Position X="5.75" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAEACAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Rdb\IDbTables.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Anycmd.Rdb.IDbViews">
+    <Position X="5.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACAAAAAAAAAAAAAAQAAAAAAAAAAA=</HashCode>
+      <FileName>Rdb\IDbViews.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Anycmd.Rdb.IRdbs">
+    <Position X="5.75" Y="6" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Rdb\IRdbs.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="Anycmd.Rdb.RDbMetaDataType">
+    <Position X="10" Y="3.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAEAAAAAgAAEAQAIAAAABAAAAAAAAAAAAACA=</HashCode>
+      <FileName>Rdb\RDbMetaDataType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Anycmd.Rdb.RdbmsType">
+    <Position X="11.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAACAAAAAAEAAAAAAAAAACA=</HashCode>
+      <FileName>Rdb\RdbmsType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Microsoft YaHei UI" Size="9" />
+</ClassDiagram>

@@ -1,0 +1,92 @@
+﻿@{
+	var prifix = "Ac_RDatabase_TableColumns_";
+}
+<div class="mini-toolbar" style="border-left: 0; border-right: 0; border-top: 0px; padding: 2px;">
+	<div style="float: left">
+		@{Html.RenderPartial("Partials/UiViewButtons");}
+	</div>
+	<div style="float: right">
+	</div>
+	<div style="clear: both;">
+	</div>
+</div>
+<!--撑满页面-->
+<div class="mini-fit">
+	<div id="@(prifix)datagrid1" class="mini-datagrid" style="width:100%;height:100%;" allowAlternating="true" 
+		url="@Url.Action("GetPlistTableColumns")" idfield="Id" multiselect="false" 
+		sizeList="[5,10,20,50]" pagesize="50" showFilterRow="true">
+		<div property="columns">
+			<div type="indexcolumn"></div>
+			<div name="action" width="70" headeralign="center" align="center" cellstyle="padding:0;">
+				<a id="@(prifix)btnSearchClear" property="filter" class="mini-button" style="float: right;">条件清空</a>
+			</div>
+			<div field="Id" width="280" headeralign="center" allowsort="true">
+				Id
+			</div>
+			<div field="Ordinal" width="80" headeralign="center" allowsort="true">
+				Ordinal
+			</div>
+			<div field="Name" width="160" headeralign="center" allowsort="true">
+				Name
+				<input id="@(prifix)NameFilter" name="Name" property="filter" class="mini-textbox" style="width: 100%;" />
+			</div>
+			<div field="Description" width="300" headeralign="center" allowsort="true">
+				Description
+				<input id="@(prifix)DescriptionFilter" name="Description" property="filter" class="mini-textbox" style="width: 100%;" />
+			</div>
+			<div field="IsNullable" width="80" headeralign="center" allowsort="true">
+				IsNullable
+				<input id="@(prifix)IsNullableFilter" property="filter" name="IsNullable" class="mini-combobox" style="width: 100%;" textfield="name" 
+					valuefield="code" data="@Html.DicItemJsonArray("YesOrNoBoolean")"
+					value="" shownullitem="true" />
+			</div>
+			<div field="TypeName" width="160" headeralign="center" allowsort="true">
+				TypeName
+				<input id="@(prifix)TypeNameFilter" name="TypeName" property="filter" class="mini-textbox" style="width: 100%;" />
+			</div>
+			<div field="IsPrimaryKey" width="80" headeralign="center" allowsort="true">
+				IsPrimaryKey
+				<input id="@(prifix)IsPrimaryKeyFilter" property="filter" name="IsPrimaryKey" class="mini-combobox" style="width: 100%;" textfield="name" 
+					valuefield="code" data="@Html.DicItemJsonArray("YesOrNoBoolean")"
+					value="" shownullitem="true" />
+			</div>
+			<div field="IsIdentity" width="80" headeralign="center" allowsort="true">
+				IsIdentity
+				<input id="@(prifix)IsIdentityFilter" property="filter" name="IsIdentity" class="mini-combobox" style="width: 100%;" textfield="name" 
+					valuefield="code" data="@Html.DicItemJsonArray("YesOrNoBoolean")"
+					value="" shownullitem="true" />
+			</div>
+			<div field="IsStoreGenerated" width="80" headeralign="center" allowsort="true">
+				IsStoreGenerated
+				<input id="@(prifix)IsStoreGeneratedFilter" property="filter" name="IsStoreGenerated" class="mini-combobox" style="width: 100%;" textfield="name" 
+					valuefield="code" data="@Html.DicItemJsonArray("YesOrNoBoolean")"
+					value="" shownullitem="true" />
+			</div>
+			<div field="MaxLength" width="80" headeralign="center" allowsort="true">
+				MaxLength
+			</div>
+			<div field="Precision" width="80" headeralign="center" allowsort="true">
+				Precision
+			</div>
+			<div field="DateTimePrecision" width="80" headeralign="center" allowsort="true">
+				DateTimePrecision
+			</div>
+			<div field="Scale" width="80" headeralign="center" allowsort="true">
+				Scale
+			</div>
+			<div field="DefaultValue" width="80" headeralign="center" allowsort="true">
+				DefaultValue
+			</div>
+		</div>
+	</div>
+</div>
+<div id="@(prifix)TableColumnEdit_win1" class="mini-window" title="" style="width: 480px; height: 200px;"
+	showmaxbutton="true" showfooter="true" showtoolbar="true"
+	showmodal="true" allowresize="true" allowdrag="true">
+	@{ Html.RenderPartial("Partials/EditBar", prifix + "TableColumnEdit_"); }
+	@{ Html.RenderPartial("Partials/TableColumnEdit", prifix + "TableColumnEdit_"); }
+</div>
+<script type="text/javascript" src="@Url.Content("~/Scripts/Areas/Ac/RDatabase/TableColumns.cshtml.js")"></script>
+@if (Request.IsAjaxRequest()) {
+	<script src="@Url.Content("~/Scripts/tooltipBoot.js")"></script>
+}

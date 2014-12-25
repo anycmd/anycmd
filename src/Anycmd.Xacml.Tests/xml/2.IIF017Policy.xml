@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<PolicySet
+      xmlns="urn:oasis:names:tc:xacml:2.0:policy:schema:os"
+      xmlns:context="urn:oasis:names:tc:xacml:2.0:context:schema:os"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:md="urn:example:med:schemas:record"
+      xsi:schemaLocation="urn:oasis:names:tc:xacml:2.0:policy:schema:os
+        access_control-xacml-2.0-policy-schema-os.xsd"
+      PolicySetId="urn:oasis:names:tc:xacml:2.0:conformance-test:IIF017:policyset"
+      PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:deny-overrides">
+    <Description>
+        Policy for Conformance Test IIF017.
+        VariableDefinitions in Policies within PolicySet.
+    </Description>
+
+    <Target />
+
+    <Policy
+	      PolicyId="urn:oasis:names:tc:xacml:2.0:conformance-test:IIF017:policy1"
+	      RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:deny-overrides">
+	    <Description>
+	        Policy for Conformance Test IIF017.
+	        VariableDefinitions in Policies within PolicySet. Permit
+	    </Description>
+	    <Target />
+	    <VariableDefinition VariableId="urn:oasis:names:tc:xacml:2.0:conformance-test:IIF017:variable1">
+		    <AttributeValue
+	                  DataType="http://www.w3.org/2001/XMLSchema#integer">0</AttributeValue>
+	    </VariableDefinition>
+	    <Rule
+	          RuleId="urn:oasis:names:tc:xacml:2.0:conformance-test:IIF017:rule"
+	          Effect="Permit">
+	        <Description>
+	            A subject who is at least 5 years older than Bart
+	            Simpson may perform any action on any resource.
+	        </Description>
+	        <Condition>
+	            <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:integer-greater-than-or-equal">
+	            	<Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:integer-subtract">
+				<AttributeValue
+		        		DataType="http://www.w3.org/2001/XMLSchema#integer">5</AttributeValue>
+				<VariableReference
+					VariableId="urn:oasis:names:tc:xacml:2.0:conformance-test:IIF017:variable1" />
+			</Apply>
+	        	<AttributeValue
+		       		DataType="http://www.w3.org/2001/XMLSchema#integer">5</AttributeValue>
+	            </Apply>
+	        </Condition>
+	    </Rule>
+	</Policy>
+	
+	<Policy
+	      PolicyId="urn:oasis:names:tc:xacml:2.0:conformance-test:IIF017:policy2"
+	      RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:deny-overrides">
+	    <Description>
+	        Policy for Conformance Test IIF017.
+	        VariableDefinitions in Policies within PolicySet. Permit
+	    </Description>
+	    <Target />
+	    <VariableDefinition VariableId="urn:oasis:names:tc:xacml:2.0:conformance-test:IIF017:variable1">
+		    <AttributeValue
+	                  DataType="http://www.w3.org/2001/XMLSchema#integer">0</AttributeValue>
+	    </VariableDefinition>
+	    <Rule
+	          RuleId="urn:oasis:names:tc:xacml:2.0:conformance-test:IIF017:rule"
+	          Effect="Permit">
+	        <Description>
+	            A subject who is at least 5 years older than Bart
+	            Simpson may perform any action on any resource.
+	        </Description>
+	        <Condition>
+	            <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:integer-greater-than-or-equal">
+	            	<Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:integer-subtract">
+				<AttributeValue
+		        		DataType="http://www.w3.org/2001/XMLSchema#integer">5</AttributeValue>
+				<VariableReference
+					VariableId="urn:oasis:names:tc:xacml:2.0:conformance-test:IIF017:variable1" />
+			</Apply>
+	        	<AttributeValue
+		       		DataType="http://www.w3.org/2001/XMLSchema#integer">5</AttributeValue>
+	            </Apply>
+	        </Condition>
+	    </Rule>
+	</Policy>
+</PolicySet>

@@ -1,0 +1,57 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var entityTypeCode = ViewContext.RouteData.Values["Controller"].ToString();
+    string codespace = ViewContext.RouteData.DataTokens["area"].ToString();
+    var accountTabView = Html.GetRuntimeUIVIew("ContractorAccounts", "Account");
+    var prifix = "Ac_Organization_Accounts_";
+}
+<div class="mini-toolbar" style="border: 0; padding: 2px;">
+    <div style="float: left">
+        @{Html.RenderPartial("Partials/UiViewButtons");}
+        <input id="@(prifix)chkbIncludedescendants" class="mini-checkbox" text="包括下级" truevalue="1"
+               falsevalue="0" />
+    </div>
+    <div style="float: right">
+        <input id="@(prifix)key" class="mini-textbox" emptytext="请输入关键字" style="width: 150px;" />
+        <a id="@(prifix)btnSearch" class="mini-button">查询</a>
+    </div>
+    <div style="clear: both;">
+    </div>
+</div>
+<!--撑满页面-->
+<div class="mini-fit">
+    <div id="@(prifix)datagrid1" class="mini-datagrid" style="width:100%;height:100%;" allowalternating="true"
+         url="@Url.Action("GetPlistAccountOrganizationPrivileges", "Account")" idfield="Id" multiselect="true"
+         sizelist="[5,10,20,50]" pagesize="10">
+        <div property="columns">
+            <div type="indexcolumn"></div>
+            <div type="checkcolumn"></div>
+            <div name="action" width="50" headeralign="center" align="center" cellstyle="padding:0;">
+            </div>
+            <div field="OrganizationName" width="120" headeralign="center" allowsort="true">
+                范围
+            </div>
+            <div field="LoginName" width="120" headeralign="center" allowsort="true">
+                账户
+            </div>
+            <div field="IsEnabled" width="80" headeralign="center" allowsort="true">
+                账户有效状态
+            </div>
+            <div field="CreateBy" width="80" headeralign="center" allowsort="true">
+                添加人
+            </div>
+            <div field="CreateOn" width="140" headeralign="center" dateformat="yyyy-MM-dd HH:mm:ss" allowsort="true">
+                @Html.IconLabel("CreateOn")
+            </div>
+        </div>
+    </div>
+</div>
+<div id="Select_win1" class="mini-window" iconcls="icon-user" title="添加账户" style="width: 700px; height: 400px;"
+     showmaxbutton="true" showfooter="true" showtoolbar="true"
+     showmodal="true" allowresize="true" allowdrag="true">
+    @{ Html.RenderPartial("Partials/SelectBar"); }
+    @{ Html.RenderPartial("Partials/SelectAccounts"); }
+</div>
+@section Foot{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Areas/Ac/Organization/Accounts.cshtml.js")"></script>
+}

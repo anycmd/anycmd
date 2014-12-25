@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<activityRootModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm10="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ComponentDesigner" dslVersion="1.0.0.0" Id="58c7dca8-3993-4c1b-911a-e6a7d8d382e3" name="SendAndReceive" linkedPackageId="d29b9206-8a98-4f5b-aa8d-46d94fd6f2a6" xmlns="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ActivityDesigner">
+  <ownedCommentsInternal>
+    <comment Id="9c12fc1b-aa22-4924-991c-ed3a3bd2b302">
+      <elementDefinition Id="da2d9315-7797-4437-9ccb-adf93b10fcf7" />
+      <body>命令传输流程</body>
+    </comment>
+    <comment Id="f2f2e3da-c6fd-4c04-a900-5dd99ce4f098">
+      <elementDefinition Id="c8a96932-dace-427f-b516-bca1b3cf24ed" />
+      <body>发送节点</body>
+    </comment>
+    <comment Id="dd5f764e-5f09-4d77-babd-c7be8c67f08a">
+      <elementDefinition Id="7d7d71d2-2bcb-42ff-a978-ab4256385897" />
+      <body>接收节点</body>
+    </comment>
+    <comment Id="024d5183-7e16-4d63-87e4-cc651bbc80a6">
+      <elementDefinition Id="918ce4d3-e02e-4e13-ac97-e1ba1894fe02" />
+      <body>外部系统生成的命令不被代理发送节点完全信任，包含无权限的字段、非法格式的命令、非法的数据值的命令将被清洗或剔除。</body>
+      <annotatedElements>
+        <opaqueActionMoniker Id="0ab06e5f-e9b4-46b6-852c-9a1bd39a6cea" LastKnownName="清洗命令" />
+      </annotatedElements>
+    </comment>
+    <comment Id="0b268b52-f55c-4a11-8066-06cd25dc677b">
+      <elementDefinition Id="a806b694-9374-4e48-a5f4-c1195cf2b8ce" />
+      <body>将本批命令按照本地实体标识分组并按照时间戳先后顺序合并。</body>
+      <annotatedElements>
+        <opaqueActionMoniker Id="4714c0dc-37f1-45c2-b4c0-5db322e0176c" LastKnownName="合并命令" />
+      </annotatedElements>
+    </comment>
+    <comment Id="48ea2b76-3c92-4042-bfdc-295934c87204">
+      <elementDefinition Id="a0976465-06ae-4111-9ec9-0baec9220da0" />
+      <body>本地命令使用的是本地实体标识。转换标识就是根据本地实体标识和远端单列Guid信息标识的映射字典将命令的本地实体标识或多列联合信息标识转换为远端的单列Guid信息标识。</body>
+      <annotatedElements>
+        <opaqueActionMoniker Id="b61b347a-ec76-44b1-97e9-7e69ee1ea105" LastKnownName="转换标识、组装命令传输对象" />
+      </annotatedElements>
+    </comment>
+  </ownedCommentsInternal>
+  <packagedElements>
+    <activityRootModelHasActivity>
+      <activity Id="db157ce6-5735-4b00-820d-373f4f5c97d6" name="SendAndReceive" isAbstract="false" isLeaf="false" isActiveClass="false" isReentrant="false" isReadOnly="false" isSingleExecution="false">
+        <elementDefinition Id="cee1eb60-6cac-4a27-8174-2a2785f4dbf5" />
+        <nodes>
+          <opaqueAction Id="b1b9db48-e04d-4df7-ae3d-4b294ac03dc0" name="加载待分发命令" isLeaf="false">
+            <elementDefinition Id="709de903-e873-4d84-893e-4ec42f249692" />
+            <flowNodeTargets>
+              <controlFlow Id="dfed3107-e7ec-4c25-919c-93922b03c9ff" isLeaf="false">
+                <opaqueActionMoniker Id="0ab06e5f-e9b4-46b6-852c-9a1bd39a6cea" LastKnownName="清洗命令" />
+                <elementDefinition Id="750a89c8-b666-4327-9213-118500d6bdaa" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="0ab06e5f-e9b4-46b6-852c-9a1bd39a6cea" name="清洗命令" isLeaf="false">
+            <elementDefinition Id="8190081a-2c52-468d-a6f6-646f305a66cb" />
+            <flowNodeTargets>
+              <controlFlow Id="2899e1c9-f20b-4782-83bd-92991f5810b9" isLeaf="false">
+                <opaqueActionMoniker Id="4714c0dc-37f1-45c2-b4c0-5db322e0176c" LastKnownName="合并命令" />
+                <elementDefinition Id="4ed3dbe0-ec54-45df-a877-093809814b2c" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="4714c0dc-37f1-45c2-b4c0-5db322e0176c" name="合并命令" isLeaf="false">
+            <elementDefinition Id="eec935f4-fa35-4629-85a5-eca995869399" />
+            <flowNodeTargets>
+              <controlFlow Id="877bd94b-9b84-4719-ab60-ce933130308f" isLeaf="false">
+                <opaqueActionMoniker Id="d3941751-f11c-4174-8fe1-f5937daa56ad" LastKnownName="命令验证器插件集依次验证命令。如权限、格式、标识、时间戳等的验证" />
+                <elementDefinition Id="edec070d-1ee6-43fa-8370-4fbfba1100ce" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="b177fc4c-abdb-456a-b8b0-3fbd379c8ad7" name="认证发送节点身份" isLeaf="false">
+            <elementDefinition Id="873065ee-cbec-4f74-b3f2-388d88f1016a" />
+            <flowNodeTargets>
+              <controlFlow Id="f09ea433-4be7-49f3-bd9e-53d07bf24f45" isLeaf="false">
+                <opaqueActionMoniker Id="f32941b2-5de4-4e1b-b0a0-24a83b35ecd0" LastKnownName="命令验证器插件集依次验证命令。如权限、格式、标识、时间戳等的验证" />
+                <elementDefinition Id="e759f2f6-d0d2-4b9b-acb5-c92417832f50" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="f32941b2-5de4-4e1b-b0a0-24a83b35ecd0" name="命令验证器插件集依次验证命令。如权限、格式、标识、时间戳等的验证" isLeaf="false">
+            <elementDefinition Id="5f3c53d5-f1d0-40c5-9ce3-2407cd2d7a32" />
+            <flowNodeTargets>
+              <controlFlow Id="10ca1b95-6142-4855-a7a7-bf7c7b672f2e" isLeaf="false">
+                <opaqueActionMoniker Id="cede2500-849d-494e-bfa4-eca26401506d" LastKnownName="存储入库" />
+                <elementDefinition Id="1b1336e2-3e8e-40e5-9de4-1c6037dca039" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="cede2500-849d-494e-bfa4-eca26401506d" name="存储入库" isLeaf="false">
+            <elementDefinition Id="2cc03419-b85a-4b56-84fe-6126adc6a7be" />
+            <flowNodeTargets>
+              <controlFlow Id="7e4ede5c-64fd-46ac-89ae-786950860cb9" isLeaf="false">
+                <activityFinalNodeMoniker Id="68919322-f432-4781-add3-c94dec9d0cb7" LastKnownName="ActivityFinal1" />
+                <elementDefinition Id="b8b4908f-a522-4449-9821-21e9cc83ad4e" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="b61b347a-ec76-44b1-97e9-7e69ee1ea105" name="转换标识、组装命令传输对象" isLeaf="false">
+            <elementDefinition Id="6dbea55a-e7cf-4d89-8fb0-dae092a36972" />
+            <flowNodeTargets>
+              <controlFlow Id="899151ef-6fc4-4391-be7a-8a84a5a4cbb1" isLeaf="false">
+                <opaqueActionMoniker Id="de77f73e-8289-4815-b048-b08b3bc0f559" LastKnownName="转移命令传输对象" />
+                <elementDefinition Id="61e7bd38-6934-4158-a034-aec2d311fc32" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="de77f73e-8289-4815-b048-b08b3bc0f559" name="转移命令传输对象" isLeaf="false">
+            <elementDefinition Id="572da970-2932-4454-bb40-7765b2d4c7cf" />
+            <flowNodeTargets>
+              <controlFlow Id="469d9450-0541-459b-9613-131e9bab250b" isLeaf="false">
+                <opaqueActionMoniker Id="b177fc4c-abdb-456a-b8b0-3fbd379c8ad7" LastKnownName="认证发送节点身份" />
+                <elementDefinition Id="39247d49-91b4-4ed1-b8c7-0402c701071d" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="d3941751-f11c-4174-8fe1-f5937daa56ad" name="命令验证器插件集依次验证命令。如权限、格式、标识、时间戳等的验证" isLeaf="false">
+            <elementDefinition Id="d3a52d25-67b1-4cdf-8810-e71f98fd5df1" />
+            <flowNodeTargets>
+              <controlFlow Id="9b07de26-166d-49c4-896d-e40f2143403d" isLeaf="false">
+                <opaqueActionMoniker Id="b61b347a-ec76-44b1-97e9-7e69ee1ea105" LastKnownName="转换标识、组装命令传输对象" />
+                <elementDefinition Id="666b6f4c-c455-43b0-996e-ab8737c0c98a" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <initialNode Id="08bb0090-28de-42e2-8fd1-a9b865a16e44" name="Initial1" isLeaf="false">
+            <elementDefinition Id="4138b268-8a2b-417b-a853-35d3f82f4dee" />
+            <flowNodeTargets>
+              <controlFlow Id="760f5547-234a-4b26-83cb-51dbcb9f4947" isLeaf="false">
+                <opaqueActionMoniker Id="b1b9db48-e04d-4df7-ae3d-4b294ac03dc0" LastKnownName="加载待分发命令" />
+                <elementDefinition Id="d98447c4-423a-4765-b201-d07bc964f19e" />
+              </controlFlow>
+            </flowNodeTargets>
+          </initialNode>
+          <activityFinalNode Id="68919322-f432-4781-add3-c94dec9d0cb7" name="ActivityFinal1" isLeaf="false">
+            <elementDefinition Id="bf67efcd-6929-4226-b805-c701d3552ef1" />
+          </activityFinalNode>
+        </nodes>
+      </activity>
+    </activityRootModelHasActivity>
+  </packagedElements>
+  <package Id="d29b9206-8a98-4f5b-aa8d-46d94fd6f2a6" name="ModelingProject">
+    <elementDefinition Id="192761a0-3db6-4362-b0f8-57575a58cc7f" />
+    <profileInstances>
+      <packageHasProfileInstances Id="b6d59846-51bd-4aa4-b8f3-9e638027f13c">
+        <profileInstance Id="494a8210-b634-449f-b096-eea14ccafc0c" name="StandardProfileL2">
+          <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+        </profileInstance>
+        <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+      </packageHasProfileInstances>
+      <packageHasProfileInstances Id="7329a529-21c9-418c-9a4b-1218fc1dc249">
+        <profileInstance Id="39ea8724-88c3-459f-8d03-758166fa8c15" name="StandardProfileL3">
+          <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+        </profileInstance>
+        <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+      </packageHasProfileInstances>
+    </profileInstances>
+  </package>
+</activityRootModel>

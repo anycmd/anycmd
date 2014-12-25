@@ -1,0 +1,42 @@
+﻿@model string
+@{
+    var prifix = Model;
+}
+<form id="@(prifix)form1" method="post">
+    <input name="Id" class="mini-hidden" />
+    <input name="OntologyId" class="mini-hidden" />
+    <div style="padding-left: 11px; padding-bottom: 5px;">
+        <table>
+            <tr>
+                <td style="width: 70px;">编码：
+                </td>
+                <td style="width: 150px;">
+                    <input name="Code" class="mini-textbox" required="true" vtype="maxLength:36" />
+                </td>
+                <td style="width: 70px;">名称：
+                </td>
+                <td>
+                    <input name="Name" class="mini-textbox" required="true" />
+                </td>
+            </tr>
+            <tr>
+                <td>排序：
+                </td>
+                <td>
+                    <input name="SortCode" class="mini-textbox" vtype="int" value="0" required="true" />
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 70px;">说明：
+                </td>
+                <td colspan="3">
+                    <input name="Description" class="mini-textarea" style="width: 352px;" />
+                </td>
+            </tr>
+        </table>
+    </div>
+</form>

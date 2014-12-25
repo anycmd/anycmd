@@ -1,0 +1,49 @@
+﻿@{
+    string ontologyCode = Request.Params["ontologyCode"];
+    var ontology = Html.GetOntology(ontologyCode);
+    var prifix = "Edi_Entity_Index_";
+    ButtonState btnExportExcel;
+    if (!Html.CurrentHost().ButtonSet.TryGetButton("btnExportExcel", out btnExportExcel)) {
+        throw new Anycmd.Exceptions.ValidationException("意外的按钮编码btnExportExcel");
+    }
+}
+<div id="@(prifix)Export_win1" class="mini-window" title="导出@(ontology.Ontology.Name)" style="width: 800px; height: 500px;display:none;"
+     showmaxbutton="true" showfooter="true" showtoolbar="true"
+     showmodal="true" allowresize="true" allowdrag="true">
+    <div property="toolbar">
+        <a class="mini-button @(prifix)btnExportAll" iconstyle="background:url(/content/icons/16x16/@btnExportExcel.Icon) no-repeat;">全部页</a>
+        <a class="mini-button @(prifix)btnExportCurrentPage" iconstyle="background:url(/content/icons/16x16/@btnExportExcel.Icon) no-repeat;">当前页</a>
+        <a class="mini-button @(prifix)btnExportCancel" iconstyle="background:url(/content/icons/16x16/arrow_redo.png no-repeat;" style="width: 60px;">取消</a>
+    </div>
+    <!--撑满页面-->
+    <div class="mini-fit">
+        @{
+            System.Text.StringBuilder sbData = new System.Text.StringBuilder();
+            System.Text.StringBuilder sbValue = new System.Text.StringBuilder();
+            sbData.Append("[");
+            int dl = sbData.Length;
+            int vl = sbValue.Length;
+            int i = 0;
+            foreach (var element in ontology.Elements.Values.Where(a => a.Element.IsEnabled == 1 && !a.IsRuntimeElement).OrderBy(a => a.Element.SortCode))
+            {
+                i++;
+                if (dl != sbData.Length) {
+                    sbData.Append(",");
+                }
+                sbData.Append("{").Append("code:'").Append(element.Element.Code).Append("',name:'").Append(i).Append(",")
+                    .Append(element.Element.Name).Append("(").Append(element.Element.Code).Append(")").Append("'}");
+                if (element.Element.IsExport) {
+                    if (vl != sbValue.Length) {
+                        sbValue.Append(",");
+                    }
+                    sbValue.Append(element.Element.Code);
+                }
+            }
+            sbData.Append("]");
+        }
+        <div id="@(prifix)cblExportElement" class="mini-checkboxlist" repeatitems="20" repeatlayout="table"
+             repeatdirection="vertical" textfield="name" valuefield="code" data="@sbData.ToString()" value="@sbValue.ToString()">
+        </div>
+        限定导出条数<input id="@(prifix)limit" class="mini-textbox" vtype="int" value="" /><br />
+    </div>
+</div>

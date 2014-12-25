@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 被2012 () 使用XMLSpy v编辑的 (http://www.altova.com) by -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:annotation>
+		<xs:documentation>Created with EditiX (http://www.editix.com) at Wed Aug 06 16:16:16 CST 2014</xs:documentation>
+	</xs:annotation>
+	<xs:element name="QuerySpecification" type="QuerySpecification">
+		<xs:annotation>
+			<xs:documentation>Query Specification</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:simpleType name="RelationalOperators">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="EqualTo"/>
+			<xs:enumeration value="GreaterThan"/>
+			<xs:enumeration value="GreaterThanOrEqualTo"/>
+			<xs:enumeration value="LessThan"/>
+			<xs:enumeration value="LessThanOrEqualTo"/>
+			<xs:enumeration value="Contains"/>
+			<xs:enumeration value="StartsWith"/>
+			<xs:enumeration value="EndsWith"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="Expression">
+		<xs:attribute name="Type" type="DataTypes" use="required"/>
+		<xs:attribute name="Value" type="xs:string" use="required"/>
+		<xs:attribute name="Operator" type="RelationalOperators"/>
+		<xs:attribute name="Name" type="xs:string" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="QuerySpecification">
+		<xs:choice minOccurs="1" maxOccurs="1">
+			<xs:element name="Expression" type="Expression"/>
+			<xs:element name="UnaryLogicalOperation" type="UnaryLogicalOperation"/>
+			<xs:element name="LogicalOperation" type="LogicalOperation"/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="LogicalOperation">
+		<xs:sequence minOccurs="1" maxOccurs="1">
+			<xs:choice minOccurs="1" maxOccurs="1">
+				<xs:element name="Expression" type="Expression"/>
+				<xs:element name="LogicalOperation" type="LogicalOperation"/>
+				<xs:element name="UnaryLogicalOperation" type="UnaryLogicalOperation"/>
+			</xs:choice>
+			<xs:choice minOccurs="1" maxOccurs="1">
+				<xs:element name="Expression" type="Expression"/>
+				<xs:element name="LogicalOperation" type="LogicalOperation"/>
+				<xs:element name="UnaryLogicalOperation" type="UnaryLogicalOperation"/>
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="Operator" type="LogicalOperators" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="UnaryLogicalOperation">
+		<xs:choice minOccurs="1" maxOccurs="1">
+			<xs:element name="Expression" type="Expression"/>
+			<xs:element name="UnaryLogicalOperation" type="UnaryLogicalOperation"/>
+			<xs:element name="LogicalOperation" type="LogicalOperation"/>
+		</xs:choice>
+		<xs:attribute name="Operator" type="UnaryLogicalOperators" use="required"/>
+	</xs:complexType>
+	<xs:simpleType name="LogicalOperators">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="And"/>
+			<xs:enumeration value="Or"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="UnaryLogicalOperators">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Not"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="DataTypes">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Int32"/>
+			<xs:enumeration value="UInt32"/>
+			<xs:enumeration value="Int64"/>
+			<xs:enumeration value="UInt64"/>
+			<xs:enumeration value="Int16"/>
+			<xs:enumeration value="UInt16"/>
+			<xs:enumeration value="String"/>
+			<xs:enumeration value="Boolean"/>
+			<xs:enumeration value="Float"/>
+			<xs:enumeration value="Double"/>
+			<xs:enumeration value="Decimal"/>
+			<xs:enumeration value="Char"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

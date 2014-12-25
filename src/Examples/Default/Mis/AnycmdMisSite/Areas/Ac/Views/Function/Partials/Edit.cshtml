@@ -1,0 +1,66 @@
+﻿@model string
+@{
+    var prifix = Model;
+    var codespace = ViewContext.RouteData.DataTokens["area"].ToString();
+    var entityTypeCode = ViewContext.RouteData.Values["Controller"].ToString();
+}
+<form id="@(prifix)form1" method="post">
+    <input name="Id" class="mini-hidden" />
+    <div style="padding-left: 11px; padding-bottom: 5px;">
+        <table>
+            <tr>
+                <td></td>
+                <td>
+                    <input name="IsManaged" class="mini-checkbox" text="@Html.GetProperty("IsManaged").Name" truevalue=" true" falsevalue="false" />
+                    @Html.Qtip("IsManaged", entityTypeCode, codespace)
+                </td>
+                <td></td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.IconLabel("Code", entityTypeCode, codespace)
+                </td>
+                <td>
+                    <input name="Code" class="mini-textbox" required="true" />
+                    @Html.Qtip("Code", entityTypeCode, codespace)
+                </td>
+                <td>
+                    @Html.IconLabel("IsEnabled")
+                </td>
+                <td>
+                    <input name="IsEnabled" class="mini-combobox" style="width: 125px;" required="true"
+                           textfield="name" valuefield="code" data="@Html.DicItemJsonArray(Html.GetProperty("IsEnabled"))" shownullitem="false" />
+                    @Html.Qtip("IsEnabled", entityTypeCode, codespace)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.IconLabel("SortCode", entityTypeCode, codespace)
+                </td>
+                <td>
+                    <input name="SortCode" class="mini-textbox" vtype="int" value="0" required="true" />
+                    @Html.Qtip("SortCode", entityTypeCode, codespace)
+                </td>
+                <td>
+                    @Html.IconLabel("DeveloperCode", entityTypeCode, codespace)：
+                </td>
+                <td>
+                    <input name="DeveloperId" class="mini-combobox" style="width:125px;" textfield="name" valuefield="id"
+                           data="@Html.DeveloperJsonArray()" shownullitem="true" value="" nullitemtext="" required="true" />
+                    @Html.Qtip("DeveloperId", entityTypeCode, codespace)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.IconLabel("Description", entityTypeCode, codespace)
+                </td>
+                <td colspan="3">
+                    <input name="Description" class="mini-textarea" required="true" style="width: 380px;" />
+                    @Html.Qtip("Description", entityTypeCode, codespace)
+                </td>
+            </tr>
+        </table>
+    </div>
+</form>

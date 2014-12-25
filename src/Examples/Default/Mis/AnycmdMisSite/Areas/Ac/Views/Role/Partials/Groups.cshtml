@@ -1,0 +1,48 @@
+﻿@{
+	var prifix = "Ac_Role_Groups_";
+}
+<div class="mini-toolbar" style="border-left: 0; border-right: 0; border-top: 0px; padding: 2px;">
+	<div style="float: left">
+		@{Html.RenderPartial("Partials/UiViewButtons");}
+	</div>
+	<div style="float: right">
+		<div id="@(prifix)rbIsAssigned" class="mini-radiobuttonlist" repeatitems="3" repeatlayout="table" repeatdirection="horizontal"
+			 textfield="name" valuefield="code" value="true" style="float:left;"
+			 data="[{code:'',name:'全部'},{code:'true',name:'已授予'},{code:'false',name:'未授予'}]">
+		</div>
+	</div>
+	<div style="clear: both;">
+	</div>
+</div>
+<!--撑满页面-->
+<div class="mini-fit">
+	<div id="@(prifix)datagrid1" class="mini-datagrid" style="width:100%;height:100%;" allowalternating="true"
+		 url="@Url.Action("GetPlistRoleGroups", "Group")" idfield="Id" multiselect="true"
+		 sizelist="[5,10,20,50]" pagesize="20" allowcelledit="true">
+		<div property="columns">
+			<div type="indexcolumn"></div>
+			<div field="IsAssigned" width="50" type="checkboxcolumn" headeralign="center" allowsort="true" align="center">
+				是否授予？
+			</div>
+			<div field="Name" width="120" headeralign="center" allowsort="true">
+				@Html.IconLabel("Name", "Group")
+			</div>
+			<div field="IsEnabled" width="60" headeralign="center" align="center" allowsort="true">
+				@Html.IconLabel("IsEnabled", "Group")
+			</div>
+			<div field="SortCode" width="50" headeralign="center" align="center" allowsort="true">
+				@Html.IconLabel("SortCode", "Group")
+			</div>
+			<div field="CreateBy" width="80" headeralign="center" allowsort="true">
+				授权人
+			</div>
+			<div field="CreateOn" width="100" headeralign="center" dateformat="yyyy-MM-dd HH:mm:ss" allowsort="true">
+				@Html.IconLabel("CreateOn", "Group")
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="@Url.Content("~/Scripts/Areas/Ac/Role/Groups.cshtml.js")"></script>
+@if (Request.IsAjaxRequest()) {
+	<script src="@Url.Content("~/Scripts/tooltipBoot.js")"></script>
+}

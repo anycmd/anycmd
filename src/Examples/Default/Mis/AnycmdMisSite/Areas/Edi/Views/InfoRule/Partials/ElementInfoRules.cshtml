@@ -1,0 +1,28 @@
+﻿@{
+    var prifix = "Edi_InfoRule_ElementInfoRules_";
+}
+<div class="mini-fit noGridBorder">
+    <div id="@(prifix)dgInfoRule" class="mini-datagrid" style="width:100%;height:100%;" allowalternating="true" showpager="false"
+         url="@Url.Action("GetPlistElementInfoRules", "InfoRule")" idfield="Id" multiselect="true" pagesize="100">
+        <div property="columns">
+            <div type="indexcolumn" width="20">
+            </div>
+            <div field="Title" width="120" headeralign="center" allowsort="true">
+                标题
+            </div>
+            <div field="Name" width="120" headeralign="center" allowsort="true">
+                名称
+            </div>
+            <div field="IsEnabled" width="50" headeralign="center" allowsort="true">
+                有效状态
+            </div>
+            <div field="AuthorCode" width="80" headeralign="center" allowsort="true">
+                作者编码
+            </div>
+            <div field="CreateOn" width="130" headeralign="center" dateformat="yyyy-MM-dd HH:mm:ss" allowsort="true">
+                创建时间
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="@Url.Content("~/Scripts/Areas/Edi/InfoRule/ElementInfoRules.cshtml.js")"></script>

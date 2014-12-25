@@ -1,0 +1,40 @@
+﻿<link rel="stylesheet" type="text/css" href="@Url.Content("~/Scripts/emotions/emoticon.css")" />
+@model string
+@{
+	var prifix = Model;
+	var codespace = ViewContext.RouteData.DataTokens["area"].ToString();
+	var entityTypeCode = ViewContext.RouteData.Values["Controller"].ToString();
+}
+<form id="@(prifix)form1" method="post">
+	<input name="Id" class="mini-hidden" />
+	<input name="AreaId" class="mini-hidden" />
+	<input id="hdIcon" name="Icon" class="mini-hidden" />
+	<div>
+		<table>
+			<tr>
+				<td>
+					@Html.IconLabel("Icon")
+				</td>
+				<td>
+					<div id="msg" style="float: left; margin: 0px; text-align: center; line-height: 30px; border: 0px; height: 30px; width: 30px;"></div>
+					<a href="JavaScript:void(0)" id="message_face">选择图标</a>
+					@Html.Qtip("Icon", entityTypeCode, codespace)
+				</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>
+					@Html.IconLabel("Tooltip")
+				</td>
+				<td colspan="3">
+					<input name="Tooltip" class="mini-textarea" style="width: 379px;" />
+					@Html.Qtip("Tooltip", entityTypeCode, codespace)
+				</td>
+			</tr>
+		</table>
+	</div>
+</form>
+<div id="faceWindow" class="mini-window" visible="false" title="选择图标" style="width: 700px; height: 470px">
+</div>
+<script type="text/javascript" src="@Url.Content("~/Scripts/emotions/jquery.emoticons.js")"></script>

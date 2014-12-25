@@ -1,0 +1,48 @@
+﻿@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+	var entityTypeCode = ViewContext.RouteData.Values["Controller"].ToString();
+	string codespace = ViewContext.RouteData.DataTokens["area"].ToString();
+	var prifix = "Edi_Node_OntologyNodeCares_";
+}
+<div class="mini-toolbar" style="border-left: 0; border-right: 0; border-top: 0px; padding: 2px;">
+	<div style="float: left">
+		@{Html.RenderPartial("Partials/UiViewButtons");}
+	</div>
+	<div style="float: right">
+	</div>
+	<div style="clear: both;">
+	</div>
+</div>
+<div class="mini-fit noGridBorder">
+	<div id="@(prifix)datagrid1" class="mini-datagrid" style="width:100%;height:100%;" allowAlternating="true" 
+		url="@Url.Action("GetPlistNodeOntologyCares", "Node")" idfield="Id" multiselect="true" 
+		sizeList="[5,10,20,50]" pagesize="10" allowCellEdit="true">
+		<div property="columns">
+			<div type="indexcolumn" width="20"></div>
+			<div field="IsAssigned" width="50" type="checkboxcolumn" headeralign="center" allowsort="true" align="center">
+				是否授予？
+			</div>
+			<div field="Icon" width="30" headeralign="center" align="center" allowsort="true">
+				@Html.IconLabel("Icon")
+			</div>
+			<div field="Name" width="100" headeralign="center" allowsort="true">
+				节点名
+			</div>
+			<div field="Code" width="80" headeralign="center" allowsort="true">
+				@Html.IconLabel("Code")
+			</div>
+			<div field="IsEnabled" width="50" headeralign="center" allowsort="true">
+				@Html.IconLabel("IsEnabled")
+			</div>
+			<div field="SortCode" width="50" headeralign="center" allowsort="true">
+				@Html.IconLabel("SortCode","Node")
+			</div>
+			<div field="CreateOn" width="100" headeralign="center" dateformat="yyyy-MM-dd HH:mm:ss" allowsort="true">
+				@Html.IconLabel("CreateOn")
+			</div>
+		</div>
+	</div>
+</div>
+@section Foot{
+	<script type="text/javascript" src="@Url.Content("~/Scripts/Areas/Edi/Node/OntologyNodeCares.cshtml.js")"></script>
+}

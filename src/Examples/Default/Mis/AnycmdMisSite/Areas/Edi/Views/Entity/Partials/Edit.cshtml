@@ -1,0 +1,62 @@
+﻿<div class="mini-toolbar" style="border-left: 0; border-right: 0; border-top: 0px; padding: 2px;">
+    <div style="float: left">
+        @{Html.RenderPartial("Partials/UiViewButtons");}
+    </div>
+    <div style="float: right">
+    </div>
+    <div style="clear: both;">
+    </div>
+</div>
+<!--撑满页面-->
+<div class="mini-fit">
+    <form id="form1" method="post">
+        <input name="Id" class="mini-hidden" type="hidden" />
+        <div style="padding: 0px;">
+            @{
+                var ontologyCode = Request.Params["ontologyCode"];
+                var ontology = Html.CurrentHost().NodeHost.Ontologies[ontologyCode];
+                var elementsDic = ontology.Elements
+                    .Where(f => f.Value.Element != null && f.Value.Element.IsEnabled == 1 && f.Value.Element.IsInput && f.Value.Element.GroupId.HasValue)
+                    .OrderBy(e => e.Value.Element.SortCode)
+                    .Select(e => e.Value)
+                    .GroupBy(e => e.Element.GroupId.Value).ToDictionary(g => g.Key);
+
+                foreach (var infoGroup in ontology.InfoGroups) {
+                    if (elementsDic.ContainsKey(infoGroup.Id)) {
+                        <fieldset>
+                            <legend>
+                                <label class="icon-default_16x16">
+                                    <input type="checkbox" checked="checked" onclick="helper.toggleFieldSet(this);" />@infoGroup.Name
+                                </label>
+                            </legend>
+                            <div class="fieldset-body">
+                                @{
+                        if (elementsDic.ContainsKey(infoGroup.Id)) {
+                            foreach (var element in elementsDic[infoGroup.Id]) {
+                                var cls = string.IsNullOrWhiteSpace(element.Element.Icon) ? "" : "class='icon-" + element.Element.Code + "'";
+                                var htmlWidth = "width: 275px;";
+                                if (element.Element.IsTotalLine) {
+                                    htmlWidth = "width:100%;";
+                                    <div style="clear: left;"></div>
+                                }
+                                <div style="float: left; @htmlWidth">
+                                    @{ Html.RenderPartial("Partials/AutoInput", element); }
+                                    <input name="__@(element.Element.Code)" class="mini-hidden" type="hidden" />
+                                    <div style="clear: left;"></div>
+                                </div>
+                            }
+                        }
+                                }
+                            </div>
+                        </fieldset>
+                    }
+                }
+            }
+            <div style="clear: left;"></div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="@Url.Content("~/Scripts/Areas/Edi/Entity/Edit.cshtml.js")"></script>
+@if (Request.IsAjaxRequest()) {
+    <script src="@Url.Content("~/Scripts/tooltipBoot.js")"></script>
+}

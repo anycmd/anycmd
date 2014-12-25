@@ -1,0 +1,240 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<layerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/SimpleShapesModel" dslVersion="1.0.0.0" Id="5f99c386-4ed0-45de-b3f6-767e080ee26d" xmlns="http://schemas.microsoft.com/VisualStudio/TeamArchitect/LayerDesigner">
+  <layers>
+    <layer Id="2edb54aa-d3a4-43d0-bcef-d5fe36aab9be" name="本体&#xD;&#xA;(Ontology)">
+      <childLayers>
+        <layer Id="3aee1aad-c207-4f3b-bb55-2c31d0d4bfc9" name="数据描述">
+          <childLayers>
+            <layer Id="6c7f1f61-7223-487a-8614-b11ef0598c0d" name="数据资产&#xD;&#xA;(Data Asset)" />
+            <layer Id="7932af53-6b56-4cbc-8094-f607d81f29b5" name="数据模式">
+              <dependencyToLayers>
+                <dependencyFromLayerToLayer Id="72b53567-181b-402c-8e45-707f1163c6e6" direction="Forward">
+                  <layerMoniker Id="6c7f1f61-7223-487a-8614-b11ef0598c0d" />
+                </dependencyFromLayerToLayer>
+                <dependencyFromLayerToLayer Id="eb9a94d0-088c-4b21-b4c6-3662603657a1" direction="Forward">
+                  <layerMoniker Id="c65c2ba3-ce88-4329-8d2e-7ac35f0d49ab" />
+                </dependencyFromLayerToLayer>
+              </dependencyToLayers>
+              <childLayers>
+                <layer Id="c828e1f6-4ac6-4f25-8ce6-a43ff67a2d57" name="关系&#xD;&#xA;(Relationship)" />
+                <layer Id="808e5d12-cfe1-4ef6-a260-b038118a438c" name="属性&#xD;&#xA;(Attribute)">
+                  <dependencyToLayers>
+                    <dependencyFromLayerToLayer Id="ed9c9e8a-ac41-45e4-b10a-867b4400f7e8" direction="Forward">
+                      <layerMoniker Id="9c89c474-3fda-4fa8-8cc0-f001aec23124" />
+                    </dependencyFromLayerToLayer>
+                  </dependencyToLayers>
+                </layer>
+                <layer Id="9c89c474-3fda-4fa8-8cc0-f001aec23124" name="数据类型&#xD;&#xA;(DataType)" />
+                <layer Id="4c27da8a-8e16-4ca1-b102-93b294cf33e3" name="实体&#xD;&#xA;(Entity)">
+                  <dependencyToLayers>
+                    <dependencyFromLayerToLayer Id="d9ab955a-5c20-417d-a728-3fde362bf434" direction="Forward">
+                      <layerMoniker Id="808e5d12-cfe1-4ef6-a260-b038118a438c" />
+                    </dependencyFromLayerToLayer>
+                    <dependencyFromLayerToLayer Id="6d5f0662-25d0-4ba0-8642-ead0f54726ad" direction="Bidirectional">
+                      <layerMoniker Id="c828e1f6-4ac6-4f25-8ce6-a43ff67a2d57" />
+                    </dependencyFromLayerToLayer>
+                  </dependencyToLayers>
+                </layer>
+              </childLayers>
+            </layer>
+            <layer Id="c65c2ba3-ce88-4329-8d2e-7ac35f0d49ab" name="结构化数据资源">
+              <dependencyToLayers>
+                <dependencyFromLayerToLayer Id="32607449-2809-488c-aabd-79a12cb3a0fb" direction="Forward">
+                  <layerMoniker Id="c91af40c-f6d6-4144-8b60-ba8cdc91c2f7" />
+                </dependencyFromLayerToLayer>
+              </dependencyToLayers>
+            </layer>
+            <layer Id="a902eb23-6a50-48aa-8e72-221cbfca9981" name="半结构化数据资源">
+              <dependencyToLayers>
+                <dependencyFromLayerToLayer Id="f81953ab-7368-4f84-ac33-74abfa19506c" direction="Forward">
+                  <layerMoniker Id="c91af40c-f6d6-4144-8b60-ba8cdc91c2f7" />
+                </dependencyFromLayerToLayer>
+              </dependencyToLayers>
+            </layer>
+            <layer Id="e967c292-eef0-44cd-a14c-90bc5baabc8d" name="非结构化数据资源">
+              <dependencyToLayers>
+                <dependencyFromLayerToLayer Id="fd8ad9df-3520-4080-bcd6-abc99defece9" direction="Forward">
+                  <layerMoniker Id="c91af40c-f6d6-4144-8b60-ba8cdc91c2f7" />
+                </dependencyFromLayerToLayer>
+              </dependencyToLayers>
+            </layer>
+            <layer Id="a07bf710-353c-4366-8217-6ac202491e64" name="文档&#xD;&#xA;(Document)">
+              <dependencyToLayers>
+                <dependencyFromLayerToLayer Id="538b8467-82f3-409e-88b7-d2d6405b581f" direction="Forward">
+                  <layerMoniker Id="c65c2ba3-ce88-4329-8d2e-7ac35f0d49ab" />
+                </dependencyFromLayerToLayer>
+                <dependencyFromLayerToLayer Id="10317227-52c2-4113-80fa-b056631c3197" direction="Forward">
+                  <layerMoniker Id="a902eb23-6a50-48aa-8e72-221cbfca9981" />
+                </dependencyFromLayerToLayer>
+                <dependencyFromLayerToLayer Id="09087074-f14e-435a-a360-588394bf8510" direction="Forward">
+                  <layerMoniker Id="e967c292-eef0-44cd-a14c-90bc5baabc8d" />
+                </dependencyFromLayerToLayer>
+                <dependencyFromLayerToLayer Id="3a4e55b6-50d1-4def-ad97-5efd7d07c395" direction="Forward">
+                  <layerMoniker Id="4c27da8a-8e16-4ca1-b102-93b294cf33e3" />
+                </dependencyFromLayerToLayer>
+              </dependencyToLayers>
+            </layer>
+            <layer Id="c91af40c-f6d6-4144-8b60-ba8cdc91c2f7" name="数字化数据资源">
+              <dependencyToLayers>
+                <dependencyFromLayerToLayer Id="16dde360-6fa3-40f0-95db-cb2cde6874bc" direction="Forward">
+                  <layerMoniker Id="6c7f1f61-7223-487a-8614-b11ef0598c0d" />
+                </dependencyFromLayerToLayer>
+              </dependencyToLayers>
+            </layer>
+          </childLayers>
+        </layer>
+        <layer Id="63b56010-b1bc-4c87-b52f-e5dde1800b94" name="数据上下文">
+          <childLayers>
+            <layer Id="0b4795a0-09dd-48ca-b5eb-059ad8170d83" name="数据源&#xD;&#xA;(Data Source)">
+              <dependencyToLayers>
+                <dependencyFromLayerToLayer Id="695fef7b-385f-4414-924e-e2c2798ef146" direction="Forward">
+                  <layerMoniker Id="cdba14bf-addd-416c-b0d4-71c5261e642e" />
+                </dependencyFromLayerToLayer>
+              </dependencyToLayers>
+            </layer>
+            <layer Id="cdba14bf-addd-416c-b0d4-71c5261e642e" name="数据资产&#xD;&#xA;(Data Asset)" />
+            <layer Id="ee5317d1-4b37-42b4-84d4-874f58cc698e" name="数据专员&#xD;&#xA;(Data steward)">
+              <dependencyToLayers>
+                <dependencyFromLayerToLayer Id="d5f5aa9a-86f7-4b21-b9f4-35c757cdf313" direction="Forward">
+                  <layerMoniker Id="cdba14bf-addd-416c-b0d4-71c5261e642e" />
+                </dependencyFromLayerToLayer>
+              </dependencyToLayers>
+            </layer>
+            <layer Id="c03d0e72-6352-4897-9ce8-631d780263d7" name="话题&#xD;&#xA;(Topic)">
+              <dependencyToLayers>
+                <dependencyFromLayerToLayer Id="b05b03e0-7956-421e-9bb9-028eb15a2d50" direction="Forward">
+                  <layerMoniker Id="cdba14bf-addd-416c-b0d4-71c5261e642e" />
+                </dependencyFromLayerToLayer>
+                <dependencyFromLayerToLayer Id="fcef7411-00e3-4284-b4a8-2568338878d0" direction="Forward">
+                  <layerMoniker Id="aed5c07f-7d55-4879-97da-6ced776c1c7e" />
+                </dependencyFromLayerToLayer>
+                <dependencyFromLayerToLayer Id="c6c6e7f3-f8f7-472b-aef2-ecf1e0564f94" direction="Forward">
+                  <layerMoniker Id="e98916a0-d036-40f4-92d7-84e76824b5d6" />
+                </dependencyFromLayerToLayer>
+                <dependencyFromLayerToLayer Id="97ee28fe-392e-4cd9-b3de-e7faeed02516" direction="Forward">
+                  <layerMoniker Id="434cc8dd-59da-4998-bae5-9b976aad63e5" />
+                </dependencyFromLayerToLayer>
+                <dependencyFromLayerToLayer Id="967f4642-1b7c-4a29-9ae9-8b95c56eb85f" direction="Forward">
+                  <layerMoniker Id="83685928-777e-4033-8b02-06c0fc725e93" />
+                </dependencyFromLayerToLayer>
+              </dependencyToLayers>
+            </layer>
+            <layer Id="72b7a70c-a2e7-4eda-a522-a075d6ded18c" name="分类法&#xD;&#xA;(Taxonomy)">
+              <dependencyToLayers>
+                <dependencyFromLayerToLayer Id="e5e5d048-836e-49ca-9381-fba567b9e1c9" direction="Forward">
+                  <layerMoniker Id="c03d0e72-6352-4897-9ce8-631d780263d7" />
+                </dependencyFromLayerToLayer>
+                <dependencyFromLayerToLayer Id="a3e5c495-873f-4273-8fcc-e683548ca807" direction="Forward">
+                  <layerMoniker Id="fc8f7ab5-4f93-41c3-ab96-16fc5b02fc39" />
+                </dependencyFromLayerToLayer>
+              </dependencyToLayers>
+            </layer>
+            <layer Id="560ee29a-6f2f-4a68-bfa6-25431f561af5" name="其它参考模型">
+              <dependencyToLayers>
+                <dependencyFromLayerToLayer Id="0fa83a9b-0a82-471f-9bf3-d23172155db5" direction="Forward">
+                  <layerMoniker Id="72b7a70c-a2e7-4eda-a522-a075d6ded18c" />
+                </dependencyFromLayerToLayer>
+              </dependencyToLayers>
+            </layer>
+            <layer Id="fc8f7ab5-4f93-41c3-ab96-16fc5b02fc39" name="结构化数据资源" />
+            <layer Id="aed5c07f-7d55-4879-97da-6ced776c1c7e" name="查询点&#xD;&#xA;(Query Point)">
+              <dependencyToLayers>
+                <dependencyFromLayerToLayer Id="08c7ac5e-5f41-4911-831b-c2b03e050a1f" direction="Forward">
+                  <layerMoniker Id="130b9fdb-d571-41ac-8e83-ba1d10c4e546" />
+                </dependencyFromLayerToLayer>
+              </dependencyToLayers>
+            </layer>
+            <layer Id="e98916a0-d036-40f4-92d7-84e76824b5d6" name="数字化数据资源">
+              <dependencyToLayers>
+                <dependencyFromLayerToLayer Id="9decc1c7-d8d7-469e-b470-77ee9df93296" direction="Forward">
+                  <layerMoniker Id="c91af40c-f6d6-4144-8b60-ba8cdc91c2f7" />
+                </dependencyFromLayerToLayer>
+              </dependencyToLayers>
+            </layer>
+            <layer Id="434cc8dd-59da-4998-bae5-9b976aad63e5" name="数据交换包&#xD;&#xA;(Exchange Pakage)">
+              <dependencyToLayers>
+                <dependencyFromLayerToLayer Id="6fc0c539-3895-4d58-9919-73763b507aa2" direction="Forward">
+                  <layerMoniker Id="960d33b1-c2cf-42e4-8ef5-d47cec94dce5" />
+                </dependencyFromLayerToLayer>
+              </dependencyToLayers>
+            </layer>
+            <layer Id="ed74977e-69db-40ab-891b-54236fc64f35" name="关系&#xD;&#xA;(Relationship)">
+              <dependencyToLayers>
+                <dependencyFromLayerToLayer Id="7006b01e-3535-48b4-9d3e-0835d4fd8966" direction="Bidirectional">
+                  <layerMoniker Id="c03d0e72-6352-4897-9ce8-631d780263d7" />
+                </dependencyFromLayerToLayer>
+              </dependencyToLayers>
+            </layer>
+            <layer Id="83685928-777e-4033-8b02-06c0fc725e93" name="命令&#xD;&#xA;(Command)">
+              <dependencyToLayers>
+                <dependencyFromLayerToLayer Id="8449181a-93f7-43b9-bb93-ba524e863ca8" direction="Forward">
+                  <layerMoniker Id="4e199dfd-4fc3-4960-ae11-97316882f11b" />
+                </dependencyFromLayerToLayer>
+              </dependencyToLayers>
+            </layer>
+          </childLayers>
+        </layer>
+        <layer Id="79f5aae0-6d37-4fae-9deb-16c60ee71c11" name="数据共享">
+          <childLayers>
+            <layer Id="7cef9279-457b-4fb1-9b56-0a032a45bea4" name="实体&#xD;&#xA;(Entity)">
+              <dependencyToLayers>
+                <dependencyFromLayerToLayer Id="510520f8-bf60-419f-bad0-2cb6d5ce4e5b" direction="Forward">
+                  <layerMoniker Id="4c27da8a-8e16-4ca1-b102-93b294cf33e3" />
+                </dependencyFromLayerToLayer>
+              </dependencyToLayers>
+            </layer>
+            <layer Id="960d33b1-c2cf-42e4-8ef5-d47cec94dce5" name="数据交换包&#xD;&#xA;(Exchange Pakage)">
+              <dependencyToLayers>
+                <dependencyFromLayerToLayer Id="837ee458-628a-451c-81be-cba7553f95a9" direction="Forward">
+                  <layerMoniker Id="7cef9279-457b-4fb1-9b56-0a032a45bea4" />
+                </dependencyFromLayerToLayer>
+                <dependencyFromLayerToLayer Id="06540f75-0b4f-4638-a575-78910e688508" direction="Forward">
+                  <layerMoniker Id="6d71c63e-ac5d-46a6-bd48-ed6601f1b06a" />
+                </dependencyFromLayerToLayer>
+                <dependencyFromLayerToLayer Id="a4eb9bf4-eb86-46d1-9e0e-774fcd4399f1" direction="Forward">
+                  <layerMoniker Id="4e56f16f-b9ce-409c-b0b0-b649975e0877" />
+                </dependencyFromLayerToLayer>
+              </dependencyToLayers>
+            </layer>
+            <layer Id="9473b8b4-7f99-4b1e-b7f9-39c3f76e6705" name="提供者&#xD;&#xA;(Supplier)">
+              <dependencyToLayers>
+                <dependencyFromLayerToLayer Id="2c218450-b4fc-4b61-9d35-d81f8e4c8a06" direction="Forward">
+                  <layerMoniker Id="960d33b1-c2cf-42e4-8ef5-d47cec94dce5" />
+                </dependencyFromLayerToLayer>
+              </dependencyToLayers>
+            </layer>
+            <layer Id="6d71c63e-ac5d-46a6-bd48-ed6601f1b06a" name="使用者&#xD;&#xA;(Consumer)" />
+            <layer Id="4e56f16f-b9ce-409c-b0b0-b649975e0877" name="载荷定义&#xD;&#xA;(Payload Definition)" />
+            <layer Id="130b9fdb-d571-41ac-8e83-ba1d10c4e546" name="查询点&#xD;&#xA;(Query Point)">
+              <dependencyToLayers>
+                <dependencyFromLayerToLayer Id="c1aa1a2b-0860-43b0-a9e9-d21fa71da96d" direction="Forward">
+                  <layerMoniker Id="e05434ad-d8f6-4a80-a262-ad0d455944e9" />
+                </dependencyFromLayerToLayer>
+                <dependencyFromLayerToLayer Id="fc3c2045-3490-4075-a1ce-ce8e488cb937" direction="Bidirectional">
+                  <layerMoniker Id="960d33b1-c2cf-42e4-8ef5-d47cec94dce5" />
+                </dependencyFromLayerToLayer>
+              </dependencyToLayers>
+            </layer>
+            <layer Id="e05434ad-d8f6-4a80-a262-ad0d455944e9" name="数据资产&#xD;&#xA;(Data Asset)">
+              <dependencyToLayers>
+                <dependencyFromLayerToLayer Id="def6c6e2-4e9e-4b3d-b0c0-844404dc34ee" direction="Forward">
+                  <layerMoniker Id="cdba14bf-addd-416c-b0d4-71c5261e642e" />
+                </dependencyFromLayerToLayer>
+              </dependencyToLayers>
+            </layer>
+            <layer Id="4e199dfd-4fc3-4960-ae11-97316882f11b" name="命令&#xD;&#xA;(Command)">
+              <dependencyToLayers>
+                <dependencyFromLayerToLayer Id="ddd9d616-9a29-4f79-92e5-9989f10bf413" direction="Bidirectional">
+                  <layerMoniker Id="960d33b1-c2cf-42e4-8ef5-d47cec94dce5" />
+                </dependencyFromLayerToLayer>
+                <dependencyFromLayerToLayer Id="ade26e24-361b-4b41-8cd6-93754f401eed" direction="Forward">
+                  <layerMoniker Id="3aee1aad-c207-4f3b-bb55-2c31d0d4bfc9" />
+                </dependencyFromLayerToLayer>
+              </dependencyToLayers>
+            </layer>
+          </childLayers>
+        </layer>
+      </childLayers>
+    </layer>
+  </layers>
+</layerModel>

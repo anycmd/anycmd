@@ -1,0 +1,69 @@
+﻿@model string
+@{
+	var prifix = Model;
+	var codespace = ViewContext.RouteData.DataTokens["area"].ToString();
+	var entityTypeCode = ViewContext.RouteData.Values["Controller"].ToString();
+}
+<form id="@(prifix)form1" method="post">
+	<input name="Id" class="mini-hidden" />
+	<input name="InfoDicId" class="mini-hidden" />
+	<div style="padding-left: 11px; padding-bottom: 5px;">
+		<table>
+			<tr>
+				<td>
+					@Html.IconLabel("Name", entityTypeCode, codespace)
+				</td>
+				<td>
+					<input name="Name" class="mini-textbox" required="true" />
+					@Html.Qtip("Name", entityTypeCode, codespace)
+				</td>
+				<td>
+					@Html.IconLabel("Level", entityTypeCode, codespace)
+				</td>
+				<td>
+					<input name="Level" class="mini-combobox" style="width: 125px;" required="true"
+						textfield="name" valuefield="code" data="@Html.DicItemJsonArray(Html.GetProperty("Level", entityTypeCode, codespace))" shownullitem="true" />
+					@Html.Qtip("Level", entityTypeCode, codespace)
+				</td>
+			</tr>
+			<tr>
+				<td>
+					@Html.IconLabel("Code", entityTypeCode, codespace)
+				</td>
+				<td>
+					<input name="Code" class="mini-textbox" required="true" />
+					@Html.Qtip("Code", entityTypeCode, codespace)
+				</td>
+				<td>
+				</td>
+				<td>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					@Html.IconLabel("SortCode", entityTypeCode, codespace)
+				</td>
+				<td>
+					<input name="SortCode" class="mini-textbox" vtype="int" value="0" required="true" />
+					@Html.Qtip("SortCode", entityTypeCode, codespace)
+				</td>
+				<td>
+					@Html.IconLabel("IsEnabled", entityTypeCode, codespace)
+				</td>
+				<td>
+					<input name="IsEnabled" class="mini-checkbox" text="是否有效？" truevalue="1" falsevalue="0" />
+					@Html.Qtip("IsEnabled", entityTypeCode, codespace)
+				</td>
+			</tr>
+			<tr>
+				<td>
+					@Html.IconLabel("Description", entityTypeCode, codespace)
+				</td>
+				<td colspan="3">
+					<input name="Description" class="mini-textarea" style="width: 350px;" />
+					@Html.Qtip("Description", entityTypeCode, codespace)
+				</td>
+			</tr>
+		</table>
+	</div>
+</form>

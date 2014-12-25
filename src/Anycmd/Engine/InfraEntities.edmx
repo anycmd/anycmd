@@ -1,0 +1,1478 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="InfraTableModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AppSystem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PrincipalId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Code" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ImageUrl" Type="varchar" MaxLength="256" />
+          <Property Name="SsoAuthAddress" Type="varchar" MaxLength="256" />
+          <Property Name="SortCode" Type="int" Nullable="false" />
+          <Property Name="Icon" Type="varchar" MaxLength="200" />
+          <Property Name="IsEnabled" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="200" />
+          <Property Name="CreateOn" Type="datetime" />
+          <Property Name="CreateUserId" Type="uniqueidentifier" />
+          <Property Name="CreateBy" Type="varchar" MaxLength="50" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="ModifiedUserId" Type="uniqueidentifier" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" />
+          <Property Name="RowGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Etag" Type="timestamp" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="Button">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Code" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="CategoryCode" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="SortCode" Type="int" Nullable="false" />
+          <Property Name="IsEnabled" Type="int" Nullable="false" />
+          <Property Name="Icon" Type="varchar" MaxLength="200" />
+          <Property Name="Description" Type="nvarchar" MaxLength="500" />
+          <Property Name="CreateOn" Type="datetime" />
+          <Property Name="CreateUserId" Type="uniqueidentifier" />
+          <Property Name="CreateBy" Type="varchar" MaxLength="50" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="ModifiedUserId" Type="uniqueidentifier" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" />
+          <Property Name="RowGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Etag" Type="timestamp" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="Dic">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Code" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="IsEnabled" Type="int" Nullable="false" />
+          <Property Name="SortCode" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="500" />
+          <Property Name="CreateOn" Type="datetime" />
+          <Property Name="CreateUserId" Type="uniqueidentifier" />
+          <Property Name="CreateBy" Type="varchar" MaxLength="50" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="ModifiedUserId" Type="uniqueidentifier" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" />
+          <Property Name="RowGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Etag" Type="timestamp" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="DicItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DicId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Code" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="IsEnabled" Type="int" Nullable="false" />
+          <Property Name="SortCode" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="500" />
+          <Property Name="CreateOn" Type="datetime" />
+          <Property Name="CreateUserId" Type="uniqueidentifier" />
+          <Property Name="CreateBy" Type="varchar" MaxLength="50" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="ModifiedUserId" Type="uniqueidentifier" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" />
+          <Property Name="RowGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Etag" Type="timestamp" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="EntityType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DatabaseId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Codespace" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Code" Type="varchar" MaxLength="36" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="36" Nullable="false" />
+          <Property Name="IsOrganizational" Type="bit" Nullable="false" />
+          <Property Name="SchemaName" Type="varchar" MaxLength="50" />
+          <Property Name="TableName" Type="varchar" MaxLength="36" />
+          <Property Name="SortCode" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="50" />
+          <Property Name="EditWidth" Type="int" Nullable="false" />
+          <Property Name="EditHeight" Type="int" Nullable="false" />
+          <Property Name="DeveloperId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CreateOn" Type="datetime" />
+          <Property Name="CreateUserId" Type="uniqueidentifier" />
+          <Property Name="CreateBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="ModifiedUserId" Type="uniqueidentifier" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="RowGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Etag" Type="timestamp" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="Function">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ResourceTypeId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Guid" Type="uniqueidentifier" />
+          <Property Name="Code" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="IsEnabled" Type="int" Nullable="false" />
+          <Property Name="IsManaged" Type="bit" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="DeveloperId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="SortCode" Type="int" Nullable="false" />
+          <Property Name="CreateOn" Type="datetime" />
+          <Property Name="CreateUserId" Type="uniqueidentifier" />
+          <Property Name="CreateBy" Type="varchar" MaxLength="50" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="ModifiedUserId" Type="uniqueidentifier" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" />
+          <Property Name="RowGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Etag" Type="timestamp" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="FunctionIo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="FunctionId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Direction" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Code" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="500" />
+          <Property Name="CreateOn" Type="datetime" />
+          <Property Name="CreateUserId" Type="uniqueidentifier" />
+          <Property Name="CreateBy" Type="varchar" MaxLength="50" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="ModifiedUserId" Type="uniqueidentifier" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" />
+          <Property Name="RowGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Etag" Type="timestamp" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="Menu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ParentId" Type="uniqueidentifier" />
+          <Property Name="AppSystemId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" />
+          <Property Name="Url" Type="nvarchar" MaxLength="500" />
+          <Property Name="SortCode" Type="int" Nullable="false" />
+          <Property Name="Icon" Type="varchar" MaxLength="200" />
+          <Property Name="Description" Type="nvarchar" MaxLength="500" />
+          <Property Name="CreateOn" Type="datetime" />
+          <Property Name="CreateUserId" Type="uniqueidentifier" />
+          <Property Name="CreateBy" Type="varchar" MaxLength="50" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="ModifiedUserId" Type="uniqueidentifier" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" />
+          <Property Name="RowGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Etag" Type="timestamp" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="OperationHelp">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Content" Type="nvarchar(max)" />
+          <Property Name="IsEnabled" Type="int" Nullable="false" />
+          <Property Name="CreateOn" Type="datetime" />
+          <Property Name="CreateUserId" Type="uniqueidentifier" />
+          <Property Name="CreateBy" Type="varchar" MaxLength="50" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="ModifiedUserId" Type="uniqueidentifier" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" />
+          <Property Name="RowGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Etag" Type="timestamp" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="Organization">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ParentCode" Type="varchar" MaxLength="50" />
+          <Property Name="CategoryCode" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ContractorId" Type="uniqueidentifier" />
+          <Property Name="Code" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ShortName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="OuterPhone" Type="varchar" MaxLength="50" />
+          <Property Name="InnerPhone" Type="varchar" MaxLength="50" />
+          <Property Name="Fax" Type="varchar" MaxLength="50" />
+          <Property Name="Postalcode" Type="varchar" MaxLength="50" />
+          <Property Name="Address" Type="nvarchar" MaxLength="200" />
+          <Property Name="WebPage" Type="varchar" MaxLength="256" />
+          <Property Name="DeletionStateCode" Type="int" Nullable="false" />
+          <Property Name="IsEnabled" Type="int" Nullable="false" />
+          <Property Name="Icon" Type="varchar" MaxLength="200" />
+          <Property Name="SortCode" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="500" />
+          <Property Name="CreateOn" Type="datetime" />
+          <Property Name="CreateUserId" Type="uniqueidentifier" />
+          <Property Name="CreateBy" Type="varchar" MaxLength="50" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="ModifiedUserId" Type="uniqueidentifier" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" />
+          <Property Name="RowGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Etag" Type="timestamp" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="Property">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="EntityTypeId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DicId" Type="uniqueidentifier" />
+          <Property Name="ForeignPropertyId" Type="uniqueidentifier" />
+          <Property Name="Code" Type="varchar" MaxLength="36" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="36" Nullable="false" />
+          <Property Name="MaxLength" Type="int" />
+          <Property Name="SortCode" Type="int" Nullable="false" />
+          <Property Name="GuideWords" Type="nvarchar" MaxLength="50" />
+          <Property Name="Tooltip" Type="nvarchar(max)" />
+          <Property Name="Description" Type="nvarchar" MaxLength="50" />
+          <Property Name="Icon" Type="nvarchar" MaxLength="200" />
+          <Property Name="IsDetailsShow" Type="bit" Nullable="false" />
+          <Property Name="IsDeveloperOnly" Type="bit" Nullable="false" />
+          <Property Name="IsInput" Type="bit" Nullable="false" />
+          <Property Name="InputType" Type="varchar" MaxLength="50" />
+          <Property Name="IsTotalLine" Type="bit" Nullable="false" />
+          <Property Name="GroupCode" Type="varchar" MaxLength="20" />
+          <Property Name="CreateOn" Type="datetime" />
+          <Property Name="CreateBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="CreateUserId" Type="uniqueidentifier" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="ModifiedUserId" Type="uniqueidentifier" />
+          <Property Name="RowGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Etag" Type="timestamp" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="ResourceType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="AppSystemId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Code" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="500" />
+          <Property Name="Icon" Type="varchar" MaxLength="200" />
+          <Property Name="SortCode" Type="int" Nullable="false" />
+          <Property Name="CreateOn" Type="datetime" />
+          <Property Name="CreateUserId" Type="uniqueidentifier" />
+          <Property Name="CreateBy" Type="varchar" MaxLength="50" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" />
+          <Property Name="ModifiedUserId" Type="uniqueidentifier" />
+          <Property Name="RowGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Etag" Type="timestamp" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="UiView">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Icon" Type="varchar" MaxLength="200" />
+          <Property Name="Tooltip" Type="nvarchar(max)" />
+          <Property Name="CreateOn" Type="datetime" />
+          <Property Name="CreateUserId" Type="uniqueidentifier" />
+          <Property Name="CreateBy" Type="varchar" MaxLength="50" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="ModifiedUserId" Type="uniqueidentifier" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" />
+          <Property Name="RowGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Etag" Type="timestamp" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="UiViewButton">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UiViewId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="FunctionId" Type="uniqueidentifier" />
+          <Property Name="ButtonId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="IsEnabled" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="CreateOn" Type="datetime" />
+          <Property Name="CreateUserId" Type="uniqueidentifier" />
+          <Property Name="CreateBy" Type="varchar" MaxLength="50" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="ModifiedUserId" Type="uniqueidentifier" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" />
+          <Property Name="RowGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Etag" Type="timestamp" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <Association Name="FK_DicItem_Dic">
+          <End Role="Dic" Type="Self.Dic" Multiplicity="1" />
+          <End Role="DicItem" Type="Self.DicItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Dic">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DicItem">
+              <PropertyRef Name="DicId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Function_ResourceType">
+          <End Role="ResourceType" Type="Self.ResourceType" Multiplicity="1" />
+          <End Role="Function" Type="Self.Function" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ResourceType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Function">
+              <PropertyRef Name="ResourceTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FunctionIo_Function">
+          <End Role="Function" Type="Self.Function" Multiplicity="1" />
+          <End Role="FunctionIo" Type="Self.FunctionIo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Function">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FunctionIo">
+              <PropertyRef Name="FunctionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Menu_AppSystem">
+          <End Role="AppSystem" Type="Self.AppSystem" Multiplicity="1" />
+          <End Role="Menu" Type="Self.Menu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AppSystem">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Menu">
+              <PropertyRef Name="AppSystemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Menu_Parent">
+          <End Role="Menu" Type="Self.Menu" Multiplicity="0..1" />
+          <End Role="Menu1" Type="Self.Menu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menu">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Menu1">
+              <PropertyRef Name="ParentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OperationHelp_Function">
+          <End Role="Function" Type="Self.Function" Multiplicity="1" />
+          <End Role="OperationHelp" Type="Self.OperationHelp" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Function">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OperationHelp">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Property_Dic">
+          <End Role="Dic" Type="Self.Dic" Multiplicity="0..1" />
+          <End Role="Property" Type="Self.Property" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Dic">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Property">
+              <PropertyRef Name="DicId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Property_EntityType">
+          <End Role="EntityType" Type="Self.EntityType" Multiplicity="1" />
+          <End Role="Property" Type="Self.Property" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EntityType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Property">
+              <PropertyRef Name="EntityTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Property_Property">
+          <End Role="Property" Type="Self.Property" Multiplicity="0..1" />
+          <End Role="Property1" Type="Self.Property" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Property">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Property1">
+              <PropertyRef Name="ForeignPropertyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ResourceType_AppSystem">
+          <End Role="AppSystem" Type="Self.AppSystem" Multiplicity="1" />
+          <End Role="ResourceType" Type="Self.ResourceType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AppSystem">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ResourceType">
+              <PropertyRef Name="AppSystemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UiView_Function">
+          <End Role="Function" Type="Self.Function" Multiplicity="1" />
+          <End Role="UiView" Type="Self.UiView" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Function">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UiView">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UiViewButton_Button">
+          <End Role="Button" Type="Self.Button" Multiplicity="1" />
+          <End Role="UiViewButton" Type="Self.UiViewButton" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Button">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UiViewButton">
+              <PropertyRef Name="ButtonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UiViewButton_Function">
+          <End Role="Function" Type="Self.Function" Multiplicity="0..1" />
+          <End Role="UiViewButton" Type="Self.UiViewButton" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Function">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UiViewButton">
+              <PropertyRef Name="FunctionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UiViewButton_Page">
+          <End Role="UiView" Type="Self.UiView" Multiplicity="1" />
+          <End Role="UiViewButton" Type="Self.UiViewButton" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UiView">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UiViewButton">
+              <PropertyRef Name="UiViewId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="InfraTableModelStoreContainer">
+          <EntitySet Name="AppSystem" EntityType="Self.AppSystem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Button" EntityType="Self.Button" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Dic" EntityType="Self.Dic" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DicItem" EntityType="Self.DicItem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EntityType" EntityType="Self.EntityType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Function" EntityType="Self.Function" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FunctionIo" EntityType="Self.FunctionIo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Menu" EntityType="Self.Menu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OperationHelp" EntityType="Self.OperationHelp" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Organization" EntityType="Self.Organization" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Property" EntityType="Self.Property" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ResourceType" EntityType="Self.ResourceType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UiView" EntityType="Self.UiView" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UiViewButton" EntityType="Self.UiViewButton" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_DicItem_Dic" Association="Self.FK_DicItem_Dic">
+            <End Role="Dic" EntitySet="Dic" />
+            <End Role="DicItem" EntitySet="DicItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Function_ResourceType" Association="Self.FK_Function_ResourceType">
+            <End Role="ResourceType" EntitySet="ResourceType" />
+            <End Role="Function" EntitySet="Function" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FunctionIo_Function" Association="Self.FK_FunctionIo_Function">
+            <End Role="Function" EntitySet="Function" />
+            <End Role="FunctionIo" EntitySet="FunctionIo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Menu_AppSystem" Association="Self.FK_Menu_AppSystem">
+            <End Role="AppSystem" EntitySet="AppSystem" />
+            <End Role="Menu" EntitySet="Menu" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Menu_Parent" Association="Self.FK_Menu_Parent">
+            <End Role="Menu" EntitySet="Menu" />
+            <End Role="Menu1" EntitySet="Menu" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OperationHelp_Function" Association="Self.FK_OperationHelp_Function">
+            <End Role="Function" EntitySet="Function" />
+            <End Role="OperationHelp" EntitySet="OperationHelp" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Property_Dic" Association="Self.FK_Property_Dic">
+            <End Role="Dic" EntitySet="Dic" />
+            <End Role="Property" EntitySet="Property" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Property_EntityType" Association="Self.FK_Property_EntityType">
+            <End Role="EntityType" EntitySet="EntityType" />
+            <End Role="Property" EntitySet="Property" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Property_Property" Association="Self.FK_Property_Property">
+            <End Role="Property" EntitySet="Property" />
+            <End Role="Property1" EntitySet="Property" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ResourceType_AppSystem" Association="Self.FK_ResourceType_AppSystem">
+            <End Role="AppSystem" EntitySet="AppSystem" />
+            <End Role="ResourceType" EntitySet="ResourceType" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UiView_Function" Association="Self.FK_UiView_Function">
+            <End Role="Function" EntitySet="Function" />
+            <End Role="UiView" EntitySet="UiView" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UiViewButton_Button" Association="Self.FK_UiViewButton_Button">
+            <End Role="Button" EntitySet="Button" />
+            <End Role="UiViewButton" EntitySet="UiViewButton" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UiViewButton_Function" Association="Self.FK_UiViewButton_Function">
+            <End Role="Function" EntitySet="Function" />
+            <End Role="UiViewButton" EntitySet="UiViewButton" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UiViewButton_Page" Association="Self.FK_UiViewButton_Page">
+            <End Role="UiView" EntitySet="UiView" />
+            <End Role="UiViewButton" EntitySet="UiViewButton" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AnycmdModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AppSystem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="PrincipalId" Type="Guid" Nullable="false" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ImageUrl" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="SsoAuthAddress" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="SortCode" Type="Int32" Nullable="false" />
+          <Property Name="Icon" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="IsEnabled" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CreateOn" Type="DateTime" Precision="3" />
+          <Property Name="CreateUserId" Type="Guid" />
+          <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedUserId" Type="Guid" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="RowGuid" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Button">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Code" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CategoryCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SortCode" Type="Int32" Nullable="false" />
+          <Property Name="IsEnabled" Type="Int32" Nullable="false" />
+          <Property Name="Icon" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CreateOn" Type="DateTime" Precision="3" />
+          <Property Name="CreateUserId" Type="Guid" />
+          <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedUserId" Type="Guid" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="RowGuid" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Dic">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsEnabled" Type="Int32" Nullable="false" />
+          <Property Name="SortCode" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CreateOn" Type="DateTime" Precision="3" />
+          <Property Name="CreateUserId" Type="Guid" />
+          <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedUserId" Type="Guid" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="RowGuid" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DicItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="DicId" Type="Guid" Nullable="false" />
+          <Property Name="Code" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsEnabled" Type="Int32" Nullable="false" />
+          <Property Name="SortCode" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CreateOn" Type="DateTime" Precision="3" />
+          <Property Name="CreateUserId" Type="Guid" />
+          <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedUserId" Type="Guid" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="RowGuid" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EntityType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="DatabaseId" Type="Guid" Nullable="false" />
+          <Property Name="Codespace" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Code" Type="String" MaxLength="36" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="36" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsOrganizational" Type="Boolean" Nullable="false" />
+          <Property Name="SchemaName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="true" />
+          <Property Name="TableName" Type="String" MaxLength="36" FixedLength="false" Unicode="false" Nullable="true" />
+          <Property Name="SortCode" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EditWidth" Type="Int32" Nullable="false" />
+          <Property Name="EditHeight" Type="Int32" Nullable="false" />
+          <Property Name="DeveloperId" Type="Guid" Nullable="false" />
+          <Property Name="CreateOn" Type="DateTime" Precision="3" />
+          <Property Name="CreateUserId" Type="Guid" />
+          <Property Name="CreateBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedUserId" Type="Guid" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="RowGuid" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Function">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="ResourceTypeId" Type="Guid" Nullable="false" />
+          <Property Name="Guid" Type="Guid" />
+          <Property Name="Code" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IsEnabled" Type="Int32" Nullable="false" />
+          <Property Name="IsManaged" Type="Boolean" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DeveloperId" Type="Guid" Nullable="false" />
+          <Property Name="SortCode" Type="Int32" Nullable="false" />
+          <Property Name="CreateOn" Type="DateTime" Precision="3" />
+          <Property Name="CreateUserId" Type="Guid" />
+          <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedUserId" Type="Guid" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="RowGuid" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Menu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="ParentId" Type="Guid" />
+          <Property Name="AppSystemId" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Url" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="SortCode" Type="Int32" Nullable="false" />
+          <Property Name="Icon" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CreateOn" Type="DateTime" Precision="3" />
+          <Property Name="CreateUserId" Type="Guid" />
+          <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedUserId" Type="Guid" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="RowGuid" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OperationHelp">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsEnabled" Type="Int32" Nullable="false" />
+          <Property Name="CreateOn" Type="DateTime" Precision="3" />
+          <Property Name="CreateUserId" Type="Guid" />
+          <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedUserId" Type="Guid" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="RowGuid" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Organization">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="CategoryCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ParentCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ContractorId" Type="Guid" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ShortName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="OuterPhone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="InnerPhone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Fax" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Postalcode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="WebPage" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="DeletionStateCode" Type="Int32" Nullable="false" />
+          <Property Name="IsEnabled" Type="Int32" Nullable="false" />
+          <Property Name="Icon" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="SortCode" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CreateOn" Type="DateTime" Precision="3" />
+          <Property Name="CreateUserId" Type="Guid" />
+          <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedUserId" Type="Guid" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="RowGuid" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UiView">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Icon" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Tooltip" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreateOn" Type="DateTime" Precision="3" />
+          <Property Name="CreateUserId" Type="Guid" />
+          <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedUserId" Type="Guid" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="RowGuid" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UiViewButton">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="UiViewId" Type="Guid" Nullable="false" />
+          <Property Name="FunctionId" Type="Guid" />
+          <Property Name="ButtonId" Type="Guid" Nullable="false" />
+          <Property Name="IsEnabled" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreateOn" Type="DateTime" Precision="3" />
+          <Property Name="CreateUserId" Type="Guid" />
+          <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedUserId" Type="Guid" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="RowGuid" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Property">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="EntityTypeId" Type="Guid" Nullable="false" />
+          <Property Name="DicId" Type="Guid" />
+          <Property Name="ForeignPropertyId" Type="Guid" />
+          <Property Name="Code" Type="String" MaxLength="36" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="36" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MaxLength" Type="Int32" />
+          <Property Name="SortCode" Type="Int32" Nullable="false" />
+          <Property Name="GuideWords" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Tooltip" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Icon" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="IsDetailsShow" Type="Boolean" Nullable="false" />
+          <Property Name="IsDeveloperOnly" Type="Boolean" Nullable="false" />
+          <Property Name="IsInput" Type="Boolean" Nullable="false" />
+          <Property Name="InputType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IsTotalLine" Type="Boolean" Nullable="false" />
+          <Property Name="GroupCode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CreateOn" Type="DateTime" Precision="3" />
+          <Property Name="CreateBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="CreateUserId" Type="Guid" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedUserId" Type="Guid" />
+          <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="RowGuid" Type="Guid" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Menu_AppSystem">
+          <End Role="AppSystem" Type="Self.AppSystem" Multiplicity="1" />
+          <End Role="Menu" Type="Self.Menu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AppSystem">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Menu">
+              <PropertyRef Name="AppSystemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UiViewButton_Button">
+          <End Role="Button" Type="Self.Button" Multiplicity="1" />
+          <End Role="UiViewButton" Type="Self.UiViewButton" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Button">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UiViewButton">
+              <PropertyRef Name="ButtonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DicItem_Dic">
+          <End Role="Dic" Type="Self.Dic" Multiplicity="1" />
+          <End Role="DicItem" Type="Self.DicItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Dic">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DicItem">
+              <PropertyRef Name="DicId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Property_Dic">
+          <End Role="Dic" Type="Self.Dic" Multiplicity="0..1" />
+          <End Role="Property" Type="Self.Property" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Dic">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Property">
+              <PropertyRef Name="DicId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Property_EntityType">
+          <End Role="EntityType" Type="Self.EntityType" Multiplicity="1" />
+          <End Role="Property" Type="Self.Property" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EntityType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Property">
+              <PropertyRef Name="EntityTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OperationHelp_Function">
+          <End Role="Function" Type="Self.Function" Multiplicity="1" />
+          <End Role="OperationHelp" Type="Self.OperationHelp" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Function">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OperationHelp">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UiView_Function">
+          <End Role="Function" Type="Self.Function" Multiplicity="1" />
+          <End Role="UiView" Type="Self.UiView" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Function">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UiView">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UiViewButton_Function">
+          <End Role="Function" Type="Self.Function" Multiplicity="0..1" />
+          <End Role="UiViewButton" Type="Self.UiViewButton" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Function">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UiViewButton">
+              <PropertyRef Name="FunctionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Menu_Parent">
+          <End Role="Menu" Type="Self.Menu" Multiplicity="0..1" />
+          <End Role="Menu1" Type="Self.Menu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menu">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Menu1">
+              <PropertyRef Name="ParentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UiViewButton_UiView">
+          <End Role="UiView" Type="Self.UiView" Multiplicity="1" />
+          <End Role="UiViewButton" Type="Self.UiViewButton" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UiView">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UiViewButton">
+              <PropertyRef Name="UiViewId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Property_Property">
+          <End Role="Property" Type="Self.Property" Multiplicity="0..1" />
+          <End Role="Property1" Type="Self.Property" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Property">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Property1">
+              <PropertyRef Name="ForeignPropertyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="InfraEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AppSystems" EntityType="Self.AppSystem" />
+          <EntitySet Name="Buttons" EntityType="Self.Button" />
+          <EntitySet Name="Dics" EntityType="Self.Dic" />
+          <EntitySet Name="DicItems" EntityType="Self.DicItem" />
+          <EntitySet Name="EntityTypes" EntityType="Self.EntityType" />
+          <EntitySet Name="Functions" EntityType="Self.Function" />
+          <EntitySet Name="Menus" EntityType="Self.Menu" />
+          <EntitySet Name="OperationHelps" EntityType="Self.OperationHelp" />
+          <EntitySet Name="Organizations" EntityType="Self.Organization" />
+          <EntitySet Name="UiViews" EntityType="Self.UiView" />
+          <EntitySet Name="UiViewButtons" EntityType="Self.UiViewButton" />
+          <EntitySet Name="Properties" EntityType="Self.Property" />
+          <AssociationSet Name="FK_Menu_AppSystem" Association="Self.FK_Menu_AppSystem">
+            <End Role="AppSystem" EntitySet="AppSystems" />
+            <End Role="Menu" EntitySet="Menus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UiViewButton_Button" Association="Self.FK_UiViewButton_Button">
+            <End Role="Button" EntitySet="Buttons" />
+            <End Role="UiViewButton" EntitySet="UiViewButtons" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DicItem_Dic" Association="Self.FK_DicItem_Dic">
+            <End Role="Dic" EntitySet="Dics" />
+            <End Role="DicItem" EntitySet="DicItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Property_Dic" Association="Self.FK_Property_Dic">
+            <End Role="Dic" EntitySet="Dics" />
+            <End Role="Property" EntitySet="Properties" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Property_EntityType" Association="Self.FK_Property_EntityType">
+            <End Role="EntityType" EntitySet="EntityTypes" />
+            <End Role="Property" EntitySet="Properties" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OperationHelp_Function" Association="Self.FK_OperationHelp_Function">
+            <End Role="Function" EntitySet="Functions" />
+            <End Role="OperationHelp" EntitySet="OperationHelps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UiView_Function" Association="Self.FK_UiView_Function">
+            <End Role="Function" EntitySet="Functions" />
+            <End Role="UiView" EntitySet="UiViews" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UiViewButton_Function" Association="Self.FK_UiViewButton_Function">
+            <End Role="Function" EntitySet="Functions" />
+            <End Role="UiViewButton" EntitySet="UiViewButtons" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Menu_Parent" Association="Self.FK_Menu_Parent">
+            <End Role="Menu" EntitySet="Menus" />
+            <End Role="Menu1" EntitySet="Menus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UiViewButton_UiView" Association="Self.FK_UiViewButton_UiView">
+            <End Role="UiView" EntitySet="UiViews" />
+            <End Role="UiViewButton" EntitySet="UiViewButtons" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Property_Property" Association="Self.FK_Property_Property">
+            <End Role="Property" EntitySet="Properties" />
+            <End Role="Property1" EntitySet="Properties" />
+          </AssociationSet>
+          <EntitySet Name="ResourceTypes" EntityType="AnycmdModel.ResourceType" />
+          <AssociationSet Name="FK_Resource_AppSystem" Association="AnycmdModel.FK_Resource_AppSystem">
+            <End Role="AppSystem" EntitySet="AppSystems" />
+            <End Role="ResourceType" EntitySet="ResourceTypes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Function_Resource" Association="AnycmdModel.FK_Function_Resource">
+            <End Role="ResourceType" EntitySet="ResourceTypes" />
+            <End Role="Function" EntitySet="Functions" />
+          </AssociationSet>
+          <EntitySet Name="FunctionIos" EntityType="AnycmdModel.FunctionIo" />
+          <AssociationSet Name="FK_FunctionIo_Function" Association="AnycmdModel.FK_FunctionIo_Function">
+            <End Role="Function" EntitySet="Functions" />
+            <End Role="FunctionIo" EntitySet="FunctionIos" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="ResourceType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="AppSystemId" Type="Guid" Nullable="false" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Icon" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="SortCode" Type="Int32" Nullable="false" />
+          <Property Name="CreateOn" Type="DateTime" Precision="3" />
+          <Property Name="CreateUserId" Type="Guid" />
+          <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedUserId" Type="Guid" />
+          <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="RowGuid" Type="Guid" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Resource_AppSystem">
+          <End Type="AnycmdModel.AppSystem" Role="AppSystem" Multiplicity="1" />
+          <End Type="AnycmdModel.ResourceType" Role="ResourceType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AppSystem">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ResourceType">
+              <PropertyRef Name="AppSystemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Function_Resource">
+          <End Type="AnycmdModel.ResourceType" Role="ResourceType" Multiplicity="1" />
+          <End Type="AnycmdModel.Function" Role="Function" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ResourceType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Function">
+              <PropertyRef Name="ResourceTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="FunctionIo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="FunctionId" Type="Guid" Nullable="false" />
+          <Property Name="Direction" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CreateOn" Type="DateTime" Precision="3" />
+          <Property Name="CreateUserId" Type="Guid" />
+          <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedUserId" Type="Guid" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RowGuid" Type="Guid" Nullable="false" />
+          <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <Association Name="FK_FunctionIo_Function">
+          <End Type="AnycmdModel.Function" Role="Function" Multiplicity="1" />
+          <End Type="AnycmdModel.FunctionIo" Role="FunctionIo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Function">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FunctionIo">
+              <PropertyRef Name="FunctionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="InfraTableModelStoreContainer" CdmEntityContainer="InfraEntities">
+          <EntitySetMapping Name="AppSystems">
+            <EntityTypeMapping TypeName="AnycmdModel.AppSystem">
+              <MappingFragment StoreEntitySet="AppSystem">
+                <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="PrincipalId" ColumnName="PrincipalId" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
+                <ScalarProperty Name="SsoAuthAddress" ColumnName="SsoAuthAddress" />
+                <ScalarProperty Name="SortCode" ColumnName="SortCode" />
+                <ScalarProperty Name="Icon" ColumnName="Icon" />
+                <ScalarProperty Name="IsEnabled" ColumnName="IsEnabled" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CreateOn" ColumnName="CreateOn" />
+                <ScalarProperty Name="CreateUserId" ColumnName="CreateUserId" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedUserId" ColumnName="ModifiedUserId" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="Etag" ColumnName="Etag" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Buttons">
+            <EntityTypeMapping TypeName="AnycmdModel.Button">
+              <MappingFragment StoreEntitySet="Button">
+                <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CategoryCode" ColumnName="CategoryCode" />
+                <ScalarProperty Name="SortCode" ColumnName="SortCode" />
+                <ScalarProperty Name="IsEnabled" ColumnName="IsEnabled" />
+                <ScalarProperty Name="Icon" ColumnName="Icon" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CreateOn" ColumnName="CreateOn" />
+                <ScalarProperty Name="CreateUserId" ColumnName="CreateUserId" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedUserId" ColumnName="ModifiedUserId" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="Etag" ColumnName="Etag" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Dics">
+            <EntityTypeMapping TypeName="AnycmdModel.Dic">
+              <MappingFragment StoreEntitySet="Dic">
+                <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="IsEnabled" ColumnName="IsEnabled" />
+                <ScalarProperty Name="SortCode" ColumnName="SortCode" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CreateOn" ColumnName="CreateOn" />
+                <ScalarProperty Name="CreateUserId" ColumnName="CreateUserId" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedUserId" ColumnName="ModifiedUserId" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="Etag" ColumnName="Etag" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DicItems">
+            <EntityTypeMapping TypeName="AnycmdModel.DicItem">
+              <MappingFragment StoreEntitySet="DicItem">
+                <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DicId" ColumnName="DicId" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="IsEnabled" ColumnName="IsEnabled" />
+                <ScalarProperty Name="SortCode" ColumnName="SortCode" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CreateOn" ColumnName="CreateOn" />
+                <ScalarProperty Name="CreateUserId" ColumnName="CreateUserId" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedUserId" ColumnName="ModifiedUserId" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="Etag" ColumnName="Etag" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EntityTypes">
+            <EntityTypeMapping TypeName="AnycmdModel.EntityType">
+              <MappingFragment StoreEntitySet="EntityType">
+                <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DatabaseId" ColumnName="DatabaseId" />
+                <ScalarProperty Name="Codespace" ColumnName="Codespace" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="IsOrganizational" ColumnName="IsOrganizational" />
+                <ScalarProperty Name="SchemaName" ColumnName="SchemaName" />
+                <ScalarProperty Name="TableName" ColumnName="TableName" />
+                <ScalarProperty Name="SortCode" ColumnName="SortCode" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="EditWidth" ColumnName="EditWidth" />
+                <ScalarProperty Name="EditHeight" ColumnName="EditHeight" />
+                <ScalarProperty Name="DeveloperId" ColumnName="DeveloperId" />
+                <ScalarProperty Name="CreateOn" ColumnName="CreateOn" />
+                <ScalarProperty Name="CreateUserId" ColumnName="CreateUserId" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedUserId" ColumnName="ModifiedUserId" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="Etag" ColumnName="Etag" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Functions">
+            <EntityTypeMapping TypeName="AnycmdModel.Function">
+              <MappingFragment StoreEntitySet="Function">
+                <ScalarProperty Name="Guid" ColumnName="Guid" />
+                <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ResourceTypeId" ColumnName="ResourceTypeId" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="IsEnabled" ColumnName="IsEnabled" />
+                <ScalarProperty Name="IsManaged" ColumnName="IsManaged" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="DeveloperId" ColumnName="DeveloperId" />
+                <ScalarProperty Name="SortCode" ColumnName="SortCode" />
+                <ScalarProperty Name="CreateOn" ColumnName="CreateOn" />
+                <ScalarProperty Name="CreateUserId" ColumnName="CreateUserId" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedUserId" ColumnName="ModifiedUserId" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="Etag" ColumnName="Etag" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Menus">
+            <EntityTypeMapping TypeName="AnycmdModel.Menu">
+              <MappingFragment StoreEntitySet="Menu">
+                <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="AppSystemId" ColumnName="AppSystemId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="SortCode" ColumnName="SortCode" />
+                <ScalarProperty Name="Icon" ColumnName="Icon" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CreateOn" ColumnName="CreateOn" />
+                <ScalarProperty Name="CreateUserId" ColumnName="CreateUserId" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedUserId" ColumnName="ModifiedUserId" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="Etag" ColumnName="Etag" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OperationHelps">
+            <EntityTypeMapping TypeName="AnycmdModel.OperationHelp">
+              <MappingFragment StoreEntitySet="OperationHelp">
+                <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="IsEnabled" ColumnName="IsEnabled" />
+                <ScalarProperty Name="CreateOn" ColumnName="CreateOn" />
+                <ScalarProperty Name="CreateUserId" ColumnName="CreateUserId" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedUserId" ColumnName="ModifiedUserId" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="Etag" ColumnName="Etag" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Organizations">
+            <EntityTypeMapping TypeName="AnycmdModel.Organization">
+              <MappingFragment StoreEntitySet="Organization">
+                <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
+                <ScalarProperty Name="ContractorId" ColumnName="ContractorId" />
+                <ScalarProperty Name="ParentCode" ColumnName="ParentCode" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CategoryCode" ColumnName="CategoryCode" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="ShortName" ColumnName="ShortName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="OuterPhone" ColumnName="OuterPhone" />
+                <ScalarProperty Name="InnerPhone" ColumnName="InnerPhone" />
+                <ScalarProperty Name="Fax" ColumnName="Fax" />
+                <ScalarProperty Name="Postalcode" ColumnName="Postalcode" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="WebPage" ColumnName="WebPage" />
+                <ScalarProperty Name="DeletionStateCode" ColumnName="DeletionStateCode" />
+                <ScalarProperty Name="IsEnabled" ColumnName="IsEnabled" />
+                <ScalarProperty Name="Icon" ColumnName="Icon" />
+                <ScalarProperty Name="SortCode" ColumnName="SortCode" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CreateOn" ColumnName="CreateOn" />
+                <ScalarProperty Name="CreateUserId" ColumnName="CreateUserId" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedUserId" ColumnName="ModifiedUserId" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="Etag" ColumnName="Etag" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UiViews">
+            <EntityTypeMapping TypeName="AnycmdModel.UiView">
+              <MappingFragment StoreEntitySet="UiView">
+                <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Icon" ColumnName="Icon" />
+                <ScalarProperty Name="Tooltip" ColumnName="Tooltip" />
+                <ScalarProperty Name="CreateOn" ColumnName="CreateOn" />
+                <ScalarProperty Name="CreateUserId" ColumnName="CreateUserId" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedUserId" ColumnName="ModifiedUserId" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="Etag" ColumnName="Etag" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UiViewButtons">
+            <EntityTypeMapping TypeName="AnycmdModel.UiViewButton">
+              <MappingFragment StoreEntitySet="UiViewButton">
+                <ScalarProperty Name="UiViewId" ColumnName="UiViewId" />
+                <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FunctionId" ColumnName="FunctionId" />
+                <ScalarProperty Name="ButtonId" ColumnName="ButtonId" />
+                <ScalarProperty Name="IsEnabled" ColumnName="IsEnabled" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CreateOn" ColumnName="CreateOn" />
+                <ScalarProperty Name="CreateUserId" ColumnName="CreateUserId" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedUserId" ColumnName="ModifiedUserId" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="Etag" ColumnName="Etag" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Properties">
+            <EntityTypeMapping TypeName="AnycmdModel.Property">
+              <MappingFragment StoreEntitySet="Property">
+                <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="EntityTypeId" ColumnName="EntityTypeId" />
+                <ScalarProperty Name="DicId" ColumnName="DicId" />
+                <ScalarProperty Name="ForeignPropertyId" ColumnName="ForeignPropertyId" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="MaxLength" ColumnName="MaxLength" />
+                <ScalarProperty Name="SortCode" ColumnName="SortCode" />
+                <ScalarProperty Name="GuideWords" ColumnName="GuideWords" />
+                <ScalarProperty Name="Tooltip" ColumnName="Tooltip" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Icon" ColumnName="Icon" />
+                <ScalarProperty Name="IsDetailsShow" ColumnName="IsDetailsShow" />
+                <ScalarProperty Name="IsDeveloperOnly" ColumnName="IsDeveloperOnly" />
+                <ScalarProperty Name="IsInput" ColumnName="IsInput" />
+                <ScalarProperty Name="InputType" ColumnName="InputType" />
+                <ScalarProperty Name="IsTotalLine" ColumnName="IsTotalLine" />
+                <ScalarProperty Name="GroupCode" ColumnName="GroupCode" />
+                <ScalarProperty Name="CreateOn" ColumnName="CreateOn" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateUserId" ColumnName="CreateUserId" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedUserId" ColumnName="ModifiedUserId" />
+                <ScalarProperty Name="Etag" ColumnName="Etag" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ResourceTypes">
+            <EntityTypeMapping TypeName="AnycmdModel.ResourceType">
+              <MappingFragment StoreEntitySet="ResourceType">
+                <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
+                <ScalarProperty Name="Etag" ColumnName="Etag" />
+                <ScalarProperty Name="ModifiedUserId" ColumnName="ModifiedUserId" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateUserId" ColumnName="CreateUserId" />
+                <ScalarProperty Name="CreateOn" ColumnName="CreateOn" />
+                <ScalarProperty Name="SortCode" ColumnName="SortCode" />
+                <ScalarProperty Name="Icon" ColumnName="Icon" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="AppSystemId" ColumnName="AppSystemId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FunctionIos">
+            <EntityTypeMapping TypeName="AnycmdModel.FunctionIo">
+              <MappingFragment StoreEntitySet="FunctionIo">
+                <ScalarProperty Name="Etag" ColumnName="Etag" />
+                <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedUserId" ColumnName="ModifiedUserId" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateUserId" ColumnName="CreateUserId" />
+                <ScalarProperty Name="CreateOn" ColumnName="CreateOn" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Direction" ColumnName="Direction" />
+                <ScalarProperty Name="FunctionId" ColumnName="FunctionId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="无" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram DiagramId="027e1892ab0543529a35ea0861bcf6a7" Name="Diagram1" ZoomLevel="95">
+        <EntityTypeShape EntityType="AnycmdModel.AppSystem" Width="1.75" PointX="0.75" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="AnycmdModel.Button" Width="1.625" PointX="8" PointY="14.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="AnycmdModel.Dic" Width="1.625" PointX="10.75" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AnycmdModel.DicItem" Width="1.625" PointX="13.125" PointY="14.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="AnycmdModel.EntityType" Width="1.625" PointX="13.75" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="AnycmdModel.Function" Width="1.625" PointX="5.625" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AnycmdModel.Menu" Width="1.625" PointX="3.25" PointY="13.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AnycmdModel.OperationHelp" Width="1.625" PointX="8" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AnycmdModel.Organization" Width="1.875" PointX="12.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AnycmdModel.UiView" Width="1.625" PointX="8" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AnycmdModel.UiViewButton" Width="1.625" PointX="10.375" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AnycmdModel.Property" Width="1.75" PointX="16.125" PointY="13.625" IsExpanded="true" />
+        <AssociationConnector Association="AnycmdModel.FK_Menu_AppSystem" ManuallyRouted="false" />
+        <AssociationConnector Association="AnycmdModel.FK_UiViewButton_Button" ManuallyRouted="false" />
+        <AssociationConnector Association="AnycmdModel.FK_DicItem_Dic" ManuallyRouted="false" />
+        <AssociationConnector Association="AnycmdModel.FK_Property_Dic" ManuallyRouted="false" />
+        <AssociationConnector Association="AnycmdModel.FK_Property_EntityType" ManuallyRouted="false" />
+        <AssociationConnector Association="AnycmdModel.FK_OperationHelp_Function" ManuallyRouted="false" />
+        <AssociationConnector Association="AnycmdModel.FK_UiView_Function" ManuallyRouted="false" />
+        <AssociationConnector Association="AnycmdModel.FK_UiViewButton_Function" ManuallyRouted="false" />
+        <AssociationConnector Association="AnycmdModel.FK_Menu_Parent" ManuallyRouted="false" />
+        <AssociationConnector Association="AnycmdModel.FK_UiViewButton_UiView" ManuallyRouted="false" />
+        <AssociationConnector Association="AnycmdModel.FK_Property_Property" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="AnycmdModel.ResourceType" Width="1.625" PointX="3.25" PointY="5.625" />
+        <AssociationConnector Association="AnycmdModel.FK_Resource_AppSystem" />
+        <AssociationConnector Association="AnycmdModel.FK_Function_Resource" />
+        <EntityTypeShape EntityType="AnycmdModel.FunctionIo" Width="1.5" PointX="8" PointY="9.5" />
+        <AssociationConnector Association="AnycmdModel.FK_FunctionIo_Function" />
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

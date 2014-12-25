@@ -1,0 +1,78 @@
+﻿<link rel="stylesheet" type="text/css" href="@Url.Content("~/Scripts/emotions/emoticon.css")" />
+@model string
+@{
+	var prifix = Model;
+	var codespace = "Ac";
+	var entityTypeCode = "Button";
+}
+<form id="@(prifix)form1" method="post">
+	<input name="Id" class="mini-hidden" />
+	<input id="hdIcon" name="Icon" class="mini-hidden" />
+	<div style="padding-left: 11px; padding-bottom: 5px;">
+		<table>
+			<tr>
+				<td>
+					@Html.IconLabel("Code", entityTypeCode, codespace)
+				</td>
+				<td>
+					<input name="Code" class="mini-textbox" required="true" />
+					@Html.Qtip("Code", entityTypeCode, codespace)
+				</td>
+				<td>
+					@Html.IconLabel("Name", entityTypeCode, codespace)
+				</td>
+				<td>
+					<input name="Name" class="mini-textbox" required="true" />
+					@Html.Qtip("Code", entityTypeCode, codespace)
+				</td>
+			</tr>
+			<tr>
+				<td>
+					@Html.IconLabel("Icon", entityTypeCode, codespace)
+				</td>
+				<td>
+					<div id="msg" style="float: left; margin: 0px; text-align: center; line-height: 30px; border: 0px; height: 30px; width: 30px;"></div>
+					<a href="JavaScript:void(0)" id="message_face">选择图标</a>
+					@Html.Qtip("Icon", entityTypeCode, codespace)
+				</td>
+				<td>
+					@Html.IconLabel("IsEnabled", entityTypeCode, codespace)
+				</td>
+				<td>
+					<input name="IsEnabled" class="mini-combobox" style="width: 125px;" required="true"
+						textfield="name" valuefield="code" data="@Html.DicItemJsonArray(Html.GetProperty("IsEnabled", entityTypeCode, codespace))" shownullitem="false" />
+					@Html.Qtip("IsEnabled", entityTypeCode, codespace)
+				</td>
+			</tr>
+			<tr>
+				<td>
+					@Html.IconLabel("SortCode", entityTypeCode, codespace)
+				</td>
+				<td>
+					<input name="SortCode" class="mini-textbox" vtype="int" value="0" required="true" />
+					@Html.Qtip("SortCode", entityTypeCode, codespace)
+				</td>
+				<td>
+					@Html.IconLabel("CategoryCode", entityTypeCode, codespace)
+				</td>
+				<td colspan="3">
+					<input name="CategoryCode" class="mini-combobox" required="true"
+						   textfield="name" valuefield="code" data="@Html.DicItemJsonArray(Html.GetProperty("CategoryCode"))" shownullitem="false" />
+					@Html.Qtip("CategoryCode", entityTypeCode, codespace)
+				</td>
+			</tr>
+			<tr>
+				<td>
+					@Html.IconLabel("Description", entityTypeCode, codespace)
+				</td>
+				<td colspan="3">
+					<input name="Description" class="mini-textarea" style="width: 352px;" />
+					@Html.Qtip("Description", entityTypeCode, codespace)
+				</td>
+			</tr>
+		</table>
+	</div>
+</form>
+<div id="faceWindow" class="mini-window" visible="false" title="选择图标" style="width: 700px; height: 470px">
+</div>
+<script type="text/javascript" src="@Url.Content("~/Scripts/emotions/jquery.emoticons.js")"></script>

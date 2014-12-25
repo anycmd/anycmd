@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+        <link rel="stylesheet" type="text/css" href="emoticon.css" />
+        <title>test</title>
+        <script src="jquery.min.js" type="text/javascript"></script>
+        <script src="jquery.emoticons.js" type="text/javascript"></script>
+
+    </head>
+    <body id="message" class="sendmsg">
+       <div id="container" style="padding:30px;">
+	   <textarea name="msg" id="msg"  cols="50" style="height:200px;" ></textarea>
+	   <div><a href="JavaScript:void(0)" id="message_face">表情</a></div>
+	   <br />
+	   <div><a href="JavaScript:void(0)" id="show_face">显示textarea框中的表情</a></div>
+	   <br />
+	   <div class="show_e"></div>
+	   </div>
+        <script type="text/javascript">
+            //放新浪微博表情
+            $("#message_face").jqfaceedit({txtAreaObj:$("#msg"),containerObj:$('#container'),top:25,left:-27});
+			//显示表情
+			 $("#show_face").click(function(){
+				$('.show_e').html($('#msg').val());
+				$('.show_e').emotionsToHtml();
+});
+
+        </script>
+    </body>
+</html>

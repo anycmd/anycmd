@@ -1,0 +1,252 @@
+﻿@{
+    Layout = "~/Views/Shared/_Index.cshtml";
+    var infoTabView = Html.GetRuntimeUIVIew("Details");
+    var InfoRule = Html.GetRuntimeUIVIew("ElementInfoRules", "InfoRule");
+    var checkView = Html.GetRuntimeUIVIew("Checks");
+    var prifix = "Edi_Element_Index_";
+}
+@section Head{
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/emotions/emoticon.css")" type="text/css" />
+}
+<div id="@(prifix)helperSplitter" class="mini-splitter helperSplitter" style="width: 100%; height: 100%;">
+    <div showcollapsebutton="true">
+        <div class="mini-splitter" style="width: 100%; height: 100%;">
+            <div size="230" showcollapsebutton="true">
+                <div class="mini-splitter" vertical="true" style="width: 100%; height: 100%;">
+                    <div size="360">
+                        <div class="mini-toolbar" style="border-left: 0; border-right: 0; border-top: 0px; padding: 2px;">
+                            <span style="padding-left: 5px;">本体和本体元素分组</span>
+                            @if (this.CurrentUser().IsDeveloper()) {
+                                <a href="/api/Ontology/GetAll" target="_blank">本体文档</a>
+                            }
+                        </div>
+                        <div class="mini-fit">
+                            <div id="@(prifix)dgOntology" class="mini-datagrid" style="width:100%;height:100%;" allowalternating="true"
+                                 url="@Url.Action("GetPlistOntologies", "Ontology")" idfield="Id" selectonload="true" multiselect="false"
+                                 sizelist="[5,10,20,50]" pagesize="10">
+                                <div property="columns">
+                                    <div type="indexcolumn" width="20">
+                                    </div>
+                                    <div type="checkcolumn" width="20">
+                                    </div>
+                                    <div field="Name" width="120" headeralign="center">
+                                        @Html.IconLabel("Name", "Ontology")
+                                    </div>
+                                    <div field="Code" width="100" headeralign="center" allowsort="true">
+                                        @Html.IconLabel("Code", "Ontology")
+                                    </div>
+                                    <div field="IsEnabled" width="60" headeralign="center" allowsort="true">
+                                        @Html.IconLabel("IsEnabled", "Ontology")
+                                    </div>
+                                    <div field="SortCode" width="70" headeralign="center" align="center" allowsort="true">
+                                        @Html.IconLabel("SortCode", "Ontology")
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="mini-fit noGridBorder">
+                            <div id="@(prifix)dgInfoGroup" class="mini-datagrid" style="width:100%;height:100%;" allowalternating="true"
+                                 url="@Url.Action("GetPlistInfoGroups", "Ontology")" idfield="Id" multiselect="false"
+                                 allowcelledit="true" pagesize="100" showfooter="false" selectonload="true">
+                                <div property="columns">
+                                    <div type="indexcolumn" width="20"></div>
+                                    <div type="checkcolumn" width="20"></div>
+                                    <div field="Name" width="100" headeralign="center" allowsort="false">
+                                        分组名称
+                                    </div>
+                                    <div field="SortCode" width="50" headeralign="center" align="center" allowsort="false">
+                                        @Html.IconLabel("SortCode", "Ontology")
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div showcollapsebutton="true">
+                <div id="@(prifix)splitter" class="mini-splitter" vertical="true" style="width: 100%; height: 100%;">
+                    <div size="410" showcollapsebutton="true">
+                        <div class="mini-splitter" style="width: 100%; height: 100%;">
+                            <div showcollapsebutton="true">
+                                <div class="mini-toolbar" style="border-left: 0; border-right: 0; border-top: 0px; padding: 2px;">
+                                    <div style="float: left">
+                                        @{Html.RenderPartial("Partials/UiViewButtons");}
+                                    </div>
+                                    <div style="float: right">
+                                    </div>
+                                    <div style="clear: both;">
+                                    </div>
+                                </div>
+                                <!--撑满页面-->
+                                <div class="mini-fit">
+                                    <div id="@(prifix)dgElement" class="mini-datagrid" style="width:100%;height:100%;" allowalternating="true"
+                                         url="@Url.Action("GetPlistElements")" idfield="Id" multiselect="true"
+                                         sizelist="[5,10,20,50]" pagesize="10" allowcelledit="true" showfilterrow="true">
+                                        <div property="columns">
+                                            <div type="indexcolumn">
+                                            </div>
+                                            <div type="checkcolumn">
+                                            </div>
+                                            <div name="action" width="70" headeralign="center" align="center" cellstyle="padding:0;">
+                                                <a id="@(prifix)btnSearchClear" property="filter" class="mini-button" style="float: right;">条件清空</a>
+                                            </div>
+                                            <div field="IsEnabled" width="50" headeralign="center" allowsort="true">
+                                                @Html.IconLabel("IsEnabled")
+                                                <input id="@(prifix)IsEnabledFilter" property="filter" name="IsEnabled" class="mini-combobox" style="width: 100%;"
+                                                       textfield="name" valuefield="code" data="@Html.DicItemJsonArray(Html.GetProperty("IsEnabled"))" shownullitem="true" />
+                                            </div>
+                                            <div field="IsConfigValid" width="60" headeralign="center" allowsort="false">
+                                                配置验证
+                                            </div>
+                                            <div field="IsInfoIdItem" width="60" headeralign="center" allowsort="false">
+                                                是信息标识项
+                                                <input id="@(prifix)IsInfoIdItemFilter" property="filter" name="IsInfoIdItem" class="mini-combobox" style="width: 100%;" textfield="name"
+                                                       valuefield="code" data="@Html.DicItemJsonArray(Html.GetProperty("IsInfoIdItem"))"
+                                                       value="" shownullitem="true" />
+                                            </div>
+                                            <div field="Icon" width="30" headeralign="center" align="center" allowsort="true">
+                                            </div>
+                                            <div field="Name" width="90" headeralign="center" allowsort="true">
+                                                名称
+                                                <input id="@(prifix)NameFilter" name="Name" property="filter" class="mini-textbox" style="width: 100%;" />
+                                            </div>
+                                            <div field="Code" width="80" headeralign="center" allowsort="true">
+                                                @Html.IconLabel("Code")
+                                                <input id="@(prifix)CodeFilter" name="Code" property="filter" class="mini-textbox" style="width: 100%;" />
+                                            </div>
+                                            <div field="FieldCode" width="80" headeralign="center" allowsort="true">
+                                                @Html.IconLabel("FieldCode")
+                                                <input id="@(prifix)FieldCodeFilter" name="FieldCode" property="filter" class="mini-textbox" style="width: 100%;" />
+                                            </div>
+                                            <div header="CLR" headeralign="center">
+                                                <div property="columns">
+                                                    <div field="OType" width="80" headeralign="center" allowsort="true">
+                                                        @Html.IconLabel("OType")
+                                                        <input id="@(prifix)OTypeFilter" property="filter" name="OType" class="mini-combobox" style="width: 100%;"
+                                                               textfield="name" valuefield="code" data="@Html.DicItemJsonArray(Html.GetProperty("OType"))" shownullitem="true" />
+                                                    </div>
+                                                    <div field="Nullable" width="60" headeralign="center" allowsort="true">
+                                                        @Html.IconLabel("Nullable")
+                                                        <input id="@(prifix)NullableFilter" property="filter" name="Nullable" class="mini-combobox" style="width: 100%;"
+                                                               textfield="name" valuefield="code" data="@Html.DicItemJsonArray(Html.GetProperty("Nullable"))" shownullitem="true" />
+                                                    </div>
+                                                    <div field="MaxLength" width="80" headeralign="center" allowsort="true">
+                                                        @Html.IconLabel("MaxLength")
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div header="数据库" headeralign="center">
+                                                <div property="columns">
+                                                    <div field="DbTypeName" width="80" headeralign="center" allowsort="false">
+                                                        类型
+                                                    </div>
+                                                    <div field="DbIsNullable" width="60" headeralign="center" allowsort="false">
+                                                        是否可空
+                                                    </div>
+                                                    <div field="DbMaxLength" width="80" headeralign="center" allowsort="false">
+                                                        最大长度
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div field="InfoDicName" width="60" headeralign="center" allowsort="false">
+                                                字典
+                                            </div>
+                                            <div field="Ref" width="90" headeralign="center" allowsort="true">
+                                                引用来源
+                                                <input id="@(prifix)RefFilter" name="Ref" property="filter" class="mini-textbox" style="width: 100%;" />
+                                            </div>
+                                            <div header="界面项：展示在" headeralign="center">
+                                                <div property="columns">
+                                                    <div field="IsDetailsShow" width="60" headeralign="center" allowsort="true">
+                                                        @Html.IconLabel("IsDetailsShow")
+                                                        <input id="@(prifix)IsDetailsShowFilter" property="filter" name="IsDetailsShow" class="mini-combobox" style="width: 100%;"
+                                                               textfield="name" valuefield="code" data="@Html.DicItemJsonArray(Html.GetProperty("IsDetailsShow"))" shownullitem="true" />
+                                                    </div>
+                                                    <div field="IsGridColumn" width="60" headeralign="center" allowsort="true">
+                                                        @Html.IconLabel("IsGridColumn")
+                                                        <input id="@(prifix)IsGridColumnFilter" property="filter" name="IsGridColumn" class="mini-combobox" style="width: 100%;"
+                                                               textfield="name" valuefield="code" data="@Html.DicItemJsonArray(Html.GetProperty("IsGridColumn"))" shownullitem="true" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div field="SortCode" width="70" headeralign="center" align="center" allowsort="true">
+                                                @Html.IconLabel("SortCode")
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div size="280" showcollapsebutton="false">
+                                <div class="mini-toolbar" style="border-left: 0; border-right: 0; border-top: 0px; padding: 2px;">
+                                    <div style="float: left">
+                                        <span style="padding-left: 5px;">元素级权限</span>
+                                        <a id="@(prifix)btnSaveAction" class="mini-button" @Html.IsEnabled("Element", "AddOrUpdateElementActions") iconcls="icon-save">保存</a>
+                                    </div>
+                                    <div style="float: right">
+                                    </div>
+                                    <div style="clear: both;">
+                                    </div>
+                                </div>
+                                <!--撑满页面-->
+                                <div class="mini-fit noGridBorder">
+                                    <div id="@(prifix)dgAction" class="mini-datagrid" style="width:100%;height:100%;" allowalternating="true"
+                                         url="@Url.Action("GetElementActions")" idfield="Id" multiselect="true" showpager="false"
+                                         allowcelledit="true" allowcellselect="true" pagesize="100">
+                                        <div property="columns">
+                                            <div type="indexcolumn" width="20"></div>
+                                            <div field="IsAllowed" type="comboboxcolumn" autoshowpopup="true" width="60" headeralign="center" align="center" allowsort="false">
+                                                允许
+                                                <input property="editor" class="mini-combobox" style="width:100%;" textfield="name" valuefield="code" data="@Html.InfoDicItemsJsonArray("allowType")" />
+                                            </div>
+                                            <div field="IsAudit" type="comboboxcolumn" autoshowpopup="true" width="60" headeralign="center" align="center" allowsort="false">
+                                                是否审核
+                                                <input property="editor" class="mini-combobox" style="width:100%;" textfield="name" valuefield="code" data="@Html.InfoDicItemsJsonArray("auditType")" />
+                                            </div>
+                                            <div field="Verb" width="60" headeralign="center" allowsort="false">
+                                                动词
+                                            </div>
+                                            <div field="Name" width="50" headeralign="center" allowsort="false">
+                                                名称
+                                            </div>
+                                            <div field="ElementName" width="70" headeralign="center" allowsort="false">
+                                                元素名
+                                            </div>
+                                            <div field="ActionIsAllow" width="50" headeralign="center" allowsort="false">
+                                                动作级允许
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div showcollapsebutton="true">
+                        <div id="@(prifix)tabs1" class="mini-tabs" style="width: 100%; height: 100%;display:none;" activeindex="0"
+                             bodystyle="padding:0;border:0;">
+                            <div name="infoTab" bodycls="inner" title="@infoTabView.Title" iconstyle="background:url(/content/icons/16x16/@infoTabView.Icon)">
+                            </div>
+                            <div name="InfoRuleTab" bodycls="inner" title="@InfoRule.Title" iconstyle="background:url(/content/icons/16x16/@InfoRule.Icon)">
+                            </div>
+                            <div name="checkTab" title="@checkView.Title" iconstyle="background:url(/content/icons/16x16/@checkView.Icon)">
+                            </div>
+                            @{
+                                var operationLogView = this.GetOperationLogEntityType();
+                                if (operationLogView.Permit()) {
+                                    <div name="operationLogTab" bodycls="inner" title="@operationLogView.Title" iconstyle="background:url(/content/icons/16x16/@operationLogView.Icon)">
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div size="250" showcollapsebutton="true" visible="false" expanded="false">
+        @{Html.RenderPartial("Partials/HelpPane");}
+    </div>
+</div>
+@section Foot{
+}

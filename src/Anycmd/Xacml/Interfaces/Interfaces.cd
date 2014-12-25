@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Interface Name="Anycmd.Xacml.Interfaces.IAttributeRepository">
+    <Position X="2.25" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAACAAAAAAA=</HashCode>
+      <FileName>Xacml\Interfaces\IAttributeRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Anycmd.Xacml.Interfaces.IDataType">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAgAAAAAAAAgAAAAAIAAAAAAAAAAAAAAAIAAAAAAAA=</HashCode>
+      <FileName>Xacml\Interfaces\IDataType.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Anycmd.Xacml.Interfaces.IDataTypeRepository">
+    <Position X="5.5" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>Xacml\Interfaces\IDataTypeRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Anycmd.Xacml.Interfaces.IExpression">
+    <Position X="9.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Interfaces\IExpression.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Anycmd.Xacml.Interfaces.IFunction">
+    <Position X="0.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAIAAAgAAAAAAAAAAIAgAAAAAAAA=</HashCode>
+      <FileName>Xacml\Interfaces\IFunction.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Anycmd.Xacml.Interfaces.IFunctionParameter">
+    <Position X="0.5" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAAAAAAAACAQAAAAAAAAAAEAAFAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Interfaces\IFunctionParameter.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Anycmd.Xacml.Interfaces.IFunctionRepository">
+    <Position X="2.25" Y="1.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>Xacml\Interfaces\IFunctionRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Anycmd.Xacml.Interfaces.IHasTarget">
+    <Position X="4" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Interfaces\IHasTarget.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Anycmd.Xacml.Interfaces.IPolicyCombiningAlgorithm">
+    <Position X="7.5" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Interfaces\IPolicyCombiningAlgorithm.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Anycmd.Xacml.Interfaces.IPolicyCombiningAlgorithmRepository">
+    <Position X="7.5" Y="4" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAACA=</HashCode>
+      <FileName>Xacml\Interfaces\IPolicyCombiningAlgorithmRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Anycmd.Xacml.Interfaces.IPolicyRepository">
+    <Position X="2.25" Y="3" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAgAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAgAA=</HashCode>
+      <FileName>Xacml\Interfaces\IPolicyRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Anycmd.Xacml.Interfaces.IRuleCombiningAlgorithm">
+    <Position X="4" Y="2.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Interfaces\IRuleCombiningAlgorithm.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Anycmd.Xacml.Interfaces.IRuleCombiningAlgorithmRepository">
+    <Position X="6.25" Y="2.75" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>Xacml\Interfaces\IRuleCombiningAlgorithmRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Anycmd.Xacml.Interfaces.ITypeSpecificFunction">
+    <Position X="5.5" Y="4" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Interfaces\ITypeSpecificFunction.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Microsoft YaHei UI" Size="9" />
+</ClassDiagram>

@@ -1,0 +1,112 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var infoTabView = Html.GetRuntimeUIVIew("Details");
+    var elementCareTabView = Html.GetRuntimeUIVIew("NodeElementCares");
+    var permissionTabView = Html.GetRuntimeUIVIew("Permissions");
+    var organizationTabView = Html.GetRuntimeUIVIew("Organizations");
+}
+<div id="Edi_Node_Index_helperSplitter" class="mini-splitter helperSplitter" style="width: 100%; height: 100%;">
+    <div showcollapsebutton="true">
+        <div id="Edi_Node_Index_splitter" class="mini-splitter" vertical="true" style="width: 100%; height: 100%;">
+            <div size="250" showcollapsebutton="true">
+                <div class="mini-toolbar" style="border-left: 0; border-right: 0; border-top: 0px; padding: 2px;">
+                    <div style="float: left">
+                        @{Html.RenderPartial("Partials/UiViewButtons");}
+                    </div>
+                    <div style="float: right">
+                    </div>
+                    <div style="clear: both;">
+                    </div>
+                </div>
+                <!--撑满页面-->
+                <div class="mini-fit">
+                    <div id="Edi_Node_Index_datagrid1" class="mini-datagrid" style="width:100%;height:100%;" allowalternating="true"
+                         url="@Url.Action("GetPlistNodes", new { nodeId = Request.Params["nodeId"] })" idfield="Id" multiselect="true"
+                         allowcelledit="true"
+                         sizelist="[5,10,20,50]" pagesize="10">
+                        <div property="columns">
+                            <div type="indexcolumn" width="20"></div>
+                            <div type="checkcolumn" width="20"></div>
+                            <div name="action" width="50" headeralign="center" align="center" cellstyle="padding:0;">
+                                操作
+                            </div>
+                            <div field="Icon" width="30" headeralign="center" align="center" allowsort="true">
+                                @Html.IconLabel("Icon")
+                            </div>
+                            <div field="Name" width="120" headeralign="center" allowsort="true">
+                                @Html.IconLabel("Name")
+                            </div>
+                            <div field="Code" width="50" headeralign="center" allowsort="true">
+                                @Html.IconLabel("Code")
+                            </div>
+                            <div field="IsServiceAlive" width="50" headeralign="center" allowsort="true">
+                                服务状态
+                            </div>
+                            <div field="BeatPeriod" width="60" headeralign="center" align="center" allowsort="true">
+                                检测周期(分钟)
+                            </div>
+                            <div field="IsExecuteEnabled" width="50" type="checkboxcolumn" headeralign="center" align="center" allowsort="true">
+                                是否执行
+                            </div>
+                            <div field="IsProduceEnabled" width="50" type="checkboxcolumn" headeralign="center" align="center" allowsort="true">
+                                是否生产
+                            </div>
+                            <div field="IsReceiveEnabled" width="50" type="checkboxcolumn" headeralign="center" align="center" allowsort="true">
+                                是否接收
+                            </div>
+                            <div field="IsDistributeEnabled" width="50" type="checkboxcolumn" headeralign="center" align="center" allowsort="true">
+                                是否传输
+                            </div>
+                            <div field="IsEnabled" width="50" headeralign="center" allowsort="true">
+                                @Html.IconLabel("IsEnabled")
+                            </div>
+                            <div field="SortCode" width="50" headeralign="center" align="center" allowsort="true">
+                                @Html.IconLabel("SortCode")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div showcollapsebutton="true">
+                <div id="Edi_Node_Index_tabs1" class="mini-tabs" style="width: 100%; height: 100%;display:none;"
+                     activeindex="0" bodystyle="padding:0;border:0;">
+                    @if (infoTabView.Permit())
+                    {
+                        <div name="infoTab" bodycls="inner" title="@infoTabView.Title" iconstyle="background:url(/content/icons/16x16/@infoTabView.Icon)">
+                        </div>
+                    }
+                    <div name="editTab" bodycls="inner" title="编辑" iconstyle="background:url(/content/icons/16x16/application_edit.png)">
+                    </div>
+                    @if (elementCareTabView.Permit())
+                    {
+                        <div name="elementCareTab" title="@elementCareTabView.Title" iconstyle="background:url(/content/icons/16x16/@elementCareTabView.Icon)">
+                        </div>
+                    }
+                    @if (permissionTabView.Permit())
+                    {
+                        <div name="permissionTab" title="@permissionTabView.Title" iconstyle="background:url(/content/icons/16x16/@permissionTabView.Icon)">
+                        </div>
+                    }
+                    @if (organizationTabView.Permit())
+                    {
+                        <div name="organizationTab" title="@organizationTabView.Title" iconstyle="background:url(/content/icons/16x16/@organizationTabView.Icon)">
+                        </div>
+                    }
+                    @{
+                        var operationLogView = this.GetOperationLogEntityType();
+                        if (operationLogView.Permit()) {
+                            <div name="operationLogTab" bodycls="inner" title="@operationLogView.Title" iconstyle="background:url(/content/icons/16x16/@operationLogView.Icon)">
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div size="250" showcollapsebutton="true" visible="false" expanded="false">
+        @{Html.RenderPartial("Partials/HelpPane");}
+    </div>
+</div>
+@section Foot{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Areas/Edi/Node/Index.cshtml.js")"></script>
+}

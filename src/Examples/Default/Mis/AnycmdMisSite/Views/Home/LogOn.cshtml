@@ -1,0 +1,39 @@
+﻿@{
+    ViewBag.Title = "anycmd开源权限中心";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="@Url.Content("~/Content/LogOn/LogOn.css")" />
+    <script type="text/javascript" charset="UTF-8" src="@Url.Content("~/Scripts/jquery-1.8.3.min.js")"></script>
+    <script type="text/javascript" charset="UTF-8" src="@Url.Content("~/Scripts/Views/Home/prefixfree.min.js")"></script>
+</head>
+<body>
+    <div id="content" style="display: none;" class="content">
+        <div style="text-align: center; font-size: 58px; font-family:'Microsoft YaHei'; color: white;">
+            @ViewBag.Title
+        </div>
+        <form class="login-form">
+            <div class="username">
+                <input id="LoginName" type="text" name="LoginName" placeholder="admin" autocomplete="on" value="xuexs" />
+                <span class="user-icon icon">u</span>
+            </div>
+            <div class="password">
+                <input id="Password" type="password" name="Password" placeholder="*******" value="111111" />
+                <span class="password-icon icon">p</span>
+            </div>
+            <div class="account-control">
+                <input type="checkbox" name="RememberMe" id="RememberMe" value="RememberMe" checked="checked" />
+                <label for="RememberMe" data-on="c" class="check"></label>
+                <label for="RememberMe" class="info">记住我</label>
+                <button id="btnSignIn" type="submit"><img id="loading" style="display:none;" src="@Url.Content("~/Content/LogOn/loading.gif")" />登录</button>
+            </div>
+            <p class="not-registered">没有账户？请联系您所在的组织结构的管理员获取账户。<a></a></p>
+        </form>
+    </div>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Views/Home/LogOn.cshtml.js")"></script>
+</body>
+</html>

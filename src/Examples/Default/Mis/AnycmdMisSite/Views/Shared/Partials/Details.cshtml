@@ -1,0 +1,65 @@
+﻿@{
+    string codespace = ViewContext.RouteData.DataTokens["area"].ToString();
+    var controller = ViewContext.RouteData.Values["Controller"].ToString();
+    string entityTypeCode = Request.Params["entityTypeCode"];
+    entityTypeCode = string.IsNullOrEmpty(entityTypeCode) ? controller : entityTypeCode;
+    var prifix = entityTypeCode;
+    if (string.Equals("Command", controller))
+    {
+        entityTypeCode = controller;
+    }
+    if (!string.IsNullOrEmpty(Request.QueryString["isTooltip"])) {
+        prifix = Guid.NewGuid().ToString();
+    }
+}
+<script id="@(prifix)_DetailsTemplate" type="text/x-jquery-tmpl">
+    @{
+        var entityType = Html.GetEntityType(codespace, entityTypeCode);
+        var properties = Html.CurrentHost().EntityTypeSet.GetProperties(entityType).Values.Where(f => f.IsDetailsShow);
+        if (!this.CurrentUser().IsDeveloper()) {
+            properties = properties.Where(f => !f.IsDeveloperOnly);
+        }
+        foreach (var property in properties.OrderBy(a => a.SortCode)) {
+            var htmlWidth = "width: 380px;";
+            if (property.IsTotalLine) {
+                htmlWidth = "width:100%;";
+                <div style="clear: left;"></div>
+            }
+            <div class="mini-grid-row-selected" style="float: left; @htmlWidth border-bottom:solid 1px #D0D0D0;">
+                <div style="float: left; margin-left: 0px; width: 130px; border-left: solid 1px #D0D0D0;">
+                    @Html.IconLabel(property)
+                </div>
+                <div style="margin-left: 130px; padding: 0px 2px; background-color: #ffffff;">${@property.Code}&nbsp;</div>
+            </div>
+        }
+    }
+    <div style="clear: left;"></div>
+</script>
+<div id="@(prifix)_Details" area="@codespace" class="details">
+</div>
+<script src="@Url.Content("~/Scripts/jquery-tmpl/jquery.tmpl.min.js")" type="text/javascript"></script>
+@if (!string.IsNullOrEmpty(Request.QueryString["isTooltip"])) {
+    var sw = new StringWriter();
+    var settings = new Newtonsoft.Json.JsonSerializerSettings {
+        Converters = new Newtonsoft.Json.JsonConverter[] { new Newtonsoft.Json.Converters.IsoDateTimeConverter() },
+        ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore,
+        NullValueHandling = Newtonsoft.Json.NullValueHandling.Include
+    };
+    var serializer = Newtonsoft.Json.JsonSerializer.Create(settings);
+
+    using (Newtonsoft.Json.JsonWriter jsonWriter = new Newtonsoft.Json.JsonTextWriter(sw)) {
+        jsonWriter.Formatting = Newtonsoft.Json.Formatting.Indented;
+        serializer.Serialize(jsonWriter, Model);
+    }
+    var jsonString = sw.ToString();
+    <text>
+        <script type="text/javascript">
+            $().ready(function () {
+                $("#@(prifix)_DetailsTemplate").tmpl(@Html.Raw(jsonString)).appendTo('#@(prifix)_Details');
+            });
+        </script>
+    </text>
+}
+else {
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Views/Shared/Details.cshtml.js")"></script>
+}

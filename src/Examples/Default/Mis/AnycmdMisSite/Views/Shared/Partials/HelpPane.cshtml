@@ -1,0 +1,15 @@
+﻿@{
+    var routeData = ViewContext.RouteData;
+    var area = routeData.DataTokens["Area"].ToString();
+    var controller = routeData.Values["Controller"].ToString();
+    var action = routeData.Values["Action"].ToString();
+    var prifix = string.Format("{0}_{1}_{2}_", area, controller, action);
+}
+<div id="@(prifix)helpContent" title="帮助中心" class="mini-panel" iconstyle="background: url(/content/icons/16x16/help.png) no-repeat;" style="width: 100%; height: 100%;"
+     showheader="true" showtoolbar="true" showfooter="true">
+    <div property="toolbar" style="border-top: 0px;">
+        <a id="@(prifix)btnCollapse" class="mini-button @(prifix)btnHelp" plain="true" iconcls="icon-collapse-east" style='vertical-align: middle;'></a>
+        <a id="@(prifix)btnEditHelp" tooltip="帮助" class="mini-button" @Html.IsEnabled(controller, "SaveHelp") plain="true" iconcls="icon-edit" style='vertical-align: middle;'>编辑</a>
+        <a id="@(prifix)btnRefreshHelp" class="mini-button" plain="true" iconcls="icon-reload" style='vertical-align: middle;'>刷新</a>
+    </div>
+</div>

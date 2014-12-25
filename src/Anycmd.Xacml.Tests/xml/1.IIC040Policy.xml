@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Policy
+      xmlns="urn:oasis:names:tc:xacml:1.0:policy"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="urn:oasis:names:tc:xacml:1.0:policy
+        cs-xacml-schema-policy-01.xsd"
+      PolicyId="urn:oasis:names:tc:xacml:1.0:conformance-test:IIC040:policy"
+      RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:deny-overrides">
+    <Description>
+        Policy for Conformance Test IIC040.
+    </Description>
+    <Target>
+        <Subjects>
+            <AnySubject/>
+        </Subjects>
+        <Resources>
+            <AnyResource/>
+        </Resources>
+        <Actions>
+            <AnyAction/>
+        </Actions>
+    </Target>
+    <Rule
+          RuleId="urn:oasis:names:tc:xacml:1.0:conformance-test:IIC040:rule"
+          Effect="Permit">
+        <Description>
+            Julius Hibbert can perform any action on any resource.
+        </Description>
+        <Condition FunctionId="urn:oasis:names:tc:xacml:1.0:function:x500Name-equal">
+            <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:x500Name-one-and-only">
+                <SubjectAttributeDesignator
+                      AttributeId="urn:oasis:names:tc:xacml:1.0:subject:subject-id"
+                          DataType="urn:oasis:names:tc:xacml:1.0:data-type:x500Name"/>
+            </Apply>
+            <AttributeValue
+                  DataType="urn:oasis:names:tc:xacml:1.0:data-type:x500Name">CN=Julius Hibbert, O=Medico Corp,C=US</AttributeValue>
+        </Condition>
+    </Rule>
+</Policy>

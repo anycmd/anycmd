@@ -1,0 +1,37 @@
+﻿@using Anycmd.Util
+@{
+    long totalMemory = GC.GetTotalMemory(true);
+    var mb = totalMemory / (1024 * 1024);
+}
+<b>内存消耗：</b><span>@totalMemory = @mb M</span>
+<table>
+    <tr>
+        <td valign="top"><b>开发者:</b></td>
+        <td>
+            <table class="table" style="border-collapse:collapse;">
+                <thead>
+                    <tr style="text-align:center; font-weight:bold;"><td>登录名</td><td>姓名</td><td>QQ</td><td>Email</td></tr>
+                </thead>
+                <tbody>
+                    @foreach (var account in Html.CurrentHost().SysUsers.GetDevAccounts())
+                    {
+                        <tr><td>@account.LoginName</td><td>@account.Name</td><td>@account.Qq</td><td>@account.Email</td></tr>
+                    }
+                </tbody>
+            </table>
+        </td>
+    </tr>
+</table>
+<table class="table" style="border-collapse:collapse; float:left;">
+    <thead>
+        <tr style="text-align:center; font-weight:bold;"><td>Assembly</td><td>JitMode</td><td>Version</td><td>CLR Version</td></tr>
+    </thead>
+    <tbody>
+        @foreach (var item in AppDomain.CurrentDomain.GetAssemblies().Where(a => a.FullName.StartsWith("Anycmd", StringComparison.OrdinalIgnoreCase)).OrderBy(a => a.FullName))
+        {
+            var name = item.GetName();
+            <tr><td>@name.Name</td><td>@item.GetJitMode().ToName()</td><td>@name.Version</td><td>@item.ImageRuntimeVersion</td></tr>
+        }
+    </tbody>
+</table>
+<script src="@Url.Content("~/Scripts/Views/Home/About.cshtml.js")" type="text/javascript"></script>

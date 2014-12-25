@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{47e158f4-4b34-4a76-b205-e2234b101916}</ProjectGuid>
+    <ArchitectureToolsVersion>2.0.0.0</ArchitectureToolsVersion>
+    <Name>ModelingProject</Name>
+    <RootNamespace>ModelingProject</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(VSToolsPath)\ArchitectureTools\Microsoft.VisualStudio.TeamArchitect.ModelingProject.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v10.0\ArchitectureTools\Microsoft.VisualStudio.TeamArchitect.ModelingProject.targets" Condition="false" />
+  <ItemGroup>
+    <Content Include="命令执行.activitydiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="命令执行.activitydiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>命令执行.activitydiagram</DependentUpon>
+    </Content>
+    <Content Include="命令生产.activitydiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="命令生产.activitydiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>命令生产.activitydiagram</DependentUpon>
+    </Content>
+    <Content Include="命令转移.activitydiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="命令转移.activitydiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>命令转移.activitydiagram</DependentUpon>
+    </Content>
+    <Content Include="信息项验证器.activitydiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="信息项验证器.activitydiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>信息项验证器.activitydiagram</DependentUpon>
+    </Content>
+    <Folder Include="ModelDefinition\" />
+    <Content Include="命令.activitydiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="命令.activitydiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>命令.activitydiagram</DependentUpon>
+    </Content>
+    <Content Include="ModelDefinition\ModelingProject.uml">
+      <SubType>Content</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Validate Include="数据交换详细.layerdiagram">
+      <SubType>Content</SubType>
+    </Validate>
+    <Validate Include="数据交换详细.layerdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>数据交换详细.layerdiagram</DependentUpon>
+    </Validate>
+    <Validate Include="数据交换详细.layerdiagram.suppressions">
+      <SubType>Content</SubType>
+      <DependentUpon>数据交换详细.layerdiagram</DependentUpon>
+    </Validate>
+    <Validate Include="数据交换.layerdiagram">
+      <SubType>Content</SubType>
+    </Validate>
+    <Validate Include="数据交换.layerdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>数据交换.layerdiagram</DependentUpon>
+    </Validate>
+    <Validate Include="数据交换.layerdiagram.suppressions">
+      <SubType>Content</SubType>
+      <DependentUpon>数据交换.layerdiagram</DependentUpon>
+    </Validate>
+    <Validate Include="逻辑分层.layerdiagram">
+      <SubType>Content</SubType>
+    </Validate>
+    <Validate Include="逻辑分层.layerdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>逻辑分层.layerdiagram</DependentUpon>
+    </Validate>
+    <Validate Include="逻辑分层.layerdiagram.suppressions">
+      <SubType>Content</SubType>
+      <DependentUpon>逻辑分层.layerdiagram</DependentUpon>
+    </Validate>
+    <Validate Include="分层模式.layerdiagram">
+      <SubType>Content</SubType>
+    </Validate>
+    <Validate Include="分层模式.layerdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>分层模式.layerdiagram</DependentUpon>
+    </Validate>
+    <Validate Include="分层模式.layerdiagram.suppressions">
+      <SubType>Content</SubType>
+      <DependentUpon>分层模式.layerdiagram</DependentUpon>
+    </Validate>
+    <Validate Include="应用模式.layerdiagram">
+      <SubType>Content</SubType>
+    </Validate>
+    <Validate Include="应用模式.layerdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>应用模式.layerdiagram</DependentUpon>
+    </Validate>
+    <Validate Include="应用模式.layerdiagram.suppressions">
+      <SubType>Content</SubType>
+      <DependentUpon>应用模式.layerdiagram</DependentUpon>
+    </Validate>
+  </ItemGroup>
+</Project>

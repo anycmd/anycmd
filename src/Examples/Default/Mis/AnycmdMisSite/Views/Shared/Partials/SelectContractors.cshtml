@@ -1,0 +1,65 @@
+﻿<div class="mini-splitter" style="width: 100%; height: 100%;">
+	<div size="190" showcollapsebutton="true">
+		<div class="mini-toolbar" style="border-left: 0; border-right: 0; padding: 2px;">
+			<span style="padding-left: 5px; padding-right: 10px;">组织结构</span>
+		</div>
+		<div class="mini-fit">
+			<ul id="treeOrganization" class="mini-tree" style="height: 100%;" 
+				url="@Url.Action("GetNodesByParentId", "Organization", new { area = "Ac" })"
+				showtreeicon="true" textfield="Name" expandOnLoad="true"
+				idfield="Id" parentfield="ParentId" resultastree="false">
+			</ul>
+		</div>
+	</div>
+	<div showcollapsebutton="true">
+		<div class="mini-toolbar" style="border-left: 0; border-right: 0; padding: 2px;">
+			<div style="float: left">
+				注意这是选择“人”而非选择“账户”。
+				<input id="chkbIncludedescendants" class="mini-checkbox" text="包括下级" truevalue="1"
+					falsevalue="0" />
+			</div>
+			<div style="float: right">
+			</div>
+			<div style="clear: both;">
+			</div>
+		</div>
+		<!--撑满页面-->
+		<div class="mini-fit">
+			<div id="dgSelectUser" class="mini-datagrid" style="width:100%;height:100%;" allowAlternating="true" 
+				url="@Url.Action("GetPlistContractors", "Account", new { area = "Ac" })" idfield="Id" multiselect="true" 
+				sizeList="[5,10,20,50]" pageSize="20" showFilterRow="true">
+				<div property="columns">
+					<div type="indexcolumn" width="70">
+						<a id="btnSearchClear" property="filter" class="mini-button" style="float: right;">条件清空</a>
+					</div>
+					<div type="checkcolumn">
+					</div>
+					<div field="Name" width="120" headeralign="center" allowsort="true">
+						姓名
+						<input id="NameFilter" name="Name" property="filter" class="mini-textbox" style="width: 100%;" />
+					</div>
+					<div field="Code" width="120" headeralign="center" allowsort="true">
+						@Html.IconLabel("Code", "Account", "Ac")
+						<input id="CodeFilter" name="Code" property="filter" class="mini-textbox" style="width: 100%;" />
+					</div>
+					<div field="AccountCount" width="50" headeralign="center" align="center" allowsort="true">
+						账户数
+					</div>
+					<div field="OrganizationName" width="120" headeralign="center" allowsort="true">
+						组织结构
+						<input id="OrganizationNameFilter" name="OrganizationName" property="filter" class="mini-textbox" style="width: 100%;" />
+					</div>
+					<div field="IsEnabled" width="70" headeralign="center" align="center" allowsort="true">
+						有效状态
+						<input id="IsEnabledFilter" property="filter" name="IsEnabled" class="mini-combobox" style="width: 100%;"
+							textfield="name" valuefield="code" data="@Html.DicItemJsonArray(Html.GetProperty("IsEnabled", "Account", "Ac"))" shownullitem="true" />
+					</div>
+					<div field="CreateOn" width="100" headeralign="center" dateformat="yyyy-MM-dd HH:mm:ss" allowsort="true">
+						创建时间
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="@Url.Content("~/Scripts/Views/Shared/Partials/SelectContractors.cshtml.js")"></script>

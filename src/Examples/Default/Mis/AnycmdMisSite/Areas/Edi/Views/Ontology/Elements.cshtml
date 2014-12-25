@@ -1,0 +1,51 @@
+﻿@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+	var entityTypeCode = ViewContext.RouteData.Values["Controller"].ToString();
+	string codespace = ViewContext.RouteData.DataTokens["area"].ToString();
+}
+<div class="mini-toolbar" style="border-left: 0; border-right: 0; border-top: 0px; padding: 2px;">
+	<div style="float: left">
+		@{Html.RenderPartial("Partials/UiViewButtons");}
+	</div>
+	<div style="float: right">
+	</div>
+	<div style="clear: both;">
+	</div>
+</div>
+<!--撑满页面-->
+<div class="mini-fit noGridBorder">
+	<div id="dgElement" class="mini-datagrid" style="width: 100%; height: 100%;" allowalternating="true"
+		url="@Url.Action("GetPlistElements", "Element")" idfield="Id" multiselect="true" sizeList="[5,10,20,50]" pagesize="10">
+		<div property="columns">
+			<div type="indexcolumn" width="20">
+			</div>
+			<div field="Icon" width="30" headeralign="center" align="center" allowsort="true">
+				图标
+			</div>
+			<div field="Name" width="120" headeralign="center" allowsort="true">
+				展示名称
+			</div>
+			<div field="Code" width="50" headeralign="center" allowsort="true">
+				@Html.IconLabel("Code")
+			</div>
+			<div field="DbTypeName" width="50" allowsort="true">
+				类型
+			</div>
+			<div field="MaxLength" width="50" allowsort="true">
+				最大长度
+			</div>
+			<div field="IsEnabled" width="30" headeralign="center" allowsort="true">
+				@Html.IconLabel("IsEnabled")
+			</div>
+			<div field="SortCode" width="30" headeralign="center" align="center" allowsort="true">
+				@Html.IconLabel("SortCode")
+			</div>
+			<div field="CreateOn" width="100" headeralign="center" dateformat="yyyy-MM-dd HH:mm:ss" allowsort="true">
+				@Html.IconLabel("CreateOn")
+			</div>
+		</div>
+	</div>
+</div>
+@section Foot{
+	<script type="text/javascript" src="@Url.Content("~/Scripts/Areas/Edi/Ontology/Elements.cshtml.js")"></script>
+}

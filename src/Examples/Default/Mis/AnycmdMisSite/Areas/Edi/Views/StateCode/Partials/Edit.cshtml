@@ -1,0 +1,41 @@
+﻿@model string
+@{
+	var prifix = Model;
+	var codespace = ViewContext.RouteData.DataTokens["area"].ToString();
+	var entityTypeCode = ViewContext.RouteData.Values["Controller"].ToString();
+}
+<form id="@(prifix)form1" method="post">
+	<input name="Id" class="mini-hidden" />
+	<div style="padding-left: 11px; padding-bottom: 5px;">
+		<table>
+			<tr>
+				<td>@Html.GetProperty("Code", entityTypeCode, codespace).Name：
+				</td>
+				<td>
+					<input name="Code" class="mini-textbox" required="true" readonly="true" />
+					@Html.Qtip("Code", entityTypeCode, codespace)
+				</td>
+				<td>
+				</td>
+				<td>
+				</td>
+			</tr>
+			<tr>
+				<td>@Html.GetProperty("ReasonPhrase", entityTypeCode, codespace).Name：
+				</td>
+				<td colspan="3">
+					<input name="ReasonPhrase" maxLength="50" class="mini-textarea" style="width: 352px;" />
+					@Html.Qtip("ReasonPhrase", entityTypeCode, codespace)
+				</td>
+			</tr>
+			<tr>
+				<td>@Html.GetProperty("Description", entityTypeCode, codespace).Name：
+				</td>
+				<td colspan="3">
+					<input name="Description" class="mini-textarea" style="width: 352px;" />
+					@Html.Qtip("Description", entityTypeCode, codespace)
+				</td>
+			</tr>
+		</table>
+	</div>
+</form>

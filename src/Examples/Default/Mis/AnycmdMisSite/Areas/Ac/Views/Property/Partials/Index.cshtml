@@ -1,0 +1,137 @@
+﻿@{
+    var entityTypeCode = ViewContext.RouteData.Values["Controller"].ToString();
+    string codespace = ViewContext.RouteData.DataTokens["area"].ToString();
+    var infoTabView = Html.GetRuntimeUIVIew("Details");
+    var prifix = "Ac_Property_Index_";
+}
+<div id="@(prifix)splitter" class="mini-splitter" vertical="true" style="width: 100%; height: 100%;">
+    <div size="530" showcollapsebutton="true">
+        <div class="mini-toolbar" style="border-left: 0; border-right: 0; border-top: 0px; padding: 2px;">
+            <div style="float: left">
+                @{Html.RenderPartial("Partials/UiViewButtons");}
+                <a id="@(prifix)btnCreateCommonProperties" class="mini-button" plain=" true" tooltip="插入通用属性" iconstyle="background: url(/content/icons/16x16/lock_go.png) no-repeat;" plain="true" @Html.IsEnabled(entityTypeCode, "CreateCommonProperties")>插入通用属性</a>
+            </div>
+            <div style="float: right">
+            </div>
+            <div style="clear: both;">
+            </div>
+        </div>
+        <!--撑满页面-->
+        <div class="mini-fit">
+            <div id="@(prifix)dgField" class="mini-datagrid" style="width:100%;height:100%;" allowalternating="true" showmodified="false"
+                 url="@Url.Action("GetPlistProperties")" idfield="Id" multiselect="true" sizelist="[5,10,20,50]" pagesize="20" showfilterrow="true">
+                <div property="columns">
+                    <div type="indexcolumn">
+                    </div>
+                    <div type="checkcolumn">
+                    </div>
+                    <div name="action" width="60" headeralign="center" align="center" cellstyle="padding:0;">
+                        <a id="@(prifix)btnSearchClear" property="filter" class="mini-button" style="float: right;">条件清空</a>
+                    </div>
+                    <div field="IsConfigValid" width="60" headeralign="center" allowsort="false">
+                        配置验证
+                    </div>
+                    <div field="Icon" width="30" headeralign="center" align="center" allowsort="true">
+                        @Html.IconLabel("Icon")
+                    </div>
+                    <div field="Name" width="100" headeralign="center" allowsort="true">
+                        @Html.IconLabel("Name")
+                        <input id="@(prifix)NameFilter" name="Name" property="filter" class="mini-textbox" style="width: 100%;" />
+                    </div>
+                    <div field="Code" width="100" headeralign="center" allowsort="true">
+                        @Html.IconLabel("Code")
+                        <input id="@(prifix)CodeFilter" name="Code" property="filter" class="mini-textbox" style="width: 100%;" />
+                    </div>
+                    <div field="IsViewField" width="50" allowsort="true">
+                        @Html.IconLabel("IsViewField")
+                        <input id="@(prifix)IsViewFieldFilter" property="filter" name="IsViewField" class="mini-combobox" style="width: 100%;"
+                               textfield="name" valuefield="code" data="@Html.DicItemJsonArray(Html.GetProperty("IsViewField"))" s shownullitem="true">
+                    </div>
+                    <div header="Runtime" headeralign="center">
+                        <div property="columns">
+                            <div field="ClrPropertyName" width="100" headeralign="center" allowsort="true">
+                                @Html.IconLabel("ClrPropertyName")
+                                <input id="@(prifix)ClrPropertyNameFilter" name="ClrPropertyName" property="filter" class="mini-textbox" style="width: 100%;" />
+                            </div>
+                            <div field="ClrPropertyType" width="80" headeralign="center" allowsort="true">
+                                @Html.IconLabel("ClrPropertyType")
+                                <input id="@(prifix)ClrPropertyTypeFilter" name="ClrPropertyType" property="filter" class="mini-textbox" style="width: 100%;" />
+                            </div>
+                            <div field="MaxLength" width="40" allowsort="true">
+                                @Html.IconLabel("MaxLength")
+                            </div>
+                        </div>
+                    </div>
+                    <div header="数据库" headeralign="center">
+                        <div property="columns">
+                            <div field="DbTypeName" width="80" headeralign="center" allowsort="false">
+                                @Html.IconLabel("DbTypeName")
+                            </div>
+                            <div field="DbIsNullable" width="60" headeralign="center" allowsort="false">
+                                @Html.IconLabel("DbIsNullable")
+                            </div>
+                            <div field="DbMaxLength" width="40" headeralign="center" allowsort="false">
+                                @Html.IconLabel("DbMaxLength")
+                            </div>
+                        </div>
+                    </div>
+                    <div field="DicName" width="50" allowsort="true">
+                        @Html.IconLabel("DicName")
+                        <input id="@(prifix)DicNameFilter" name="DicName" property="filter" class="mini-textbox" style="width: 100%;" />
+                    </div>
+                    <div field="IsDetailsShow" width="60" headeralign="center" allowsort="true">
+                        @Html.IconLabel("IsDetailsShow")
+                        <input id="@(prifix)IsDetailsShowFilter" property="filter" name="IsDetailsShow" class="mini-combobox" style="width: 100%;"
+                               textfield="name" valuefield="code" data="@Html.DicItemJsonArray(Html.GetProperty("IsDetailsShow"))" shownullitem="true">
+                    </div>
+                    <div field="InputType" width="60" headeralign="center" allowsort="true">
+                        @Html.IconLabel("InputType")
+                        <input id="@(prifix)InputTypeFilter" property="filter" name="InputType" class="mini-combobox" style="width: 100%;"
+                               textfield="name" valuefield="code" data="@Html.DicItemJsonArray(Html.GetProperty("InputType"))" s shownullitem="true">
+                    </div>
+                    <div field="SortCode" width="50" headeralign="center" align="center" allowsort="true">
+                        @Html.IconLabel("SortCode")
+                    </div>
+                    <div field="CreateOn" width="130" headeralign="center" dateformat="yyyy-MM-dd HH:mm:ss" allowsort="true">
+                        @Html.IconLabel("CreateOn")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div showcollapsebutton="true">
+        <div id="@(prifix)tabs1" class="mini-tabs" style="width: 100%; height: 100%; display: none;"
+             activeindex="0" bodystyle="padding:0;border:0;">
+            <div name="infoTab" bodycls="inner" title="@infoTabView.Title" iconstyle="background:url(/content/icons/16x16/@infoTabView.Icon)">
+            </div>
+            @{
+                var operationLogView = this.GetOperationLogEntityType();
+                if (operationLogView.Permit())
+                {
+                    <div name="operationLogTab" bodycls="inner" title="@operationLogView.Title" iconstyle="background:url(/content/icons/16x16/@operationLogView.Icon)">
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+@if (!string.IsNullOrEmpty(Request["isInner"]))
+{
+    var entityType = Html.GetEntityType(codespace, entityTypeCode);
+    string editWidth = entityType.EditWidth.ToString() + "px";
+    string editHeight = entityType.EditHeight.ToString() + "px";
+    if (this.CurrentUser().Permit(entityTypeCode, "Add") || this.CurrentUser().Permit(entityTypeCode, "Update"))
+    {
+        <div id="@(prifix)Edit_win1" class="mini-window" title="" style="width: @editWidth; height: @editHeight;display:none;"
+             showmaxbutton="true" showfooter="true" showtoolbar="true"
+             showmodal="true" allowresize="true" allowdrag="true">
+            @{ Html.RenderPartial("Partials/EditBar", prifix + "Edit_"); }
+            @{ Html.RenderPartial("Partials/Edit", prifix + "Edit_"); }
+        </div>
+    }
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Areas/Ac/Property/Index.cshtml.js")"></script>
+}
+@if (Request.IsAjaxRequest())
+{
+    <script src="@Url.Content("~/Scripts/tooltipBoot.js")"></script>
+}

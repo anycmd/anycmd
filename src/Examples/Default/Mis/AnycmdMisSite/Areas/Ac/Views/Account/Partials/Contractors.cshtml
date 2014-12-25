@@ -1,0 +1,150 @@
+﻿@{
+    var entityTypeCode = "Account";
+    string codespace = ViewContext.RouteData.DataTokens["area"].ToString();
+    var entityType = Html.GetEntityType(codespace, entityTypeCode);
+    string editWidth = entityType.EditWidth.ToString() + "px";
+    string editHeight = entityType.EditHeight.ToString() + "px";
+    var roleTabView = Html.GetRuntimeUIVIew("Roles");
+    var groupTabView = Html.GetRuntimeUIVIew("Groups");
+    var organizationTabView = Html.GetRuntimeUIVIew("Organizations");
+    var infoTabView = Html.GetRuntimeUIVIew("Details");
+    var prifix = "Ac_Account_Contractors_";
+}
+<div id="@(prifix)Edit_passwordEditWin" class="mini-window" title="修改密码" style="width: 450px; height: 150px; display:none;"
+     showmaxbutton="false" showfooter="true" showtoolbar="true"
+     showmodal="true" allowresize="false" allowdrag="true">
+    @{ Html.RenderPartial("Partials/EditBar", prifix + "Edit_"); }
+    @{Html.RenderPartial("Partials/PasswordEdit", prifix + "Edit_");}
+</div>
+<div id="@(prifix)splitter" class="mini-splitter" vertical="true" style="width: 100%; height: 100%;">
+    <div size="500" showcollapsebutton="true">
+        <div class="mini-toolbar" style="border-left: 0; border-right: 0; border-top: 0px; padding: 2px;">
+            <div style="float: left">
+                @{Html.RenderPartial("Partials/UiViewButtons");}
+                @{
+                    <a id="@(prifix)btnHire" class="mini-button" iconstyle="background:url(/content/icons/16x16/group_link.png) no-repeat" @Html.IsEnabled("Account", "Hire")>雇佣</a>
+                    <a id="@(prifix)btnOffer" class="mini-button" iconstyle="background:url(/content/icons/16x16/transmit_add.png) no-repeat" @Html.IsEnabled("Account", "Offer")>邀请</a>
+                    <a id="@(prifix)btnChangePassword" class="mini-button" iconstyle="background:url(/content/icons/16x16/report_key.png) no-repeat" @Html.IsEnabled("Account", "ChangePassword")>修改密码</a>
+                }
+                <input id="@(prifix)chkbIncludedescendants" class="mini-checkbox" text="包括下级组织" truevalue="1"
+                       falsevalue="0" value="1" />
+            </div>
+            <div style="float: right">
+            </div>
+            <div style="clear: both;">
+            </div>
+        </div>
+        <!--撑满页面-->
+        <div class="mini-fit">
+            <div id="@(prifix)datagrid1" class="mini-datagrid" style="width:100%;height:100%;" allowalternating="true"
+                 url="@Url.Action("GetPlistContractors")" idfield="Id" multiselect="true"
+                 sizelist="[5,10,20,50]" pagesize="20" showfilterrow="true">
+                <div property="columns">
+                    <div type="indexcolumn"></div>
+                    <div type="checkcolumn"></div>
+                    <div name="action" width="70" headeralign="center" align="center" cellstyle="padding:0;">
+                        <a id="@(prifix)btnSearchClear" property="filter" class="mini-button" style="float: right;">条件清空</a>
+                    </div>
+                    <div field="OrganizationName" width="120" headeralign="center" allowsort="true">
+                        @Html.IconLabel("OrganizationName", entityTypeCode)
+                        <input id="@(prifix)OrganizationNameFilter" name="OrganizationName" property="filter" class="mini-textbox" style="width: 100%;" />
+                    </div>
+                    <div field="Name" width="120" headeralign="center" allowsort="true">
+                        @Html.IconLabel("Name", entityTypeCode)
+                        <input id="@(prifix)NameFilter" name="Name" property="filter" class="mini-textbox" style="width: 100%;" />
+                    </div>
+                    <div field="Code" width="120" headeralign="center" allowsort="true">
+                        @Html.IconLabel("Code", entityTypeCode)
+                        <input id="@(prifix)CodeFilter" name="Code" property="filter" class="mini-textbox" style="width: 100%;" />
+                    </div>
+                    <div field="LoginName" width="120" headeralign="center" allowsort="true">
+                        @Html.IconLabel("LoginName")
+                        <input id="@(prifix)LoginNameFilter" name="LoginName" property="filter" class="mini-textbox" style="width: 100%;" />
+                    </div>
+                    <div field="AuditState" width="70" headeralign="center" allowsort="true">
+                        @Html.IconLabel("AuditState")
+                        <input id="@(prifix)AuditStateFilter" property="filter" name="AuditState" class="mini-combobox" style="width: 100%;"
+                               textfield="name" valuefield="code" data="@Html.DicItemJsonArray(Html.GetProperty("AuditState"))" shownullitem="true" />
+                    </div>
+                    <div field="Mobile" width="120" headeralign="center" allowsort="true">
+                        @Html.IconLabel("Mobile", entityTypeCode)
+                        <input id="@(prifix)MobileFilter" name="Mobile" property="filter" class="mini-textbox" style="width: 100%;" />
+                    </div>
+                    <div field="Email" width="120" headeralign="center" allowsort="true">
+                        @Html.IconLabel("Email", entityTypeCode)
+                        <input id="@(prifix)EmailFilter" name="Email" property="filter" class="mini-textbox" style="width: 100%;" />
+                    </div>
+                    <div field="QQ" width="120" headeralign="center" allowsort="true">
+                        @Html.IconLabel("QQ", entityTypeCode)
+                        <input id="@(prifix)QQFilter" name="QQ" property="filter" class="mini-textbox" style="width: 100%;" />
+                    </div>
+                    <div field="Telephone" width="120" headeralign="center" allowsort="true">
+                        @Html.IconLabel("Telephone", entityTypeCode)
+                        <input id="@(prifix)TelephoneFilter" name="Telephone" property="filter" class="mini-textbox" style="width: 100%;" />
+                    </div>
+                    <div field="FirstLoginOn" width="130" headeralign="center" dateformat="yyyy-MM-dd HH:mm:ss" allowresize="false" allowsort="true">
+                        @Html.IconLabel("FirstLoginOn")
+                    </div>
+                    <div field="PreviousLoginOn" width="130" headeralign="center" dateformat="yyyy-MM-dd HH:mm:ss" allowresize="false" allowsort="true">
+                        @Html.IconLabel("PreviousLoginOn")
+                    </div>
+                    <div field="LoginCount" width="70" headeralign="center" dateformat="yyyy-MM-dd HH:mm:ss" allowresize="false" allowsort="true">
+                        @Html.IconLabel("LoginCount")
+                    </div>
+                    <div field="AllowStartTime" width="130" headeralign="center" dateformat="yyyy-MM-dd HH:mm:ss" allowresize="false" allowsort="true">
+                        @Html.IconLabel("AllowStartTime", "Account")
+                    </div>
+                    <div field="AllowEndTime" width="130" headeralign="center" dateformat="yyyy-MM-dd HH:mm:ss" allowresize="false" allowsort="true">
+                        @Html.IconLabel("AllowEndTime", "Account")
+                    </div>
+                    <div field="LockStartTime" width="130" headeralign="center" dateformat="yyyy-MM-dd HH:mm:ss" allowresize="false" allowsort="true">
+                        @Html.IconLabel("LockStartTime", "Account")
+                    </div>
+                    <div field="LockEndTime" width="130" headeralign="center" dateformat="yyyy-MM-dd HH:mm:ss" allowresize="false" allowsort="true">
+                        @Html.IconLabel("LockEndTime", "Account")
+                    </div>
+                    <div field="IsEnabled" width="80" headeralign="center" align="center" allowsort="true">
+                        @Html.IconLabel("IsEnabled", entityTypeCode)
+                        <input id="@(prifix)IsEnabledFilter" property="filter" name="IsEnabled" class="mini-combobox" style="width: 100%;"
+                               textfield="name" valuefield="code" data="@Html.DicItemJsonArray(Html.GetProperty("IsEnabled", entityTypeCode))" shownullitem="true" />
+                    </div>
+                    <div field="CreateOn" width="140" headeralign="center" dateformat="yyyy-MM-dd HH:mm:ss" allowsort="true">
+                        @Html.IconLabel("CreateOn", entityTypeCode)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div showcollapsebutton="true">
+        <div id="@(prifix)tabs1" class="mini-tabs" style="width: 100%; height: 100%;display:none;"
+             activeindex="0" bodystyle="padding:0;border:0;">
+            <div name="infoTab" bodycls="inner" title="@infoTabView.Title" iconstyle="background:url(/content/icons/16x16/@infoTabView.Icon)">
+            </div>
+            <div name="roleTab" bodycls="inner" title="@roleTabView.Title" iconstyle="background:url(/content/icons/16x16/@roleTabView.Icon)">
+            </div>
+            <div name="groupTab" bodycls="inner" title="@groupTabView.Title" iconstyle="background:url(/content/icons/16x16/@groupTabView.Icon)">
+            </div>
+            <div name="organizationTab" bodycls="inner" title="@organizationTabView.Title" iconstyle="background:url(/content/icons/16x16/@organizationTabView.Icon)">
+            </div>
+            @{
+                var operationLogView = this.GetOperationLogEntityType();
+                if (operationLogView.Permit())
+                {
+                    <div name="operationLogTab" bodycls="inner" title="@operationLogView.Title" iconstyle="background:url(/content/icons/16x16/@operationLogView.Icon)">
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+<div id="@(prifix)Edit_win1" class="mini-window" title="" style="width: @editWidth; height: @editHeight;"
+     showmaxbutton="true" showfooter="true" showtoolbar="true"
+     showmodal="true" allowresize="true" allowdrag="true">
+    @{ Html.RenderPartial("Partials/EditBar", prifix + "Edit_"); }
+    @{ Html.RenderPartial("Partials/Edit", prifix + "Edit_"); }
+</div>
+<script type="text/javascript" src="@Url.Content("~/Scripts/Areas/Ac/Account/Contractors.cshtml.js")"></script>
+@if (Request.IsAjaxRequest())
+{
+    <script src="@Url.Content("~/Scripts/tooltipBoot.js")"></script>
+}

@@ -1,0 +1,59 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var prifix = "Edi_Ontology_Actions_";
+}
+<div class="mini-toolbar" style="border-left: 0; border-right: 0; border-top: 0px; padding: 2px;">
+    <div style="float: left">
+        @{Html.RenderPartial("Partials/UiViewButtons");}
+    </div>
+    <div style="float: right">
+    </div>
+    <div style="clear: both;">
+    </div>
+</div>
+<!--撑满页面-->
+<div class="mini-fit noGridBorder">
+    <div id="@(prifix)datagrid1" class="mini-datagrid" style="width:100%;height:100%;" allowalternating="true"
+         url="@Url.Action("GetPlistActions")" idfield="Id" multiselect="true" showpager="true"
+         allowcelledit="true" pagesize="20" showfooter="false">
+        <div property="columns">
+            <div type="indexcolumn" width="20"></div>
+            <div type="checkcolumn" width="20"></div>
+            <div name="action" width="50" headeralign="center" align="center" cellstyle="padding:0;">
+            </div>
+            <div field="Verb" width="30" headeralign="center" allowsort="true">
+                @Html.IconLabel("Verb", "Action")
+            </div>
+            <div field="Name" width="50" headeralign="center" allowsort="true">
+                名称
+            </div>
+            <div field="IsAllowed" width="40" headeralign="center" allowsort="true">
+                允许
+            </div>
+            <div field="IsPersist" width="40" headeralign="center" allowsort="true">
+                是否持久化
+            </div>
+            <div field="IsAudit" width="40" headeralign="center" allowsort="true">
+                是否审核
+            </div>
+            <div field="Description" width="300" headeralign="center" allowsort="false">
+                说明
+            </div>
+            <div field="SortCode" width="50" headeralign="center" align="center" allowsort="true">
+                @Html.IconLabel("SortCode", "Action")
+            </div>
+            <div field="CreateOn" width="100" headeralign="center" dateformat="yyyy-MM-dd HH:mm:ss" allowsort="true">
+                @Html.IconLabel("CreateOn", "Action")
+            </div>
+        </div>
+    </div>
+</div>
+<div id="@(prifix)Edit_win1" class="mini-window" title="" style="width: 480px; height: 230px;"
+     showmaxbutton="true" showfooter="true" showtoolbar="true"
+     showmodal="true" allowresize="true" allowdrag="true">
+    @{ Html.RenderPartial("Partials/EditBar", prifix + "Edit_"); }
+    @{ Html.RenderPartial("Partials/ActionEdit", prifix + "Edit_"); }
+</div>
+@section Foot{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Areas/Edi/Ontology/Actions.cshtml.js")"></script>
+}

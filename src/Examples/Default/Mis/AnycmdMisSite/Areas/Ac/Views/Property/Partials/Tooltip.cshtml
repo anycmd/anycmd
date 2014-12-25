@@ -1,0 +1,15 @@
+﻿@model IProperty
+<div rel="@Request.RawUrl">
+    @{
+        if (this.CurrentUser().IsDeveloper()) {
+        <a class="btnTooltip" href="@Url.Action("TooltipEdit", new { propertyId = Model.Id })" target="_blank">编辑</a>
+        <a class="btnTooltip" href="@Url.Action("TooltipEdit", new { propertyId = Model.Id })" onclick="helper.refreshTooltip(this);return false;" iconcls="icon-reload">刷新</a>
+        }
+    }
+    @if (string.IsNullOrEmpty(Model.Tooltip)) {
+        <text>无内容</text>
+    }
+    else {
+        @Html.Raw(Model.Tooltip);
+    }
+</div>

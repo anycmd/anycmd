@@ -1,0 +1,272 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Anycmd.Xacml.Runtime.ActionTargetItems">
+    <Position X="0.5" Y="3" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Runtime\ActionTargetItems.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Runtime.Apply">
+    <Position X="9.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Runtime\Apply.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Runtime.ApplyBase">
+    <Position X="7.25" Y="8.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>Xacml\Runtime\ApplyBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Anycmd.Xacml.Runtime.BagValue" BaseTypeListCollapsed="true">
+    <Position X="7.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAIQABAAAAAAAACIQAAAAAAAAAAEAAFAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Runtime\BagValue.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Anycmd.Xacml.Runtime.Condition">
+    <Position X="7.25" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Runtime\Condition.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Anycmd.Xacml.Runtime.Condition2">
+    <Position X="7.25" Y="13.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Runtime\Condition2.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Anycmd.Xacml.Runtime.EvaluationContext">
+    <Position X="8.75" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>BAAAgIQAAAEAAAAQACMAASAAQAAggBAJBIASBAAQCQA=</HashCode>
+      <FileName>Xacml\Runtime\EvaluationContext.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Runtime.EvaluationEngine">
+    <Position X="4.25" Y="4.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAggAQAACAQAAAACAAAgIAAAQAAAICAAgAAAAAAAA=</HashCode>
+      <FileName>Xacml\Runtime\EvaluationEngine.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Runtime.EvaluationValue" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="7.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>ABACBIQAAACAIAAEADASAAAAAAAAAAEAAFggAAAQAAA=</HashCode>
+      <FileName>Xacml\Runtime\EvaluationValue.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Anycmd.Xacml.Runtime.IFunctionParameterCollection">
+    <Position X="0.5" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAA=</HashCode>
+      <FileName>Xacml\Runtime\IFunctionParameterCollection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Runtime.IMatchEvaluableCollection">
+    <Position X="4.75" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Runtime\IMatchEvaluableCollection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Runtime.Policy" BaseTypeListCollapsed="true">
+    <Position X="7" Y="4.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAABAAAAAAAAADgAIUAAAIAAAIAABAgAAAAA=</HashCode>
+      <FileName>Xacml\Runtime\Policy.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Anycmd.Xacml.Runtime.PolicyCombiningAlgorithmDenyOverrides">
+    <Position X="0.5" Y="4.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Runtime\PolicyCombiningAlgorithmDenyOverrides.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Anycmd.Xacml.Runtime.PolicyCombiningAlgorithmFirstApplicable" BaseTypeListCollapsed="true">
+    <Position X="11" Y="0.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Runtime\PolicyCombiningAlgorithmFirstApplicable.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Anycmd.Xacml.Runtime.PolicyCombiningAlgorithmOnlyOneApplicable" BaseTypeListCollapsed="true">
+    <Position X="14.25" Y="0.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Runtime\PolicyCombiningAlgorithmOnlyOneApplicable.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Anycmd.Xacml.Runtime.PolicyCombiningAlgorithmOrderedDenyOverrides">
+    <Position X="0.5" Y="6.25" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Runtime\PolicyCombiningAlgorithmOrderedDenyOverrides.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Runtime.PolicyCombiningAlgorithmOrderedPermitOverrides">
+    <Position X="2.5" Y="14" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Runtime\PolicyCombiningAlgorithmOrderedPermitOverrides.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Runtime.PolicyCombiningAlgorithmPermitOverrides">
+    <Position X="2.75" Y="12.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Runtime\PolicyCombiningAlgorithmPermitOverrides.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Anycmd.Xacml.Runtime.PolicySet" BaseTypeListCollapsed="true">
+    <Position X="2.75" Y="8.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABgAAAABAAAgABAAABgAIQAAAIAAQIAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Runtime\PolicySet.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Anycmd.Xacml.Runtime.ResourceTargetItems">
+    <Position X="5" Y="3" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Runtime\ResourceTargetItems.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Runtime.Rule" BaseTypeListCollapsed="true">
+    <Position X="5.25" Y="8.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAABAAAAAAAAABgAAYAgAIAAAAAABAAAAAAA=</HashCode>
+      <FileName>Xacml\Runtime\Rule.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Anycmd.Xacml.Runtime.RuleCollection">
+    <Position X="11" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Runtime\RuleCollection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Runtime.RuleCombiningAlgorithmDenyOverrides">
+    <Position X="9.25" Y="10.25" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Runtime\RuleCombiningAlgorithmDenyOverrides.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Anycmd.Xacml.Runtime.RuleCombiningAlgorithmFirstApplicable" BaseTypeListCollapsed="true">
+    <Position X="11" Y="2" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Runtime\RuleCombiningAlgorithmFirstApplicable.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Anycmd.Xacml.Runtime.RuleCombiningAlgorithmOrderedDenyOverrides">
+    <Position X="9" Y="12" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Runtime\RuleCombiningAlgorithmOrderedDenyOverrides.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Runtime.RuleCombiningAlgorithmOrderedPermitOverrides">
+    <Position X="12.25" Y="8.25" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Runtime\RuleCombiningAlgorithmOrderedPermitOverrides.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Runtime.RuleCombiningAlgorithmPermitOverrides">
+    <Position X="12.5" Y="6.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Runtime\RuleCombiningAlgorithmPermitOverrides.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Anycmd.Xacml.Runtime.SubjectTargetItems">
+    <Position X="2.75" Y="3" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Runtime\SubjectTargetItems.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Runtime.Target">
+    <Position X="16" Y="2" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAAAAAAAAgAAQCAAJAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Runtime\Target.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Runtime.TargetItems">
+    <Position X="3" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAIAgAAAAAAIAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Runtime\TargetItems.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Runtime.VariableDefinition" BaseTypeListCollapsed="true">
+    <Position X="14.25" Y="2" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAAAhIAAACAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Xacml\Runtime\VariableDefinition.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="Anycmd.Xacml.Runtime.IEvaluable">
+    <Position X="11" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Runtime\IEvaluable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Anycmd.Xacml.Runtime.IMatchEvaluable">
+    <Position X="12.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAABAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Runtime\IMatchEvaluable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Anycmd.Xacml.Runtime.IObligationsContainer">
+    <Position X="12.5" Y="5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Runtime\IObligationsContainer.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="Anycmd.Xacml.Runtime.Decision">
+    <Position X="8.75" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAICAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Xacml\Runtime\Decission.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Anycmd.Xacml.Runtime.TargetEvaluationValue">
+    <Position X="10.25" Y="7" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAACAgAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Runtime\TargetEvaluationValue.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Microsoft YaHei UI" Size="9" />
+</ClassDiagram>

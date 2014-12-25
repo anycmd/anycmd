@@ -1,0 +1,240 @@
+﻿
+namespace Anycmd.Tests
+{
+    using Ac.ViewModels.Infra.AppSystemViewModels;
+    using Ac.ViewModels.Infra.FunctionViewModels;
+    using Engine.Ac;
+    using Engine.Host.Ac.Infra;
+    using Engine.Host.Ac.Infra.Messages;
+    using Moq;
+    using Repositories;
+    using System;
+    using System.Linq;
+    using Xunit;
+
+    public class FunctionSetTest
+    {
+        #region FunctionSet
+        [Fact]
+        public void FunctionSet()
+        {
+            var host = TestHelper.GetAcDomain();
+            Assert.Equal(0, host.FunctionSet.Count());
+
+            var entityId = Guid.NewGuid();
+
+            FunctionState functionById;
+            host.Handle(new AddFunctionCommand(new FunctionCreateInput
+            {
+                Id = entityId,
+                Code = "fun1",
+                Description = string.Empty,
+                DeveloperId = host.SysUsers.GetDevAccounts().First().Id,
+                IsEnabled = 1,
+                IsManaged = true,
+                ResourceTypeId = host.ResourceTypeSet.First().Id,
+                SortCode = 10
+            }));
+            ResourceTypeState resource;
+            Assert.True(host.ResourceTypeSet.TryGetResource(host.ResourceTypeSet.First().Id, out resource));
+            Assert.Equal(1, host.FunctionSet.Count());
+            Assert.True(host.FunctionSet.TryGetFunction(entityId, out functionById));
+
+            host.Handle(new UpdateFunctionCommand(new FunctionUpdateInput
+            {
+                Id = entityId,
+                Description = "test2",
+                Code = "fun2",
+                DeveloperId = host.SysUsers.GetDevAccounts().First().Id,
+                IsEnabled = 1,
+                IsManaged = false,
+                SortCode = 10
+            }));
+            Assert.Equal(1, host.FunctionSet.Count());
+            Assert.True(host.FunctionSet.TryGetFunction(entityId, out functionById));
+            Assert.Equal("test2", functionById.Description);
+            Assert.Equal("fun2", functionById.Code);
+
+            host.Handle(new RemoveFunctionCommand(entityId));
+            Assert.False(host.FunctionSet.TryGetFunction(entityId, out functionById));
+            Assert.Equal(0, host.FunctionSet.Count());
+        }
+        #endregion
+
+        [Fact]
+        public void FunctionCodeMustBeUnique()
+        {
+            var host = TestHelper.GetAcDomain();
+            Assert.Equal(0, host.FunctionSet.Count());
+
+            var entityId = Guid.NewGuid();
+
+            FunctionState functionById;
+            host.Handle(new AddFunctionCommand(new FunctionCreateInput
+            {
+                Id = entityId,
+                Code = "fun1",
+                Description = string.Empty,
+                DeveloperId = host.SysUsers.GetDevAccounts().First().Id,
+                IsEnabled = 1,
+                IsManaged = true,
+                ResourceTypeId = host.ResourceTypeSet.First().Id,
+                SortCode = 10
+            }));
+            ResourceTypeState resource;
+            Assert.True(host.ResourceTypeSet.TryGetResource(host.ResourceTypeSet.First().Id, out resource));
+            Assert.Equal(1, host.FunctionSet.Count());
+            Assert.True(host.FunctionSet.TryGetFunction(entityId, out functionById));
+            bool catched = false;
+            try
+            {
+                host.Handle(new AddFunctionCommand(new FunctionCreateInput
+                {
+                    Id = entityId,
+                    Code = "fun1",
+                    Description = string.Empty,
+                    DeveloperId = host.SysUsers.GetDevAccounts().First().Id,
+                    IsEnabled = 1,
+                    IsManaged = true,
+                    ResourceTypeId = host.ResourceTypeSet.First().Id,
+                    SortCode = 10
+                }));
+            }
+            catch (Exception)
+            {
+                catched = true;
+            }
+            finally
+            {
+                Assert.True(catched);
+            }
+        }
+
+        #region FunctionSetShouldRollbackedWhenPersistFailed
+        [Fact]
+        public void FunctionSetShouldRollbackedWhenPersistFailed()
+        {
+            var host = TestHelper.GetAcDomain();
+            Assert.Equal(0, host.FunctionSet.Count());
+
+            host.RemoveService(typeof(IRepository<Function>));
+            var moFunctionRepository = host.GetMoqRepository<Function, IRepository<Function>>();
+            var entityId1 = Guid.NewGuid();
+            var entityId2 = Guid.NewGuid();
+            var appsystemId = Guid.NewGuid();
+            moFunctionRepository.Setup(a => a.Add(It.Is<Function>(b => b.Id == entityId1))).Throws(new DbException(entityId1.ToString()));
+            moFunctionRepository.Setup(a => a.Update(It.Is<Function>(b => b.Id == entityId2))).Throws(new DbException(entityId2.ToString()));
+            moFunctionRepository.Setup(a => a.Remove(It.Is<Function>(b => b.Id == entityId2))).Throws(new DbException(entityId2.ToString()));
+            moFunctionRepository.Setup<Function>(a => a.GetByKey(entityId1)).Returns(new Function
+            {
+                Id = entityId1,
+                ResourceTypeId = host.ResourceTypeSet.First().Id,
+                DeveloperId = host.SysUsers.GetDevAccounts().First().Id
+            });
+            moFunctionRepository.Setup<Function>(a => a.GetByKey(entityId2)).Returns(new Function
+            {
+                Id = entityId2,
+                ResourceTypeId = host.ResourceTypeSet.First().Id,
+                DeveloperId = host.SysUsers.GetDevAccounts().First().Id
+            });
+            host.AddService(typeof(IRepository<Function>), moFunctionRepository.Object);
+
+            host.Handle(new AddAppSystemCommand(new AppSystemCreateInput
+            {
+                Id = appsystemId,
+                Code = "app1",
+                Name = "测试1",
+                PrincipalId = host.SysUsers.GetDevAccounts().First().Id
+            }));
+
+            bool catched = false;
+            try
+            {
+                host.Handle(new AddFunctionCommand(new FunctionCreateInput
+                {
+                    Id = entityId1,
+                    Code = "fun1",
+                    Description = string.Empty,
+                    DeveloperId = host.SysUsers.GetDevAccounts().First().Id,
+                    IsEnabled = 1,
+                    IsManaged = true,
+                    ResourceTypeId = host.ResourceTypeSet.First().Id,
+                    SortCode = 10
+                }));
+            }
+            catch (Exception e)
+            {
+                Assert.Equal(e.GetType(), typeof(DbException));
+                catched = true;
+                Assert.Equal(entityId1.ToString(), e.Message);
+            }
+            finally
+            {
+                Assert.True(catched);
+                Assert.Equal(0, host.FunctionSet.Count());
+            }
+
+            host.Handle(new AddFunctionCommand(new FunctionCreateInput
+            {
+                Id = entityId2,
+                Code = "fun2",
+                Description = string.Empty,
+                DeveloperId = host.SysUsers.GetDevAccounts().First().Id,
+                IsEnabled = 1,
+                IsManaged = true,
+                ResourceTypeId = host.ResourceTypeSet.First().Id,
+                SortCode = 10
+            }));
+            Assert.Equal(1, host.FunctionSet.Count());
+
+            catched = false;
+            try
+            {
+                host.Handle(new UpdateFunctionCommand(new FunctionUpdateInput
+                {
+                    Id = entityId2,
+                    Description = "test2",
+                    Code = "fun",
+                    DeveloperId = host.SysUsers.GetDevAccounts().First().Id,
+                    IsEnabled = 1,
+                    IsManaged = false,
+                    SortCode = 10
+                }));
+            }
+            catch (Exception e)
+            {
+                Assert.Equal(e.GetType(), typeof(DbException));
+                catched = true;
+                Assert.Equal(entityId2.ToString(), e.Message);
+            }
+            finally
+            {
+                Assert.True(catched);
+                Assert.Equal(1, host.FunctionSet.Count());
+                FunctionState function;
+                Assert.True(host.FunctionSet.TryGetFunction(entityId2, out function));
+                Assert.Equal("fun2", function.Code);
+            }
+
+            catched = false;
+            try
+            {
+                host.Handle(new RemoveFunctionCommand(entityId2));
+            }
+            catch (Exception e)
+            {
+                Assert.Equal(e.GetType(), typeof(DbException));
+                catched = true;
+                Assert.Equal(entityId2.ToString(), e.Message);
+            }
+            finally
+            {
+                Assert.True(catched);
+                FunctionState function;
+                Assert.True(host.FunctionSet.TryGetFunction(entityId2, out function));
+                Assert.Equal(1, host.FunctionSet.Count());
+            }
+        }
+        #endregion
+    }
+}

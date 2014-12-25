@@ -1,0 +1,64 @@
+﻿@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+	var entityTypeCode = ViewContext.RouteData.Values["Controller"].ToString();
+	string codespace = ViewContext.RouteData.DataTokens["area"].ToString();
+	var prifix = "Ac_UiView_UiViewButtons_";
+}
+<div class="mini-toolbar" style="border-left: 0; border-right: 0; border-top: 0px; padding: 2px;">
+	<div style="float: left">
+		@{Html.RenderPartial("Partials/UiViewButtons");}
+		<a id="@(prifix)btnSave" class="mini-button" plain=" true" tooltip="保存" iconstyle="background: url(/content/icons/16x16/database_save.png) no-repeat;" plain="true" @Html.IsEnabled(entityTypeCode, "AddOrRemoveButtons")>保存</a>
+	</div>
+	<div style="float: right">
+		<div id="@(prifix)rbIsAssigned" class="mini-radiobuttonlist" repeatitems="3" repeatlayout="table" repeatdirection="horizontal"
+			 textfield="name" valuefield="code" value="true" style="float:left;"
+			 data="[{code:'',name:'全部'},{code:'true',name:'已授予'},{code:'false',name:'未授予'}]">
+		</div>
+		<input id="@(prifix)key" class="mini-textbox" emptytext="请输入关键字" style="width: 150px;" />
+		<a id="@(prifix)btnSearch" class="mini-button">查询</a>
+	</div>
+	<div style="clear: both;">
+	</div>
+</div>
+<!--撑满页面-->
+<div class="mini-fit noGridBorder">
+	<div id="@(prifix)datagrid1" class="mini-datagrid" style="width:100%;height:100%;" allowalternating="true"
+		 url="@Url.Action("GetPlistUiViewButtons", "Button")" idfield="ButtonId" multiselect="true"
+		 sizelist="5,10,20,50" pagesize="20" allowcelledit="true" allowcellselect="true">
+		<div property="columns">
+			<div type="indexcolumn"></div>
+			<div field="IsAssigned" width="50" type="checkboxcolumn" headeralign="center" align="center" allowsort="true">
+				是否授予？
+			</div>
+			<div field="IsEnabled" width="50" type="checkboxcolumn" headeralign="center" align="center" truevalue="1" falsevalue="0" allowsort="true">
+				按钮有效状态？
+			</div>
+			<div field="FunctionIsEnabled" width="50" type="checkboxcolumn" headeralign="center" align="center" truevalue="1" falsevalue="0" allowsort="true">
+				功能有效状态
+			</div>
+			<div field="Icon" width="30" headeralign="center" align="center" allowsort="true">
+				图标
+			</div>
+			<div field="Name" width="50" headeralign="center" allowsort="true">
+				名称
+			</div>
+			<div field="Code" width="100" headeralign="center" allowsort="true">
+				@Html.IconLabel("Code", "Button")
+			</div>
+			<div field="FunctionId" width="100" headeralign="center" allowsort="true">
+				操作
+				<input property="editor" class="mini-combobox" textfield="Description" valuefield="Id"
+					   style="width:100%;" shownullitem="true" value="" nullitemtext="" />
+			</div>
+			<div field="ButtonIsEnabled" width="50" headeralign="center" allowsort="true">
+				按钮全局有效状态
+			</div>
+			<div field="SortCode" width="50" headeralign="center" align="center" allowsort="true">
+				@Html.IconLabel("SortCode", "Button")
+			</div>
+		</div>
+	</div>
+</div>
+@section Foot{
+	<script type="text/javascript" src="@Url.Content("~/Scripts/Areas/Ac/UiView/UiViewButtons.cshtml.js")"></script>
+}

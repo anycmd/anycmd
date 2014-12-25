@@ -1,0 +1,26 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@RenderSection("Head", required: false)
+@RenderBody()
+@{
+    var entityTypeCode = ViewContext.RouteData.Values["Controller"].ToString();
+    string codespace = ViewContext.RouteData.DataTokens["area"].ToString();
+    var entityType = Html.GetEntityType(codespace, entityTypeCode);
+    string editWidth = entityType.EditWidth.ToString() + "px";
+    string editHeight = entityType.EditHeight.ToString() + "px";
+    var prifix = string.Format("{0}_{1}_{2}_", codespace, entityTypeCode, ViewContext.RouteData.Values["Action"].ToString());
+    if (this.CurrentUser().Permit(entityTypeCode, "Add") || this.CurrentUser().Permit(entityTypeCode, "Update"))
+    {
+        <div id="@(prifix)Edit_win1" class="mini-window" title="" style="width: @editWidth; height: @editHeight;display:none;"
+             showmaxbutton="true" showfooter="true" showtoolbar="true"
+             showmodal="true" allowresize="true" allowdrag="true">
+            @{ Html.RenderPartial("Partials/EditBar", prifix + "Edit_"); }
+            @{ Html.RenderPartial("Partials/Edit", prifix + "Edit_"); }
+        </div>
+    }
+}
+@RenderSection("Foot", required: false)
+@section Foot{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Areas/" + codespace + "/" + entityTypeCode + "/Index.cshtml.js")"></script>
+}

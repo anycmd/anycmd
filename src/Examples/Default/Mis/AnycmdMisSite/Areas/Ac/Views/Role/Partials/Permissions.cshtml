@@ -1,0 +1,130 @@
+﻿@{
+    var entityTypeCode = ViewContext.RouteData.Values["Controller"].ToString();
+    string codespace = ViewContext.RouteData.DataTokens["area"].ToString();
+    var functionTabView = this.GetRuntimeUIVIew("Permissions");
+    var prifix = "Ac_Role_Permissions_";
+}
+<div id="@(prifix)layout1" class="mini-layout" style="width: 100%; height: 100%;">
+    <div title="权限应用系统和区域" width="280" region="west" showsplit="true" showcollapsebutton="false">
+        <div class="mini-fit">
+            <div class="mini-toolbar" style="border-left: 0; border-right: 0; border-top: 0px; padding: 2px;">
+                <table style="width: 100%;">
+                    <tr>
+                        <td style="white-space: nowrap;">
+                            <input id="@(prifix)key" class="mini-textbox" emptytext="请输入关键字" style="width: 150px;" />
+                            <a id="@(prifix)btnSearch" class="mini-button">查询</a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="mini-fit" style="border: 0px;">
+                <div id="@(prifix)dgAppSystem" class="mini-datagrid" style="width:100%;height:100%;" allowalternating="true"
+                     url="@Url.Action("GetPlistAppSystems", "AppSystem")" idfield="Id" multiselect="false"
+                     sizelist="[5,10,20,50]" pagesize="10" selectonload="true">
+                    <div property="columns">
+                        <div type="indexcolumn"></div>
+                        <div type="checkcolumn"></div>
+                        <div field="Name" width="120" headeralign="center" allowsort="true">
+                            @Html.IconLabel("Name", "AppSystem")
+                        </div>
+                        <div field="Code" width="50" headeralign="center">
+                            @Html.IconLabel("Code", "AppSystem")
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div title="center" region="center" bodystyle="overflow:hidden;" draggable="false">
+        <div id="@(prifix)splitter" class="mini-splitter" vertical="true" style="width: 100%; height: 100%;">
+            <div size="350" showcollapsebutton="true">
+                <div class="mini-toolbar" style="border-left: 0; border-right: 0; border-top: 0px; padding: 2px;">
+                    <div style="float: left">
+                        选中资源以查看该资源的可用权限
+                    </div>
+                    <div style="float: right">
+                        <input id="@(prifix)keyResource" class="mini-textbox" emptytext="请输入关键字" style="width: 150px;" />
+                        <a id="@(prifix)btnSearchResource" class="mini-button">查询</a>
+                    </div>
+                    <div style="clear: both;">
+                    </div>
+                </div>
+                <div class="mini-fit">
+                    <div id="@(prifix)dgResource" class="mini-datagrid" style="width:100%;height:100%;" allowalternating="true"
+                         url="@Url.Action("GetPlistAppSystemResources", "ResourceType")" idfield="Id"
+                         sizelist="[5,10,20,50]" pagesize="10" multiselect="false">
+                        <div property="columns">
+                            <div type="indexcolumn"></div>
+                            <div type="checkcolumn"></div>
+                            <div field="Icon" width="50" headeralign="center" align="center" allowsort="true">
+                                @Html.IconLabel("Icon", "ResourceType")
+                            </div>
+                            <div field="Name" width="120" headeralign="center" allowsort="true">
+                                @Html.IconLabel("Name", "ResourceType")
+                            </div>
+                            <div field="Code" width="120" headeralign="center" allowsort="true">
+                                @Html.IconLabel("Code", "ResourceType")
+                            </div>
+                            <div field="SortCode" width="50" headeralign="center" align="center" allowsort="true">
+                                @Html.IconLabel("SortCode", "ResourceType")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div showcollapsebutton="true">
+                <div id="@(prifix)tabs1" class="mini-tabs" style="width: 100%; height: 100%;"
+                     activeindex="0" bodystyle="padding:0;border:0;">
+                    <div name="functionTab" title="操作列表" iconstyle="background:url(/content/icons/16x16/@functionTabView.Icon)">
+                        <div class="mini-toolbar" style="border-left: 0; border-right: 0; border-top: 0px; padding: 2px;">
+                            <div style="float: left">
+                                @{Html.RenderPartial("Partials/UiViewButtons");}
+                            </div>
+                            <div style="float: right">
+                                <div id="@(prifix)rbIsAssigned" class="mini-radiobuttonlist" repeatitems="3" repeatlayout="table" repeatdirection="horizontal"
+                                     textfield="name" valuefield="code" value="true" style="float:left;"
+                                     data="[{code:'',name:'全部'},{code:'true',name:'已授予'},{code:'false',name:'未授予'}]">
+                                </div>
+                                <input id="@(prifix)keyPermission" class="mini-textbox" emptytext="请输入关键字" style="width: 150px;" />
+                                <a id="@(prifix)btnSearchPermission" class="mini-button">查询</a>
+                            </div>
+                            <div style="clear: both;">
+                            </div>
+                        </div>
+                        <div class="mini-fit">
+                            <div id="@(prifix)datagrid1" class="mini-datagrid" style="width:100%;height:100%;" allowalternating="true"
+                                 url="@Url.Action("GetPlistPrivilegeByRoleId", "Function")" idfield="Id" multiselect="true"
+                                 sizelist="[5,10,20,50]" pagesize="20" allowcelledit="true" allowcellwrap="true">
+                                <div property="columns">
+                                    <div type="indexcolumn"></div>
+                                    <div field="IsAssigned" width="70" type="checkboxcolumn" headeralign="center" allowsort="true" align="center">
+                                        是否授予？
+                                    </div>
+                                    <div field="Description" width="180" headeralign="center" allowsort="true">
+                                        功能描述
+                                    </div>
+                                    <div field="FunctionCode" width="180" headeralign="center" allowsort="true">
+                                        @Html.IconLabel("Code", "Function")
+                                    </div>
+                                    <div field="ResourceName" width="120" headeralign="center" allowsort="true">
+                                        @Html.IconLabel("Name", "ResourceType", joint: true)
+                                    </div>
+                                    <div field="ResourceCode" width="100" headeralign="center" allowsort="true">
+                                        @Html.IconLabel("Code", "ResourceType", joint: true)
+                                    </div>
+                                    <div field="SortCode" width="60" headeralign="center" align="center" allowsort="true">
+                                        @Html.IconLabel("SortCode", "Function")
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="@Url.Content("~/Scripts/Areas/Ac/Role/Permissions.cshtml.js")"></script>
+@if (Request.IsAjaxRequest()) {
+    <script src="@Url.Content("~/Scripts/tooltipBoot.js")"></script>
+}

@@ -1,0 +1,8 @@
+﻿@model string
+@{
+    var prifix = Model;
+}
+<div property="toolbar">
+    <a class="mini-button @(prifix)btnOk" iconcls="icon-save" style="width: 60px; margin-right: 10px;">保存</a>
+    <a class="mini-button @(prifix)btnCancel" iconcls="icon-cancel" style="width: 60px;">取消</a>
+</div>

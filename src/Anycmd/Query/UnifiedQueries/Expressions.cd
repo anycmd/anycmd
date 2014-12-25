@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Anycmd.Query.UnifiedQueries.Expression">
+    <Position X="0.5" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAiIAACACAEAIABAAQAACBCAAAAAQAgAAIAMAA=</HashCode>
+      <FileName>Query\UnifiedQueries\Expression.partial.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Query.UnifiedQueries.LogicalOperation">
+    <Position X="8" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAiIIAAACAEIAAAAAAEACBAAAAAAAAgAAAAMAA=</HashCode>
+      <FileName>Query\UnifiedQueries\LogicalOperation.partial.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Query.UnifiedQueries.QuerySpecification">
+    <Position X="5.5" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgIAAAACAEAAAAAAAEACBAAAAAAAAgAAAAEAA=</HashCode>
+      <FileName>Query\UnifiedQueries\QuerySpecification.partial.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Query.UnifiedQueries.UnaryLogicalOperation">
+    <Position X="3" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAiIAAAACAEAAAAAAAEACBAAAAAAAAgAAAAMAA=</HashCode>
+      <FileName>Query\UnifiedQueries\UnaryLogicalOperation.partial.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Microsoft YaHei UI" Size="9" />
+</ClassDiagram>

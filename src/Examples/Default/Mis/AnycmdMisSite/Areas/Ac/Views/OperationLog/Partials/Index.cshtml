@@ -1,0 +1,56 @@
+﻿@{
+	var prifix = "Ac_OperationLog_Index_";
+}
+<div class="mini-toolbar" style="border-left: 0; border-right: 0; border-top: 0px; border-bottom: 0px; padding: 2px;">
+	<div style="float: left">
+		@{Html.RenderPartial("Partials/UiViewButtons");}
+	</div>
+	<div id="@(prifix)searchRow" style="float: right">
+		操作时间从
+		<input id="@(prifix)leftCreateOn" class="mini-datepicker" allowinput="false" style="width: 170px;"
+			format="yyyy-MM-dd HH:mm:ss" showtime="true" />
+		至
+		<input id="@(prifix)rightCreateOn" class="mini-datepicker" allowinput="false" style="width: 170px;"
+			format="yyyy-MM-dd HH:mm:ss" showtime="true" />
+		关键字
+		<input id="@(prifix)key" class="mini-textbox" emptytext="请输入关键字" style="width: 100px;" />
+		<a id="@(prifix)btnSearch" class="mini-button">查询</a>
+	</div>
+	<div style="clear: both;">
+	</div>
+</div>
+<!--撑满页面-->
+<div class="mini-fit">
+	<div id="@(prifix)datagrid1" class="mini-datagrid" style="width: 100%; height: 100%;" allowalternating="true"
+		url="@Url.Action("GetPlistOperationLogs", "OperationLog", new { area = "Ac" })" idfield="Id" multiselect="true" sizeList="[5,10,20,50]" pageSize="20">
+		<div property="columns">
+			<div type="indexcolumn">
+			</div>
+			<div type="checkcolumn">
+			</div>
+			<div field="LoginName" width="50" headeralign="center" allowsort="true">
+				登录名
+			</div>
+			<div field="UserName" width="50" headeralign="center" allowsort="true">
+				用户名
+			</div>
+			<div field="Description" width="200" headeralign="center" allowsort="true">
+				描述
+			</div>
+			<div field="IPAddress" width="100" headeralign="center" allowsort="true">
+				Ip地址
+			</div>
+			<div field="FromNowString" width="80" headeralign="center" allowinput="false" allowsort="false"
+				allowsort="true">
+				操作时间
+			</div>
+			<div field="CreateOn" width="130" headeralign="center" allowinput="false" dateformat="yyyy-MM-dd HH:mm:ss" allowsort="true">
+				操作时间
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="@Url.Content("~/Scripts/Areas/Ac/OperationLog/Index.cshtml.js")"></script>
+@if (Request.IsAjaxRequest()) {
+	<script src="@Url.Content("~/Scripts/tooltipBoot.js")"></script>
+}

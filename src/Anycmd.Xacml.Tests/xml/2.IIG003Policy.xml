@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Policy
+      xmlns="urn:oasis:names:tc:xacml:2.0:policy:schema:os"
+      xmlns:context="urn:oasis:names:tc:xacml:2.0:context:schema:os"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:md="urn:example:med:schemas:record"
+      xsi:schemaLocation="urn:oasis:names:tc:xacml:2.0:policy:schema:os
+        access_control-xacml-2.0-policy-schema-os.xsd"
+      PolicyId="urn:oasis:names:tc:xacml:2.0:conformance-test:IIF020:policy1"
+      RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:deny-overrides">
+    <Description>
+        Policy for Conformance Test IIF002.
+        Condition with a true value. Permit
+    </Description>
+    <Target />
+    <Rule
+          RuleId="urn:oasis:names:tc:xacml:2.0:conformance-test:IIF020:rule"
+          Effect="Permit">
+        <Description>
+            Always true condition.
+        </Description>
+        <Condition>
+    		<AttributeSelector
+	          	RequestContextPath="//md:record/md:diagnosis_info/md:pathological_diagnosis/md:malignancy/@type"
+	          	DataType="http://www.w3.org/2001/XMLSchema#boolean"
+	          	MustBePresent="true"/>
+         </Condition>
+    </Rule>
+</Policy>
+

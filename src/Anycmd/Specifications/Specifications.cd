@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Anycmd.Specifications.AndNotSpecification&lt;T&gt;">
+    <Position X="2.75" Y="6.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Specifications\AndNotSpecification.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Specifications.AndSpecification&lt;T&gt;">
+    <Position X="5" Y="6.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Specifications\AndSpecification.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Specifications.AnySpecification&lt;T&gt;">
+    <Position X="0.5" Y="1.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Specifications\AnySpecification.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Specifications.CompositeSpecification&lt;T&gt;">
+    <Position X="5" Y="3.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAACACAAAAAgAA=</HashCode>
+      <FileName>Specifications\CompositeSpecification.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Anycmd.Specifications.ExpressionFuncExtender">
+    <Position X="13.75" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>Specifications\ExpressionFuncExtender.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Specifications.ExpressionSpecification&lt;T&gt;">
+    <Position X="0.5" Y="3.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Specifications\ExpressionSpecification.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Specifications.NoneSpecification&lt;T&gt;">
+    <Position X="0.5" Y="0.5" Width="2" />
+    <InheritanceLine Type="Anycmd.Specifications.Specification&lt;T&gt;" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="3.75" Y="1.188" />
+        <Point X="2.5" Y="1.188" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Specifications\NoneSpecification.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Specifications.NotSpecification&lt;T&gt;">
+    <Position X="3" Y="3.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Specifications\NotSpecification.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Specifications.OrSpecification&lt;T&gt;">
+    <Position X="7.25" Y="6.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Specifications\OrSpecification.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Specifications.ParameterRebinder">
+    <Position X="9.25" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AEAAEAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Specifications\ParameterRebinder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Specifications.Specification&lt;T&gt;">
+    <Position X="3.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>JAAQAAAAIAAAAAAAAAAAAAAAACAAAABgAAAAAAAAAAA=</HashCode>
+      <FileName>Specifications\Specification.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Anycmd.Specifications.SpecificationException">
+    <Position X="6" Y="0.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Specifications\SpecificationException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Anycmd.Specifications.ICompositeSpecification&lt;T&gt;">
+    <Position X="11.5" Y="3" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACACAAAAAAAA=</HashCode>
+      <FileName>Specifications\ICompositeSpecification.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Anycmd.Specifications.ISpecification&lt;T&gt;">
+    <Position X="11.75" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>JAAQAAAAAAAAAAAAAAAAAAAAACAAAABgAAAAAAAAAAA=</HashCode>
+      <FileName>Specifications\ISpecification.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Anycmd.Specifications.ISpecificationParser&lt;TCriteria&gt;">
+    <Position X="8.75" Y="2.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Specifications\ISpecificationParser.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Microsoft YaHei UI" Size="9" />
+</ClassDiagram>

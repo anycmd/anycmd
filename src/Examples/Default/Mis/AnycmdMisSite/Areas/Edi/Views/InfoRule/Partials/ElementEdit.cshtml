@@ -1,0 +1,26 @@
+﻿@model string
+@{
+	var prifix = Model;
+	var codespace = ViewContext.RouteData.DataTokens["area"].ToString();
+	var entityTypeCode = ViewContext.RouteData.Values["Controller"].ToString();
+}
+<form id="@(prifix)form1" method="post">
+	<input name="Id" class="mini-hidden" />
+	<div style="padding-left: 11px; padding-bottom: 5px;">
+		<table>
+			<tr>
+				<td>排序：
+				</td>
+				<td>
+					<input name="SortCode" class="mini-textbox" vtype="int" value="0" required="true" />
+				</td>
+				<td>@Html.GetProperty("IsEnabled", entityTypeCode, codespace).Name：
+				</td>
+				<td>
+					<input name="IsEnabled" class="mini-checkbox" text="是否有效？" truevalue="1" falsevalue="0" />
+					@Html.Qtip("IsEnabled", entityTypeCode, codespace)
+				</td>
+			</tr>
+		</table>
+	</div>
+</form>

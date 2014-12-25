@@ -1,0 +1,162 @@
+﻿<link rel="stylesheet" type="text/css" href="@Url.Content("~/Scripts/emotions/emoticon.css")" />
+@model string
+@{
+	var prifix = Model;
+	var codespace = ViewContext.RouteData.DataTokens["area"].ToString();
+	var entityTypeCode = ViewContext.RouteData.Values["Controller"].ToString();
+}
+
+<form id="@(prifix)form1" method="post">
+	<input name="Id" class="mini-hidden" />
+	<input name="OntologyId" class="mini-hidden" />
+	<input id="hdIcon" name="Icon" class="mini-hidden" />
+	<div style="padding-left: 11px; padding-bottom: 5px;">
+		<table>
+			<tr>
+				<td>
+					@Html.IconLabel("Code", entityTypeCode, codespace)
+				</td>
+				<td>
+					<input name="Code" class="mini-textbox" required="true" />
+					@Html.Qtip("Code", entityTypeCode, codespace)
+				</td>
+				<td>
+					@Html.IconLabel("Name", entityTypeCode, codespace)
+				</td>
+				<td>
+					<input name="Name" class="mini-textbox" required="true" />
+					@Html.Qtip("Name", entityTypeCode, codespace)
+				</td>
+				<td>
+					@Html.IconLabel("FieldCode", entityTypeCode, codespace)
+				</td>
+				<td>
+					<input name="FieldCode" class="mini-textbox" required="true" />
+					@Html.Qtip("FieldCode", entityTypeCode, codespace)
+				</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>
+					<input name="IsEnabled" class="mini-checkbox" text="@Html.GetProperty("IsEnabled", entityTypeCode, codespace).Name" truevalue="1" falsevalue="0" />
+					@Html.Qtip("IsEnabled", entityTypeCode, codespace)
+				</td>
+				<td>
+					@Html.IconLabel("Icon", entityTypeCode, codespace)
+				</td>
+				<td>
+					<div id="msg" style="float: left; margin: 0px; text-align: center; line-height: 30px; border: 0px; height: 30px; width: 30px;"></div>
+					<a href="JavaScript:void(0)" id="message_face">选择图标</a>
+					@Html.Qtip("Icon", entityTypeCode, codespace)
+				</td>
+				<td>
+					@Html.IconLabel("MaxLength", entityTypeCode, codespace)
+				</td>
+				<td>
+					<input name="MaxLength" class="mini-textbox" vtype="int" value="0" />
+					@Html.Qtip("MaxLength", entityTypeCode, codespace)
+				</td>
+			</tr>
+			<tr>
+				<td>
+					@Html.IconLabel("OType")
+				</td>
+				<td colspan="5">
+					<input name="OType" class="mini-combobox" style="width: 125px;"
+						textfield="name" valuefield="code" data="@Html.DicItemJsonArray(Html.GetProperty("OType", entityTypeCode, codespace))" shownullitem="false" />
+					<input name="Nullable" class="mini-checkbox" text="@Html.GetProperty("Nullable", entityTypeCode, codespace).Name" truevalue="true" falsevalue="false" />
+					<input name="IsInfoIdItem" class="mini-checkbox" text="@Html.GetProperty("IsInfoIdItem", entityTypeCode, codespace).Name" truevalue="true" falsevalue="false" />
+					字典
+					<input name="InfoDicId" class="mini-combobox" style="width: 120px;"
+						textfield="name" valuefield="id" data="@Html.InfoDIcJsonArray()"
+						value="" shownullitem="true" />
+				</td>
+			</tr>
+			<tr>
+				<td>引用来源</td>
+				<td>
+					<input name="Ref" class="mini-textbox" required="false" />
+				</td>
+				<td>
+					@Html.IconLabel("SortCode", entityTypeCode, codespace)
+				</td>
+				<td>
+					<input name="SortCode" class="mini-textbox" vtype="int" value="0" required="true" />
+					@Html.Qtip("SortCode", entityTypeCode, codespace)
+				</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>
+					@Html.IconLabel("Regex", entityTypeCode, codespace)
+					@Html.Qtip("Regex", entityTypeCode, codespace)
+				</td>
+				<td colspan="5">
+					<input name="Regex" class="mini-textarea" style="width: 552px;" />
+				</td>
+			</tr>
+		</table>
+		<fieldset>
+			<legend>展示（界面）项</legend>
+			<div class="fieldset-body">
+				<table>
+					<tr>
+						<td style="width: 50px;"></td>
+						<td colspan="5">
+							<input name="IsGridColumn" class="mini-checkbox" text="@Html.GetProperty("IsGridColumn", "Element", codespace).Name" truevalue="true" falsevalue="false" />
+							@Html.Qtip("IsGridColumn", "Element", codespace)
+							列显宽度<input name="Width" class="mini-textbox" style="width: 50px;" vtype="int" value="100" required="false" />
+							<input name="AllowSort" class="mini-checkbox" text="@Html.GetProperty("AllowSort", "Element", codespace).Name" truevalue="true" falsevalue="false" />
+							<input name="AllowFilter" class="mini-checkbox" text="@Html.GetProperty("AllowFilter", "Element", codespace).Name" truevalue="true" falsevalue="false" />
+							<input name="IsExport" class="mini-checkbox" text="@Html.GetProperty("IsExport", "Element", codespace).Name" truevalue="true" falsevalue="false" />
+							<input name="IsImport" class="mini-checkbox" text="@Html.GetProperty("IsImport", "Element", codespace).Name" truevalue="true" falsevalue="false" />
+						</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td colspan="5">
+							<input name="IsDetailsShow" class="mini-checkbox" text="@Html.GetProperty("IsDetailsShow", entityTypeCode, codespace).Name" truevalue="true"
+								falsevalue="false" />
+							@Html.Qtip("IsDetailsShow", entityTypeCode, codespace)
+							<input name="IsTotalLine" class="mini-checkbox" text="@Html.GetProperty("IsTotalLine", entityTypeCode, codespace).Name" truevalue="true" falsevalue="false" />
+							@Html.Qtip("IsTotalLine", entityTypeCode, codespace)
+							@Html.IconLabel("GroupId", entityTypeCode, codespace)
+							<input id="comboGroupCode" name="GroupId" class="mini-combobox" style="width: 125px;"
+								textfield="Name" valuefield="Id" required="true"
+								value="" shownullitem="true" />
+							@Html.Qtip("GroupId", entityTypeCode, codespace)
+						</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td colspan="5">
+							<input name="IsInput" class="mini-checkbox" text="@Html.GetProperty("IsInput", entityTypeCode, codespace).Name" truevalue="true" falsevalue="false" />
+							@Html.IconLabel("InputType", entityTypeCode, codespace)
+							<input name="InputType" class="mini-combobox" style="width: 125px;"
+								textfield="name" valuefield="code" data="@Html.DicItemJsonArray(Html.GetProperty("InputType", entityTypeCode, codespace))" shownullitem="true" />
+							@Html.IconLabel("InputWidth", entityTypeCode, codespace)
+							<input name="InputWidth" style="width: 50px;" class="mini-textbox" vtype="int" />
+							@Html.IconLabel("InputHeight", entityTypeCode, codespace)
+							<input name="InputHeight" style="width: 50px;" class="mini-textbox" vtype="int" />
+						</td>
+					</tr>
+				</table>
+			</div>
+		</fieldset>
+		<table>
+			<tr>
+				<td style="width: 70px;">
+					@Html.IconLabel("Description", entityTypeCode, codespace)
+				</td>
+				<td>
+					<input name="Description" class="mini-textarea" style="width: 552px;" />
+					@Html.Qtip("Description", entityTypeCode, codespace)
+				</td>
+			</tr>
+		</table>
+	</div>
+</form>
+<div id="faceWindow" class="mini-window" visible="false" title="选择图标" style="width: 700px; height: 470px">
+</div>
+<script type="text/javascript" src="@Url.Content("~/Scripts/emotions/jquery.emoticons.js")"></script>

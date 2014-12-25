@@ -1,0 +1,56 @@
+﻿<div class="mini-splitter" style="width: 100%; height: 100%;">
+	<div size="190" showcollapsebutton="true">
+		<div class="mini-toolbar" style="border-left: 0; border-right: 0; padding: 2px;">
+			<span style="padding-left: 5px; padding-right: 10px;">组织结构</span>
+		</div>
+		<div class="mini-fit">
+			<ul id="Select_treeOrganization" class="mini-tree" style="height: 100%;" 
+				url="@Url.Action("GetNodesByParentId", "Organization", new { area = "Ac" })"
+				showtreeicon="true" textfield="Name" expandOnLoad="true"
+				idfield="Id" parentfield="ParentId" resultastree="false">
+			</ul>
+		</div>
+	</div>
+	<div showcollapsebutton="true">
+		<div class="mini-toolbar" style="border-left: 0; border-right: 0; padding: 2px;">
+			<div style="float: left">
+				注意这是选择“账户”而非选择“人”。
+				<input id="Select_chkbIncludedescendants" class="mini-checkbox" text="包括下级" truevalue="1"
+					falsevalue="0" />
+			</div>
+			<div style="float: right">
+			</div>
+			<div style="clear: both;">
+			</div>
+		</div>
+		<!--撑满页面-->
+		<div class="mini-fit">
+			<div id="Select_dgSelectUser" class="mini-datagrid" style="width:100%;height:100%;" allowAlternating="true" 
+				url="@Url.Action("GetPlistAccounts", "Account", new { area = "Ac" })" idfield="Id" multiselect="true" showFilterRow="true"
+				sizeList="[5,10,20,50]" pageSize="20">
+				<div property="columns">
+					<div type="indexcolumn" width="70">
+						<a id="Select_btnSearchClear" property="filter" class="mini-button" style="float: right;">条件清空</a>
+					</div>
+					<div type="checkcolumn"></div>
+					<div field="OrganizationName" width="120" headeralign="center" allowsort="true">
+						组织结构
+					</div>
+					<div field="LoginName" width="120" headeralign="center" allowsort="true">
+						登录名
+						<input id="LoginNameFilter" name="LoginName" property="filter" class="mini-textbox" style="width: 100%;" />
+					</div>
+					<div field="IsEnabled" width="60" headeralign="center" allowsort="true">
+						有效状态
+						<input id="IsEnabledFilter" property="filter" name="IsEnabled" class="mini-combobox" style="width: 100%;"
+							textfield="name" valuefield="code" data="@Html.DicItemJsonArray(Html.GetProperty("IsEnabled", "Account", "Ac"))" shownullitem="true" />
+					</div>
+					<div field="CreateOn" width="130" headeralign="center" dateformat="yyyy-MM-dd HH:mm:ss" allowsort="true">
+						创建时间
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="@Url.Content("~/Scripts/Views/Shared/Partials/SelectAccounts.cshtml.js")"></script>

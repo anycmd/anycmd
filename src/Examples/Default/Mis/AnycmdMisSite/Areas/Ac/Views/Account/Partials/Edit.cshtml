@@ -1,0 +1,136 @@
+﻿@model string
+@{
+	var prifix = Model;
+	var codespace = "Ac";
+	var entityTypeCode = "Account";
+}
+<form id="@(prifix)form1" method="post">
+	<input name="Id" class="mini-hidden" />
+	<input name="OrganizationCode" class="mini-hidden" />
+	<input name="Type" class="mini-hidden" />
+	<div style="padding: 5px;">
+		<table>
+			<tr>
+				<td>
+					@Html.IconLabel("Name", entityTypeCode)
+				</td>
+				<td>
+					<input name="Name" class="mini-textbox" required="true" />
+				</td>
+				<td>
+					@Html.IconLabel("Code", entityTypeCode)
+				</td>
+				<td>
+					<input name="Code" class="mini-textbox" required="false" />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					@Html.IconLabel("Mobile", entityTypeCode)
+				</td>
+				<td>
+					<input name="Mobile" class="mini-textbox" required="false" />
+				</td>
+				<td>
+					@Html.IconLabel("Telephone", entityTypeCode)
+				</td>
+				<td>
+					<input name="Telephone" class="mini-textbox" required="false" />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					@Html.IconLabel("Email", entityTypeCode)
+				</td>
+				<td>
+					<input name="Email" class="mini-textbox"
+						   text="@Html.GetProperty("Email", entityTypeCode).Name" vtype="email" required="false" />
+				</td>
+				<td>
+					@Html.IconLabel("QQ", entityTypeCode)
+				</td>
+				<td>
+					<input name="QQ" class="mini-textbox" required="false" />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					@Html.IconLabel("LoginName", entityTypeCode)
+				</td>
+				<td>
+					<input name="LoginName" class="mini-textbox" required="true" />
+				</td>
+				<td>
+					@Html.IconLabel("Password", entityTypeCode)
+				</td>
+				<td>
+					<input name="Password" class="mini-password" 
+						emptytext="@Html.GetProperty("Password", entityTypeCode).GuideWords" required="true" />
+					@Html.Qtip("Password", entityTypeCode, codespace)
+				</td>
+			</tr>
+			<tr>
+				<td>
+					@Html.IconLabel("AllowStartTime", entityTypeCode)
+				</td>
+				<td>
+					<input name="AllowStartTime" class="mini-datepicker" allowinput="false" />
+					@Html.Qtip("AllowStartTime", entityTypeCode, codespace)
+				</td>
+				<td>
+					@Html.IconLabel("AllowEndTime", entityTypeCode)
+				</td>
+				<td>
+					<input name="AllowEndTime" class="mini-datepicker" allowinput="false" />
+					@Html.Qtip("AllowEndTime", entityTypeCode, codespace)
+				</td>
+			</tr>
+			<tr>
+				<td>
+					@Html.IconLabel("LockStartTime", entityTypeCode)
+				</td>
+				<td>
+					<input name="LockStartTime" class="mini-datepicker" allowinput="false" />
+					@Html.Qtip("LockStartTime", entityTypeCode, codespace)
+				</td>
+				<td>
+					@Html.IconLabel("LockEndTime", entityTypeCode)
+				</td>
+				<td>
+					<input name="LockEndTime" class="mini-datepicker" allowinput="false" />
+					@Html.Qtip("LockEndTime", entityTypeCode, codespace)
+				</td>
+			</tr>
+			<tr>
+				<td>
+					@Html.IconLabel("AuditState", entityTypeCode)
+				</td>
+				<td>
+					<input name="AuditState" class="mini-combobox" style="width: 125px;"
+						textfield="name" valuefield="code" required="true"
+						data="@Html.DicItemJsonArray(Html.GetProperty("AuditState"))" shownullitem="false" />
+					@Html.Qtip("AuditState", entityTypeCode, codespace)
+				</td>
+				<td>
+					@Html.IconLabel("IsEnabled", entityTypeCode)
+				</td>
+				<td>
+					<input name="IsEnabled" class="mini-combobox" style="width: 125px;" required="true"
+						textfield="name" valuefield="code" 
+						data="@Html.DicItemJsonArray(Html.GetProperty("IsEnabled"))" shownullitem="false" />
+					@Html.Qtip("IsEnabled", entityTypeCode, codespace)
+				</td>
+			</tr>
+			<tr>
+				<td>
+					@Html.IconLabel("Description", entityTypeCode)
+				</td>
+				<td colspan="3">
+					<input name="Description" class="mini-textarea" 
+						emptytext="@Html.GetProperty("Description", entityTypeCode).GuideWords" style="width: 398px;" />
+					@Html.Qtip("Description", entityTypeCode, codespace)
+				</td>
+			</tr>
+		</table>
+	</div>
+</form>

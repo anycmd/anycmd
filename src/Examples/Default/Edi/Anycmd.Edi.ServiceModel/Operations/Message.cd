@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Anycmd.DataContracts.CredentialData">
+    <Position X="2.5" Y="4.75" Width="1.75" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Anycmd.DataContracts.KeyValue">
+    <Position X="9" Y="0.5" Width="2.25" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Anycmd.DataContracts.BodyData">
+    <Position X="5.25" Y="0.5" Width="2.25" />
+    <AssociationLine Name="Event" Type="Anycmd.DataContracts.EventData">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.651" Y="0.154" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier />
+    <ShowAsAssociation>
+      <Property Name="Event" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="InfoID" />
+      <Property Name="InfoValue" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Anycmd.DataContracts.EventData">
+    <Position X="5.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Anycmd.EDI.ServiceModel.Operations.Message">
+    <Position X="2.75" Y="0.75" Width="1.5" />
+    <AssociationLine Name="Credential" Type="Anycmd.DataContracts.CredentialData">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-1.148" Y="0.256" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>IoAAAACAAAAEAAAAAAEBAAAIAAAIAAAEAAAAACMAAAA=</HashCode>
+      <FileName>Operations\Message.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Body" />
+      <Property Name="From" />
+      <Property Name="Credential" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Anycmd.DataContracts.FromData">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Font Name="Microsoft YaHei UI" Size="9" />
+</ClassDiagram>

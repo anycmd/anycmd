@@ -1,0 +1,74 @@
+﻿@{
+    Layout = "~/Views/Shared/_Index.cshtml";
+    var infoTabView = Html.GetRuntimeUIVIew("Details");
+    var prifix = "Edi_InfoRule_Index_";
+}
+<div id="@(prifix)helperSplitter" class="mini-splitter helperSplitter" style="width: 100%; height: 100%;">
+    <div showcollapsebutton="true">
+        <div id="@(prifix)splitter" class="mini-splitter" vertical="true" style="width: 100%; height: 100%;">
+            <div size="560" showcollapsebutton="true">
+                <div class="mini-toolbar" style="border-left: 0; border-right: 0; border-top: 0px; padding: 2px;">
+                    <div style="float: left">
+                        @{Html.RenderPartial("Partials/UiViewButtons");}
+                    </div>
+                    <div style="float: right">
+                    </div>
+                    <div style="clear: both;">
+                    </div>
+                </div>
+                <!--撑满页面-->
+                <div class="mini-fit">
+                    <div id="@(prifix)datagrid1" class="mini-datagrid" style="width:100%;height:100%;" allowalternating="true"
+                         url="@Url.Action("GetPlistInfoRules")" idfield="Id" multiselect="true" showfilterrow="true"
+                         sizelist="[5,10,20,50]" pagesize="20" showmodified="false">
+                        <div property="columns">
+                            <div type="indexcolumn" width="20"></div>
+                            <div type="checkcolumn" width="20"></div>
+                            <div name="action" width="70" headeralign="center" align="center" cellstyle="padding:0;">
+                                <a id="@(prifix)btnSearchClear" property="filter" class="mini-button" style="float: right;">条件清空</a>
+                            </div>
+                            <div field="Title" width="120" headeralign="center" allowsort="true">
+                                标题
+                                <input id="@(prifix)TitleFilter" name="Title" property="filter" class="mini-textbox" style="width: 100%;" />
+                            </div>
+                            <div field="Name" width="120" headeralign="center" allowsort="true">
+                                名称
+                                <input id="@(prifix)NameFilter" name="Name" property="filter" class="mini-textbox" style="width: 100%;" />
+                            </div>
+                            <div field="IsEnabled" width="50" headeralign="center" allowsort="true">
+                                有效状态
+                                <input id="@(prifix)IsEnabledFilter" property="filter" name="IsEnabled" class="mini-combobox" style="width: 100%;"
+                                       textfield="name" valuefield="code" data="@Html.DicItemJsonArray(Html.GetProperty("IsEnabled"))" shownullitem="true" />
+                            </div>
+                            <div field="Author" width="80" headeralign="center" allowsort="true">
+                                作者编码
+                            </div>
+                            <div field="CreateOn" width="130" headeralign="center" dateformat="yyyy-MM-dd HH:mm:ss" allowsort="true">
+                                创建时间
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div showcollapsebutton="true">
+                <div id="@(prifix)tabs1" class="mini-tabs" style="width: 100%; height: 100%;display:none;"
+                     activeindex="0" bodystyle="padding:0;border:0;">
+                    <div name="infoTab" bodycls="inner" title="@infoTabView.Title" iconstyle="background:url(/content/icons/16x16/@infoTabView.Icon)">
+                    </div>
+                    @{
+                        var operationLogView = this.GetOperationLogEntityType();
+                        if (operationLogView.Permit()) {
+                            <div name="operationLogTab" bodycls="inner" title="@operationLogView.Title" iconstyle="background:url(/content/icons/16x16/@operationLogView.Icon)">
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div size="250" showcollapsebutton="true" visible="false" expanded="false">
+        @{Html.RenderPartial("Partials/HelpPane");}
+    </div>
+</div>
+@section Foot{
+}

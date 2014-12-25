@@ -1,0 +1,218 @@
+﻿@{
+    bool isArchive = !string.IsNullOrEmpty(Request.Params["isArchive"]);
+    string ontologyCode = Request.Params["ontologyCode"];
+    var ontology = Html.GetOntology(ontologyCode);
+    var elements = ontology.Elements.Values.Where(e => e.Element.IsGridColumn && e.Element.IsEnabled == 1).OrderBy(e => e.Element.SortCode);
+    var executedCommandTabView = this.GetRuntimeUIVIew("HandledCommand", "Command");
+    var executeFailingCommandTabView = this.GetRuntimeUIVIew("HandleFailingCommand", "Command");
+    var localEventTabView = this.GetRuntimeUIVIew("LocalEvent", "Command");
+    var clientEventTabView = this.GetRuntimeUIVIew("ClientEvent", "Command");
+    var receivedCommandTabView = this.GetRuntimeUIVIew("ReceivedMessage", "Command");
+    var unacceptedMessageTabView = this.GetRuntimeUIVIew("UnacceptedMessage", "Command");
+    var distributeCommandTabView = this.GetRuntimeUIVIew("DistributeMessage", "Command");
+    var distributedCommandTabView = this.GetRuntimeUIVIew("DistributedMessage", "Command");
+    var distributeFailingCommandTabView = this.GetRuntimeUIVIew("DistributeFailingMessage", "Command");
+
+    var infoTabView = this.GetRuntimeUIVIew("Details");
+    var entityHandledCommandTabView = this.GetRuntimeUIVIew("EntityHandledCommands", "Command");
+    var entityHandleFailingCommandTabView = this.GetRuntimeUIVIew("EntityHandleFailingCommands", "Command");
+    var entityReceivedMessageTabView = this.GetRuntimeUIVIew("EntityReceivedMessages", "Command");
+    var entityLocalEventTabView = this.GetRuntimeUIVIew("EntityLocalEvents", "Command");
+    var entityClientEventTabView = this.GetRuntimeUIVIew("EntityClientEvents", "Command");
+    var entityDistributeMessageTabView = this.GetRuntimeUIVIew("EntityDistributeMessages", "Command");
+    var entityDistributedMessageTabView = this.GetRuntimeUIVIew("EntityDistributedMessages", "Command");
+    var entityDistributeFailingMessageTabView = this.GetRuntimeUIVIew("EntityDistributeFailingMessages", "Command");
+    var prifix = "Edi_Entity_Index_";
+}
+<div id="tabs1" class="mini-tabs" style="width: 100%; height: 100%;"
+     activeindex="0" bodystyle="padding:0;border:0;">
+    @*entityTab开始*@
+    <div name="entityTab" title="@ontology.Ontology.Name" iconstyle="background:url(/content/icons/16x16/@ontology.Ontology.Icon)">
+        <div id="@(prifix)splitter" class="mini-splitter" vertical="true" style="width: 100%; height: 100%;">
+            <div size="390" showcollapsebutton="true">
+                <div class="mini-toolbar" style="border-left: 0; border-right: 0; border-top: 0px; padding: 2px;">
+                    <div style="float: left">
+                        @{
+                            if (!isArchive) {
+                                Html.RenderPartial("Partials/UiViewButtons");
+                                if (this.CurrentUser().Permit("Archive", "Index")) {
+                                    <a id="@(prifix)lbtnArchive" class="mini-button" target="_blank" iconstyle="background: url(/content/icons/16x16/@ontology.Ontology.Icon) no-repeat;" plain="true">
+                                        @(ontology.Ontology.Name)归档
+                                    </a>
+                                }
+                            }
+                        }
+                        @if (ontology.Ontology.IsOrganizationalEntity) {
+                            <input id="@(prifix)chkbIncludedescendants" class="mini-checkbox" text="包括下级组织结构的@(ontology.Ontology.Name)" truevalue="1"
+                                   falsevalue="0" value="1" />
+                        }
+                    </div>
+                    <div style="float: right; margin-left: 10px;">
+                    </div>
+                    <div style="clear: both;">
+                    </div>
+                </div>
+                <!--撑满页面-->
+                <div class="mini-fit">
+                    <div id="@(prifix)datagrid1" class="mini-datagrid" style="width:100%;height:100%;" allowalternating="true" allowcellwrap="true"
+                         url="@Url.Action("GetPlistEntity", new { ontologyCode = ontologyCode })" idfield="Id" multiselect="true"
+                         sizelist="[5,10,20,50]" pagesize="10" showfilterrow="true">
+                        <div property="columns">
+                            <div type="indexcolumn" width="50"></div>
+                            <div type="checkcolumn" width="30">
+                            </div>
+                            <div name="action" width="80" headeralign="center" align="center" cellstyle="padding:0;">
+                                <a id="@(prifix)btnSearchClear" property="filter" class="mini-button" style="float: right;">条件清空</a>
+                            </div>
+                            @{
+                                foreach (var element in elements) {
+                                    if (element != null && element != ontology.IdElement && element.Element.IsGridColumn) {
+                                        var htmlAllowsort = element.Element.AllowSort ? "allowsort='true'" : "";
+                                        <div field="@element.Element.Code" width="@element.Element.Width" @Html.Raw(htmlAllowsort) headeralign="center">
+                                            @Html.Label(element.Element)
+                                            @if (element.Element.AllowFilter) {
+                                                if (element.Element.InfoDicId.HasValue) {
+                                                    <input property="filter" onvaluechanged="onFilterChanged" name="@element.Element.Code" class="mini-combobox" style="width:100%;" nullitemtext="请选择..."
+                                                           textfield="name" valuefield="code" data="@Html.InfoDicItemsJsonArray(element.Element)" shownullitem="true" valuefromselect="true" emptytext="请选择..." />
+                                                }
+                                                else if (element == ontology.CreateNodeIdElement
+                                                || element == ontology.ModifiedNodeIdElement) {
+                                                    <input property="filter" onvaluechanged="onFilterChanged" name="@element.Element.Code" class="mini-combobox" style="width:100%;" nullitemtext="请选择..."
+                                                           textfield="name" valuefield="id" data="@Html.NodesJsonArray()" shownullitem="true" valuefromselect="true" emptytext="请选择..." />
+                                                }
+                                                else {
+                                                    <input name="@element.Element.Code" onvaluechanged="onFilterChanged" property="filter" class="mini-textbox" style="width: 100%;" />
+                                                }
+                                            }
+                                        </div>
+                                    }
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div showcollapsebutton="true">
+                <div id="@(prifix)entityTabs1" class="mini-tabs" style="width: 100%; height: 100%; display: none;"
+                     activeindex="0" bodystyle="padding:0;border:0;">
+                    @if (infoTabView.Permit())
+                    {
+                        <div name="infoTab" bodycls="inner" title="@infoTabView.Title"
+                             iconstyle="background:url(/content/icons/16x16/@infoTabView.Icon)">
+                        </div>
+                    }
+                    @if (!isArchive) {
+                        <div name="editTab" bodycls="inner" title="编辑"
+                             iconstyle="background:url(/content/icons/16x16/application_edit.png)">
+                        </div>
+                        if (entityLocalEventTabView.Permit())
+                        {
+                            <div name="localEventTab" bodycls="inner" title="@entityLocalEventTabView.Title"
+                                 iconstyle="background:url(/content/icons/16x16/@entityLocalEventTabView.Icon)">
+                            </div>
+                        }
+                        if (entityHandledCommandTabView.Permit())
+                        {
+                            <div name="executedCommandTab" bodycls="inner" title="@entityHandledCommandTabView.Title"
+                                 iconstyle="background:url(/content/icons/16x16/@entityHandledCommandTabView.Icon)">
+                            </div>
+                        }
+                        if (entityHandleFailingCommandTabView.Permit())
+                        {
+                            <div name="executeFailingCommandTab" bodycls="inner" title="@entityHandleFailingCommandTabView.Title"
+                                 iconstyle="background:url(/content/icons/16x16/@entityHandleFailingCommandTabView.Icon)">
+                            </div>
+                        }
+                        if (entityReceivedMessageTabView.Permit())
+                        {
+                            <div name="receivedCommandTab" bodycls="inner" title="@entityReceivedMessageTabView.Title"
+                                 iconstyle="background:url(/content/icons/16x16/@entityReceivedMessageTabView.Icon)">
+                            </div>
+                        }
+                        if (entityClientEventTabView.Permit())
+                        {
+                            <div name="clientEventTab" bodycls="inner" title="@entityClientEventTabView.Title"
+                                 iconstyle="background:url(/content/icons/16x16/@entityClientEventTabView.Icon)">
+                            </div>
+                        }
+                        if (entityDistributeMessageTabView.Permit())
+                        {
+                            <div name="distributeCommandTab" bodycls="inner" title="@entityDistributeMessageTabView.Title"
+                                 iconstyle="background:url(/content/icons/16x16/@entityDistributeMessageTabView.Icon)">
+                            </div>
+                        }
+                        if (entityDistributedMessageTabView.Permit())
+                        {
+                            <div name="distributedCommandTab" bodycls="inner" title="@entityDistributedMessageTabView.Title"
+                                 iconstyle="background:url(/content/icons/16x16/@entityDistributedMessageTabView.Icon)">
+                            </div>
+                        }
+                        if (entityDistributeFailingMessageTabView.Permit())
+                        {
+                            <div name="distributeFailingCommandTab" bodycls="inner" title="@entityDistributeFailingMessageTabView.Title"
+                                 iconstyle="background:url(/content/icons/16x16/@entityDistributeFailingMessageTabView.Icon)">
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    @*entityTab结束*@
+    @if (!isArchive) {
+        if (localEventTabView.Permit())
+        {
+            <div name="localEventTab" bodycls="inner" title="@localEventTabView.Title"
+                 iconstyle="background:url(/content/icons/16x16/@localEventTabView.Icon)">
+            </div>
+        }
+        if (receivedCommandTabView.Permit())
+        {
+            <div name="receivedCommandTab" bodycls="inner" title="@receivedCommandTabView.Title"
+                 iconstyle="background:url(/content/icons/16x16/@receivedCommandTabView.Icon)">
+            </div>
+        }
+        if (unacceptedMessageTabView.Permit())
+        {
+            <div name="unacceptedMessageTab" bodycls="inner" title="@unacceptedMessageTabView.Title"
+                 iconstyle="background:url(/content/icons/16x16/@unacceptedMessageTabView.Icon)">
+            </div>
+        }
+        if (executedCommandTabView.Permit())
+        {
+            <div name="executedCommandTab" bodycls="inner" title="@executedCommandTabView.Title"
+                 iconstyle="background:url(/content/icons/16x16/@executedCommandTabView.Icon)">
+            </div>
+        }
+        if (executeFailingCommandTabView.Permit())
+        {
+            <div name="executeFailingCommandTab" bodycls="inner" title="@executeFailingCommandTabView.Title"
+                 iconstyle="background:url(/content/icons/16x16/@executeFailingCommandTabView.Icon)">
+            </div>
+        }
+        if (clientEventTabView.Permit())
+        {
+            <div name="clientEventTab" bodycls="inner" title="@clientEventTabView.Title"
+                 iconstyle="background:url(/content/icons/16x16/@clientEventTabView.Icon)">
+            </div>
+        }
+        if (distributeCommandTabView.Permit())
+        {
+            <div name="distributeCommandTab" bodycls="inner" title="@distributeCommandTabView.Title"
+                 iconstyle="background:url(/content/icons/16x16/@distributeCommandTabView.Icon)">
+            </div>
+        }
+        if (distributedCommandTabView.Permit())
+        {
+            <div name="distributedCommandTab" bodycls="inner" title="@distributedCommandTabView.Title"
+                 iconstyle="background:url(/content/icons/16x16/@distributedCommandTabView.Icon)">
+            </div>
+        }
+        if (distributeFailingCommandTabView.Permit())
+        {
+            <div name="distributeFailingCommandTab" bodycls="inner" title="@distributeFailingCommandTabView.Title"
+                 iconstyle="background:url(/content/icons/16x16/@distributeFailingCommandTabView.Icon)">
+            </div>
+        }
+    }
+</div>

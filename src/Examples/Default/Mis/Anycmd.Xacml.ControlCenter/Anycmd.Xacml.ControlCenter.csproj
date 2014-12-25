@@ -1,0 +1,210 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{FBF47BB5-919F-4004-9143-C806DB3966BB}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Anycmd.Xacml.ControlCenter</RootNamespace>
+    <AssemblyName>Anycmd.Xacml.ControlCenter</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AxInterop.SHDocVw, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\AxInterop.SHDocVw.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.SHDocVw, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <HintPath>.\Interop.SHDocVw.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\..\..\..\AssemblyVersion.cs">
+      <Link>Properties\AssemblyVersion.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\..\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="ContextCustomControls\Attribute.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ContextCustomControls\Resource.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ContextCustomControls\XmlViewer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ContextTreeNodes\Action.cs" />
+    <Compile Include="ContextTreeNodes\Attribute.cs" />
+    <Compile Include="ContextTreeNodes\ContextDocument.cs" />
+    <Compile Include="ContextTreeNodes\Environment.cs" />
+    <Compile Include="ContextTreeNodes\Request.cs" />
+    <Compile Include="ContextTreeNodes\Resource.cs" />
+    <Compile Include="ContextTreeNodes\Subject.cs" />
+    <Compile Include="CustomControls\BaseControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomControls\Condition.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomControls\Match.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomControls\Obligations.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomControls\Policy.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomControls\PolicySet.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomControls\Rule.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomControls\TargetItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TreeNodes\AnyAction.cs" />
+    <Compile Include="TreeNodes\AnyResource.cs" />
+    <Compile Include="TreeNodes\AnySubject.cs" />
+    <Compile Include="TreeNodes\AnyTarget.cs" />
+    <Compile Include="TreeNodes\AttributeDesignator.cs" />
+    <Compile Include="TreeNodes\AttributeSelector.cs" />
+    <Compile Include="TreeNodes\AttributeValue.cs" />
+    <Compile Include="TreeNodes\Condition.cs" />
+    <Compile Include="TreeNodes\FunctionExecution.cs" />
+    <Compile Include="TreeNodes\FunctionParameter.cs" />
+    <Compile Include="TreeNodes\NoBoldNode.cs" />
+    <Compile Include="TreeNodes\Obligations.cs" />
+    <Compile Include="TreeNodes\Policy.cs" />
+    <Compile Include="TreeNodes\PolicyDocument.cs" />
+    <Compile Include="TreeNodes\PolicyIdReference.cs" />
+    <Compile Include="TreeNodes\PolicySet.cs" />
+    <Compile Include="TreeNodes\PolicySetIdReference.cs" />
+    <Compile Include="TreeNodes\Rule.cs" />
+    <Compile Include="TreeNodes\Target.cs" />
+    <Compile Include="TreeNodes\TargetItem.cs" />
+    <EmbeddedResource Include="ContextCustomControls\Attribute.resx">
+      <DependentUpon>Attribute.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ContextCustomControls\Resource.resx">
+      <DependentUpon>Resource.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ContextCustomControls\XmlViewer.resx">
+      <DependentUpon>XmlViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomControls\BaseControl.resx">
+      <DependentUpon>BaseControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomControls\Condition.resx">
+      <DependentUpon>Condition.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomControls\Match.resx">
+      <DependentUpon>Match.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomControls\Obligations.resx">
+      <DependentUpon>Obligations.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomControls\Policy.resx">
+      <DependentUpon>Policy.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomControls\PolicySet.resx">
+      <DependentUpon>PolicySet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomControls\Rule.resx">
+      <DependentUpon>Rule.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomControls\TargetItem.resx">
+      <DependentUpon>TargetItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Anycmd.DataContracts\Anycmd.DataContracts.csproj">
+      <Project>{7ebbd487-f38f-475c-bc2c-3ebfacbd8f7d}</Project>
+      <Name>Anycmd.DataContracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Anycmd\Anycmd.csproj">
+      <Project>{a5ee9ffc-35f4-4cab-9ab0-c9c98e97c8b5}</Project>
+      <Name>Anycmd</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App.ico" />
+    <Content Include="AxInterop.SHDocVw.dll" />
+    <Content Include="Interop.SHDocVw.dll" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

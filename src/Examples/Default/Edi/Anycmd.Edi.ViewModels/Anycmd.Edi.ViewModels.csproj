@@ -1,0 +1,171 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{EAA6E3C3-20F9-47FF-9D9F-7929F50F4D5B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Anycmd.Edi.ViewModels</RootNamespace>
+    <AssemblyName>Anycmd.Edi.ViewModels</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
+    <ProductVersion>12.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\..\..\..\AssemblyVersion.cs">
+      <Link>Properties\AssemblyVersion.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\..\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="ArchiveViewModels\ArchiveCreateInput.cs" />
+    <Compile Include="ArchiveViewModels\ArchiveInfo.cs" />
+    <Compile Include="ArchiveViewModels\ArchiveTr.cs" />
+    <Compile Include="ArchiveViewModels\ArchiveUpdateInput.cs" />
+    <Compile Include="BatchViewModels\BatchCreateInput.cs" />
+    <Compile Include="BatchViewModels\BatchInfo.cs" />
+    <Compile Include="BatchViewModels\BatchTr.cs" />
+    <Compile Include="BatchViewModels\BatchUpdateInput.cs" />
+    <Compile Include="BatchViewModels\GetPlistBatchs.cs" />
+    <Compile Include="BatchViewModels\IBatchQuery.cs" />
+    <Compile Include="ElementViewModels\ElementCreateInput.cs" />
+    <Compile Include="ElementViewModels\ElementUpdateInput.cs" />
+    <Compile Include="InfoDicViewModels\InfoDicCreateInput.cs" />
+    <Compile Include="InfoDicViewModels\InfoDicItemCreateInput.cs" />
+    <Compile Include="InfoDicViewModels\InfoDicItemUpdateInput.cs" />
+    <Compile Include="InfoDicViewModels\InfoDicUpdateInput.cs" />
+    <Compile Include="MessageViewModels\MessageInfo.cs" />
+    <Compile Include="MessageViewModels\MessageProviderExetension.cs" />
+    <Compile Include="MessageViewModels\MessageTr.cs" />
+    <Compile Include="MessageViewModels\IMessageView.cs" />
+    <Compile Include="ElementViewModels\ElementAssignActionTr.cs" />
+    <Compile Include="ElementViewModels\GetElementActions.cs" />
+    <Compile Include="ElementViewModels\ElementInfo.cs" />
+    <Compile Include="InfoConstraintViewModels\ElementInfoRuleTr.cs" />
+    <Compile Include="ElementViewModels\ElementTr.cs" />
+    <Compile Include="InfoDicViewModels\InfoDicInfo.cs" />
+    <Compile Include="InfoDicViewModels\InfoDicItemInfo.cs" />
+    <Compile Include="InfoDicViewModels\InfoDicItemTr.cs" />
+    <Compile Include="InfoDicViewModels\InfoDicTr.cs" />
+    <Compile Include="InfoConstraintViewModels\InfoRuleInfo.cs" />
+    <Compile Include="InfoConstraintViewModels\InfoRuleTr.cs" />
+    <Compile Include="NodeViewModels\GetPlistNodeActions.cs" />
+    <Compile Include="NodeViewModels\GetPlistNodeElementActions.cs" />
+    <Compile Include="ElementViewModels\GetNodeElementCares.cs" />
+    <Compile Include="ArchiveViewModels\GetPlistArchives.cs" />
+    <Compile Include="MessageViewModels\GetPlistMessages.cs" />
+    <Compile Include="GetPlistEntity.cs" />
+    <Compile Include="InfoConstraintViewModels\GetPlistElementInfoRules.cs" />
+    <Compile Include="ElementViewModels\GetPlistElements.cs" />
+    <Compile Include="InfoConstraintViewModels\GetPlistInfoRules.cs" />
+    <Compile Include="InfoConstraintViewModels\InfoRuleInput.cs" />
+    <Compile Include="InfoConstraintViewModels\IConstraintInfo.cs" />
+    <Compile Include="InfoConstraintViewModels\IConstraintTr.cs" />
+    <Compile Include="NodeViewModels\NodeCreateInput.cs" />
+    <Compile Include="NodeViewModels\NodeElementCareCreateInput.cs" />
+    <Compile Include="NodeViewModels\NodeOntologyCareCreateInput.cs" />
+    <Compile Include="NodeViewModels\NodeOntologyOrganizationCreateInput.cs" />
+    <Compile Include="NodeViewModels\NodeUpdateInput.cs" />
+    <Compile Include="OntologyViewModels\ActionCreateInput.cs" />
+    <Compile Include="OntologyViewModels\ActionTr.cs" />
+    <Compile Include="OntologyViewModels\ActionUpdateInput.cs" />
+    <Compile Include="OntologyViewModels\OntologyOrganizationCreateInput.cs" />
+    <Compile Include="OntologyViewModels\TopicCreateInput.cs" />
+    <Compile Include="OntologyViewModels\TopicUpdateInput.cs" />
+    <Compile Include="OntologyViewModels\GetPlistOntologyOrganizationActions.cs" />
+    <Compile Include="NodeViewModels\NodeAssignActionTr.cs" />
+    <Compile Include="ElementViewModels\NodeAssignElementTr.cs" />
+    <Compile Include="OntologyViewModels\InfoGroupCreateInput.cs" />
+    <Compile Include="OntologyViewModels\InfoGroupUpdateInput.cs" />
+    <Compile Include="OntologyViewModels\NodeAssignOntologyTr.cs" />
+    <Compile Include="NodeViewModels\NodeElementAssignActionTr.cs" />
+    <Compile Include="NodeViewModels\NodeInfo.cs" />
+    <Compile Include="NodeViewModels\NodeTr.cs" />
+    <Compile Include="NodeViewModels\OntologyAssignNodeTr.cs" />
+    <Compile Include="OntologyViewModels\OntologyCreateInput.cs" />
+    <Compile Include="OntologyViewModels\OntologyInfo.cs" />
+    <Compile Include="OntologyViewModels\OntologyUpdateInput.cs" />
+    <Compile Include="OntologyViewModels\OrganizationAssignActionTr.cs" />
+    <Compile Include="OntologyViewModels\OntologyTr.cs" />
+    <Compile Include="PluginViewModels\IPluginInfo.cs" />
+    <Compile Include="PluginViewModels\IPluginTr.cs" />
+    <Compile Include="PluginViewModels\IPluginQuery.cs" />
+    <Compile Include="PluginViewModels\PluginInfo.cs" />
+    <Compile Include="ProcessViewModels\ProcessInfo.cs" />
+    <Compile Include="ProcessViewModels\ProcessCreateInput.cs" />
+    <Compile Include="ProcessViewModels\ProcessTr.cs" />
+    <Compile Include="ProcessViewModels\ProcessUpdateInput.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StateCodeViewModels\StateCodetInput.cs" />
+    <Compile Include="StateCodeViewModels\GetPlistStateCodes.cs" />
+    <Compile Include="StateCodeViewModels\IStateCodeQuery.cs" />
+    <Compile Include="StateCodeViewModels\StateCodeInfo.cs" />
+    <Compile Include="StateCodeViewModels\StateCodeUpdateInput.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Anycmd.DataContracts\Anycmd.DataContracts.csproj">
+      <Project>{7EBBD487-F38F-475C-BC2C-3EBFACBD8F7D}</Project>
+      <Name>Anycmd.DataContracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Infrastructure\Anycmd.ViewModel\Anycmd.ViewModel.csproj">
+      <Project>{A82B9D2C-F780-4EAC-8ADA-D9E8108E8155}</Project>
+      <Name>Anycmd.ViewModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Anycmd\Anycmd.csproj">
+      <Project>{A5EE9FFC-35F4-4CAB-9AB0-C9C98E97C8B5}</Project>
+      <Name>Anycmd</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,24 @@
+﻿@{
+	var prifix = "Ac_Role_Menus_";
+}
+<div class="mini-toolbar" style="border-left: 0; border-right: 0; border-top: 0px; padding: 2px;">
+	<div style="float: left">
+		@{Html.RenderPartial("Partials/UiViewButtons");}
+		选中表示授予，反之不授予。
+		<a id="@(prifix)btnRefresh" class="mini-button" plain=" true" tooltip="刷新" iconstyle="background: url(/content/icons/16x16/paintbrush.png) no-repeat;" plain="true">刷新</a>
+	</div>
+	<div style="float: right; padding-right: 5px;">
+	</div>
+	<div style="clear: both;">
+	</div>
+</div>
+<div class="mini-fit">
+	<ul id="@(prifix)tree1" class="mini-tree" style="height: 100%;" showcheckbox="true"
+		imgpath="/content/icons/16x16/"
+		showtreeicon="true" textfield="Name" expandonload="true" autocheckparent="true" checkrecursive="true"
+		idfield="MenuId" parentfield="ParentId" resultastree="true"></ul>
+</div>
+<script type="text/javascript" src="@Url.Content("~/Scripts/Areas/Ac/Role/Menus.cshtml.js")"></script>
+@if (Request.IsAjaxRequest()) {
+	<script src="@Url.Content("~/Scripts/tooltipBoot.js")"></script>
+}

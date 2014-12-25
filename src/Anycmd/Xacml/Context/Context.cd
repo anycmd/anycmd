@@ -1,0 +1,241 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Anycmd.Xacml.Context.ActionElement">
+    <Position X="3.25" Y="3.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAQAAAAAAAQAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Context\ActionElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Context.ActionElementReadWrite">
+    <Position X="6" Y="3.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAAAAAAACAAAAAAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Context\ActionElementReadWrite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Context.AttributeCollection">
+    <Position X="4.25" Y="14" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAACAAAAAAAAAAAAAAACAAAAABAAAA=</HashCode>
+      <FileName>Xacml\Context\AttributeCollection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Context.AttributeElement">
+    <Position X="19.25" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAIAAAAQAAAEAAAAAAEAAAIAAAAgABAAAAA=</HashCode>
+      <FileName>Xacml\Context\AttributeElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Context.AttributeElementReadWrite">
+    <Position X="15.75" Y="0.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAEAAoBAAAIABAAUIAEEAAAAAAEAAAIAAAAgABAAAAA=</HashCode>
+      <FileName>Xacml\Context\AttributeElementReadWrite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Context.AttributeReadWriteCollection">
+    <Position X="4.25" Y="11.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAQCAAAAAAAAAAAAAAACAAAAABAAAA=</HashCode>
+      <FileName>Xacml\Context\AttributeReadWriteCollection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Context.AttributeValueElement">
+    <Position X="9.75" Y="9" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAQAAAAAAAAAAAAAAIAAAAgAABAAAA=</HashCode>
+      <FileName>Xacml\Context\AttributeValueElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Context.AttributeValueElementCollection">
+    <Position X="0.5" Y="14.75" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAACAAAAAAAAAAAAAAACAAAAABAAAA=</HashCode>
+      <FileName>Xacml\Context\AttributeValueElementCollection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Context.AttributeValueElementReadWrite">
+    <Position X="9.5" Y="6" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAARAAAAAAAAAAAAAAIAAAAgAABAAAA=</HashCode>
+      <FileName>Xacml\Context\AttributeValueElementReadWrite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Context.AttributeValueElementReadWriteCollection">
+    <Position X="0.5" Y="12.25" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAACAAAAAAAAAAAAAAACAAAAABAAAA=</HashCode>
+      <FileName>Xacml\Context\AttributeValueElementReadWriteCollection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Context.ContextDocument">
+    <Position X="11.25" Y="11.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Context\ContextDocument.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Context.ContextDocumentReadWrite">
+    <Position X="7" Y="11.5" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>QAAAIAEiAABQACAQQAAAAABBAAMAgAgAQAAAAARAAAg=</HashCode>
+      <FileName>Xacml\Context\ContextDocumentReadWrite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Context.EnvironmentElement">
+    <Position X="9.5" Y="3.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAQAAAAAAAQAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Context\EnvironmentElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Context.EnvironmentElementReadWrite">
+    <Position X="9" Y="1.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAAAAAAACAAAAAAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Context\EnvironmentElementReadWrite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Context.RequestElement">
+    <Position X="4.25" Y="8.75" Width="2.25" />
+    <InheritanceLine Type="Anycmd.Xacml.Context.RequestElementReadWrite" FixedFromPoint="true">
+      <Path>
+        <Point X="3.5" Y="9.875" />
+        <Point X="4.25" Y="9.875" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAEACIAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Xacml\Context\RequestElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Context.RequestElementReadWrite">
+    <Position X="0.5" Y="8.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEACIgAAABAQAAAAAAAAACAAIAAAAAAAgAAAAAQ=</HashCode>
+      <FileName>Xacml\Context\RequestElementReadWrite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Context.ResourceCollection">
+    <Position X="3.5" Y="6" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAACAAAAAAAAAAAAAAACAAAAABAAAA=</HashCode>
+      <FileName>Xacml\Context\ResourceCollection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Context.ResourceContentElement">
+    <Position X="6.5" Y="9.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAQAAAAAAABAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Context\ResourceContentElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Context.ResourceContentElementReadWrite">
+    <Position X="6" Y="6" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAEAAAAARAAAAAAABAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Context\ResourceContentElementReadWrite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Context.ResourceElement">
+    <Position X="12.75" Y="3.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAAAAQAAAAAAAQAAAAAAAAAAAAAAIAAAA=</HashCode>
+      <FileName>Xacml\Context\ResourceElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Context.ResourceElementReadWrite">
+    <Position X="12.5" Y="0.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAgAAAAACAAAAAACAAAAAAAAQAAAAAAAIgAAA=</HashCode>
+      <FileName>Xacml\Context\ResourceElementReadWrite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Context.ResourceReadWriteCollection">
+    <Position X="0.5" Y="6" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAABAQCAAAAAAAAAAAAAAACAAAAABAAAA=</HashCode>
+      <FileName>Xacml\Context\ResourceReadWriteCollection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Context.ResponseElement">
+    <Position X="15.25" Y="9.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAQAAAAAAAACAAAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Context\ResponseElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Context.ResultCollection">
+    <Position X="13.75" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Context\ResultCollection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Context.ResultElement">
+    <Position X="15" Y="6" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAEAAAAgAAQAAAAAAAIAAAAAQgAICAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Context\ResultElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Context.StatusCodeElement">
+    <Position X="11.25" Y="13.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAQAAAAAAAAAAABAAAAAAAgAAAABAA=</HashCode>
+      <FileName>Xacml\Context\StatusCodeElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Context.StatusElement">
+    <Position X="17.25" Y="6" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAQAAAAAAAAAAABIAAAIAAAAIAAAAA=</HashCode>
+      <FileName>Xacml\Context\StatusElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Context.SubjectCollection">
+    <Position X="12.75" Y="8.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAABAAAA=</HashCode>
+      <FileName>Xacml\Context\SubjectCollection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Context.SubjectElement">
+    <Position X="0.5" Y="3.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAQAAAAAAAQAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Context\SubjectElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Context.SubjectElementReadWrite">
+    <Position X="0.5" Y="0.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAAAAAAACgAAAAAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Context\SubjectElementReadWrite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Context.SubjectReadWriteCollection">
+    <Position X="12.75" Y="6" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAABAQAAAAAAAAAAAAAAAACAAAAABAAAA=</HashCode>
+      <FileName>Xacml\Context\SubjectReadWriteCollection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Context.TargetItemBase">
+    <Position X="6.25" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAASAAAAACAQAAAAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Context\TargetItemBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="Anycmd.Xacml.Context.ResourceScope">
+    <Position X="3.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Xacml\Context\ResourceScope.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Microsoft YaHei UI" Size="9" />
+</ClassDiagram>

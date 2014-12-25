@@ -1,0 +1,34 @@
+﻿@model IProperty
+@{
+	ViewBag.Title = "编辑字段帮助-" + Model.Name;
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div id="win1" class="mini-window" title="编辑字段帮助-@Model.Name" iconcls="icon-edit" style="width: 100%; height: 100%;"
+	showmaxbutton="false" showfooter="true" showtoolbar="true" showCloseButton="false"
+	showmodal="true" allowresize="true" allowdrag="true">
+	<div property="toolbar">
+		<a class="mini-button btnOk" iconcls="icon-save" style="width: 60px; margin-right: 10px;">保存</a>
+	</div>
+	<div property="footer" style="text-align: center;">
+		<a class="mini-button btnOk" iconcls="icon-save" style="width: 60px; margin-right: 10px;">保存</a>
+	</div>
+	<form id="form1" method="post">
+		<input name="propertyId" value="@Model.Id" class="mini-hidden" />
+		<input id="hdTooltip" name="Tooltip" class="mini-hidden" />
+		<table style="width: 100%; height: 100%;">
+			<tr>
+				<td valign="top" style="width: 70px;">
+					@Html.IconLabel("Tooltip", "Property", "Ac")
+				</td>
+				<td>
+					<textarea id="txtTooltip" style="display: inline-block; visibility: hidden;">@Html.Raw(Model.Tooltip)</textarea>
+				</td>
+			</tr>
+		</table>
+	</form>
+</div>
+@section Foot{
+	<script src="@Url.Content("~/Scripts/kindeditor/kindeditor-min.js")" type="text/javascript"></script>
+	<script src="@Url.Content("~/Scripts/kindeditor/lang/zh_CN.js")" type="text/javascript"></script>
+	<script type="text/javascript" src="@Url.Content("~/Scripts/Areas/Ac/Property/TooltipEdit.cshtml.js")"></script>
+}

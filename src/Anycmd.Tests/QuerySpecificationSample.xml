@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<QuerySpecification>
+  <LogicalOperation Operator="And">
+    <Expression Name="FirstName" Type="String" Operator="StartsWith" Value="Peter"/>
+    <UnaryLogicalOperation Operator="Not">
+      <LogicalOperation Operator="Or">
+        <Expression Name="LastName" Type="String" Operator="Contains" Value="r"/>
+        <Expression Name="YearlyIncome" Type="Decimal" Operator="LessThanOrEqualTo" Value="30000"/>
+      </LogicalOperation>
+    </UnaryLogicalOperation>
+  </LogicalOperation>
+</QuerySpecification>
+

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Policy
+      xmlns="urn:oasis:names:tc:xacml:1.0:policy"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="urn:oasis:names:tc:xacml:1.0:policy
+        cs-xacml-schema-policy-01.xsd"
+      PolicyId="urn:oasis:names:tc:xacml:1.0:conformance-test:IIC027:policy"
+      RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:deny-overrides">
+    <Description>
+        Policy for Conformance Test IIC027.
+    </Description>
+    <Target>
+        <Subjects>
+            <AnySubject/>
+        </Subjects>
+        <Resources>
+            <AnyResource/>
+        </Resources>
+        <Actions>
+            <AnyAction/>
+        </Actions>
+    </Target>
+    <Rule
+          RuleId="urn:oasis:names:tc:xacml:1.0:conformance-test:IIC027:rule"
+          Effect="Permit">
+        <Description>
+            A subject who is at least 5 years different in age
+            from Bart Simpson may read Bart Simpson's medical
+            record.
+        </Description>
+        <Condition FunctionId="urn:oasis:names:tc:xacml:1.0:function:double-greater-than-or-equal">
+            <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:double-abs">
+                <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:double-subtract">
+                    <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:double-one-and-only">
+                        <EnvironmentAttributeDesignator
+                              AttributeId="urn:oasis:names:tc:xacml:1.0:conformance-test:bart-simpson-age"
+                              DataType="http://www.w3.org/2001/XMLSchema#double"/>
+                    </Apply>
+                    <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:double-one-and-only">
+                        <SubjectAttributeDesignator
+                              AttributeId="urn:oasis:names:tc:xacml:1.0:conformance-test:age"
+                              DataType="http://www.w3.org/2001/XMLSchema#double"/>
+                    </Apply>
+                </Apply>
+            </Apply>
+            <AttributeValue
+                  DataType="http://www.w3.org/2001/XMLSchema#double">5.0</AttributeValue>
+        </Condition>
+    </Rule>
+</Policy>

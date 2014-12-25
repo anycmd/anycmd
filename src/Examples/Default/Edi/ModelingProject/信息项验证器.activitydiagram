@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<activityRootModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm10="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ComponentDesigner" dslVersion="1.0.0.0" Id="8e462fe3-3e30-4c6c-88da-fb502c80f3ba" name="Validator" linkedPackageId="ffaaf4fd-1bf2-45f5-a87c-7c65bbaa86a8" xmlns="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ActivityDesigner">
+  <packagedElements>
+    <activityRootModelHasActivity>
+      <activity Id="0ae6523c-aa70-4a44-8909-57e9225ff0e4" name="Validator" isAbstract="false" isLeaf="false" isActiveClass="false" isReentrant="false" isReadOnly="false" isSingleExecution="false">
+        <elementDefinition Id="ab1e0e08-79d9-4ab3-a853-a0dfe37d70be" />
+        <nodes>
+          <opaqueAction Id="7cf938e3-e0eb-4045-8698-56dd38093796" name="全局信息项验证器集验证信息项" isLeaf="false">
+            <elementDefinition Id="b4ac2b49-27b5-499a-afbc-95d0fd53ebfb" />
+            <flowNodeTargets>
+              <controlFlow Id="1b1bc361-f852-4711-b677-f25d7946a0e4" isLeaf="false">
+                <decisionNodeMoniker Id="cfa14ac5-07e0-423b-a87e-0c9838578ceb" LastKnownName="Decision11" />
+                <elementDefinition Id="37fc3951-cd0a-4a4c-9a14-195f3b163fd4" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="4a0a43e9-a636-447f-8491-77bed74a7b61" name="元素信息项验证器集验证信息项" isLeaf="false">
+            <elementDefinition Id="d94b6a2a-d8c7-4693-8033-9df532dae0b7" />
+            <flowNodeTargets>
+              <controlFlow Id="87cd98f7-99af-4e41-b6b3-ea453253e453" isLeaf="false">
+                <decisionNodeMoniker Id="254c2629-9609-4990-87d6-70acc474f6fd" LastKnownName="Decision21" />
+                <elementDefinition Id="784316d2-c93f-4cdb-a252-1b44285638ff" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="5d41d7b8-3294-435e-9b39-e7801f57f1af" name="节点信息项验证器集验证信息项" isLeaf="false">
+            <elementDefinition Id="0002885f-22e6-4c47-8976-bcb44e5e0fe9" />
+            <flowNodeTargets>
+              <controlFlow Id="84bb58e8-a907-4b03-898a-136fc2491df7" isLeaf="false">
+                <decisionNodeMoniker Id="cbc5db91-5933-412e-a1fc-8e55ecf21192" LastKnownName="Decision31" />
+                <elementDefinition Id="01526e1e-ee84-4272-a7e2-49c20f2c6e8e" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="81315be6-60ba-400c-bad5-0c016dbb86b9" name="节点元素信息项验证器集验证信息项" isLeaf="false">
+            <elementDefinition Id="62083589-5bc2-45fd-beb5-a093e6316124" />
+          </opaqueAction>
+          <decisionNode Id="cfa14ac5-07e0-423b-a87e-0c9838578ceb" name="Decision11" isLeaf="false">
+            <elementDefinition Id="b6318078-461a-49de-8c0f-9b71a1e95fe1" />
+            <flowNodeTargets>
+              <controlFlow Id="d2b21f00-5358-4508-9f92-baece54e77e6" isLeaf="false">
+                <activityFinalNodeMoniker Id="d440610d-09e2-4321-9f1e-0fd0a9f8acac" LastKnownName="ActivityFinal11" />
+                <elementDefinition Id="90c6ff5f-b174-4738-8f71-431d0f625866" />
+              </controlFlow>
+              <controlFlow Id="59c66aa8-f31b-4e04-b82d-45e8ac5f450f" isLeaf="false">
+                <opaqueActionMoniker Id="4a0a43e9-a636-447f-8491-77bed74a7b61" LastKnownName="元素信息项验证器集验证信息项" />
+                <elementDefinition Id="75a8f232-3b1a-4b83-b7a4-fc2a732b3e3d" />
+              </controlFlow>
+            </flowNodeTargets>
+          </decisionNode>
+          <initialNode Id="b961acd6-617f-4205-b361-1b239ba09591" name="Initial11" isLeaf="false">
+            <elementDefinition Id="7e50599f-7cdb-48d9-af55-355832be3db4" />
+            <flowNodeTargets>
+              <controlFlow Id="e1014769-34da-4e46-9ba6-7afc536fcb0b" isLeaf="false">
+                <opaqueActionMoniker Id="7cf938e3-e0eb-4045-8698-56dd38093796" LastKnownName="全局信息项验证器集验证信息项" />
+                <elementDefinition Id="7c4f1094-e434-466a-a9f0-0d901c02dc1b" />
+              </controlFlow>
+            </flowNodeTargets>
+          </initialNode>
+          <activityFinalNode Id="d440610d-09e2-4321-9f1e-0fd0a9f8acac" name="ActivityFinal11" isLeaf="false">
+            <elementDefinition Id="e2283566-8368-42cd-9bde-50caf04fee4e" />
+          </activityFinalNode>
+          <decisionNode Id="254c2629-9609-4990-87d6-70acc474f6fd" name="Decision21" isLeaf="false">
+            <elementDefinition Id="b718a6ca-de19-403a-8050-16abf8713bb4" />
+            <flowNodeTargets>
+              <controlFlow Id="17e8592a-826c-4c8a-86a4-0ef97375c807" isLeaf="false">
+                <activityFinalNodeMoniker Id="d440610d-09e2-4321-9f1e-0fd0a9f8acac" LastKnownName="ActivityFinal11" />
+                <elementDefinition Id="f3e43c3b-ba8c-4d87-85ea-3fab52ff4b7f" />
+              </controlFlow>
+              <controlFlow Id="e88d5ec8-ab17-4d90-ad77-a4c01423d16a" isLeaf="false">
+                <opaqueActionMoniker Id="5d41d7b8-3294-435e-9b39-e7801f57f1af" LastKnownName="节点信息项验证器集验证信息项" />
+                <elementDefinition Id="135ae23c-639a-416d-9ee7-86c238fe04e5" />
+              </controlFlow>
+            </flowNodeTargets>
+          </decisionNode>
+          <decisionNode Id="cbc5db91-5933-412e-a1fc-8e55ecf21192" name="Decision31" isLeaf="false">
+            <elementDefinition Id="9ea2a121-1746-44cb-a310-3918859ec58b" />
+            <flowNodeTargets>
+              <controlFlow Id="7f153225-1267-4247-8cc7-c2c92646cb3f" isLeaf="false">
+                <opaqueActionMoniker Id="81315be6-60ba-400c-bad5-0c016dbb86b9" LastKnownName="节点元素信息项验证器集验证信息项" />
+                <elementDefinition Id="a093c1c5-360c-4dcd-8d1d-c17d17943c2e" />
+              </controlFlow>
+              <controlFlow Id="882b7ba2-3891-4c55-af9d-f1dbff1f7175" isLeaf="false">
+                <activityFinalNodeMoniker Id="d440610d-09e2-4321-9f1e-0fd0a9f8acac" LastKnownName="ActivityFinal11" />
+                <elementDefinition Id="d1179784-940c-4a93-9bff-1894d3193d66" />
+              </controlFlow>
+            </flowNodeTargets>
+          </decisionNode>
+        </nodes>
+      </activity>
+    </activityRootModelHasActivity>
+  </packagedElements>
+  <package Id="ffaaf4fd-1bf2-45f5-a87c-7c65bbaa86a8" name="ModelingProject">
+    <elementDefinition Id="192761a0-3db6-4362-b0f8-57575a58cc7f" />
+    <profileInstances>
+      <packageHasProfileInstances Id="7129f095-953b-4f3d-b74e-fc8a94347276">
+        <profileInstance Id="d556fb60-2347-4542-8244-9a565ac5d6fb" name="StandardProfileL2">
+          <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+        </profileInstance>
+        <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+      </packageHasProfileInstances>
+      <packageHasProfileInstances Id="1efe1fda-d6b1-4d2c-bb09-8a39176f91d9">
+        <profileInstance Id="81eb8127-1064-4ffa-a6d1-57a396bf0240" name="StandardProfileL3">
+          <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+        </profileInstance>
+        <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+      </packageHasProfileInstances>
+    </profileInstances>
+  </package>
+</activityRootModel>

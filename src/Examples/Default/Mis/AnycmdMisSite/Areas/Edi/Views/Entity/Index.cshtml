@@ -1,0 +1,46 @@
+﻿@{
+	Layout = "~/Areas/Edi/Views/Entity/_Index.cshtml";
+	string ontologyCode = Request.Params["ontologyCode"];
+	var ontology = Html.CurrentHost().NodeHost.Ontologies[ontologyCode];
+	var prifix = "Edi_Entity_Index_";
+	ViewBag.Title = ontology.Ontology.Name + "管理";
+}
+@section Head{
+}
+<div id="@(prifix)helperSplitter" class="mini-splitter helperSplitter" style="width: 100%; height: 100%;">
+	<div showcollapsebutton="true">
+		@if (ontology.Ontology.IsOrganizationalEntity) {
+			<div class="mini-splitter" style="width: 100%; height: 100%;">
+				<div size="225" class="mini-toolbar" showcollapsebutton="true">
+					<div class="mini-toolbar" style="border-left: 0; border-right: 0; border-top: 0px; padding: 2px;">
+						<input id="@(prifix)keyOrganization" emptytext="在展开过的组织结构中搜索" class="mini-textbox" style="width: 150px;" />
+						<a id="@(prifix)btnSearchOrganization" tooltip="离线搜索不搜索未展开过的组织结构" class="mini-button" iconcls="icon-search" style="width: 60px;">搜索</a>
+					</div>
+					<span id="@(prifix)msg" style="color: red;display:none;">没有匹配项</span>
+					<div class="mini-fit">
+						<ul id="@(prifix)treeOrganization" class="mini-tree" style="height: 100%;"
+						url="@Url.Action("GetNodesByParentId", "Organization", new { area = "Ac" })"
+						showtreeicon="true" textfield="Name" expandonload="true" value="all"
+						idfield="Id" parentfield="ParentId" resultastree="false">
+						</ul>
+					</div>
+					<div class="mini-toolbar" style="overflow: auto; height: 25px; padding: 2px; border-bottom: 0; border-left: 0; border-right: 0;">
+						<span id="@(prifix)spanOrgCode"></span>
+					</div>
+				</div>
+				<div showcollapsebutton="true">
+					@{Html.RenderPartial("Partials/IndexMain");}
+				</div>
+			</div>
+		}
+		else {
+			Html.RenderPartial("Partials/IndexMain");
+		}
+	</div>
+	<div size="250" showcollapsebutton="true" visible="false" expanded="false">
+		@{Html.RenderPartial("Partials/HelpPane");}
+	</div>
+</div>
+@{Html.RenderPartial("Partials/ExportElement", ontology);}
+@section Foot{
+}

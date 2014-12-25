@@ -1,0 +1,14 @@
+﻿@{
+    var area = ViewContext.RouteData.DataTokens["area"].ToString();
+    var controller = ViewContext.RouteData.Values["Controller"].ToString();
+    var action = ViewContext.RouteData.Values["Action"].ToString();
+    string prifix = string.Format("{0}_{1}_{2}_", area, controller, action);
+    var ontology = Html.GetOntology(Request["ontologyCode"]);
+}
+动作
+<input id="@(prifix)actionCode" class="mini-combobox" style="width: 100px;"
+       textfield="name" valuefield="code" data="@Html.ActionsJsonArray(ontology)" shownullitem="true" />
+来源节点
+<input id="@(prifix)nodeId" class="mini-combobox" style="width: 100px;"
+       textfield="name" valuefield="id"
+       data="@Html.NodesJsonArray()" shownullitem='true' />

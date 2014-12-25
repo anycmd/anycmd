@@ -1,0 +1,56 @@
+﻿
+namespace Anycmd.Engine.Ac.Abstractions
+{
+    using System;
+
+    /// <summary>
+    /// 权限二元组<see cref="IPrivilegeBigram"/>模型化的是9种Ac元素的两两组合，为了简化问题我们把二元中的其中一员指定为Subject，另一元指定为Object。9种Ac元素都可以充当Object。
+    /// <remarks>
+    /// 注意：系统按钮（Button）和系统界面视图（UIView）不属于Ac元素，属于Ac元素的是它们对应的功能（Function）。
+    /// </remarks>
+    /// </summary>
+    [Flags]
+    public enum AcObjectType
+    {
+        /// <summary>
+        /// 未定义
+        /// </summary>
+        Undefined = 0,
+        /// <summary>
+        /// 账户客体类型。
+        /// </summary>
+        Account = 0x0001,
+        /// <summary>
+        /// 组织结构客体类型。
+        /// </summary>
+        Organization = 0x0002,
+        /// <summary>
+        /// 角色客体类型。
+        /// </summary>
+        Role = 0x0004,
+        /// <summary>
+        /// 组客体类型。
+        /// </summary>
+        Group = 0x0008,
+        /// <summary>
+        /// 功能客体类型。
+        /// </summary>
+        Function = 0x0010,
+        /// <summary>
+        /// 菜单客体类型。
+        /// </summary>
+        Menu = 0x0020,
+        /// <summary>
+        /// 应用系统客体类型。
+        /// </summary>
+        AppSystem = 0x0040,
+        /// <summary>
+        /// 资源类型客体类型。
+        /// </summary>
+        ResourceType = 0x0080,
+        /// <summary>
+        /// 暂不支持，该取值的存在是为了概念完整性。组成授权路由链表。如同面向对象机制中类的“继承”。
+        /// </summary>
+        Privilege = 0x1fff
+    }
+}

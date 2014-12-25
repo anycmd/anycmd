@@ -1,0 +1,22 @@
+﻿
+namespace Anycmd.Engine.Host.Ac.InOuts
+{
+    using Model;
+    using System;
+
+    /// <summary>
+    /// 更新静态职责分离角色集时的输入或输出参数类型。
+    /// </summary>
+    public class SsdSetUpdateIo : IInputModel, ISsdSetUpdateIo
+    {
+        public string Name { get; set; }
+
+        public int SsdCard { get; set; }
+
+        public int IsEnabled { get; set; }
+
+        public string Description { get; set; }
+
+        public Guid Id { get; set; }
+    }
+}

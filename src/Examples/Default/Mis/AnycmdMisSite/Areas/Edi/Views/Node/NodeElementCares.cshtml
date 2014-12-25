@@ -1,0 +1,120 @@
+﻿@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+	var prifix = "Edi_Node_NodeElementCares_";
+}
+@section Head{
+}
+<div class="mini-splitter" style="width: 100%; height: 100%;">
+	<div size="450" showcollapsebutton="true">
+		<div class="mini-toolbar" style="border-left: 0; border-right: 0; border-top: 0px; padding: 2px;">
+			<div style="float: left">
+				本体列表
+				@{
+					<a id="@(prifix)btnOntologySave" class="mini-button" iconcls="icon-save" @Html.IsEnabled("Node", "AddOrRemoveOntologies")>保存</a>
+				}
+				选择性进入
+				@if (this.CurrentUser().IsDeveloper()) {
+					<a href="/api/Ontology/GetAll" target="_blank">本体文档</a>   
+				}
+			</div>
+			<div style="float: right">
+			</div>
+			<div style="clear: both;">
+			</div>
+		</div>
+		<div class="mini-fit">
+			<div id="@(prifix)dgOntology" class="mini-datagrid" style="width:100%;height:100%;" allowalternating="true"
+				 url="@Url.Action("GetNodeOntologyCares", "Ontology")" idfield="Id" multiselect="false" selectonload="true"
+				 allowcelledit="true" editnextonenterkey="true" showpager="true"
+				 pagesize="100" allowcellwrap="true">
+				<div property="columns">
+					<div type="indexcolumn" width="20"></div>
+					<div field="IsAssigned" width="70" type="checkboxcolumn" headeralign="center" allowsort="true" align="center">
+						是否关心？
+					</div>
+					<div field="Icon" width="30" headeralign="center" align="center" allowsort="true">
+						@Html.IconLabel("Icon")
+					</div>
+					<div field="Name" width="110" headeralign="center">
+						@Html.IconLabel("Name", "Ontology")
+					</div>
+					<div field="Code" width="120" headeralign="center">
+						@Html.IconLabel("Code", "Ontology")
+					</div>
+					<div field="IsEnabled" width="70" headeralign="center" align="center" allowsort="true">
+						本体有效状态
+					</div>
+					<div field="SortCode" width="70" headeralign="center" align="center">
+						@Html.IconLabel("SortCode", "Ontology")
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div showcollapsebutton="true">
+		<div class="mini-toolbar" style="border-left: 0; border-right: 0; border-top: 0px; padding: 2px;">
+			<div style="float: left">
+				<span id="@(prifix)ontologyName"></span>
+				@{
+					<a id="@(prifix)btnElementSave" class="mini-button" iconcls="icon-save" @Html.IsEnabled("Node", "AddOrRemoveElementCares")>保存</a>
+				}
+				选择性进入
+			</div>
+			<div style="float: right">
+			</div>
+			<div style="clear: both;">
+			</div>
+		</div>
+		<!--撑满页面-->
+		<div class="mini-fit">
+			<div id="@(prifix)datagrid1" class="mini-datagrid" style="width:100%;height:100%;" allowalternating="true"
+				 url="@Url.Action("GetNodeElementCares", "Element")" idfield="Id" multiselect="true" showfilterrow="true"
+				 sizelist="[5,10,20,50]" showpager="true" pagesize="100" allowcelledit="true">
+				<div property="columns">
+					<div type="indexcolumn" width="70">
+						<a id="@(prifix)btnSearchClear" property="filter" class="mini-button" style="float: right;">条件清空</a>
+					</div>
+					<div field="IsAssigned" width="50" type="checkboxcolumn" headeralign="center" allowsort="true" align="center">
+						是否关心？
+						<input id="@(prifix)IsAssignedFilter" property="filter" name="IsAssigned" class="mini-combobox" style="width: 100%;" textfield="name"
+							   valuefield="code" data="@Html.DicItemJsonArray("YesOrNoBoolean")"
+							   value="" shownullitem="true" />
+					</div>
+					<div field="IsInfoIdItem" width="50" type="checkboxcolumn" headeralign="center" allowsort="true" align="center">
+						是信息标识？
+						<input id="@(prifix)IsInfoIdItemFilter" property="filter" name="IsInfoIdItem" class="mini-combobox" style="width: 100%;" textfield="name"
+							   valuefield="code" data="@Html.DicItemJsonArray("YesOrNoBoolean")"
+							   value="" shownullitem="true" />
+					</div>
+					<div field="ElementIsInfoIdItem" width="50" headeralign="center" align="center" allowsort="true">
+						是信息标识元素
+						<input id="@(prifix)ElementIsInfoIdItemFilter" property="filter" name="ElementIsInfoIdItem" class="mini-combobox" style="width: 100%;"
+							   textfield="name" valuefield="code" data="@Html.DicItemJsonArray("YesOrNoBoolean")" shownullitem="true" />
+					</div>
+					<div field="Icon" width="30" headeralign="center" align="center" allowsort="true">
+						@Html.IconLabel("Icon")
+					</div>
+					<div field="Name" width="80" headeralign="center" allowsort="true">
+						名称
+						<input id="@(prifix)NameFilter" name="Name" property="filter" class="mini-textbox" style="width: 100%;" />
+					</div>
+					<div field="Code" width="60" headeralign="center" allowsort="true">
+						编码
+						<input id="@(prifix)CodeFilter" name="Code" property="filter" class="mini-textbox" style="width: 100%;" />
+					</div>
+					<div field="IsEnabled" width="50" headeralign="center" align="center" allowsort="true">
+						元素有效状态
+						<input id="@(prifix)IsEnabledFilter" property="filter" name="IsEnabled" class="mini-combobox" style="width: 100%;"
+							   textfield="name" valuefield="code" data="@Html.DicItemJsonArray("YesOrNoNumber")" shownullitem="true" />
+					</div>
+					<div field="SortCode" width="50" headeralign="center" align="center" allowsort="true">
+						@Html.IconLabel("SortCode", "Element")
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+@section Foot{
+	<script type="text/javascript" src="@Url.Content("~/Scripts/Areas/Edi/Node/NodeElementCares.cshtml.js")"></script>
+}

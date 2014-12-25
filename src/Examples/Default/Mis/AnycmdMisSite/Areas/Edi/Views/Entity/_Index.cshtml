@@ -1,0 +1,11 @@
+﻿@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Head{
+	@RenderSection("Head", required: false)
+}
+@RenderBody()
+@RenderSection("Foot", required: false)
+@section Foot{
+	<script type="text/javascript" src="@Url.Content("~/Scripts/Areas/Edi/Entity/Index.cshtml.js")"></script>
+}

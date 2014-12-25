@@ -1,0 +1,162 @@
+﻿@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+	var entityTypeCode = ViewContext.RouteData.Values["Controller"].ToString();
+	string codespace = ViewContext.RouteData.DataTokens["area"].ToString();
+	var prifix = "Edi_Node_Permissions_";
+}
+<div class="mini-splitter" style="width: 100%; height: 100%;">
+	<div size="520" showcollapsebutton="true">
+		<div class="mini-splitter" style="width: 100%; height: 100%;">
+			<div size="200" showcollapsebutton="true">
+				<div class="mini-fit">
+					<div id="@(prifix)dgOntology" class="mini-datagrid" style="width:100%;height:100%;" allowalternating="true"
+						 url="@Url.Action("GetPlistOntologies", "Ontology")" idfield="Id"
+						 selectonload="true" multiselect="false" showpager="true" pagesize="100">
+						<div property="columns">
+							<div type="indexcolumn"></div>
+							<div type="checkcolumn"></div>
+							<div field="Name" width="80" headeralign="center" allowsort="true">
+								本体名
+							</div>
+							<div field="IsEnabled" width="50" headeralign="center" allowsort="true">
+								本体有效状态
+							</div>
+							<div field="SortCode" width="60" headeralign="center" align="center" allowsort="true">
+								@Html.IconLabel("SortCode", "Ontology")
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div showcollapsebutton="false">
+				<div class="mini-toolbar" style="border-left: 0; border-right: 0; border-top: 0px; padding: 2px;">
+					<div style="float: left">
+						<span id="@(prifix)ontologyName"></span>
+						<span style="padding-left: 5px;">节点本体级权限</span>
+						<a id="@(prifix)btnSaveAction" class="mini-button" @Html.IsEnabled("Node", "AddOrUpdateNodeActions") iconcls="icon-save">保存</a>
+						选择性进入
+					</div>
+					<div style="float: right">
+					</div>
+					<div style="clear: both;">
+					</div>
+				</div>
+				<!--撑满页面-->
+				<div class="mini-fit noGridBorder">
+					<div id="@(prifix)dgAction" class="mini-datagrid" style="width:100%;height:100%;" allowalternating="true"
+						 url="@Url.Action("GetPlistNodeActions")" idfield="Id" showpager="true"
+						 allowcelledit="true" allowcellselect="true" pagesize="100">
+						<div property="columns">
+							<div type="indexcolumn" width="20"></div>
+							<div field="IsAllowed" type="comboboxcolumn" autoshowpopup="true" width="60" headeralign="center" align="center" allowsort="true">
+								允许
+								<input property="editor" class="mini-combobox" style="width:100%;" textfield="name" valuefield="code" data="@Html.InfoDicItemsJsonArray("allowType")" />
+							</div>
+							<div field="IsAudit" type="comboboxcolumn" autoshowpopup="true" width="60" headeralign="center" align="center" allowsort="true">
+								是否审核
+								<input property="editor" class="mini-combobox" style="width:100%;" textfield="name" valuefield="code" data="@Html.InfoDicItemsJsonArray("auditType")" />
+							</div>
+							<div field="Name" width="50" headeralign="center" allowsort="false">
+								名称
+							</div>
+							<div field="ActionIsAllow" width="50" headeralign="center" allowsort="false">
+								动作级允许
+							</div>
+							<div field="ActionIsAudit" width="50" headeralign="center" allowsort="false">
+								动作级审核
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div showcollapsebutton="true">
+		<div class="mini-splitter" style="width: 100%; height: 100%;">
+			<div showcollapsebutton="true">
+				<div class="mini-toolbar" style="border-left: 0; border-right: 0; border-top: 0px; padding: 2px;">
+					<div style="float: left">
+						<span style="padding-left: 5px;">元素级权限</span>
+					</div>
+					<div style="float: right">
+					</div>
+					<div style="clear: both;">
+					</div>
+				</div>
+				<div class="mini-fit">
+					<div id="@(prifix)dgElement" class="mini-datagrid" style="width:100%;height:100%;" allowalternating="true"
+						 url="@Url.Action("GetPlistElements", "Element")" idfield="Id" multiselect="false"
+						 showpager="true" pagesize="1000" allowcelledit="true" showfilterrow="true">
+						<div property="columns">
+							<div type="indexcolumn" width="70">
+								<a id="@(prifix)btnSearchClear" property="filter" class="mini-button" style="float: right;">条件清空</a>
+							</div>
+							<div type="checkcolumn"></div>
+							<div field="Icon" width="30" headeralign="center" align="center" allowsort="true">
+								图标
+							</div>
+							<div field="Name" width="100" headeralign="center" allowsort="true">
+								元素名
+								<input id="@(prifix)NameFilter" name="Name" property="filter" class="mini-textbox" style="width: 100%;" />
+							</div>
+							<div field="Code" width="80" headeralign="center" allowsort="true">
+								元素编码
+								<input id="@(prifix)CodeFilter" name="Code" property="filter" class="mini-textbox" style="width: 100%;" />
+							</div>
+							<div field="IsEnabled" width="50" headeralign="center" allowsort="true">
+								元素有效状态
+								<input id="@(prifix)IsEnabledFilter" property="filter" name="IsEnabled" class="mini-combobox" style="width: 100%;"
+									   textfield="name" valuefield="code" data="@Html.DicItemJsonArray(Html.GetProperty("IsEnabled", "Element", "Edi"))" shownullitem="true" />
+							</div>
+							<div field="SortCode" width="50" headeralign="center" align="center" allowsort="true">
+								@Html.IconLabel("SortCode", "Element")
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div size="330" showcollapsebutton="false">
+				<div class="mini-toolbar" style="border-left: 0; border-right: 0; border-top: 0px; padding: 2px;">
+					<div style="float: left">
+						<span id="@(prifix)elementName"></span>
+						<span style="padding-left: 5px;">节点本体元素级权限</span>
+						<a id="@(prifix)btnSaveElementAction" class="mini-button" @Html.IsEnabled("Node", "AddOrUpdateNodeElementActions") iconcls="icon-save">保存</a>
+						选择性进入
+					</div>
+					<div style="float: right">
+					</div>
+					<div style="clear: both;">
+					</div>
+				</div>
+				<!--撑满页面-->
+				<div class="mini-fit noGridBorder">
+					<div id="@(prifix)dgElementAction" class="mini-datagrid" style="width:100%;height:100%;" allowalternating="true"
+						 url="@Url.Action("GetPlistNodeElementActions")" idfield="Id" multiselect="true"
+						 allowcelledit="true" showpager="true" pagesize="100">
+						<div property="columns">
+							<div type="indexcolumn" width="20"></div>
+							<div field="IsAllowed" width="30" type="checkboxcolumn" headeralign="center" align="center" allowsort="false">
+								允许
+							</div>
+							<div field="IsAudit" width="50" type="checkboxcolumn" headeralign="center" align="center" allowsort="false">
+								是否审核
+							</div>
+							<div field="Name" width="50" headeralign="center" allowsort="false">
+								名称
+							</div>
+							<div field="ElementActionIsAllow" width="50" headeralign="center" allowsort="false">
+								元素级允许
+							</div>
+							<div field="ElementActionIsAudit" width="50" headeralign="center" allowsort="false">
+								元素动作级审核
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+@section Foot{
+	<script type="text/javascript" src="@Url.Content("~/Scripts/Areas/Edi/Node/Permissions.cshtml.js")"></script>
+}

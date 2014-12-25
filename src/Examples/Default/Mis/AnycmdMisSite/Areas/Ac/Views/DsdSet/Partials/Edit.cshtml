@@ -1,0 +1,53 @@
+﻿@model string
+@{
+	var prifix = Model;
+	var codespace = "Ac";
+	var entityTypeCode = "DsdSet";
+}
+<form id="@(prifix)form1" method="post">
+	<input name="Id" class="mini-hidden" />
+	<div style="padding-left: 11px; padding-bottom: 5px;">
+		<table>
+			<tr>
+				<td>
+					@Html.IconLabel("Name", entityTypeCode, codespace)
+				</td>
+				<td>
+					<input name="Name" class="mini-textbox" required="true" />
+					@Html.Qtip("Name", entityTypeCode, codespace)
+				</td>
+				<td>
+					@Html.IconLabel("DsdCard", entityTypeCode, codespace)
+				</td>
+				<td>
+					<input name="DsdCard" class="mini-textbox" vtype="int" value="0" required="true" />
+					@Html.Qtip("DsdCard", entityTypeCode, codespace)
+				</td>
+			</tr>
+			<tr>
+				<td>
+					@Html.IconLabel("IsEnabled", entityTypeCode)
+				</td>
+				<td>
+					<input name="IsEnabled" class="mini-combobox" style="width: 125px;" required="true"
+						   textfield="name" valuefield="code"
+						   data="@Html.DicItemJsonArray(Html.GetProperty("IsEnabled"))" shownullitem="false" />
+					@Html.Qtip("IsEnabled", entityTypeCode, codespace)
+				</td>
+				<td>
+				</td>
+				<td>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					@Html.IconLabel("Description", entityTypeCode, codespace)
+				</td>
+				<td colspan="3">
+					<input name="Description" class="mini-textarea" style="width: 352px;" />
+					@Html.Qtip("Description", entityTypeCode, codespace)
+				</td>
+			</tr>
+		</table>
+	</div>
+</form>

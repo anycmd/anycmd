@@ -1,0 +1,39 @@
+﻿.mini-portal-table
+{
+    text-align:left;
+    border-collapse:separate;
+    border-collapse:collapse\9;
+    table-layout:fixed!important;
+    display:table;
+    width:100%;
+    height:100%;
+    
+}
+.mini-portal-column
+{
+    vertical-align:top;    
+    
+    padding-right:10px;
+}
+.mini-portal-panel
+{
+    
+    margin-bottom:10px;
+}
+.mini-portal-panel .mini-panel-header
+{
+    cursor:move;
+}
+.mini-portal-panel .mini-panel-border
+{
+    background:white;
+}
+
+.mini-portal-proxy
+{   
+    overflow:hidden;
+    background:gray;
+    opacity: .15;-moz-opacity: .15;filter: alpha(opacity=15);
+    width:100%;
+    margin-bottom:10px;
+}

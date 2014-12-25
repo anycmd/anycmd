@@ -1,0 +1,41 @@
+﻿@{
+    var routeData = ViewContext.RouteData;
+    var area = routeData.DataTokens["Area"].ToString();
+    var controller = routeData.Values["Controller"].ToString();
+    var action = routeData.Values["Action"].ToString();
+    var prifix = string.Format("{0}_{1}_{2}_", area, controller, action);
+    var page = Html.GetRuntimeUIVIew(action, controller);
+    var pageButtons = Html.CurrentHost().UiViewSet.GetUiViewButtons(page.UiView);
+    if (pageButtons != null) {
+        foreach (var button in Html.CurrentHost().ButtonSet.OrderBy(a => a.SortCode))
+        {
+            if (pageButtons.Any(a => a.ButtonId == button.Id)) {
+                var pageButton = pageButtons.First(a => a.ButtonId == button.Id);
+                string attrs = string.Empty;
+                string buttonName = button.Name;
+                if (button.Code == "btnVSplit") {
+                    attrs = " checkonclick='true' checked='true' groupname='split'";
+                    buttonName = string.Empty;
+                }
+                else if (button.Code == "btnHSplit") {
+                    attrs = " checkonclick='true' groupname='split'";
+                    buttonName = string.Empty;
+                }
+                string htmlEnabled = string.Empty;
+                bool isAllowed = true; ;
+                if (pageButton.FunctionId.HasValue) {
+                    var function = Html.GetFunction(pageButton.FunctionId.Value);
+                    isAllowed = this.CurrentUser().Permit(function);
+                }
+                if (button.IsEnabled == 0 || button.IsEnabled == 0 || !isAllowed) {
+                    htmlEnabled = "enabled='false'";
+                }
+                <a id="@(prifix + button.Code)" @Html.Raw(attrs) class="mini-button" iconstyle="background: url(/content/icons/16x16/@button.Icon) no-repeat;" @Html.Raw(htmlEnabled)>@buttonName</a>
+            }
+        }
+    }
+    @Html.Qtip(page.UiView)
+    if ("Index".Equals(action, StringComparison.OrdinalIgnoreCase) && string.IsNullOrEmpty(Request["isInner"])) {
+        <a class="mini-button mini-button-iconLeft @(prifix)btnHelp" plain="true" tooltip="展开或收起帮助" iconstyle="background: url(/content/icons/16x16/help.png) no-repeat;" plain="true"></a>
+    }
+}

@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<layerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/SimpleShapesModel" dslVersion="1.0.0.0" Id="0e44e10c-2631-45b6-84eb-5ef6565cb68c" xmlns="http://schemas.microsoft.com/VisualStudio/TeamArchitect/LayerDesigner">
+  <layers>
+    <layer Id="d85db5fd-94c9-4e67-b205-29d8ceb9c35d" name="数据共享" />
+    <layer Id="502d3352-a401-48b7-a371-e93840da3383" name="数据查询及交换" />
+    <layer Id="25e96c5e-0ec2-4707-87e0-bd5615281a13" name="数据描述">
+      <dependencyToLayers>
+        <dependencyFromLayerToLayer Id="16767665-0359-4e43-ba52-f797d9da8b69" direction="Bidirectional">
+          <layerMoniker Id="435e546c-9978-495d-8691-a11c30df8bf3" />
+        </dependencyFromLayerToLayer>
+        <dependencyFromLayerToLayer Id="fd95fd89-71b7-480a-a64a-ed60196a66ca" direction="Forward">
+          <layerMoniker Id="d85db5fd-94c9-4e67-b205-29d8ceb9c35d" />
+        </dependencyFromLayerToLayer>
+      </dependencyToLayers>
+    </layer>
+    <layer Id="f1803b01-f305-47f5-ab8b-de4bff976140" name="数据与数据资产" />
+    <layer Id="435e546c-9978-495d-8691-a11c30df8bf3" name="数据上下文">
+      <dependencyToLayers>
+        <dependencyFromLayerToLayer Id="19e4bcb4-c050-4df6-a6d0-15e5c579279e" direction="Forward">
+          <layerMoniker Id="d85db5fd-94c9-4e67-b205-29d8ceb9c35d" />
+        </dependencyFromLayerToLayer>
+      </dependencyToLayers>
+    </layer>
+    <layer Id="92416c50-fa4c-42a9-b3d9-e340e41ff3c3" name="分类法" />
+  </layers>
+</layerModel>

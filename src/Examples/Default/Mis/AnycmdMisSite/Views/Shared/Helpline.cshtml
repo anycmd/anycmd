@@ -1,0 +1,25 @@
+﻿@model Anycmd.Engine.Host.Ac.Infra.OperationHelp
+@{
+    Layout = null;
+    string description;
+    FunctionState function = null;
+    if (Html.CurrentHost().FunctionSet.TryGetFunction(Model.Id, out function))
+    {
+        description = function.Description;
+    }
+    else
+    {
+        description = "非法的功能或页面";
+    }
+}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <title>帮助-@description</title>
+</head>
+<body>
+    <div style="padding-left: 10px;">
+        @{ Html.RenderPartial("Partials/Helpline"); }
+    </div>
+</body>
+</html>

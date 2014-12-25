@@ -1,0 +1,19 @@
+﻿@model Anycmd.Engine.Host.Ac.Infra.OperationHelp
+@{
+    FunctionState function = null;
+    if (!Html.CurrentHost().FunctionSet.TryGetFunction(Model.Id, out function))
+    {
+        throw new Anycmd.Exceptions.CoreException();
+    }
+}
+<h2>
+    @if (string.IsNullOrEmpty(Request.Params["isInner"]))
+    {
+        @Html.Raw(function.Description)
+    }
+    else
+    {
+        <a href="@Url.Action("Helpline")?id=@Model.Id" target="_blank">@Html.Raw(function.Description)</a>
+    }
+</h2>
+@Html.Raw(Model.Content)

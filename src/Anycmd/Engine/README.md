@@ -1,0 +1,1 @@
+﻿这里放置的只是一份edmx（xml文档），Anycmd项目并没有引用和依赖Entity Framework。唯一引用的ServiceStack.Text会被去除。

@@ -1,0 +1,18 @@
+﻿<link href="@Url.Content("~/Scripts/miniui/ux/portal.css")" rel="stylesheet" />
+<div id="myRoles">
+	<script id="roleTemplate" type="text/x-jquery-tmpl">
+		<span>${Name}</span><br />
+	</script>
+	<div id="roleList">
+	</div>
+</div>
+<div id="myGroups">
+	<script id="groupTemplate" type="text/x-jquery-tmpl">
+		<span>${Name}</span><br />
+	</script>
+	<div id="groupList">
+	</div>
+</div>
+<div id="myPortal"></div>
+<script src="@Url.Content("~/Scripts/miniui/ux/Portal.js")"></script>
+<script src="@Url.Content("~/Scripts/Views/Home/Partials/MyPortal.cshtml.js")" type="text/javascript"></script>

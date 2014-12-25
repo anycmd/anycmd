@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<layerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/SimpleShapesModel" dslVersion="1.0.0.0" Id="cbfb08c4-9a35-4006-a980-30f44ee1933b" xmlns="http://schemas.microsoft.com/VisualStudio/TeamArchitect/LayerDesigner">
+  <comments>
+    <comment Id="6ef7bab5-d43b-4fe4-8a19-dee3b9fbdd32" name="Comment1">
+      <body>数据交换平台</body>
+    </comment>
+  </comments>
+  <layers>
+    <layer Id="f28fa47c-56ce-4b81-b23f-9694d2bf483d" name="数据库层（基础结构层）" />
+    <layer Id="cf2e812b-6398-40c6-a47d-2c3126fee9ef" name="领域层">
+      <dependencyToLayers>
+        <dependencyFromLayerToLayer Id="e9bcbdeb-7a0a-4b21-8ba7-dc698716bd5c" direction="Forward">
+          <layerMoniker Id="50b84618-2a62-4b64-9869-e2df37e887f7" />
+        </dependencyFromLayerToLayer>
+      </dependencyToLayers>
+      <childLayers>
+        <layer Id="b3eb09db-977a-4491-9906-282d6380b7fe" name="数据访问接口&#xD;&#xA;（IRepository）">
+          <dependencyToLayers>
+            <dependencyFromLayerToLayer Id="9d11a7f5-b483-447b-b24a-13346c30e478" direction="Forward">
+              <layerMoniker Id="0a6b56e2-f590-40ab-8ce7-fef8904c3670" />
+            </dependencyFromLayerToLayer>
+          </dependencyToLayers>
+        </layer>
+        <layer Id="0a6b56e2-f590-40ab-8ce7-fef8904c3670" name="领域模型&#xD;&#xA;（DomainModel、DomainEvent）" />
+        <layer Id="7f5fdbd8-3a55-4706-b1a8-6363cdeacce4" name="领域服务&#xD;&#xA;（DomainService）">
+          <dependencyToLayers>
+            <dependencyFromLayerToLayer Id="621d3a02-db42-4a54-b05f-0bc32fdd4798" direction="Forward">
+              <layerMoniker Id="0a6b56e2-f590-40ab-8ce7-fef8904c3670" />
+            </dependencyFromLayerToLayer>
+            <dependencyFromLayerToLayer Id="1e6ebe35-13e9-444a-bf8e-4a5eb57b510a" direction="Forward">
+              <layerMoniker Id="b3eb09db-977a-4491-9906-282d6380b7fe" />
+            </dependencyFromLayerToLayer>
+          </dependencyToLayers>
+        </layer>
+      </childLayers>
+    </layer>
+    <layer Id="50b84618-2a62-4b64-9869-e2df37e887f7" name="基础结构层&#xD;&#xA;SharpArch&#xD;&#xA;NHibernate&#xD;&#xA;EF&#xD;&#xA;CastleWindsor&#xD;&#xA;Log4Net&#xD;&#xA;AutoMapper&#xD;&#xA;Bootstrapper&#xD;&#xA;EventBus" />
+    <layer Id="3d3d1429-e447-424a-bdf1-7f8e7d7a6e5b" name=".NET Framework 4.0" />
+    <layer Id="9dbd521b-c118-4d24-a284-0ffe137144e5" name="展示层">
+      <dependencyToLayers>
+        <dependencyFromLayerToLayer Id="418a4655-13da-4995-a35b-93f46ca5a289" direction="Forward">
+          <layerMoniker Id="faa5e138-8e0f-480f-a410-4b233ec6e0e9" />
+        </dependencyFromLayerToLayer>
+      </dependencyToLayers>
+      <childLayers>
+        <layer Id="47fde5dc-658e-4598-9aff-d969fa489f9c" name="分布式服务层&#xD;&#xA;（WCF）">
+          <dependencyToLayers>
+            <dependencyFromLayerToLayer Id="f01d047a-e44a-4e0a-95c6-c62bb30b7e87" direction="Forward">
+              <layerMoniker Id="cf2e812b-6398-40c6-a47d-2c3126fee9ef" />
+            </dependencyFromLayerToLayer>
+            <dependencyFromLayerToLayer Id="9f9f5d6d-ea24-450d-99fb-efa74716c364" direction="Forward">
+              <layerMoniker Id="50b84618-2a62-4b64-9869-e2df37e887f7" />
+            </dependencyFromLayerToLayer>
+            <dependencyFromLayerToLayer Id="6312bb84-df14-4a19-91c0-01934ae81951" direction="Forward">
+              <layerMoniker Id="62c6df63-fa5a-4a81-a0f7-c33c321b40c3" />
+            </dependencyFromLayerToLayer>
+          </dependencyToLayers>
+        </layer>
+        <layer Id="f6419b67-4a67-46df-902d-1172106523ef" name="Web表现层&#xD;&#xA;（ASP.NET MVC）">
+          <dependencyToLayers>
+            <dependencyFromLayerToLayer Id="7073b9e4-e8a7-44f5-ae73-72a0ba46a8f3" direction="Forward">
+              <layerMoniker Id="cf2e812b-6398-40c6-a47d-2c3126fee9ef" />
+            </dependencyFromLayerToLayer>
+            <dependencyFromLayerToLayer Id="7be7e712-03b4-455e-96a5-7ec8b9307711" direction="Forward">
+              <layerMoniker Id="50b84618-2a62-4b64-9869-e2df37e887f7" />
+            </dependencyFromLayerToLayer>
+            <dependencyFromLayerToLayer Id="2e1e8cdc-616f-4796-89ff-357b0abeb2a4" direction="Forward">
+              <layerMoniker Id="62c6df63-fa5a-4a81-a0f7-c33c321b40c3" />
+            </dependencyFromLayerToLayer>
+          </dependencyToLayers>
+        </layer>
+        <layer Id="62c6df63-fa5a-4a81-a0f7-c33c321b40c3" name="展示层模型、查询接口&#xD;&#xA;(ViewModel、IQuery)" />
+      </childLayers>
+    </layer>
+    <layer Id="70fa0456-4b50-4579-9946-d6567de65956" name="数据访问实现（基础结构层）">
+      <dependencyToLayers>
+        <dependencyFromLayerToLayer Id="7a9dab91-2553-49c6-8e31-ed752bc0344d" direction="Forward">
+          <layerMoniker Id="b3eb09db-977a-4491-9906-282d6380b7fe" />
+        </dependencyFromLayerToLayer>
+        <dependencyFromLayerToLayer Id="e5f8bf19-83a6-41f8-a267-23d7794f0f50" direction="Forward">
+          <layerMoniker Id="0a6b56e2-f590-40ab-8ce7-fef8904c3670" />
+        </dependencyFromLayerToLayer>
+        <dependencyFromLayerToLayer Id="52f4e54c-6c74-4ebd-9058-94380f0c7ebd" direction="Forward">
+          <layerMoniker Id="50b84618-2a62-4b64-9869-e2df37e887f7" />
+        </dependencyFromLayerToLayer>
+        <dependencyFromLayerToLayer Id="48d02cff-584b-44cb-8661-f91e6a4ff3bd" direction="Forward">
+          <layerMoniker Id="f28fa47c-56ce-4b81-b23f-9694d2bf483d" />
+        </dependencyFromLayerToLayer>
+        <dependencyFromLayerToLayer Id="efb4a2ab-13e3-48f8-a477-ac633bd4a203" direction="Forward">
+          <layerMoniker Id="62c6df63-fa5a-4a81-a0f7-c33c321b40c3" />
+        </dependencyFromLayerToLayer>
+      </dependencyToLayers>
+    </layer>
+    <layer Id="faa5e138-8e0f-480f-a410-4b233ec6e0e9" name="应用层&#xD;&#xA;（ApplicationServices）">
+      <dependencyToLayers>
+        <dependencyFromLayerToLayer Id="ef8d8bf6-9196-4f2b-97fa-7eac10abd45e" direction="Forward">
+          <layerMoniker Id="0a6b56e2-f590-40ab-8ce7-fef8904c3670" />
+        </dependencyFromLayerToLayer>
+        <dependencyFromLayerToLayer Id="c81f9497-6a4f-4a1f-aac4-5f8748d58e94" direction="Forward">
+          <layerMoniker Id="cf2e812b-6398-40c6-a47d-2c3126fee9ef" />
+        </dependencyFromLayerToLayer>
+      </dependencyToLayers>
+    </layer>
+  </layers>
+</layerModel>

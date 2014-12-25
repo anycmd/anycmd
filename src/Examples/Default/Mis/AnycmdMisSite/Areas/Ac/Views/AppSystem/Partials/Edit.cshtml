@@ -1,0 +1,65 @@
+﻿@model string
+@{
+	var prifix = Model;
+}
+<form id="@(prifix)form1" method="post">
+	<input name="Id" class="mini-hidden" />
+	<div style="padding-left: 11px; padding-bottom: 5px;">
+		<table>
+			<tr>
+				<td>
+					@Html.IconLabel("Code")
+				</td>
+				<td>
+					<input name="Code" class="mini-textbox" required="true" />
+				</td>
+				<td>
+					@Html.IconLabel("Name")
+				</td>
+				<td>
+					<input name="Name" class="mini-textbox" required="true" />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					@Html.IconLabel("IsEnabled")
+				</td>
+				<td>
+					<input name="IsEnabled" class="mini-combobox" style="width: 125px;" required="true"
+						textfield="name" valuefield="code" data="@Html.DicItemJsonArray(Html.GetProperty("IsEnabled"))" shownullitem="false" />
+					@Html.Qtip("IsEnabled")
+				</td>
+				<td>
+					@Html.IconLabel("SortCode")
+				</td>
+				<td>
+					<input name="SortCode" class="mini-textbox" vtype="int" value="0" required="true" />
+					@Html.Qtip("SortCode")
+				</td>
+			</tr>
+			<tr>
+				<td>
+					@Html.IconLabel("PrincipalId")
+				</td>
+				<td>
+					<input name="PrincipalId" class="mini-combobox" style="width:125px;" textField="name" valueField="id" 
+						data="@Html.DeveloperJsonArray()" showNullItem="true" value="" nullItemText="" required="false" />
+					@Html.Qtip("PrincipalId")
+				</td>
+				<td>
+				</td>
+				<td>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					@Html.IconLabel("Description")
+					@Html.Qtip("Description")
+				</td>
+				<td colspan="3">
+					<input name="Description" class="mini-textarea" style="width: 353px;" />
+				</td>
+			</tr>
+		</table>
+	</div>
+</form>

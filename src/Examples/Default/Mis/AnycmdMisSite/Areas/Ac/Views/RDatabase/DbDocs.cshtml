@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>数据库文档列表</title>
+    <style type="text/css">
+        body {
+            font-family: Tahoma,Verdana,宋体;
+            font-size: 9pt;
+        }
+
+        table, th, td {
+            border: solid 1px #ccc;
+            padding: 2px 10px;
+        }
+
+        table {
+            margin-top: 10px;
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            font-size: 14px;
+            font-weight: bold;
+            background: #EBEBEB;
+        }
+    </style>
+</head>
+<body>
+    <h1>数据库文档列表</h1>
+    （本文当基于SqlServer数据库，对于术语不做中文翻译。文当内容根据运行时上下文自动生成，任何修改将被下次生成时覆盖。）
+    <span style="display: block; float: right;">Anycmd软件部</span>
+    @{
+        <table>
+            <tr>
+                <th>CatalogName</th>
+                <th>Description</th>
+            </tr>
+            @foreach (var database in Html.CurrentHost().Rdbs) {
+                <tr>
+                    <td><a href="@Url.Action("DbDoc", new { databaseId = database.Database.Id })" target="_blank">@database.Database.CatalogName</a></td>
+                    <td>@database.Database.Description</td>
+                </tr>
+            }
+        </table>
+    }
+</body>
+</html>

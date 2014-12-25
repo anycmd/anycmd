@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Anycmd.EDI.Web.Mvc.Controllers.ArchiveController">
+    <Position X="11" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAEAAABAABAAAAAAAAAAAEAAEAgAAEAAAAAAAA=</HashCode>
+      <FileName>Controllers\ArchiveController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.EDI.Web.Mvc.Controllers.BatchController">
+    <Position X="12.75" Y="3.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAABAABAAAAAABAAAAEAAEAAAAkAAAAAAAA=</HashCode>
+      <FileName>Controllers\BatchController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.EDI.Web.Mvc.Controllers.CommandController">
+    <Position X="3.5" Y="6.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>QAgAAAIEAAABAEAIAAEAAgIEASAAQEAAEAAAAaEAAIA=</HashCode>
+      <FileName>Controllers\CommandController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.EDI.Web.Mvc.Controllers.ElementController">
+    <Position X="6.25" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAQABggIAAABAABAAAAAAAIAAkEAAEAAAAEAJAAAAAA=</HashCode>
+      <FileName>Controllers\ElementController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.EDI.Web.Mvc.Controllers.EntityController">
+    <Position X="8.75" Y="3.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAQAAJAABAADEgBBIAAEBAQAABABAEACAIEAAAgAAAA=</HashCode>
+      <FileName>Controllers\EntityController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.EDI.Web.Mvc.Controllers.InfoDicController">
+    <Position X="12.75" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAABAIBAAAAgAAAAAAEAAEAAAAEAAAAAAAA=</HashCode>
+      <FileName>Controllers\InfoDicController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.EDI.Web.Mvc.Controllers.InfoDicItemController">
+    <Position X="6.25" Y="5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>ABQAAAAAAAABAABAAAAAAAAAAAMAAECAAAEAAAAAAAA=</HashCode>
+      <FileName>Controllers\InfoDicItemController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.EDI.Web.Mvc.Controllers.InfoRuleController">
+    <Position X="8.75" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAABAABAAAAAAAAAEAAAAEEAAAMAAAAAAgA=</HashCode>
+      <FileName>Controllers\InfoRuleController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.EDI.Web.Mvc.Controllers.NodeController">
+    <Position X="3.5" Y="0.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AkwIABgAAAAhAABAAAAACAAAAAEAAEACUAEgAAASIAQ=</HashCode>
+      <FileName>Controllers\NodeController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.EDI.Web.Mvc.Controllers.OntologyController">
+    <Position X="0.5" Y="0.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAYABAAAoABBAAhACAAQCBICAAEQBcEABAGgADCwAAA=</HashCode>
+      <FileName>Controllers\OntologyController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.EDI.Web.Mvc.Controllers.PluginController">
+    <Position X="11" Y="6.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABAABAAAAAAAAACAAAAEAABAEAAAAAAAA=</HashCode>
+      <FileName>Controllers\PluginController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.EDI.Web.Mvc.Controllers.ProcessController">
+    <Position X="11" Y="3.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAABAABgAAAAAAAAAAAAAEAAQAEAAAAAAAA=</HashCode>
+      <FileName>Controllers\ProcessController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.EDI.Web.Mvc.Controllers.StateCodeController">
+    <Position X="6.25" Y="8.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AIQAAACAAAABAABAAAAAAAAAAAAAAEAAAAEAAAAAAAA=</HashCode>
+      <FileName>Controllers\StateCodeController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Microsoft YaHei UI" Size="9" />
+</ClassDiagram>
