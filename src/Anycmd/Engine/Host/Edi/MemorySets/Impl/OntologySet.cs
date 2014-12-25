@@ -1811,8 +1811,6 @@ namespace Anycmd.Engine.Host.Edi.MemorySets.Impl
                     messageDispatcher.Register((IHandler<OrganizationActionAddedEvent>)this);
                     messageDispatcher.Register((IHandler<RemoveOrganizationActionCommand>)this);
                     messageDispatcher.Register((IHandler<OrganizationActionRemovedEvent>)this);
-                    messageDispatcher.Register((IHandler<RemoveOrganizationActionCommand>)this);
-                    messageDispatcher.Register((IHandler<OrganizationActionRemovedEvent>)this);
                 }
 
                 public void Handle(AddOntologyOrganizationCommand message)

@@ -1,4 +1,6 @@
 ﻿
+using Anycmd.Commands;
+
 namespace Anycmd.Bus
 {
     using System;
@@ -101,7 +103,7 @@ namespace Anycmd.Bus
             }
             else
             {
-                // TODO:日志系统
+                // TODO:死信邮箱
             }
         }
 
@@ -116,6 +118,10 @@ namespace Anycmd.Bus
 
             if (_handlers.ContainsKey(keyType))
             {
+                if (typeof(ICommand).IsAssignableFrom(keyType))
+                {
+                    throw new Exception("一个命令至多对应一个命令处理器");
+                }
                 var registeredHandlers = _handlers[keyType];
                 if (registeredHandlers != null)
                 {
@@ -159,7 +165,6 @@ namespace Anycmd.Bus
 
         /// <summary>
         /// 当分发消息失败时发生。
-        /// </summary>
         /// </summary>
         public event EventHandler<MessageDispatchEventArgs> DispatchFailed;
 
