@@ -27,7 +27,7 @@ namespace Anycmd.Edi.ViewModels.BatchViewModels
             OntologyDescriptor ontology;
             if (!dic.Host.NodeHost.Ontologies.TryGetOntology((Guid)this["OntologyId"], out ontology))
             {
-                throw new CoreException("意外的本体标识" + this["OntologyId"]);
+                throw new AnycmdException("意外的本体标识" + this["OntologyId"]);
             }
             if (!this.ContainsKey("OntologyCode"))
             {
@@ -40,7 +40,7 @@ namespace Anycmd.Edi.ViewModels.BatchViewModels
             NodeDescriptor node;
             if (!dic.Host.NodeHost.Nodes.TryGetNodeById(this["NodeId"].ToString(), out node))
             {
-                throw new CoreException("意外的节点标识" + this["NodeId"]);
+                throw new AnycmdException("意外的节点标识" + this["NodeId"]);
             }
             if (!this.ContainsKey("NodeCode"))
             {

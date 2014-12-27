@@ -108,7 +108,7 @@ namespace Anycmd.Ac.ViewModels.Infra.EntityTypeViewModels
                 DicState dic;
                 if (!_host.DicSet.TryGetDic(this.DicId.Value, out dic))
                 {
-                    throw new CoreException("意外的系统字典标识" + this.DicId);
+                    throw new AnycmdException("意外的系统字典标识" + this.DicId);
                 }
                 return dic.Name;
             }

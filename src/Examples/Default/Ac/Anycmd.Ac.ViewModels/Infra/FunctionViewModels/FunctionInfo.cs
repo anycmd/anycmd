@@ -26,12 +26,12 @@ namespace Anycmd.Ac.ViewModels.Infra.FunctionViewModels
             ResourceTypeState resource;
             if (!dic.Host.ResourceTypeSet.TryGetResource((Guid)data["ResourceTypeId"], out resource))
             {
-                throw new CoreException("意外的资源标识" + data["ResourceTypeId"]);
+                throw new AnycmdException("意外的资源标识" + data["ResourceTypeId"]);
             }
             AppSystemState appSystem;
             if (!dic.Host.AppSystemSet.TryGetAppSystem(resource.AppSystemId, out appSystem))
             {
-                throw new CoreException("意外的区域应用系统标识");
+                throw new AnycmdException("意外的区域应用系统标识");
             }
             if (!data.ContainsKey("AppSystemCode"))
             {

@@ -58,7 +58,7 @@ namespace Anycmd.Engine.Edi.Abstractions
                 {
                     if (_ontologyId != Guid.Empty)
                     {
-                        throw new CoreException("不能更改所属本体");
+                        throw new AnycmdException("不能更改所属本体");
                     }
                     _ontologyId = value;
                 }

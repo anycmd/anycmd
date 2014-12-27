@@ -45,9 +45,9 @@ namespace Anycmd.Engine.Host.Edi.MemorySets.Impl
         /// 根据发送策略名索引发送策略
         /// </summary>
         /// <param name="processId">发送策略名</param>
-        /// <exception cref="CoreException">当给定名称的发送策略不存在时引发</exception>
+        /// <exception cref="AnycmdException">当给定名称的发送策略不存在时引发</exception>
         /// <returns></returns>
-        /// <exception cref="CoreException">当进程标识非法时抛出</exception>
+        /// <exception cref="AnycmdException">当进程标识非法时抛出</exception>
         public ProcessDescriptor this[Guid processId]
         {
             get
@@ -58,7 +58,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets.Impl
                 }
                 if (!_dic.ContainsKey(processId))
                 {
-                    throw new CoreException("意外的进程标识");
+                    throw new AnycmdException("意外的进程标识");
                 }
 
                 return _dic[processId];

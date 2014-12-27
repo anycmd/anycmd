@@ -77,7 +77,7 @@ namespace Anycmd.Engine.Host.Rdb
                                 if (_dic[database].ContainsKey(table))
                                 {
                                     // 不计划支持Schema
-                                    throw new CoreException("重名的数据库表" + database.Database.CatalogName + "." + table.SchemaName + "." + table.Name);
+                                    throw new AnycmdException("重名的数据库表" + database.Database.CatalogName + "." + table.SchemaName + "." + table.Name);
                                 }
                                 _dic[database].Add(table, new Dictionary<string, DbTableColumn>(StringComparer.OrdinalIgnoreCase));
                                 foreach (var tableCol in columns.Where(a => a.TableName == table.Name && a.SchemaName == table.SchemaName))

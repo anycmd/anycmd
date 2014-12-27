@@ -50,11 +50,11 @@ namespace Anycmd.Engine.Ac.Abstractions.Infra
                 if (value == _resourceTypeId) return;
                 if (value == System.Guid.Empty)
                 {
-                    throw new CoreException("必须指定资源");
+                    throw new AnycmdException("必须指定资源");
                 }
                 if (_resourceTypeId != System.Guid.Empty)
                 {
-                    throw new CoreException("所属资源不能修改");
+                    throw new AnycmdException("所属资源不能修改");
                 }
                 _resourceTypeId = value;
             }

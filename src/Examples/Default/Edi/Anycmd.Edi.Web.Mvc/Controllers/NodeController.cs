@@ -27,16 +27,6 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
     [Guid("5161FB00-7A57-4466-BDDF-6AC0E08E56C3")]
     public class NodeController : AnycmdController
     {
-        private static readonly EntityTypeState NodeEntityType;
-
-        static NodeController()
-        {
-            if (!Host.EntityTypeSet.TryGetEntityType("Edi", "Node", out NodeEntityType))
-            {
-                throw new CoreException("意外的实体类型");
-            }
-        }
-
         #region ViewResults
 
         /// <summary>
@@ -65,7 +55,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                 Guid id;
                 if (Guid.TryParse(Request["id"], out id))
                 {
-                    var data = new NodeInfo(NodeEntityType.GetData(id));
+                    var data = new NodeInfo(base.EntityType.GetData(id));
                     return new PartialViewResult { ViewName = "Partials/Details", ViewData = new ViewDataDictionary(data) };
                 }
                 else
@@ -176,7 +166,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             {
                 throw new ValidationException("未传入标识");
             }
-            return this.JsonResult(new NodeInfo(NodeEntityType.GetData(id.Value)));
+            return this.JsonResult(new NodeInfo(base.EntityType.GetData(id.Value)));
         }
 
         /// <summary>
@@ -397,9 +387,9 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                 return ModelState.ToJsonResult();
             }
             EntityTypeState entityType;
-            if (!Host.EntityTypeSet.TryGetEntityType("Edi", "Node", out entityType))
+            if (!Host.EntityTypeSet.TryGetEntityType(new Coder("Edi", "Node"), out entityType))
             {
-                throw new CoreException("意外的实体类型Edi.Node");
+                throw new AnycmdException("意外的实体类型Edi.Node");
             }
             foreach (var filter in requestModel.Filters)
             {
@@ -628,7 +618,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                     }
                     else
                     {
-                        throw new CoreException("意外的节点");
+                        throw new AnycmdException("意外的节点");
                     }
                 }
             }

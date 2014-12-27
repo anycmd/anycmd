@@ -37,7 +37,7 @@ namespace Anycmd.Engine.Host.Hecp
             }
             if (cmdDto.Body == null)
             {
-                throw new CoreException();
+                throw new AnycmdException();
             }
             this._message = cmdDto;
             if (cmdDto.Body.InfoId == null)

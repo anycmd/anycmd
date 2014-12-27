@@ -23,7 +23,7 @@ namespace Anycmd.Engine.Edi.Abstractions
                 if (value == _orgnizationId) return;
                 if (_orgnizationId != Guid.Empty)
                 {
-                    throw new CoreException("不能更改所属组织结构");
+                    throw new AnycmdException("不能更改所属组织结构");
                 }
                 _orgnizationId = value;
             }
@@ -40,7 +40,7 @@ namespace Anycmd.Engine.Edi.Abstractions
                 if (value == _ontologyId) return;
                 if (_ontologyId != Guid.Empty)
                 {
-                    throw new CoreException("不能更改所属本体");
+                    throw new AnycmdException("不能更改所属本体");
                 }
                 _ontologyId = value;
             }

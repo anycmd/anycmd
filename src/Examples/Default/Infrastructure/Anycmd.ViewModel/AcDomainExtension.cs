@@ -1,4 +1,6 @@
 ﻿
+using Anycmd.Util;
+
 namespace Anycmd.ViewModel
 {
     using Engine.Ac;
@@ -95,9 +97,9 @@ namespace Anycmd.ViewModel
         public static string Translate(this IAcDomain host, string codespace, string entityTypeCode, string propertyCode, string dicItemCode)
         {
             EntityTypeState entityType;
-            if (!host.EntityTypeSet.TryGetEntityType(codespace, entityTypeCode, out entityType))
+            if (!host.EntityTypeSet.TryGetEntityType(new Coder(codespace, entityTypeCode), out entityType))
             {
-                throw new CoreException("意外的实体类型" + codespace + entityTypeCode);
+                throw new AnycmdException("意外的实体类型" + codespace + entityTypeCode);
             }
             PropertyState property;
             if (!host.EntityTypeSet.TryGetProperty(entityType, propertyCode, out property))

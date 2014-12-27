@@ -1,6 +1,4 @@
 ﻿
-using System.Diagnostics;
-
 namespace Anycmd.Ac.Web.Mvc.Controllers
 {
     using Anycmd.Web.Mvc;
@@ -10,6 +8,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
     using MiniUI;
     using System;
     using System.ComponentModel;
+    using System.Diagnostics;
     using System.Web.Mvc;
     using Util;
     using ViewModel;
@@ -22,16 +21,6 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
     [Guid("DC8EBCE9-FB1D-47FB-B006-0F09A8CF5C23")]
     public class DicItemController : AnycmdController
     {
-        private readonly EntityTypeState _dicItemEntityType;
-
-        public DicItemController()
-        {
-            if (!Host.EntityTypeSet.TryGetEntityType("Ac", "DicItem", out _dicItemEntityType))
-            {
-                throw new CoreException("意外的实体类型");
-            }
-        }
-
         #region ViewResults
         [By("xuexs")]
         [Description("字典管理")]
@@ -51,7 +40,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 Guid id;
                 if (Guid.TryParse(Request["id"], out id))
                 {
-                    var data = DicItemInfo.Create(_dicItemEntityType.GetData(id));
+                    var data = DicItemInfo.Create(base.EntityType.GetData(id));
                     return new PartialViewResult { ViewName = "Partials/Details", ViewData = new ViewDataDictionary(data) };
                 }
                 else
@@ -80,7 +69,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 throw new ValidationException("未传入标识");
             }
-            return this.JsonResult(_dicItemEntityType.GetData(id.Value));
+            return this.JsonResult(base.EntityType.GetData(id.Value));
         }
 
         [By("xuexs")]
@@ -91,7 +80,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 throw new ValidationException("未传入标识");
             }
-            return this.JsonResult(DicItemInfo.Create(_dicItemEntityType.GetData(id.Value)));
+            return this.JsonResult(DicItemInfo.Create(base.EntityType.GetData(id.Value)));
         }
 
         [By("xuexs")]

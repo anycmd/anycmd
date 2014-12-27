@@ -45,23 +45,23 @@ namespace Anycmd.Engine.Edi
                         var action = host.NodeHost.Ontologies.GetAction(orgAction.ActionId);
                         if (action == null)
                         {
-                            throw new CoreException("意外的组织结构动作标识" + orgAction.ActionId);
+                            throw new AnycmdException("意外的组织结构动作标识" + orgAction.ActionId);
                         }
                         OntologyDescriptor ontology;
                         if (!host.NodeHost.Ontologies.TryGetOntology(action.OntologyId, out ontology))
                         {
-                            throw new CoreException("意外的本体元素本体标识" + action.OntologyId);
+                            throw new AnycmdException("意外的本体元素本体标识" + action.OntologyId);
                         }
                         OrganizationState org;
                         if (!host.OrganizationSet.TryGetOrganization(orgAction.OrganizationId, out org))
                         {
-                            throw new CoreException("意外的组织结构动作组织结构标识" + orgAction.OrganizationId);
+                            throw new AnycmdException("意外的组织结构动作组织结构标识" + orgAction.OrganizationId);
                         }
                         var actionDic = host.NodeHost.Ontologies.GetActons(ontology);
                         var verb = actionDic.Where(a => a.Value.Id == orgAction.ActionId).Select(a => a.Key).FirstOrDefault();
                         if (verb == null)
                         {
-                            throw new CoreException("意外的本体动作标识" + orgAction.ActionId);
+                            throw new AnycmdException("意外的本体动作标识" + orgAction.ActionId);
                         }
                         orgActionDic.Add(verb, orgAction);
                     }

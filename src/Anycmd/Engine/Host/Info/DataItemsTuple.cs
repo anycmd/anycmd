@@ -31,11 +31,11 @@ namespace Anycmd.Engine.Host.Info
             }
             if (string.IsNullOrEmpty(infoFormat))
             {
-                throw new CoreException("infoFormat不能为空");
+                throw new AnycmdException("infoFormat不能为空");
             }
             if (!host.NodeHost.InfoStringConverters.TryGetInfoStringConverter(infoFormat, out _converter))
             {
-                throw new CoreException("意外的信息格式" + infoFormat);
+                throw new AnycmdException("意外的信息格式" + infoFormat);
             }
             this.InfoFormat = infoFormat;
             this.QueryList = getElement;

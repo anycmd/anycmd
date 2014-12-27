@@ -36,7 +36,7 @@ namespace Anycmd.Engine.Host.Impl
                     case PluginType.MessageTransfer:
                         return Path.Combine(buildInPluginsBaseDirectory, "MessageTransfers");
                     default:
-                        throw new CoreException("意外的插件类型");
+                        throw new AnycmdException("意外的插件类型");
                 };
             };
             this.Plugins = new List<IPlugin>
@@ -941,7 +941,7 @@ FROM    ( SELECT    [Extent1].[Id] AS [Id] ,
             {
                 if (value == AuditType.Invalid || value == AuditType.ImplicitAudit)
                 {
-                    throw new CoreException("审核类型配置错误，取值不能是：Invalid或" + AuditType.ImplicitAudit.ToName());
+                    throw new AnycmdException("审核类型配置错误，取值不能是：Invalid或" + AuditType.ImplicitAudit.ToName());
                 }
                 _implicitAudit = value;
             }
@@ -966,7 +966,7 @@ FROM    ( SELECT    [Extent1].[Id] AS [Id] ,
             {
                 if (value == AllowType.Invalid || value == AllowType.ImplicitAllow)
                 {
-                    throw new CoreException("访问控制类型配置错误，取值不能是：Invalid或" + AllowType.ImplicitAllow.ToName());
+                    throw new AnycmdException("访问控制类型配置错误，取值不能是：Invalid或" + AllowType.ImplicitAllow.ToName());
                 }
                 _implicitAllow = value;
             }
@@ -990,7 +990,7 @@ FROM    ( SELECT    [Extent1].[Id] AS [Id] ,
             {
                 if (value == EntityLogon.Invalid || value == EntityLogon.ImplicitLogon)
                 {
-                    throw new CoreException("实体登录控制类型配置错误，取值不能是：Invalid或" + EntityLogon.ImplicitLogon.ToName());
+                    throw new AnycmdException("实体登录控制类型配置错误，取值不能是：Invalid或" + EntityLogon.ImplicitLogon.ToName());
                 }
                 _implicitEntityLogon = value;
             }

@@ -22,16 +22,6 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
     [Guid("2A37104A-2D8C-48CE-A766-5E271ED051FF")]
     public class InfoDicItemController : AnycmdController
     {
-        private static readonly EntityTypeState InfoDicItemEntityType;
-
-        static InfoDicItemController()
-        {
-            if (!Host.EntityTypeSet.TryGetEntityType("Edi", "InfoDicItem", out InfoDicItemEntityType))
-            {
-                throw new CoreException("意外的实体类型");
-            }
-        }
-        
         #region ViewResults
         /// <summary>
         /// 信息字典项管理
@@ -59,7 +49,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                 Guid id;
                 if (Guid.TryParse(Request["id"], out id))
                 {
-                    var data = new InfoDicItemInfo(Host, InfoDicItemEntityType.GetData(id));
+                    var data = new InfoDicItemInfo(Host, base.EntityType.GetData(id));
                     return new PartialViewResult { ViewName = "Partials/Details", ViewData = new ViewDataDictionary(data) };
                 }
                 else
@@ -110,7 +100,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             {
                 throw new ValidationException("未传入标识");
             }
-            return this.JsonResult(new InfoDicItemInfo(Host, InfoDicItemEntityType.GetData(id.Value)));
+            return this.JsonResult(new InfoDicItemInfo(Host, base.EntityType.GetData(id.Value)));
         }
 
         /// <summary>
@@ -158,9 +148,9 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                 throw new ValidationException("意外的信息字典标识" + dicId);
             }
             EntityTypeState entityType;
-            if (!Host.EntityTypeSet.TryGetEntityType("Edi", "InfoDicItem", out entityType))
+            if (!Host.EntityTypeSet.TryGetEntityType(new Coder("Edi", "InfoDicItem"), out entityType))
             {
-                throw new CoreException("意外的实体类型Edi.InfoDicItem");
+                throw new AnycmdException("意外的实体类型Edi.InfoDicItem");
             }
             foreach (var filter in input.Filters)
             {
@@ -172,7 +162,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             }
             int pageIndex = input.PageIndex;
             int pageSize = input.PageSize;
-            var queryable = Host.NodeHost.InfoDics.GetInfoDicItems(infoDic).Select(a => InfoDicItemTr.Create(a)).AsQueryable();
+            var queryable = Host.NodeHost.InfoDics.GetInfoDicItems(infoDic).Select(InfoDicItemTr.Create).AsQueryable();
             foreach (var filter in input.Filters)
             {
                 queryable = queryable.Where(filter.ToPredicate(), filter.value);

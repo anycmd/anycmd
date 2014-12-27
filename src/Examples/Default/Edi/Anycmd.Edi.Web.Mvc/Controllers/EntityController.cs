@@ -1,34 +1,34 @@
 ﻿
 namespace Anycmd.Edi.Web.Mvc.Controllers
 {
-    using Anycmd.Web.Mvc;
-    using Client;
-    using DataContracts;
-    using Engine.Ac;
-    using Engine.Edi;
-    using Engine.Host.Edi;
-    using Engine.Host.Hecp;
-    using Engine.Host.Info;
-    using Exceptions;
-    using MiniUI;
-    using NPOI.HSSF.UserModel;
-    using NPOI.HSSF.Util;
-    using NPOI.POIFS.FileSystem;
-    using NPOI.SS.UserModel;
-    using Query;
-    using ServiceModel.Operations;
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Collections.Specialized;
-    using System.ComponentModel;
-    using System.IO;
-    using System.Linq;
-    using System.Web;
-    using System.Web.Mvc;
-    using Util;
-    using ViewModel;
-    using ViewModels;
+	using Anycmd.Web.Mvc;
+	using Client;
+	using DataContracts;
+	using Engine.Ac;
+	using Engine.Edi;
+	using Engine.Host.Edi;
+	using Engine.Host.Hecp;
+	using Engine.Host.Info;
+	using Exceptions;
+	using MiniUI;
+	using NPOI.HSSF.UserModel;
+	using NPOI.HSSF.Util;
+	using NPOI.POIFS.FileSystem;
+	using NPOI.SS.UserModel;
+	using Query;
+	using ServiceModel.Operations;
+	using System;
+	using System.Collections;
+	using System.Collections.Generic;
+	using System.Collections.Specialized;
+	using System.ComponentModel;
+	using System.IO;
+	using System.Linq;
+	using System.Web;
+	using System.Web.Mvc;
+	using Util;
+	using ViewModel;
+	using ViewModels;
 
 	/// <summary>
 	/// 实体模型视图控制器。
@@ -585,7 +585,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 						int stateCode;
 						if (!int.TryParse(stateCodeStr, out stateCode))
 						{
-							throw new CoreException("文件" + fullName + "行中有意外的状态码");
+							throw new AnycmdException("文件" + fullName + "行中有意外的状态码");
 						}
 						if (stateCode >= 200 && stateCode < 300)
 						{
@@ -796,7 +796,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 				ISheet sheet = workbook.GetSheet(RESULT_SHEET_NAME);//获取结果工作表
 				if (sheet == null)
 				{
-					throw new CoreException(fullName + "中没有名称为" + RESULT_SHEET_NAME + "的sheet");
+					throw new AnycmdException(fullName + "中没有名称为" + RESULT_SHEET_NAME + "的sheet");
 				}
 				IRow headRow1 = sheet.GetRow(0);
 				var list = new List<MiniGridColumn>();
@@ -1970,7 +1970,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 		/// <param name="infoValues"></param>
 		/// <param name="id"></param>
 		/// <returns>命令状态模型</returns>
-		/// <exception cref="CoreException">如果传入的信息ID字典或信息值字典为空则引发该异常，如果信息值
+		/// <exception cref="AnycmdException">如果传入的信息ID字典或信息值字典为空则引发该异常，如果信息值
 		/// 字典不为空但仅包含一个键为Id的值则也引发本异常（Id应出现在信息标识中是不应该出现在信息值中的）
 		/// </exception>
 		private IMessageDto Save(OntologyDescriptor ontology
@@ -1988,7 +1988,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 		/// <param name="infoIDs"></param>
 		/// <param name="infoValues"></param>
 		/// <returns>命令状态模型</returns>
-		/// <exception cref="CoreException">如果传入的信息ID字典或信息值字典为空则引发该异常，如果信息值
+		/// <exception cref="AnycmdException">如果传入的信息ID字典或信息值字典为空则引发该异常，如果信息值
 		/// 字典不为空但仅包含一个键为Id的值则也引发本异常（Id应出现在信息标识中是不应该出现在信息值中的）
 		/// </exception>
 		private IMessageDto Update(OntologyDescriptor ontology
@@ -2064,11 +2064,11 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 			id = string.Empty;
 			if (infoIDs == null || infoIDs.Count == 0)
 			{
-				throw new CoreException("infoIDs不能为空");
+				throw new AnycmdException("infoIDs不能为空");
 			}
 			if (infoValues == null || infoValues.Count == 0)
 			{
-				throw new CoreException("infoValues不能为空");
+				throw new AnycmdException("infoValues不能为空");
 			}
 			if (!isUpdate)
 			{

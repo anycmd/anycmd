@@ -1,6 +1,4 @@
 ﻿
-using System.Diagnostics;
-
 namespace Anycmd.Ac.Web.Mvc.Controllers
 {
     using Anycmd.Web.Mvc;
@@ -14,6 +12,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
     using System;
     using System.Collections;
     using System.ComponentModel;
+    using System.Diagnostics;
     using System.Linq;
     using System.Web.Mvc;
     using Util;
@@ -23,16 +22,6 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
     [Guid("2BB502B3-EEE9-43A8-A24B-32A5ED5CA4D8")]
     public class DsdSetController : AnycmdController
     {
-        private readonly EntityTypeState _dsdSetEntityType;
-
-        public DsdSetController()
-        {
-            if (!Host.EntityTypeSet.TryGetEntityType("Ac", "DsdSet", out _dsdSetEntityType))
-            {
-                throw new CoreException("意外的实体类型");
-            }
-        }
-
         [By("xuexs")]
         [Description("动态职责分离角色集")]
         [Guid("C3C896E9-9F5E-4470-8795-688AF4F09F70")]
@@ -51,7 +40,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 Guid id;
                 if (Guid.TryParse(Request["id"], out id))
                 {
-                    var data = _dsdSetEntityType.GetData(id);
+                    var data = base.EntityType.GetData(id);
                     return new PartialViewResult { ViewName = "Partials/Details", ViewData = new ViewDataDictionary(data) };
                 }
                 else
@@ -86,7 +75,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 throw new ValidationException("未传入标识");
             }
-            return this.JsonResult(_dsdSetEntityType.GetData(id.Value));
+            return this.JsonResult(base.EntityType.GetData(id.Value));
         }
 
         [By("xuexs")]
@@ -98,7 +87,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 throw new ValidationException("未传入标识");
             }
-            return this.JsonResult(_dsdSetEntityType.GetData(id.Value));
+            return this.JsonResult(base.EntityType.GetData(id.Value));
         }
 
         [By("xuexs")]

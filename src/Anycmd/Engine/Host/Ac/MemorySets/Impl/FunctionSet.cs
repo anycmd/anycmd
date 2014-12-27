@@ -170,7 +170,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets.Impl
                 ResourceTypeState newKey;
                 if (!host.ResourceTypeSet.TryGetResource(message.Source.Id, out newKey))
                 {
-                    throw new CoreException("意外的资源标识" + message.Source.Id);
+                    throw new AnycmdException("意外的资源标识" + message.Source.Id);
                 }
                 var oldKey = dicByCode.Keys.FirstOrDefault(a => a.Id == message.Source.Id);
                 if (oldKey != null && !dicByCode.ContainsKey(newKey))
@@ -232,7 +232,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets.Impl
                     FunctionState functionState;
                     if (host.FunctionSet.TryGetFunction(input.Id.Value, out functionState))
                     {
-                        throw new CoreException("记录已经存在");
+                        throw new AnycmdException("记录已经存在");
                     }
                     var state = FunctionState.Create(host, entity);
                     if (host.FunctionSet.TryGetFunction(resource, input.Code, out functionState))

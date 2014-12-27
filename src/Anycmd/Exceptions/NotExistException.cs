@@ -8,7 +8,7 @@ namespace Anycmd.Exceptions
     [ComVisible(true)]
     [ClassInterface(ClassInterfaceType.None)]
     [ComDefaultInterface(typeof(_Exception))]
-    public class NotExistException : CoreException
+    public class NotExistException : AnycmdException
     {
         #region Ctor
 

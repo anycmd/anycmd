@@ -29,18 +29,18 @@ namespace Anycmd.Engine.Edi
             OntologyDescriptor ontology;
             if (!host.NodeHost.Ontologies.TryGetOntology(batch.OntologyId, out ontology))
             {
-                throw new CoreException("意外的本体标识" + batch.OntologyId);
+                throw new AnycmdException("意外的本体标识" + batch.OntologyId);
             }
             this.Ontology = ontology;
             NodeDescriptor node;
             if (!host.NodeHost.Nodes.TryGetNodeById(batch.NodeId.ToString(), out node))
             {
-                throw new CoreException("意外的节点标识" + batch.NodeId);
+                throw new AnycmdException("意外的节点标识" + batch.NodeId);
             }
             this.Node = node;
             if (!batch.Type.TryParse(out _batchType))
             {
-                throw new CoreException("意外的批类型" + batch.Type);
+                throw new AnycmdException("意外的批类型" + batch.Type);
             }
         }
 

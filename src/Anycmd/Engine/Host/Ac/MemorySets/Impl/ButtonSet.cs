@@ -101,11 +101,11 @@ namespace Anycmd.Engine.Host.Ac.MemorySets.Impl
                         {
                             if (_dicById.ContainsKey(button.Id))
                             {
-                                throw new CoreException("意外重复的按钮标识");
+                                throw new AnycmdException("意外重复的按钮标识");
                             }
                             if (_dicByCode.ContainsKey(button.Code))
                             {
-                                throw new CoreException("意外重复的按钮编码");
+                                throw new AnycmdException("意外重复的按钮编码");
                             }
                             var buttonState = ButtonState.Create(button);
                             _dicById.Add(button.Id, buttonState);
@@ -195,7 +195,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets.Impl
                 {
                     if (!input.Id.HasValue || host.ButtonSet.ContainsButton(input.Id.Value))
                     {
-                        throw new CoreException("意外的按钮标识");
+                        throw new AnycmdException("意外的按钮标识");
                     }
                     if (host.ButtonSet.ContainsButton(input.Code))
                     {

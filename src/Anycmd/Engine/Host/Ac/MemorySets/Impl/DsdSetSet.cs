@@ -241,7 +241,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets.Impl
                     DsdSetState dsdSet;
                     if (host.DsdSetSet.TryGetDsdSet(entity.Id, out dsdSet))
                     {
-                        throw new CoreException("意外的重复标识");
+                        throw new AnycmdException("意外的重复标识");
                     }
                     if (!dsdSetDic.ContainsKey(entity.Id))
                     {

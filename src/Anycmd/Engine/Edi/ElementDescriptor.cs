@@ -122,7 +122,7 @@ namespace Anycmd.Engine.Edi
 			this.Element = element;
 			if (!element.OType.TryParse(out _dbType))
 			{
-				throw new CoreException("意外的数据库类型" + element.OType);
+				throw new AnycmdException("意外的数据库类型" + element.OType);
 			}
 			string fieldName = element.Code;
 			if (!string.IsNullOrEmpty(element.FieldCode))

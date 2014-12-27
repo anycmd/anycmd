@@ -81,7 +81,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets.Impl
         /// </summary>
         /// <param name="ontologyCode"></param>
         /// <returns></returns>
-        /// <exception cref="CoreException">当本体码非法时抛出</exception>
+        /// <exception cref="AnycmdException">当本体码非法时抛出</exception>
         public OntologyDescriptor this[string ontologyCode]
         {
             get
@@ -96,7 +96,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets.Impl
                 }
                 if (!_ontologyDicByCode.ContainsKey(ontologyCode))
                 {
-                    throw new CoreException("意外的本体码");
+                    throw new AnycmdException("意外的本体码");
                 }
 
                 return _ontologyDicByCode[ontologyCode];
@@ -110,7 +110,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets.Impl
         /// </summary>
         /// <param name="ontologyId"></param>
         /// <returns></returns>
-        /// <exception cref="CoreException">当本体标识非法时抛出</exception>
+        /// <exception cref="AnycmdException">当本体标识非法时抛出</exception>
         public OntologyDescriptor this[ontologyId ontologyId]
         {
             get
@@ -121,7 +121,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets.Impl
                 }
                 if (!_ontologyDicById.ContainsKey(ontologyId))
                 {
-                    throw new CoreException("意外的本体Id");
+                    throw new AnycmdException("意外的本体Id");
                 }
 
                 return _ontologyDicById[ontologyId];
@@ -1213,7 +1213,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets.Impl
                             var actionState = ActionState.Create(item);
                             if (_actionDicByVerb[ontology].ContainsKey(actionState.ActionVerb))
                             {
-                                throw new CoreException("意外重复的本体动作动词" + item.Verb);
+                                throw new AnycmdException("意外重复的本体动作动词" + item.Verb);
                             }
                             _actionsById.Add(item.Id, actionState);
                             _actionDicByVerb[ontology].Add(actionState.ActionVerb, actionState);
@@ -1550,7 +1550,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets.Impl
                     }
                     if (ontology.InfoGroups.Any(a => a.Id == message.Input.Id))
                     {
-                        throw new CoreException("给定的标识标识的工作组已经存在");
+                        throw new AnycmdException("给定的标识标识的工作组已经存在");
                     }
                     if (ontology.InfoGroups.Any(a => string.Equals(a.Code, message.Input.Code, StringComparison.OrdinalIgnoreCase)))
                     {
@@ -1754,7 +1754,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets.Impl
                         OntologyDescriptor ontology;
                         if (!_host.NodeHost.Ontologies.TryGetOntology(ontologyOrg.OntologyId, out ontology))
                         {
-                            throw new CoreException("意外的本体组织结构本体标识" + ontologyOrg.OntologyId);
+                            throw new AnycmdException("意外的本体组织结构本体标识" + ontologyOrg.OntologyId);
                         }
                         if (_host.OrganizationSet.TryGetOrganization(ontologyOrg.OrganizationId, out org))
                         {
@@ -1835,12 +1835,12 @@ namespace Anycmd.Engine.Host.Edi.MemorySets.Impl
                     OntologyDescriptor ontology;
                     if (!host.NodeHost.Ontologies.TryGetOntology(input.OntologyId, out ontology))
                     {
-                        throw new CoreException("意外的本体标识" + input.OntologyId);
+                        throw new AnycmdException("意外的本体标识" + input.OntologyId);
                     }
                     OrganizationState org;
                     if (!host.OrganizationSet.TryGetOrganization(input.OrganizationId, out org))
                     {
-                        throw new CoreException("意外的组织结构标识" + input.OrganizationId);
+                        throw new AnycmdException("意外的组织结构标识" + input.OrganizationId);
                     }
                     OntologyOrganization entity;
                     lock (this)
@@ -2532,7 +2532,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets.Impl
                     OntologyDescriptor ontology;
                     if (!_set._host.NodeHost.Ontologies.TryGetOntology(state.OntologyId, out ontology))
                     {
-                        throw new CoreException("意外的归档本体标识" + state.OntologyId);
+                        throw new AnycmdException("意外的归档本体标识" + state.OntologyId);
                     }
                     _set._dicById[state.Id] = state;
                     if (_set._dicByOntology.ContainsKey(ontology) && _set._dicByOntology[ontology].Any(a => a.Id == state.Id))

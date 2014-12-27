@@ -30,16 +30,16 @@ namespace Anycmd.Engine.Edi.Abstractions
                 if (value == _type) return;
                 if (_type != null)
                 {
-                    throw new CoreException("不能更改进程类型");
+                    throw new AnycmdException("不能更改进程类型");
                 }
                 else if (value == null)
                 {
-                    throw new CoreException("必须指定进程类型");
+                    throw new AnycmdException("必须指定进程类型");
                 }
                 ProcessType processType;
                 if (!value.TryParse(out processType))
                 {
-                    throw new CoreException("非法的进程类型");
+                    throw new AnycmdException("非法的进程类型");
                 }
                 _type = value;
             }
@@ -67,7 +67,7 @@ namespace Anycmd.Engine.Edi.Abstractions
                 if (value == _ontologyId) return;
                 if (_ontologyId != Guid.Empty)
                 {
-                    throw new CoreException("不能更改关联本体");
+                    throw new AnycmdException("不能更改关联本体");
                 }
                 _ontologyId = value;
             }

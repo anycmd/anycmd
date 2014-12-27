@@ -27,7 +27,7 @@ namespace Anycmd.Engine.Host.Info
         {
             if (dataItems == null && infoString == null)
             {
-                throw new CoreException("dataItems和infoString不能同时为null");
+                throw new AnycmdException("dataItems和infoString不能同时为null");
             }
             if ((dataItems == null || infoString == null) && converter == null)
             {
@@ -59,7 +59,7 @@ namespace Anycmd.Engine.Host.Info
                     _dataItems = _converter.ToDataItems(_infoString);
                     if (_dataItems == null)
                     {
-                        throw new CoreException("信息字符串转化器返回意外的null数组。");
+                        throw new AnycmdException("信息字符串转化器返回意外的null数组。");
                     }
                 }
                 return _dataItems;

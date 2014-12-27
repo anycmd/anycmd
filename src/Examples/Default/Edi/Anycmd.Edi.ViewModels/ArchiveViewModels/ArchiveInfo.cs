@@ -27,7 +27,7 @@ namespace Anycmd.Edi.ViewModels.ArchiveViewModels
             OntologyDescriptor ontology;
             if (!reader.Host.NodeHost.Ontologies.TryGetOntology((Guid)this["OntologyId"], out ontology))
             {
-                throw new CoreException("意外的本体标识" + this["OntologyId"]);
+                throw new AnycmdException("意外的本体标识" + this["OntologyId"]);
             }
             if (!this.ContainsKey("OntologyCode"))
             {

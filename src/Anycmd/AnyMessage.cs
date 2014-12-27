@@ -128,7 +128,7 @@ namespace Anycmd
         {
             if (_responseNode != _responseNode.Host.NodeHost.Nodes.ThisNode)
             {
-                throw new CoreException("当前命令的响应节点不是本节点，不支持调用本方法。该方法设计用于绕过网络通信供服务节点调试使用。");
+                throw new AnycmdException("当前命令的响应节点不是本节点，不支持调用本方法。该方法设计用于绕过网络通信供服务节点调试使用。");
             }
             var context = new MessageContext(_responseNode.Host, this);
             MessageHandler.Instance.Response(context);

@@ -32,7 +32,7 @@ namespace Anycmd.Engine.Edi.Abstractions
                 if (value == _nodeId) return;
                 if (_nodeId != Guid.Empty)
                 {
-                    throw new CoreException("不能更改所属节点");
+                    throw new AnycmdException("不能更改所属节点");
                 }
                 _nodeId = value;
             }
@@ -48,7 +48,7 @@ namespace Anycmd.Engine.Edi.Abstractions
                 if (value == _actionId) return;
                 if (_actionId != Guid.Empty)
                 {
-                    throw new CoreException("不能更改所属动作");
+                    throw new AnycmdException("不能更改所属动作");
                 }
                 _actionId = value;
             }
@@ -67,7 +67,7 @@ namespace Anycmd.Engine.Edi.Abstractions
                 AuditType auditType;
                 if (!value.TryParse(out auditType))
                 {
-                    throw new CoreException("意外的AuditType:" + value);
+                    throw new AnycmdException("意外的AuditType:" + value);
                 }
                 this.AuditType = auditType;
             }
@@ -91,7 +91,7 @@ namespace Anycmd.Engine.Edi.Abstractions
                 AllowType allowType;
                 if (!value.TryParse(out allowType))
                 {
-                    throw new CoreException("意外的AllowType:" + value);
+                    throw new AnycmdException("意外的AllowType:" + value);
                 }
                 this.AllowType = allowType;
             }

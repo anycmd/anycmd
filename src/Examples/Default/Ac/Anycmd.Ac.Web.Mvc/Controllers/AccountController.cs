@@ -1,6 +1,4 @@
 ﻿
-using System.Diagnostics;
-
 namespace Anycmd.Ac.Web.Mvc.Controllers
 {
     using Anycmd.Web.Mvc;
@@ -19,6 +17,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
     using System.Collections;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Diagnostics;
     using System.Linq;
     using System.Web.Mvc;
     using Util;
@@ -32,16 +31,6 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
     [Guid("CECA85AD-6D77-49F5-AAE2-26E89B445B02")]
     public class AccountController : AnycmdController
     {
-        private readonly EntityTypeState _accountEntityType;
-
-        public AccountController()
-        {
-            if (!Host.EntityTypeSet.TryGetEntityType("Ac", "Account", out _accountEntityType))
-            {
-                throw new CoreException("意外的实体类型");
-            }
-        }
-
         #region Views
         [By("xuexs")]
         [Description("账户")]
@@ -217,7 +206,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 throw new ValidationException("未传入标识");
             }
-            return this.JsonResult(_accountEntityType.GetData(id.Value));
+            return this.JsonResult(base.EntityType.GetData(id.Value));
         }
 
         [By("xuexs")]
@@ -243,9 +232,9 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 return ModelState.ToJsonResult();
             }
             EntityTypeState entityType;
-            if (!Host.EntityTypeSet.TryGetEntityType("Ac", "Account", out entityType))
+            if (!Host.EntityTypeSet.TryGetEntityType(new Coder("Ac", "Account"), out entityType))
             {
-                throw new CoreException("意外的实体类型Ac.Account");
+                throw new AnycmdException("意外的实体类型Ac.Account");
             }
             foreach (var filter in requestModel.Filters)
             {

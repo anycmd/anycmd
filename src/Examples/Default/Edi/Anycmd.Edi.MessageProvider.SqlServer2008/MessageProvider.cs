@@ -140,7 +140,7 @@ namespace Anycmd.Edi.MessageProvider.SqlServer2008
                 DbTable dbTable;
                 if (!ontology.Host.DbTables.TryGetDbTable(this.GetCommandDb(ontology), tableId, out dbTable))
                 {
-                    r = new ProcessResult(new CoreException("意外的数据库表标识" + tableId));
+                    r = new ProcessResult(new AnycmdException("意外的数据库表标识" + tableId));
                 }
                 // 当前命令表模式克隆得到的新表
                 var dt = this.GetCommandDb(ontology).NewTable(dbTable);
@@ -221,7 +221,7 @@ namespace Anycmd.Edi.MessageProvider.SqlServer2008
 
             if (sb.Length != l)
             {
-                r = new ProcessResult(new CoreException(sb.ToString()));
+                r = new ProcessResult(new AnycmdException(sb.ToString()));
             }
             else
             {
@@ -256,7 +256,7 @@ namespace Anycmd.Edi.MessageProvider.SqlServer2008
                 }
                 else
                 {
-                    r = new ProcessResult(new CoreException("意外的影响行数" + n.ToString()));
+                    r = new ProcessResult(new AnycmdException("意外的影响行数" + n.ToString()));
                 }
             }
 
@@ -429,7 +429,7 @@ where a.Ontology=@Ontology {0}";
                         RdbDescriptor db;
                         if (!ontology.Host.Rdbs.TryDb(ontology.Ontology.MessageDatabaseId, out db))
                         {
-                            throw new CoreException("意外的数据库Id" + ontology.Ontology.MessageDatabaseId.ToString());
+                            throw new AnycmdException("意外的数据库Id" + ontology.Ontology.MessageDatabaseId.ToString());
                         }
                         _dbDic.Add(ontology, db);
                     }
@@ -442,9 +442,9 @@ where a.Ontology=@Ontology {0}";
             switch (commandType)
             {
                 case MessageTypeKind.Invalid:
-                    throw new CoreException("意外的命令类型");
+                    throw new AnycmdException("意外的命令类型");
                 case MessageTypeKind.AnyCommand:
-                    throw new CoreException("AnyCommand不能持久化，没有TableName概念。");
+                    throw new AnycmdException("AnyCommand不能持久化，没有TableName概念。");
                 case MessageTypeKind.Received:
                     return "ReceivedMessage";
                 case MessageTypeKind.Unaccepted:
@@ -464,7 +464,7 @@ where a.Ontology=@Ontology {0}";
                 case MessageTypeKind.ClientEvent:
                     return "ClientEvent";
                 default:
-                    throw new CoreException("意外的命令类型");
+                    throw new AnycmdException("意外的命令类型");
             }
         }
         #endregion

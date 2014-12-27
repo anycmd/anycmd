@@ -47,7 +47,7 @@ namespace Anycmd.Engine.Edi
                 ProcessType processType;
                 if (!value.TryParse(out processType))
                 {
-                    throw new CoreException("非法的进程类型");
+                    throw new AnycmdException("非法的进程类型");
                 }
                 _type = value;
             }

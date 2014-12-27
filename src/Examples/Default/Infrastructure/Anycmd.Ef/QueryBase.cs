@@ -188,7 +188,7 @@ namespace Anycmd.Ef
         {
             if (string.IsNullOrEmpty(entityType.TableName))
             {
-                throw new CoreException(entityType.Name + "未配置对应的数据库表");
+                throw new AnycmdException(entityType.Name + "未配置对应的数据库表");
             }
             return this.GetPlist(string.Format("[{0}]", entityType.TableName), filterCallback, paging);
         }

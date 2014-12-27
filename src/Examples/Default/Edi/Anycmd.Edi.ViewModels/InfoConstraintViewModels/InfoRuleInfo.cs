@@ -27,7 +27,7 @@ namespace Anycmd.Edi.ViewModels.InfoConstraintViewModels
             InfoRuleState infoRule;
             if (!dic.Host.NodeHost.InfoRules.TryGetInfoRule((Guid)this["Id"], out infoRule))
             {
-                throw new CoreException("意外的信息规则标识" + this["Id"]);
+                throw new AnycmdException("意外的信息规则标识" + this["Id"]);
             }
             if (!this.ContainsKey("Name"))
             {

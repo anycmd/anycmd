@@ -23,7 +23,7 @@ namespace Anycmd.Engine.Host.Hecp
         {
             if (version == ApiVersion.Undefined || version == default(ApiVersion))
             {
-                throw new CoreException("非法的协议版本号" + version.ToName());
+                throw new AnycmdException("非法的协议版本号" + version.ToName());
             }
             this.Version = version.ToName();
         }

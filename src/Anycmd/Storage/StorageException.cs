@@ -12,7 +12,7 @@ namespace Anycmd.Storage
     [ComVisible(true)]
     [ClassInterface(ClassInterfaceType.None)]
     [ComDefaultInterface(typeof(_Exception))]
-    public class StorageException : CoreException
+    public class StorageException : AnycmdException
     {
         #region Ctor
         /// <summary>

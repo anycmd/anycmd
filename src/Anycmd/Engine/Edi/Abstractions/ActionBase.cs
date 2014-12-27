@@ -47,12 +47,12 @@ namespace Anycmd.Engine.Edi.Abstractions
                 {
                     if (!string.Equals(_code, value, StringComparison.OrdinalIgnoreCase))
                     {
-                        throw new CoreException("动作码不能更改");
+                        throw new AnycmdException("动作码不能更改");
                     }
                 }
                 if (string.IsNullOrWhiteSpace(value))
                 {
-                    throw new CoreException("动作码不能为空");
+                    throw new AnycmdException("动作码不能为空");
                 }
                 _code = value;
             }
@@ -74,7 +74,7 @@ namespace Anycmd.Engine.Edi.Abstractions
                 if (value == _ontologyId) return;
                 if (_ontologyId != Guid.Empty)
                 {
-                    throw new CoreException("不能更改所属本体");
+                    throw new AnycmdException("不能更改所属本体");
                 }
                 _ontologyId = value;
             }
@@ -92,7 +92,7 @@ namespace Anycmd.Engine.Edi.Abstractions
                 AllowType allowType;
                 if (!value.TryParse(out allowType))
                 {
-                    throw new CoreException("意外的AllowType:" + value);
+                    throw new AnycmdException("意外的AllowType:" + value);
                 }
                 this.AllowType = allowType;
             }
@@ -114,7 +114,7 @@ namespace Anycmd.Engine.Edi.Abstractions
                 AuditType auditType;
                 if (!value.TryParse(out auditType))
                 {
-                    throw new CoreException("意外的AuditType:" + value);
+                    throw new AnycmdException("意外的AuditType:" + value);
                 }
                 this.AuditType = auditType;
             }

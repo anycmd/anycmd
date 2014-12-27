@@ -1,4 +1,6 @@
 ﻿
+using Anycmd.Util;
+
 namespace Anycmd.Logging
 {
     using Engine.Ac;
@@ -65,7 +67,7 @@ namespace Anycmd.Logging
             DbTable dbTable;
             if (!_host.DbTables.TryGetDbTable(db, tableId, out dbTable))
             {
-                throw new CoreException("意外的数据库表标识" + tableId);
+                throw new AnycmdException("意外的数据库表标识" + tableId);
             }
             // 当前命令表模式克隆得到的新表
             var dt = db.NewTable(dbTable);
@@ -243,14 +245,14 @@ from (SELECT ROW_NUMBER() OVER(ORDER BY {1} {2}) AS RowNumber,* FROM {3} as t"
         {
 
             EntityTypeState entityType;
-            if (!_host.EntityTypeSet.TryGetEntityType("Ac", "AnyLog", out entityType))
+            if (!_host.EntityTypeSet.TryGetEntityType(new Coder("Ac", "AnyLog"), out entityType))
             {
-                throw new Exceptions.CoreException("意外的实体类型码Ac.AnyLog");
+                throw new Exceptions.AnycmdException("意外的实体类型码Ac.AnyLog");
             }
             RdbDescriptor db;
             if (!_host.Rdbs.TryDb(entityType.DatabaseId, out db))
             {
-                throw new Exceptions.CoreException("意外的AnyLog数据库标识" + entityType.DatabaseId);
+                throw new Exceptions.AnycmdException("意外的AnyLog数据库标识" + entityType.DatabaseId);
             }
             return db;
         }
@@ -259,14 +261,14 @@ from (SELECT ROW_NUMBER() OVER(ORDER BY {1} {2}) AS RowNumber,* FROM {3} as t"
         {
 
             EntityTypeState entityType;
-            if (!_host.EntityTypeSet.TryGetEntityType("Ac", "OperationLog", out entityType))
+            if (!_host.EntityTypeSet.TryGetEntityType(new Coder("Ac", "OperationLog"), out entityType))
             {
-                throw new Exceptions.CoreException("意外的实体类型码Ac.OperationLog");
+                throw new Exceptions.AnycmdException("意外的实体类型码Ac.OperationLog");
             }
             RdbDescriptor db;
             if (!_host.Rdbs.TryDb(entityType.DatabaseId, out db))
             {
-                throw new Exceptions.CoreException("意外的OperationLog数据库标识" + entityType.DatabaseId);
+                throw new Exceptions.AnycmdException("意外的OperationLog数据库标识" + entityType.DatabaseId);
             }
             return db;
         }
@@ -275,14 +277,14 @@ from (SELECT ROW_NUMBER() OVER(ORDER BY {1} {2}) AS RowNumber,* FROM {3} as t"
         {
 
             EntityTypeState entityType;
-            if (!_host.EntityTypeSet.TryGetEntityType("Ac", "ExceptionLog", out entityType))
+            if (!_host.EntityTypeSet.TryGetEntityType(new Coder("Ac", "ExceptionLog"), out entityType))
             {
-                throw new Exceptions.CoreException("意外的实体类型码Ac.ExceptionLog");
+                throw new Exceptions.AnycmdException("意外的实体类型码Ac.ExceptionLog");
             }
             RdbDescriptor db;
             if (!_host.Rdbs.TryDb(entityType.DatabaseId, out db))
             {
-                throw new Exceptions.CoreException("意外的ExceptionLog数据库标识" + entityType.DatabaseId);
+                throw new Exceptions.AnycmdException("意外的ExceptionLog数据库标识" + entityType.DatabaseId);
             }
             return db;
         }

@@ -22,16 +22,6 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
     [Guid("D2DFC1E1-4F7E-44AA-B361-3750EA988385")]
     public class ArchiveController : AnycmdController
     {
-        private static readonly EntityTypeState ArchiveEntityType;
-
-        static ArchiveController()
-        {
-            if (!Host.EntityTypeSet.TryGetEntityType("Edi", "Archive", out ArchiveEntityType))
-            {
-                throw new CoreException("意外的实体类型");
-            }
-        }
-
         #region ViewResults
         /// <summary>
         /// 归档主页
@@ -59,7 +49,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                 Guid id;
                 if (Guid.TryParse(Request["id"], out id))
                 {
-                    var data = new ArchiveInfo(ArchiveEntityType.GetData(id));
+                    var data = new ArchiveInfo(base.EntityType.GetData(id));
                     return new PartialViewResult { ViewName = "Partials/Details", ViewData = new ViewDataDictionary(data) };
                 }
                 else
@@ -109,7 +99,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             {
                 throw new ValidationException("未传入标识");
             }
-            return this.JsonResult(new ArchiveInfo(ArchiveEntityType.GetData(id.Value)));
+            return this.JsonResult(new ArchiveInfo(base.EntityType.GetData(id.Value)));
         }
 
         /// <summary>
@@ -132,9 +122,9 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                 throw new ValidationException("意外的本体码" + input.OntologyCode);
             }
             EntityTypeState entityType;
-            if (!Host.EntityTypeSet.TryGetEntityType("Edi", "Archive", out entityType))
+            if (!Host.EntityTypeSet.TryGetEntityType(new Coder("Edi", "Archive"), out entityType))
             {
-                throw new CoreException("意外的实体类型Edi.Archive");
+                throw new AnycmdException("意外的实体类型Edi.Archive");
             }
             foreach (var filter in input.Filters)
             {

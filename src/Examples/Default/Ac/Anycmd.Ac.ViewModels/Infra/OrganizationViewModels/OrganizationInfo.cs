@@ -33,7 +33,7 @@ namespace Anycmd.Ac.ViewModels.Infra.OrganizationViewModels
                 OrganizationState parentOrg;
                 if (!dic.Host.OrganizationSet.TryGetOrganization(parentCode, out parentOrg))
                 {
-                    throw new CoreException("意外的父组织结构编码" + parentCode);
+                    throw new AnycmdException("意外的父组织结构编码" + parentCode);
                 }
                 data.Add("ParentName", parentOrg.Name);
             }

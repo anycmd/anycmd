@@ -271,7 +271,7 @@ namespace Anycmd.Edi.ViewModels.ElementViewModels
                 {
                     if (!_host.NodeHost.Ontologies.TryGetOntology(this.OntologyId, out _ontology))
                     {
-                        throw new CoreException("意外的本体标识" + this.OntologyId);
+                        throw new AnycmdException("意外的本体标识" + this.OntologyId);
                     }
                 }
                 return _ontology;
@@ -291,7 +291,7 @@ namespace Anycmd.Edi.ViewModels.ElementViewModels
                 {
                     if (!_host.NodeHost.InfoDics.TryGetInfoDic(this.InfoDicId.Value, out _infoDic))
                     {
-                        throw new CoreException("意外的信息字典标识" + this.InfoDicId);
+                        throw new AnycmdException("意外的信息字典标识" + this.InfoDicId);
                     }
                 }
                 return _infoDic;

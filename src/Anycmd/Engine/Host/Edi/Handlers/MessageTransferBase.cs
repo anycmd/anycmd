@@ -137,7 +137,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers
             {
                 if (context.Exception == null)
                 {
-                    context.Exception = new CoreException("远端服务未返回值");
+                    context.Exception = new AnycmdException("远端服务未返回值");
                 }
             }
         }
@@ -162,7 +162,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers
             {
                 if (context.Exception == null)
                 {
-                    context.Exception = new CoreException("远端服务未返回值");
+                    context.Exception = new AnycmdException("远端服务未返回值");
                 }
             }
         }
@@ -186,7 +186,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers
                 Status responseStateCode;
                 if (!response.Body.Event.Status.TryParse(out responseStateCode))
                 {
-                    context.Exception = new CoreException("响应节点返回了意外的状态码" + response.Body.Event.Status.ToString());
+                    context.Exception = new AnycmdException("响应节点返回了意外的状态码" + response.Body.Event.Status.ToString());
                 }
                 context.Result.UpdateStatus(responseStateCode, response.Body.Event.Description);
                 if (response.Body.InfoValue != null)
@@ -201,7 +201,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers
             {
                 if (context.Exception == null)
                 {
-                    context.Exception = new CoreException("远端服务未返回值");
+                    context.Exception = new AnycmdException("远端服务未返回值");
                 }
             }
         }
@@ -223,7 +223,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers
                 Status responseStateCode;
                 if (!response.Body.Event.Status.TryParse(out responseStateCode))
                 {
-                    context.Exception = new CoreException("响应节点返回了意外的状态码" + response.Body.Event.Status.ToString());
+                    context.Exception = new AnycmdException("响应节点返回了意外的状态码" + response.Body.Event.Status.ToString());
                 }
                 context.Result.UpdateStatus(responseStateCode, response.Body.Event.Description);
                 if (response.Body.InfoValue != null)
@@ -238,7 +238,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers
             {
                 if (context.Exception == null)
                 {
-                    context.Exception = new CoreException("远端服务未返回值");
+                    context.Exception = new AnycmdException("远端服务未返回值");
                 }
             }
         }

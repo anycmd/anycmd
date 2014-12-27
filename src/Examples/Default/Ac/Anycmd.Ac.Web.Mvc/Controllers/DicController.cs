@@ -1,6 +1,4 @@
 ﻿
-using System.Diagnostics;
-
 namespace Anycmd.Ac.Web.Mvc.Controllers
 {
     using Anycmd.Web.Mvc;
@@ -12,6 +10,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
     using Repositories;
     using System;
     using System.ComponentModel;
+    using System.Diagnostics;
     using System.Web.Mvc;
     using Util;
     using ViewModel;
@@ -24,16 +23,6 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
     [Guid("C21DA400-A548-4C99-8A1D-63B82A9475DD")]
     public class DicController : AnycmdController
     {
-        private readonly EntityTypeState _dicEntityType;
-
-        public DicController()
-        {
-            if (!Host.EntityTypeSet.TryGetEntityType("Ac", "Dic", out _dicEntityType))
-            {
-                throw new CoreException("意外的实体类型");
-            }
-        }
-
         #region views
         [By("xuexs")]
         [Description("字典列表")]
@@ -53,7 +42,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 Guid id;
                 if (Guid.TryParse(Request["id"], out id))
                 {
-                    var data = DicInfo.Create(_dicEntityType.GetData(id));
+                    var data = DicInfo.Create(base.EntityType.GetData(id));
                     return new PartialViewResult { ViewName = "Partials/Details", ViewData = new ViewDataDictionary(data) };
                 }
                 else
@@ -94,7 +83,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 throw new ValidationException("未传入标识");
             }
-            return this.JsonResult(DicInfo.Create(_dicEntityType.GetData(id.Value)));
+            return this.JsonResult(DicInfo.Create(base.EntityType.GetData(id.Value)));
         }
 
         [By("xuexs")]

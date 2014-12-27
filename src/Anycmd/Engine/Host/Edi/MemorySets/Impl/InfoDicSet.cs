@@ -706,7 +706,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets.Impl
                 InfoDicState infoDic;
                 if (!host.NodeHost.InfoDics.TryGetInfoDic(oldState.InfoDicId, out infoDic))
                 {
-                    throw new CoreException("意外的信息字典标识" + oldState.InfoDicId);
+                    throw new AnycmdException("意外的信息字典标识" + oldState.InfoDicId);
                 }
                 infoDicItemDic[state.Id] = state;
                 if (!infoDicItemByDic[infoDic].ContainsKey(newKey))
@@ -757,7 +757,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets.Impl
                 InfoDicState infoDic;
                 if (!host.NodeHost.InfoDics.TryGetInfoDic(infoDicItem.InfoDicId, out infoDic))
                 {
-                    throw new CoreException("意外的信息字典项字典标识");
+                    throw new AnycmdException("意外的信息字典项字典标识");
                 }
                 InfoDicItem entity = infoDicItemRepository.GetByKey(infoDicItemId);
                 if (entity == null)

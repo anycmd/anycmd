@@ -65,12 +65,12 @@ namespace Anycmd.Engine.Edi
                         var action = host.NodeHost.Ontologies.GetAction(nodeAction.ActionId);
                         if (action == null)
                         {
-                            throw new CoreException("意外的本体动作标识" + nodeAction.ActionId);
+                            throw new AnycmdException("意外的本体动作标识" + nodeAction.ActionId);
                         }
                         OntologyDescriptor ontology;
                         if (!host.NodeHost.Ontologies.TryGetOntology(action.OntologyId, out ontology))
                         {
-                            throw new CoreException("意外的本体元素本体标识" + action.OntologyId);
+                            throw new AnycmdException("意外的本体元素本体标识" + action.OntologyId);
                         }
                         if (!nodeActionDic.ContainsKey(ontology))
                         {
@@ -80,7 +80,7 @@ namespace Anycmd.Engine.Edi
                         var verb = actionDic.Where(a => a.Value.Id == nodeAction.ActionId).Select(a => a.Key).FirstOrDefault();
                         if (verb == null)
                         {
-                            throw new CoreException("意外的本体动作标识" + nodeAction.ActionId);
+                            throw new AnycmdException("意外的本体动作标识" + nodeAction.ActionId);
                         }
                         nodeActionDic[ontology].Add(verb, nodeAction);
                     }

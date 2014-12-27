@@ -22,7 +22,7 @@ namespace Anycmd.Model
                 if (_id == value) return;
                 if (_id != Guid.Empty)
                 {
-                    throw new CoreException("Anycmd采用‘及早生成标识’策略，标识生成后不能修改");
+                    throw new AnycmdException("Anycmd采用‘及早生成标识’策略，标识生成后不能修改");
                 }
                 _id = value;
             }

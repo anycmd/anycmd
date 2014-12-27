@@ -12,7 +12,7 @@ namespace Anycmd.Repositories
     [ComVisible(true)]
     [ClassInterface(ClassInterfaceType.None)]
     [ComDefaultInterface(typeof(_Exception))]
-    public class RepositoryException : CoreException
+    public class RepositoryException : AnycmdException
     {
         #region Ctor
         /// <summary>

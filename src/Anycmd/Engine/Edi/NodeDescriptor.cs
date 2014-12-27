@@ -60,7 +60,7 @@ namespace Anycmd.Engine.Edi
                 {
                     if (!Host.NodeHost.Transfers.TryGetTransfer(this.Node.TransferId, out _transfer))
                     {
-                        throw new CoreException("意外的命令转移器");
+                        throw new AnycmdException("意外的命令转移器");
                     }
                 }
                 return _transfer;
@@ -220,7 +220,7 @@ namespace Anycmd.Engine.Edi
             }
             if (!ontology.Actions.ContainsKey(actionCode))
             {
-                throw new CoreException("非法的动作码");
+                throw new AnycmdException("非法的动作码");
             }
             var nodeActions = this.Node.NodeActions;
             if (!nodeActions.ContainsKey(ontology) || !nodeActions[ontology].ContainsKey(actionCode))

@@ -36,7 +36,7 @@ namespace Anycmd.Edi.ViewModels.ElementViewModels
             OntologyDescriptor ontology;
             if (!dic.Host.NodeHost.Ontologies.TryGetOntology((Guid)data["OntologyId"], out ontology))
             {
-                throw new CoreException("意外的本体标识" + data["OntologyId"]);
+                throw new AnycmdException("意外的本体标识" + data["OntologyId"]);
             }
             if (!data.ContainsKey("OntologyCode"))
             {
@@ -75,7 +75,7 @@ namespace Anycmd.Edi.ViewModels.ElementViewModels
                 InfoDicState infoDic = null;
                 if (data.InfoDicId != null && !dic.Host.NodeHost.InfoDics.TryGetInfoDic(data.InfoDicId.Value, out infoDic))
                 {
-                    throw new CoreException("意外的信息字典标识" + data.InfoDicId.Value);
+                    throw new AnycmdException("意外的信息字典标识" + data.InfoDicId.Value);
                 }
                 if (infoDic != null) data.Add("InfoDicName", infoDic.Name);
             }

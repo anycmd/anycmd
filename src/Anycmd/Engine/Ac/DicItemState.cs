@@ -39,7 +39,7 @@ namespace Anycmd.Engine.Ac
             }
             if (!host.DicSet.ContainsDic(dicItem.DicId))
             {
-                throw new CoreException("意外的字典" + dicItem.DicId);
+                throw new AnycmdException("意外的字典" + dicItem.DicId);
             }
             return new DicItemState(dicItem.Id)
             {

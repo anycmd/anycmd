@@ -1,6 +1,4 @@
 ﻿
-using System.Diagnostics;
-
 namespace Anycmd.Ac.Web.Mvc.Controllers
 {
     using Anycmd.Web.Mvc;
@@ -14,6 +12,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
     using System;
     using System.Collections;
     using System.ComponentModel;
+    using System.Diagnostics;
     using System.Linq;
     using System.Web.Mvc;
     using Util;
@@ -23,16 +22,6 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
     [Guid("C297BB87-7A94-4E5B-81B1-BC440D145018")]
     public class SsdSetController : AnycmdController
     {
-        private readonly EntityTypeState _ssdSetEntityType;
-
-        public SsdSetController()
-        {
-            if (!Host.EntityTypeSet.TryGetEntityType("Ac", "SsdSet", out _ssdSetEntityType))
-            {
-                throw new CoreException("意外的实体类型");
-            }
-        }
-
         [By("xuexs")]
         [Description("静态职责分离角色集")]
         [Guid("5103907C-E042-446B-ACB8-E63F183EEA46")]
@@ -51,7 +40,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 Guid id;
                 if (Guid.TryParse(Request["id"], out id))
                 {
-                    var data = _ssdSetEntityType.GetData(id);
+                    var data = base.EntityType.GetData(id);
                     return new PartialViewResult { ViewName = "Partials/Details", ViewData = new ViewDataDictionary(data) };
                 }
                 else
@@ -86,7 +75,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 throw new ValidationException("未传入标识");
             }
-            return this.JsonResult(_ssdSetEntityType.GetData(id.Value));
+            return this.JsonResult(base.EntityType.GetData(id.Value));
         }
 
         [By("xuexs")]
@@ -98,7 +87,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 throw new ValidationException("未传入标识");
             }
-            return this.JsonResult(_ssdSetEntityType.GetData(id.Value));
+            return this.JsonResult(base.EntityType.GetData(id.Value));
         }
 
         [By("xuexs")]

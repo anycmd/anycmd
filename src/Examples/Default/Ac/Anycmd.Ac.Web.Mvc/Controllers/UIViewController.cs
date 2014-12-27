@@ -1,6 +1,4 @@
 ﻿
-using System.Diagnostics;
-
 namespace Anycmd.Ac.Web.Mvc.Controllers
 {
     using Anycmd.Web.Mvc;
@@ -14,6 +12,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
     using System;
     using System.Collections;
     using System.ComponentModel;
+    using System.Diagnostics;
     using System.Linq;
     using System.Web.Mvc;
     using Util;
@@ -28,19 +27,11 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
     [Guid("44AED0F0-9508-4406-8B84-CCEACD79F591")]
     public class UiViewController : AnycmdController
     {
-        private readonly EntityTypeState _viewEntityType;
         private readonly EntityTypeState _functionEntityType;
 
         public UiViewController()
         {
-            if (!Host.EntityTypeSet.TryGetEntityType("Ac", "UiView", out _viewEntityType))
-            {
-                throw new CoreException("意外的实体类型");
-            }
-            if (!Host.EntityTypeSet.TryGetEntityType("Ac", "Function", out _functionEntityType))
-            {
-                throw new CoreException("意外的实体类型");
-            }
+            _functionEntityType = base.GetEntityType(new Coder("Ac", "Function"));
         }
 
         #region ViewResults
@@ -99,7 +90,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 throw new ValidationException("未传入标识");
             }
-            return this.JsonResult(_viewEntityType.GetData(id.Value));
+            return this.JsonResult(base.EntityType.GetData(id.Value));
         }
 
         [By("xuexs")]
@@ -209,7 +200,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            var data = Host.GetPlistUIViews(requestData);
+            var data = Host.GetPlistUiViews(requestData);
 
             Debug.Assert(requestData.Total != null, "requestData.total != null");
             return this.JsonResult(new MiniGrid<UiViewTr> { total = requestData.Total.Value, data = data });
@@ -318,7 +309,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                         FunctionState function;
                         if (!Host.FunctionSet.TryGetFunction(functionId.Value, out function))
                         {
-                            throw new CoreException("意外的功能标识" + functionId.Value);
+                            throw new AnycmdException("意外的功能标识" + functionId.Value);
                         }
                         var input = new FunctionUpdateInput
                         {

@@ -197,7 +197,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets.Impl
                     GroupState group;
                     if (host.GroupSet.TryGetGroup(entity.Id, out group))
                     {
-                        throw new CoreException("意外的重复标识");
+                        throw new AnycmdException("意外的重复标识");
                     }
                     if (host.GroupSet.Any(a => a.Name.Equals(input.Name, StringComparison.OrdinalIgnoreCase)))
                     {
@@ -257,7 +257,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets.Impl
                     GroupState group;
                     if (host.GroupSet.TryGetGroup(entity.Id, out group))
                     {
-                        throw new CoreException("意外的重复标识");
+                        throw new AnycmdException("意外的重复标识");
                     }
                     if (host.GroupSet.Any(a => input.OrganizationCode.Equals(a.OrganizationCode, StringComparison.OrdinalIgnoreCase) && a.Name.Equals(input.Name, StringComparison.OrdinalIgnoreCase)))
                     {
@@ -409,7 +409,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets.Impl
                 }
                 if (string.IsNullOrEmpty(bkState.OrganizationCode))
                 {
-                    throw new CoreException("组织结构码为空");
+                    throw new AnycmdException("组织结构码为空");
                 }
                 Group entity;
                 bool stateChanged = false;

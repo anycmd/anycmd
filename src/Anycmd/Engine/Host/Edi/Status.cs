@@ -357,7 +357,7 @@ namespace Anycmd.Engine.Host.Edi
                 {
                     if (!DicByInt.ContainsKey(stateCode))
                     {
-                        throw new CoreException("意外的状态码:" + stateCode.ToString());
+                        throw new AnycmdException("意外的状态码:" + stateCode.ToString());
                     }
 
                     return DicByInt[stateCode];
@@ -371,7 +371,7 @@ namespace Anycmd.Engine.Host.Edi
                 var values = Enum.GetValues(typeof(Status)) as short[];
                 if (values == null)
                 {
-                    throw new CoreException("枚举Status不是int型的");
+                    throw new AnycmdException("枚举Status不是int型的");
                 }
                 for (int i = 0; i < values.Length; i++)
                 {

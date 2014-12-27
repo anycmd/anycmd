@@ -83,7 +83,7 @@ namespace Anycmd.Engine.Edi
                         OntologyDescriptor ontology;
                         if (!host.NodeHost.Ontologies.TryGetOntology(data.OntologyId, out ontology))
                         {
-                            throw new CoreException("意外的本体元素本体标识" + data.OntologyId);
+                            throw new AnycmdException("意外的本体元素本体标识" + data.OntologyId);
                         }
                         var actionDic = host.NodeHost.Ontologies.GetActons(ontology);
                         var verb = actionDic.Where(a => a.Value.Id == elementAction.ActionId).Select(a => a.Key).FirstOrDefault();

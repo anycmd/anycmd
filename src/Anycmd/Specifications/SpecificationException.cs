@@ -12,7 +12,7 @@ namespace Anycmd.Specifications
     [ComVisible(true)]
     [ClassInterface(ClassInterfaceType.None)]
     [ComDefaultInterface(typeof(_Exception))]
-    public class SpecificationException : CoreException
+    public class SpecificationException : AnycmdException
     {
         #region Ctor
         /// <summary>

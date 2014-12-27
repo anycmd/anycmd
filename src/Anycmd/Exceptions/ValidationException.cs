@@ -7,7 +7,7 @@ namespace Anycmd.Exceptions
     /// 
     /// </summary>
     [Serializable]
-    public class ValidationException : CoreException
+    public class ValidationException : AnycmdException
     {
         /// <summary>
         /// 

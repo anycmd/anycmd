@@ -241,7 +241,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets.Impl
                     SsdSetState ssdSet;
                     if (host.SsdSetSet.TryGetSsdSet(entity.Id, out ssdSet))
                     {
-                        throw new CoreException("意外的重复标识");
+                        throw new AnycmdException("意外的重复标识");
                     }
                     if (!ssdSetDic.ContainsKey(entity.Id))
                     {

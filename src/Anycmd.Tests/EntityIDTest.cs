@@ -14,7 +14,7 @@ namespace Anycmd.Tests
         [Fact]
         public void EntityID_Can_Not_Change()
         {
-            Assert.Throws<CoreException>(() =>
+            Assert.Throws<AnycmdException>(() =>
             {
                 var entity = new TestEntity {Id = Guid.NewGuid()};
                 entity.Id = Guid.NewGuid();

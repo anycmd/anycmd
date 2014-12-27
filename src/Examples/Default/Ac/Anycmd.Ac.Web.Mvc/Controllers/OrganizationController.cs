@@ -27,16 +27,6 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
     [Guid("9EC361D7-0D7B-4295-BB79-21D800298157")]
     public class OrganizationController : AnycmdController
     {
-        private readonly EntityTypeState _entityType;
-
-        public OrganizationController()
-        {
-            if (!Host.EntityTypeSet.TryGetEntityType("Ac", "Organization", out _entityType))
-            {
-                throw new CoreException("意外的实体类型");
-            }
-        }
-
         #region 视图
         [By("xuexs")]
         [Description("组织结构管理")]
@@ -56,7 +46,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 Guid id;
                 if (Guid.TryParse(Request["id"], out id))
                 {
-                    var data = OrganizationInfo.Create(_entityType.GetData(id));
+                    var data = OrganizationInfo.Create(base.EntityType.GetData(id));
                     return new PartialViewResult { ViewName = "Partials/Details", ViewData = new ViewDataDictionary(data) };
                 }
                 else
@@ -109,7 +99,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 throw new ValidationException("未传入标识");
             }
-            return this.JsonResult(_entityType.GetData(id.Value));
+            return this.JsonResult(base.EntityType.GetData(id.Value));
         }
 
         [By("xuexs")]
@@ -119,7 +109,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
         {
             if (id.HasValue)
             {
-                return this.JsonResult(OrganizationInfo.Create(_entityType.GetData(id.Value)));
+                return this.JsonResult(OrganizationInfo.Create(base.EntityType.GetData(id.Value)));
             }
             else
             {
@@ -242,7 +232,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             foreach (var filter in requestModel.Filters)
             {
                 PropertyState property;
-                if (!_entityType.TryGetProperty(filter.field, out property))
+                if (!base.EntityType.TryGetProperty(filter.field, out property))
                 {
                     throw new ValidationException("意外的Organization实体类型属性" + filter.field);
                 }

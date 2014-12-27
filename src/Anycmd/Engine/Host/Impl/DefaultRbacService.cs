@@ -251,14 +251,14 @@ namespace Anycmd.Engine.Host.Impl
                                               AND ar.ObjectType = 'Role' AND ar.ObjectInstanceId='" + roleId + @"'
     WHERE   a.DeletionStateCode = 0";
             EntityTypeState entityType;
-            if (!_host.EntityTypeSet.TryGetEntityType("Ac", "Account", out entityType))
+            if (!_host.EntityTypeSet.TryGetEntityType(new Coder("Ac", "Account"), out entityType))
             {
-                throw new CoreException("意外的实体类型码Ac.Account");
+                throw new AnycmdException("意外的实体类型码Ac.Account");
             }
             Anycmd.Rdb.RdbDescriptor db;
             if (!_host.Rdbs.TryDb(entityType.DatabaseId, out db))
             {
-                throw new CoreException("意外的账户数据库标识" + entityType.DatabaseId);
+                throw new AnycmdException("意外的账户数据库标识" + entityType.DatabaseId);
             }
             using (var conn = db.GetConnection())
             {
@@ -326,14 +326,14 @@ namespace Anycmd.Engine.Host.Impl
                                               AND ar.ObjectType = 'Role' AND ar.ObjectInstanceId IN (" + sb.ToString() + @")
     WHERE   a.DeletionStateCode = 0";
             EntityTypeState entityType;
-            if (!_host.EntityTypeSet.TryGetEntityType("Ac", "Account", out entityType))
+            if (!_host.EntityTypeSet.TryGetEntityType(new Coder("Ac", "Account"), out entityType))
             {
-                throw new CoreException("意外的实体类型码Ac.Account");
+                throw new AnycmdException("意外的实体类型码Ac.Account");
             }
             Anycmd.Rdb.RdbDescriptor db;
             if (!_host.Rdbs.TryDb(entityType.DatabaseId, out db))
             {
-                throw new CoreException("意外的账户数据库标识" + entityType.DatabaseId);
+                throw new AnycmdException("意外的账户数据库标识" + entityType.DatabaseId);
             }
             using (var conn = db.GetConnection())
             {

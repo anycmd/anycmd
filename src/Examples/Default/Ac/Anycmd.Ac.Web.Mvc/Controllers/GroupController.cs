@@ -1,6 +1,4 @@
 ﻿
-using System.Diagnostics;
-
 namespace Anycmd.Ac.Web.Mvc.Controllers
 {
     using Anycmd.Web.Mvc;
@@ -16,6 +14,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
     using System.Collections;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Diagnostics;
     using System.Linq;
     using System.Web.Mvc;
     using Util;
@@ -29,16 +28,6 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
     [Guid("BBDDB497-8892-4FC9-9B18-667CAD500DC4")]
     public class GroupController : AnycmdController
     {
-        private readonly EntityTypeState _groupEntityType;
-
-        public GroupController()
-        {
-            if (!Host.EntityTypeSet.TryGetEntityType("Ac", "Group", out _groupEntityType))
-            {
-                throw new CoreException("意外的实体类型");
-            }
-        }
-
         #region ViewResults
         [By("xuexs")]
         [Description("工作组管理")]
@@ -58,7 +47,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 Guid id;
                 if (Guid.TryParse(Request["id"], out id))
                 {
-                    var dic = _groupEntityType.GetData(id);
+                    var dic = base.EntityType.GetData(id);
                     if (dic == null)
                     {
                         throw new NotExistException("给定标识的记录不存在");
@@ -111,7 +100,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 throw new ValidationException("未传入标识");
             }
-            return this.JsonResult(_groupEntityType.GetData(id.Value));
+            return this.JsonResult(base.EntityType.GetData(id.Value));
         }
 
         [By("xuexs")]
@@ -123,7 +112,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 throw new ValidationException("未传入标识");
             }
-            var dic = _groupEntityType.GetData(id.Value);
+            var dic = base.EntityType.GetData(id.Value);
             if (dic == null)
             {
                 throw new NotExistException("给定标识的记录不存在");

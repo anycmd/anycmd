@@ -1,4 +1,6 @@
 ﻿
+using Anycmd.Util;
+
 namespace Anycmd.Web.Mvc
 {
     using Engine.Ac;
@@ -34,7 +36,7 @@ namespace Anycmd.Web.Mvc
                 var resourceAttr = resourceAttrs[0] as ResourceAttribute;
                 if (resourceAttr == null)
                 {
-                    throw new CoreException();
+                    throw new AnycmdException();
                 }
                 resourceCode = resourceAttr.ResourceCode;
             }
@@ -101,12 +103,12 @@ namespace Anycmd.Web.Mvc
                 var modelAttr = modelAttrs[0] as ModelAttribute;
                 if (modelAttr == null)
                 {
-                    throw new CoreException();
+                    throw new AnycmdException();
                 }
                 entityTypeCode = modelAttr.EntityTypeCode;
             }
             EntityTypeState entityType;
-            if (!host.EntityTypeSet.TryGetEntityType(codespace, entityTypeCode, out entityType))
+            if (!host.EntityTypeSet.TryGetEntityType(new Coder(codespace, entityTypeCode), out entityType))
             {
                 return;
             }

@@ -50,7 +50,7 @@ namespace Anycmd.Engine.Host.Edi.MessageHandlers
             NodeDescriptor toNode = null;
             if (!_host.NodeHost.Nodes.TryGetNodeById(entity.NodeId.ToString(), out toNode))
             {
-                throw new CoreException("意外的节点标识" + entity.NodeId);
+                throw new AnycmdException("意外的节点标识" + entity.NodeId);
             }
 
             string thisNodeId = _host.NodeHost.Nodes.ThisNode.Node.Id.ToString();
@@ -67,7 +67,7 @@ namespace Anycmd.Engine.Host.Edi.MessageHandlers
                     actionCode = Verb.Delete;
                     break;
                 default:
-                    throw new CoreException("意外的批类型" + entity.Type);
+                    throw new AnycmdException("意外的批类型" + entity.Type);
             }
             var commandFactory = _host.NodeHost.MessageProducer;
             bool goOn = true;
@@ -105,11 +105,11 @@ namespace Anycmd.Engine.Host.Edi.MessageHandlers
                     }
                     if (entities.Columns.Count == 0)
                     {
-                        throw new CoreException("意外的查询列数");
+                        throw new AnycmdException("意外的查询列数");
                     }
                     if (idIndex == -1)
                     {
-                        throw new CoreException("未查询得到实体标识列");
+                        throw new AnycmdException("未查询得到实体标识列");
                     }
                     var products = new List<MessageEntity>();
                     foreach (var item in entities.Tuples)

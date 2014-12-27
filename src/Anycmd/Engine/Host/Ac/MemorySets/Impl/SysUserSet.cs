@@ -216,7 +216,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets.Impl
                 AccountState oldState;
                 if (!devAccountById.TryGetValue(message.Source.Id, out oldState))
                 {
-                    throw new CoreException("给定标识的用户不存在");
+                    throw new AnycmdException("给定标识的用户不存在");
                 }
                 var newState = AccountState.Create(entity);
                 devAccountById[message.Source.Id] = newState;

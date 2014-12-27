@@ -22,16 +22,6 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
     [Guid("0816A013-7349-4421-9766-64464391ABEC")]
     public class ProcessController : AnycmdController
     {
-        private static readonly EntityTypeState ProcessEntityType;
-
-        static ProcessController()
-        {
-            if (!Host.EntityTypeSet.TryGetEntityType("Edi", "Process", out ProcessEntityType))
-            {
-                throw new CoreException("意外的实体类型");
-            }
-        }
-
         #region ViewResults
         /// <summary>
         /// 进程主页
@@ -59,7 +49,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                 Guid id;
                 if (Guid.TryParse(Request["id"], out id))
                 {
-                    var data = new ProcessInfo(ProcessEntityType.GetData(id));
+                    var data = new ProcessInfo(base.EntityType.GetData(id));
                     return new PartialViewResult { ViewName = "Partials/Details", ViewData = new ViewDataDictionary(data) };
                 }
                 else
@@ -110,7 +100,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             {
                 throw new ValidationException("未传入标识");
             }
-            return this.JsonResult(new ProcessInfo(ProcessEntityType.GetData(id.Value)));
+            return this.JsonResult(new ProcessInfo(base.EntityType.GetData(id.Value)));
         }
 
         /// <summary>
@@ -128,9 +118,9 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                 return ModelState.ToJsonResult();
             }
             EntityTypeState entityType;
-            if (!Host.EntityTypeSet.TryGetEntityType("Edi", "Process", out entityType))
+            if (!Host.EntityTypeSet.TryGetEntityType(new Coder("Edi", "Process"), out entityType))
             {
-                throw new CoreException("意外的实体类型Edi.Process");
+                throw new AnycmdException("意外的实体类型Edi.Process");
             }
             foreach (var filter in input.Filters)
             {

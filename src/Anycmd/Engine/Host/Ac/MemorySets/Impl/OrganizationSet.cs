@@ -315,7 +315,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets.Impl
                         }
                         if (input.ParentCode.Equals(input.Code, StringComparison.OrdinalIgnoreCase))
                         {
-                            throw new CoreException("组织结构的父组织结构不能是自己");
+                            throw new AnycmdException("组织结构的父组织结构不能是自己");
                         }
                         if (!input.Code.StartsWith(parentOragnization.Code, StringComparison.OrdinalIgnoreCase))
                         {
@@ -324,7 +324,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets.Impl
                         var childOrgs = new List<IOrganization>();
                         if (input.ParentCode.StartsWith(input.Code, StringComparison.OrdinalIgnoreCase))
                         {
-                            throw new CoreException("组织结构的父组织结构不能是自己的子孙级组织结构");
+                            throw new AnycmdException("组织结构的父组织结构不能是自己的子孙级组织结构");
                         }
                     }
                     entity = organizationRepository.GetByKey(input.Id);

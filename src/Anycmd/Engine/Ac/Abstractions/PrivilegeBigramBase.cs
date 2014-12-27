@@ -21,11 +21,11 @@ namespace Anycmd.Engine.Ac.Abstractions
             {
                 if (string.IsNullOrEmpty(value))
                 {
-                    throw new CoreException("必须指定主授权类型");
+                    throw new AnycmdException("必须指定主授权类型");
                 }
                 if (value != _subjectType && _subjectType != null)
                 {
-                    throw new CoreException("主授权类型不能更改");
+                    throw new AnycmdException("主授权类型不能更改");
                 }
                 _subjectType = value;
             }
@@ -38,11 +38,11 @@ namespace Anycmd.Engine.Ac.Abstractions
             {
                 if (value == Guid.Empty)
                 {
-                    throw new CoreException("必须指定主授权类型");
+                    throw new AnycmdException("必须指定主授权类型");
                 }
                 if (value != _subjectInstanceId && _subjectInstanceId != Guid.Empty)
                 {
-                    throw new CoreException("主授权类型不能更改");
+                    throw new AnycmdException("主授权类型不能更改");
                 }
                 _subjectInstanceId = value;
             }
@@ -55,11 +55,11 @@ namespace Anycmd.Engine.Ac.Abstractions
             {
                 if (string.IsNullOrEmpty(value))
                 {
-                    throw new CoreException("必须指定从授权类型");
+                    throw new AnycmdException("必须指定从授权类型");
                 }
                 if (value != _objectType && _objectType != null)
                 {
-                    throw new CoreException("从授权类型不能更改");
+                    throw new AnycmdException("从授权类型不能更改");
                 }
                 _objectType = value;
             }
@@ -72,11 +72,11 @@ namespace Anycmd.Engine.Ac.Abstractions
             {
                 if (value == Guid.Empty)
                 {
-                    throw new CoreException("必须指定从授权类型");
+                    throw new AnycmdException("必须指定从授权类型");
                 }
                 if (value != _objectInstanceId && _objectInstanceId != Guid.Empty)
                 {
-                    throw new CoreException("从授权类型不能更改");
+                    throw new AnycmdException("从授权类型不能更改");
                 }
                 _objectInstanceId = value;
             }

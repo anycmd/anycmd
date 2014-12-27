@@ -177,11 +177,11 @@ namespace Anycmd.Engine.Host.Ac.MemorySets.Impl
                         {
                             if (_dicById.ContainsKey(dic.Id))
                             {
-                                throw new CoreException("意外重复的字典标识" + dic.Id);
+                                throw new AnycmdException("意外重复的字典标识" + dic.Id);
                             }
                             if (_dicByCode.ContainsKey(dic.Code))
                             {
-                                throw new CoreException("意外重复的字典编码" + dic.Code);
+                                throw new AnycmdException("意外重复的字典编码" + dic.Code);
                             }
                             var dicState = DicState.Create(dic);
                             _dicById.Add(dic.Id, dicState);
@@ -251,14 +251,14 @@ namespace Anycmd.Engine.Host.Ac.MemorySets.Impl
                 }
                 if (!input.Id.HasValue)
                 {
-                    throw new CoreException("意外的字典标识" + input.Id);
+                    throw new AnycmdException("意外的字典标识" + input.Id);
                 }
                 Dic entity;
                 lock (this)
                 {
                     if (host.DicSet.ContainsDic(input.Id.Value))
                     {
-                        throw new CoreException("记录已经存在");
+                        throw new AnycmdException("记录已经存在");
                     }
                     if (host.DicSet.ContainsDic(input.Code))
                     {
@@ -622,11 +622,11 @@ namespace Anycmd.Engine.Host.Ac.MemorySets.Impl
                                 DicState dic;
                                 if (!_host.DicSet.TryGetDic(dicItem.DicId, out dic))
                                 {
-                                    throw new CoreException("意外的字典项字典标识" + dicItem.DicId);
+                                    throw new AnycmdException("意外的字典项字典标识" + dicItem.DicId);
                                 }
                                 if (_dicItemById.ContainsKey(dicItem.Id))
                                 {
-                                    throw new CoreException("意外重复的字典项标识" + dicItem.Id);
+                                    throw new AnycmdException("意外重复的字典项标识" + dicItem.Id);
                                 }
                                 Dictionary<string, DicItemState> dicItemDic;
                                 if (!_dicItemsByCode.TryGetValue(dic, out dicItemDic))
@@ -635,7 +635,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets.Impl
                                 }
                                 if (dicItemDic.ContainsKey(dicItem.Code))
                                 {
-                                    throw new CoreException("意外重复的字典项编码" + dicItem.Code);
+                                    throw new AnycmdException("意外重复的字典项编码" + dicItem.Code);
                                 }
                                 var dicItemState = DicItemState.Create(_host, dicItem);
                                 _dicItemsByCode[dic].Add(dicItem.Code, dicItemState);
@@ -674,7 +674,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets.Impl
                     DicState newKey;
                     if (!host.DicSet.TryGetDic(message.Source.Id, out newKey))
                     {
-                        throw new CoreException("意外的字典标识" + message.Source.Id);
+                        throw new AnycmdException("意外的字典标识" + message.Source.Id);
                     }
                     var oldKey = dicItemsByCode.Keys.FirstOrDefault(a => a.Id == newKey.Id);
                     if (oldKey != null && !dicItemsByCode.ContainsKey(newKey))
@@ -738,7 +738,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets.Impl
                         }
                         if (host.DicSet.ContainsDicItem(input.Id.Value))
                         {
-                            throw new CoreException("重复的字典项标识" + input.Id);
+                            throw new AnycmdException("重复的字典项标识" + input.Id);
                         }
 
                         entity = DicItem.Create(input);
@@ -830,7 +830,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets.Impl
                         DicState dicState;
                         if (!host.DicSet.TryGetDic(bkState.DicId, out dicState))
                         {
-                            throw new CoreException("意外的字典项字典标识" + bkState.DicId);
+                            throw new AnycmdException("意外的字典项字典标识" + bkState.DicId);
                         }
                         DicItemState dicItemState;
                         if (host.DicSet.TryGetDicItem(dicState, input.Code, out dicItemState) && dicItemState.Id != input.Id)
@@ -951,7 +951,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets.Impl
                             DicState dic;
                             if (!host.DicSet.TryGetDic(bkState.DicId, out dic))
                             {
-                                throw new CoreException("意外的字典标识" + bkState.DicId);
+                                throw new AnycmdException("意外的字典标识" + bkState.DicId);
                             }
                             if (dicItemsByCode.ContainsKey(dic) && dicItemsByCode[dic].ContainsKey(bkState.Code))
                             {
@@ -973,7 +973,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets.Impl
                                     DicState dic;
                                     if (!host.DicSet.TryGetDic(bkState.DicId, out dic))
                                     {
-                                        throw new CoreException("意外的字典标识" + bkState.DicId);
+                                        throw new AnycmdException("意外的字典标识" + bkState.DicId);
                                     }
                                     Dictionary<string, DicItemState> dicItemDic;
                                     if (!dicItemsByCode.TryGetValue(dic, out dicItemDic))

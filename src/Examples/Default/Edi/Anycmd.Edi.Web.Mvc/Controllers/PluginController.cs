@@ -1,4 +1,6 @@
 ﻿
+using System.Diagnostics;
+
 namespace Anycmd.Edi.Web.Mvc.Controllers
 {
     using Anycmd.Web.Mvc;
@@ -23,16 +25,6 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
     [Guid("A678091F-6C8E-4575-A380-2197837B8971")]
     public class PluginController : AnycmdController
     {
-        private static readonly EntityTypeState PluginEntityType;
-
-        static PluginController()
-        {
-            if (!Host.EntityTypeSet.TryGetEntityType("Edi", "Plugin", out PluginEntityType))
-            {
-                throw new CoreException("意外的实体类型");
-            }
-        }
-
         #region ViewResults
         /// <summary>
         /// 插件主页
@@ -60,7 +52,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                 Guid id;
                 if (Guid.TryParse(Request["id"], out id))
                 {
-                    var data = new PluginInfo(Host, PluginEntityType.GetData(id));
+                    var data = new PluginInfo(Host, base.EntityType.GetData(id));
                     return new PartialViewResult { ViewName = "Partials/Details", ViewData = new ViewDataDictionary(data) };
                 }
                 else
@@ -111,7 +103,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             {
                 throw new ValidationException("未传入标识");
             }
-            return this.JsonResult(new PluginInfo(Host, PluginEntityType.GetData(id.Value)));
+            return this.JsonResult(new PluginInfo(Host, base.EntityType.GetData(id.Value)));
         }
 
         /// <summary>
@@ -138,6 +130,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                 }
                 return new SqlFilter(filterString, ps.ToArray());
             }, requestModel);
+            Debug.Assert(requestModel.Total != null, "requestModel.Total != null");
             var data = new MiniGrid<Dictionary<string, object>> { total = requestModel.Total.Value, data = dataDics };
 
             return this.JsonResult(data);

@@ -28,7 +28,7 @@ namespace Anycmd.Engine.Host.Edi.Entities
                 {
                     if (_nodeId != Guid.Empty)
                     {
-                        throw new CoreException("不能更改关联节点");
+                        throw new AnycmdException("不能更改关联节点");
                     }
                     _nodeId = value;
                 }
@@ -47,7 +47,7 @@ namespace Anycmd.Engine.Host.Edi.Entities
                 {
                     if (_eventSubjectId != Guid.Empty)
                     {
-                        throw new CoreException("不能更改关联事件主题");
+                        throw new AnycmdException("不能更改关联事件主题");
                     }
                     _eventSubjectId = value;
                 }

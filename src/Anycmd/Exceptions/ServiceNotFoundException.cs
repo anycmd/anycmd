@@ -11,7 +11,7 @@ namespace Anycmd.Exceptions
     /// </remarks>
     /// </summary>
     [Serializable()]
-    public class ServiceNotFoundException : CoreException
+    public class ServiceNotFoundException : AnycmdException
     {
         public ServiceNotFoundException()
             : base()

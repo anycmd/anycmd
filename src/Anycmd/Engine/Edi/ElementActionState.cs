@@ -52,7 +52,7 @@ namespace Anycmd.Engine.Edi
                     AuditType auditType;
                     if (!value.TryParse(out auditType))
                     {
-                        throw new CoreException("意外的AuditType:" + value);
+                        throw new AnycmdException("意外的AuditType:" + value);
                     }
                     this.AuditType = auditType;
                 }
@@ -78,7 +78,7 @@ namespace Anycmd.Engine.Edi
                     AllowType allowType;
                     if (!value.TryParse(out allowType))
                     {
-                        throw new CoreException("意外的AllowType:" + value);
+                        throw new AnycmdException("意外的AllowType:" + value);
                     }
                     this.AllowType = allowType;
                 }

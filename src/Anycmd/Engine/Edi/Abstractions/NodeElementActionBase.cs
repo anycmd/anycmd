@@ -19,7 +19,7 @@ namespace Anycmd.Engine.Edi.Abstractions {
             set {
                 if (value == _nodeId) return;
                 if (_nodeId != Guid.Empty) {
-                    throw new CoreException("不能更改所属节点");
+                    throw new AnycmdException("不能更改所属节点");
                 }
                 _nodeId = value;
             }
@@ -33,7 +33,7 @@ namespace Anycmd.Engine.Edi.Abstractions {
             set {
                 if (value == _elementId) return;
                 if (_elementId != Guid.Empty) {
-                    throw new CoreException("不能更改所属元素");
+                    throw new AnycmdException("不能更改所属元素");
                 }
                 _elementId = value;
             }
@@ -47,7 +47,7 @@ namespace Anycmd.Engine.Edi.Abstractions {
             set {
                 if (value == _actionId) return;
                 if (_actionId != Guid.Empty) {
-                    throw new CoreException("不能更改所属动作");
+                    throw new AnycmdException("不能更改所属动作");
                 }
                 _actionId = value;
             }

@@ -47,12 +47,12 @@ namespace Anycmd.Engine.Ac
             }
             if (property.EntityTypeId == Guid.Empty)
             {
-                throw new CoreException("实体属性必须属于某个实体类型");
+                throw new AnycmdException("实体属性必须属于某个实体类型");
             }
             EntityTypeState entityType;
             if (!host.EntityTypeSet.TryGetEntityType(property.EntityTypeId, out entityType))
             {
-                throw new CoreException("意外的实体类型标识" + property.EntityTypeId);
+                throw new AnycmdException("意外的实体类型标识" + property.EntityTypeId);
             }
             Guid? dicId = property.DicId;
             if (dicId == Guid.Empty)
@@ -230,7 +230,7 @@ namespace Anycmd.Engine.Ac
                 {
                     if (!AcDomain.EntityTypeSet.TryGetEntityType(this.EntityTypeId, out _entityType))
                     {
-                        throw new CoreException("意外的实体类型标识" + this.EntityTypeId);
+                        throw new AnycmdException("意外的实体类型标识" + this.EntityTypeId);
                     }
                 }
                 return _entityType;
@@ -246,7 +246,7 @@ namespace Anycmd.Engine.Ac
                 {
                     if (!AcDomain.Rdbs.TryDb(EntityType.DatabaseId, out _database))
                     {
-                        throw new CoreException("意外的数据库标识" + EntityType.DatabaseId);
+                        throw new AnycmdException("意外的数据库标识" + EntityType.DatabaseId);
                     }
                 }
                 return _database;

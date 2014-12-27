@@ -78,7 +78,7 @@ namespace Anycmd.Engine.Edi
 					if (!Host.NodeHost.MessageProviders.TryGetMessageProvider(
 						this.Ontology.MessageProviderId, out _messageProvider))
 					{
-						throw new CoreException("意外的命令提供程序Id" + this.Ontology.MessageProviderId);
+						throw new AnycmdException("意外的命令提供程序Id" + this.Ontology.MessageProviderId);
 					}
 				}
 				return _messageProvider;
@@ -99,7 +99,7 @@ namespace Anycmd.Engine.Edi
 					if (!Host.NodeHost.EntityProviders.TryGetEntityProvider(
 						this.Ontology.EntityProviderId, out _entityProvider))
 					{
-						throw new CoreException("意外的数据提供程序Id" + this.Ontology.EntityProviderId);
+						throw new AnycmdException("意外的数据提供程序Id" + this.Ontology.EntityProviderId);
 					}
 				}
 				return _entityProvider;

@@ -51,14 +51,14 @@ namespace Anycmd.Engine.Host.Info
         /// <summary>
         /// 断定只有一个实体并返回该实体。如果有两个实体或者0个实体将引发异常。
         /// </summary>
-        /// <exception cref="CoreException">当两条都有值或都没值的时候引发</exception>
+        /// <exception cref="AnycmdException">当两条都有值或都没值的时候引发</exception>
         public InfoItem[] SingleInfoTuple
         {
             get
             {
                 if (BothHasValue || BothNoValue)
                 {
-                    throw new CoreException();
+                    throw new AnycmdException();
                 }
 
                 return _singleValue;

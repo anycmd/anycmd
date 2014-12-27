@@ -77,7 +77,7 @@ namespace Anycmd.Engine.Ac.Abstractions.Infra
                 if (value == _dicId) return;
                 if (_dicId != Guid.Empty)
                 {
-                    throw new CoreException("不能更改字典项的所属字典");
+                    throw new AnycmdException("不能更改字典项的所属字典");
                 }
                 _dicId = value;
             }

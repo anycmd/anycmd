@@ -259,7 +259,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets.Impl
                 var accountRepository = host.GetRequiredService<IRepository<Account>>();
                 if (!input.Id.HasValue || input.Id.Value == Guid.Empty)
                 {
-                    throw new CoreException("意外的标识");
+                    throw new AnycmdException("意外的标识");
                 }
                 AcSubjectType subjectType;
                 if (!input.SubjectType.TryParse(out subjectType))
@@ -277,7 +277,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets.Impl
                     switch (subjectType)
                     {
                         case AcSubjectType.Undefined:
-                            throw new CoreException("意外的主体类型" + subjectType.ToString());
+                            throw new AnycmdException("意外的主体类型" + subjectType.ToString());
                         case AcSubjectType.Account:
                             if (!accountRepository.AsQueryable().Any(a => a.Id == input.SubjectInstanceId))
                             {
@@ -301,7 +301,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets.Impl
                         case AcSubjectType.Privilege:
                             throw new NotSupportedException();
                         default:
-                            throw new CoreException("意外的主体类型" + subjectType.ToString());
+                            throw new AnycmdException("意外的主体类型" + subjectType.ToString());
                     }
                     switch (acObjectType)
                     {

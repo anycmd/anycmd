@@ -38,7 +38,7 @@ namespace Anycmd.Engine.Host.Ac.MessageHandlers
             RdbDescriptor db;
             if (!_host.Rdbs.TryDb(_operationLogDbId, out db))
             {
-                throw new CoreException("意外的数据库标识");
+                throw new AnycmdException("意外的数据库标识");
             }
             // TODO:logbuffer
             const string sql = @"INSERT INTO dbo.OperationLog

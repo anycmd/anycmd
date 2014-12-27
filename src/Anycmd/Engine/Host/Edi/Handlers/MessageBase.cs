@@ -30,11 +30,11 @@ namespace Anycmd.Engine.Host.Edi.Handlers
         {
             if (type == MessageTypeKind.Invalid)
             {
-                throw new CoreException("非法的命令类型");
+                throw new AnycmdException("非法的命令类型");
             }
             if (id == Guid.Empty)
             {
-                throw new CoreException("命令Id不能为空Guid");
+                throw new AnycmdException("命令Id不能为空Guid");
             }
             if (dataTuple == null)
             {
@@ -261,7 +261,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers
         {
             if (commandType == MessageTypeKind.Invalid || commandType == MessageTypeKind.AnyCommand)
             {
-                throw new CoreException("不能转化为Invalid或AnyCommand类型命令");
+                throw new AnycmdException("不能转化为Invalid或AnyCommand类型命令");
             }
             return new MessageEntity(commandType, this.Id, this.DataTuple)
             {

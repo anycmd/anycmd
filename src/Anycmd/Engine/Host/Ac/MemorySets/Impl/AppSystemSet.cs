@@ -58,7 +58,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets.Impl
                 }
                 else
                 {
-                    throw new CoreException("尚未配置SelfAppSystemCode");
+                    throw new AnycmdException("尚未配置SelfAppSystemCode");
                 }
             }
         }
@@ -152,11 +152,11 @@ namespace Anycmd.Engine.Host.Ac.MemorySets.Impl
                         Debug.Assert(appSystem != null, "appSystem != null");
                         if (_dicByCode.ContainsKey(appSystem.Code))
                         {
-                            throw new CoreException("意外重复的应用系统编码" + appSystem.Code);
+                            throw new AnycmdException("意外重复的应用系统编码" + appSystem.Code);
                         }
                         if (_dicById.ContainsKey(appSystem.Id))
                         {
-                            throw new CoreException("意外重复的应用系统标识" + appSystem.Id);
+                            throw new AnycmdException("意外重复的应用系统标识" + appSystem.Id);
                         }
                         var value = AppSystemState.Create(_host, appSystem);
                         _dicByCode.Add(appSystem.Code, value);
@@ -232,7 +232,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets.Impl
                     }
                     if (!input.Id.HasValue || host.AppSystemSet.ContainsAppSystem(input.Id.Value))
                     {
-                        throw new CoreException("意外的应用系统标识");
+                        throw new AnycmdException("意外的应用系统标识");
                     }
                     AccountState principal;
                     if (!host.SysUsers.TryGetDevAccount(input.PrincipalId, out principal))

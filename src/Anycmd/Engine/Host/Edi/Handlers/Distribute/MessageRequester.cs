@@ -77,7 +77,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers.Distribute
                         IInfoStringConverter converter;
                         if (!context.Ontology.Host.NodeHost.InfoStringConverters.TryGetInfoStringConverter(context.Command.DataTuple.InfoFormat, out converter))
                         {
-                            throw new CoreException("意外的信息格式" + context.Command.DataTuple.InfoFormat);
+                            throw new AnycmdException("意外的信息格式" + context.Command.DataTuple.InfoFormat);
                         }
                         var anyLog = new AnyLog(Guid.NewGuid())
                         {

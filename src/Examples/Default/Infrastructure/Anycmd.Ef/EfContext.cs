@@ -45,11 +45,11 @@ namespace Anycmd.Ef
             Guid databaseId;
             if (!Guid.TryParse(ConfigurationManager.AppSettings[databaseKey], out databaseId))
             {
-                throw new CoreException("DatabaseId应是Guid格式");
+                throw new AnycmdException("DatabaseId应是Guid格式");
             }
             if (!host.Rdbs.TryDb(databaseId, out db))
             {
-                throw new CoreException("意外的" + databaseKey + ":" + databaseId);
+                throw new AnycmdException("意外的" + databaseKey + ":" + databaseId);
             }
             var efDbContext = new System.Data.Entity.DbContext(
                 string.Format(ConfigurationManager.ConnectionStrings[efDbContextName].ConnectionString, db.ConnString));

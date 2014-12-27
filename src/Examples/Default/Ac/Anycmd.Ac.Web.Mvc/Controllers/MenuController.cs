@@ -27,16 +27,6 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
     [Guid("2F6E0B9E-F751-44A7-9A30-28085CB44BEF")]
     public class MenuController : AnycmdController
     {
-        private readonly EntityTypeState _menuEntityType;
-
-        public MenuController()
-        {
-            if (!Host.EntityTypeSet.TryGetEntityType("Ac", "Menu", out _menuEntityType))
-            {
-                throw new CoreException("意外的实体类型");
-            }
-        }
-
         #region ViewResults
         [By("xuexs")]
         [Description("菜单管理")]
@@ -56,7 +46,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 Guid id;
                 if (Guid.TryParse(Request["id"], out id))
                 {
-                    var data = _menuEntityType.GetData(id);
+                    var data = base.EntityType.GetData(id);
                     return new PartialViewResult { ViewName = "Partials/Details", ViewData = new ViewDataDictionary(data) };
                 }
                 else
@@ -105,7 +95,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 throw new ValidationException("未传入标识");
             }
-            return this.JsonResult(_menuEntityType.GetData(id.Value));
+            return this.JsonResult(base.EntityType.GetData(id.Value));
         }
 
         [By("xuexs")]
@@ -119,7 +109,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             }
             if (id.HasValue)
             {
-                return this.JsonResult(_menuEntityType.GetData(id.Value));
+                return this.JsonResult(base.EntityType.GetData(id.Value));
             }
             else
             {
@@ -228,7 +218,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             foreach (var filter in requestModel.Filters)
             {
                 PropertyState property;
-                if (!_menuEntityType.TryGetProperty(filter.field, out property))
+                if (!base.EntityType.TryGetProperty(filter.field, out property))
                 {
                     throw new ValidationException("意外的Menu实体类型属性" + filter.field);
                 }

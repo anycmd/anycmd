@@ -27,16 +27,6 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
     [Guid("9B7C31CD-7DB3-4D7C-AF0D-5894316ADA2A")]
     public class ElementController : AnycmdController
     {
-        private static readonly EntityTypeState ElementEntityType;
-
-        static ElementController()
-        {
-            if (!Host.EntityTypeSet.TryGetEntityType("Edi", "Element", out ElementEntityType))
-            {
-                throw new CoreException("意外的实体类型");
-            }
-        }
-
         #region ViewResults
         /// <summary>
         /// 本体元素管理
@@ -64,7 +54,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                 Guid id;
                 if (Guid.TryParse(Request["id"], out id))
                 {
-                    var data = ElementInfo.Create(ElementEntityType.GetData(id));
+                    var data = ElementInfo.Create(base.EntityType.GetData(id));
                     return new PartialViewResult { ViewName = "Partials/Details", ViewData = new ViewDataDictionary(data) };
                 }
                 else
@@ -211,7 +201,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             {
                 throw new ValidationException("未传入标识");
             }
-            return this.JsonResult(ElementInfo.Create(ElementEntityType.GetData(id.Value)));
+            return this.JsonResult(ElementInfo.Create(base.EntityType.GetData(id.Value)));
         }
 
         /// <summary>
@@ -234,9 +224,9 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                 throw new ValidationException("意外的本体标识" + input.OntologyId);
             }
             EntityTypeState entityType;
-            if (!Host.EntityTypeSet.TryGetEntityType("Edi", "Element", out entityType))
+            if (!Host.EntityTypeSet.TryGetEntityType(new Coder("Edi", "Element"), out entityType))
             {
-                throw new CoreException("意外的实体类型Edi.Element");
+                throw new AnycmdException("意外的实体类型Edi.Element");
             }
             foreach (var filter in input.Filters)
             {

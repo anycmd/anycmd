@@ -443,7 +443,7 @@ namespace Anycmd.Engine.Host.Impl
             DicState dic;
             if (!DicSet.TryGetDic("auditStatus", out dic))
             {
-                throw new CoreException("意外的字典编码auditStatus");
+                throw new AnycmdException("意外的字典编码auditStatus");
             }
             var auditStatusDic = DicSet.GetDicItems(dic);
             if (!auditStatusDic.ContainsKey(auditState))
@@ -668,14 +668,14 @@ namespace Anycmd.Engine.Host.Impl
         {
 
             EntityTypeState entityType;
-            if (!this.EntityTypeSet.TryGetEntityType("Ac", "Account", out entityType))
+            if (!this.EntityTypeSet.TryGetEntityType(new Coder("Ac", "Account"), out entityType))
             {
-                throw new Exceptions.CoreException("意外的实体类型码Ac.Account");
+                throw new Exceptions.AnycmdException("意外的实体类型码Ac.Account");
             }
             RdbDescriptor db;
             if (!this.Rdbs.TryDb(entityType.DatabaseId, out db))
             {
-                throw new Exceptions.CoreException("意外的账户数据库标识" + entityType.DatabaseId);
+                throw new Exceptions.AnycmdException("意外的账户数据库标识" + entityType.DatabaseId);
             }
             return db;
         }

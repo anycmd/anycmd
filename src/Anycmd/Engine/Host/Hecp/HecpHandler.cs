@@ -80,7 +80,7 @@ namespace Anycmd.Engine.Host.Hecp
                 }
                 if (!_versionSet.Contains(context.Request.Version))
                 {
-                    throw new CoreException("本Hecp处理程序不支持处理版本号" + context.Request.Version + "的消息");
+                    throw new AnycmdException("本Hecp处理程序不支持处理版本号" + context.Request.Version + "的消息");
                 }
                 // ApplyPreRequestFilters
                 ProcessResult result = context.Host.NodeHost.ApplyPreHecpRequestFilters(context);
@@ -94,7 +94,7 @@ namespace Anycmd.Engine.Host.Hecp
                 var author = context.Host.GetRequiredService<IAuthenticator>();
                 if (author == null)
                 {
-                    throw new CoreException("未配置证书验证器，证书验证器是必须的。");
+                    throw new AnycmdException("未配置证书验证器，证书验证器是必须的。");
                 }
                 using (var act = new WfAct(context.Host, context, author, "验证身份"))
                 {

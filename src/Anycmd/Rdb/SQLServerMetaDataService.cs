@@ -331,7 +331,7 @@ ORDER BY " + sortField + " " + sortOrder +
                     DbTable table;
                     if (!db.AcDomain.DbTables.TryGetDbTable(db, id, out table))
                     {
-                        throw new CoreException("意外的数据库表" + id);
+                        throw new AnycmdException("意外的数据库表" + id);
                     }
                     if (description == null && table.Description != null)
                     {
@@ -370,7 +370,7 @@ ORDER BY " + sortField + " " + sortOrder +
                     DbView view;
                     if (!db.AcDomain.DbViews.TryGetDbView(db, id, out view))
                     {
-                        throw new CoreException("意外的数据库视图" + id);
+                        throw new AnycmdException("意外的数据库视图" + id);
                     }
                     if (description == null && view.Description != null)
                     {
@@ -409,7 +409,7 @@ ORDER BY " + sortField + " " + sortOrder +
                     DbTableColumn tableColumn;
                     if (!db.AcDomain.DbTableColumns.TryGetDbTableColumn(db, id, out tableColumn))
                     {
-                        throw new CoreException("意外的数据库表列标识" + id);
+                        throw new AnycmdException("意外的数据库表列标识" + id);
                     }
                     if (description == null && tableColumn.Description != null)
                     {
@@ -454,7 +454,7 @@ ORDER BY " + sortField + " " + sortOrder +
                     DbViewColumn viewColumn;
                     if (!db.AcDomain.DbViewColumns.TryGetDbViewColumn(db, id, out viewColumn))
                     {
-                        throw new CoreException("意外的数据库视图列标识" + id);
+                        throw new AnycmdException("意外的数据库视图列标识" + id);
                     }
                     if (description == null && viewColumn.Description != null)
                     {

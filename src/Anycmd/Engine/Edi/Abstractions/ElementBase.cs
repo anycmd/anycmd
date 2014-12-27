@@ -54,12 +54,12 @@ namespace Anycmd.Engine.Edi.Abstractions
                 {
                     if (_code != value)
                     {
-                        throw new CoreException("本体元素码会映射到接口上，不能更改");
+                        throw new AnycmdException("本体元素码会映射到接口上，不能更改");
                     }
                 }
                 if (string.IsNullOrWhiteSpace(value))
                 {
-                    throw new CoreException("本体元素码不能为空");
+                    throw new AnycmdException("本体元素码不能为空");
                 }
                 value = value.Trim();
                 _code = value;
@@ -124,7 +124,7 @@ namespace Anycmd.Engine.Edi.Abstractions
                 if (value == _ontologyId) return;
                 if (_ontologyId != Guid.Empty)
                 {
-                    throw new CoreException("所属本体不能更改");
+                    throw new AnycmdException("所属本体不能更改");
                 }
                 _ontologyId = value;
             }

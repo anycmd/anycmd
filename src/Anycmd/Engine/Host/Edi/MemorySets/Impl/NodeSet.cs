@@ -74,7 +74,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets.Impl
                 }
                 if (_centerNode == null)
                 {
-                    throw new CoreException("尚没有设定中心节点，请先设定中心节点");
+                    throw new AnycmdException("尚没有设定中心节点，请先设定中心节点");
                 }
 
                 return _centerNode;
@@ -94,7 +94,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets.Impl
                 }
                 if (_selfNode == null)
                 {
-                    throw new CoreException("尚没有设定这个节点，请先设定这个节点");
+                    throw new AnycmdException("尚没有设定这个节点，请先设定这个节点");
                 }
 
                 return _selfNode;
@@ -330,7 +330,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets.Impl
                             _allNodesById.Add(node.Id.ToString(), descriptor);
                             if (_allNodesByPublicKey.ContainsKey(node.PublicKey))
                             {
-                                throw new CoreException("重复的公钥" + node.PublicKey);
+                                throw new AnycmdException("重复的公钥" + node.PublicKey);
                             }
                             _allNodesByPublicKey.Add(node.PublicKey, descriptor);
                             if (node.Id.ToString().Equals(_host.Config.ThisNodeId, StringComparison.OrdinalIgnoreCase))

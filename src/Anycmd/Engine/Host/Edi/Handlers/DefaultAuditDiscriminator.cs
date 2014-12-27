@@ -47,7 +47,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers
             ActionState action;
             if (!context.Ontology.Actions.TryGetValue(context.Command.Verb, out action))
             {
-                throw new CoreException("非法的动作类型");
+                throw new AnycmdException("非法的动作类型");
             }
             var auditType = action.AuditType;
             switch (auditType)
@@ -130,12 +130,12 @@ namespace Anycmd.Engine.Host.Edi.Handlers
                 OrganizationState org;
                 if (!context.Host.OrganizationSet.TryGetOrganization(context.OrganizationCode, out org))
                 {
-                    throw new CoreException("非法的组织结构码" + context.OrganizationCode);
+                    throw new AnycmdException("非法的组织结构码" + context.OrganizationCode);
                 }
                 OntologyOrganizationState ontologyOrg;
                 if (!context.Ontology.Organizations.TryGetValue(org, out ontologyOrg))
                 {
-                    context.Exception = new CoreException("非法的组织结构码。非法的组织结构码的命令应该未验证通过，不应该走到这一步");
+                    context.Exception = new AnycmdException("非法的组织结构码。非法的组织结构码的命令应该未验证通过，不应该走到这一步");
                     throw context.Exception;
                 }
                 var orgActions = ontologyOrg.OrganizationActions;

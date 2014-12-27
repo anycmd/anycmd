@@ -99,7 +99,7 @@ namespace Anycmd.Util
                 {
                     if (!_dicByValue.ContainsKey(stateCode))
                     {
-                        throw new CoreException("意外的枚举值:" + stateCode.ToString());
+                        throw new AnycmdException("意外的枚举值:" + stateCode.ToString());
                     }
 
                     return _dicByValue[stateCode];

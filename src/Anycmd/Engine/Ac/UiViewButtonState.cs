@@ -26,12 +26,12 @@ namespace Anycmd.Engine.Ac
             UiViewState view;
             if (!host.UiViewSet.TryGetUiView(viewButton.UiViewId, out view))
             {
-                throw new CoreException("意外的界面视图" + viewButton.UiViewId);
+                throw new AnycmdException("意外的界面视图" + viewButton.UiViewId);
             }
             ButtonState button;
             if (!host.ButtonSet.TryGetButton(viewButton.ButtonId, out button))
             {
-                throw new CoreException("意外的按钮" + viewButton.ButtonId);
+                throw new AnycmdException("意外的按钮" + viewButton.ButtonId);
             }
             var functionId = viewButton.FunctionId;
             if (functionId == Guid.Empty)
@@ -104,7 +104,7 @@ namespace Anycmd.Engine.Ac
                 ButtonState button;
                 if (!_acDomain.ButtonSet.TryGetButton(this.ButtonId, out button))
                 {
-                    throw new CoreException("意外的按钮" + this.ButtonId);
+                    throw new AnycmdException("意外的按钮" + this.ButtonId);
                 }
                 return button;
             }
@@ -117,7 +117,7 @@ namespace Anycmd.Engine.Ac
                 UiViewState view;
                 if (!_acDomain.UiViewSet.TryGetUiView(this.UiViewId, out view))
                 {
-                    throw new CoreException("意外的界面视图按钮界面视图标识" + this.UiViewId);
+                    throw new AnycmdException("意外的界面视图按钮界面视图标识" + this.UiViewId);
                 }
                 return view;
             }

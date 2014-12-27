@@ -56,7 +56,7 @@ namespace Anycmd.Engine.Ac
             }
             if (!host.Rdbs.ContainsDb(entityType.DatabaseId))
             {
-                throw new CoreException("意外的数据库" + entityType.DatabaseId);
+                throw new AnycmdException("意外的数据库" + entityType.DatabaseId);
             }
 
             return new EntityTypeState(entityType.Id)

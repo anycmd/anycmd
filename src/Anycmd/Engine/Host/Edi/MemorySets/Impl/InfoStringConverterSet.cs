@@ -117,7 +117,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets.Impl
                             {
                                 if (_dic.ContainsKey(item.InfoFormat))
                                 {
-                                    throw new CoreException("信息格式转化器暂不支持优先级策略，每种格式只允许映射一个转化器");
+                                    throw new AnycmdException("信息格式转化器暂不支持优先级策略，每种格式只允许映射一个转化器");
                                 }
                                 var item1 = item;
                                 _dic.Add(item.InfoFormat, infoStringConverters.Single(a => a.Id == item1.Id));

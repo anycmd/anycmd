@@ -180,7 +180,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers
                 var inputValidator = _host.GetRequiredService<IInputValidator>();
                 if (inputValidator == null)
                 {
-                    throw new CoreException("没有配置命令输入验证器");
+                    throw new AnycmdException("没有配置命令输入验证器");
                 }
                 var result = inputValidator.Validate(this);
                 this._isValid = result.IsSuccess;
@@ -193,7 +193,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers
                 var permissionValidator = _host.GetRequiredService<IPermissionValidator>();
                 if (permissionValidator == null)
                 {
-                    throw new CoreException("没有配置权限验证器");
+                    throw new AnycmdException("没有配置权限验证器");
                 }
                 result = permissionValidator.Validate(this);
                 this._isValid = result.IsSuccess;
@@ -292,7 +292,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers
                     var auditDiscriminator = _host.GetRequiredService<IAuditDiscriminator>();
                     if (auditDiscriminator == null)
                     {
-                        throw new CoreException("未配置命令审核鉴别器");
+                        throw new AnycmdException("未配置命令审核鉴别器");
                     }
                     var result = auditDiscriminator.IsNeedAudit(this);
                     this._isAudit = result.IsYes;
@@ -578,7 +578,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers
         {
             if (string.IsNullOrEmpty(this.Command.Verb.Code))
             {
-                throw new CoreException("当前命令的动作码为空");
+                throw new AnycmdException("当前命令的动作码为空");
             }
             DbActionType actionType;
             Verb actionCode = this.Command.Verb;
@@ -596,7 +596,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers
             }
             else
             {
-                throw new CoreException("无效的数据库动作类型" + this.Command.Verb);
+                throw new AnycmdException("无效的数据库动作类型" + this.Command.Verb);
             }
             return new DbCommand(actionType, this.Ontology, this.Command.IsDumb, this.ClientAgent, this.Command.Id.ToString(),
                 this.LocalEntityId, this.InfoTuplePair.ValueTuple);

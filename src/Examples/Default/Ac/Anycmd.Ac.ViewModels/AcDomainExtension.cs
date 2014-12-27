@@ -24,14 +24,20 @@ namespace Anycmd.Ac.ViewModels
 
     public static class AcDomainExtension
     {
+        private static EntityTypeState GetEntityType(this IAcDomain host, Coder code)
+        {
+            EntityTypeState entityTypeState;
+            if (!host.EntityTypeSet.TryGetEntityType(code, out entityTypeState))
+            {
+                throw new InvalidEntityTypeCodeException(code);
+            }
+            return entityTypeState;
+        }
+
         #region GetPlistAppSystems
         public static IQueryable<AppSystemTr> GetPlistAppSystems(this IAcDomain host, GetPlistResult requestData)
         {
-            EntityTypeState appSystemEntityType;
-            if (!host.EntityTypeSet.TryGetEntityType("Ac", "AppSystem", out appSystemEntityType))
-            {
-                throw new CoreException("意外的实体类型");
-            }
+            EntityTypeState appSystemEntityType = host.GetEntityType(new Coder("Ac", "AppSystem"));
             foreach (var filter in requestData.Filters)
             {
                 PropertyState property;
@@ -56,11 +62,7 @@ namespace Anycmd.Ac.ViewModels
         #region GetPlistButtons
         public static IQueryable<ButtonTr> GetPlistButtons(this IAcDomain host, GetPlistResult requestData)
         {
-            EntityTypeState buttonEntityType;
-            if (!host.EntityTypeSet.TryGetEntityType("Ac", "Button", out buttonEntityType))
-            {
-                throw new CoreException("意外的实体类型");
-            }
+            EntityTypeState buttonEntityType = host.GetEntityType(new Coder("Ac", "Button"));
             foreach (var filter in requestData.Filters)
             {
                 PropertyState property;
@@ -71,7 +73,7 @@ namespace Anycmd.Ac.ViewModels
             }
             int pageIndex = requestData.PageIndex;
             int pageSize = requestData.PageSize;
-            var queryable = host.ButtonSet.Select(a => ButtonTr.Create(a)).AsQueryable();
+            var queryable = host.ButtonSet.Select(ButtonTr.Create).AsQueryable();
             foreach (var filter in requestData.Filters)
             {
                 queryable = queryable.Where(filter.ToPredicate(), filter.value);
@@ -180,11 +182,7 @@ namespace Anycmd.Ac.ViewModels
         #region GetPlistDatabases
         public static IQueryable<IRDatabase> GetPlistDatabases(this IAcDomain host, GetPlistResult requestModel)
         {
-            EntityTypeState entityType;
-            if (!host.EntityTypeSet.TryGetEntityType("Ac", "RDatabase", out entityType))
-            {
-                throw new CoreException("意外的实体类型");
-            }
+            EntityTypeState entityType = host.GetEntityType(new Coder("Ac", "RDatabase"));
             foreach (var filter in requestModel.Filters)
             {
                 PropertyState property;
@@ -209,12 +207,16 @@ namespace Anycmd.Ac.ViewModels
         #region GetPlistTables
         public static IQueryable<DbTable> GetPlistTables(this IAcDomain host, GetPlistTables requestModel)
         {
+            if (!requestModel.DatabaseId.HasValue)
+            {
+                throw new ValidationException("databaseId为空");
+            }
             RdbDescriptor db;
             if (!host.Rdbs.TryDb(requestModel.DatabaseId.Value, out db))
             {
                 throw new ValidationException("意外的数据库Id");
             }
-            HashSet<string> properties = new HashSet<string>()
+            var properties = new HashSet<string>()
             {
                 "Id",
                 "DatabaseId",
@@ -246,12 +248,16 @@ namespace Anycmd.Ac.ViewModels
         #region GetPlistViews
         public static IQueryable<DbView> GetPlistViews(this IAcDomain host, GetPlistViews requestModel)
         {
+            if (!requestModel.DatabaseId.HasValue)
+            {
+                throw new ValidationException("databaseId为空");
+            }
             RdbDescriptor db;
             if (!host.Rdbs.TryDb(requestModel.DatabaseId.Value, out db))
             {
                 throw new ValidationException("意外的数据库Id");
             }
-            HashSet<string> properties = new HashSet<string>()
+            var properties = new HashSet<string>()
             {
                 "Id",
                 "DatabaseId",
@@ -283,6 +289,10 @@ namespace Anycmd.Ac.ViewModels
         #region GetPlistTableColumns
         public static IQueryable<DbTableColumn> GetPlistTableColumns(this IAcDomain host, GetPlistTableColumns requestModel)
         {
+            if (!requestModel.DatabaseId.HasValue)
+            {
+                throw new ValidationException("databaseId为空");
+            }
             RdbDescriptor db;
             if (!host.Rdbs.TryDb(requestModel.DatabaseId.Value, out db))
             {
@@ -293,7 +303,7 @@ namespace Anycmd.Ac.ViewModels
             {
                 throw new ValidationException("意外的数据库表名" + requestModel.TableName);
             }
-            HashSet<string> properties = new HashSet<string>()
+            var properties = new HashSet<string>()
             {
                 "DatabaseId",
                 "Id",
@@ -326,7 +336,7 @@ namespace Anycmd.Ac.ViewModels
             IReadOnlyDictionary<string, DbTableColumn> dbTableColumns;
             if (!host.DbTableColumns.TryGetDbTableColumns(db, dbTable, out dbTableColumns))
             {
-                throw new CoreException("意外的数据库表列");
+                throw new AnycmdException("意外的数据库表列");
             }
             var queryable = dbTableColumns.Values.Select(a => a).AsQueryable();
             foreach (var filter in requestModel.Filters)
@@ -342,6 +352,10 @@ namespace Anycmd.Ac.ViewModels
         #region GetPlistViewColumns
         public static IQueryable<DbViewColumn> GetPlistViewColumns(this IAcDomain host, GetPlistViewColumns requestModel)
         {
+            if (!requestModel.DatabaseId.HasValue)
+            {
+                throw new ValidationException("databaseId为空");
+            }
             RdbDescriptor db;
             if (!host.Rdbs.TryDb(requestModel.DatabaseId.Value, out db))
             {
@@ -351,7 +365,8 @@ namespace Anycmd.Ac.ViewModels
             if (!host.DbViews.TryGetDbView(db, requestModel.ViewId, out dbView))
             {
                 throw new ValidationException("意外的数据库表名" + requestModel.ViewName);
-            } HashSet<string> properties = new HashSet<string>()
+            } 
+            var properties = new HashSet<string>()
             {
                 "DatabaseId",
                 "Id",
@@ -384,7 +399,7 @@ namespace Anycmd.Ac.ViewModels
             IReadOnlyDictionary<string, DbViewColumn> dbViewColumns;
             if (!host.DbViewColumns.TryGetDbViewColumns(db, dbView, out dbViewColumns))
             {
-                throw new CoreException("意外的数据库视图列");
+                throw new AnycmdException("意外的数据库视图列");
             }
             var queryable = dbViewColumns.Values.Select(a => a).AsQueryable();
             foreach (var filter in requestModel.Filters)
@@ -400,11 +415,7 @@ namespace Anycmd.Ac.ViewModels
         #region GetPlistDics
         public static IQueryable<DicTr> GetPlistDics(this IAcDomain host, GetPlistResult requestModel)
         {
-            EntityTypeState dicEntityType;
-            if (!host.EntityTypeSet.TryGetEntityType("Ac", "Dic", out dicEntityType))
-            {
-                throw new CoreException("意外的实体类型");
-            }
+            EntityTypeState dicEntityType = host.GetEntityType(new Coder("Ac", "Dic"));
             foreach (var filter in requestModel.Filters)
             {
                 PropertyState property;
@@ -415,7 +426,7 @@ namespace Anycmd.Ac.ViewModels
             }
             int pageIndex = requestModel.PageIndex;
             int pageSize = requestModel.PageSize;
-            var queryable = host.DicSet.Select(a => DicTr.Create(a)).AsQueryable();
+            var queryable = host.DicSet.Select(DicTr.Create).AsQueryable();
             foreach (var filter in requestModel.Filters)
             {
                 queryable = queryable.Where(filter.ToPredicate(), filter.value);
@@ -437,11 +448,7 @@ namespace Anycmd.Ac.ViewModels
             {
                 throw new ValidationException("意外的系统字典标识" + requestModel.DicId);
             }
-            EntityTypeState dicItemEntityType;
-            if (!host.EntityTypeSet.TryGetEntityType("Ac", "DicItem", out dicItemEntityType))
-            {
-                throw new CoreException("意外的实体类型");
-            }
+            EntityTypeState dicItemEntityType = host.GetEntityType(new Coder("Ac", "DicItem"));
             foreach (var filter in requestModel.Filters)
             {
                 PropertyState property;
@@ -475,11 +482,7 @@ namespace Anycmd.Ac.ViewModels
         #region GetPlistEntityTypes
         public static IQueryable<EntityTypeTr> GetPlistEntityTypes(this IAcDomain host, GetPlistResult requestData)
         {
-            EntityTypeState entityTypeEntityType;
-            if (!host.EntityTypeSet.TryGetEntityType("Ac", "EntityType", out entityTypeEntityType))
-            {
-                throw new CoreException("意外的实体类型");
-            }
+            EntityTypeState entityTypeEntityType = host.GetEntityType(new Coder("Ac", "EntityType"));
             foreach (var filter in requestData.Filters)
             {
                 PropertyState property;
@@ -490,7 +493,7 @@ namespace Anycmd.Ac.ViewModels
             }
             int pageIndex = requestData.PageIndex;
             int pageSize = requestData.PageSize;
-            var queryable = host.EntityTypeSet.Select(a => EntityTypeTr.Create(a)).AsQueryable();
+            var queryable = host.EntityTypeSet.Select(EntityTypeTr.Create).AsQueryable();
             foreach (var filter in requestData.Filters)
             {
                 queryable = queryable.Where(filter.ToPredicate(), filter.value);
@@ -504,11 +507,7 @@ namespace Anycmd.Ac.ViewModels
         #region GetPlistFunctions
         public static IQueryable<FunctionTr> GetPlistFunctions(this IAcDomain host, GetPlistResult requestData)
         {
-            EntityTypeState entityType;
-            if (!host.EntityTypeSet.TryGetEntityType("Ac", "Function", out entityType))
-            {
-                throw new CoreException("意外的实体类型Ac.Function");
-            }
+            EntityTypeState entityType = host.GetEntityType(new Coder("Ac", "Function"));
             foreach (var filter in requestData.Filters)
             {
                 PropertyState property;
@@ -519,7 +518,7 @@ namespace Anycmd.Ac.ViewModels
             }
             int pageIndex = requestData.PageIndex;
             int pageSize = requestData.PageSize;
-            var queryable = host.FunctionSet.Select(a => FunctionTr.Create(a)).AsQueryable();
+            var queryable = host.FunctionSet.Select(FunctionTr.Create).AsQueryable();
             foreach (var filter in requestData.Filters)
             {
                 queryable = queryable.Where(filter.ToPredicate(), filter.value);
@@ -530,8 +529,8 @@ namespace Anycmd.Ac.ViewModels
         }
         #endregion
 
-        #region GetPlistPrivilegeByRoleID
-        public static IQueryable<RoleAssignFunctionTr> GetPlistPrivilegeByRoleID(this IAcDomain host, GetPlistFunctionByRoleId requestData)
+        #region GetPlistPrivilegeByRoleId
+        public static IQueryable<RoleAssignFunctionTr> GetPlistPrivilegeByRoleId(this IAcDomain host, GetPlistFunctionByRoleId requestData)
         {
             AppSystemState appSystem;
             if (!host.AppSystemSet.TryGetAppSystem(requestData.AppSystemId, out appSystem))
@@ -551,7 +550,7 @@ namespace Anycmd.Ac.ViewModels
                     throw new ValidationException("意外的资源标识" + requestData.ResourceTypeId);
                 }
             }
-            var roleFunctions = host.PrivilegeSet.Where(a => a.SubjectType == AcSubjectType.Role && a.ObjectType == AcObjectType.Function);
+            var roleFunctions = host.PrivilegeSet.Where(a => a.SubjectType == AcSubjectType.Role && a.ObjectType == AcObjectType.Function).ToList();
             var functions = host.FunctionSet.Where(a => a.AppSystem.Id == requestData.AppSystemId && a.IsManaged);
             if (requestData.ResourceTypeId.HasValue)
             {
@@ -637,11 +636,7 @@ namespace Anycmd.Ac.ViewModels
         #region GetPlistGroups
         public static IQueryable<IGroup> GetPlistGroups(this IAcDomain host, GetPlistResult requestModel)
         {
-            EntityTypeState groupEntityType;
-            if (!host.EntityTypeSet.TryGetEntityType("Ac", "Group", out groupEntityType))
-            {
-                throw new CoreException("意外的实体类型");
-            }
+            EntityTypeState groupEntityType = host.GetEntityType(new Coder("Ac", "Group"));
             foreach (var filter in requestModel.Filters)
             {
                 PropertyState property;
@@ -760,14 +755,10 @@ namespace Anycmd.Ac.ViewModels
         }
         #endregion
 
-        #region GetPlistUIViews
-        public static IQueryable<UiViewTr> GetPlistUIViews(this IAcDomain host, GetPlistResult requestData)
+        #region GetPlistUiViews
+        public static IQueryable<UiViewTr> GetPlistUiViews(this IAcDomain host, GetPlistResult requestData)
         {
-            EntityTypeState viewEntityType;
-            if (!host.EntityTypeSet.TryGetEntityType("Ac", "UIView", out viewEntityType))
-            {
-                throw new CoreException("意外的实体类型");
-            }
+            EntityTypeState viewEntityType = host.GetEntityType(new Coder("Ac", "UIView"));
             foreach (var filter in requestData.Filters)
             {
                 PropertyState property;
@@ -778,7 +769,7 @@ namespace Anycmd.Ac.ViewModels
             }
             int pageIndex = requestData.PageIndex;
             int pageSize = requestData.PageSize;
-            var queryable = host.UiViewSet.Select(a => UiViewTr.Create(a)).AsQueryable();
+            var queryable = host.UiViewSet.Select(UiViewTr.Create).AsQueryable();
             foreach (var filter in requestData.Filters)
             {
                 queryable = queryable.Where(filter.ToPredicate(), filter.value);
@@ -796,11 +787,7 @@ namespace Anycmd.Ac.ViewModels
             {
                 throw new ValidationException("entityTypeID是必须的");
             }
-            EntityTypeState entityType;
-            if (!host.EntityTypeSet.TryGetEntityType("Ac", "Property", out entityType))
-            {
-                throw new CoreException("意外的实体类型Ac.Property");
-            }
+            EntityTypeState entityType = host.GetEntityType(new Coder("Ac", "Property"));
             foreach (var filter in requestModel.Filters)
             {
                 PropertyState property;
@@ -811,7 +798,7 @@ namespace Anycmd.Ac.ViewModels
             }
             if (!host.EntityTypeSet.TryGetEntityType(requestModel.EntityTypeId.Value, out entityType))
             {
-                throw new CoreException("意外的实体类型标识" + requestModel.EntityTypeId.Value);
+                throw new AnycmdException("意外的实体类型标识" + requestModel.EntityTypeId.Value);
             }
             int pageIndex = requestModel.PageIndex;
             int pageSize = requestModel.PageSize;
@@ -833,11 +820,7 @@ namespace Anycmd.Ac.ViewModels
         #region GetPlistResources
         public static IQueryable<ResourceTypeTr> GetPlistResources(this IAcDomain host, GetPlistResult requestModel)
         {
-            EntityTypeState entityType;
-            if (!host.EntityTypeSet.TryGetEntityType("Ac", "ResourceType", out entityType))
-            {
-                throw new CoreException("意外的实体类型");
-            }
+            EntityTypeState entityType = host.GetEntityType(new Coder("Ac", "ResourceType"));
             foreach (var filter in requestModel.Filters)
             {
                 PropertyState property;
@@ -848,7 +831,7 @@ namespace Anycmd.Ac.ViewModels
             }
             int pageIndex = requestModel.PageIndex;
             int pageSize = requestModel.PageSize;
-            var queryable = host.ResourceTypeSet.Select(a => ResourceTypeTr.Create(a)).AsQueryable();
+            var queryable = host.ResourceTypeSet.Select(ResourceTypeTr.Create).AsQueryable();
             foreach (var filter in requestModel.Filters)
             {
                 queryable = queryable.Where(filter.ToPredicate(), filter.value);
@@ -864,7 +847,7 @@ namespace Anycmd.Ac.ViewModels
         {
             if (!host.AppSystemSet.ContainsAppSystem(requestModel.AppSystemId))
             {
-                throw new CoreException("意外的应用系统标识" + requestModel.AppSystemId);
+                throw new AnycmdException("意外的应用系统标识" + requestModel.AppSystemId);
             }
             IEnumerable<Guid> resourceTypeIDs = host.FunctionSet.Where(a => a.AppSystem.Id == requestModel.AppSystemId).Select(a => a.ResourceTypeId).Distinct();
             var resources = new List<ResourceTypeState>();
@@ -874,11 +857,7 @@ namespace Anycmd.Ac.ViewModels
                 host.ResourceTypeSet.TryGetResource(resourceTypeId, out resource);
                 resources.Add(resource);
             }
-            EntityTypeState entityType;
-            if (!host.EntityTypeSet.TryGetEntityType("Ac", "ResourceType", out entityType))
-            {
-                throw new CoreException("意外的实体类型");
-            }
+            EntityTypeState entityType = host.GetEntityType(new Coder("Ac", "ResourceType"));
             foreach (var filter in requestModel.Filters)
             {
                 PropertyState property;
@@ -907,11 +886,7 @@ namespace Anycmd.Ac.ViewModels
         #region GetPlistRoles
         public static IQueryable<IRole> GetPlistRoles(this IAcDomain host, GetPlistResult requestModel)
         {
-            EntityTypeState roleEntityType;
-            if (!host.EntityTypeSet.TryGetEntityType("Ac", "Role", out roleEntityType))
-            {
-                throw new CoreException("意外的实体类型");
-            }
+            EntityTypeState roleEntityType = host.GetEntityType(new Coder("Ac", "Role"));
             foreach (var filter in requestModel.Filters)
             {
                 PropertyState property;
@@ -936,11 +911,7 @@ namespace Anycmd.Ac.ViewModels
         #region GetPlistSsdSets
         public static IQueryable<ISsdSet> GetPlistSsdSets(this IAcDomain host, GetPlistResult requestModel)
         {
-            EntityTypeState roleEntityType;
-            if (!host.EntityTypeSet.TryGetEntityType("Ac", "SsdSet", out roleEntityType))
-            {
-                throw new CoreException("意外的实体类型");
-            }
+            EntityTypeState roleEntityType = host.GetEntityType(new Coder("Ac", "SsdSet"));
             foreach (var filter in requestModel.Filters)
             {
                 PropertyState property;
@@ -965,11 +936,7 @@ namespace Anycmd.Ac.ViewModels
         #region GetPlistDsdSets
         public static IQueryable<IDsdSet> GetPlistDsdSets(this IAcDomain host, GetPlistResult requestModel)
         {
-            EntityTypeState roleEntityType;
-            if (!host.EntityTypeSet.TryGetEntityType("Ac", "DsdSet", out roleEntityType))
-            {
-                throw new CoreException("意外的实体类型");
-            }
+            EntityTypeState roleEntityType = host.GetEntityType(new Coder("Ac", "DsdSet"));
             foreach (var filter in requestModel.Filters)
             {
                 PropertyState property;
@@ -1002,7 +969,9 @@ namespace Anycmd.Ac.ViewModels
             var data = new List<GroupAssignRoleTr>();
             foreach (var role in host.RoleSet)
             {
-                var roleGroup = host.PrivilegeSet.FirstOrDefault(a => a.SubjectType == AcSubjectType.Role && a.ObjectType == AcObjectType.Group && a.SubjectInstanceId == role.Id && a.ObjectInstanceId == group.Id);
+                var roleGroup = host.PrivilegeSet.FirstOrDefault(a => 
+                    a.SubjectType == AcSubjectType.Role && a.ObjectType == AcObjectType.Group 
+                    && a.SubjectInstanceId == role.Id && a.ObjectInstanceId == group.Id);
                 if (requestData.IsAssigned.HasValue)
                 {
                     if (requestData.IsAssigned.Value)
@@ -1070,12 +1039,16 @@ namespace Anycmd.Ac.ViewModels
         #region GetPlistMenuRoles
         public static IQueryable<MenuAssignRoleTr> GetPlistMenuRoles(this IAcDomain host, GetPlistMenuRoles requestData)
         {
+            if (!requestData.MenuId.HasValue)
+            {
+                throw new ValidationException("menuID为空");
+            }
             MenuState menu;
             if (!host.MenuSet.TryGetMenu(requestData.MenuId.Value, out menu))
             {
                 throw new ValidationException("意外的菜单标识" + requestData.MenuId);
             }
-            var roleMenus = host.PrivilegeSet.Where(a => a.SubjectType == AcSubjectType.Role && a.ObjectType == AcObjectType.Menu);
+            var roleMenus = host.PrivilegeSet.Where(a => a.SubjectType == AcSubjectType.Role && a.ObjectType == AcObjectType.Menu).ToList();
             var roles = host.RoleSet;
             var data = new List<MenuAssignRoleTr>();
             foreach (var role in roles)

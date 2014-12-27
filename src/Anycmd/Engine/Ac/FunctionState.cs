@@ -48,7 +48,7 @@ namespace Anycmd.Engine.Ac
             }
             if (function.ResourceTypeId == System.Guid.Empty)
             {
-                throw new CoreException("必须指定资源");
+                throw new AnycmdException("必须指定资源");
             }
             ResourceTypeState resource;
             if (!host.ResourceTypeSet.TryGetResource(function.ResourceTypeId, out resource))
@@ -134,7 +134,7 @@ namespace Anycmd.Engine.Ac
                 AppSystemState appSystem;
                 if (!AcDomain.AppSystemSet.TryGetAppSystem(this.Resource.AppSystemId, out appSystem))
                 {
-                    throw new CoreException("意外的应用系统标识");
+                    throw new AnycmdException("意外的应用系统标识");
                 }
                 return appSystem;
             }
@@ -151,7 +151,7 @@ namespace Anycmd.Engine.Ac
                 ResourceTypeState resource;
                 if (!AcDomain.ResourceTypeSet.TryGetResource(this.ResourceTypeId, out resource))
                 {
-                    throw new CoreException("意外的资源标识");
+                    throw new AnycmdException("意外的资源标识");
                 }
                 return resource;
             }

@@ -85,7 +85,7 @@ namespace Anycmd.Edi.MessageHandler
 			ProcessDescriptor process;
 			if (!acDomain.NodeHost.Processs.TryGetProcess(new Guid(processId), out process))
 			{
-				throw new CoreException("非法的分发器标识" + processId);
+				throw new AnycmdException("非法的分发器标识" + processId);
 			}
 			bool createdNew;
 			// 使用本体标识从而限制一个本体只能有一个执行器进程
@@ -211,7 +211,7 @@ namespace Anycmd.Edi.MessageHandler
 			var executor = sender as IExecutor;
 			if (executor == null)
 			{
-				throw new CoreException();
+				throw new AnycmdException();
 			}
 			Console.ForegroundColor = ConsoleColor.Green;
 			if (!e.Command.Result.IsSuccess)

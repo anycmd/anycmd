@@ -75,6 +75,8 @@
     <Compile Include="Engine\Ac\Abstractions\UserSessionBase.cs" />
     <Compile Include="AnyMessage.cs" />
     <Compile Include="Engine\Host\AnycmdServiceContainer.cs" />
+    <Compile Include="Exceptions\InvalidEntityTypeCodeException.cs" />
+    <Compile Include="Exceptions\InvalidResourceTypeCodeException.cs" />
     <Compile Include="Exceptions\ServiceNotFoundException.cs" />
     <Compile Include="Engine\Host\Dapper\SqlMapper.cs" />
     <Compile Include="Engine\Host\Dapper\SqlMapperAsync.cs" />
@@ -207,6 +209,7 @@
     <Compile Include="Int32IdAttribute.cs" />
     <Compile Include="IRbacService.cs" />
     <Compile Include="StringIdAttribute.cs" />
+    <Compile Include="Util\Coder.cs" />
     <Compile Include="Util\IDAttribute.cs" />
     <Compile Include="Model\StateObject`1.cs" />
     <Compile Include="Engine\Ac\UserSessionState.cs" />
@@ -1028,7 +1031,7 @@
     <Compile Include="Util\TokenObject.cs" />
     <Compile Include="Util\AppSettingsHelper.cs" />
     <Compile Include="Query\FilterData.cs" />
-    <Compile Include="Exceptions\CoreException.cs" />
+    <Compile Include="Exceptions\AnycmdException.cs" />
     <Compile Include="Util\EncryptionHelper.cs" />
     <Compile Include="Model\EntityBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

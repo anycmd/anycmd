@@ -44,7 +44,7 @@ namespace Anycmd.Engine.Ac
             AccountState principal;
             if (!host.SysUsers.TryGetDevAccount(appSystem.PrincipalId, out principal))
             {
-                throw new CoreException("意外的应用系统负责人标识" + appSystem.PrincipalId);
+                throw new AnycmdException("意外的应用系统负责人标识" + appSystem.PrincipalId);
             }
             return new AppSystemState(appSystem.Id)
             {

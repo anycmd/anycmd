@@ -175,7 +175,7 @@ namespace Anycmd.Edi.EntityProvider.SqlServer2008
 						}
 						else if (n > 1)
 						{
-							return new ProcessResult(new CoreException("Id:" + command.CommandId + ",意外的影响行数" + n.ToString()));
+							return new ProcessResult(new AnycmdException("Id:" + command.CommandId + ",意外的影响行数" + n.ToString()));
 						}
 					}
 					return new ProcessResult(true, Status.ExecuteOk, "执行成功");
@@ -202,7 +202,7 @@ namespace Anycmd.Edi.EntityProvider.SqlServer2008
 			var archiveDb = this.GetArchiveDb(ontology, archive);
 			if (archiveDb.Database.CatalogName.Equals(entityDb.CatalogName, StringComparison.OrdinalIgnoreCase))
 			{
-				throw new CoreException("归档库的数据库名不能与本体库相同");
+				throw new AnycmdException("归档库的数据库名不能与本体库相同");
 			}
 			// 创建归档库
 			archiveDb.Create(this.GetEntityDb(ontology), ontology.Host.Config.EntityArchivePath);
@@ -230,7 +230,7 @@ namespace Anycmd.Edi.EntityProvider.SqlServer2008
 							archive.NumberId.ToString());
 			if (catalogName.Equals(this.GetEntityDb(archive.Ontology).Database.CatalogName, StringComparison.OrdinalIgnoreCase))
 			{
-				throw new CoreException("归档库的数据库名不能与本体库相同");
+				throw new AnycmdException("归档库的数据库名不能与本体库相同");
 			}
 			string sql =
 @"IF EXISTS ( SELECT  1
@@ -682,7 +682,7 @@ IF EXISTS ( SELECT  1
 						RdbDescriptor db;
 						if (!ontology.Host.Rdbs.TryDb(ontology.Ontology.EntityDatabaseId, out db))
 						{
-							throw new CoreException("意外的数据库Id" + ontology.Ontology.EntityDatabaseId.ToString());
+							throw new AnycmdException("意外的数据库Id" + ontology.Ontology.EntityDatabaseId.ToString());
 						}
 						DbDic.Add(ontology, db);
 					}

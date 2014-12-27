@@ -29,16 +29,6 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
     [Guid("D69E070B-CE3C-4359-9FF5-964F1D57621E")]
     public class OntologyController : AnycmdController
     {
-        private static readonly EntityTypeState OntologyEntityType;
-
-        static OntologyController()
-        {
-            if (!Host.EntityTypeSet.TryGetEntityType("Edi", "Ontology", out OntologyEntityType))
-            {
-                throw new CoreException("意外的实体类型");
-            }
-        }
-
         #region ViewPages
 
         /// <summary>
@@ -67,7 +57,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                 Guid id;
                 if (Guid.TryParse(Request["id"], out id))
                 {
-                    var data = new OntologyInfo(Host, OntologyEntityType.GetData(id));
+                    var data = new OntologyInfo(Host, base.EntityType.GetData(id));
                     return new PartialViewResult { ViewName = "Partials/Details", ViewData = new ViewDataDictionary(data) };
                 }
                 else
@@ -179,7 +169,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             {
                 throw new ValidationException("未传入标识");
             }
-            return this.JsonResult(new OntologyInfo(Host, OntologyEntityType.GetData(id.Value)));
+            return this.JsonResult(new OntologyInfo(Host, base.EntityType.GetData(id.Value)));
         }
 
         /// <summary>
@@ -196,9 +186,9 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                 return ModelState.ToJsonResult();
             }
             EntityTypeState entityType;
-            if (!Host.EntityTypeSet.TryGetEntityType("Edi", "Ontology", out entityType))
+            if (!Host.EntityTypeSet.TryGetEntityType(new Coder("Edi", "Ontology"), out entityType))
             {
-                throw new CoreException("意外的实体类型Edi.Ontology");
+                throw new AnycmdException("意外的实体类型Edi.Ontology");
             }
             foreach (var filter in input.Filters)
             {
@@ -210,7 +200,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             }
             int pageIndex = input.PageIndex;
             int pageSize = input.PageSize;
-            var queryable = Host.NodeHost.Ontologies.Select(a => OntologyTr.Create(a)).AsQueryable();
+            var queryable = Host.NodeHost.Ontologies.Select(OntologyTr.Create).AsQueryable();
             foreach (var filter in input.Filters)
             {
                 queryable = queryable.Where(filter.ToPredicate(), filter.value);
@@ -346,9 +336,9 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                 throw new ValidationException("意外的本体标识" + ontologyId);
             }
             EntityTypeState entityType;
-            if (!Host.EntityTypeSet.TryGetEntityType("Edi", "InfoGroup", out entityType))
+            if (!Host.EntityTypeSet.TryGetEntityType(new Coder("Edi", "InfoGroup"), out entityType))
             {
-                throw new CoreException("意外的实体类型Edi.InfoGroup");
+                throw new AnycmdException("意外的实体类型Edi.InfoGroup");
             }
             foreach (var filter in input.Filters)
             {
@@ -389,9 +379,9 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                 throw new ValidationException("意外的本体标识" + ontologyId);
             }
             EntityTypeState entityType;
-            if (!Host.EntityTypeSet.TryGetEntityType("Edi", "Action", out entityType))
+            if (!Host.EntityTypeSet.TryGetEntityType(new Coder("Edi", "Action"), out entityType))
             {
-                throw new CoreException("意外的实体类型Edi.Action");
+                throw new AnycmdException("意外的实体类型Edi.Action");
             }
             foreach (var filter in input.Filters)
             {
@@ -943,7 +933,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                     }
                     else
                     {
-                        throw new CoreException("意外的本体");
+                        throw new AnycmdException("意外的本体");
                     }
                 }
             }

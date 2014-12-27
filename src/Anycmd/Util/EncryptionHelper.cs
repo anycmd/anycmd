@@ -22,7 +22,7 @@ namespace Anycmd.Util
         {
             if (string.IsNullOrEmpty(value))
             {
-                throw new CoreException("加密字符串不能为空");
+                throw new AnycmdException("加密字符串不能为空");
             }
             var crypto = new MD5CryptoServiceProvider();
             var bytes = Encoding.UTF8.GetBytes(value);

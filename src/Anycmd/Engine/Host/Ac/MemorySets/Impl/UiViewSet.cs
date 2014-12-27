@@ -182,7 +182,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets.Impl
                 FunctionState newKey;
                 if (!host.FunctionSet.TryGetFunction(message.Source.Id, out newKey))
                 {
-                    throw new CoreException("意外的功能标识" + message.Source.Id);
+                    throw new AnycmdException("意外的功能标识" + message.Source.Id);
                 }
                 var oldKey = viewDicByFunction.Keys.FirstOrDefault(a => a.Id == newKey.Id);
                 if (oldKey != null && !viewDicByFunction.ContainsKey(newKey))
@@ -622,7 +622,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets.Impl
                     UiViewState newKey;
                     if (!host.UiViewSet.TryGetUiView(message.Source.Id, out newKey))
                     {
-                        throw new CoreException("意外的界面视图标识" + message.Source.Id);
+                        throw new AnycmdException("意外的界面视图标识" + message.Source.Id);
                     }
                     var oldKey = viewButtonsByUiView.Keys.FirstOrDefault(a => a.Id == newKey.Id);
                     if (oldKey != null && !viewButtonsByUiView.ContainsKey(newKey))
@@ -639,7 +639,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets.Impl
                     UiViewState key;
                     if (!host.UiViewSet.TryGetUiView(message.Source.Id, out key))
                     {
-                        throw new CoreException("意外的界面视图标识" + message.Source.Id);
+                        throw new AnycmdException("意外的界面视图标识" + message.Source.Id);
                     }
                     if (viewButtonsByUiView.ContainsKey(key))
                     {

@@ -34,12 +34,12 @@ namespace Anycmd.Engine.Host.Ac.MessageHandlers
             {
                 if (string.IsNullOrEmpty(command.Output.OrganizationCode))
                 {
-                    throw new CoreException("用户必须属于一个组织结构");
+                    throw new AnycmdException("用户必须属于一个组织结构");
                 }
                 OrganizationState organization;
                 if (!_host.OrganizationSet.TryGetOrganization(command.Output.OrganizationCode, out organization))
                 {
-                    throw new CoreException("意外的组织结构码" + command.Output.OrganizationCode);
+                    throw new AnycmdException("意外的组织结构码" + command.Output.OrganizationCode);
                 }
             }
             entity.Update(command.Output);

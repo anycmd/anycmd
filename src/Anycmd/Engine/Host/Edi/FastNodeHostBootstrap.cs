@@ -28,7 +28,7 @@ namespace Anycmd.Engine.Host.Edi
                 {
                     if (!_host.Rdbs.TryDb(_dbId, out _db))
                     {
-                        throw new CoreException("意外的数据库标识" + _dbId);
+                        throw new AnycmdException("意外的数据库标识" + _dbId);
                     }
                 }
                 return _db;

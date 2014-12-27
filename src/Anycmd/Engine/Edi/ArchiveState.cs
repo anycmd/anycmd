@@ -70,7 +70,7 @@ namespace Anycmd.Engine.Edi
                 Anycmd.Rdb.RdbmsType dbType;
                 if (!value.TryParse(out dbType))
                 {
-                    throw new CoreException("意外的关系数据库类型" + value);
+                    throw new AnycmdException("意外的关系数据库类型" + value);
                 }
                 _rdbmsType = value;
             }
@@ -121,7 +121,7 @@ namespace Anycmd.Engine.Edi
                 {
                     if (!Host.NodeHost.Ontologies.TryGetOntology(this.OntologyId, out _ontology))
                     {
-                        throw new CoreException("意外的本体Id" + this.OntologyId);
+                        throw new AnycmdException("意外的本体Id" + this.OntologyId);
                     }
                 }
                 return _ontology;
@@ -137,11 +137,11 @@ namespace Anycmd.Engine.Edi
             OntologyDescriptor ontology;
             if (!Host.NodeHost.Ontologies.TryGetOntology(this.OntologyId, out ontology))
             {
-                throw new CoreException("非法的本体" + this.OntologyId.ToString());
+                throw new AnycmdException("非法的本体" + this.OntologyId.ToString());
             }
             if (this.Id == Guid.Empty)
             {
-                throw new CoreException();
+                throw new AnycmdException();
             }
             this.ArchiveOn = DateTime.Now;
             this.NumberId = numberId;

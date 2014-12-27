@@ -42,9 +42,9 @@ namespace Anycmd.Engine.Host.Edi.MemorySets.Impl
         /// 根据发送策略名索引发送策略
         /// </summary>
         /// <param name="transferId">发送策略名</param>
-        /// <exception cref="CoreException">当给定名称的发送策略不存在时引发</exception>
+        /// <exception cref="AnycmdException">当给定名称的发送策略不存在时引发</exception>
         /// <returns></returns>
-        /// <exception cref="CoreException">当转移器标识非法时抛出</exception>
+        /// <exception cref="AnycmdException">当转移器标识非法时抛出</exception>
         public IMessageTransfer this[Guid transferId]
         {
             get
@@ -55,7 +55,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets.Impl
                 }
                 if (!_dic.ContainsKey(transferId))
                 {
-                    throw new CoreException("意外的转移器标识");
+                    throw new AnycmdException("意外的转移器标识");
                 }
 
                 return _dic[transferId];

@@ -11,6 +11,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets.Impl
     using Infra.Messages;
     using InOuts;
     using Model;
+    using Util;
     using Repositories;
     using System;
     using System.Collections;
@@ -61,8 +62,14 @@ namespace Anycmd.Engine.Host.Ac.MemorySets.Impl
             return _dicById.TryGetValue(entityTypeId, out entityType);
         }
 
-        public bool TryGetEntityType(string codespace, string entityTypeCode, out EntityTypeState entityType)
+        public bool TryGetEntityType(Coder code, out EntityTypeState entityType)
         {
+            if (code == null)
+            {
+                throw new ArgumentNullException("code");
+            }
+            var codespace = code.Codespace;
+            var entityTypeCode = code.Code;
             if (codespace == null)
             {
                 throw new ArgumentNullException("codespace");
@@ -170,7 +177,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets.Impl
                         {
                             if (_dicById.ContainsKey(entityType.Id))
                             {
-                                throw new CoreException("意外的重复的实体类型标识" + entityType.Id);
+                                throw new AnycmdException("意外的重复的实体类型标识" + entityType.Id);
                             }
                             if (!_dicByCode.ContainsKey(entityType.Codespace))
                             {
@@ -178,7 +185,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets.Impl
                             }
                             if (_dicByCode[entityType.Codespace].ContainsKey(entityType.Code))
                             {
-                                throw new CoreException("意外的重复的实体类型编码" + entityType.Codespace + "." + entityType.Code);
+                                throw new AnycmdException("意外的重复的实体类型编码" + entityType.Codespace + "." + entityType.Code);
                             }
                             var map = _host.GetEntityTypeMaps().FirstOrDefault(a => a.Codespace.Equals(entityType.Codespace, StringComparison.OrdinalIgnoreCase) && a.Code.Equals(entityType.Code, StringComparison.OrdinalIgnoreCase));
                             var entityTypeState = EntityTypeState.Create(_host, entityType, map);
@@ -257,9 +264,9 @@ namespace Anycmd.Engine.Host.Ac.MemorySets.Impl
                     EntityTypeState entityType;
                     if (host.EntityTypeSet.TryGetEntityType(input.Id.Value, out entityType))
                     {
-                        throw new CoreException("重复的实体类型标识" + input.Id);
+                        throw new AnycmdException("重复的实体类型标识" + input.Id);
                     }
-                    if (host.EntityTypeSet.TryGetEntityType(input.Codespace, input.Code, out entityType))
+                    if (host.EntityTypeSet.TryGetEntityType(new Coder(input.Codespace, input.Code), out entityType))
                     {
                         throw new ValidationException("重复的编码");
                     }
@@ -350,7 +357,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets.Impl
                 lock (bkState)
                 {
                     EntityTypeState entityType;
-                    if (host.EntityTypeSet.TryGetEntityType(input.Codespace, input.Code, out entityType) && entityType.Id != input.Id)
+                    if (host.EntityTypeSet.TryGetEntityType(new Coder(input.Codespace, input.Code), out entityType) && entityType.Id != input.Id)
                     {
                         throw new ValidationException("重复的编码");
                     }
@@ -569,7 +576,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets.Impl
                 }
                 if (propertyCode == null)
                 {
-                    throw new CoreException("属性编码为空");
+                    throw new AnycmdException("属性编码为空");
                 }
                 if (!_dicByCode.ContainsKey(entityType)
                     || !_dicByCode[entityType].ContainsKey(propertyCode))
@@ -658,7 +665,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets.Impl
                                 EntityTypeState entityType;
                                 if (!_host.EntityTypeSet.TryGetEntityType(property.EntityTypeId, out entityType))
                                 {
-                                    throw new CoreException("意外的实体属性类型标识" + property.EntityTypeId);
+                                    throw new AnycmdException("意外的实体属性类型标识" + property.EntityTypeId);
                                 }
                                 var propertyState = PropertyState.Create(_host, property);
                                 if (!_dicByCode.ContainsKey(entityType))
@@ -671,7 +678,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets.Impl
                                 }
                                 if (_dicById.ContainsKey(property.Id))
                                 {
-                                    throw new CoreException("意外的重复实体属性标识" + property.Id);
+                                    throw new AnycmdException("意外的重复实体属性标识" + property.Id);
                                 }
                                 _dicById.Add(property.Id, propertyState);
                             }
@@ -727,7 +734,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets.Impl
                     EntityTypeState newKey;
                     if (!host.EntityTypeSet.TryGetEntityType(message.Source.Id, out newKey))
                     {
-                        throw new CoreException("意外的实体类型标识" + message.Source.Id);
+                        throw new AnycmdException("意外的实体类型标识" + message.Source.Id);
                     }
                     if (!dicByCode.ContainsKey(newKey))
                     {
@@ -779,7 +786,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets.Impl
                     EntityTypeState entityType;
                     if (!host.EntityTypeSet.TryGetEntityType(input.EntityTypeId, out entityType))
                     {
-                        throw new CoreException("记录已经存在" + input.EntityTypeId);
+                        throw new AnycmdException("记录已经存在" + input.EntityTypeId);
                     }
                     Property entity;
                     lock (this)
@@ -795,7 +802,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets.Impl
                         }
                         if (host.EntityTypeSet.TryGetProperty(input.Id.Value, out property))
                         {
-                            throw new CoreException("记录已经存在");
+                            throw new AnycmdException("记录已经存在");
                         }
 
                         entity = Property.Create(input);
@@ -1228,7 +1235,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets.Impl
                     EntityTypeState entityType;
                     if (!host.EntityTypeSet.TryGetEntityType(oldState.EntityTypeId, out entityType))
                     {
-                        throw new CoreException("意外的实体属性类型标识" + oldState.EntityTypeId);
+                        throw new AnycmdException("意外的实体属性类型标识" + oldState.EntityTypeId);
                     }
                     string oldKey = oldState.Code;
                     string newKey = state.Code;
@@ -1288,7 +1295,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets.Impl
                         EntityTypeState entityType;
                         if (!host.EntityTypeSet.TryGetEntityType(bkState.EntityTypeId, out entityType))
                         {
-                            throw new CoreException("意外的实体属性类型标识" + bkState.EntityTypeId);
+                            throw new AnycmdException("意外的实体属性类型标识" + bkState.EntityTypeId);
                         }
                         if (dicById.ContainsKey(bkState.Id))
                         {

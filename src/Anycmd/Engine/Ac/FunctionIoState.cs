@@ -24,7 +24,7 @@ namespace Anycmd.Engine.Ac
             IoDirection direction;
             if (!entity.Direction.TryParse(out direction))
             {
-                throw new CoreException("意外的输入输出方向" + entity.Direction);
+                throw new AnycmdException("意外的输入输出方向" + entity.Direction);
             }
             return new FunctionIoState(entity.Id)
             {

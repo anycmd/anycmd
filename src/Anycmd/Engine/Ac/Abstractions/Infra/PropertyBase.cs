@@ -33,7 +33,7 @@ namespace Anycmd.Engine.Ac.Abstractions.Infra
             {
                 if (_entityTypeId != value && _entityTypeId != Guid.Empty)
                 {
-                    throw new CoreException("不能更改字段的所属模型");
+                    throw new AnycmdException("不能更改字段的所属模型");
                 }
                 _entityTypeId = value;
             }

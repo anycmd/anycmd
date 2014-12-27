@@ -4,6 +4,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     using Engine.Ac;
     using System;
     using System.Collections.Generic;
+    using Util;
 
     /// <summary>
     /// 表示该接口的实现类是系统实体类型集。
@@ -26,11 +27,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="codespace"></param>
-        /// <param name="entityTypeCode"></param>
+        /// <param name="code"></param>
         /// <param name="entityType"></param>
         /// <returns></returns>
-        bool TryGetEntityType(string codespace, string entityTypeCode, out EntityTypeState entityType);
+        bool TryGetEntityType(Coder code, out EntityTypeState entityType);
 
         /// <summary>
         /// 

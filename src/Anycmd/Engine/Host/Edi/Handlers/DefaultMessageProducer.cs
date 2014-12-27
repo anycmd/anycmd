@@ -172,7 +172,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers
             /// 根据给定的接收成功的命令建造待分发命令
             /// </summary>
             /// <param name="tuple">已成功接收的命令类型的命令描述对象</param>
-            /// <exception cref="CoreException">
+            /// <exception cref="AnycmdException">
             /// 当<seealso cref="ToNode"/>是自己时发生，不能建造分发向自己的命令消息
             /// </exception>
             /// <returns>待分发命令集合，可能为null</returns>
@@ -185,11 +185,11 @@ namespace Anycmd.Engine.Host.Edi.Handlers
                 #region 演出
                 if (ToNode == ToNode.Host.NodeHost.Nodes.ThisNode)
                 {
-                    throw new CoreException("不能建造分发向自己的命令消息");
+                    throw new AnycmdException("不能建造分发向自己的命令消息");
                 }
                 if (tuple.Context.ClientAgent == ToNode)
                 {
-                    throw new CoreException("不能基于来源节点的命令建造分发向来源节点的命令");
+                    throw new AnycmdException("不能基于来源节点的命令建造分发向来源节点的命令");
                 }
                 var actionCode = tuple.Context.Command.Verb;
                 if (actionCode == Verb.Create || actionCode == Verb.Update)

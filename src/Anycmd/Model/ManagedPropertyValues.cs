@@ -26,7 +26,7 @@ namespace Anycmd.Model
             ElementDescriptor element;
             if (!ontology.Elements.TryGetValue(propertyCode, out element))
             {
-                throw new CoreException("意外的" + ontology.Ontology.Name + "实体属性编码" + propertyCode);
+                throw new AnycmdException("意外的" + ontology.Ontology.Name + "实体属性编码" + propertyCode);
             }
             return InfoItem.Create(element, value);
         }

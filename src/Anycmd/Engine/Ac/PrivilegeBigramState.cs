@@ -29,21 +29,21 @@ namespace Anycmd.Engine.Ac
             }
             if (string.IsNullOrEmpty(privilegeBigram.SubjectType))
             {
-                throw new CoreException("必须指定主授权授权类型");
+                throw new AnycmdException("必须指定主授权授权类型");
             }
             if (string.IsNullOrEmpty(privilegeBigram.ObjectType))
             {
-                throw new CoreException("必须指定授权授权类型");
+                throw new AnycmdException("必须指定授权授权类型");
             }
             AcSubjectType subjectType;
             AcObjectType acObjectType;
             if (!privilegeBigram.SubjectType.TryParse(out subjectType))
             {
-                throw new CoreException("非法的主授权类型" + privilegeBigram.SubjectType);
+                throw new AnycmdException("非法的主授权类型" + privilegeBigram.SubjectType);
             }
             if (!privilegeBigram.ObjectType.TryParse(out acObjectType))
             {
-                throw new CoreException("非法的从授权类型" + privilegeBigram.ObjectType);
+                throw new AnycmdException("非法的从授权类型" + privilegeBigram.ObjectType);
             }
             return new PrivilegeBigramState(privilegeBigram.Id)
             {

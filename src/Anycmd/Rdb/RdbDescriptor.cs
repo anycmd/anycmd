@@ -52,7 +52,7 @@ namespace Anycmd.Rdb
             RdbmsType rdbmsType;
             if (!database.RdbmsType.TryParse(out rdbmsType))
             {
-                throw new CoreException("意外的关系数据库类型" + database.RdbmsType);
+                throw new AnycmdException("意外的关系数据库类型" + database.RdbmsType);
             }
             this.Database = database;
         }
@@ -104,7 +104,7 @@ namespace Anycmd.Rdb
                         _dataSource = Database.DataSource;
                         if (string.IsNullOrEmpty(_dataSource))
                         {
-                            throw new CoreException("数据源为空");
+                            throw new AnycmdException("数据源为空");
                         }
                         if (_dataSource == "."
                             || _dataSource.Equals("localhost", StringComparison.OrdinalIgnoreCase)
@@ -400,7 +400,7 @@ namespace Anycmd.Rdb
                     IReadOnlyDictionary<string, DbTableColumn> dbTableColumns;
                     if (!_host.DbTableColumns.TryGetDbTableColumns(this, dbTable, out dbTableColumns))
                     {
-                        throw new CoreException("意外的数据库表");
+                        throw new AnycmdException("意外的数据库表");
                     }
                     var dataTable = new DataTable(dbTable.Name);
                     foreach (var col in dbTableColumns.Select(a => a.Value).OrderBy(a => a.Ordinal))

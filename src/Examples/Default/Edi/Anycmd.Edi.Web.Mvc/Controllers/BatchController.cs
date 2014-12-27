@@ -25,16 +25,6 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
     [Guid("D017A61B-AB19-44A5-B144-103DA5DBB757")]
     public class BatchController : AnycmdController
     {
-        private static readonly EntityTypeState BatchEntityType;
-
-        static BatchController()
-        {
-            if (!Host.EntityTypeSet.TryGetEntityType("Edi", "Batch", out BatchEntityType))
-            {
-                throw new CoreException("意外的实体类型");
-            }
-        }
-
         #region ViewResults
         /// <summary>
         /// 批主页
@@ -62,7 +52,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                 Guid id;
                 if (Guid.TryParse(Request["id"], out id))
                 {
-                    var data = new BatchInfo(BatchEntityType.GetData(id));
+                    var data = new BatchInfo(base.EntityType.GetData(id));
                     return new PartialViewResult { ViewName = "Partials/Details", ViewData = new ViewDataDictionary(data) };
                 }
                 else
@@ -113,7 +103,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             {
                 throw new ValidationException("未传入标识");
             }
-            return this.JsonResult(new BatchInfo(BatchEntityType.GetData(id.Value)));
+            return this.JsonResult(new BatchInfo(base.EntityType.GetData(id.Value)));
         }
 
         /// <summary>

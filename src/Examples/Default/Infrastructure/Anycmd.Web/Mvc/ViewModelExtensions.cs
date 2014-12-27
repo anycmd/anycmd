@@ -1,4 +1,6 @@
 ﻿
+using Anycmd.Util;
+
 namespace Anycmd.Web.Mvc
 {
     using Engine.Ac;
@@ -125,7 +127,7 @@ namespace Anycmd.Web.Mvc
             DicState dic;
             if (!html.CurrentHost().DicSet.TryGetDic(dicCode, out dic))
             {
-                throw new CoreException("意外的字典编码" + dicCode);
+                throw new AnycmdException("意外的字典编码" + dicCode);
             }
             var value = "[]";
             var sb = new StringBuilder();
@@ -403,7 +405,7 @@ namespace Anycmd.Web.Mvc
             FunctionState function;
             if (!html.CurrentHost().FunctionSet.TryGetFunction(functionID, out function))
             {
-                throw new CoreException("意外的按钮功能标识" + functionID);
+                throw new AnycmdException("意外的按钮功能标识" + functionID);
             }
             return function;
         }
@@ -425,9 +427,9 @@ namespace Anycmd.Web.Mvc
         public static EntityTypeState GetEntityType(this HtmlHelper html, string codespace, string entityTypeCode)
         {
             EntityTypeState entityType;
-            if (!html.CurrentHost().EntityTypeSet.TryGetEntityType(codespace, entityTypeCode, out entityType))
+            if (!html.CurrentHost().EntityTypeSet.TryGetEntityType(new Coder(codespace, entityTypeCode), out entityType))
             {
-                throw new CoreException(string.Format("意外的实体类型码{0}.{1}", codespace, entityTypeCode));
+                throw new AnycmdException(string.Format("意外的实体类型码{0}.{1}", codespace, entityTypeCode));
             }
             return entityType;
         }
@@ -533,9 +535,9 @@ namespace Anycmd.Web.Mvc
             {
                 var host = html.CurrentHost();
                 EntityTypeState entityType;
-                if (!host.EntityTypeSet.TryGetEntityType(codespace, entityTypeCode, out entityType))
+                if (!host.EntityTypeSet.TryGetEntityType(new Coder(codespace, entityTypeCode), out entityType))
                 {
-                    throw new CoreException("意外的实体类型" + codespace + entityTypeCode);
+                    throw new AnycmdException("意外的实体类型" + codespace + entityTypeCode);
                 }
                 var propertyDic = host.EntityTypeSet.GetProperties(entityType);
                 html.ViewData.Add(key, propertyDic);

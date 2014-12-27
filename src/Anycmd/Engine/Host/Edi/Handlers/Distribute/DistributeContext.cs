@@ -72,17 +72,17 @@ namespace Anycmd.Engine.Host.Edi.Handlers.Distribute
                 {
                     if (this.Command.ClientType == ClientType.Undefined)
                     {
-                        throw new CoreException("意外的客户端类型" + this.Command.ClientType.ToString());
+                        throw new AnycmdException("意外的客户端类型" + this.Command.ClientType.ToString());
                     }
                     switch (this.Command.ClientType)
                     {
                         case ClientType.Undefined:
-                            throw new CoreException("意外的客户端类型");
+                            throw new AnycmdException("意外的客户端类型");
                         case ClientType.Node:
                             NodeDescriptor node;
                             if (!Ontology.Host.NodeHost.Nodes.TryGetNodeById(this.Command.ClientId, out node))
                             {
-                                throw new CoreException("意外的请求节点标识" + this.Command.ClientId);
+                                throw new AnycmdException("意外的请求节点标识" + this.Command.ClientId);
                             }
                             _clientAgent = node;
                             break;
@@ -91,7 +91,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers.Distribute
                         case ClientType.Monitor:
                             throw new NotSupportedException("意外的客户端类型");
                         default:
-                            throw new CoreException("意外的客户端类型" + this.Command.ClientType.ToString());
+                            throw new AnycmdException("意外的客户端类型" + this.Command.ClientType.ToString());
                     }
                 }
                 return _clientAgent;
@@ -109,7 +109,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers.Distribute
                 {
                     if (!_host.NodeHost.Ontologies.TryGetOntology(this.Command.Ontology, out _ontology))
                     {
-                        throw new CoreException("意外的本体码");
+                        throw new AnycmdException("意外的本体码");
                     }
                 }
                 return _ontology;

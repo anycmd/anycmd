@@ -38,7 +38,7 @@ namespace Anycmd.Engine.Ac.Abstractions.Infra
                 if (value == _uiViewId) return;
                 if (_uiViewId != Guid.Empty)
                 {
-                    throw new CoreException("不能更改所属界面视图");
+                    throw new AnycmdException("不能更改所属界面视图");
                 }
                 _uiViewId = value;
             }
@@ -54,7 +54,7 @@ namespace Anycmd.Engine.Ac.Abstractions.Infra
                 if (value == _buttonId) return;
                 if (_buttonId != Guid.Empty)
                 {
-                    throw new CoreException("不能更改关联按钮");
+                    throw new AnycmdException("不能更改关联按钮");
                 }
                 _buttonId = value;
             }

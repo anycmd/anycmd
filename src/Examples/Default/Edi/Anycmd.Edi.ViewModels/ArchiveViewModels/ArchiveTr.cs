@@ -113,7 +113,7 @@ namespace Anycmd.Edi.ViewModels.ArchiveViewModels
                 {
                     if (!_host.NodeHost.Ontologies.TryGetOntology(this.OntologyId, out _ontology))
                     {
-                        throw new CoreException("意外的本体标识" + this.OntologyId);
+                        throw new AnycmdException("意外的本体标识" + this.OntologyId);
                     }
                 }
                 return _ontology;

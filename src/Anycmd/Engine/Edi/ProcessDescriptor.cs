@@ -36,14 +36,14 @@ namespace Anycmd.Engine.Edi
             this.Process = process;
             if (!process.Type.TryParse(out _type))
             {
-                throw new CoreException("意外的进程类型");
+                throw new AnycmdException("意外的进程类型");
             }
             if (!string.IsNullOrEmpty(process.OrganizationCode))
             {
                 OrganizationState org;
                 if (!Host.OrganizationSet.TryGetOrganization(process.OrganizationCode, out org))
                 {
-                    throw new CoreException("意外的组织结构码" + process.OrganizationCode);
+                    throw new AnycmdException("意外的组织结构码" + process.OrganizationCode);
                 }
             }
         }
@@ -85,7 +85,7 @@ namespace Anycmd.Engine.Edi
                 if (_ontology != null) return _ontology;
                 if (!Host.NodeHost.Ontologies.TryGetOntology(this.Process.OntologyId, out _ontology))
                 {
-                    throw new CoreException("非法本体标识" + this.Process.OntologyId);
+                    throw new AnycmdException("非法本体标识" + this.Process.OntologyId);
                 }
                 return _ontology;
             }

@@ -12,7 +12,7 @@ namespace Anycmd.Bus
     [ComVisible(true)]
     [ClassInterface(ClassInterfaceType.None)]
     [ComDefaultInterface(typeof(_Exception))]
-    public class BusException : CoreException
+    public class BusException : AnycmdException
     {
         #region Ctor
         /// <summary>

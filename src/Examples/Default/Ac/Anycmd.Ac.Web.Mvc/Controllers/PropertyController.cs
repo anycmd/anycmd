@@ -1,6 +1,4 @@
 ﻿
-using System.Diagnostics;
-
 namespace Anycmd.Ac.Web.Mvc.Controllers
 {
     using Anycmd.Web.Mvc;
@@ -12,6 +10,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
     using Repositories;
     using System;
     using System.ComponentModel;
+    using System.Diagnostics;
     using System.Web.Mvc;
     using Util;
     using ViewModel;
@@ -24,16 +23,6 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
     [Guid("C73511E9-2430-462B-A96D-B2339237C55F")]
     public class PropertyController : AnycmdController
     {
-        private readonly EntityTypeState _propertyEntityType;
-
-        public PropertyController()
-        {
-            if (!Host.EntityTypeSet.TryGetEntityType("Ac", "Property", out _propertyEntityType))
-            {
-                throw new CoreException("意外的实体类型");
-            }
-        }
-
         #region ViewResults
         [By("xuexs")]
         [Description("字段")]
@@ -53,7 +42,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 Guid id;
                 if (Guid.TryParse(Request["id"], out id))
                 {
-                    var data = _propertyEntityType.GetData(id);
+                    var data = base.EntityType.GetData(id);
                     return new PartialViewResult { ViewName = "Partials/Details", ViewData = new ViewDataDictionary(data) };
                 }
                 else
@@ -82,7 +71,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 throw new ValidationException("未传入标识");
             }
-            return this.JsonResult(_propertyEntityType.GetData(id.Value));
+            return this.JsonResult(base.EntityType.GetData(id.Value));
         }
 
         [By("xuexs")]
@@ -94,7 +83,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 throw new ValidationException("未传入标识");
             }
-            return this.JsonResult(_propertyEntityType.GetData(id.Value));
+            return this.JsonResult(base.EntityType.GetData(id.Value));
         }
 
         [By("xuexs")]

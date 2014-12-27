@@ -31,19 +31,19 @@ namespace Anycmd.Edi.Client
             }
             if (cmdDto.Credential == null)
             {
-                throw new CoreException("非法状态的命令，没有设置证书");
+                throw new AnycmdException("非法状态的命令，没有设置证书");
             }
             if (string.IsNullOrEmpty(cmdDto.Credential.Password))
             {
                 CredentialType credentialType;
                 if (!cmdDto.Credential.CredentialType.TryParse(out credentialType))
                 {
-                    throw new CoreException("意外的证书类型" + cmdDto.Credential.CredentialType);
+                    throw new AnycmdException("意外的证书类型" + cmdDto.Credential.CredentialType);
                 }
                 ClientType clientType;
                 if (!cmdDto.Credential.ClientType.TryParse(out clientType))
                 {
-                    throw new CoreException("意外的客户端类型" + cmdDto.Credential.ClientType);
+                    throw new AnycmdException("意外的客户端类型" + cmdDto.Credential.ClientType);
                 }
                 switch (clientType)
                 {
@@ -53,7 +53,7 @@ namespace Anycmd.Edi.Client
                         NodeDescriptor clientNode;
                         if (!toNode.Host.NodeHost.Nodes.TryGetNodeByPublicKey(cmdDto.Credential.ClientId, out clientNode))
                         {
-                            throw new CoreException("意外的客户节点标识" + cmdDto.Credential.ClientId);
+                            throw new AnycmdException("意外的客户节点标识" + cmdDto.Credential.ClientId);
                         }
                         switch (credentialType)
                         {

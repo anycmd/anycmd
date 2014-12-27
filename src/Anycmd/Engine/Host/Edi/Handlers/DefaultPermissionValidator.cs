@@ -29,7 +29,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers
             ActionState action;
             if (!context.Ontology.Actions.TryGetValue(context.Command.Verb, out action))
             {
-                throw new CoreException("非法的动作类型");
+                throw new AnycmdException("非法的动作类型");
             }
             switch (action.AllowType)
             {

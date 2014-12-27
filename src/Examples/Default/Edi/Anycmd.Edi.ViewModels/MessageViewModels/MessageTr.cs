@@ -190,7 +190,7 @@ namespace Anycmd.Edi.ViewModels.MessageViewModels
                     ActionState action;
                     if (!this.OntologyDescriptor.Actions.TryGetValue(new Verb(this.Verb), out action))
                     {
-                        throw new CoreException("意外的" + this.OntologyName + "动作码" + this.Verb);
+                        throw new AnycmdException("意外的" + this.OntologyName + "动作码" + this.Verb);
                     }
                     _actionName = action.Name;
                 }
@@ -239,7 +239,7 @@ namespace Anycmd.Edi.ViewModels.MessageViewModels
                 if (_ontology != null) return _ontology;
                 if (!_host.NodeHost.Ontologies.TryGetOntology(this.Ontology, out _ontology))
                 {
-                    throw new CoreException("意外的本体码" + this.Ontology);
+                    throw new AnycmdException("意外的本体码" + this.Ontology);
                 }
                 return _ontology;
             }

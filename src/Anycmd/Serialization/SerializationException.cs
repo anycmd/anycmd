@@ -12,7 +12,7 @@ namespace Anycmd.Serialization
     [ComVisible(true)]
     [ClassInterface(ClassInterfaceType.None)]
     [ComDefaultInterface(typeof(_Exception))]
-    public class SerializationException : CoreException
+    public class SerializationException : AnycmdException
     {
         #region Ctor
         /// <summary>

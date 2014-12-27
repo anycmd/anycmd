@@ -1,6 +1,4 @@
 ﻿
-using System.Diagnostics;
-
 namespace Anycmd.Ac.Web.Mvc.Controllers
 {
     using Anycmd.Web.Mvc;
@@ -16,6 +14,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
     using System.Collections;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Diagnostics;
     using System.Linq;
     using System.Web.Mvc;
     using Util;
@@ -29,16 +28,6 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
     [Guid("78C0154F-9F40-4491-910F-B9443CF53122")]
     public class RoleController : AnycmdController
     {
-        private readonly EntityTypeState _roleEntityType;
-
-        public RoleController()
-        {
-            if (!Host.EntityTypeSet.TryGetEntityType("Ac", "Role", out _roleEntityType))
-            {
-                throw new CoreException("意外的实体类型");
-            }
-        }
-
         #region ViewResults
         [By("xuexs")]
         [Description("角色管理")]
@@ -58,7 +47,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 Guid id;
                 if (Guid.TryParse(Request["id"], out id))
                 {
-                    var data = _roleEntityType.GetData(id);
+                    var data = base.EntityType.GetData(id);
                     return new PartialViewResult { ViewName = "Partials/Details", ViewData = new ViewDataDictionary(data) };
                 }
                 else
@@ -119,7 +108,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 throw new ValidationException("未传入标识");
             }
-            return this.JsonResult(_roleEntityType.GetData(id.Value));
+            return this.JsonResult(base.EntityType.GetData(id.Value));
         }
 
         [By("xuexs")]
@@ -131,7 +120,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 throw new ValidationException("未传入标识");
             }
-            return this.JsonResult(_roleEntityType.GetData(id.Value));
+            return this.JsonResult(base.EntityType.GetData(id.Value));
         }
 
         [By("xuexs")]
@@ -171,7 +160,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                         RoleState role;
                         if (!Host.RoleSet.TryGetRole(ar.ObjectInstanceId, out role))
                         {
-                            throw new CoreException("意外的角色标识" + ar.ObjectInstanceId);
+                            throw new AnycmdException("意外的角色标识" + ar.ObjectInstanceId);
                         }
                         data.Add(new AccountAssignRoleTr
                         {
@@ -298,7 +287,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                         RoleState role;
                         if (!Host.RoleSet.TryGetRole(ar.RoleId, out role))
                         {
-                            throw new CoreException("意外的角色标识" + ar.RoleId);
+                            throw new AnycmdException("意外的角色标识" + ar.RoleId);
                         }
                         data.Add(new SsdSetAssignRoleTr
                         {
@@ -317,20 +306,20 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 else
                 {
                     data.AddRange(from role in Host.RoleSet
-                        where ssdSetRoles.All(a => a.RoleId != role.Id)
-                        select new SsdSetAssignRoleTr
-                        {
-                            SsdSetId = requestData.SsdSetId, 
-                            IsAssigned = false, 
-                            RoleId = role.Id, 
-                            CreateOn = null, 
-                            Id = Guid.NewGuid(), 
-                            IsEnabled = role.IsEnabled, 
-                            CategoryCode = role.CategoryCode, 
-                            Name = role.Name, 
-                            SortCode = role.SortCode, 
-                            Icon = role.Icon
-                        });
+                                  where ssdSetRoles.All(a => a.RoleId != role.Id)
+                                  select new SsdSetAssignRoleTr
+                                  {
+                                      SsdSetId = requestData.SsdSetId,
+                                      IsAssigned = false,
+                                      RoleId = role.Id,
+                                      CreateOn = null,
+                                      Id = Guid.NewGuid(),
+                                      IsEnabled = role.IsEnabled,
+                                      CategoryCode = role.CategoryCode,
+                                      Name = role.Name,
+                                      SortCode = role.SortCode,
+                                      Icon = role.Icon
+                                  });
                 }
             }
             else
@@ -412,7 +401,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                         RoleState role;
                         if (!Host.RoleSet.TryGetRole(ar.RoleId, out role))
                         {
-                            throw new CoreException("意外的角色标识" + ar.RoleId);
+                            throw new AnycmdException("意外的角色标识" + ar.RoleId);
                         }
                         data.Add(new DsdSetAssignRoleTr
                         {
@@ -431,20 +420,20 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 else
                 {
                     data.AddRange(from role in Host.RoleSet
-                        where ssdSetRoles.All(a => a.RoleId != role.Id)
-                        select new DsdSetAssignRoleTr
-                        {
-                            DsdSetId = requestData.DsdSetId, 
-                            IsAssigned = false, 
-                            RoleId = role.Id, 
-                            CreateOn = null, 
-                            Id = Guid.NewGuid(), 
-                            IsEnabled = role.IsEnabled, 
-                            CategoryCode = role.CategoryCode, 
-                            Name = role.Name, 
-                            SortCode = role.SortCode, 
-                            Icon = role.Icon
-                        });
+                                  where ssdSetRoles.All(a => a.RoleId != role.Id)
+                                  select new DsdSetAssignRoleTr
+                                  {
+                                      DsdSetId = requestData.DsdSetId,
+                                      IsAssigned = false,
+                                      RoleId = role.Id,
+                                      CreateOn = null,
+                                      Id = Guid.NewGuid(),
+                                      IsEnabled = role.IsEnabled,
+                                      CategoryCode = role.CategoryCode,
+                                      Name = role.Name,
+                                      SortCode = role.SortCode,
+                                      Icon = role.Icon
+                                  });
                 }
             }
             else

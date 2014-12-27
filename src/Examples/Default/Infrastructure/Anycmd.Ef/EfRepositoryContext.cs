@@ -36,7 +36,7 @@ namespace Anycmd.Ef
             var connSetting = ConfigurationManager.ConnectionStrings[efDbContextName];
             if (connSetting == null || string.IsNullOrEmpty(connSetting.ConnectionString))
             {
-                throw new Exceptions.CoreException("未配置name为" + efDbContextName + "的connectionStrings子节点");
+                throw new Exceptions.AnycmdException("未配置name为" + efDbContextName + "的connectionStrings子节点");
             }
         }
 
@@ -84,7 +84,7 @@ namespace Anycmd.Ef
             {
                 if (((IEntity)obj).Id == Guid.Empty)
                 {
-                    throw new CoreException("实体标识不能为空");
+                    throw new AnycmdException("实体标识不能为空");
                 }
             }
             if ((obj is IEntityBase))

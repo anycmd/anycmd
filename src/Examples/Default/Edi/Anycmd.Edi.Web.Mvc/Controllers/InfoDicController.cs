@@ -22,16 +22,6 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
     [Guid("11BF3409-6F00-4897-A6F3-DEDC34511966")]
     public class InfoDicController : AnycmdController
     {
-        private static readonly EntityTypeState InfoDicEntityType;
-
-        static InfoDicController()
-        {
-            if (!Host.EntityTypeSet.TryGetEntityType("Edi", "InfoDic", out InfoDicEntityType))
-            {
-                throw new CoreException("意外的实体类型");
-            }
-        }
-
         #region ViewResults
         /// <summary>
         /// 信息字典管理
@@ -59,7 +49,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                 Guid id;
                 if (Guid.TryParse(Request["id"], out id))
                 {
-                    var data = new InfoDicInfo(Host, InfoDicEntityType.GetData(id));
+                    var data = new InfoDicInfo(Host, base.EntityType.GetData(id));
                     return new PartialViewResult { ViewName = "Partials/Details", ViewData = new ViewDataDictionary(data) };
                 }
                 else
@@ -110,7 +100,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             {
                 throw new ValidationException("未传入标识");
             }
-            return this.JsonResult(new InfoDicInfo(Host, InfoDicEntityType.GetData(id.Value)));
+            return this.JsonResult(new InfoDicInfo(Host, base.EntityType.GetData(id.Value)));
         }
 
         /// <summary>
@@ -128,9 +118,9 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                 return ModelState.ToJsonResult();
             }
             EntityTypeState entityType;
-            if (!Host.EntityTypeSet.TryGetEntityType("Edi", "InfoDic", out entityType))
+            if (!Host.EntityTypeSet.TryGetEntityType(new Coder("Edi", "InfoDic"), out entityType))
             {
-                throw new CoreException("意外的实体类型Edi.InfoDic");
+                throw new AnycmdException("意外的实体类型Edi.InfoDic");
             }
             foreach (var filter in input.Filters)
             {

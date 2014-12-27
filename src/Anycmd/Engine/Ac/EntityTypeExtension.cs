@@ -41,11 +41,11 @@ namespace Anycmd.Engine.Ac
             RdbDescriptor db;
             if (!entityType.AcDomain.Rdbs.TryDb(entityType.DatabaseId, out db))
             {
-                throw new CoreException("意外的实体类型数据库标识" + entityType.Code);
+                throw new AnycmdException("意外的实体类型数据库标识" + entityType.Code);
             }
             if (string.IsNullOrEmpty(entityType.TableName))
             {
-                throw new CoreException(entityType.Name + "未配置对应的数据库表");
+                throw new AnycmdException(entityType.Name + "未配置对应的数据库表");
             }
             var sql = "select * from " + string.Format("[{0}]", entityType.TableName) + " as a where Id=@Id";
             using (var reader = db.ExecuteReader(sql, new SqlParameter("Id", id)))

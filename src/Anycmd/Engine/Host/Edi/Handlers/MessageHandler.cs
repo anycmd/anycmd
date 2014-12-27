@@ -120,7 +120,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers
                                     HandleEvent(context);
                                     break;
                                 default:
-                                    throw new CoreException("意外的请求类型" + context.Command.MessageType);
+                                    throw new AnycmdException("意外的请求类型" + context.Command.MessageType);
                             }
 
                             // ApplyProcessedFilters 应用处理后过滤器
@@ -138,7 +138,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers
                     IInfoStringConverter converter;
                     if (!context.Host.NodeHost.InfoStringConverters.TryGetInfoStringConverter(context.Command.DataTuple.InfoFormat, out converter))
                     {
-                        throw new CoreException("意外的信息格式" + context.Command.DataTuple.InfoFormat);
+                        throw new AnycmdException("意外的信息格式" + context.Command.DataTuple.InfoFormat);
                     }
                     var anyLog = new AnyLog(Guid.NewGuid())
                     {
@@ -191,7 +191,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers
         /// 该执行不会从成功接收的命令表中删除已执行的记录。
         /// </remarks>
         /// </summary>
-        /// <exception cref="CoreException">
+        /// <exception cref="AnycmdException">
         /// 当当前命令不是成功接收的命令时或者当前命令的动作码是get或head时引发
         /// </exception>
         /// <returns></returns>
@@ -460,7 +460,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers
                         #endregion
                     }
                 default:
-                    context.Exception = new CoreException("意外的事件源类型");
+                    context.Exception = new AnycmdException("意外的事件源类型");
                     throw context.Exception;
             }
         }

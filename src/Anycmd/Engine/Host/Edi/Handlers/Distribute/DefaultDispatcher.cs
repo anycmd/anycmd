@@ -239,7 +239,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers.Distribute
                                     if (stateCode == (int)Status.InternalServerError || stateCode < 200)
                                     {
                                         OnError(new ExceptionEventArgs(
-                                            new CoreException(
+                                            new AnycmdException(
                                                 stateCode + result.ReasonPhrase + result.Description))
                                         {
                                             ExceptionHandled = false

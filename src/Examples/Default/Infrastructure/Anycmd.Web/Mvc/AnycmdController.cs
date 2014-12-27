@@ -5,6 +5,7 @@ namespace Anycmd.Web.Mvc
     using Exceptions;
     using System;
     using System.Web.Mvc;
+    using Util;
     using ViewModel;
 
     /// <summary>
@@ -15,12 +16,23 @@ namespace Anycmd.Web.Mvc
     [ExceptionFilter(Order = int.MaxValue)]
     public class AnycmdController : BaseController
     {
-        protected EntityTypeState GetEntityType(string codespace, string entityTypeCode)
+        private EntityTypeState _entityType;
+        protected EntityTypeState EntityType
+        {
+            get {
+                return _entityType ??
+                       (_entityType =
+                           GetEntityType(new Coder(RouteData.DataTokens["area"].ToString(),
+                               RouteData.Values["controller"].ToString())));
+            }
+        }
+
+        protected EntityTypeState GetEntityType(Coder code)
         {
             EntityTypeState entityTypeEntityType;
-            if (!Host.EntityTypeSet.TryGetEntityType(codespace, entityTypeCode, out entityTypeEntityType))
+            if (!Host.EntityTypeSet.TryGetEntityType(code, out entityTypeEntityType))
             {
-                throw new CoreException("意外的实体类型");
+                throw new InvalidEntityTypeCodeException(code);
             }
             return entityTypeEntityType;
         }

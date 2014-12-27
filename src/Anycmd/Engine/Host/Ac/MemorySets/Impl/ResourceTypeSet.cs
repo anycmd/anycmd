@@ -120,7 +120,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets.Impl
                             AppSystemState appSystem;
                             if (!_host.AppSystemSet.TryGetAppSystem(resource.AppSystemId, out appSystem))
                             {
-                                throw new CoreException("意外的资源类型应用系统标识" + resource.AppSystemId);
+                                throw new AnycmdException("意外的资源类型应用系统标识" + resource.AppSystemId);
                             }
                             if (!_dicByCode.ContainsKey(appSystem))
                             {
@@ -128,11 +128,11 @@ namespace Anycmd.Engine.Host.Ac.MemorySets.Impl
                             }
                             if (_dicByCode[appSystem].ContainsKey(resource.Code))
                             {
-                                throw new CoreException("意外重复的资源标识" + resource.Id);
+                                throw new AnycmdException("意外重复的资源标识" + resource.Id);
                             }
                             if (_dicById.ContainsKey(resource.Id))
                             {
-                                throw new CoreException("意外重复的资源标识" + resource.Id);
+                                throw new AnycmdException("意外重复的资源标识" + resource.Id);
                             }
                             var resourceState = ResourceTypeState.Create(resource);
                             _dicByCode[appSystem].Add(resource.Code, resourceState);

@@ -1,6 +1,4 @@
 ﻿
-using System.Diagnostics;
-
 namespace Anycmd.Ac.Web.Mvc.Controllers
 {
     using Anycmd.Web.Mvc;
@@ -16,6 +14,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
     using System.Collections;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Diagnostics;
     using System.Linq;
     using System.Web.Mvc;
     using Util;
@@ -30,16 +29,6 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
     [Guid("43C0730E-D533-4F2B-80D6-CEC399E7F764")]
     public class FunctionController : AnycmdController
     {
-        private readonly EntityTypeState _functionEntityType;
-
-        public FunctionController()
-        {
-            if (!Host.EntityTypeSet.TryGetEntityType("Ac", "Function", out _functionEntityType))
-            {
-                throw new CoreException("意外的实体类型");
-            }
-        }
-
         #region ViewPages
 
         [By("xuexs")]
@@ -60,7 +49,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 Guid id;
                 if (Guid.TryParse(Request["id"], out id))
                 {
-                    var data = FunctionInfo.Create(_functionEntityType.GetData(id));
+                    var data = FunctionInfo.Create(base.EntityType.GetData(id));
                     return new PartialViewResult { ViewName = "Partials/Details", ViewData = new ViewDataDictionary(data) };
                 }
                 else
@@ -109,7 +98,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 throw new ValidationException("未传入标识");
             }
-            return this.JsonResult(_functionEntityType.GetData(id.Value));
+            return this.JsonResult(base.EntityType.GetData(id.Value));
         }
 
         [By("xuexs")]
@@ -121,7 +110,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 throw new ValidationException("未传入标识");
             }
-            return this.JsonResult(FunctionInfo.Create(_functionEntityType.GetData(id.Value)));
+            return this.JsonResult(FunctionInfo.Create(base.EntityType.GetData(id.Value)));
         }
 
         [By("xuexs")]
@@ -305,7 +294,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            var data = Host.GetPlistPrivilegeByRoleID(requestData);
+            var data = Host.GetPlistPrivilegeByRoleId(requestData);
 
             Debug.Assert(requestData.Total != null, "requestData.total != null");
             return this.JsonResult(new MiniGrid<RoleAssignFunctionTr> { total = requestData.Total.Value, data = data });

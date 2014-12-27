@@ -20,16 +20,6 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
     [Guid("0A3CE8EF-7F36-4D00-9C76-5CA295C1A172")]
     public class StateCodeController : AnycmdController
     {
-        private static readonly EntityTypeState StateCodeEntityType;
-
-        static StateCodeController()
-        {
-            if (!Host.EntityTypeSet.TryGetEntityType("Edi", "StateCode", out StateCodeEntityType))
-            {
-                throw new CoreException("意外的实体类型");
-            }
-        }
-
         #region ViewResults
         /// <summary>
         /// 信息字典管理
@@ -57,7 +47,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                 Guid id;
                 if (Guid.TryParse(Request["id"], out id))
                 {
-                    var data = StateCodeEntityType.GetData(id);
+                    var data = base.EntityType.GetData(id);
                     return new PartialViewResult { ViewName = "Partials/Details", ViewData = new ViewDataDictionary(data) };
                 }
                 else
@@ -91,7 +81,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             {
                 throw new ValidationException("未传入标识");
             }
-            return this.JsonResult(StateCodeEntityType.GetData(id.Value));
+            return this.JsonResult(base.EntityType.GetData(id.Value));
         }
 
         /// <summary>
@@ -108,7 +98,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             {
                 throw new ValidationException("未传入标识");
             }
-            return this.JsonResult(StateCodeEntityType.GetData(id.Value));
+            return this.JsonResult(base.EntityType.GetData(id.Value));
         }
 
         /// <summary>

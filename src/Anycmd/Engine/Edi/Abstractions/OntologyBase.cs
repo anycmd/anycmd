@@ -39,7 +39,7 @@ namespace Anycmd.Engine.Edi.Abstractions
             {
                 if (_isSystem == false && value == true)
                 {
-                    throw new CoreException("不能更改系统属性");
+                    throw new AnycmdException("不能更改系统属性");
                 }
                 _isSystem = value;
             }

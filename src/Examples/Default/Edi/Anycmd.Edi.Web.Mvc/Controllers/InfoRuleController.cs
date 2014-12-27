@@ -24,16 +24,6 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
     [Guid("3644F0EF-4AC5-497C-AD37-76E8DA1932E2")]
     public class InfoRuleController : AnycmdController
     {
-        private static readonly EntityTypeState InfoRuleEntityType;
-
-        static InfoRuleController()
-        {
-            if (!Host.EntityTypeSet.TryGetEntityType("Edi", "InfoRule", out InfoRuleEntityType))
-            {
-                throw new CoreException("意外的实体类型");
-            }
-        }
-
         #region ViewResults
         /// <summary>
         /// 信息项验证器主页
@@ -61,7 +51,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                 Guid id;
                 if (Guid.TryParse(Request["id"], out id))
                 {
-                    var data = new InfoRuleInfo(InfoRuleEntityType.GetData(id));
+                    var data = new InfoRuleInfo(base.EntityType.GetData(id));
                     return new PartialViewResult { ViewName = "Partials/Details", ViewData = new ViewDataDictionary(data) };
                 }
                 else
@@ -130,7 +120,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             {
                 throw new ValidationException("未传入标识");
             }
-            return this.JsonResult(new InfoRuleInfo(InfoRuleEntityType.GetData(id.Value)));
+            return this.JsonResult(new InfoRuleInfo(base.EntityType.GetData(id.Value)));
         }
 
         /// <summary>
@@ -147,9 +137,9 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                 return ModelState.ToJsonResult();
             }
             EntityTypeState infoRuleEntityType;
-            if (!Host.EntityTypeSet.TryGetEntityType("Edi", "InfoRule", out infoRuleEntityType))
+            if (!Host.EntityTypeSet.TryGetEntityType(new Coder("Edi", "InfoRule"), out infoRuleEntityType))
             {
-                throw new CoreException("意外的实体类型");
+                throw new AnycmdException("意外的实体类型");
             }
             foreach (var filter in requestData.Filters)
             {

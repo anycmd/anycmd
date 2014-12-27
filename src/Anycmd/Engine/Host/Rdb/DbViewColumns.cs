@@ -77,7 +77,7 @@ namespace Anycmd.Engine.Host.Rdb
                                 if (_dic[database].ContainsKey(view))
                                 {
                                     // TODO:暂不支持Schema
-                                    throw new CoreException("重名的数据库视图" + database.Database.CatalogName + "." + view.SchemaName + "." + view.Name);
+                                    throw new AnycmdException("重名的数据库视图" + database.Database.CatalogName + "." + view.SchemaName + "." + view.Name);
                                 }
                                 _dic[database].Add(view, new Dictionary<string, DbViewColumn>(StringComparer.OrdinalIgnoreCase));
                                 foreach (var viewCol in columns.Where(a => a.ViewName == view.Name && a.SchemaName == view.SchemaName))

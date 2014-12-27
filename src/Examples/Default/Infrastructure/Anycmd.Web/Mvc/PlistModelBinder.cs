@@ -30,7 +30,7 @@ namespace Anycmd.Web.Mvc
                     var model = bindingContext.Model as IGetPlistResult;
                     if (model == null)
                     {
-                        throw new CoreException();
+                        throw new AnycmdException();
                     }
                     var json = controllerContext.RequestContext.HttpContext.Request.Params["filters"];
                     List<FilterData> value = null;

@@ -27,11 +27,11 @@ namespace Anycmd.Engine.Ac.Abstractions.Identity
             {
                 if (value == default(int))
                 {
-                    throw new CoreException("数字标识是必须的");
+                    throw new AnycmdException("数字标识是必须的");
                 }
                 else if (_numberId != value && _numberId != default(int))
                 {
-                    throw new CoreException("数字标识不能更改");
+                    throw new AnycmdException("数字标识不能更改");
                 }
                 _numberId = value;
             }

@@ -1,4 +1,6 @@
 ﻿
+using Anycmd.Util;
+
 namespace Anycmd.Tests
 {
     using Ac.ViewModels.Infra.EntityTypeViewModels;
@@ -45,7 +47,7 @@ namespace Anycmd.Tests
             }));
             Assert.Equal(1, host.EntityTypeSet.Count());
             Assert.True(host.EntityTypeSet.TryGetEntityType(entityTypeId, out entityTypeById));
-            Assert.True(host.EntityTypeSet.TryGetEntityType(codespace, "EntityType1", out entityTypeByCode));
+            Assert.True(host.EntityTypeSet.TryGetEntityType(new Coder(codespace, "EntityType1"), out entityTypeByCode));
             Assert.Equal(entityTypeByCode, entityTypeById);
             Assert.True(ReferenceEquals(entityTypeById, entityTypeByCode));
 
@@ -67,7 +69,7 @@ namespace Anycmd.Tests
             }));
             Assert.Equal(1, host.EntityTypeSet.Count());
             Assert.True(host.EntityTypeSet.TryGetEntityType(entityTypeId, out entityTypeById));
-            Assert.True(host.EntityTypeSet.TryGetEntityType(codespace, "EntityType2", out entityTypeByCode));
+            Assert.True(host.EntityTypeSet.TryGetEntityType(new Coder(codespace, "EntityType2"), out entityTypeByCode));
             Assert.Equal(entityTypeByCode, entityTypeById);
             Assert.True(ReferenceEquals(entityTypeById, entityTypeByCode));
             Assert.Equal("test2", entityTypeById.Name);
@@ -75,7 +77,7 @@ namespace Anycmd.Tests
 
             host.Handle(new RemoveEntityTypeCommand(entityTypeId));
             Assert.False(host.EntityTypeSet.TryGetEntityType(entityTypeId, out entityTypeById));
-            Assert.False(host.EntityTypeSet.TryGetEntityType(codespace, "EntityType2", out entityTypeByCode));
+            Assert.False(host.EntityTypeSet.TryGetEntityType(new Coder(codespace, "EntityType2"), out entityTypeByCode));
             Assert.Equal(0, host.EntityTypeSet.Count());
 
             // 开始测试Property

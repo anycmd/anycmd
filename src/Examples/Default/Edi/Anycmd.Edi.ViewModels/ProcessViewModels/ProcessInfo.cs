@@ -27,7 +27,7 @@ namespace Anycmd.Edi.ViewModels.ProcessViewModels
             OntologyDescriptor ontology;
             if (!dic.Host.NodeHost.Ontologies.TryGetOntology((Guid)this["OntologyId"], out ontology))
             {
-                throw new CoreException("意外的本体标识" + this["OntologyId"]);
+                throw new AnycmdException("意外的本体标识" + this["OntologyId"]);
             }
             if (!this.ContainsKey("OntologyCode"))
             {
@@ -40,7 +40,7 @@ namespace Anycmd.Edi.ViewModels.ProcessViewModels
             ProcessDescriptor process;
             if (!dic.Host.NodeHost.Processs.TryGetProcess((Guid)this["Id"], out process))
             {
-                throw new CoreException("意外的进程标识" + this["Id"]);
+                throw new AnycmdException("意外的进程标识" + this["Id"]);
             }
             if (!this.ContainsKey("WebApiBaseAddress"))
             {
