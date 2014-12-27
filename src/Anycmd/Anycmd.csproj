@@ -105,9 +105,9 @@
     <Compile Include="Engine\Ac\ISysUserSet.cs" />
     <Compile Include="Engine\Ac\IUiViewSet.cs" />
     <Compile Include="Engine\Host\AnycmdServiceContainer.cs" />
-    <Compile Include="Exceptions\InvalidEntityTypeCodeException.cs" />
-    <Compile Include="Exceptions\InvalidResourceTypeCodeException.cs" />
-    <Compile Include="Exceptions\ServiceNotFoundException.cs" />
+    <Compile Include="Engine\InvalidEntityTypeCodeException.cs" />
+    <Compile Include="Engine\InvalidResourceTypeCodeException.cs" />
+    <Compile Include="Engine\ServiceNotFoundException.cs" />
     <Compile Include="Engine\Host\Dapper\SqlMapper.cs" />
     <Compile Include="Engine\Host\Dapper\SqlMapperAsync.cs" />
     <Compile Include="GuidAttribute.cs" />

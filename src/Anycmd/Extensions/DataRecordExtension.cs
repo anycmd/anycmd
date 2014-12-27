@@ -1,10 +1,9 @@
 ﻿
-using Anycmd.Util;
-
 namespace Anycmd.Extensions
 {
     using System;
     using System.Data;
+    using Util;
 
     public static class DataRecordExtension
     {

@@ -1,6 +1,7 @@
 ﻿
-namespace Anycmd.Exceptions
+namespace Anycmd.Engine
 {
+    using Exceptions;
     using System;
     using Util;
 

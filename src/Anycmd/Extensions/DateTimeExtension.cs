@@ -1,5 +1,4 @@
 ﻿
-
 namespace Anycmd.Extensions
 {
     using System;

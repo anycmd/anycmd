@@ -1,6 +1,7 @@
 ﻿
 namespace Anycmd.Ac.ViewModels
 {
+    using Engine;
     using Engine.Ac;
     using Engine.Ac.Abstractions;
     using Exceptions;
