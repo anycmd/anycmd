@@ -16,7 +16,7 @@ namespace Anycmd.Engine.Host.Edi
 
         public Archive[] GetArchives()
         {
-            var repository = _host.GetRequiredService<IRepository<Archive>>();
+            var repository = _host.RetrieveRequiredService<IRepository<Archive>>();
             using (var context = repository.Context)
             {
                 return repository.AsQueryable().ToArray();
@@ -25,7 +25,7 @@ namespace Anycmd.Engine.Host.Edi
 
         public Element[] GetElements()
         {
-            var repository = _host.GetRequiredService<IRepository<Element>>();
+            var repository = _host.RetrieveRequiredService<IRepository<Element>>();
             using (var context = repository.Context)
             {
                 return repository.AsQueryable().Where(a => a.DeletionStateCode == 0).ToArray();
@@ -34,7 +34,7 @@ namespace Anycmd.Engine.Host.Edi
 
         public InfoDicItem[] GetInfoDicItems()
         {
-            var repository = _host.GetRequiredService<IRepository<InfoDicItem>>();
+            var repository = _host.RetrieveRequiredService<IRepository<InfoDicItem>>();
             using (var context = repository.Context)
             {
                 return repository.AsQueryable().Where(a => a.DeletionStateCode == 0).ToArray();
@@ -43,7 +43,7 @@ namespace Anycmd.Engine.Host.Edi
 
         public InfoDic[] GetInfoDics()
         {
-            var repository = _host.GetRequiredService<IRepository<InfoDic>>();
+            var repository = _host.RetrieveRequiredService<IRepository<InfoDic>>();
             using (var context = repository.Context)
             {
                 return repository.AsQueryable().Where(a => a.DeletionStateCode == 0).ToArray();
@@ -52,7 +52,7 @@ namespace Anycmd.Engine.Host.Edi
 
         public NodeElementAction[] GetNodeElementActions()
         {
-            var repository = _host.GetRequiredService<IRepository<NodeElementAction>>();
+            var repository = _host.RetrieveRequiredService<IRepository<NodeElementAction>>();
             using (var context = repository.Context)
             {
                 return repository.AsQueryable().ToArray();
@@ -61,7 +61,7 @@ namespace Anycmd.Engine.Host.Edi
 
         public NodeElementCare[] GetNodeElementCares()
         {
-            var repository = _host.GetRequiredService<IRepository<NodeElementCare>>();
+            var repository = _host.RetrieveRequiredService<IRepository<NodeElementCare>>();
             using (var context = repository.Context)
             {
                 return repository.AsQueryable().ToArray();
@@ -70,7 +70,7 @@ namespace Anycmd.Engine.Host.Edi
 
         public NodeOntologyCare[] GetNodeOntologyCares()
         {
-            var repository = _host.GetRequiredService<IRepository<NodeOntologyCare>>();
+            var repository = _host.RetrieveRequiredService<IRepository<NodeOntologyCare>>();
             using (var context = repository.Context)
             {
                 return repository.AsQueryable().ToArray();
@@ -79,7 +79,7 @@ namespace Anycmd.Engine.Host.Edi
 
         public NodeOntologyOrganization[] GetNodeOntologyOrganizations()
         {
-            var repository = _host.GetRequiredService<IRepository<NodeOntologyOrganization>>();
+            var repository = _host.RetrieveRequiredService<IRepository<NodeOntologyOrganization>>();
             using (var context = repository.Context)
             {
                 return repository.AsQueryable().ToArray();
@@ -88,7 +88,7 @@ namespace Anycmd.Engine.Host.Edi
 
         public Node[] GetNodes()
         {
-            var repository = _host.GetRequiredService<IRepository<Node>>();
+            var repository = _host.RetrieveRequiredService<IRepository<Node>>();
             using (var context = repository.Context)
             {
                 return repository.AsQueryable().Where(a => a.DeletionStateCode == 0).ToArray();
@@ -97,7 +97,7 @@ namespace Anycmd.Engine.Host.Edi
 
         public Ontology[] GetOntologies()
         {
-            var repository = _host.GetRequiredService<IRepository<Ontology>>();
+            var repository = _host.RetrieveRequiredService<IRepository<Ontology>>();
             using (var context = repository.Context)
             {
                 return repository.AsQueryable().Where(a => a.DeletionStateCode == 0).ToArray();
@@ -106,7 +106,7 @@ namespace Anycmd.Engine.Host.Edi
 
         public InfoGroup[] GetInfoGroups()
         {
-            var repository = _host.GetRequiredService<IRepository<Ontology>>();
+            var repository = _host.RetrieveRequiredService<IRepository<Ontology>>();
             using (var context = repository.Context)
             {
                 return context.Query<InfoGroup>().ToArray();
@@ -115,7 +115,7 @@ namespace Anycmd.Engine.Host.Edi
 
         public Action[] GetActions()
         {
-            var repository = _host.GetRequiredService<IRepository<Ontology>>();
+            var repository = _host.RetrieveRequiredService<IRepository<Ontology>>();
             using (var context = repository.Context)
             {
                 return context.Query<Action>().ToArray();
@@ -124,7 +124,7 @@ namespace Anycmd.Engine.Host.Edi
 
         public Topic[] GetTopics()
         {
-            var repository = _host.GetRequiredService<IRepository<Ontology>>();
+            var repository = _host.RetrieveRequiredService<IRepository<Ontology>>();
             using (var context = repository.Context)
             {
                 return context.Query<Topic>().ToArray();
@@ -133,7 +133,7 @@ namespace Anycmd.Engine.Host.Edi
 
         public OntologyOrganization[] GetOntologyOrganizations()
         {
-            var repository = _host.GetRequiredService<IRepository<OntologyOrganization>>();
+            var repository = _host.RetrieveRequiredService<IRepository<OntologyOrganization>>();
             using (var context = repository.Context)
             {
                 return repository.AsQueryable().ToArray();
@@ -142,7 +142,7 @@ namespace Anycmd.Engine.Host.Edi
 
         public Process[] GetProcesses()
         {
-            var repository = _host.GetRequiredService<IRepository<Process>>();
+            var repository = _host.RetrieveRequiredService<IRepository<Process>>();
             using (var context = repository.Context)
             {
                 return repository.AsQueryable().ToArray();

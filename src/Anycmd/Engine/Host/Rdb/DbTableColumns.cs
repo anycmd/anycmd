@@ -69,7 +69,7 @@ namespace Anycmd.Engine.Host.Rdb
                         _dicById.Clear();
                         foreach (var database in _host.Rdbs)
                         {
-                            var columns = _host.GetRequiredService<IOriginalHostStateReader>().GetTableColumns(database);
+                            var columns = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetTableColumns(database);
                             _dic.Add(database, new Dictionary<DbTable, Dictionary<string, DbTableColumn>>());
                             _dicById.Add(database, new Dictionary<string, DbTableColumn>(StringComparer.OrdinalIgnoreCase));
                             foreach (var table in _host.DbTables[database].Values)

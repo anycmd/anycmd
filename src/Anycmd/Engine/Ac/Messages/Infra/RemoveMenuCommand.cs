@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Ac.Messages.Infra
     using Model;
     using System;
 
-    public class RemoveMenuCommand : RemoveEntityCommand, ISysCommand
+    public class RemoveMenuCommand : RemoveEntityCommand, IAnycmdCommand
     {
         public RemoveMenuCommand(Guid menuId)
             : base(menuId)

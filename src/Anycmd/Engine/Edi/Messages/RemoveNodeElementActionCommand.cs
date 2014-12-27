@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Edi.Messages
     using Model;
     using System;
 
-    public class RemoveNodeElementActionCommand : RemoveEntityCommand, ISysCommand
+    public class RemoveNodeElementActionCommand : RemoveEntityCommand, IAnycmdCommand
     {
         public RemoveNodeElementActionCommand(Guid nodeElementActionId)
             : base(nodeElementActionId)

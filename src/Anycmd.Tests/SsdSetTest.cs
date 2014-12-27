@@ -221,7 +221,7 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 AuditState = "auditPass"
             }));
-            Assert.NotNull(host.GetRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
+            Assert.NotNull(host.RetrieveRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
             host.SignIn(new Dictionary<string, object>
             {
                 {"loginName", "test"},

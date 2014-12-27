@@ -4,7 +4,7 @@ namespace Anycmd.Engine.Ac.Messages.Infra
     using Commands;
     using System;
 
-    public class SaveHelpCommand : Command, ISysCommand
+    public class SaveHelpCommand : Command, IAnycmdCommand
     {
         public SaveHelpCommand(Guid functionId, string content, int? isEnabled)
         {

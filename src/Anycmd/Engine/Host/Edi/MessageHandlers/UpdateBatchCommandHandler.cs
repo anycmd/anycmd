@@ -18,7 +18,7 @@ namespace Anycmd.Engine.Host.Edi.MessageHandlers
 
         public override void Handle(UpdateBatchCommand command)
         {
-            var batchRepository = _host.GetRequiredService<IRepository<Batch>>();
+            var batchRepository = _host.RetrieveRequiredService<IRepository<Batch>>();
             var entity = batchRepository.GetByKey(command.Output.Id);
             if (entity == null)
             {

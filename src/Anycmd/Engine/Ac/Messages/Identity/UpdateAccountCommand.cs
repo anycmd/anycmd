@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Ac.Messages.Identity
     using InOuts;
     using Model;
 
-    public class UpdateAccountCommand : UpdateEntityCommand<IAccountUpdateIo>, ISysCommand
+    public class UpdateAccountCommand : UpdateEntityCommand<IAccountUpdateIo>, IAnycmdCommand
     {
         public UpdateAccountCommand(IAccountUpdateIo input)
             : base(input)

@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Ac.Messages
     using Model;
     using System;
 
-    public class RemoveDsdSetCommand : RemoveEntityCommand, ISysCommand
+    public class RemoveDsdSetCommand : RemoveEntityCommand, IAnycmdCommand
     {
         public RemoveDsdSetCommand(Guid dsdSetId)
             : base(dsdSetId)

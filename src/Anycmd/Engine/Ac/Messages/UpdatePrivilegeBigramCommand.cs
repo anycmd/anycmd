@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Ac.Messages
     using InOuts;
     using Model;
 
-    public class UpdatePrivilegeBigramCommand : UpdateEntityCommand<IPrivilegeBigramUpdateIo>, ISysCommand
+    public class UpdatePrivilegeBigramCommand : UpdateEntityCommand<IPrivilegeBigramUpdateIo>, IAnycmdCommand
     {
         public UpdatePrivilegeBigramCommand(IPrivilegeBigramUpdateIo input)
             : base(input)

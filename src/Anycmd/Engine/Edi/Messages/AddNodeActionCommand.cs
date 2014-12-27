@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Edi.Messages
     using InOuts;
     using Model;
 
-    public class AddNodeActionCommand : AddEntityCommand<INodeActionCreateIo>, ISysCommand
+    public class AddNodeActionCommand : AddEntityCommand<INodeActionCreateIo>, IAnycmdCommand
     {
         public AddNodeActionCommand(INodeActionCreateIo input)
             : base(input)

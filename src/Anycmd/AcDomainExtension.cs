@@ -1,7 +1,7 @@
 ﻿
 namespace Anycmd
 {
-    using Commands;
+    using Engine;
     using Engine.Host.Ac.Infra;
     using Events;
     using Events.Serialization;
@@ -41,7 +41,7 @@ namespace Anycmd
         }
 
         /// <summary>
-        /// this.DirectEventBus.Publish(evnt);
+        /// 将给定的事件发布到事件总线
         /// </summary>
         /// <typeparam name="TEvent"></typeparam>
         /// <param name="host"></param>
@@ -52,7 +52,7 @@ namespace Anycmd
         }
 
         /// <summary>
-        /// this.DirectEventBus.Commit();
+        /// 提交命令总线
         /// </summary>
         public static void CommitEventBus(this IAcDomain host)
         {
@@ -60,40 +60,39 @@ namespace Anycmd
         }
 
         /// <summary>
-        /// this.DirectCommandBus.Publish(command);
-        /// this.DirectCommandBus.Commit();
+        /// 处理命令，发布并提交命令。
         /// </summary>
         /// <param name="host"></param>
         /// <param name="command"></param>
-        public static void Handle(this IAcDomain host, ISysCommand command)
+        public static void Handle(this IAcDomain host, IAnycmdCommand command)
         {
             host.CommandBus.Publish(command);
             host.CommandBus.Commit();
         }
 
         /// <summary>
-        /// Retrieves the service of type <c>T</c> from the provider.
-        /// If the service cannot be found, this method returns <c>null</c>.
+        /// 从容器中取出给定类型的服务。
+        /// 如果服务未找到将返回null值。
         /// </summary>
-        public static T GetService<T>(this IAcDomain host)
+        public static T RetrieveService<T>(this IAcDomain host)
         {
             return (T)host.GetService(typeof(T));
         }
 
         /// <summary>
-        /// Retrieves the service of type <c>T</c> from the provider.
-        /// If the service cannot be found, a <see cref="ServiceNotFoundException"/> will be thrown.
+        /// 从容器中取出给定类型的服务。
+        /// 如果服务未找到将抛出<see cref="ServiceNotFoundException"/>类型异常。
         /// </summary>
-        public static T GetRequiredService<T>(this IAcDomain host)
+        public static T RetrieveRequiredService<T>(this IAcDomain host)
         {
-            return (T)GetRequiredService(host, typeof(T));
+            return (T)RetrieveRequiredService(host, typeof(T));
         }
 
         /// <summary>
-        /// Retrieves the service of type <paramref name="serviceType"/> from the provider.
-        /// If the service cannot be found, a <see cref="ServiceNotFoundException"/> will be thrown.
+        /// 从容器中取出给定类型的服务。
+        /// 如果服务未找到将抛出<see cref="ServiceNotFoundException"/>类型异常。
         /// </summary>
-        public static object GetRequiredService(this IAcDomain host, Type serviceType)
+        public static object RetrieveRequiredService(this IAcDomain host, Type serviceType)
         {
             var service = host.GetService(serviceType);
             if (service == null)
@@ -110,7 +109,7 @@ namespace Anycmd
         /// <returns>The initialized data object instance.</returns>
         public static DomainEventDataObject FromDomainEvent(this IAcDomain host, IDomainEvent entity)
         {
-            var serializer = host.GetRequiredService<IDomainEventSerializer>();
+            var serializer = host.RetrieveRequiredService<IDomainEventSerializer>();
             var obj = new DomainEventDataObject
             {
                 Branch = entity.Branch,
@@ -127,6 +126,7 @@ namespace Anycmd
             };
             return obj;
         }
+
         /// <summary>
         /// Converts the domain event data object to its corresponding domain event entity instance.
         /// </summary>
@@ -138,7 +138,7 @@ namespace Anycmd
             if (from.Data == null || from.Data.Length == 0)
                 throw new InvalidDataException("Data");
 
-            var serializer = host.GetRequiredService<IDomainEventSerializer>();
+            var serializer = host.RetrieveRequiredService<IDomainEventSerializer>();
             var type = Type.GetType(from.AssemblyQualifiedEventType);
             var ret = (IDomainEvent)serializer.Deserialize(type, from.Data);
             return ret;
@@ -152,7 +152,7 @@ namespace Anycmd
         {
             try
             {
-                var serializer = host.GetRequiredService<ISnapshotSerializer>();
+                var serializer = host.RetrieveRequiredService<ISnapshotSerializer>();
                 var snapshotType = Type.GetType(dataObject.SnapshotType);
                 if (snapshotType == null)
                     return null;
@@ -172,7 +172,7 @@ namespace Anycmd
         /// <returns>The snapshot data object.</returns>
         public static SnapshotDataObject CreateFromAggregateRoot(this IAcDomain host, ISourcedAggregateRoot aggregateRoot)
         {
-            var serializer = host.GetRequiredService<ISnapshotSerializer>();
+            var serializer = host.RetrieveRequiredService<ISnapshotSerializer>();
 
             var snapshot = aggregateRoot.CreateSnapshot();
 

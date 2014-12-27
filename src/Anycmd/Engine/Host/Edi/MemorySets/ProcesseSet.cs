@@ -130,7 +130,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     if (!_initialized)
                     {
                         _dic.Clear();
-                        var processes = _host.GetRequiredService<INodeHostBootstrap>().GetProcesses();
+                        var processes = _host.RetrieveRequiredService<INodeHostBootstrap>().GetProcesses();
                         foreach (var process in processes)
                         {
                             _dic.Add(process.Id, new ProcessDescriptor(_host, ProcessState.Create(process), process.Id));
@@ -173,7 +173,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             public void Handle(AddProcessCommand message)
             {
                 var host = _set._host;
-                var processRepository = _set._host.GetRequiredService<IRepository<Process>>();
+                var processRepository = _set._host.RetrieveRequiredService<IRepository<Process>>();
                 if (!message.Input.Id.HasValue)
                 {
                     throw new ValidationException("标识是必须的");
@@ -213,7 +213,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             public void Handle(UpdateProcessCommand message)
             {
                 var host = _set._host;
-                var processRepository = _set._host.GetRequiredService<IRepository<Process>>();
+                var processRepository = _set._host.RetrieveRequiredService<IRepository<Process>>();
                 if (!host.NodeHost.Processs.ContainsProcess(message.Output.Id))
                 {
                     throw new NotExistException();

@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Ac.Messages
     using InOuts;
     using Model;
 
-    public class UpdateRoleCommand : UpdateEntityCommand<IRoleUpdateIo>, ISysCommand
+    public class UpdateRoleCommand : UpdateEntityCommand<IRoleUpdateIo>, IAnycmdCommand
     {
         public UpdateRoleCommand(IRoleUpdateIo input)
             : base(input)

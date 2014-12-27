@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Edi.Messages
     using InOuts;
     using Model;
 
-    public class AddNodeOntologyOrganizationCommand : AddEntityCommand<INodeOntologyOrganizationCreateIo>, ISysCommand
+    public class AddNodeOntologyOrganizationCommand : AddEntityCommand<INodeOntologyOrganizationCreateIo>, IAnycmdCommand
     {
         public AddNodeOntologyOrganizationCommand(INodeOntologyOrganizationCreateIo input)
             : base(input)

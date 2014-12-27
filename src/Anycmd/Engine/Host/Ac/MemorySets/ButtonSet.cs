@@ -96,7 +96,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     {
                         _dicById.Clear();
                         _dicByCode.Clear();
-                        var buttons = _host.GetRequiredService<IOriginalHostStateReader>().GetAllButtons().ToList();
+                        var buttons = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllButtons().ToList();
                         foreach (var button in buttons)
                         {
                             if (_dicById.ContainsKey(button.Id))
@@ -185,7 +185,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 var host = _set._host;
                 var dicById = _set._dicById;
                 var dicByCode = _set._dicByCode;
-                var buttonRepository = host.GetRequiredService<IRepository<Button>>();
+                var buttonRepository = host.RetrieveRequiredService<IRepository<Button>>();
                 if (string.IsNullOrEmpty(input.Code))
                 {
                     throw new ValidationException("编码不能为空");
@@ -268,7 +268,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 var host = _set._host;
                 var dicById = _set._dicById;
                 var dicByCode = _set._dicByCode;
-                var buttonRepository = host.GetRequiredService<IRepository<Button>>();
+                var buttonRepository = host.RetrieveRequiredService<IRepository<Button>>();
                 if (string.IsNullOrEmpty(input.Code))
                 {
                     throw new ValidationException("编码不能为空");
@@ -381,8 +381,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 var host = _set._host;
                 var dicById = _set._dicById;
                 var dicByCode = _set._dicByCode;
-                var buttonRepository = host.GetRequiredService<IRepository<Button>>();
-                var viewButtonRepository = host.GetRequiredService<IRepository<UiViewButton>>();
+                var buttonRepository = host.RetrieveRequiredService<IRepository<Button>>();
+                var viewButtonRepository = host.RetrieveRequiredService<IRepository<UiViewButton>>();
                 ButtonState bkState;
                 if (!host.ButtonSet.TryGetButton(buttonId, out bkState))
                 {

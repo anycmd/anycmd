@@ -17,7 +17,7 @@ namespace Anycmd.Engine.Host.Edi.MessageHandlers
 
         public override void Handle(RemoveBatchCommand command)
         {
-            var batchRepository = _host.GetRequiredService<IRepository<Batch>>();
+            var batchRepository = _host.RetrieveRequiredService<IRepository<Batch>>();
             var entity = batchRepository.GetByKey(command.EntityId);
             if (entity == null)
             {

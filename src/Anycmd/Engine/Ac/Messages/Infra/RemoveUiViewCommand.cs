@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Ac.Messages.Infra
     using Model;
     using System;
 
-    public class RemoveUiViewCommand : RemoveEntityCommand, ISysCommand
+    public class RemoveUiViewCommand : RemoveEntityCommand, IAnycmdCommand
     {
         public RemoveUiViewCommand(Guid viewId)
             : base(viewId)

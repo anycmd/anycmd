@@ -72,7 +72,7 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 AuditState = "auditPass"
             }));
-            Assert.NotNull(host.GetRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
+            Assert.NotNull(host.RetrieveRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
             host.SignIn(new Dictionary<string, object>
             {
                 {"loginName", "test"},
@@ -132,7 +132,7 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 AuditState = "auditPass"
             }));
-            Assert.NotNull(host.GetRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
+            Assert.NotNull(host.RetrieveRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
             host.SignIn(new Dictionary<string, object>
             {
                 {"loginName", "test"},
@@ -168,7 +168,7 @@ namespace Anycmd.Tests
             Assert.True(host.RoleSet.TryGetRole(roleId, out role));
             host.UserSession.AccountPrivilege.AddActiveRole(role);
             Assert.Equal(1, host.UserSession.AccountPrivilege.Roles.Count);
-            var privilegeBigram = host.GetRequiredService<IRepository<PrivilegeBigram>>().AsQueryable().FirstOrDefault(a => a.Id == entityId);
+            var privilegeBigram = host.RetrieveRequiredService<IRepository<PrivilegeBigram>>().AsQueryable().FirstOrDefault(a => a.Id == entityId);
             Assert.NotNull(privilegeBigram);
             Assert.Equal(accountId, privilegeBigram.SubjectInstanceId);
             Assert.Equal(roleId, privilegeBigram.ObjectInstanceId);
@@ -243,7 +243,7 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 AuditState = "auditPass"
             }));
-            Assert.NotNull(host.GetRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
+            Assert.NotNull(host.RetrieveRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
             host.SignIn(new Dictionary<string, object>
             {
                 {"loginName", "test"},
@@ -277,7 +277,7 @@ namespace Anycmd.Tests
             }));
             Assert.Equal(0, host.PrivilegeSet.Count()); // 主体为账户的权限记录不驻留在内存中所以为0
             Assert.Equal(0, host.UserSession.AccountPrivilege.Functions.Count);// 需要重新登录才能激活新添加的用户功能授权所以为0
-            var privilegeBigram = host.GetRequiredService<IRepository<PrivilegeBigram>>().AsQueryable().FirstOrDefault(a => a.Id == entityId);
+            var privilegeBigram = host.RetrieveRequiredService<IRepository<PrivilegeBigram>>().AsQueryable().FirstOrDefault(a => a.Id == entityId);
             Assert.NotNull(privilegeBigram);
             Assert.Equal(accountId, privilegeBigram.SubjectInstanceId);
             Assert.Equal(functionId, privilegeBigram.ObjectInstanceId);
@@ -350,7 +350,7 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 AuditState = "auditPass"
             }));
-            Assert.NotNull(host.GetRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
+            Assert.NotNull(host.RetrieveRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
             host.SignIn(new Dictionary<string, object>
             {
                 {"loginName", "test"},
@@ -382,7 +382,7 @@ namespace Anycmd.Tests
             }));
             Assert.Equal(0, host.PrivilegeSet.Count()); // 主体为账户的权限记录不驻留在内存中所以为0
             Assert.Equal(0, host.UserSession.AccountPrivilege.Organizations.Count);// 需要重新登录才能激活新添加的用户功能授权所以为0
-            var privilegeBigram = host.GetRequiredService<IRepository<PrivilegeBigram>>().AsQueryable().FirstOrDefault(a => a.Id == entityId);
+            var privilegeBigram = host.RetrieveRequiredService<IRepository<PrivilegeBigram>>().AsQueryable().FirstOrDefault(a => a.Id == entityId);
             Assert.NotNull(privilegeBigram);
             Assert.Equal(accountId, privilegeBigram.SubjectInstanceId);
             Assert.Equal(organizationId, privilegeBigram.ObjectInstanceId);
@@ -455,7 +455,7 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 AuditState = "auditPass"
             }));
-            Assert.NotNull(host.GetRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
+            Assert.NotNull(host.RetrieveRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
             host.SignIn(new Dictionary<string, object>
             {
                 {"loginName", "test"},
@@ -489,7 +489,7 @@ namespace Anycmd.Tests
             }));
             Assert.Equal(0, host.PrivilegeSet.Count()); // 主体为账户的权限记录不驻留在内存中所以为0
             Assert.Equal(0, host.UserSession.AccountPrivilege.Groups.Count);// 需要重新登录才能激活新添加的用户功能授权所以为0
-            var privilegeBigram = host.GetRequiredService<IRepository<PrivilegeBigram>>().AsQueryable().FirstOrDefault(a => a.Id == entityId);
+            var privilegeBigram = host.RetrieveRequiredService<IRepository<PrivilegeBigram>>().AsQueryable().FirstOrDefault(a => a.Id == entityId);
             Assert.NotNull(privilegeBigram);
             Assert.Equal(accountId, privilegeBigram.SubjectInstanceId);
             Assert.Equal(groupId, privilegeBigram.ObjectInstanceId);
@@ -562,7 +562,7 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 AuditState = "auditPass"
             }));
-            Assert.NotNull(host.GetRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
+            Assert.NotNull(host.RetrieveRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
             host.SignIn(new Dictionary<string, object>
             {
                 {"loginName", "test"},
@@ -596,7 +596,7 @@ namespace Anycmd.Tests
             }));
             Assert.Equal(0, host.PrivilegeSet.Count()); // 主体为账户的权限记录不驻留在内存中所以为0
             Assert.Equal(0, host.UserSession.AccountPrivilege.Menus.Count);// 需要重新登录才能激活新添加的用户功能授权所以为0
-            var privilegeBigram = host.GetRequiredService<IRepository<PrivilegeBigram>>().AsQueryable().FirstOrDefault(a => a.Id == entityId);
+            var privilegeBigram = host.RetrieveRequiredService<IRepository<PrivilegeBigram>>().AsQueryable().FirstOrDefault(a => a.Id == entityId);
             Assert.NotNull(privilegeBigram);
             Assert.Equal(accountId, privilegeBigram.SubjectInstanceId);
             Assert.Equal(menuId, privilegeBigram.ObjectInstanceId);
@@ -669,7 +669,7 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 AuditState = "auditPass"
             }));
-            Assert.NotNull(host.GetRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
+            Assert.NotNull(host.RetrieveRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
             host.SignIn(new Dictionary<string, object>
             {
                 {"loginName", "test"},
@@ -699,7 +699,7 @@ namespace Anycmd.Tests
             }));
             Assert.Equal(0, host.PrivilegeSet.Count()); // 主体为账户的权限记录不驻留在内存中所以为0
             Assert.Equal(0, host.UserSession.AccountPrivilege.AppSystems.Count);// 需要重新登录才能激活新添加的用户功能授权所以为0
-            var privilegeBigram = host.GetRequiredService<IRepository<PrivilegeBigram>>().AsQueryable().FirstOrDefault(a => a.Id == entityId);
+            var privilegeBigram = host.RetrieveRequiredService<IRepository<PrivilegeBigram>>().AsQueryable().FirstOrDefault(a => a.Id == entityId);
             Assert.NotNull(privilegeBigram);
             Assert.Equal(accountId, privilegeBigram.SubjectInstanceId);
             Assert.Equal(appSystemId, privilegeBigram.ObjectInstanceId);
@@ -772,7 +772,7 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 AuditState = "auditPass"
             }));
-            Assert.NotNull(host.GetRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
+            Assert.NotNull(host.RetrieveRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
             host.SignIn(new Dictionary<string, object>
             {
                 {"loginName", "test"},
@@ -1017,7 +1017,7 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 AuditState = "auditPass"
             }));
-            Assert.NotNull(host.GetRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
+            Assert.NotNull(host.RetrieveRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
             Guid roleId = Guid.NewGuid();
             host.Handle(new AddRoleCommand(new RoleCreateInput
             {
@@ -1145,7 +1145,7 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 AuditState = "auditPass"
             }));
-            Assert.NotNull(host.GetRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
+            Assert.NotNull(host.RetrieveRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
             Guid roleId = Guid.NewGuid();
             host.Handle(new AddRoleCommand(new RoleCreateInput
             {

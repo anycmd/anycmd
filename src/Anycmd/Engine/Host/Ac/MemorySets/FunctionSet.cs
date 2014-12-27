@@ -108,7 +108,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     if (_initialized) return;
                     _dicByCode.Clear();
                     _dicById.Clear();
-                    var functions = _host.GetRequiredService<IOriginalHostStateReader>().GetAllFunctions();
+                    var functions = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllFunctions();
                     foreach (var entity in functions)
                     {
                         var function = FunctionState.Create(_host, entity);
@@ -210,7 +210,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 var host = set._host;
                 var dicByCode = set._dicByCode;
                 var dicById = set._dicById;
-                var functionRepository = host.GetRequiredService<IRepository<Function>>();
+                var functionRepository = host.RetrieveRequiredService<IRepository<Function>>();
                 if (string.IsNullOrEmpty(input.Code))
                 {
                     throw new ValidationException("编码不能为空");
@@ -303,7 +303,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 var host = set._host;
                 var dicByCode = set._dicByCode;
                 var dicById = set._dicById;
-                var functionRepository = host.GetRequiredService<IRepository<Function>>();
+                var functionRepository = host.RetrieveRequiredService<IRepository<Function>>();
                 if (string.IsNullOrEmpty(input.Code))
                 {
                     throw new ValidationException("编码不能为空");
@@ -422,8 +422,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 var host = set._host;
                 var dicByCode = set._dicByCode;
                 var dicById = set._dicById;
-                var functionRepository = host.GetRequiredService<IRepository<Function>>();
-                var operationHelpRepository = host.GetRequiredService<IRepository<OperationHelp>>();
+                var functionRepository = host.RetrieveRequiredService<IRepository<Function>>();
+                var operationHelpRepository = host.RetrieveRequiredService<IRepository<OperationHelp>>();
 
                 FunctionState bkState;
                 if (!host.FunctionSet.TryGetFunction(functionId, out bkState))

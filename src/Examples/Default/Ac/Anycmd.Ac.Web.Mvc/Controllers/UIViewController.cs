@@ -276,7 +276,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
 
                     if (bool.Parse(row["IsAssigned"].ToString()))
                     {
-                        if (Host.GetRequiredService<IRepository<UiViewButton>>().AsQueryable().Any(a => a.Id == inputModel.Id))
+                        if (Host.RetrieveRequiredService<IRepository<UiViewButton>>().AsQueryable().Any(a => a.Id == inputModel.Id))
                         {
                             var updateModel = new UiViewButtonUpdateInput()
                             {

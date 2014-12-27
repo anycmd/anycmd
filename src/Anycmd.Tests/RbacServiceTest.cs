@@ -28,8 +28,8 @@ namespace Anycmd.Tests
         public void TestAddUser()
         {
             var host = TestHelper.GetAcDomain();
-            var rbacService = host.GetRequiredService<IRbacService>();
-            var accountRepository = host.GetRequiredService<IRepository<Account>>();
+            var rbacService = host.RetrieveRequiredService<IRbacService>();
+            var accountRepository = host.RetrieveRequiredService<IRepository<Account>>();
             host.Handle(new AddOrganizationCommand(new OrganizationCreateInput
             {
                 Id = Guid.NewGuid(),
@@ -59,8 +59,8 @@ namespace Anycmd.Tests
         public void TestDeleteUser()
         {
             var host = TestHelper.GetAcDomain();
-            var rbacService = host.GetRequiredService<IRbacService>();
-            var accountRepository = host.GetRequiredService<IRepository<Account>>();
+            var rbacService = host.RetrieveRequiredService<IRbacService>();
+            var accountRepository = host.RetrieveRequiredService<IRepository<Account>>();
             host.Handle(new AddOrganizationCommand(new OrganizationCreateInput
             {
                 Id = Guid.NewGuid(),
@@ -91,7 +91,7 @@ namespace Anycmd.Tests
         public void TestAddRole()
         {
             var host = TestHelper.GetAcDomain();
-            var rbacService = host.GetRequiredService<IRbacService>();
+            var rbacService = host.RetrieveRequiredService<IRbacService>();
             var entityId = Guid.NewGuid();
 
             RoleState roleById;
@@ -115,7 +115,7 @@ namespace Anycmd.Tests
         public void TestDeleteRole()
         {
             var host = TestHelper.GetAcDomain();
-            var rbacService = host.GetRequiredService<IRbacService>();
+            var rbacService = host.RetrieveRequiredService<IRbacService>();
             var entityId = Guid.NewGuid();
 
             RoleState roleById;
@@ -142,8 +142,8 @@ namespace Anycmd.Tests
         public void TestAssignUser()
         {
             var host = TestHelper.GetAcDomain();
-            var rbacService = host.GetRequiredService<IRbacService>();
-            var privilegeBigramRepository = host.GetRequiredService<IRepository<PrivilegeBigram>>();
+            var rbacService = host.RetrieveRequiredService<IRbacService>();
+            var privilegeBigramRepository = host.RetrieveRequiredService<IRepository<PrivilegeBigram>>();
             var roleId = Guid.NewGuid();
             rbacService.AddRole(new RoleCreateInput
             {
@@ -185,8 +185,8 @@ namespace Anycmd.Tests
         public void TestDeassignUser()
         {
             var host = TestHelper.GetAcDomain();
-            var rbacService = host.GetRequiredService<IRbacService>();
-            var privilegeBigramRepository = host.GetRequiredService<IRepository<PrivilegeBigram>>();
+            var rbacService = host.RetrieveRequiredService<IRbacService>();
+            var privilegeBigramRepository = host.RetrieveRequiredService<IRepository<PrivilegeBigram>>();
             var roleId = Guid.NewGuid();
             rbacService.AddRole(new RoleCreateInput
             {
@@ -231,8 +231,8 @@ namespace Anycmd.Tests
         public void TestGrantPermission()
         {
             var host = TestHelper.GetAcDomain();
-            var rbacService = host.GetRequiredService<IRbacService>();
-            var privilegeBigramRepository = host.GetRequiredService<IRepository<PrivilegeBigram>>();
+            var rbacService = host.RetrieveRequiredService<IRbacService>();
+            var privilegeBigramRepository = host.RetrieveRequiredService<IRepository<PrivilegeBigram>>();
             var roleId = Guid.NewGuid();
             rbacService.AddRole(new RoleCreateInput
             {
@@ -268,8 +268,8 @@ namespace Anycmd.Tests
         public void TestRevokePermission()
         {
             var host = TestHelper.GetAcDomain();
-            var rbacService = host.GetRequiredService<IRbacService>();
-            var privilegeBigramRepository = host.GetRequiredService<IRepository<PrivilegeBigram>>();
+            var rbacService = host.RetrieveRequiredService<IRbacService>();
+            var privilegeBigramRepository = host.RetrieveRequiredService<IRepository<PrivilegeBigram>>();
             var roleId = Guid.NewGuid();
             rbacService.AddRole(new RoleCreateInput
             {
@@ -309,9 +309,9 @@ namespace Anycmd.Tests
         public void TestCreateSession()
         {
             var host = TestHelper.GetAcDomain();
-            var rbacService = host.GetRequiredService<IRbacService>();
-            var accountRepository = host.GetRequiredService<IRepository<Account>>();
-            var sessionRepository = host.GetRequiredService<IRepository<UserSession>>();
+            var rbacService = host.RetrieveRequiredService<IRbacService>();
+            var accountRepository = host.RetrieveRequiredService<IRepository<Account>>();
+            var sessionRepository = host.RetrieveRequiredService<IRepository<UserSession>>();
             host.Handle(new AddOrganizationCommand(new OrganizationCreateInput
             {
                 Id = Guid.NewGuid(),
@@ -345,9 +345,9 @@ namespace Anycmd.Tests
         public void TestDeleteSession()
         {
             var host = TestHelper.GetAcDomain();
-            var rbacService = host.GetRequiredService<IRbacService>();
-            var accountRepository = host.GetRequiredService<IRepository<Account>>();
-            var sessionRepository = host.GetRequiredService<IRepository<UserSession>>();
+            var rbacService = host.RetrieveRequiredService<IRbacService>();
+            var accountRepository = host.RetrieveRequiredService<IRepository<Account>>();
+            var sessionRepository = host.RetrieveRequiredService<IRepository<UserSession>>();
             host.Handle(new AddOrganizationCommand(new OrganizationCreateInput
             {
                 Id = Guid.NewGuid(),
@@ -384,9 +384,9 @@ namespace Anycmd.Tests
         public void TestSessionRoles()
         {
             var host = TestHelper.GetAcDomain();
-            var rbacService = host.GetRequiredService<IRbacService>();
-            var accountRepository = host.GetRequiredService<IRepository<Account>>();
-            var sessionRepository = host.GetRequiredService<IRepository<UserSession>>();
+            var rbacService = host.RetrieveRequiredService<IRbacService>();
+            var accountRepository = host.RetrieveRequiredService<IRepository<Account>>();
+            var sessionRepository = host.RetrieveRequiredService<IRepository<UserSession>>();
             var orgId = Guid.NewGuid();
 
             host.Handle(new AddOrganizationCommand(new OrganizationCreateInput
@@ -593,9 +593,9 @@ namespace Anycmd.Tests
         public void TestSessionPermissions()
         {
             var host = TestHelper.GetAcDomain();
-            var rbacService = host.GetRequiredService<IRbacService>();
-            var accountRepository = host.GetRequiredService<IRepository<Account>>();
-            var sessionRepository = host.GetRequiredService<IRepository<UserSession>>();
+            var rbacService = host.RetrieveRequiredService<IRbacService>();
+            var accountRepository = host.RetrieveRequiredService<IRepository<Account>>();
+            var sessionRepository = host.RetrieveRequiredService<IRepository<UserSession>>();
             var orgId = Guid.NewGuid();
 
             host.Handle(new AddOrganizationCommand(new OrganizationCreateInput
@@ -636,7 +636,7 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 AuditState = "auditPass"
             }));
-            Assert.NotNull(host.GetRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
+            Assert.NotNull(host.RetrieveRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
             Guid roleId = Guid.NewGuid();
             host.Handle(new AddRoleCommand(new RoleCreateInput
             {
@@ -748,9 +748,9 @@ namespace Anycmd.Tests
         public void TestAssignedRoles()
         {
             var host = TestHelper.GetAcDomain();
-            var rbacService = host.GetRequiredService<IRbacService>();
-            var accountRepository = host.GetRequiredService<IRepository<Account>>();
-            var sessionRepository = host.GetRequiredService<IRepository<UserSession>>();
+            var rbacService = host.RetrieveRequiredService<IRbacService>();
+            var accountRepository = host.RetrieveRequiredService<IRepository<Account>>();
+            var sessionRepository = host.RetrieveRequiredService<IRepository<UserSession>>();
             var orgId = Guid.NewGuid();
 
             host.Handle(new AddOrganizationCommand(new OrganizationCreateInput
@@ -962,8 +962,8 @@ namespace Anycmd.Tests
         public void TestRolePermissions()
         {
             var host = TestHelper.GetAcDomain();
-            var rbacService = host.GetRequiredService<IRbacService>();
-            var privilegeBigramRepository = host.GetRequiredService<IRepository<PrivilegeBigram>>();
+            var rbacService = host.RetrieveRequiredService<IRbacService>();
+            var privilegeBigramRepository = host.RetrieveRequiredService<IRepository<PrivilegeBigram>>();
             var roleId = Guid.NewGuid();
             rbacService.AddRole(new RoleCreateInput
             {
@@ -1000,7 +1000,7 @@ namespace Anycmd.Tests
         public void TestAddInheritance()
         {
             var host = TestHelper.GetAcDomain();
-            var rbacService = host.GetRequiredService<IRbacService>();
+            var rbacService = host.RetrieveRequiredService<IRbacService>();
             Assert.Equal(0, host.RoleSet.Count());
 
             var roleId1 = Guid.NewGuid();
@@ -1044,7 +1044,7 @@ namespace Anycmd.Tests
         public void TestAddAscendant()
         {
             var host = TestHelper.GetAcDomain();
-            var rbacService = host.GetRequiredService<IRbacService>();
+            var rbacService = host.RetrieveRequiredService<IRbacService>();
             Assert.Equal(0, host.RoleSet.Count());
 
             var roleId1 = Guid.NewGuid();
@@ -1087,7 +1087,7 @@ namespace Anycmd.Tests
         public void TestAddDescendant()
         {
             var host = TestHelper.GetAcDomain();
-            var rbacService = host.GetRequiredService<IRbacService>();
+            var rbacService = host.RetrieveRequiredService<IRbacService>();
             Assert.Equal(0, host.RoleSet.Count());
 
             var roleId1 = Guid.NewGuid();
@@ -1129,7 +1129,7 @@ namespace Anycmd.Tests
         public void TestCreateSsdSet()
         {
             var host = TestHelper.GetAcDomain();
-            var rbacService = host.GetRequiredService<IRbacService>();
+            var rbacService = host.RetrieveRequiredService<IRbacService>();
             Assert.Equal(0, host.SsdSetSet.Count());
 
             var entityId = Guid.NewGuid();
@@ -1153,7 +1153,7 @@ namespace Anycmd.Tests
         public void TestDeleteSsdSet()
         {
             var host = TestHelper.GetAcDomain();
-            var rbacService = host.GetRequiredService<IRbacService>();
+            var rbacService = host.RetrieveRequiredService<IRbacService>();
             Assert.Equal(0, host.SsdSetSet.Count());
 
             var entityId = Guid.NewGuid();
@@ -1180,7 +1180,7 @@ namespace Anycmd.Tests
         public void TestAddSsdRoleMember()
         {
             var host = TestHelper.GetAcDomain();
-            var rbacService = host.GetRequiredService<IRbacService>();
+            var rbacService = host.RetrieveRequiredService<IRbacService>();
             Assert.Equal(0, host.SsdSetSet.Count());
 
             var ssdSetId = Guid.NewGuid();
@@ -1222,7 +1222,7 @@ namespace Anycmd.Tests
         public void TestDeleteSsdRoleMember()
         {
             var host = TestHelper.GetAcDomain();
-            var rbacService = host.GetRequiredService<IRbacService>();
+            var rbacService = host.RetrieveRequiredService<IRbacService>();
             Assert.Equal(0, host.SsdSetSet.Count());
 
             var ssdSetId = Guid.NewGuid();
@@ -1266,7 +1266,7 @@ namespace Anycmd.Tests
         public void TestSetSsdCardinality()
         {
             var host = TestHelper.GetAcDomain();
-            var rbacService = host.GetRequiredService<IRbacService>();
+            var rbacService = host.RetrieveRequiredService<IRbacService>();
             Assert.Equal(0, host.SsdSetSet.Count());
 
             var ssdSetId = Guid.NewGuid();
@@ -1294,7 +1294,7 @@ namespace Anycmd.Tests
         public void TestCreateDsdSet()
         {
             var host = TestHelper.GetAcDomain();
-            var rbacService = host.GetRequiredService<IRbacService>();
+            var rbacService = host.RetrieveRequiredService<IRbacService>();
             Assert.Equal(0, host.DsdSetSet.Count());
 
             var entityId = Guid.NewGuid();
@@ -1318,7 +1318,7 @@ namespace Anycmd.Tests
         public void TestDeleteDsdSet()
         {
             var host = TestHelper.GetAcDomain();
-            var rbacService = host.GetRequiredService<IRbacService>();
+            var rbacService = host.RetrieveRequiredService<IRbacService>();
             Assert.Equal(0, host.DsdSetSet.Count());
 
             var entityId = Guid.NewGuid();
@@ -1345,7 +1345,7 @@ namespace Anycmd.Tests
         public void TestAddDsdRoleMember()
         {
             var host = TestHelper.GetAcDomain();
-            var rbacService = host.GetRequiredService<IRbacService>();
+            var rbacService = host.RetrieveRequiredService<IRbacService>();
             Assert.Equal(0, host.DsdSetSet.Count());
 
             var dsdSetId = Guid.NewGuid();
@@ -1387,7 +1387,7 @@ namespace Anycmd.Tests
         public void TestDeleteDsdRoleMember()
         {
             var host = TestHelper.GetAcDomain();
-            var rbacService = host.GetRequiredService<IRbacService>();
+            var rbacService = host.RetrieveRequiredService<IRbacService>();
             Assert.Equal(0, host.DsdSetSet.Count());
 
             var dsdSetId = Guid.NewGuid();
@@ -1431,7 +1431,7 @@ namespace Anycmd.Tests
         public void TestSetDsdCardinality()
         {
             var host = TestHelper.GetAcDomain();
-            var rbacService = host.GetRequiredService<IRbacService>();
+            var rbacService = host.RetrieveRequiredService<IRbacService>();
             Assert.Equal(0, host.DsdSetSet.Count());
 
             var ssdSetId = Guid.NewGuid();

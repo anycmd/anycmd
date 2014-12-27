@@ -33,32 +33,32 @@ namespace Anycmd.Engine.Host.Impl
 
         public IList<RDatabase> GetAllRDatabases()
         {
-            return _host.GetRequiredService<IRdbMetaDataService>().GetDatabases();
+            return _host.RetrieveRequiredService<IRdbMetaDataService>().GetDatabases();
         }
 
         public IList<DbTableColumn> GetTableColumns(RdbDescriptor db)
         {
-            return _host.GetRequiredService<IRdbMetaDataService>().GetTableColumns(db);
+            return _host.RetrieveRequiredService<IRdbMetaDataService>().GetTableColumns(db);
         }
 
         public IList<DbTable> GetDbTables(RdbDescriptor db)
         {
-            return _host.GetRequiredService<IRdbMetaDataService>().GetDbTables(db);
+            return _host.RetrieveRequiredService<IRdbMetaDataService>().GetDbTables(db);
         }
 
         public IList<DbViewColumn> GetViewColumns(RdbDescriptor db)
         {
-            return _host.GetRequiredService<IRdbMetaDataService>().GetViewColumns(db);
+            return _host.RetrieveRequiredService<IRdbMetaDataService>().GetViewColumns(db);
         }
 
         public IList<DbView> GetDbViews(RdbDescriptor db)
         {
-            return _host.GetRequiredService<IRdbMetaDataService>().GetDbViews(db);
+            return _host.RetrieveRequiredService<IRdbMetaDataService>().GetDbViews(db);
         }
 
         public IList<Organization> GetOrganizations()
         {
-            var repository = _host.GetRequiredService<IRepository<Organization>>();
+            var repository = _host.RetrieveRequiredService<IRepository<Organization>>();
             using (var context = repository.Context)
             {
                 return repository.AsQueryable().ToList();
@@ -67,7 +67,7 @@ namespace Anycmd.Engine.Host.Impl
 
         public IList<AppSystem> GetAllAppSystems()
         {
-            var repository = _host.GetRequiredService<IRepository<AppSystem>>();
+            var repository = _host.RetrieveRequiredService<IRepository<AppSystem>>();
             using (var context = repository.Context)
             {
                 return repository.AsQueryable().ToList();
@@ -76,7 +76,7 @@ namespace Anycmd.Engine.Host.Impl
 
         public IList<Button> GetAllButtons()
         {
-            var repository = _host.GetRequiredService<IRepository<Button>>();
+            var repository = _host.RetrieveRequiredService<IRepository<Button>>();
             using (var context = repository.Context)
             {
                 return repository.AsQueryable().ToList();
@@ -85,7 +85,7 @@ namespace Anycmd.Engine.Host.Impl
 
         public IList<Dic> GetAllDics()
         {
-            var repository = _host.GetRequiredService<IRepository<Dic>>();
+            var repository = _host.RetrieveRequiredService<IRepository<Dic>>();
             using (var context = repository.Context)
             {
                 return repository.AsQueryable().ToList();
@@ -94,7 +94,7 @@ namespace Anycmd.Engine.Host.Impl
 
         public IList<DicItem> GetAllDicItems()
         {
-            var repository = _host.GetRequiredService<IRepository<DicItem>>();
+            var repository = _host.RetrieveRequiredService<IRepository<DicItem>>();
             using (var context = repository.Context)
             {
                 return repository.AsQueryable().ToList();
@@ -103,7 +103,7 @@ namespace Anycmd.Engine.Host.Impl
 
         public IList<EntityType> GetAllEntityTypes()
         {
-            var repository = _host.GetRequiredService<IRepository<EntityType>>();
+            var repository = _host.RetrieveRequiredService<IRepository<EntityType>>();
             using (var context = repository.Context)
             {
                 return repository.AsQueryable().ToList();
@@ -112,7 +112,7 @@ namespace Anycmd.Engine.Host.Impl
 
         public IList<Property> GetAllProperties()
         {
-            var repository = _host.GetRequiredService<IRepository<Property>>();
+            var repository = _host.RetrieveRequiredService<IRepository<Property>>();
             using (var context = repository.Context)
             {
                 return repository.AsQueryable().ToList();
@@ -121,7 +121,7 @@ namespace Anycmd.Engine.Host.Impl
 
         public IList<Function> GetAllFunctions()
         {
-            var repository = _host.GetRequiredService<IRepository<Function>>();
+            var repository = _host.RetrieveRequiredService<IRepository<Function>>();
             using (var context = repository.Context)
             {
                 return repository.AsQueryable().ToList();
@@ -130,7 +130,7 @@ namespace Anycmd.Engine.Host.Impl
 
         public IList<Group> GetAllGroups()
         {
-            var repository = _host.GetRequiredService<IRepository<Group>>();
+            var repository = _host.RetrieveRequiredService<IRepository<Group>>();
             using (var context = repository.Context)
             {
                 return repository.AsQueryable().ToList();
@@ -139,7 +139,7 @@ namespace Anycmd.Engine.Host.Impl
 
         public IList<Menu> GetAllMenus()
         {
-            var repository = _host.GetRequiredService<IRepository<Menu>>();
+            var repository = _host.RetrieveRequiredService<IRepository<Menu>>();
             using (var context = repository.Context)
             {
                 return repository.AsQueryable().ToList();
@@ -148,7 +148,7 @@ namespace Anycmd.Engine.Host.Impl
 
         public IList<UiView> GetAllUiViews()
         {
-            var repository = _host.GetRequiredService<IRepository<UiView>>();
+            var repository = _host.RetrieveRequiredService<IRepository<UiView>>();
             using (var context = repository.Context)
             {
                 return repository.AsQueryable().ToList();
@@ -157,7 +157,7 @@ namespace Anycmd.Engine.Host.Impl
 
         public IList<UiViewButton> GetAllUiViewButtons()
         {
-            var repository = _host.GetRequiredService<IRepository<UiViewButton>>();
+            var repository = _host.RetrieveRequiredService<IRepository<UiViewButton>>();
             using (var context = repository.Context)
             {
                 return repository.AsQueryable().ToList();
@@ -166,7 +166,7 @@ namespace Anycmd.Engine.Host.Impl
 
         public IList<PrivilegeBigram> GetPrivilegeBigrams()
         {
-            var repository = _host.GetRequiredService<IRepository<PrivilegeBigram>>();
+            var repository = _host.RetrieveRequiredService<IRepository<PrivilegeBigram>>();
             using (var context = repository.Context)
             {
                 var subjectType = AcSubjectType.Account.ToName();
@@ -176,7 +176,7 @@ namespace Anycmd.Engine.Host.Impl
 
         public IList<ResourceType> GetAllResources()
         {
-            var repository = _host.GetRequiredService<IRepository<ResourceType>>();
+            var repository = _host.RetrieveRequiredService<IRepository<ResourceType>>();
             using (var context = repository.Context)
             {
                 return repository.AsQueryable().ToList();
@@ -185,7 +185,7 @@ namespace Anycmd.Engine.Host.Impl
 
         public IList<Role> GetAllRoles()
         {
-            var repository = _host.GetRequiredService<IRepository<Role>>();
+            var repository = _host.RetrieveRequiredService<IRepository<Role>>();
             using (var context = repository.Context)
             {
                 return repository.AsQueryable().ToList();
@@ -194,7 +194,7 @@ namespace Anycmd.Engine.Host.Impl
 
         public IList<SsdSet> GetAllSsdSets()
         {
-            var repository = _host.GetRequiredService<IRepository<SsdSet>>();
+            var repository = _host.RetrieveRequiredService<IRepository<SsdSet>>();
             using (var context = repository.Context)
             {
                 return repository.AsQueryable().ToList();
@@ -203,7 +203,7 @@ namespace Anycmd.Engine.Host.Impl
 
         public IList<DsdSet> GetAllDsdSets()
         {
-            var repository = _host.GetRequiredService<IRepository<DsdSet>>();
+            var repository = _host.RetrieveRequiredService<IRepository<DsdSet>>();
             using (var context = repository.Context)
             {
                 return repository.AsQueryable().ToList();
@@ -212,7 +212,7 @@ namespace Anycmd.Engine.Host.Impl
 
         public IList<SsdRole> GetAllSsdRoles()
         {
-            var repository = _host.GetRequiredService<IRepository<SsdRole>>();
+            var repository = _host.RetrieveRequiredService<IRepository<SsdRole>>();
             using (var context = repository.Context)
             {
                 return repository.AsQueryable().ToList();
@@ -221,7 +221,7 @@ namespace Anycmd.Engine.Host.Impl
 
         public IList<DsdRole> GetAllDsdRoles()
         {
-            var repository = _host.GetRequiredService<IRepository<DsdRole>>();
+            var repository = _host.RetrieveRequiredService<IRepository<DsdRole>>();
             using (var context = repository.Context)
             {
                 return repository.AsQueryable().ToList();
@@ -230,7 +230,7 @@ namespace Anycmd.Engine.Host.Impl
 
         public IList<Account> GetAllDevAccounts()
         {
-            var repository = _host.GetRequiredService<IRepository<Account>>();
+            var repository = _host.RetrieveRequiredService<IRepository<Account>>();
             using (var context = repository.Context)
             {
                 return repository.Context.Query<DeveloperId>().Join(repository.Context.Query<Account>(), d => d.Id, a => a.Id, (d, a) => a).ToList();

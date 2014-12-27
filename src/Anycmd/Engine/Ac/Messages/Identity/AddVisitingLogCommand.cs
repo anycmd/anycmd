@@ -4,7 +4,7 @@ namespace Anycmd.Engine.Ac.Messages.Identity
     using Commands;
     using System;
 
-    public class AddVisitingLogCommand : Command, ISysCommand
+    public class AddVisitingLogCommand : Command, IAnycmdCommand
     {
         public AddVisitingLogCommand()
         {

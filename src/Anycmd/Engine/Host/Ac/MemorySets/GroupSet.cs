@@ -77,7 +77,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     if (!_initialized)
                     {
                         _groupDic.Clear();
-                        var groups = _host.GetRequiredService<IOriginalHostStateReader>().GetAllGroups();
+                        var groups = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllGroups();
                         foreach (var group in groups)
                         {
                             if (!_groupDic.ContainsKey(group.Id))
@@ -184,7 +184,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 var host = _set._host;
                 var groupDic = _set._groupDic;
-                var groupRepository = host.GetRequiredService<IRepository<Group>>();
+                var groupRepository = host.RetrieveRequiredService<IRepository<Group>>();
                 if (!input.Id.HasValue)
                 {
                     throw new ValidationException("标识是必须的");
@@ -235,7 +235,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 var host = _set._host;
                 var groupDic = _set._groupDic;
-                var groupRepository = host.GetRequiredService<IRepository<Group>>();
+                var groupRepository = host.RetrieveRequiredService<IRepository<Group>>();
                 if (!input.Id.HasValue)
                 {
                     throw new ValidationException("标识是必须的");
@@ -340,7 +340,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 var host = _set._host;
                 var groupDic = _set._groupDic;
-                var groupRepository = host.GetRequiredService<IRepository<Group>>();
+                var groupRepository = host.RetrieveRequiredService<IRepository<Group>>();
                 GroupState bkState;
                 if (!host.GroupSet.TryGetGroup(input.Id, out bkState))
                 {
@@ -401,7 +401,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 var host = _set._host;
                 var groupDic = _set._groupDic;
-                var groupRepository = host.GetRequiredService<IRepository<Group>>();
+                var groupRepository = host.RetrieveRequiredService<IRepository<Group>>();
                 GroupState bkState;
                 if (!host.GroupSet.TryGetGroup(input.Id, out bkState))
                 {
@@ -519,7 +519,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 var host = _set._host;
                 var groupDic = _set._groupDic;
-                var groupRepository = host.GetRequiredService<IRepository<Group>>();
+                var groupRepository = host.RetrieveRequiredService<IRepository<Group>>();
                 GroupState bkState;
                 if (!host.GroupSet.TryGetGroup(groupId, out bkState))
                 {

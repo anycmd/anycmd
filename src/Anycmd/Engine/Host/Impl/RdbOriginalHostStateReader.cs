@@ -111,22 +111,22 @@ namespace Anycmd.Engine.Host.Impl
 
         public IList<DbTableColumn> GetTableColumns(RdbDescriptor db)
         {
-            return _host.GetRequiredService<IRdbMetaDataService>().GetTableColumns(db);
+            return _host.RetrieveRequiredService<IRdbMetaDataService>().GetTableColumns(db);
         }
 
         public IList<DbTable> GetDbTables(RdbDescriptor db)
         {
-            return _host.GetRequiredService<IRdbMetaDataService>().GetDbTables(db);
+            return _host.RetrieveRequiredService<IRdbMetaDataService>().GetDbTables(db);
         }
 
         public IList<DbViewColumn> GetViewColumns(RdbDescriptor db)
         {
-            return _host.GetRequiredService<IRdbMetaDataService>().GetViewColumns(db);
+            return _host.RetrieveRequiredService<IRdbMetaDataService>().GetViewColumns(db);
         }
 
         public IList<DbView> GetDbViews(RdbDescriptor db)
         {
-            return _host.GetRequiredService<IRdbMetaDataService>().GetDbViews(db);
+            return _host.RetrieveRequiredService<IRdbMetaDataService>().GetDbViews(db);
         }
 
         public IList<Organization> GetOrganizations()

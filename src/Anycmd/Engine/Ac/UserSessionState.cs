@@ -114,7 +114,7 @@ namespace Anycmd.Engine.Ac
             {
                 if (_account == null)
                 {
-                    var accountRepository = AcDomain.GetRequiredService<IRepository<Account>>();
+                    var accountRepository = AcDomain.RetrieveRequiredService<IRepository<Account>>();
                     _account = AccountState.Create(accountRepository.GetByKey(this._accountId));
                 }
                 return _account;

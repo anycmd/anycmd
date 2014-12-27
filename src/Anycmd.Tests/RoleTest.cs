@@ -196,7 +196,7 @@ namespace Anycmd.Tests
             }));
             PrivilegeBigramState privilegeBigram = host.PrivilegeSet.First(a => a.Id == privilegeId);
             Assert.NotNull(privilegeBigram);
-            Assert.NotNull(host.GetRequiredService<IRepository<PrivilegeBigram>>().AsQueryable().FirstOrDefault(a => a.Id == privilegeId));
+            Assert.NotNull(host.RetrieveRequiredService<IRepository<PrivilegeBigram>>().AsQueryable().FirstOrDefault(a => a.Id == privilegeId));
 
             var roleId3 = Guid.NewGuid();
             // 创建role3

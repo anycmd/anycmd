@@ -37,7 +37,7 @@ namespace Anycmd.Mis.Web.Mvc
                 {
                     if (_isChanged)
                     {
-                        var privilegeBigramRepository = host.GetRequiredService<IRepository<PrivilegeBigram>>();
+                        var privilegeBigramRepository = host.RetrieveRequiredService<IRepository<PrivilegeBigram>>();
                         if (string.IsNullOrEmpty(appSystemCode))
                         {
                             throw new ArgumentNullException("appSystemCode");

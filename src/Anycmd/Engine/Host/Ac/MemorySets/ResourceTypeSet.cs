@@ -114,7 +114,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     {
                         _dicByCode.Clear();
                         _dicById.Clear();
-                        var allResources = _host.GetRequiredService<IOriginalHostStateReader>().GetAllResources();
+                        var allResources = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllResources();
                         foreach (var resource in allResources)
                         {
                             AppSystemState appSystem;
@@ -194,7 +194,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 var host = set._host;
                 var dicByCode = set._dicByCode;
                 var dicById = set._dicById;
-                var resourceRepository = host.GetRequiredService<IRepository<ResourceType>>();
+                var resourceRepository = host.RetrieveRequiredService<IRepository<ResourceType>>();
                 if (string.IsNullOrEmpty(input.Code))
                 {
                     throw new ValidationException("编码不能为空");
@@ -291,7 +291,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 var host = set._host;
                 var dicByCode = set._dicByCode;
                 var dicById = set._dicById;
-                var resourceRepository = host.GetRequiredService<IRepository<ResourceType>>();
+                var resourceRepository = host.RetrieveRequiredService<IRepository<ResourceType>>();
                 if (string.IsNullOrEmpty(input.Code))
                 {
                     throw new ValidationException("编码不能为空");
@@ -414,7 +414,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 var host = set._host;
                 var dicByCode = set._dicByCode;
                 var dicById = set._dicById;
-                var resourceRepository = host.GetRequiredService<IRepository<ResourceType>>();
+                var resourceRepository = host.RetrieveRequiredService<IRepository<ResourceType>>();
                 ResourceTypeState bkState;
                 if (!host.ResourceTypeSet.TryGetResource(resourceTypeId, out bkState))
                 {

@@ -143,7 +143,7 @@ namespace Anycmd.Engine.Hecp
             {
                 if (_stackTraceFormater == null)
                 {
-                    _stackTraceFormater = _host.GetRequiredService<IStackTraceFormater>();
+                    _stackTraceFormater = _host.RetrieveRequiredService<IStackTraceFormater>();
                 }
                 if (_actsCount == _acts.Count) return _stackTrace;
                 _actsCount = _acts.Count;

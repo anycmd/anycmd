@@ -98,7 +98,7 @@ namespace Anycmd.Logging
         public IList<IAnyLog> GetPlistAnyLogs(List<FilterData> filters, PagingInput paging)
         {
             paging.Valid();
-            var filterStringBuilder = _host.GetRequiredService<ISqlFilterStringBuilder>();
+            var filterStringBuilder = _host.RetrieveRequiredService<ISqlFilterStringBuilder>();
             RdbDescriptor db = GetExceptionLogDb();
             List<SqlParameter> prams;
             var filterString = filterStringBuilder.FilterString(filters, "t", out prams);
@@ -129,7 +129,7 @@ from (SELECT ROW_NUMBER() OVER(ORDER BY {1} {2}) AS RowNumber,* FROM {3} as t"
             , List<FilterData> filters, PagingInput paging)
         {
             paging.Valid();
-            var filterStringBuilder = _host.GetRequiredService<ISqlFilterStringBuilder>();
+            var filterStringBuilder = _host.RetrieveRequiredService<ISqlFilterStringBuilder>();
             RdbDescriptor db = GetOperationLogDb();
             List<SqlParameter> prams;
             var filterString = filterStringBuilder.FilterString(filters, "t", out prams);
@@ -195,7 +195,7 @@ from (SELECT ROW_NUMBER() OVER(ORDER BY {1} {2}) AS RowNumber,* FROM {3} as t"
         public IList<ExceptionLog> GetPlistExceptionLogs(List<FilterData> filters, PagingInput paging)
         {
             paging.Valid();
-            var filterStringBuilder = _host.GetRequiredService<ISqlFilterStringBuilder>();
+            var filterStringBuilder = _host.RetrieveRequiredService<ISqlFilterStringBuilder>();
             RdbDescriptor db = GetExceptionLogDb();
             List<SqlParameter> prams;
             var filterString = filterStringBuilder.FilterString(filters, "t", out prams);

@@ -38,14 +38,14 @@ namespace Anycmd.Tests
                 TypeCode = "Ac"
             }));
             Guid accountId = Guid.NewGuid();
-            host.GetRequiredService<IRepository<Account>>().Add(new Account
+            host.RetrieveRequiredService<IRepository<Account>>().Add(new Account
             {
                 Id = accountId,
                 Code = "test",
                 Name = "test",
                 Password = "111111"
             });
-            host.GetRequiredService<IRepository<Account>>().Context.Commit();
+            host.RetrieveRequiredService<IRepository<Account>>().Context.Commit();
             var entityId = Guid.NewGuid();
 
             host.Handle(new AddPrivilegeBigramCommand(new PrivilegeBigramCreateIo
@@ -59,7 +59,7 @@ namespace Anycmd.Tests
                 ObjectType = AcObjectType.Group.ToString()
             }));
             Assert.Equal(0, host.PrivilegeSet.Count()); // 主体为账户的权限记录不驻留在内存中所以为0
-            var privilegeBigram = host.GetRequiredService<IRepository<PrivilegeBigram>>().AsQueryable().FirstOrDefault(a => a.Id == entityId);
+            var privilegeBigram = host.RetrieveRequiredService<IRepository<PrivilegeBigram>>().AsQueryable().FirstOrDefault(a => a.Id == entityId);
             Assert.NotNull(privilegeBigram);
             Assert.Equal(accountId, privilegeBigram.SubjectInstanceId);
             Assert.Equal(groupId, privilegeBigram.ObjectInstanceId);
@@ -70,13 +70,13 @@ namespace Anycmd.Tests
                 PrivilegeConstraint = "this is a test"
             }));
             Assert.Equal(0, host.PrivilegeSet.Count());// 主体为账户的权限记录不驻留在内存中所以为0
-            var firstOrDefault = host.GetRequiredService<IRepository<PrivilegeBigram>>().AsQueryable().FirstOrDefault(a => a.Id == entityId);
+            var firstOrDefault = host.RetrieveRequiredService<IRepository<PrivilegeBigram>>().AsQueryable().FirstOrDefault(a => a.Id == entityId);
             if (
                 firstOrDefault != null)
                 Assert.Equal("this is a test", firstOrDefault.PrivilegeConstraint);
 
             host.Handle(new RemovePrivilegeBigramCommand(entityId));
-            Assert.Null(host.GetRequiredService<IRepository<PrivilegeBigram>>().AsQueryable().FirstOrDefault(a => a.Id == entityId));
+            Assert.Null(host.RetrieveRequiredService<IRepository<PrivilegeBigram>>().AsQueryable().FirstOrDefault(a => a.Id == entityId));
         }
         #endregion
 
@@ -132,7 +132,7 @@ namespace Anycmd.Tests
             }));
             PrivilegeBigramState privilegeBigram = host.PrivilegeSet.First(a => a.Id == entityId);
             Assert.NotNull(privilegeBigram);
-            Assert.NotNull(host.GetRequiredService<IRepository<PrivilegeBigram>>().AsQueryable().FirstOrDefault(a => a.Id == entityId));
+            Assert.NotNull(host.RetrieveRequiredService<IRepository<PrivilegeBigram>>().AsQueryable().FirstOrDefault(a => a.Id == entityId));
             Assert.Equal(roleId, privilegeBigram.SubjectInstanceId);
             Assert.Equal(functionId, privilegeBigram.ObjectInstanceId);
 
@@ -242,14 +242,14 @@ namespace Anycmd.Tests
                 TypeCode = "Ac"
             }));
             Guid accountId = Guid.NewGuid();
-            host.GetRequiredService<IRepository<Account>>().Add(new Account
+            host.RetrieveRequiredService<IRepository<Account>>().Add(new Account
             {
                 Id = accountId,
                 Code = "test",
                 Name = "test",
                 Password = "111111"
             });
-            host.GetRequiredService<IRepository<Account>>().Context.Commit();
+            host.RetrieveRequiredService<IRepository<Account>>().Context.Commit();
             catched = false;
             try
             {

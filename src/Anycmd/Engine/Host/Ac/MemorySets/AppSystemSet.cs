@@ -146,7 +146,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     if (_initialized) return;
                     _dicByCode.Clear();
                     _dicById.Clear();
-                    var appSystems = _host.GetRequiredService<IOriginalHostStateReader>().GetAllAppSystems();
+                    var appSystems = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllAppSystems();
                     foreach (var appSystem in appSystems)
                     {
                         Debug.Assert(appSystem != null, "appSystem != null");
@@ -218,7 +218,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 var dicByCode = set._dicByCode;
                 var dicById = set._dicById;
                 var host = set._host;
-                var repository = host.GetRequiredService<IRepository<AppSystem>>();
+                var repository = host.RetrieveRequiredService<IRepository<AppSystem>>();
                 if (string.IsNullOrEmpty(input.Code))
                 {
                     throw new ValidationException("编码不能为空");
@@ -307,7 +307,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 var dicByCode = set._dicByCode;
                 var dicById = set._dicById;
                 var host = set._host;
-                var repository = host.GetRequiredService<IRepository<AppSystem>>();
+                var repository = host.RetrieveRequiredService<IRepository<AppSystem>>();
                 if (string.IsNullOrEmpty(input.Code))
                 {
                     throw new ValidationException("编码不能为空");
@@ -421,7 +421,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 var dicByCode = set._dicByCode;
                 var dicById = set._dicById;
                 var host = set._host;
-                var repository = host.GetRequiredService<IRepository<AppSystem>>();
+                var repository = host.RetrieveRequiredService<IRepository<AppSystem>>();
                 AppSystemState bkState;
                 if (!host.AppSystemSet.TryGetAppSystem(appSystemId, out bkState))
                 {

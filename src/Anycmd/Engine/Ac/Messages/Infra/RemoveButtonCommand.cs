@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Ac.Messages.Infra
     using Model;
     using System;
 
-    public class RemoveButtonCommand : RemoveEntityCommand, ISysCommand
+    public class RemoveButtonCommand : RemoveEntityCommand, IAnycmdCommand
     {
         public RemoveButtonCommand(Guid buttonId)
             : base(buttonId)

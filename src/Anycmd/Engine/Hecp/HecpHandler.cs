@@ -92,7 +92,7 @@ namespace Anycmd.Engine.Hecp
                     return;
                 }
                 #region 身份认证
-                var author = context.Host.GetRequiredService<IAuthenticator>();
+                var author = context.Host.RetrieveRequiredService<IAuthenticator>();
                 if (author == null)
                 {
                     throw new AnycmdException("未配置证书验证器，证书验证器是必须的。");

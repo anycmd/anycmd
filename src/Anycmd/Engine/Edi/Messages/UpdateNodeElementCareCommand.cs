@@ -4,7 +4,7 @@ namespace Anycmd.Engine.Edi.Messages
     using Commands;
     using System;
 
-    public class UpdateNodeElementCareCommand : Command, ISysCommand
+    public class UpdateNodeElementCareCommand : Command, IAnycmdCommand
     {
         public UpdateNodeElementCareCommand(Guid nodeElementCareId, bool isInfoIdItem)
         {

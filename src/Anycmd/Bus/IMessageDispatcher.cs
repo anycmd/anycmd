@@ -17,21 +17,21 @@ namespace Anycmd.Bus
         /// 分发给定的消息对象。
         /// </summary>
         /// <param name="message">将被分发的消息对象。</param>
-        void DispatchMessage<T>(T message) where T : IMessage;
+        void DispatchMessage<TMessage>(TMessage message) where TMessage : IMessage;
 
         /// <summary>
         /// 注册给定的消息处理器到当前消息分发器。
         /// </summary>
-        /// <typeparam name="T">消息的.NET类型</typeparam>
+        /// <typeparam name="TMessage">消息的.NET类型</typeparam>
         /// <param name="handler">将被注册的消息处理器对象。</param>
-        void Register<T>(IHandler<T> handler) where T : IMessage;
+        void Register<TMessage>(IHandler<TMessage> handler) where TMessage : IMessage;
 
         /// <summary>
         /// 从当前消息分发器中反注册给定的消息处理器对象。
         /// </summary>
-        /// <typeparam name="T">消息.NET类型。</typeparam>
+        /// <typeparam name="TMessage">消息.NET类型。</typeparam>
         /// <param name="handler">将被注册的消息处理器对象。</param>
-        void UnRegister<T>(IHandler<T> handler) where T : IMessage;
+        void UnRegister<TMessage>(IHandler<TMessage> handler) where TMessage : IMessage;
 
         /// <summary>
         /// 当消息分发器将要分发消息前发生。

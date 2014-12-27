@@ -64,7 +64,7 @@ namespace Anycmd.Ef
             {
                 if (_filterStringBuilder == null)
                 {
-                    _filterStringBuilder = _host.GetRequiredService<IEfFilterStringBuilder>();
+                    _filterStringBuilder = _host.RetrieveRequiredService<IEfFilterStringBuilder>();
                 }
                 return _filterStringBuilder;
             }

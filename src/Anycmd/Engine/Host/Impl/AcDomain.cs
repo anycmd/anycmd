@@ -349,7 +349,7 @@ namespace Anycmd.Engine.Host.Impl
         /// this.DirectCommandBus.Commit();
         /// </summary>
         /// <param name="command"></param>
-        public void Handle(ISysCommand command)
+        public void Handle(IAnycmdCommand command)
         {
             this.CommandBus.Publish(command);
             this.CommandBus.Commit();

@@ -22,7 +22,7 @@ namespace Anycmd.Web.Mvc
         /// </summary>
         protected T GetRequiredService<T>() where T : class
         {
-            return Host.GetRequiredService<T>();
+            return Host.RetrieveRequiredService<T>();
         }
 
         protected ViewResultBase ViewResult()

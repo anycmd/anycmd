@@ -90,9 +90,9 @@ namespace Anycmd.Tests
                 Url = string.Empty
             }));
             Assert.Equal(2, host.MenuSet.Count());
-            Assert.NotNull(host.GetRequiredService<IRepository<Menu>>().GetByKey(entityId));
-            Assert.NotNull(host.GetRequiredService<IRepository<Menu>>().GetByKey(entityId2));
-            Assert.Equal(entityId, host.GetRequiredService<IRepository<Menu>>().GetByKey(entityId2).ParentId.Value);
+            Assert.NotNull(host.RetrieveRequiredService<IRepository<Menu>>().GetByKey(entityId));
+            Assert.NotNull(host.RetrieveRequiredService<IRepository<Menu>>().GetByKey(entityId2));
+            Assert.Equal(entityId, host.RetrieveRequiredService<IRepository<Menu>>().GetByKey(entityId2).ParentId.Value);
             Assert.True(host.MenuSet.TryGetMenu(entityId, out menuById));
             bool catched = false;
             try

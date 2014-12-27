@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Edi.Messages
     using InOuts;
     using Model;
 
-    public class UpdateTopicCommand : UpdateEntityCommand<ITopicUpdateIo>, ISysCommand
+    public class UpdateTopicCommand : UpdateEntityCommand<ITopicUpdateIo>, IAnycmdCommand
     {
         public UpdateTopicCommand(ITopicUpdateIo input)
             : base(input)

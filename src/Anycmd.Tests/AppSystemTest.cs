@@ -58,7 +58,7 @@ namespace Anycmd.Tests
             Assert.Equal("test2", appSystemById1.Name);
             Assert.Equal("app2", appSystemById1.Code);
 
-            Assert.NotNull(host.GetRequiredService<IRepository<AppSystem>>().GetByKey(entityId));
+            Assert.NotNull(host.RetrieveRequiredService<IRepository<AppSystem>>().GetByKey(entityId));
             host.Handle(new RemoveAppSystemCommand(entityId));
             Assert.False(host.AppSystemSet.TryGetAppSystem(entityId, out appSystemById1));
             Assert.False(host.AppSystemSet.TryGetAppSystem("app2", out appSystemByCode1));

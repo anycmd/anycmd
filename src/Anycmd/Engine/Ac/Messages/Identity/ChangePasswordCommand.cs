@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Ac.Messages.Identity
     using InOuts;
     using System;
 
-    public class ChangePasswordCommand : Command, ISysCommand
+    public class ChangePasswordCommand : Command, IAnycmdCommand
     {
         public ChangePasswordCommand(IPasswordChangeIo input)
         {

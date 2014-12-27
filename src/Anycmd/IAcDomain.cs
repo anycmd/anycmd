@@ -13,7 +13,7 @@
     /// <summary>
     /// 它是访问所有系统实体的入口。它确立了一个边界，如果进程中实例化了多个AcDomain实例的话。
     /// </summary>
-    public interface IAcDomain : IServiceProvider, IServiceContainer, IDisposable
+    public interface IAcDomain : IServiceContainer, IDisposable
     {
         /// <summary>
         /// 宿主标识

@@ -176,7 +176,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 _infoDicDicByCode.Clear();
                 _infoDicItemByDic.Clear();
                 _infoDicItemDic.Clear();
-                var allInfoDics = _host.GetRequiredService<INodeHostBootstrap>().GetInfoDics();
+                var allInfoDics = _host.RetrieveRequiredService<INodeHostBootstrap>().GetInfoDics();
                 foreach (var infoDic in allInfoDics)
                 {
                     var infoDicState = InfoDicState.Create(_host, infoDic);
@@ -184,7 +184,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     _infoDicDicByCode.Add(infoDic.Code, infoDicState);
                     _infoDicItemByDic.Add(infoDicState, new Dictionary<string, InfoDicItemState>(StringComparer.OrdinalIgnoreCase));
                 }
-                var allDicItems = _host.GetRequiredService<INodeHostBootstrap>().GetInfoDicItems();
+                var allDicItems = _host.RetrieveRequiredService<INodeHostBootstrap>().GetInfoDicItems();
 
                 foreach (var infoDicItem in allDicItems)
                 {
@@ -260,7 +260,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 var locker = _set._locker;
                 var infoDicDicById = _set._infoDicDicById;
                 var infoDicDicByCode = _set._infoDicDicByCode;
-                var infoDicRepository = host.GetRequiredService<IRepository<InfoDic>>();
+                var infoDicRepository = host.RetrieveRequiredService<IRepository<InfoDic>>();
                 if (string.IsNullOrEmpty(input.Code))
                 {
                     throw new ValidationException("编码不能为空");
@@ -350,7 +350,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 var locker = _set._locker;
                 var infoDicDicById = _set._infoDicDicById;
                 var infoDicDicByCode = _set._infoDicDicByCode;
-                var infoDicRepository = host.GetRequiredService<IRepository<InfoDic>>();
+                var infoDicRepository = host.RetrieveRequiredService<IRepository<InfoDic>>();
                 if (string.IsNullOrEmpty(input.Code))
                 {
                     throw new ValidationException("编码不能为空");
@@ -453,8 +453,8 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 var locker = _set._locker;
                 var infoDicDicById = _set._infoDicDicById;
                 var infoDicDicByCode = _set._infoDicDicByCode;
-                var infoDicRepository = host.GetRequiredService<IRepository<InfoDic>>();
-                var infoDicItemRepository = host.GetRequiredService<IRepository<InfoDicItem>>();
+                var infoDicRepository = host.RetrieveRequiredService<IRepository<InfoDic>>();
+                var infoDicItemRepository = host.RetrieveRequiredService<IRepository<InfoDicItem>>();
                 InfoDicState infoDic;
                 if (!host.NodeHost.InfoDics.TryGetInfoDic(infoDicId, out infoDic))
                 {
@@ -537,7 +537,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 var locker = _set._locker;
                 var infoDicItemDic = _set._infoDicItemDic;
                 var infoDicItemByDic = _set._infoDicItemByDic;
-                var infoDicItemRepository = host.GetRequiredService<IRepository<InfoDicItem>>();
+                var infoDicItemRepository = host.RetrieveRequiredService<IRepository<InfoDicItem>>();
                 if (string.IsNullOrEmpty(input.Code))
                 {
                     throw new ValidationException("编码不能为空");
@@ -634,7 +634,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 var locker = _set._locker;
                 var infoDicItemDic = _set._infoDicItemDic;
                 var infoDicItemByDic = _set._infoDicItemByDic;
-                var infoDicItemRepository = host.GetRequiredService<IRepository<InfoDicItem>>();
+                var infoDicItemRepository = host.RetrieveRequiredService<IRepository<InfoDicItem>>();
                 if (string.IsNullOrEmpty(input.Code))
                 {
                     throw new ValidationException("编码不能为空");
@@ -748,7 +748,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 var locker = _set._locker;
                 var infoDicItemDic = _set._infoDicItemDic;
                 var infoDicItemByDic = _set._infoDicItemByDic;
-                var infoDicItemRepository = host.GetRequiredService<IRepository<InfoDicItem>>();
+                var infoDicItemRepository = host.RetrieveRequiredService<IRepository<InfoDicItem>>();
                 InfoDicItemState infoDicItem;
                 if (!host.NodeHost.InfoDics.TryGetInfoDicItem(infoDicItemId, out infoDicItem))
                 {

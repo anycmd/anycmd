@@ -80,7 +80,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     if (!_initialized)
                     {
                         _menuById.Clear();
-                        var menus = _host.GetRequiredService<IOriginalHostStateReader>().GetAllMenus().OrderBy(a => a.SortCode);
+                        var menus = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllMenus().OrderBy(a => a.SortCode);
                         foreach (var menu in menus)
                         {
                             _menuById.Add(menu.Id, MenuState.Create(_host, menu));
@@ -140,7 +140,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 var host = set._host;
                 var menuById = set._menuById;
-                var menuRepository = host.GetRequiredService<IRepository<Menu>>();
+                var menuRepository = host.RetrieveRequiredService<IRepository<Menu>>();
                 if (!input.Id.HasValue)
                 {
                     throw new ValidationException("标识是必须的");
@@ -235,7 +235,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 var host = set._host;
                 var menuById = set._menuById;
-                var menuRepository = host.GetRequiredService<IRepository<Menu>>();
+                var menuRepository = host.RetrieveRequiredService<IRepository<Menu>>();
                 MenuState bkState;
                 if (!host.MenuSet.TryGetMenu(input.Id, out bkState))
                 {
@@ -335,7 +335,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 var host = set._host;
                 var menuById = set._menuById;
-                var menuRepository = host.GetRequiredService<IRepository<Menu>>();
+                var menuRepository = host.RetrieveRequiredService<IRepository<Menu>>();
                 MenuState bkState;
                 if (!host.MenuSet.TryGetMenu(menuId, out bkState))
                 {

@@ -20,8 +20,8 @@ namespace Anycmd.Engine.Host.Ac.MessageHandlers
 
         public override void Handle(SaveHelpCommand command)
         {
-            var operationHelpRepository = _host.GetRequiredService<IRepository<OperationHelp>>();
-            var functionRepository = _host.GetRequiredService<IRepository<Function>>();
+            var operationHelpRepository = _host.RetrieveRequiredService<IRepository<OperationHelp>>();
+            var functionRepository = _host.RetrieveRequiredService<IRepository<Function>>();
             if (command.FunctionId == Guid.Empty)
             {
                 throw new ValidationException("EmptyFunctionId");

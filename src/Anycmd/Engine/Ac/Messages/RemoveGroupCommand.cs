@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Ac.Messages
     using Model;
     using System;
 
-    public class RemoveGroupCommand : RemoveEntityCommand, ISysCommand
+    public class RemoveGroupCommand : RemoveEntityCommand, IAnycmdCommand
     {
         public RemoveGroupCommand(Guid groupId)
             : base(groupId)

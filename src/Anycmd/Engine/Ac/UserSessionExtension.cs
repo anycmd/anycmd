@@ -29,7 +29,7 @@ namespace Anycmd.Engine.Ac
         /// <returns></returns>
         public static T GetData<T>(this IUserSession user, string key)
         {
-            var userSessionStorage = user.AcDomain.GetRequiredService<IUserSessionStorage>();
+            var userSessionStorage = user.AcDomain.RetrieveRequiredService<IUserSessionStorage>();
             var obj = userSessionStorage.GetData(key);
             if (obj is T)
             {
@@ -45,7 +45,7 @@ namespace Anycmd.Engine.Ac
         /// <param name="data"></param>
         public static void SetData(this IUserSession user, string key, object data)
         {
-            var userSessionStorage = user.AcDomain.GetRequiredService<IUserSessionStorage>();
+            var userSessionStorage = user.AcDomain.RetrieveRequiredService<IUserSessionStorage>();
             userSessionStorage.SetData(key, data);
         }
         #endregion
@@ -61,7 +61,7 @@ namespace Anycmd.Engine.Ac
         /// <returns></returns>
         public static bool Permit(this IUserSession user, string resourceCode, string functionCode)
         {
-            var securityService = user.AcDomain.GetRequiredService<ISecurityService>();
+            var securityService = user.AcDomain.RetrieveRequiredService<ISecurityService>();
             ResourceTypeState resource;
             if (!user.AcDomain.ResourceTypeSet.TryGetResource(user.AcDomain.AppSystemSet.SelfAppSystem, resourceCode, out resource))
             {
@@ -79,7 +79,7 @@ namespace Anycmd.Engine.Ac
             where TEntity : IManagedPropertyValues
             where TInput : IManagedPropertyValues
         {
-            var securityService = user.AcDomain.GetRequiredService<ISecurityService>();
+            var securityService = user.AcDomain.RetrieveRequiredService<ISecurityService>();
             ResourceTypeState resource;
             if (!user.AcDomain.ResourceTypeSet.TryGetResource(user.AcDomain.AppSystemSet.SelfAppSystem, resourceCode, out resource))
             {
@@ -101,7 +101,7 @@ namespace Anycmd.Engine.Ac
         /// <returns></returns>
         public static bool Permit(this IUserSession user, UiViewState view)
         {
-            var securityService = user.AcDomain.GetRequiredService<ISecurityService>();
+            var securityService = user.AcDomain.RetrieveRequiredService<ISecurityService>();
             if (view == null)
             {
                 throw new ArgumentNullException("view");
@@ -122,7 +122,7 @@ namespace Anycmd.Engine.Ac
             where TEntity : IManagedPropertyValues
             where TInput : IManagedPropertyValues
         {
-            var securityService = user.AcDomain.GetRequiredService<ISecurityService>();
+            var securityService = user.AcDomain.RetrieveRequiredService<ISecurityService>();
             if (view == null)
             {
                 throw new ArgumentNullException("view");
@@ -148,7 +148,7 @@ namespace Anycmd.Engine.Ac
         /// <returns>True表示有权，False无权</returns>
         public static bool Permit(this IUserSession user, Guid functionId)
         {
-            var securityService = user.AcDomain.GetRequiredService<ISecurityService>();
+            var securityService = user.AcDomain.RetrieveRequiredService<ISecurityService>();
             FunctionState function;
             if (!user.AcDomain.FunctionSet.TryGetFunction(functionId, out function))
             {
@@ -161,7 +161,7 @@ namespace Anycmd.Engine.Ac
             where TEntity : IManagedPropertyValues
             where TInput : IManagedPropertyValues
         {
-            var securityService = user.AcDomain.GetRequiredService<ISecurityService>();
+            var securityService = user.AcDomain.RetrieveRequiredService<ISecurityService>();
             FunctionState function;
             if (!user.AcDomain.FunctionSet.TryGetFunction(functionId, out function))
             {
@@ -178,7 +178,7 @@ namespace Anycmd.Engine.Ac
         /// <returns></returns>
         public static bool Permit(this IUserSession user, FunctionState function)
         {
-            var securityService = user.AcDomain.GetRequiredService<ISecurityService>();
+            var securityService = user.AcDomain.RetrieveRequiredService<ISecurityService>();
 
             return securityService.Permit(user, function, null);
         }
@@ -187,14 +187,14 @@ namespace Anycmd.Engine.Ac
             where T : IManagedPropertyValues
             where TInput : IManagedPropertyValues
         {
-            var securityService = user.AcDomain.GetRequiredService<ISecurityService>();
+            var securityService = user.AcDomain.RetrieveRequiredService<ISecurityService>();
 
             return securityService.Permit(user, function, currentEntity);
         }
 
         public static bool Permit(this IUserSession user, FunctionState function, ManagedObject currentEntity)
         {
-            var securityService = user.AcDomain.GetRequiredService<ISecurityService>();
+            var securityService = user.AcDomain.RetrieveRequiredService<ISecurityService>();
 
             return securityService.Permit(user, function, currentEntity);
         }

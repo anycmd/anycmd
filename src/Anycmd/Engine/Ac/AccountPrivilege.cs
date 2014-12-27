@@ -128,7 +128,7 @@ namespace Anycmd.Engine.Ac
         private List<PrivilegeBigramState> GetAccountPrivileges()
         {
             var subjectType = AcSubjectType.Account.ToName();
-            var accountPrivileges = _acDomain.GetRequiredService<IRepository<PrivilegeBigram>>().AsQueryable()
+            var accountPrivileges = _acDomain.RetrieveRequiredService<IRepository<PrivilegeBigram>>().AsQueryable()
                 .Where(a => a.SubjectType == subjectType && a.SubjectInstanceId == _accountId).ToList().Select(PrivilegeBigramState.Create).ToList();
             return accountPrivileges;
         }

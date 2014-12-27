@@ -6,12 +6,10 @@ namespace Anycmd.Bus.DirectBus
     /// </summary>
     public sealed class DirectCommandBus : DirectBus, ICommandBus
     {
-        #region Ctor
         /// <summary>
         /// 初始化一个 <c>DirectCommandBus</c> 类型的对象。
         /// </summary>
         /// <param name="dispatcher">总线中所使用的消息分发器对象 <see cref="Anycmd.Bus.IMessageDispatcher"/>。</param>
         public DirectCommandBus(IMessageDispatcher dispatcher) : base(dispatcher) { }
-        #endregion
     }
 }

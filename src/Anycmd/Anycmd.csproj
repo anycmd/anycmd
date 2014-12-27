@@ -939,7 +939,7 @@
       <DependentUpon>StorageMappingSchema.xsd</DependentUpon>
     </Compile>
     <Compile Include="Storage\XmlStorageMappingResolver.cs" />
-    <Compile Include="Commands\ISysCommand.cs" />
+    <Compile Include="Engine\IAnycmdCommand.cs" />
     <Compile Include="Model\IEntityBase.cs" />
     <Compile Include="Util\EnumExtension.cs" />
     <Compile Include="Exceptions\ExceptionEventArgs.cs" />

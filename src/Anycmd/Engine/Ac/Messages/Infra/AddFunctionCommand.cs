@@ -6,7 +6,7 @@ namespace Anycmd.Engine.Ac.Messages.Infra
     using Model;
 
 
-    public class AddFunctionCommand : AddEntityCommand<IFunctionCreateIo>, ISysCommand
+    public class AddFunctionCommand : AddEntityCommand<IFunctionCreateIo>, IAnycmdCommand
     {
         public AddFunctionCommand(IFunctionCreateIo input)
             : base(input)

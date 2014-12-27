@@ -343,7 +343,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 if (_initialized) return;
                 _ontologyDicByCode.Clear();
                 _ontologyDicById.Clear();
-                var allOntologies = _host.GetRequiredService<INodeHostBootstrap>().GetOntologies().OrderBy(s => s.SortCode);
+                var allOntologies = _host.RetrieveRequiredService<INodeHostBootstrap>().GetOntologies().OrderBy(s => s.SortCode);
                 foreach (var ontology in allOntologies)
                 {
                     var ontologyDescriptor = new OntologyDescriptor(_host, OntologyState.Create(ontology), ontology.Id);
@@ -404,7 +404,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             private void Handle(IOntologyCreateIo input, bool isCommand)
             {
                 var host = _set._host;
-                var ontologyRepository = host.GetRequiredService<IRepository<Ontology>>();
+                var ontologyRepository = host.RetrieveRequiredService<IRepository<Ontology>>();
                 if (string.IsNullOrEmpty(input.Code))
                 {
                     throw new ValidationException("编码不能为空");
@@ -487,7 +487,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             private void Handle(IOntologyUpdateIo input, bool isCommand)
             {
                 var host = _set._host;
-                var ontologyRepository = host.GetRequiredService<IRepository<Ontology>>();
+                var ontologyRepository = host.RetrieveRequiredService<IRepository<Ontology>>();
                 if (string.IsNullOrEmpty(input.Code))
                 {
                     throw new ValidationException("编码不能为空");
@@ -589,7 +589,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             private void Handle(Guid ontologyId, bool isCommand)
             {
                 var host = _set._host;
-                var ontologyRepository = host.GetRequiredService<IRepository<Ontology>>();
+                var ontologyRepository = host.RetrieveRequiredService<IRepository<Ontology>>();
                 OntologyDescriptor ontology;
                 if (!host.NodeHost.Ontologies.TryGetOntology(ontologyId, out ontology))
                 {
@@ -636,7 +636,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 {
                     throw new ValidationException("有节点关心了该本体下的组织结构时不能删除");
                 }
-                if (host.GetRequiredService<IRepository<Batch>>().AsQueryable().Any(a => a.OntologyId == entity.Id))
+                if (host.RetrieveRequiredService<IRepository<Batch>>().AsQueryable().Any(a => a.OntologyId == entity.Id))
                 {
                     throw new ValidationException("本体下有批处理记录时不能删除");
                 }
@@ -778,7 +778,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     if (_initialized) return;
                     _elementDicByOntology.Clear();
                     _elementDicById.Clear();
-                    var allElements = _host.GetRequiredService<INodeHostBootstrap>().GetElements();
+                    var allElements = _host.RetrieveRequiredService<INodeHostBootstrap>().GetElements();
                     foreach (var element in allElements)
                     {
                         if (_elementDicById.ContainsKey(element.Id)) continue;
@@ -831,7 +831,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 public void Handle(AddElementCommand message)
                 {
                     var host = _set._host;
-                    var elementRepository = host.GetRequiredService<IRepository<Element>>();
+                    var elementRepository = host.RetrieveRequiredService<IRepository<Element>>();
                     if (string.IsNullOrEmpty(message.Input.Code))
                     {
                         throw new ValidationException("编码不能为空");
@@ -1016,7 +1016,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 public void Handle(UpdateElementCommand message)
                 {
                     var host = _set._host;
-                    var elementRepository = host.GetRequiredService<IRepository<Element>>();
+                    var elementRepository = host.RetrieveRequiredService<IRepository<Element>>();
                     if (string.IsNullOrEmpty(message.Output.Code))
                     {
                         throw new ValidationException("编码不能为空");
@@ -1087,7 +1087,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 public void Handle(RemoveElementCommand message)
                 {
                     var host = _set._host;
-                    var elementRepository = host.GetRequiredService<IRepository<Element>>();
+                    var elementRepository = host.RetrieveRequiredService<IRepository<Element>>();
                     ElementDescriptor element;
                     if (!host.NodeHost.Ontologies.TryGetElement(message.EntityId, out element))
                     {
@@ -1200,8 +1200,8 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     if (_initialized) return;
                     _actionDicByVerb.Clear();
                     _actionsById.Clear();
-                    var actions = _host.GetRequiredService<INodeHostBootstrap>().GetActions();
-                    var nodeElementActions = _host.GetRequiredService<INodeHostBootstrap>().GetNodeElementActions();
+                    var actions = _host.RetrieveRequiredService<INodeHostBootstrap>().GetActions();
+                    var nodeElementActions = _host.RetrieveRequiredService<INodeHostBootstrap>().GetNodeElementActions();
                     foreach (var ontology in _host.NodeHost.Ontologies)
                     {
                         if (!_actionDicByVerb.ContainsKey(ontology))
@@ -1253,7 +1253,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 public void Handle(AddActionCommand message)
                 {
                     var host = _set._host;
-                    var ontologyRepository = host.GetRequiredService<IRepository<Ontology>>();
+                    var ontologyRepository = host.RetrieveRequiredService<IRepository<Ontology>>();
                     if (string.IsNullOrEmpty(message.Input.Verb))
                     {
                         throw new ValidationException("编码不能为空");
@@ -1303,7 +1303,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 public void Handle(UpdateActionCommand message)
                 {
                     var host = _set._host;
-                    var ontologyRepository = host.GetRequiredService<IRepository<Ontology>>();
+                    var ontologyRepository = host.RetrieveRequiredService<IRepository<Ontology>>();
                     if (string.IsNullOrEmpty(message.Output.Verb))
                     {
                         throw new ValidationException("编码不能为空");
@@ -1387,7 +1387,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 public void Handle(RemoveActionCommand message)
                 {
                     var host = _set._host;
-                    var ontologyRepository = host.GetRequiredService<IRepository<Ontology>>();
+                    var ontologyRepository = host.RetrieveRequiredService<IRepository<Ontology>>();
                     bool exist = false;
                     OntologyDescriptor ontology = null;
                     foreach (var item in host.NodeHost.Ontologies)
@@ -1490,7 +1490,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                         if (!_initialized)
                         {
                             _dic.Clear();
-                            var infoGroups = _host.GetRequiredService<INodeHostBootstrap>().GetInfoGroups().OrderBy(a => a.SortCode);
+                            var infoGroups = _host.RetrieveRequiredService<INodeHostBootstrap>().GetInfoGroups().OrderBy(a => a.SortCode);
                             foreach (var ontology in _host.NodeHost.Ontologies)
                             {
                                 _dic.Add(ontology, new List<InfoGroupState>());
@@ -1534,7 +1534,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 public void Handle(AddInfoGroupCommand message)
                 {
                     var host = _set._host;
-                    var ontologyRepository = host.GetRequiredService<IRepository<Ontology>>();
+                    var ontologyRepository = host.RetrieveRequiredService<IRepository<Ontology>>();
                     if (string.IsNullOrEmpty(message.Input.Code))
                     {
                         throw new ValidationException("编码不能为空");
@@ -1595,7 +1595,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 public void Handle(UpdateInfoGroupCommand message)
                 {
                     var host = _set._host;
-                    var ontologyRepository = host.GetRequiredService<IRepository<Ontology>>();
+                    var ontologyRepository = host.RetrieveRequiredService<IRepository<Ontology>>();
                     if (string.IsNullOrEmpty(message.Output.Code))
                     {
                         throw new ValidationException("编码不能为空");
@@ -1662,7 +1662,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 public void Handle(RemoveInfoGroupCommand message)
                 {
                     var host = _set._host;
-                    var ontologyRepository = host.GetRequiredService<IRepository<Ontology>>();
+                    var ontologyRepository = host.RetrieveRequiredService<IRepository<Ontology>>();
                     InfoGroup entity = ontologyRepository.Context.Query<InfoGroup>().FirstOrDefault(a => a.Id == message.EntityId);
                     if (entity == null)
                     {
@@ -1747,7 +1747,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 {
                     if (_initialized) return;
                     _dic.Clear();
-                    var ontologyOrgs = _host.GetRequiredService<INodeHostBootstrap>().GetOntologyOrganizations();
+                    var ontologyOrgs = _host.RetrieveRequiredService<INodeHostBootstrap>().GetOntologyOrganizations();
                     foreach (var ontologyOrg in ontologyOrgs)
                     {
                         OrganizationState org;
@@ -1831,7 +1831,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 {
                     var _dic = set._dic;
                     var host = set._host;
-                    var repository = host.GetRequiredService<IRepository<OntologyOrganization>>();
+                    var repository = host.RetrieveRequiredService<IRepository<OntologyOrganization>>();
                     OntologyDescriptor ontology;
                     if (!host.NodeHost.Ontologies.TryGetOntology(input.OntologyId, out ontology))
                     {
@@ -1911,7 +1911,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 {
                     var dic = set._dic;
                     var host = set._host;
-                    var repository = host.GetRequiredService<IRepository<OntologyOrganization>>();
+                    var repository = host.RetrieveRequiredService<IRepository<OntologyOrganization>>();
                     OntologyDescriptor ontology;
                     if (!host.NodeHost.Ontologies.TryGetOntology(ontologyId, out ontology))
                     {
@@ -2072,7 +2072,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                         if (!_initialized)
                         {
                             _dic.Clear();
-                            var list = _host.GetRequiredService<INodeHostBootstrap>().GetTopics();
+                            var list = _host.RetrieveRequiredService<INodeHostBootstrap>().GetTopics();
                             foreach (var item in list)
                             {
                                 var ontology = _host.NodeHost.Ontologies[item.OntologyId];
@@ -2118,7 +2118,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 public void Handle(AddTopicCommand message)
                 {
                     var host = _set._host;
-                    var ontologyRepository = host.GetRequiredService<IRepository<Ontology>>();
+                    var ontologyRepository = host.RetrieveRequiredService<IRepository<Ontology>>();
                     if (string.IsNullOrEmpty(message.Input.Code))
                     {
                         throw new ValidationException("编码不能为空");
@@ -2163,7 +2163,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 public void Handle(UpdateTopicCommand message)
                 {
                     var host = _set._host;
-                    var ontologyRepository = host.GetRequiredService<IRepository<Ontology>>();
+                    var ontologyRepository = host.RetrieveRequiredService<IRepository<Ontology>>();
                     if (string.IsNullOrEmpty(message.Output.Code))
                     {
                         throw new ValidationException("编码不能为空");
@@ -2243,7 +2243,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 public void Handle(RemoveTopicCommand message)
                 {
                     var host = _set._host;
-                    var ontologyRepository = host.GetRequiredService<IRepository<Ontology>>();
+                    var ontologyRepository = host.RetrieveRequiredService<IRepository<Ontology>>();
                     TopicState topic = null;
                     OntologyDescriptor ontology = null;
                     foreach (var item in _set._dic)
@@ -2370,7 +2370,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     if (_initialized) return;
                     _dicById.Clear();
                     _dicByOntology.Clear();
-                    var list = _host.GetRequiredService<INodeHostBootstrap>().GetArchives();
+                    var list = _host.RetrieveRequiredService<INodeHostBootstrap>().GetArchives();
                     foreach (var entity in list)
                     {
                         var archive = ArchiveState.Create(_host, entity);
@@ -2413,7 +2413,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 public void Handle(AddArchiveCommand message)
                 {
                     var host = _set._host;
-                    var archiveRepository = host.GetRequiredService<IRepository<Archive>>();
+                    var archiveRepository = host.RetrieveRequiredService<IRepository<Archive>>();
                     if (!message.Input.Id.HasValue)
                     {
                         throw new ValidationException("标识是必须的");
@@ -2482,7 +2482,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 public void Handle(UpdateArchiveCommand message)
                 {
                     var host = _set._host;
-                    var archiveRepository = host.GetRequiredService<IRepository<Archive>>();
+                    var archiveRepository = host.RetrieveRequiredService<IRepository<Archive>>();
                     ArchiveState archive;
                     if (!host.NodeHost.Ontologies.TryGetArchive(message.Output.Id, out archive))
                     {
@@ -2546,7 +2546,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 public void Handle(RemoveArchiveCommand message)
                 {
                     var host = _set._host;
-                    var archiveRepository = host.GetRequiredService<IRepository<Archive>>();
+                    var archiveRepository = host.RetrieveRequiredService<IRepository<Archive>>();
                     ArchiveState archive;
                     if (!host.NodeHost.Ontologies.TryGetArchive(message.EntityId, out archive))
                     {

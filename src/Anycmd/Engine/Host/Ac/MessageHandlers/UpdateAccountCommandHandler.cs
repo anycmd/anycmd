@@ -20,7 +20,7 @@ namespace Anycmd.Engine.Host.Ac.MessageHandlers
 
         public override void Handle(UpdateAccountCommand command)
         {
-            var accountRepository = _host.GetRequiredService<IRepository<Account>>();
+            var accountRepository = _host.RetrieveRequiredService<IRepository<Account>>();
             if (accountRepository.AsQueryable().Any(a => a.Code == command.Output.Code && a.Id != command.Output.Id))
             {
                 throw new ValidationException("用户编码重复");

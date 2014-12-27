@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Ac.Messages.Infra
     using InOuts;
     using Model;
 
-    public class AddAppSystemCommand : AddEntityCommand<IAppSystemCreateIo>, ISysCommand
+    public class AddAppSystemCommand : AddEntityCommand<IAppSystemCreateIo>, IAnycmdCommand
     {
         public AddAppSystemCommand(IAppSystemCreateIo input)
             : base(input)

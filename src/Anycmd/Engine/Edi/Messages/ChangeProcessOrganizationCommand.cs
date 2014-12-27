@@ -3,7 +3,7 @@ using System;
 
 namespace Anycmd.Engine.Edi.Messages
 {
-    public class ChangeProcessOrganizationCommand : Command, ISysCommand
+    public class ChangeProcessOrganizationCommand : Command, IAnycmdCommand
     {
         public ChangeProcessOrganizationCommand(Guid processId, string organizationCode)
         {

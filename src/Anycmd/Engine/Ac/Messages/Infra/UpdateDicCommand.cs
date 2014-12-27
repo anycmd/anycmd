@@ -6,7 +6,7 @@ namespace Anycmd.Engine.Ac.Messages.Infra
     using Model;
 
 
-    public class UpdateDicCommand : UpdateEntityCommand<IDicUpdateIo>, ISysCommand
+    public class UpdateDicCommand : UpdateEntityCommand<IDicUpdateIo>, IAnycmdCommand
     {
         public UpdateDicCommand(IDicUpdateIo input)
             : base(input)

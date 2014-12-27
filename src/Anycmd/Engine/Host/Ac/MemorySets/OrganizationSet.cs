@@ -85,7 +85,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                         _dicById.Clear();
                         _dicByCode.Add(OrganizationState.VirtualRoot.Code, OrganizationState.VirtualRoot);
                         _dicById.Add(OrganizationState.VirtualRoot.Id, OrganizationState.VirtualRoot);
-                        var allOrganizations = _host.GetRequiredService<IOriginalHostStateReader>().GetOrganizations().OrderBy(a => a.ParentCode);
+                        var allOrganizations = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetOrganizations().OrderBy(a => a.ParentCode);
                         foreach (var organization in allOrganizations)
                         {
                             OrganizationState orgState = OrganizationState.Create(_host, organization);
@@ -172,7 +172,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 var host = _set._host;
                 var dicByCode = _set._dicByCode;
                 var dicById = _set._dicById;
-                var organizationRepository = host.GetRequiredService<IRepository<Organization>>();
+                var organizationRepository = host.RetrieveRequiredService<IRepository<Organization>>();
                 if (!input.Id.HasValue)
                 {
                     throw new ValidationException("标识是必须的");
@@ -287,7 +287,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 var host = _set._host;
                 var dicByCode = _set._dicByCode;
                 var dicById = _set._dicById;
-                var organizationRepository = host.GetRequiredService<IRepository<Organization>>();
+                var organizationRepository = host.RetrieveRequiredService<IRepository<Organization>>();
                 if (string.IsNullOrEmpty(input.Code))
                 {
                     throw new ValidationException("编码不能为空");
@@ -407,7 +407,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 var host = _set._host;
                 var dicByCode = _set._dicByCode;
                 var dicById = _set._dicById;
-                var organizationRepository = host.GetRequiredService<IRepository<Organization>>();
+                var organizationRepository = host.RetrieveRequiredService<IRepository<Organization>>();
                 OrganizationState bkState;
                 if (!host.OrganizationSet.TryGetOrganization(organizationId, out bkState))
                 {

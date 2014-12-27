@@ -65,7 +65,7 @@ namespace Anycmd.Engine.Host.Rdb
                     if (!_initialized)
                     {
                         _dicById.Clear();
-                        var list = _host.GetRequiredService<IOriginalHostStateReader>().GetAllRDatabases();
+                        var list = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllRDatabases();
                         foreach (var item in list)
                         {
                             _dicById.Add(item.Id, new RdbDescriptor(_host, item));

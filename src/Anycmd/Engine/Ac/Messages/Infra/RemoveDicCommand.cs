@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Ac.Messages.Infra
     using Model;
     using System;
 
-    public class RemoveDicCommand : RemoveEntityCommand, ISysCommand
+    public class RemoveDicCommand : RemoveEntityCommand, IAnycmdCommand
     {
         public RemoveDicCommand(Guid dicId)
             : base(dicId)

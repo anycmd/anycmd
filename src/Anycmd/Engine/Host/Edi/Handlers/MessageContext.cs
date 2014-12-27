@@ -177,7 +177,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers
                 if (this._isValidated) return this._isValid;
                 this._isValidated = true;
                 #region 输入验证
-                var inputValidator = _host.GetRequiredService<IInputValidator>();
+                var inputValidator = _host.RetrieveRequiredService<IInputValidator>();
                 if (inputValidator == null)
                 {
                     throw new AnycmdException("没有配置命令输入验证器");
@@ -190,7 +190,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers
                     return false;
                 }
                 #endregion
-                var permissionValidator = _host.GetRequiredService<IPermissionValidator>();
+                var permissionValidator = _host.RetrieveRequiredService<IPermissionValidator>();
                 if (permissionValidator == null)
                 {
                     throw new AnycmdException("没有配置权限验证器");
@@ -289,7 +289,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers
                 if (!this._isAuditDetected)
                 {
                     this._isAuditDetected = true;
-                    var auditDiscriminator = _host.GetRequiredService<IAuditDiscriminator>();
+                    var auditDiscriminator = _host.RetrieveRequiredService<IAuditDiscriminator>();
                     if (auditDiscriminator == null)
                     {
                         throw new AnycmdException("未配置命令审核鉴别器");
@@ -531,7 +531,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers
                 }
                 if (_stackTraceFormater == null)
                 {
-                    _stackTraceFormater = _host.GetRequiredService<IStackTraceFormater>();
+                    _stackTraceFormater = _host.RetrieveRequiredService<IStackTraceFormater>();
                 }
                 _actsCount = _acts.Count;
                 _stackTrace = _stackTrace + _stackTraceFormater.Format(_acts);

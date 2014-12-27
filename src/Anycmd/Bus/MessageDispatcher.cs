@@ -1,8 +1,7 @@
 ﻿
-using Anycmd.Commands;
-
 namespace Anycmd.Bus
 {
+    using Commands;
     using System;
     using System.Collections.Generic;
 
@@ -66,13 +65,13 @@ namespace Anycmd.Bus
         /// 分发给定的消息对象。
         /// </summary>
         /// <param name="message">将被分发的消息对象。</param>
-        public virtual void DispatchMessage<T>(T message) where T : IMessage
+        public virtual void DispatchMessage<TMessage>(TMessage message) where TMessage : IMessage
         {
             if (message == null)
             {
                 throw new ArgumentNullException("message");
             }
-            var messageType = typeof(T);
+            var messageType = typeof(TMessage);
             if (!messageType.IsPublic)
             {
                 messageType = messageType.BaseType;
@@ -86,7 +85,7 @@ namespace Anycmd.Bus
                 var messageHandlers = _handlers[messageType];
                 foreach (var messageHandler in messageHandlers)
                 {
-                    var dynMessageHandler = (IHandler<T>)messageHandler;
+                    var dynMessageHandler = (IHandler<TMessage>)messageHandler;
                     var evtArgs = new MessageDispatchEventArgs(message, messageHandler.GetType(), messageHandler);
                     this.OnDispatching(evtArgs);
                     try
@@ -110,11 +109,11 @@ namespace Anycmd.Bus
         /// <summary>
         /// 注册给定的消息处理器到当前消息分发器。
         /// </summary>
-        /// <typeparam name="T">消息的.NET类型</typeparam>
+        /// <typeparam name="TMessage">消息的.NET类型</typeparam>
         /// <param name="handler">将被注册的消息处理器对象。</param>
-        public virtual void Register<T>(IHandler<T> handler) where T : IMessage
+        public virtual void Register<TMessage>(IHandler<TMessage> handler) where TMessage : IMessage
         {
-            var keyType = typeof(T);
+            var keyType = typeof(TMessage);
 
             if (_handlers.ContainsKey(keyType))
             {
@@ -144,11 +143,11 @@ namespace Anycmd.Bus
         /// <summary>
         /// 从当前消息分发器中反注册给定的消息处理器对象。
         /// </summary>
-        /// <typeparam name="T">消息.NET类型。</typeparam>
+        /// <typeparam name="TMessage">消息.NET类型。</typeparam>
         /// <param name="handler">将被注册的消息处理器对象。</param>
-        public virtual void UnRegister<T>(IHandler<T> handler) where T : IMessage
+        public virtual void UnRegister<TMessage>(IHandler<TMessage> handler) where TMessage : IMessage
         {
-            var keyType = typeof(T);
+            var keyType = typeof(TMessage);
             if (_handlers.ContainsKey(keyType) &&
                 _handlers[keyType] != null &&
                 _handlers[keyType].Count > 0 &&

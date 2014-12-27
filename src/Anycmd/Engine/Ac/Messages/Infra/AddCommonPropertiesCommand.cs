@@ -3,7 +3,7 @@ using System;
 
 namespace Anycmd.Engine.Ac.Messages.Infra
 {
-    public class AddCommonPropertiesCommand : Command, ISysCommand
+    public class AddCommonPropertiesCommand : Command, IAnycmdCommand
     {
         public AddCommonPropertiesCommand(Guid entityTypeId)
         {

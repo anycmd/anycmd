@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Ac.Messages.Infra
     using Model;
     using System;
 
-    public class RemoveResourceTypeCommand : RemoveEntityCommand, ISysCommand
+    public class RemoveResourceTypeCommand : RemoveEntityCommand, IAnycmdCommand
     {
         public RemoveResourceTypeCommand(Guid resourceTypeId)
             : base(resourceTypeId)

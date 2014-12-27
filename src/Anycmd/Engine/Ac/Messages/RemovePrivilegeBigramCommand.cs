@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Ac.Messages
     using Model;
     using System;
 
-    public class RemovePrivilegeBigramCommand : RemoveEntityCommand, ISysCommand
+    public class RemovePrivilegeBigramCommand : RemoveEntityCommand, IAnycmdCommand
     {
         public RemovePrivilegeBigramCommand(Guid privilegeBigramId)
             : base(privilegeBigramId)

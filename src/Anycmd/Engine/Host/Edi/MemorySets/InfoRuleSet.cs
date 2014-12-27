@@ -139,7 +139,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
             }
 
-            var infoRuleRepository = _host.GetRequiredService<IRepository<InfoRule>>();
+            var infoRuleRepository = _host.RetrieveRequiredService<IRepository<InfoRule>>();
             var oldEntities = infoRuleRepository.AsQueryable().ToList();
             var deleteList = new List<InfoRule>();
             var newList = new List<InfoRule>();

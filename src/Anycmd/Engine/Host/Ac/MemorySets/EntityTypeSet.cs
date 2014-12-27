@@ -172,7 +172,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     {
                         _dicById.Clear();
                         _dicByCode.Clear();
-                        var entityTypes = _host.GetRequiredService<IOriginalHostStateReader>().GetAllEntityTypes().OrderBy(a => a.SortCode);
+                        var entityTypes = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllEntityTypes().OrderBy(a => a.SortCode);
                         foreach (var entityType in entityTypes)
                         {
                             if (_dicById.ContainsKey(entityType.Id))
@@ -249,7 +249,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 var host = set._host;
                 var dicById = set._dicById;
                 var dicByCode = set._dicByCode;
-                var entityTypeRepository = host.GetRequiredService<IRepository<EntityType>>();
+                var entityTypeRepository = host.RetrieveRequiredService<IRepository<EntityType>>();
                 if (string.IsNullOrEmpty(input.Code))
                 {
                     throw new ValidationException("编码不能为空");
@@ -342,7 +342,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 var host = set._host;
                 var dicById = set._dicById;
                 var dicByCode = set._dicByCode;
-                var entityTypeRepository = host.GetRequiredService<IRepository<EntityType>>();
+                var entityTypeRepository = host.RetrieveRequiredService<IRepository<EntityType>>();
                 if (string.IsNullOrEmpty(input.Code))
                 {
                     throw new ValidationException("编码不能为空");
@@ -462,8 +462,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 var host = set._host;
                 var dicById = set._dicById;
                 var dicByCode = set._dicByCode;
-                var propertyRepository = host.GetRequiredService<IRepository<Property>>();
-                var entityTypeRepository = host.GetRequiredService<IRepository<EntityType>>();
+                var propertyRepository = host.RetrieveRequiredService<IRepository<Property>>();
+                var entityTypeRepository = host.RetrieveRequiredService<IRepository<EntityType>>();
                 EntityTypeState bkState;
                 if (!host.EntityTypeSet.TryGetEntityType(entityTypeId, out bkState))
                 {
@@ -659,7 +659,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                         {
                             _dicByCode.Clear();
                             _dicById.Clear();
-                            var properties = _host.GetRequiredService<IOriginalHostStateReader>().GetAllProperties().OrderBy(a => a.SortCode);
+                            var properties = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllProperties().OrderBy(a => a.SortCode);
                             foreach (var property in properties)
                             {
                                 EntityTypeState entityType;
@@ -778,7 +778,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     var host = set._host;
                     var dicByCode = set._dicByCode;
                     var dicById = set._dicById;
-                    var propertyRepository = host.GetRequiredService<IRepository<Property>>();
+                    var propertyRepository = host.RetrieveRequiredService<IRepository<Property>>();
                     if (string.IsNullOrEmpty(input.Code))
                     {
                         throw new ValidationException("编码不能为空");
@@ -1159,7 +1159,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     var host = set._host;
                     var dicByCode = set._dicByCode;
                     var dicById = set._dicById;
-                    var propertyRepository = host.GetRequiredService<IRepository<Property>>();
+                    var propertyRepository = host.RetrieveRequiredService<IRepository<Property>>();
                     if (string.IsNullOrEmpty(input.Code))
                     {
                         throw new ValidationException("编码不能为空");
@@ -1278,7 +1278,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     var host = set._host;
                     var dicByCode = set._dicByCode;
                     var dicById = set._dicById;
-                    var propertyRepository = host.GetRequiredService<IRepository<Property>>();
+                    var propertyRepository = host.RetrieveRequiredService<IRepository<Property>>();
                     PropertyState bkState;
                     if (!host.EntityTypeSet.TryGetProperty(propertyId, out bkState))
                     {

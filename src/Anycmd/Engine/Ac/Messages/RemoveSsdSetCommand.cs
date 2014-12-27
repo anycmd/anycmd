@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Ac.Messages
     using Model;
     using System;
 
-    public class RemoveSsdSetCommand: RemoveEntityCommand, ISysCommand
+    public class RemoveSsdSetCommand: RemoveEntityCommand, IAnycmdCommand
     {
         public RemoveSsdSetCommand(Guid ssdSetId)
             : base(ssdSetId)

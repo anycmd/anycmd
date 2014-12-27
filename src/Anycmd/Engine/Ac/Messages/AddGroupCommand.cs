@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Ac.Messages
     using InOuts;
     using Model;
 
-    public class AddGroupCommand : AddEntityCommand<IGroupCreateIo>, ISysCommand
+    public class AddGroupCommand : AddEntityCommand<IGroupCreateIo>, IAnycmdCommand
     {
         public AddGroupCommand(IGroupCreateIo input)
             : base(input)

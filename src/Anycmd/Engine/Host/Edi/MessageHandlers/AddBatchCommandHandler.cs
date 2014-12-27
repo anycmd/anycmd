@@ -29,7 +29,7 @@ namespace Anycmd.Engine.Host.Edi.MessageHandlers
 
         public override void Handle(AddBatchCommand command)
         {
-            var batchRepository = _host.GetRequiredService<IRepository<Batch>>();
+            var batchRepository = _host.RetrieveRequiredService<IRepository<Batch>>();
             OntologyDescriptor ontology;
             if (!_host.NodeHost.Ontologies.TryGetOntology(command.Input.OntologyId, out ontology))
             {

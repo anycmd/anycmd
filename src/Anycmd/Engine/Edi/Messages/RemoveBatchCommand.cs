@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Edi.Messages
     using Model;
     using System;
 
-    public class RemoveBatchCommand : RemoveEntityCommand, ISysCommand
+    public class RemoveBatchCommand : RemoveEntityCommand, IAnycmdCommand
     {
         public RemoveBatchCommand(Guid batchId)
             : base(batchId)

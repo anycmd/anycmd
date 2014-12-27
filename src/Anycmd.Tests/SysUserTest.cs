@@ -18,14 +18,14 @@ namespace Anycmd.Tests
             var host = TestHelper.GetAcDomain();
             Assert.True(host.SysUsers.GetDevAccounts().Count == 1);
             Guid accountId = Guid.NewGuid();
-            host.GetRequiredService<IRepository<Account>>().Add(new Account
+            host.RetrieveRequiredService<IRepository<Account>>().Add(new Account
             {
                 Id = accountId,
                 Code = "test",
                 Name = "test",
                 LoginName = "anycmd"
             });
-            host.GetRequiredService<IRepository<Account>>().Context.Commit();
+            host.RetrieveRequiredService<IRepository<Account>>().Context.Commit();
             Assert.True(host.SysUsers.GetDevAccounts().Count == 1);
             host.Handle(new AddDeveloperCommand(accountId));
             AccountState developer;
@@ -78,21 +78,21 @@ namespace Anycmd.Tests
             host.AddService(typeof(IRepository<Account>), moAccountRepository.Object);
             host.AddService(typeof(IRepository<DeveloperId>), moDeveloperRepository.Object);
 
-            host.GetRequiredService<IRepository<Account>>().Add(new Account
+            host.RetrieveRequiredService<IRepository<Account>>().Add(new Account
             {
                 Id = entityId1,
                 Code = "test",
                 Name = "test",
                 LoginName = loginName1
             });
-            host.GetRequiredService<IRepository<Account>>().Add(new Account
+            host.RetrieveRequiredService<IRepository<Account>>().Add(new Account
             {
                 Id = entityId2,
                 Code = "tes2t",
                 Name = "test2",
                 LoginName = loginName2
             });
-            host.GetRequiredService<IRepository<Account>>().Context.Commit();
+            host.RetrieveRequiredService<IRepository<Account>>().Context.Commit();
             Assert.True(host.SysUsers.GetDevAccounts().Count == 1);
             bool catched = false;
             try

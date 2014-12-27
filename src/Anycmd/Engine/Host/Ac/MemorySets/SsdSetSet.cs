@@ -130,7 +130,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                         _ssdSetDic.Clear();
                         _ssdRoleBySet.Clear();
                         _ssdRoleById.Clear();
-                        var stateReder = _host.GetRequiredService<IOriginalHostStateReader>();
+                        var stateReder = _host.RetrieveRequiredService<IOriginalHostStateReader>();
                         var ssdSets = stateReder.GetAllSsdSets();
                         foreach (var ssdSet in ssdSets)
                         {
@@ -224,7 +224,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 var host = _set._host;
                 var ssdSetDic = _set._ssdSetDic;
-                var ssdSetRepository = host.GetRequiredService<IRepository<SsdSet>>();
+                var ssdSetRepository = host.RetrieveRequiredService<IRepository<SsdSet>>();
                 if (!input.Id.HasValue)
                 {
                     throw new ValidationException("标识是必须的");
@@ -297,7 +297,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 var host = _set._host;
                 var ssdSetDic = _set._ssdSetDic;
-                var ssdSetRepository = host.GetRequiredService<IRepository<SsdSet>>();
+                var ssdSetRepository = host.RetrieveRequiredService<IRepository<SsdSet>>();
                 SsdSetState bkState;
                 if (!host.SsdSetSet.TryGetSsdSet(input.Id, out bkState))
                 {
@@ -388,7 +388,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 var host = _set._host;
                 var ssdSetDic = _set._ssdSetDic;
-                var ssdSetRepository = host.GetRequiredService<IRepository<SsdSet>>();
+                var ssdSetRepository = host.RetrieveRequiredService<IRepository<SsdSet>>();
                 SsdSetState bkState;
                 if (!host.SsdSetSet.TryGetSsdSet(ssdSetId, out bkState))
                 {
@@ -462,7 +462,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 var host = _set._host;
                 var ssdRoleBySet = _set._ssdRoleBySet;
                 var ssdRoleById = _set._ssdRoleById;
-                var ssdRoleRepository = host.GetRequiredService<IRepository<SsdRole>>();
+                var ssdRoleRepository = host.RetrieveRequiredService<IRepository<SsdRole>>();
                 if (!input.Id.HasValue)
                 {
                     throw new ValidationException("标识是必须的");
@@ -553,7 +553,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 var ssdSetDic = _set._ssdSetDic;
                 var ssdRoleBySet = _set._ssdRoleBySet;
                 var ssdRoleById = _set._ssdRoleById;
-                var ssdRoleRepository = host.GetRequiredService<IRepository<SsdRole>>();
+                var ssdRoleRepository = host.RetrieveRequiredService<IRepository<SsdRole>>();
                 SsdRoleState bkState;
                 if (!ssdRoleById.TryGetValue(ssdRoleId, out bkState))
                 {

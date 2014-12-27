@@ -19,7 +19,7 @@ namespace Anycmd.Engine.Host.Impl
         /// <returns></returns>
         public IUserSession CreateSession(IAcDomain host, Guid sessionId, AccountState account)
         {
-            var userSessionRepository = host.GetRequiredService<IRepository<UserSession>>();
+            var userSessionRepository = host.RetrieveRequiredService<IRepository<UserSession>>();
             var identity = new AnycmdIdentity("Anycmd", true, account.LoginName);
             var principal = new AnycmdPrincipal(host, identity);
             IUserSession user = new UserSessionState(host, sessionId, principal, account);
@@ -51,7 +51,7 @@ namespace Anycmd.Engine.Host.Impl
         /// <param name="sessionId"></param>
         public void DeleteSession(IAcDomain host, Guid sessionId)
         {
-            var userSessionRepository = host.GetRequiredService<IRepository<UserSession>>();
+            var userSessionRepository = host.RetrieveRequiredService<IRepository<UserSession>>();
             var userSessionEntity = userSessionRepository.GetByKey(sessionId);
             if (userSessionEntity != null)
             {

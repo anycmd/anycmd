@@ -130,7 +130,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                         _dsdSetDic.Clear();
                         _dsdRoleBySet.Clear();
                         _dsdRoleById.Clear();
-                        var stateReder = _host.GetRequiredService<IOriginalHostStateReader>();
+                        var stateReder = _host.RetrieveRequiredService<IOriginalHostStateReader>();
                         var dsdSets = stateReder.GetAllDsdSets();
                         foreach (var dsdSet in dsdSets)
                         {
@@ -224,7 +224,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 var host = _set._host;
                 var dsdSetDic = _set._dsdSetDic;
-                var dsdSetRepository = host.GetRequiredService<IRepository<DsdSet>>();
+                var dsdSetRepository = host.RetrieveRequiredService<IRepository<DsdSet>>();
                 if (!input.Id.HasValue)
                 {
                     throw new ValidationException("标识是必须的");
@@ -297,7 +297,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 var host = _set._host;
                 var dsdSetDic = _set._dsdSetDic;
-                var dsdSetRepository = host.GetRequiredService<IRepository<DsdSet>>();
+                var dsdSetRepository = host.RetrieveRequiredService<IRepository<DsdSet>>();
                 DsdSetState bkState;
                 if (!host.DsdSetSet.TryGetDsdSet(input.Id, out bkState))
                 {
@@ -395,7 +395,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 var host = _set._host;
                 var dsdSetDic = _set._dsdSetDic;
-                var dsdSetRepository = host.GetRequiredService<IRepository<DsdSet>>();
+                var dsdSetRepository = host.RetrieveRequiredService<IRepository<DsdSet>>();
                 DsdSetState bkState;
                 if (!host.DsdSetSet.TryGetDsdSet(dsdSetId, out bkState))
                 {
@@ -469,7 +469,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 var host = _set._host;
                 var dsdRoleBySet = _set._dsdRoleBySet;
                 var dsdRoleById = _set._dsdRoleById;
-                var dsdRoleRepository = host.GetRequiredService<IRepository<DsdRole>>();
+                var dsdRoleRepository = host.RetrieveRequiredService<IRepository<DsdRole>>();
                 if (!input.Id.HasValue)
                 {
                     throw new ValidationException("标识是必须的");
@@ -560,7 +560,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 var dsdSetDic = _set._dsdSetDic;
                 var dsdRoleBySet = _set._dsdRoleBySet;
                 var dsdRoleById = _set._dsdRoleById;
-                var dsdRoleRepository = host.GetRequiredService<IRepository<DsdRole>>();
+                var dsdRoleRepository = host.RetrieveRequiredService<IRepository<DsdRole>>();
                 DsdRoleState bkState;
                 if (!dsdRoleById.TryGetValue(dsdRoleId, out bkState))
                 {

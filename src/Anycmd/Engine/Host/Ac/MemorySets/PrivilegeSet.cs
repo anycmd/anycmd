@@ -57,7 +57,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 if (_initialized) return;
                 _privilegeList.Clear();
-                var rolePrivileges = _host.GetRequiredService<IOriginalHostStateReader>().GetPrivilegeBigrams();
+                var rolePrivileges = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetPrivilegeBigrams();
                 foreach (var rolePrivilege in rolePrivileges)
                 {
                     var rolePrivilegeState = PrivilegeBigramState.Create(rolePrivilege);
@@ -145,7 +145,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 var host = set._host;
                 var privilegeList = set._privilegeList;
-                var accountPrivilegeRepository = host.GetRequiredService<IRepository<PrivilegeBigram>>();
+                var accountPrivilegeRepository = host.RetrieveRequiredService<IRepository<PrivilegeBigram>>();
                 var accountPrivileges = accountPrivilegeRepository.AsQueryable().Where(a => a.ObjectInstanceId == message.Source.Id || a.SubjectInstanceId == message.Source.Id).ToList();
                 foreach (var item in accountPrivileges)
                 {
@@ -161,7 +161,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 var host = set._host;
                 var privilegeList = set._privilegeList;
-                var accountPrivilegeRepository = host.GetRequiredService<IRepository<PrivilegeBigram>>();
+                var accountPrivilegeRepository = host.RetrieveRequiredService<IRepository<PrivilegeBigram>>();
                 var accountPrivileges = accountPrivilegeRepository.AsQueryable().Where(a => a.ObjectInstanceId == message.Source.Id || a.SubjectInstanceId == message.Source.Id).ToList();
                 foreach (var item in accountPrivileges)
                 {
@@ -177,7 +177,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 var host = set._host;
                 var privilegeList = set._privilegeList;
-                var accountPrivilegeRepository = host.GetRequiredService<IRepository<PrivilegeBigram>>();
+                var accountPrivilegeRepository = host.RetrieveRequiredService<IRepository<PrivilegeBigram>>();
                 var accountPrivileges = accountPrivilegeRepository.AsQueryable().Where(a => a.ObjectInstanceId == message.Source.Id || a.SubjectInstanceId == message.Source.Id).ToList();
                 foreach (var item in accountPrivileges)
                 {
@@ -193,7 +193,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 var host = set._host;
                 var privilegeList = set._privilegeList;
-                var accountPrivilegeRepository = host.GetRequiredService<IRepository<PrivilegeBigram>>();
+                var accountPrivilegeRepository = host.RetrieveRequiredService<IRepository<PrivilegeBigram>>();
                 var accountPrivileges = accountPrivilegeRepository.AsQueryable().Where(a => a.ObjectInstanceId == message.Source.Id || a.SubjectInstanceId == message.Source.Id).ToList();
                 foreach (var item in accountPrivileges)
                 {
@@ -209,7 +209,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 var host = set._host;
                 var privilegeList = set._privilegeList;
-                var accountPrivilegeRepository = host.GetRequiredService<IRepository<PrivilegeBigram>>();
+                var accountPrivilegeRepository = host.RetrieveRequiredService<IRepository<PrivilegeBigram>>();
                 var accountPrivileges = accountPrivilegeRepository.AsQueryable().Where(a => a.ObjectInstanceId == message.Source.Id || a.SubjectInstanceId == message.Source.Id).ToList();
                 foreach (var item in accountPrivileges)
                 {
@@ -225,7 +225,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 var host = set._host;
                 var privilegeList = set._privilegeList;
-                var accountPrivilegeRepository = host.GetRequiredService<IRepository<PrivilegeBigram>>();
+                var accountPrivilegeRepository = host.RetrieveRequiredService<IRepository<PrivilegeBigram>>();
                 var accountPrivileges = accountPrivilegeRepository.AsQueryable().Where(a => a.ObjectInstanceId == message.Source.Id || a.SubjectInstanceId == message.Source.Id).ToList();
                 foreach (var item in accountPrivileges)
                 {
@@ -255,8 +255,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 var host = set._host;
                 var privilegeList = set._privilegeList;
-                var privilegeBigramRepository = host.GetRequiredService<IRepository<PrivilegeBigram>>();
-                var accountRepository = host.GetRequiredService<IRepository<Account>>();
+                var privilegeBigramRepository = host.RetrieveRequiredService<IRepository<PrivilegeBigram>>();
+                var accountRepository = host.RetrieveRequiredService<IRepository<Account>>();
                 if (!input.Id.HasValue || input.Id.Value == Guid.Empty)
                 {
                     throw new AnycmdException("意外的标识");
@@ -535,7 +535,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 var host = set._host;
                 var privilegeList = set._privilegeList;
-                var privilegeRepository = host.GetRequiredService<IRepository<PrivilegeBigram>>();
+                var privilegeRepository = host.RetrieveRequiredService<IRepository<PrivilegeBigram>>();
                 PrivilegeBigram entity = null;
                 bool stateChanged = false;
                 lock (this)
@@ -608,7 +608,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 var host = set._host;
                 var privilegeList = set._privilegeList;
-                var privilegeRepository = host.GetRequiredService<IRepository<PrivilegeBigram>>();
+                var privilegeRepository = host.RetrieveRequiredService<IRepository<PrivilegeBigram>>();
                 PrivilegeBigram entity;
                 AcSubjectType subjectType;
                 AcObjectType acObjectType;

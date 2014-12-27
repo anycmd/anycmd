@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Ac.Messages
     using InOuts;
     using Model;
 
-    public class AddDsdRoleCommand : AddEntityCommand<IDsdRoleCreateIo>, ISysCommand
+    public class AddDsdRoleCommand : AddEntityCommand<IDsdRoleCreateIo>, IAnycmdCommand
     {
         public AddDsdRoleCommand(IDsdRoleCreateIo input)
             : base(input)

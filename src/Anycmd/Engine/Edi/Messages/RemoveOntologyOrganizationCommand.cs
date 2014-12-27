@@ -4,7 +4,7 @@ namespace Anycmd.Engine.Edi.Messages
     using Commands;
     using System;
 
-    public class RemoveOntologyOrganizationCommand : Command, ISysCommand
+    public class RemoveOntologyOrganizationCommand : Command, IAnycmdCommand
     {
         public RemoveOntologyOrganizationCommand(Guid ontologyId, Guid organizationId)
         {

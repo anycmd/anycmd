@@ -3,7 +3,7 @@ using System;
 
 namespace Anycmd.Engine.Edi.Messages
 {
-    public class ChangeProcessNetPortCommand: Command, ISysCommand
+    public class ChangeProcessNetPortCommand: Command, IAnycmdCommand
     {
         public ChangeProcessNetPortCommand(Guid processId, int netPort)
         {

@@ -67,7 +67,7 @@ namespace Anycmd.Engine.Host.Rdb
                 foreach (var db in _host.Rdbs)
                 {
                     _dicById.Add(db, new Dictionary<string, DbTable>(StringComparer.OrdinalIgnoreCase));
-                    var tables = _host.GetRequiredService<IOriginalHostStateReader>().GetDbTables(db);
+                    var tables = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetDbTables(db);
                     foreach (var item in tables)
                     {
                         _dicById[db].Add(item.Id, item);

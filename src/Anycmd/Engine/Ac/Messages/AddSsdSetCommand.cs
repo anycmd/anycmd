@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Ac.Messages
     using InOuts;
     using Model;
 
-    public class AddSsdSetCommand : AddEntityCommand<ISsdSetCreateIo>, ISysCommand
+    public class AddSsdSetCommand : AddEntityCommand<ISsdSetCreateIo>, IAnycmdCommand
     {
         public AddSsdSetCommand(ISsdSetCreateIo input)
             : base(input)

@@ -64,7 +64,7 @@ namespace Anycmd.Engine.Host.Impl
 
         public void DeassignUser(Guid accountId, Guid roleId)
         {
-            var repository = _host.GetRequiredService<IRepository<PrivilegeBigram>>();
+            var repository = _host.RetrieveRequiredService<IRepository<PrivilegeBigram>>();
             var subjectType = AcSubjectType.Account.ToName();
             var objectType = AcObjectType.Role.ToName();
             var entity = repository.AsQueryable().FirstOrDefault(a => 
@@ -93,7 +93,7 @@ namespace Anycmd.Engine.Host.Impl
 
         public void RevokePermission(Guid functionId, Guid roleId)
         {
-            var repository = _host.GetRequiredService<IRepository<PrivilegeBigram>>();
+            var repository = _host.RetrieveRequiredService<IRepository<PrivilegeBigram>>();
             var subjectType = AcSubjectType.Role.ToName();
             var objectType = AcObjectType.Function.ToName();
             var entity = repository.AsQueryable().FirstOrDefault(a => 
@@ -108,13 +108,13 @@ namespace Anycmd.Engine.Host.Impl
 
         public IUserSession CreateSession(Guid sessionId, AccountState account)
         {
-            var sessionService = _host.GetRequiredService<IUserSessionService>();
+            var sessionService = _host.RetrieveRequiredService<IUserSessionService>();
             return sessionService.CreateSession(_host, sessionId, account);
         }
 
         public void DeleteSession(Guid sessionId)
         {
-            var sessionService = _host.GetRequiredService<IUserSessionService>();
+            var sessionService = _host.RetrieveRequiredService<IUserSessionService>();
             sessionService.DeleteSession(_host, sessionId);
         }
 
@@ -127,7 +127,7 @@ namespace Anycmd.Engine.Host.Impl
             }
             else
             {
-                var sessionRepository = _host.GetRequiredService<IRepository<UserSession>>();
+                var sessionRepository = _host.RetrieveRequiredService<IRepository<UserSession>>();
                 var entity = sessionRepository.GetByKey(sessionId);
                 var session = new UserSessionState(_host, entity);
 
@@ -146,7 +146,7 @@ namespace Anycmd.Engine.Host.Impl
             }
             else
             {
-                var sessionRepository = _host.GetRequiredService<IRepository<UserSession>>();
+                var sessionRepository = _host.RetrieveRequiredService<IRepository<UserSession>>();
                 var entity = sessionRepository.GetByKey(sessionId);
                 var session = new UserSessionState(_host, entity);
 
@@ -170,7 +170,7 @@ namespace Anycmd.Engine.Host.Impl
             }
             else
             {
-                var sessionRepository = _host.GetRequiredService<IRepository<UserSession>>();
+                var sessionRepository = _host.RetrieveRequiredService<IRepository<UserSession>>();
                 var entity = sessionRepository.GetByKey(sessionId);
                 session = new UserSessionState(_host, entity);
             }
@@ -195,7 +195,7 @@ namespace Anycmd.Engine.Host.Impl
             }
             else
             {
-                var sessionRepository = _host.GetRequiredService<IRepository<UserSession>>();
+                var sessionRepository = _host.RetrieveRequiredService<IRepository<UserSession>>();
                 var entity = sessionRepository.GetByKey(sessionId);
                 session = new UserSessionState(_host, entity);
             }
@@ -208,7 +208,7 @@ namespace Anycmd.Engine.Host.Impl
 
         public bool CheckAccess(Guid sessionId, Guid functionId, IManagedObject obj)
         {
-            var securityService = _host.GetRequiredService<ISecurityService>();
+            var securityService = _host.RetrieveRequiredService<ISecurityService>();
             FunctionState function;
             if (!_host.FunctionSet.TryGetFunction(functionId, out function))
             {
@@ -221,7 +221,7 @@ namespace Anycmd.Engine.Host.Impl
             }
             else
             {
-                var sessionRepository = _host.GetRequiredService<IRepository<UserSession>>();
+                var sessionRepository = _host.RetrieveRequiredService<IRepository<UserSession>>();
                 var entity = sessionRepository.GetByKey(sessionId);
                 session = new UserSessionState(_host, entity);
             }
@@ -272,7 +272,7 @@ namespace Anycmd.Engine.Host.Impl
 
         public IReadOnlyCollection<RoleState> AssignedRoles(Guid accountId)
         {
-            var repository = _host.GetRequiredService<IRepository<PrivilegeBigram>>();
+            var repository = _host.RetrieveRequiredService<IRepository<PrivilegeBigram>>();
             var subjectType = AcSubjectType.Account.ToName();
             var objectType = AcObjectType.Role.ToName();
             var privileges = repository.AsQueryable().Where(a => a.SubjectType == subjectType && a.SubjectInstanceId == accountId && a.ObjectType == objectType);
@@ -466,7 +466,7 @@ namespace Anycmd.Engine.Host.Impl
 
         public void DeleteInheritance(Guid subjectRoleId, Guid objectRoleId)
         {
-            var repository = _host.GetRequiredService<IRepository<PrivilegeBigram>>();
+            var repository = _host.RetrieveRequiredService<IRepository<PrivilegeBigram>>();
             var subjectType = AcSubjectType.Role.ToName();
             var objectType = AcObjectType.Role.ToName();
             var entity = repository.AsQueryable().FirstOrDefault(a => 
@@ -538,7 +538,7 @@ namespace Anycmd.Engine.Host.Impl
 
         public void DeleteSsdRoleMember(Guid ssdSetId, Guid roleId)
         {
-            var ssdRoleRepository = _host.GetRequiredService<IRepository<SsdRole>>();
+            var ssdRoleRepository = _host.RetrieveRequiredService<IRepository<SsdRole>>();
             var entity = ssdRoleRepository.AsQueryable().FirstOrDefault(a => a.SsdSetId == ssdSetId && a.RoleId == roleId);
             if (entity == null)
             {
@@ -626,7 +626,7 @@ namespace Anycmd.Engine.Host.Impl
 
         public void DeleteDsdRoleMember(Guid dsdRoleId, Guid roleId)
         {
-            var dsdRoleRepository = _host.GetRequiredService<IRepository<DsdRole>>();
+            var dsdRoleRepository = _host.RetrieveRequiredService<IRepository<DsdRole>>();
             var entity = dsdRoleRepository.AsQueryable().FirstOrDefault(a => a.DsdSetId == dsdRoleId && a.RoleId == roleId);
             if (entity == null)
             {

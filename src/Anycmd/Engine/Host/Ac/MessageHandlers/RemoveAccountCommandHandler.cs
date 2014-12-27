@@ -19,7 +19,7 @@ namespace Anycmd.Engine.Host.Ac.MessageHandlers
 
         public override void Handle(RemoveAccountCommand command)
         {
-            var accountRepository = _host.GetRequiredService<IRepository<Account>>();
+            var accountRepository = _host.RetrieveRequiredService<IRepository<Account>>();
             AccountState developer;
             if (_host.SysUsers.TryGetDevAccount(command.EntityId, out developer))
             {

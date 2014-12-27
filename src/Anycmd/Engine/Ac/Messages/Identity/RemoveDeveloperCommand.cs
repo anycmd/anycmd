@@ -4,7 +4,7 @@ namespace Anycmd.Engine.Ac.Messages.Identity
     using Commands;
     using System;
 
-    public class RemoveDeveloperCommand: Command, ISysCommand
+    public class RemoveDeveloperCommand: Command, IAnycmdCommand
     {
         public RemoveDeveloperCommand(Guid accountId)
         {

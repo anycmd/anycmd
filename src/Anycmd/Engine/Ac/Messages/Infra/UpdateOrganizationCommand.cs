@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Ac.Messages.Infra
     using InOuts;
     using Model;
 
-    public class UpdateOrganizationCommand : UpdateEntityCommand<IOrganizationUpdateIo>, ISysCommand
+    public class UpdateOrganizationCommand : UpdateEntityCommand<IOrganizationUpdateIo>, IAnycmdCommand
     {
         public UpdateOrganizationCommand(IOrganizationUpdateIo input)
             : base(input)

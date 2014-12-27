@@ -66,7 +66,7 @@ namespace Anycmd.Engine.Host.Rdb
                 foreach (var db in _host.Rdbs)
                 {
                     _dicById.Add(db, new Dictionary<string, DbView>(StringComparer.OrdinalIgnoreCase));
-                    var views = _host.GetRequiredService<IOriginalHostStateReader>().GetDbViews(db);
+                    var views = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetDbViews(db);
                     foreach (var item in views)
                     {
                         _dicById[db].Add(item.Id, item);

@@ -322,7 +322,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     {
                         _allNodesById.Clear();
                         _allNodesByPublicKey.Clear();
-                        var allNodes = _host.GetRequiredService<INodeHostBootstrap>().GetNodes();
+                        var allNodes = _host.RetrieveRequiredService<INodeHostBootstrap>().GetNodes();
                         foreach (var node in allNodes)
                         {
                             var nodeState = NodeState.Create(_host, node);
@@ -399,7 +399,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 var locker = _set._locker;
                 var allNodesById = _set._allNodesById;
                 var allNodesByPublicKey = _set._allNodesByPublicKey;
-                var nodeRepository = host.GetRequiredService<IRepository<Node>>();
+                var nodeRepository = host.RetrieveRequiredService<IRepository<Node>>();
                 if (string.IsNullOrEmpty(input.Code))
                 {
                     throw new ValidationException("编码不能为空");
@@ -476,7 +476,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 var locker = _set._locker;
                 var allNodesById = _set._allNodesById;
                 var allNodesByPublicKey = _set._allNodesByPublicKey;
-                var nodeRepository = host.GetRequiredService<IRepository<Node>>();
+                var nodeRepository = host.RetrieveRequiredService<IRepository<Node>>();
                 if (string.IsNullOrEmpty(input.Code))
                 {
                     throw new ValidationException("编码不能为空");
@@ -580,7 +580,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 var locker = _set._locker;
                 var allNodesById = _set._allNodesById;
                 var allNodesByPublicKey = _set._allNodesByPublicKey;
-                var nodeRepository = host.GetRequiredService<IRepository<Node>>();
+                var nodeRepository = host.RetrieveRequiredService<IRepository<Node>>();
                 NodeDescriptor bkState;
                 if (!host.NodeHost.Nodes.TryGetNodeById(nodeId.ToString(), out bkState))
                 {
@@ -700,7 +700,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 {
                     if (_initialized) return;
                     _nodeElementActionDic.Clear();
-                    var nodeElementActions = _host.GetRequiredService<INodeHostBootstrap>().GetNodeElementActions();
+                    var nodeElementActions = _host.RetrieveRequiredService<INodeHostBootstrap>().GetNodeElementActions();
                     foreach (var item in nodeElementActions)
                     {
                         NodeDescriptor node;
@@ -769,7 +769,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 {
                     var host = _set._host;
                     var nodeElementActionDic = _set._nodeElementActionDic;
-                    var repository = host.GetRequiredService<IRepository<NodeElementAction>>();
+                    var repository = host.RetrieveRequiredService<IRepository<NodeElementAction>>();
                     NodeElementAction entity;
                     lock (this)
                     {
@@ -858,7 +858,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 {
                     var host = _set._host;
                     var nodeElementActionDic = _set._nodeElementActionDic;
-                    var repository = host.GetRequiredService<IRepository<NodeElementAction>>();
+                    var repository = host.RetrieveRequiredService<IRepository<NodeElementAction>>();
                     NodeElementAction entity;
                     lock (this)
                     {
@@ -1141,8 +1141,8 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                             _nodeOntologyCareList.Clear();
                             _nodeElementCareList.Clear();
                             _nodeInfoIdElements.Clear();
-                            var nodeOntologyCareStates = _host.GetRequiredService<INodeHostBootstrap>().GetNodeOntologyCares().Select(NodeOntologyCareState.Create);
-                            var nodeElementCareStates = _host.GetRequiredService<INodeHostBootstrap>().GetNodeElementCares().Select(NodeElementCareState.Create);
+                            var nodeOntologyCareStates = _host.RetrieveRequiredService<INodeHostBootstrap>().GetNodeOntologyCares().Select(NodeOntologyCareState.Create);
+                            var nodeElementCareStates = _host.RetrieveRequiredService<INodeHostBootstrap>().GetNodeElementCares().Select(NodeElementCareState.Create);
                             foreach (var node in _host.NodeHost.Nodes)
                             {
                                 var node1 = node;
@@ -1257,7 +1257,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     var host = set._host;
                     var nodeOntologyCareList = set._nodeOntologyCareList;
                     var ontologyCareDic = set._ontologyCareDic;
-                    var repository = host.GetRequiredService<IRepository<NodeOntologyCare>>();
+                    var repository = host.RetrieveRequiredService<IRepository<NodeOntologyCare>>();
                     NodeDescriptor bNode;
                     if (!host.NodeHost.Nodes.TryGetNodeById(input.NodeId.ToString(), out bNode))
                     {
@@ -1349,7 +1349,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     var host = set._host;
                     var nodeOntologyCareList = set._nodeOntologyCareList;
                     var ontologyCareDic = set._ontologyCareDic;
-                    var repository = host.GetRequiredService<IRepository<NodeOntologyCare>>();
+                    var repository = host.RetrieveRequiredService<IRepository<NodeOntologyCare>>();
                     NodeOntologyCare entity;
                     lock (this)
                     {
@@ -1429,7 +1429,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     var host = set._host;
                     var nodeElementCareList = set._nodeElementCareList;
                     var elementCareDic = set._elementCareDic;
-                    var repository = host.GetRequiredService<IRepository<NodeElementCare>>();
+                    var repository = host.RetrieveRequiredService<IRepository<NodeElementCare>>();
                     NodeDescriptor bNode;
                     if (!host.NodeHost.Nodes.TryGetNodeById(input.NodeId.ToString(), out bNode))
                     {
@@ -1522,7 +1522,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     var nodeElementCareList = set._nodeElementCareList;
                     var elementCareDic = set._elementCareDic;
                     var nodeInfoIdElements = set._nodeInfoIdElements;
-                    var repository = host.GetRequiredService<IRepository<NodeElementCare>>();
+                    var repository = host.RetrieveRequiredService<IRepository<NodeElementCare>>();
                     NodeElementCare entity;
                     lock (this)
                     {
@@ -1615,7 +1615,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     var nodeElementCareList = set._nodeElementCareList;
                     var elementCareDic = set._elementCareDic;
                     var nodeInfoIdElements = set._nodeInfoIdElements;
-                    var repository = host.GetRequiredService<IRepository<NodeElementCare>>();
+                    var repository = host.RetrieveRequiredService<IRepository<NodeElementCare>>();
                     NodeElementCare entity;
                     lock (this)
                     {
@@ -1787,7 +1787,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                         if (!_initialized)
                         {
                             _dic.Clear();
-                            var ontologyOrgs = _host.GetRequiredService<INodeHostBootstrap>().GetNodeOntologyOrganizations();
+                            var ontologyOrgs = _host.RetrieveRequiredService<INodeHostBootstrap>().GetNodeOntologyOrganizations();
                             foreach (var nodeOntologyOrg in ontologyOrgs)
                             {
                                 OrganizationState org;
@@ -1864,7 +1864,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 {
                     var host = set._host;
                     var _dic = set._dic;
-                    var repository = host.GetRequiredService<IRepository<NodeOntologyOrganization>>();
+                    var repository = host.RetrieveRequiredService<IRepository<NodeOntologyOrganization>>();
                     if (!input.Id.HasValue)
                     {
                         throw new ValidationException("标识是必须的");
@@ -1959,7 +1959,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 {
                     var host = set._host;
                     var _dic = set._dic;
-                    var repository = host.GetRequiredService<IRepository<NodeOntologyOrganization>>();
+                    var repository = host.RetrieveRequiredService<IRepository<NodeOntologyOrganization>>();
                     NodeDescriptor node;
                     if (!host.NodeHost.Nodes.TryGetNodeById(nodeId.ToString(), out node))
                     {

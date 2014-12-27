@@ -117,7 +117,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     {
                         _viewDicByFunction.Clear();
                         _viewDicById.Clear();
-                        var views = _host.GetRequiredService<IOriginalHostStateReader>().GetAllUiViews();
+                        var views = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllUiViews();
                         foreach (var view in views)
                         {
                             var viewState = UiViewState.Create(_host, view);
@@ -234,7 +234,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 var host = _set._host;
                 var viewDicByFunction = _set._viewDicByFunction;
                 var viewDicById = _set._viewDicById;
-                var viewRepository = host.GetRequiredService<IRepository<UiView>>();
+                var viewRepository = host.RetrieveRequiredService<IRepository<UiView>>();
                 if (!input.Id.HasValue)
                 {
                     throw new ValidationException("标识是必须的");
@@ -319,7 +319,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 var host = _set._host;
                 var viewDicByFunction = _set._viewDicByFunction;
                 var viewDicById = _set._viewDicById;
-                var viewRepository = host.GetRequiredService<IRepository<UiView>>();
+                var viewRepository = host.RetrieveRequiredService<IRepository<UiView>>();
                 UiViewState bkState;
                 if (!host.UiViewSet.TryGetUiView(input.Id, out bkState))
                 {
@@ -410,8 +410,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 var host = _set._host;
                 var viewDicByFunction = _set._viewDicByFunction;
                 var viewDicById = _set._viewDicById;
-                var viewRepository = host.GetRequiredService<IRepository<UiView>>();
-                var viewButtonRepository = host.GetRequiredService<IRepository<UiViewButton>>();
+                var viewRepository = host.RetrieveRequiredService<IRepository<UiView>>();
+                var viewButtonRepository = host.RetrieveRequiredService<IRepository<UiViewButton>>();
                 UiViewState bkState;
                 if (!host.UiViewSet.TryGetUiView(viewId, out bkState))
                 {
@@ -552,7 +552,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                         {
                             _viewButtonsByUiView.Clear();
                             _viewButtonDicById.Clear();
-                            var allUiViewButtons = _host.GetRequiredService<IOriginalHostStateReader>().GetAllUiViewButtons();
+                            var allUiViewButtons = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllUiViewButtons();
                             foreach (var viewButton in allUiViewButtons)
                             {
                                 var viewButtonState = UiViewButtonState.Create(_host, viewButton);
@@ -705,7 +705,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     var host = _set._host;
                     var viewButtonsByUiView = _set._viewButtonsByUiView;
                     var viewButtonDicById = _set._viewButtonDicById;
-                    var viewButtonRepository = host.GetRequiredService<IRepository<UiViewButton>>();
+                    var viewButtonRepository = host.RetrieveRequiredService<IRepository<UiViewButton>>();
                     if (!input.Id.HasValue)
                     {
                         throw new ValidationException("标识是必须的");
@@ -823,7 +823,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     var host = _set._host;
                     var viewButtonsByUiView = _set._viewButtonsByUiView;
                     var viewButtonDicById = _set._viewButtonDicById;
-                    var viewButtonRepository = host.GetRequiredService<IRepository<UiViewButton>>();
+                    var viewButtonRepository = host.RetrieveRequiredService<IRepository<UiViewButton>>();
                     var bkState = host.UiViewSet.GetUiViewButtons().FirstOrDefault(a => a.Id == input.Id);
                     if (bkState == null)
                     {
@@ -910,7 +910,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     var host = _set._host;
                     var viewButtonsByUiView = _set._viewButtonsByUiView;
                     var viewButtonDicById = _set._viewButtonDicById;
-                    var viewButtonRepository = host.GetRequiredService<IRepository<UiViewButton>>();
+                    var viewButtonRepository = host.RetrieveRequiredService<IRepository<UiViewButton>>();
                     var bkState = host.UiViewSet.GetUiViewButtons().FirstOrDefault(a => a.Id == viewButtonId);
                     if (bkState == null)
                     {

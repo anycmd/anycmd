@@ -22,7 +22,7 @@ namespace Anycmd.Engine.Host.Ac.MessageHandlers
 
         public override void Handle(ChangePasswordCommand command)
         {
-            var accountRepository = _host.GetRequiredService<IRepository<Account>>();
+            var accountRepository = _host.RetrieveRequiredService<IRepository<Account>>();
             if (command.Input == null)
             {
                 throw new InvalidOperationException("command.Input == null");
@@ -66,7 +66,7 @@ namespace Anycmd.Engine.Host.Ac.MessageHandlers
             {
                 throw new ValidationException("新密码不能为空");
             }
-            var passwordEncryptionService = _host.GetRequiredService<IPasswordEncryptionService>();
+            var passwordEncryptionService = _host.RetrieveRequiredService<IPasswordEncryptionService>();
             var oldPwd = passwordEncryptionService.Encrypt(command.Input.OldPassword);
             if (!string.Equals(entity.Password, oldPwd))
             {

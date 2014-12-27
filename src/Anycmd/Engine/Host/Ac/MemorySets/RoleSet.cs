@@ -107,7 +107,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     {
                         _roleDic.Clear();
                         _descendantRoles.Clear();
-                        var roles = _host.GetRequiredService<IOriginalHostStateReader>().GetAllRoles();
+                        var roles = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllRoles();
                         foreach (var role in roles)
                         {
                             var roleState = RoleState.Create(role);
@@ -216,7 +216,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 var host = set._host;
                 var roleDic = set._roleDic;
-                var roleRepository = host.GetRequiredService<IRepository<Role>>();
+                var roleRepository = host.RetrieveRequiredService<IRepository<Role>>();
                 if (!input.Id.HasValue)
                 {
                     throw new ValidationException("标识是必须的");
@@ -291,7 +291,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 var host = set._host;
                 var roleDic = set._roleDic;
-                var roleRepository = host.GetRequiredService<IRepository<Role>>();
+                var roleRepository = host.RetrieveRequiredService<IRepository<Role>>();
                 RoleState bkState;
                 if (!host.RoleSet.TryGetRole(input.Id, out bkState))
                 {
@@ -381,7 +381,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 var host = set._host;
                 var roleDic = set._roleDic;
-                var roleRepository = host.GetRequiredService<IRepository<Role>>();
+                var roleRepository = host.RetrieveRequiredService<IRepository<Role>>();
                 RoleState bkState;
                 if (!host.RoleSet.TryGetRole(roleId, out bkState))
                 {

@@ -71,7 +71,7 @@ namespace Anycmd.Engine.Host.Rdb
                         {
                             _dic.Add(database, new Dictionary<DbView, Dictionary<string, DbViewColumn>>());
                             _dicById.Add(database, new Dictionary<string, DbViewColumn>(StringComparer.OrdinalIgnoreCase));
-                            var columns = _host.GetRequiredService<IOriginalHostStateReader>().GetViewColumns(database);
+                            var columns = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetViewColumns(database);
                             foreach (var view in _host.DbViews[database].Values)
                             {
                                 if (_dic[database].ContainsKey(view))

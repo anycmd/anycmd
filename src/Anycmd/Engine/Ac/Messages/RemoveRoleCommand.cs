@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Ac.Messages
     using Model;
     using System;
 
-    public class RemoveRoleCommand : RemoveEntityCommand, ISysCommand
+    public class RemoveRoleCommand : RemoveEntityCommand, IAnycmdCommand
     {
         public RemoveRoleCommand(Guid roleId)
             : base(roleId)

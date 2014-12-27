@@ -21,7 +21,7 @@ namespace Anycmd.Engine.Host.Ac.MessageHandlers
 
         public override void Handle(AddAccountCommand command)
         {
-            var accountRepository = _host.GetRequiredService<IRepository<Account>>();
+            var accountRepository = _host.RetrieveRequiredService<IRepository<Account>>();
             if (string.IsNullOrEmpty(command.Input.OrganizationCode))
             {
                 throw new AnycmdException("用户必须属于一个组织结构");
@@ -44,7 +44,7 @@ namespace Anycmd.Engine.Host.Ac.MessageHandlers
             {
                 throw new ValidationException("新密码不能为空");
             }
-            var passwordEncryptionService = _host.GetRequiredService<IPasswordEncryptionService>();
+            var passwordEncryptionService = _host.RetrieveRequiredService<IPasswordEncryptionService>();
             entity.Password = passwordEncryptionService.Encrypt(command.Input.Password);
             entity.LastPasswordChangeOn = DateTime.Now;
 

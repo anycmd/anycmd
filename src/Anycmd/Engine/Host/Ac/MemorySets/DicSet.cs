@@ -172,7 +172,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     {
                         _dicById.Clear();
                         _dicByCode.Clear();
-                        var dics = _host.GetRequiredService<IOriginalHostStateReader>().GetAllDics().ToList();
+                        var dics = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllDics().ToList();
                         foreach (var dic in dics)
                         {
                             if (_dicById.ContainsKey(dic.Id))
@@ -244,7 +244,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 var host = _set._host;
                 var dicById = _set._dicById;
                 var dicByCode = _set._dicByCode;
-                var dicRepository = host.GetRequiredService<IRepository<Dic>>();
+                var dicRepository = host.RetrieveRequiredService<IRepository<Dic>>();
                 if (string.IsNullOrEmpty(input.Code))
                 {
                     throw new ValidationException("编码不能为空");
@@ -331,7 +331,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 var host = _set._host;
                 var dicById = _set._dicById;
                 var dicByCode = _set._dicByCode;
-                var dicRepository = host.GetRequiredService<IRepository<Dic>>();
+                var dicRepository = host.RetrieveRequiredService<IRepository<Dic>>();
                 if (string.IsNullOrEmpty(input.Code))
                 {
                     throw new ValidationException("编码不能为空");
@@ -439,8 +439,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 var host = _set._host;
                 var dicById = _set._dicById;
                 var dicByCode = _set._dicByCode;
-                var dicRepository = host.GetRequiredService<IRepository<Dic>>();
-                var dicItemRepository = host.GetRequiredService<IRepository<DicItem>>();
+                var dicRepository = host.RetrieveRequiredService<IRepository<Dic>>();
+                var dicItemRepository = host.RetrieveRequiredService<IRepository<DicItem>>();
                 DicState bkState;
                 if (!host.DicSet.TryGetDic(dicId, out bkState))
                 {
@@ -616,7 +616,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                         {
                             _dicItemsByCode.Clear();
                             _dicItemById.Clear();
-                            var dicItems = _host.GetRequiredService<IOriginalHostStateReader>().GetAllDicItems().OrderBy(di => di.SortCode);
+                            var dicItems = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllDicItems().OrderBy(di => di.SortCode);
                             foreach (var dicItem in dicItems)
                             {
                                 DicState dic;
@@ -715,7 +715,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     var host = _set._host;
                     var dicItemsByCode = _set._dicItemsByCode;
                     var dicItemById = _set._dicItemById;
-                    var dicItemRepository = host.GetRequiredService<IRepository<DicItem>>();
+                    var dicItemRepository = host.RetrieveRequiredService<IRepository<DicItem>>();
                     if (string.IsNullOrEmpty(input.Code))
                     {
                         throw new ValidationException("编码不能为空");
@@ -813,7 +813,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     var host = _set._host;
                     var dicItemsByCode = _set._dicItemsByCode;
                     var dicItemById = _set._dicItemById;
-                    var dicItemRepository = host.GetRequiredService<IRepository<DicItem>>();
+                    var dicItemRepository = host.RetrieveRequiredService<IRepository<DicItem>>();
                     if (string.IsNullOrEmpty(input.Code))
                     {
                         throw new ValidationException("编码不能为空");
@@ -932,7 +932,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     var host = _set._host;
                     var dicItemsByCode = _set._dicItemsByCode;
                     var dicItemById = _set._dicItemById;
-                    var dicItemRepository = host.GetRequiredService<IRepository<DicItem>>();
+                    var dicItemRepository = host.RetrieveRequiredService<IRepository<DicItem>>();
                     DicItemState bkState;
                     if (!host.DicSet.TryGetDicItem(dicItemId, out bkState))
                     {

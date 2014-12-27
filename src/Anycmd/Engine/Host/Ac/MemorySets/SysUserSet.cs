@@ -93,7 +93,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     {
                         _devAccountById.Clear();
                         _devAccountByLoginName.Clear();
-                        var accounts = _host.GetRequiredService<IOriginalHostStateReader>().GetAllDevAccounts();
+                        var accounts = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllDevAccounts();
                         foreach (var account in accounts)
                         {
                             var accountState = AccountState.Create(account);
@@ -160,8 +160,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 var host = _set._host;
                 var devAccountById = _set._devAccountById;
                 var devAccountByLoginName = _set._devAccountByLoginName;
-                var accountRepository = host.GetRequiredService<IRepository<Account>>();
-                var developerRepository = host.GetRequiredService<IRepository<DeveloperId>>();
+                var accountRepository = host.RetrieveRequiredService<IRepository<Account>>();
+                var developerRepository = host.RetrieveRequiredService<IRepository<DeveloperId>>();
                 DeveloperId entity;
                 lock (this)
                 {
@@ -250,7 +250,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 var host = _set._host;
                 var devAccountById = _set._devAccountById;
                 var devAccountByLoginName = _set._devAccountByLoginName;
-                var developerRepository = host.GetRequiredService<IRepository<DeveloperId>>();
+                var developerRepository = host.RetrieveRequiredService<IRepository<DeveloperId>>();
                 if (!devAccountById.ContainsKey(accountId))
                 {
                     return;
