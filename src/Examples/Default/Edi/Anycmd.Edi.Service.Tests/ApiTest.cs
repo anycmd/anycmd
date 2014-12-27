@@ -5,12 +5,12 @@ namespace Anycmd.Edi.Service.Tests
     using Client;
     using DataContracts;
     using Ef;
+    using Engine.Hecp;
     using Engine.Host;
     using Engine.Host.Edi;
     using Engine.Host.Edi.Handlers;
-    using Engine.Host.Hecp;
     using Engine.Host.Impl;
-    using Engine.Host.Info;
+    using Engine.Info;
     using Logging;
     using ServiceModel.Operations;
     using ServiceStack;

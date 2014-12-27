@@ -1,7 +1,7 @@
 ﻿
 namespace Anycmd.Edi.Service.Tests
 {
-    using Engine.Host.Info;
+    using Engine.Info;
     using InfoStringConverters;
     using System;
     using System.Linq;

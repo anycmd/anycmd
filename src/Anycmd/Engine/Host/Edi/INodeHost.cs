@@ -1,9 +1,9 @@
 ﻿
 namespace Anycmd.Engine.Host.Edi
 {
+    using Engine.Edi;
     using Handlers;
     using Hecp;
-    using MemorySets;
     using System;
     using System.Collections.Generic;
 

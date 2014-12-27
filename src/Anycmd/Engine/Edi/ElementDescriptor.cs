@@ -1,17 +1,17 @@
 ﻿
 namespace Anycmd.Engine.Edi
 {
-    using Engine.Ac;
-    using Exceptions;
-    using Host.Ac.Infra;
-    using Host.Edi;
-    using Host.Hecp;
-    using Model;
-    using System;
-    using System.Collections.Generic;
-    using System.Data;
-    using Util;
-    using elementCode = System.String;
+	using Ac;
+	using Exceptions;
+	using Hecp;
+	using Host.Ac.Infra;
+	using Host.Edi;
+	using Model;
+	using System;
+	using System.Collections.Generic;
+	using System.Data;
+	using Util;
+	using elementCode = System.String;
 
 	/// <summary>
 	/// 本体元素描述对象。描述对象往往长久贮存在内存中。

@@ -3,13 +3,12 @@ namespace Anycmd.Engine.Host
 {
     using Ac;
     using Ac.Infra;
-    using Ac.MemorySets;
     using Anycmd.Rdb;
     using Bus;
     using Edi;
     using Edi.Handlers;
-    using Edi.MemorySets;
     using Engine.Ac;
+    using Engine.Edi;
     using Hecp;
     using Logging;
     using System;
@@ -32,12 +31,12 @@ namespace Anycmd.Engine.Host
 
         public IAppSystemSet AppSystemSet
         {
-            get { return Ac.MemorySets.Impl.AppSystemSet.Empty; }
+            get { return Ac.MemorySets.AppSystemSet.Empty; }
         }
 
         public IButtonSet ButtonSet
         {
-            get { return Ac.MemorySets.Impl.ButtonSet.Empty; }
+            get { return Ac.MemorySets.ButtonSet.Empty; }
         }
 
         public ICommandBus CommandBus
@@ -85,12 +84,12 @@ namespace Anycmd.Engine.Host
 
         public IDicSet DicSet
         {
-            get { return Ac.MemorySets.Impl.DicSet.Empty; }
+            get { return Ac.MemorySets.DicSet.Empty; }
         }
 
         public IEntityTypeSet EntityTypeSet
         {
-            get { return Ac.MemorySets.Impl.EntityTypeSet.Empty; }
+            get { return Ac.MemorySets.EntityTypeSet.Empty; }
         }
 
         public IEventBus EventBus
@@ -100,12 +99,12 @@ namespace Anycmd.Engine.Host
 
         public IFunctionSet FunctionSet
         {
-            get { return Ac.MemorySets.Impl.FunctionSet.Empty; }
+            get { return Ac.MemorySets.FunctionSet.Empty; }
         }
 
         public IGroupSet GroupSet
         {
-            get { return Ac.MemorySets.Impl.GroupSet.Empty; }
+            get { return Ac.MemorySets.GroupSet.Empty; }
         }
 
         public Guid Id
@@ -115,7 +114,7 @@ namespace Anycmd.Engine.Host
 
         public IMenuSet MenuSet
         {
-            get { return Ac.MemorySets.Impl.MenuSet.Empty; }
+            get { return Ac.MemorySets.MenuSet.Empty; }
         }
 
         public IMessageDispatcher MessageDispatcher
@@ -130,17 +129,17 @@ namespace Anycmd.Engine.Host
 
         public IOrganizationSet OrganizationSet
         {
-            get { return Ac.MemorySets.Impl.OrganizationSet.Empty; }
+            get { return Ac.MemorySets.OrganizationSet.Empty; }
         }
 
         public IUiViewSet UiViewSet
         {
-            get { return Ac.MemorySets.Impl.UiViewSet.Empty; }
+            get { return Ac.MemorySets.UiViewSet.Empty; }
         }
 
         public IPrivilegeSet PrivilegeSet
         {
-            get { return Ac.MemorySets.Impl.PrivilegeSet.Empty; }
+            get { return Ac.MemorySets.PrivilegeSet.Empty; }
         }
 
         public IRdbs Rdbs
@@ -150,12 +149,12 @@ namespace Anycmd.Engine.Host
 
         public IResourceTypeSet ResourceTypeSet
         {
-            get { return Ac.MemorySets.Impl.ResourceTypeSet.Empty; }
+            get { return Ac.MemorySets.ResourceTypeSet.Empty; }
         }
 
         public IRoleSet RoleSet
         {
-            get { return Ac.MemorySets.Impl.RoleSet.Empty; }
+            get { return Ac.MemorySets.RoleSet.Empty; }
         }
 
         /// <summary>
@@ -163,21 +162,21 @@ namespace Anycmd.Engine.Host
         /// </summary>
         public ISsdSetSet SsdSetSet
         {
-            get { return Ac.MemorySets.Impl.SsdSetSet.Empty; }
+            get { return Ac.MemorySets.SsdSetSet.Empty; }
         }
         /// <summary>
         /// 
         /// </summary>
         public IDsdSetSet DsdSetSet
         {
-            get { return Ac.MemorySets.Impl.DsdSetSet.Empty; }
+            get { return Ac.MemorySets.DsdSetSet.Empty; }
         }
         public Action<Dictionary<string, object>> SignIn { get; set; }
         public Action SignOut { get; set; }
 
         public ISysUserSet SysUsers
         {
-            get { return Ac.MemorySets.Impl.SysUserSet.Empty; }
+            get { return Ac.MemorySets.SysUserSet.Empty; }
         }
 
         public IUserSession UserSession
@@ -215,53 +214,53 @@ namespace Anycmd.Engine.Host
             {
                 get
                 {
-                    return Edi.MemorySets.Impl.StateCodes.Empty;
+                    return Edi.MemorySets.StateCodes.Empty;
                 }
             }
 
             public IProcesseSet Processs
             {
-                get { return Edi.MemorySets.Impl.ProcesseSet.Empty; }
+                get { return Edi.MemorySets.ProcesseSet.Empty; }
             }
 
             public INodeSet Nodes
             {
-                get { return Edi.MemorySets.Impl.NodeSet.Empty; }
+                get { return Edi.MemorySets.NodeSet.Empty; }
             }
 
             public IInfoDicSet InfoDics
             {
-                get { return Edi.MemorySets.Impl.InfoDicSet.Empty; }
+                get { return Edi.MemorySets.InfoDicSet.Empty; }
             }
 
             public IOntologySet Ontologies
             {
-                get { return Edi.MemorySets.Impl.OntologySet.Empty; }
+                get { return Edi.MemorySets.OntologySet.Empty; }
             }
 
             public IInfoStringConverterSet InfoStringConverters
             {
-                get { return Edi.MemorySets.Impl.InfoStringConverterSet.Empty; }
+                get { return Edi.MemorySets.InfoStringConverterSet.Empty; }
             }
 
             public IInfoRuleSet InfoRules
             {
-                get { return Edi.MemorySets.Impl.InfoRuleSet.Empty; }
+                get { return Edi.MemorySets.InfoRuleSet.Empty; }
             }
 
             public IMessageProviderSet MessageProviders
             {
-                get { return Edi.MemorySets.Impl.MessageProviderSet.Empty; }
+                get { return Edi.MemorySets.MessageProviderSet.Empty; }
             }
 
             public IEntityProviderSet EntityProviders
             {
-                get { return Edi.MemorySets.Impl.EntityProviderSet.Empty; }
+                get { return Edi.MemorySets.EntityProviderSet.Empty; }
             }
 
             public IMessageTransferSet Transfers
             {
-                get { return Edi.MemorySets.Impl.MessageTransferSet.Empty; }
+                get { return Edi.MemorySets.MessageTransferSet.Empty; }
             }
 
             public IMessageProducer MessageProducer

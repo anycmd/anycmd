@@ -2,11 +2,11 @@
 namespace Anycmd.Edi.MessageProvider.SqlServer2008
 {
     using Engine.Edi;
+    using Engine.Hecp;
     using Engine.Host;
     using Engine.Host.Edi;
     using Engine.Host.Edi.Handlers;
-    using Engine.Host.Hecp;
-    using Engine.Host.Info;
+    using Engine.Info;
     using Exceptions;
     using Extensions;
     using Rdb;

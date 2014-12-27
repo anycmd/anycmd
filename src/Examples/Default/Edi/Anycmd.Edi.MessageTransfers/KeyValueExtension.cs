@@ -2,7 +2,7 @@
 namespace Anycmd.Edi.MessageTransfers
 {
     using DataContracts;
-    using Engine.Host.Info;
+    using Engine.Info;
     using System.Linq;
 
     public static class KeyValueExtension

@@ -1,12 +1,11 @@
 ﻿
-using System.Linq;
-
 namespace Anycmd.Model
 {
     using Engine.Edi;
-    using Engine.Host.Info;
+    using Engine.Info;
     using Exceptions;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Reflection;
 
     public abstract class ManagedPropertyValues : IManagedPropertyValues

@@ -2,7 +2,7 @@
 namespace Anycmd.Model
 {
     using Engine.Edi;
-    using Engine.Host.Info;
+    using Engine.Info;
     using System;
 
     /// <summary>

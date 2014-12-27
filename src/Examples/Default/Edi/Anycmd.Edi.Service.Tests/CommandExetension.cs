@@ -2,7 +2,7 @@
 namespace Anycmd.Edi.Service.Tests
 {
     using DataContracts;
-    using Engine.Host.Hecp;
+    using Engine.Hecp;
     using ServiceModel.Operations;
     using System;
     using Util;

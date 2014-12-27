@@ -1,9 +1,9 @@
-﻿using System;
-
+﻿
 namespace Anycmd.Engine.Edi
 {
-    using Host.Info;
+    using Info;
     using Model;
+    using System;
 
     public sealed class InfoRuleState : StateObject<InfoRuleState>, IStateObject
     {

@@ -2,7 +2,7 @@
 namespace Anycmd.Edi.MessageServices
 {
     using DataContracts;
-    using Engine.Host.Info;
+    using Engine.Info;
 
     /// <summary>
     /// 扩展<see cref="DataItem"/>数组对象，提供转成数据传输对象<see cref="KeyValue"/>数组的方法。

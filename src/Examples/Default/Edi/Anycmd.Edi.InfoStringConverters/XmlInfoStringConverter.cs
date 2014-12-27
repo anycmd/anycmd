@@ -1,6 +1,7 @@
 ﻿
-namespace Anycmd.Edi.InfoStringConverters {
-    using Engine.Host.Info;
+namespace Anycmd.Edi.InfoStringConverters
+{
+    using Engine.Info;
     using Model;
     using ServiceStack.Text;
     using System;
@@ -12,7 +13,8 @@ namespace Anycmd.Edi.InfoStringConverters {
     /// 
     /// </summary>
     [Export(typeof(IInfoStringConverter))]
-    public sealed class XmlInfoStringConverter : DisposableObject, IInfoStringConverter {
+    public sealed class XmlInfoStringConverter : DisposableObject, IInfoStringConverter
+    {
         private static readonly Guid id = new Guid("83FF3722-84EC-4975-8821-1AC448AC6123");
         private const string title = "xml格式信息值转化器";
         private const string description = "xml格式信息值转化器";
@@ -23,8 +25,10 @@ namespace Anycmd.Edi.InfoStringConverters {
         /// <summary>
         /// 
         /// </summary>
-        public string InfoFormat {
-            get {
+        public string InfoFormat
+        {
+            get
+            {
                 return "xml";
             }
         }
@@ -32,28 +36,32 @@ namespace Anycmd.Edi.InfoStringConverters {
         /// <summary>
         /// 
         /// </summary>
-        public Guid Id {
+        public Guid Id
+        {
             get { return id; }
         }
 
         /// <summary>
         /// 
         /// </summary>
-        public string Title {
+        public string Title
+        {
             get { return title; }
         }
 
         /// <summary>
         /// 
         /// </summary>
-        public string Description {
+        public string Description
+        {
             get { return description; }
         }
 
         /// <summary>
         /// 
         /// </summary>
-        public string Author {
+        public string Author
+        {
             get { return author; }
         }
 
@@ -62,12 +70,15 @@ namespace Anycmd.Edi.InfoStringConverters {
         /// </summary>
         /// <param name="infoString"></param>
         /// <returns></returns>
-        public string[] ToStringArray(string infoString) {
-            if (string.IsNullOrEmpty(infoString)) {
+        public string[] ToStringArray(string infoString)
+        {
+            if (string.IsNullOrEmpty(infoString))
+            {
                 return EmptyStringArray;
             }
             var infoValues = XmlSerializer.DeserializeFromString<string[]>(infoString);
-            if (infoValues == null || infoValues.Length == 0) {
+            if (infoValues == null || infoValues.Length == 0)
+            {
                 return EmptyStringArray;
             }
 
@@ -79,8 +90,10 @@ namespace Anycmd.Edi.InfoStringConverters {
         /// </summary>
         /// <param name="stringArray"></param>
         /// <returns></returns>
-        public string ToInfoString(string[] stringArray) {
-            if (stringArray == null || stringArray.Length == 0) {
+        public string ToInfoString(string[] stringArray)
+        {
+            if (stringArray == null || stringArray.Length == 0)
+            {
                 return string.Empty;
             }
 
@@ -92,16 +105,20 @@ namespace Anycmd.Edi.InfoStringConverters {
         /// </summary>
         /// <param name="infoValueString">xml格式的信息字符串</param>
         /// <returns></returns>
-        public DataItem[] ToDataItems(string infoValueString) {
-            if (string.IsNullOrEmpty(infoValueString)) {
+        public DataItem[] ToDataItems(string infoValueString)
+        {
+            if (string.IsNullOrEmpty(infoValueString))
+            {
                 return EmptyKeyValues;
             }
             Guid id;
-            if (Guid.TryParse(infoValueString, out id)) {
+            if (Guid.TryParse(infoValueString, out id))
+            {
                 return new DataItem[] { new DataItem("Id", infoValueString) };
             }
             var infoValues = XmlSerializer.DeserializeFromString<Dictionary<string, string>>(infoValueString);
-            if (infoValues.Count == 0) {
+            if (infoValues.Count == 0)
+            {
                 return EmptyKeyValues;
             }
 
@@ -113,13 +130,17 @@ namespace Anycmd.Edi.InfoStringConverters {
         /// </summary>
         /// <param name="infoItems"></param>
         /// <returns></returns>
-        public string ToInfoString(IEnumerable<DataItem> infoItems) {
-            if (infoItems == null) {
+        public string ToInfoString(IEnumerable<DataItem> infoItems)
+        {
+            if (infoItems == null)
+            {
                 return "<InfoItems></InfoItems>";
             }
             var infoValueDic = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-            foreach (var item in infoItems.Where(a => a != null && a.Key != null)) {
-                if (!infoValueDic.ContainsKey(item.Key)) {
+            foreach (var item in infoItems.Where(a => a != null && a.Key != null))
+            {
+                if (!infoValueDic.ContainsKey(item.Key))
+                {
                     infoValueDic.Add(item.Key, item.Value);
                 }
             }
@@ -127,8 +148,9 @@ namespace Anycmd.Edi.InfoStringConverters {
             return XmlSerializer.SerializeToString(infoValueDic);
         }
 
-        protected override void Dispose(bool disposing) {
-            
+        protected override void Dispose(bool disposing)
+        {
+
         }
     }
 }

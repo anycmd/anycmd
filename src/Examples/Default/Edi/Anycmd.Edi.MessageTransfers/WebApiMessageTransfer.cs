@@ -5,8 +5,8 @@ namespace Anycmd.Edi.MessageTransfers
     using Engine.Edi;
     using Engine.Host.Edi.Handlers;
     using Engine.Host.Edi.Handlers.Distribute;
-    using Engine.Host.Hecp;
-    using Engine.Host.Info;
+    using Engine.Hecp;
+    using Engine.Info;
     using ServiceModel.Operations;
     using ServiceStack;
     using System;

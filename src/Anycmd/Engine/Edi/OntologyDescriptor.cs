@@ -4,9 +4,9 @@ namespace Anycmd.Engine.Edi
 	using Abstractions;
 	using Ac;
 	using Exceptions;
+	using Hecp;
 	using Host.Edi.Handlers;
-	using Host.Hecp;
-    using Model;
+	using Model;
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;

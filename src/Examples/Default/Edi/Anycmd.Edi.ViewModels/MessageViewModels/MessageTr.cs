@@ -3,9 +3,9 @@ namespace Anycmd.Edi.ViewModels.MessageViewModels
 {
     using Engine.Ac;
     using Engine.Edi;
+    using Engine.Hecp;
     using Engine.Host.Edi.Handlers;
-    using Engine.Host.Hecp;
-    using Engine.Host.Info;
+    using Engine.Info;
     using Exceptions;
     using System;
     using System.Collections.Generic;

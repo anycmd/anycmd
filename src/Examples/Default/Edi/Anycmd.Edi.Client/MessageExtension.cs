@@ -3,7 +3,7 @@ namespace Anycmd.Edi.Client
 {
     using DataContracts;
     using Engine.Edi;
-    using Engine.Host.Hecp;
+    using Engine.Hecp;
     using Exceptions;
     using System;
     using Util;

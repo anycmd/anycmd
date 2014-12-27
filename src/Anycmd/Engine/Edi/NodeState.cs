@@ -3,7 +3,7 @@ namespace Anycmd.Engine.Edi
 {
     using Abstractions;
     using Exceptions;
-    using Host.Hecp;
+    using Hecp;
     using Model;
     using System;
     using System.Collections.Generic;

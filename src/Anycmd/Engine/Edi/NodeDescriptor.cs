@@ -2,11 +2,11 @@
 namespace Anycmd.Engine.Edi
 {
     using Exceptions;
+    using Hecp;
     using Host.Ac;
     using Host.Edi;
     using Host.Edi.Handlers;
     using Host.Edi.Handlers.Distribute;
-    using Host.Hecp;
     using Logging;
     using System;
     using System.Collections.Generic;

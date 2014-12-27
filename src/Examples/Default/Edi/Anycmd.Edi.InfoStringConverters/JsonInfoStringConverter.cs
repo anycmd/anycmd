@@ -1,7 +1,7 @@
 ﻿
 namespace Anycmd.Edi.InfoStringConverters
 {
-    using Engine.Host.Info;
+    using Engine.Info;
     using Model;
     using ServiceStack.Text;
     using System;

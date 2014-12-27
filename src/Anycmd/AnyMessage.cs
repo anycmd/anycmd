@@ -3,10 +3,10 @@ namespace Anycmd
 {
     using DataContracts;
     using Engine.Edi;
+    using Engine.Hecp;
     using Engine.Host.Edi.Handlers;
     using Engine.Host.Edi.Handlers.Distribute;
-    using Engine.Host.Hecp;
-    using Engine.Host.Info;
+    using Engine.Info;
     using Exceptions;
     using System;
     using Util;

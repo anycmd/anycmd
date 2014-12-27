@@ -6,7 +6,7 @@ namespace Anycmd.Engine.Host.Impl
     using Ac.Infra;
     using Ac.Infra.Messages;
     using Ac.InOuts;
-    using Ac.MemorySets.Impl;
+    using Ac.MemorySets;
     using Ac.MessageHandlers;
     using Anycmd.Rdb;
     using Bus;

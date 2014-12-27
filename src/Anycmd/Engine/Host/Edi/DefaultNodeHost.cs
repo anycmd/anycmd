@@ -3,7 +3,7 @@ namespace Anycmd.Engine.Host.Edi
 {
     using Handlers;
     using Hecp;
-    using MemorySets.Impl;
+    using MemorySets;
 
     public class DefaultNodeHost : NodeHost
     {

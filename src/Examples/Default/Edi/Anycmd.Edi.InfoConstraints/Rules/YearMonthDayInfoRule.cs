@@ -2,7 +2,7 @@
 namespace Anycmd.Edi.InfoConstraints.Rules
 {
     using Engine.Host.Edi;
-    using Engine.Host.Info;
+    using Engine.Info;
     using System;
     using System.ComponentModel.Composition;
 

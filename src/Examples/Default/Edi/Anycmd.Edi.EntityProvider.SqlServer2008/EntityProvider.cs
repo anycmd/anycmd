@@ -1,23 +1,23 @@
 ﻿
 namespace Anycmd.Edi.EntityProvider.SqlServer2008
 {
-    using Engine.Edi;
-    using Engine.Edi.Abstractions;
-    using Engine.Host;
-    using Engine.Host.Ac.Infra;
-    using Engine.Host.Edi;
-    using Engine.Host.Edi.Handlers;
-    using Engine.Host.Info;
-    using Exceptions;
-    using Query;
-    using Rdb;
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.Composition;
-    using System.Data.SqlClient;
-    using System.Linq;
-    using System.Text;
-    using Util;
+	using Engine.Edi;
+	using Engine.Edi.Abstractions;
+	using Engine.Host;
+	using Engine.Host.Ac.Infra;
+	using Engine.Host.Edi;
+	using Engine.Host.Edi.Handlers;
+	using Engine.Info;
+	using Exceptions;
+	using Query;
+	using Rdb;
+	using System;
+	using System.Collections.Generic;
+	using System.ComponentModel.Composition;
+	using System.Data.SqlClient;
+	using System.Linq;
+	using System.Text;
+	using Util;
 
 	/// <summary>
 	/// 基于SqlServer2008的数据提供程序

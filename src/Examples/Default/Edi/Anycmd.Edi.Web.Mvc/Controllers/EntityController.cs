@@ -7,8 +7,8 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 	using Engine.Ac;
 	using Engine.Edi;
 	using Engine.Host.Edi;
-	using Engine.Host.Hecp;
-	using Engine.Host.Info;
+	using Engine.Hecp;
+	using Engine.Info;
 	using Exceptions;
 	using MiniUI;
 	using NPOI.HSSF.UserModel;

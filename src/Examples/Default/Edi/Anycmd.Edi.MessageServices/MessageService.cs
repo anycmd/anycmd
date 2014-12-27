@@ -1,8 +1,8 @@
 ﻿  
 namespace Anycmd.Edi.MessageServices
 {
+    using Engine.Hecp;
     using Engine.Host.Edi;
-    using Engine.Host.Hecp;
     using ServiceModel.Operations;
     using ServiceStack;
     using System;
