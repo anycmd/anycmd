@@ -7,11 +7,11 @@ namespace Anycmd.Tests
     using Ac.ViewModels.RoleViewModels;
     using Engine.Ac;
     using Engine.Ac.Abstractions;
+    using Engine.Ac.InOuts;
+    using Engine.Ac.Messages;
+    using Engine.Ac.Messages.Identity;
+    using Engine.Ac.Messages.Infra;
     using Engine.Host.Ac.Identity;
-    using Engine.Host.Ac.Identity.Messages;
-    using Engine.Host.Ac.Infra.Messages;
-    using Engine.Host.Ac.InOuts;
-    using Engine.Host.Ac.Messages;
     using Repositories;
     using System;
     using System.Collections.Generic;

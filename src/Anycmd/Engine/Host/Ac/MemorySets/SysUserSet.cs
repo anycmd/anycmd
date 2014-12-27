@@ -4,11 +4,11 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     using Bus;
     using Engine.Ac;
     using Engine.Ac.Abstractions.Identity;
+    using Engine.Ac.Messages.Identity;
     using Exceptions;
     using Extensions;
     using Host;
     using Identity;
-    using Identity.Messages;
     using Repositories;
     using System;
     using System.Collections.Generic;

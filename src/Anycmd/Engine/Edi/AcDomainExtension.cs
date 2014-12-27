@@ -1,8 +1,8 @@
 ﻿
 namespace Anycmd.Engine.Edi
 {
-    using Host.Edi.InOuts;
-    using Host.Edi.Messages;
+    using InOuts;
+    using Messages;
     using System;
 
     public static class AcDomainExtension

@@ -1,7 +1,7 @@
 ﻿
 namespace Anycmd.Edi.ViewModels.InfoDicViewModels
 {
-    using Engine.Host.Edi.InOuts;
+    using Engine.Edi.InOuts;
     using Model;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;

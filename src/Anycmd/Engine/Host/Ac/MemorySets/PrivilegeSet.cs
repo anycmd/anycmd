@@ -5,13 +5,13 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     using Bus;
     using Engine.Ac;
     using Engine.Ac.Abstractions;
+    using Engine.Ac.InOuts;
+    using Engine.Ac.Messages;
+    using Engine.Ac.Messages.Infra;
     using Exceptions;
     using Extensions;
     using Host;
     using Identity;
-    using Infra.Messages;
-    using InOuts;
-    using Messages;
     using Repositories;
     using System;
     using System.Collections;

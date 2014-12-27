@@ -3,8 +3,8 @@ namespace Anycmd.Tests
 {
     using Ac.ViewModels.Identity.AccountViewModels;
     using Engine.Ac;
+    using Engine.Ac.Messages.Identity;
     using Engine.Host.Ac.Identity;
-    using Engine.Host.Ac.Identity.Messages;
     using Moq;
     using Repositories;
     using System;

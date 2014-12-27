@@ -1,10 +1,10 @@
 ﻿
 namespace Anycmd.Engine.Host.Ac
 {
-    using Identity.Messages;
-    using Infra.Messages;
-    using InOuts;
-    using Messages;
+    using Engine.Ac.InOuts;
+    using Engine.Ac.Messages;
+    using Engine.Ac.Messages.Identity;
+    using Engine.Ac.Messages.Infra;
     using System;
 
     public static class AcDomainExtension

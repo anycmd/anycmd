@@ -3,7 +3,6 @@ namespace Anycmd.Engine.Host.Impl
 {
     using Ac;
     using Ac.Identity;
-    using Ac.Identity.Messages;
     using Ac.MemorySets;
     using Anycmd.Rdb;
     using Bus;
@@ -11,6 +10,7 @@ namespace Anycmd.Engine.Host.Impl
     using Dapper;
     using Edi;
     using Engine.Ac;
+    using Engine.Ac.Messages.Identity;
     using Events;
     using Exceptions;
     using Logging;

@@ -3,9 +3,9 @@ namespace Anycmd.Engine.Host.Ac.MessageHandlers
 {
     using Commands;
     using Engine.Ac;
+    using Engine.Ac.Messages.Identity;
     using Exceptions;
     using Identity;
-    using Identity.Messages;
     using Repositories;
 
     public class RemoveAccountCommandHandler : CommandHandler<RemoveAccountCommand>

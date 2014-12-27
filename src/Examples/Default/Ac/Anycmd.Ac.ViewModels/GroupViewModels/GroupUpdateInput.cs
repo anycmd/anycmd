@@ -1,8 +1,7 @@
 ﻿
 namespace Anycmd.Ac.ViewModels.GroupViewModels
 {
-    using Engine.Host.Ac.InOuts;
-    using Model;
+    using Engine.Ac.InOuts;
     using System;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;

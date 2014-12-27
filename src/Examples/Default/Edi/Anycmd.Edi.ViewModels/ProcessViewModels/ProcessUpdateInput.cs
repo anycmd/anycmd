@@ -1,7 +1,7 @@
 ﻿
 namespace Anycmd.Edi.ViewModels.ProcessViewModels
 {
-    using Engine.Host.Edi.InOuts;
+    using Engine.Edi.InOuts;
     using System;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;

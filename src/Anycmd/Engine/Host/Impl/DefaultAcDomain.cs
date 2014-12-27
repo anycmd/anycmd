@@ -4,8 +4,6 @@ namespace Anycmd.Engine.Host.Impl
     using Ac;
     using Ac.Identity;
     using Ac.Infra;
-    using Ac.Infra.Messages;
-    using Ac.InOuts;
     using Ac.MemorySets;
     using Ac.MessageHandlers;
     using Anycmd.Rdb;
@@ -15,9 +13,11 @@ namespace Anycmd.Engine.Host.Impl
     using Edi.Entities;
     using Edi.Handlers;
     using Edi.MessageHandlers;
-    using Edi.Messages;
     using Engine.Ac;
+    using Engine.Ac.InOuts;
+    using Engine.Ac.Messages.Infra;
     using Engine.Edi;
+    using Engine.Edi.Messages;
     using Extensions;
     using Logging;
     using Query;

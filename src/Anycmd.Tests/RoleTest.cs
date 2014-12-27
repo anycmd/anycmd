@@ -4,9 +4,9 @@ namespace Anycmd.Tests
     using Ac.ViewModels.RoleViewModels;
     using Engine.Ac;
     using Engine.Ac.Abstractions;
+    using Engine.Ac.InOuts;
+    using Engine.Ac.Messages;
     using Engine.Host.Ac;
-    using Engine.Host.Ac.InOuts;
-    using Engine.Host.Ac.Messages;
     using Moq;
     using Repositories;
     using System;

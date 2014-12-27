@@ -2,9 +2,9 @@
 namespace Anycmd.Engine.Host.Edi.MessageHandlers
 {
     using Commands;
+    using Engine.Edi.Messages;
     using Entities;
     using Exceptions;
-    using Messages;
     using Repositories;
 
     public class UpdateBatchCommandHandler : CommandHandler<UpdateBatchCommand>

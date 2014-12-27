@@ -5,12 +5,12 @@ namespace Anycmd.Engine.Host.Edi.MessageHandlers
     using DataContracts;
     using Engine.Edi;
     using Engine.Edi.Abstractions;
+    using Engine.Edi.Messages;
     using Entities;
     using Exceptions;
     using Handlers;
     using Hecp;
     using Info;
-    using Messages;
     using Query;
     using Repositories;
     using System;

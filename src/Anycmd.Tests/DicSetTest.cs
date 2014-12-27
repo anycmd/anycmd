@@ -4,7 +4,7 @@ namespace Anycmd.Tests
     using Ac.ViewModels.Infra.DicViewModels;
     using Engine.Ac;
     using Engine.Host.Ac.Infra;
-    using Engine.Host.Ac.Infra.Messages;
+    using Engine.Ac.Messages.Infra;
     using Exceptions;
     using Moq;
     using Repositories;

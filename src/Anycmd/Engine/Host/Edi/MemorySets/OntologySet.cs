@@ -7,13 +7,13 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
     using Engine.Ac;
     using Engine.Edi;
     using Engine.Edi.Abstractions;
+    using Engine.Edi.InOuts;
+    using Engine.Edi.Messages;
     using Entities;
     using Exceptions;
     using Extensions;
     using Hecp;
     using Host;
-    using InOuts;
-    using Messages;
     using Model;
     using Repositories;
     using System.Collections;

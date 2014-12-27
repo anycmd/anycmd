@@ -1,7 +1,7 @@
 ﻿
 namespace Anycmd.Edi.ViewModels.NodeViewModels
 {
-    using Engine.Host.Edi.InOuts;
+    using Engine.Edi.InOuts;
     using Model;
     using System;
     using System.ComponentModel.DataAnnotations;

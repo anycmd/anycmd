@@ -5,8 +5,8 @@ namespace Anycmd.Tests
 {
     using Ac.ViewModels.Infra.EntityTypeViewModels;
     using Engine.Ac;
+    using Engine.Ac.Messages.Infra;
     using Engine.Host.Ac.Infra;
-    using Engine.Host.Ac.Infra.Messages;
     using Exceptions;
     using Moq;
     using Repositories;

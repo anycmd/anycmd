@@ -1,7 +1,8 @@
 ﻿
-namespace Anycmd.Engine.Host.Edi.Entities {
+namespace Anycmd.Engine.Host.Edi.Entities
+{
     using Engine.Edi.Abstractions;
-    using InOuts;
+    using Engine.Edi.InOuts;
     using Model;
     using System;
     using System.Diagnostics;

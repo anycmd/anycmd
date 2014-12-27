@@ -6,10 +6,10 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
     using Engine.Ac;
     using Engine.Edi;
     using Engine.Edi.Abstractions;
+    using Engine.Edi.Messages;
     using Engine.Hecp;
     using Engine.Host.Ac;
     using Engine.Host.Edi.Entities;
-    using Engine.Host.Edi.Messages;
     using Exceptions;
     using MiniUI;
     using Repositories;
