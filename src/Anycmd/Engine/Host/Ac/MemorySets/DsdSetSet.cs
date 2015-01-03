@@ -121,49 +121,45 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
         private void Init()
         {
-            if (!_initialized)
+            if (_initialized) return;
+            lock (this)
             {
-                lock (this)
+                if (_initialized) return;
+                _dsdSetDic.Clear();
+                _dsdRoleBySet.Clear();
+                _dsdRoleById.Clear();
+                var stateReder = _host.RetrieveRequiredService<IOriginalHostStateReader>();
+                var dsdSets = stateReder.GetAllDsdSets();
+                foreach (var dsdSet in dsdSets)
                 {
-                    if (!_initialized)
+                    if (!_dsdSetDic.ContainsKey(dsdSet.Id))
                     {
-                        _dsdSetDic.Clear();
-                        _dsdRoleBySet.Clear();
-                        _dsdRoleById.Clear();
-                        var stateReder = _host.RetrieveRequiredService<IOriginalHostStateReader>();
-                        var dsdSets = stateReder.GetAllDsdSets();
-                        foreach (var dsdSet in dsdSets)
-                        {
-                            if (!_dsdSetDic.ContainsKey(dsdSet.Id))
-                            {
-                                _dsdSetDic.Add(dsdSet.Id, DsdSetState.Create(dsdSet));
-                            }
-                        }
-                        var dsdRoles = stateReder.GetAllDsdRoles();
-                        foreach (var dsdRole in dsdRoles)
-                        {
-                            DsdSetState dsdSetState;
-                            if (_dsdSetDic.TryGetValue(dsdRole.DsdSetId, out dsdSetState))
-                            {
-                                var state = DsdRoleState.Create(dsdRole);
-                                if (!_dsdRoleById.ContainsKey(dsdRole.Id))
-                                {
-                                    _dsdRoleById.Add(dsdRole.Id, state);
-                                }
-                                if (!_dsdRoleBySet.ContainsKey(dsdSetState))
-                                {
-                                    _dsdRoleBySet.Add(dsdSetState, new List<DsdRoleState>());
-                                }
-                                _dsdRoleBySet[dsdSetState].Add(state);
-                            }
-                            else
-                            {
-                                // TODO:删除非法的记录
-                            }
-                        }
-                        _initialized = true;
+                        _dsdSetDic.Add(dsdSet.Id, DsdSetState.Create(dsdSet));
                     }
                 }
+                var dsdRoles = stateReder.GetAllDsdRoles();
+                foreach (var dsdRole in dsdRoles)
+                {
+                    DsdSetState dsdSetState;
+                    if (_dsdSetDic.TryGetValue(dsdRole.DsdSetId, out dsdSetState))
+                    {
+                        var state = DsdRoleState.Create(dsdRole);
+                        if (!_dsdRoleById.ContainsKey(dsdRole.Id))
+                        {
+                            _dsdRoleById.Add(dsdRole.Id, state);
+                        }
+                        if (!_dsdRoleBySet.ContainsKey(dsdSetState))
+                        {
+                            _dsdRoleBySet.Add(dsdSetState, new List<DsdRoleState>());
+                        }
+                        _dsdRoleBySet[dsdSetState].Add(state);
+                    }
+                    else
+                    {
+                        // TODO:删除非法的记录
+                    }
+                }
+                _initialized = true;
             }
         }
 

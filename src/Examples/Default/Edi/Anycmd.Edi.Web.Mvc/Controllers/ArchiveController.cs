@@ -117,19 +117,19 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                 return ModelState.ToJsonResult();
             }
             OntologyDescriptor ontology;
-            if (!Host.NodeHost.Ontologies.TryGetOntology(input.OntologyCode, out ontology))
+            if (!AcDomain.NodeHost.Ontologies.TryGetOntology(input.OntologyCode, out ontology))
             {
                 throw new ValidationException("意外的本体码" + input.OntologyCode);
             }
             EntityTypeState entityType;
-            if (!Host.EntityTypeSet.TryGetEntityType(new Coder("Edi", "Archive"), out entityType))
+            if (!AcDomain.EntityTypeSet.TryGetEntityType(new Coder("Edi", "Archive"), out entityType))
             {
                 throw new AnycmdException("意外的实体类型Edi.Archive");
             }
             foreach (var filter in input.Filters)
             {
                 PropertyState property;
-                if (!Host.EntityTypeSet.TryGetProperty(entityType, filter.field, out property))
+                if (!AcDomain.EntityTypeSet.TryGetProperty(entityType, filter.field, out property))
                 {
                     throw new ValidationException("意外的Archive实体类型属性" + filter.field);
                 }
@@ -162,7 +162,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            Host.AddArchive(input);
+            AcDomain.AddArchive(input);
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -182,7 +182,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            Host.UpdateArchive(input);
+            AcDomain.UpdateArchive(input);
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -198,7 +198,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
         [Guid("E0AEC253-B9E8-4E23-8AC7-F97BFE09DB90")]
         public ActionResult Delete(string id)
         {
-            return this.HandleSeparateGuidString(Host.RemoveArchive, id, ',');
+            return this.HandleSeparateGuidString(AcDomain.RemoveArchive, id, ',');
         }
     }
 }

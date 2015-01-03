@@ -10,7 +10,6 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
     using Engine.Host.Ac;
     using Engine.Host.Ac.Identity;
     using Exceptions;
-    using Util;
     using MiniUI;
     using Repositories;
     using System;
@@ -47,7 +46,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
         {
             if (!string.IsNullOrEmpty(isTooltip))
             {
-                var data = GetRequiredService<IAccountQuery>().Get("AccountInfo", Host.UserSession.Account.Id);
+                var data = GetRequiredService<IAccountQuery>().Get("AccountInfo", UserSession.Account.Id);
 
                 return this.PartialView("Partials/Details", data);
             }
@@ -104,10 +103,10 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
         [Guid("F3236A82-DA72-4009-90CC-F0460E3479DE")]
         public ActionResult GetAccountInfo()
         {
-            if (Host.UserSession.Principal.Identity.IsAuthenticated)
+            if (UserSession.Identity.IsAuthenticated)
             {
-                var account = Host.UserSession.Account;
-                var menuList = Host.UserSession.AccountPrivilege.AuthorizedMenus.Cast<IMenu>().ToList();
+                var account = UserSession.Account;
+                var menuList = UserSession.AccountPrivilege.AuthorizedMenus.Cast<IMenu>().ToList();
                 var menus = menuList.Select(m => new
                 {
                     id = m.Id,
@@ -118,13 +117,13 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 });
                 return this.JsonResult(new
                 {
-                    isLogined = Host.UserSession.Principal.Identity.IsAuthenticated,
-                    loginName = Host.UserSession.IsDeveloper() ? string.Format("{0}(开发人员)", account.LoginName) : account.LoginName,
-                    wallpaper = Host.UserSession.GetData<string>("CurrentUser_Wallpaper") ?? string.Empty,
-                    backColor = Host.UserSession.GetData<string>("CurrentUser_BackColor") ?? string.Empty,
-                    menus = menus,
-                    roles = Host.UserSession.AccountPrivilege.Roles,
-                    groups = Host.UserSession.AccountPrivilege.Groups
+                    isLogined = UserSession.Identity.IsAuthenticated,
+                    loginName = UserSession.IsDeveloper() ? string.Format("{0}(开发人员)", account.LoginName) : account.LoginName,
+                    wallpaper = UserSession.GetData<string>("CurrentUser_Wallpaper") ?? string.Empty,
+                    backColor = UserSession.GetData<string>("CurrentUser_BackColor") ?? string.Empty,
+                    menus,
+                    roles = UserSession.AccountPrivilege.Roles,
+                    groups = UserSession.AccountPrivilege.Groups
                 });
             }
             else
@@ -141,14 +140,14 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
         [Guid("C8533933-6AA7-4EFE-B238-E0AFCCC3B761")]
         public ActionResult SignIn(string loginName, string password, string rememberMe)
         {
-            Host.SignIn(new Dictionary<string, object>
+            UserSessionState.SignIn(AcDomain, new Dictionary<string, object>
             {
                 {"loginName", loginName},
                 {"password", password},
                 {"rememberMe", rememberMe}
             });
 
-            return this.JsonResult(new ResponseData { success = true });
+            return this.JsonResult(new ResponseData { success = UserSession.Identity.IsAuthenticated });
         }
 
         [By("xuexs")]
@@ -157,7 +156,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
         [Guid("E0F71820-7225-4CE6-B6FF-68D33EE47CB9")]
         public ActionResult SignOut()
         {
-            Host.SignOut();
+            UserSessionState.SignOut(AcDomain, UserSession);
 
             return this.JsonResult(new ResponseData { success = true });
         }
@@ -172,7 +171,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            Host.AssignPassword(input);
+            AcDomain.AssignPassword(input, UserSession);
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -187,12 +186,12 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 throw new ValidationException("两次输入的密码不一致");
             }
-            Host.ChangePassword(new PasswordChangeInput
+            AcDomain.ChangePassword(new PasswordChangeInput
             {
-                LoginName = Host.UserSession.Principal.Identity.Name,
+                LoginName = UserSession.Identity.Name,
                 OldPassword = oldPassword,
                 NewPassword = password
-            });
+            }, UserSession);
 
             return this.JsonResult(new ResponseData { success = true });
         }
@@ -232,14 +231,14 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 return ModelState.ToJsonResult();
             }
             EntityTypeState entityType;
-            if (!Host.EntityTypeSet.TryGetEntityType(new Coder("Ac", "Account"), out entityType))
+            if (!AcDomain.EntityTypeSet.TryGetEntityType(new Coder("Ac", "Account"), out entityType))
             {
                 throw new AnycmdException("意外的实体类型Ac.Account");
             }
             foreach (var filter in requestModel.Filters)
             {
                 PropertyState property;
-                if (!Host.EntityTypeSet.TryGetProperty(entityType, filter.field, out property))
+                if (!AcDomain.EntityTypeSet.TryGetProperty(entityType, filter.field, out property))
                 {
                     throw new ValidationException("意外的Account实体类型属性" + filter.field);
                 }
@@ -249,7 +248,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             // 如果组织机构为空则需要检测是否是开发人员，因为只有开发人员才可以看到全部用户。组织结构为空表示查询全部组织结构。
             if (string.IsNullOrEmpty(requestModel.OrganizationCode))
             {
-                if (!Host.UserSession.IsDeveloper())
+                if (!UserSession.IsDeveloper())
                 {
                     throw new ValidationException("对不起，您没有查看全部账户的权限");
                 }
@@ -317,7 +316,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            Host.AddAccount(input);
+            AcDomain.AddAccount(input);
 
             return this.JsonResult(new ResponseData { success = true, id = input.Id });
         }
@@ -332,7 +331,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return this.ModelState.ToJsonResult();
             }
-            Host.UpdateAccount(requestModel);
+            AcDomain.UpdateAccount(requestModel);
 
             return this.JsonResult(new ResponseData { success = true, id = requestModel.Id });
         }
@@ -385,7 +384,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
         [Guid("AF3793B3-9CBB-4F53-9307-1910F9473058")]
         public ActionResult Delete(string id)
         {
-            return this.HandleSeparateGuidString(Host.RemoveAccount, id, ',');
+            return this.HandleSeparateGuidString(AcDomain.RemoveAccount, id, ',');
         }
 
         #region GrantOrDenyRoles
@@ -412,13 +411,13 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                     {
                         if (!isAssigned)
                         {
-                            Host.RemovePrivilegeBigram(id);
+                            AcDomain.RemovePrivilegeBigram(id);
                         }
                         else
                         {
                             if (row.ContainsKey("PrivilegeConstraint"))
                             {
-                                Host.UpdatePrivilegeBigram(new PrivilegeBigramUpdateIo
+                                AcDomain.UpdatePrivilegeBigram(new PrivilegeBigramUpdateIo
                                 {
                                     Id = id,
                                     PrivilegeConstraint = row["PrivilegeConstraint"].ToString()
@@ -442,7 +441,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                         {
                             createInput.PrivilegeConstraint = row["PrivilegeConstraint"].ToString();
                         }
-                        Host.AddPrivilegeBigram(createInput);
+                        AcDomain.AddPrivilegeBigram(createInput);
                     }
                 }
             }
@@ -475,12 +474,12 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                     {
                         if (!isAssigned)
                         {
-                            Host.RemovePrivilegeBigram(id);
+                            AcDomain.RemovePrivilegeBigram(id);
                         }
                     }
                     else if (isAssigned)
                     {
-                        Host.AddPrivilegeBigram(new PrivilegeBigramCreateIo
+                        AcDomain.AddPrivilegeBigram(new PrivilegeBigramCreateIo
                         {
                             Id = id,
                             ObjectType = AcObjectType.Group.ToName(),
@@ -509,7 +508,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             List<DicReader> data;
             if (string.IsNullOrEmpty(requestData.OrganizationCode))
             {
-                if (!Host.UserSession.IsDeveloper())
+                if (!UserSession.IsDeveloper())
                 {
                     throw new ValidationException("对不起，您没有查看全部管理员的权限");
                 }
@@ -543,7 +542,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             // 如果组织机构为空则需要检测是否是超级管理员，因为只有超级管理员才可以看到全部包工头
             if (string.IsNullOrEmpty(requestData.OrganizationCode))
             {
-                if (!Host.UserSession.IsDeveloper())
+                if (!UserSession.IsDeveloper())
                 {
                     throw new ValidationException("对不起，您没有查看全部包工头的权限");
                 }

@@ -322,6 +322,11 @@ namespace Anycmd.Engine.Host
         {
             public static readonly IAppConfig Empty = new EmptyAppConfig();
 
+            public string CurrentUserSessionCacheKey
+            {
+                get { return string.Empty; }
+            }
+
             public bool EnableClientCache
             {
                 get { return false; }

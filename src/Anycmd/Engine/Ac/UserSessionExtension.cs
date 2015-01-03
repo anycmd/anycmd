@@ -3,7 +3,6 @@ namespace Anycmd.Engine.Ac
 {
     using Exceptions;
     using Host;
-    using Model;
     using System;
 
     public static class UserSessionExtension
@@ -15,16 +14,22 @@ namespace Anycmd.Engine.Ac
         /// <returns>True表示是超级管理员，False不是</returns>
         public static bool IsDeveloper(this IUserSession user)
         {
+            if (user == null)
+            {
+                return false;
+            }
             AccountState account;
-            return user.Principal.Identity.IsAuthenticated && user.AcDomain.SysUsers.TryGetDevAccount(user.Account.Id, out account);
+            return user.Identity.IsAuthenticated && user.AcDomain.SysUsers.TryGetDevAccount(user.Account.Id, out account);
         }
         #endregion
 
         #region 用户会话级数据存取接口
+
         /// <summary>
         /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
+        /// <param name="user"></param>
         /// <param name="key"></param>
         /// <returns></returns>
         public static T GetData<T>(this IUserSession user, string key)
@@ -41,6 +46,7 @@ namespace Anycmd.Engine.Ac
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="user"></param>
         /// <param name="key"></param>
         /// <param name="data"></param>
         public static void SetData(this IUserSession user, string key, object data)

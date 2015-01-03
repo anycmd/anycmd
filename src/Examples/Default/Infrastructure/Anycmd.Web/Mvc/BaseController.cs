@@ -9,7 +9,7 @@ namespace Anycmd.Web.Mvc
     /// </summary>
     public abstract class BaseController : Controller
     {
-        protected static IAcDomain Host
+        protected static IAcDomain AcDomain
         {
             get
             {
@@ -22,7 +22,7 @@ namespace Anycmd.Web.Mvc
         /// </summary>
         protected T GetRequiredService<T>() where T : class
         {
-            return Host.RetrieveRequiredService<T>();
+            return AcDomain.RetrieveRequiredService<T>();
         }
 
         protected ViewResultBase ViewResult()

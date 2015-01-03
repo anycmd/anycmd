@@ -1,6 +1,7 @@
 ﻿
 namespace Anycmd.Ef
 {
+    using Engine.Host;
     using Exceptions;
     using Model;
     using Repositories;
@@ -90,16 +91,20 @@ namespace Anycmd.Ef
             if ((obj is IEntityBase))
             {
                 var entity = (obj as IEntityBase);
-                if (entity.CreateUserId == null && _host.UserSession.Principal.Identity.IsAuthenticated)
+                if (entity.CreateUserId == null)
                 {
-                    var user = _host.UserSession;
-                    if (string.IsNullOrEmpty(entity.CreateBy))
+                    var storage = _host.GetRequiredService<IUserSessionStorage>();
+                    var user = storage.GetData(_host.Config.CurrentUserSessionCacheKey) as IUserSession;
+                    if (user != null && user.Identity.IsAuthenticated)
                     {
-                        entity.CreateBy = user.Account.Name;
-                    }
-                    if (!entity.CreateUserId.HasValue)
-                    {
-                        entity.CreateUserId = user.Account.Id;
+                        if (string.IsNullOrEmpty(entity.CreateBy))
+                        {
+                            entity.CreateBy = user.Account.Name;
+                        }
+                        if (!entity.CreateUserId.HasValue)
+                        {
+                            entity.CreateUserId = user.Account.Id;
+                        }
                     }
                     if (!entity.CreateOn.HasValue)
                     {
@@ -107,7 +112,7 @@ namespace Anycmd.Ef
                     }
                 }
             }
-            this.DbContext.Entry(obj).State = System.Data.Entity.EntityState.Added;
+            this.DbContext.Entry(obj).State = EntityState.Added;
             Committed = false;
         }
         /// <summary>
@@ -120,22 +125,23 @@ namespace Anycmd.Ef
             if ((obj is IEntityBase) && state == EntityState.Modified)
             {
                 var entity = (obj as IEntityBase);
-                if (entity.ModifiedUserId == null && _host.UserSession.Principal.Identity.IsAuthenticated)
+                if (entity.ModifiedUserId == null)
                 {
-                    var user = _host.UserSession;
-                    if (string.IsNullOrEmpty(entity.ModifiedBy))
+                    var storage = _host.GetRequiredService<IUserSessionStorage>();
+                    var user = storage.GetData(_host.Config.CurrentUserSessionCacheKey) as IUserSession;
+                    if (user != null && user.Identity.IsAuthenticated)
                     {
-                        entity.ModifiedBy = user.Account.Name;
-                    }
-                    if (!entity.ModifiedUserId.HasValue)
-                    {
-                        entity.ModifiedUserId = user.Account.Id;
-                    }
-                    if (!entity.ModifiedOn.HasValue)
-                    {
-                        entity.ModifiedOn = DateTime.Now;
+                        if (string.IsNullOrEmpty(entity.ModifiedBy))
+                        {
+                            entity.ModifiedBy = user.Account.Name;
+                        }
+                        if (!entity.ModifiedUserId.HasValue)
+                        {
+                            entity.ModifiedUserId = user.Account.Id;
+                        }
                     }
                 }
+                entity.ModifiedOn = DateTime.Now;
             }
             Committed = false;
         }
@@ -145,7 +151,7 @@ namespace Anycmd.Ef
         /// <param name="obj">The object to be registered.</param>
         public override void RegisterDeleted(object obj)
         {
-            this.DbContext.Entry(obj).State = System.Data.Entity.EntityState.Deleted;
+            this.DbContext.Entry(obj).State = EntityState.Deleted;
             Committed = false;
         }
         #endregion

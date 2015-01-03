@@ -49,7 +49,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                 Guid id;
                 if (Guid.TryParse(Request["id"], out id))
                 {
-                    var data = new InfoDicInfo(Host, base.EntityType.GetData(id));
+                    var data = new InfoDicInfo(AcDomain, base.EntityType.GetData(id));
                     return new PartialViewResult { ViewName = "Partials/Details", ViewData = new ViewDataDictionary(data) };
                 }
                 else
@@ -100,7 +100,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             {
                 throw new ValidationException("未传入标识");
             }
-            return this.JsonResult(new InfoDicInfo(Host, base.EntityType.GetData(id.Value)));
+            return this.JsonResult(new InfoDicInfo(AcDomain, base.EntityType.GetData(id.Value)));
         }
 
         /// <summary>
@@ -118,21 +118,21 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                 return ModelState.ToJsonResult();
             }
             EntityTypeState entityType;
-            if (!Host.EntityTypeSet.TryGetEntityType(new Coder("Edi", "InfoDic"), out entityType))
+            if (!AcDomain.EntityTypeSet.TryGetEntityType(new Coder("Edi", "InfoDic"), out entityType))
             {
                 throw new AnycmdException("意外的实体类型Edi.InfoDic");
             }
             foreach (var filter in input.Filters)
             {
                 PropertyState property;
-                if (!Host.EntityTypeSet.TryGetProperty(entityType, filter.field, out property))
+                if (!AcDomain.EntityTypeSet.TryGetProperty(entityType, filter.field, out property))
                 {
                     throw new ValidationException("意外的InfoDic实体类型属性" + filter.field);
                 }
             }
             int pageIndex = input.PageIndex;
             int pageSize = input.PageSize;
-            var queryable = Host.NodeHost.InfoDics.Select(InfoDicTr.Create).AsQueryable();
+            var queryable = AcDomain.NodeHost.InfoDics.Select(InfoDicTr.Create).AsQueryable();
             foreach (var filter in input.Filters)
             {
                 queryable = queryable.Where(filter.ToPredicate(), filter.value);
@@ -157,7 +157,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            Host.AddInfoDic(input);
+            AcDomain.AddInfoDic(input);
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -177,7 +177,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            Host.UpdateInfoDic(input);
+            AcDomain.UpdateInfoDic(input);
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -193,7 +193,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
         [Guid("3A20A881-9EA6-4911-9F39-55EC60B7FFF7")]
         public ActionResult Delete(string id)
         {
-            return this.HandleSeparateGuidString(Host.RemoveInfoDic, id, ',');
+            return this.HandleSeparateGuidString(AcDomain.RemoveInfoDic, id, ',');
         }
     }
 }

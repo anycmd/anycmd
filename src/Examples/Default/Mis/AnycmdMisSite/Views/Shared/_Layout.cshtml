@@ -12,7 +12,7 @@
                 string area = ViewContext.RouteData.DataTokens["area"].ToString();
                 var controller = ViewContext.RouteData.Values["Controller"].ToString();
                 string action = ViewContext.RouteData.Values["Action"].ToString();
-                var page = Html.GetRuntimeUIVIew(action, controller);
+                var page = Html.GetRuntimeUivIew(action, controller);
                 <text>@page.Title</text>
             }
         }

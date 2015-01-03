@@ -128,7 +128,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             else
             {
                 OntologyDescriptor ontology;
-                if (!Host.NodeHost.Ontologies.TryGetOntology(input.OntologyCode, out ontology))
+                if (!AcDomain.NodeHost.Ontologies.TryGetOntology(input.OntologyCode, out ontology))
                 {
                     throw new ValidationException("意外的本体码" + input.OntologyCode);
                 }
@@ -169,7 +169,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            Host.AddBatch(input);
+            AcDomain.AddBatch(input, UserSession);
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -189,7 +189,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            Host.UpdateBatch(input);
+            AcDomain.UpdateBatch(input);
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -205,7 +205,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
         [Guid("EF7E5E62-E873-4AD8-8AD7-83D77307F37B")]
         public ActionResult Delete(string id)
         {
-            return this.HandleSeparateGuidString(Host.RemoveBatch, id, ',');
+            return this.HandleSeparateGuidString(AcDomain.RemoveBatch, id, ',');
         }
     }
 }

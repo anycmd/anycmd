@@ -99,7 +99,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            var data = Host.GetPlistSsdSets(requestModel);
+            var data = AcDomain.GetPlistSsdSets(requestModel);
 
             Debug.Assert(requestModel.Total != null, "requestModel.total != null");
             return this.JsonResult(new MiniGrid { total = requestModel.Total.Value, data = data.Select(a => a.ToTableRowData()) });
@@ -129,7 +129,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                     {
                         if (!isAssigned)
                         {
-                            Host.Handle(new RemoveSsdRoleCommand(id));
+                            AcDomain.Handle(new RemoveSsdRoleCommand(id));
                         }
                     }
                     else if (isAssigned)
@@ -140,7 +140,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                             RoleId = new Guid(row["RoleId"].ToString()),
                             SsdSetId = new Guid(row["SsdSetId"].ToString())
                         };
-                        Host.Handle(new AddSsdRoleCommand(createInput));
+                        AcDomain.Handle(new AddSsdRoleCommand(createInput));
                     }
                 }
             }
@@ -159,7 +159,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return this.ModelState.ToJsonResult();
             }
-            Host.Handle(new AddSsdSetCommand(input));
+            AcDomain.Handle(new AddSsdSetCommand(input));
 
             return this.JsonResult(new ResponseData { success = true, id = input.Id });
         }
@@ -174,7 +174,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return this.ModelState.ToJsonResult();
             }
-            Host.Handle(new UpdateSsdSetCommand(input));
+            AcDomain.Handle(new UpdateSsdSetCommand(input));
 
             return this.JsonResult(new ResponseData { success = true, id = input.Id });
         }
@@ -201,7 +201,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             }
             foreach (var item in idArray)
             {
-                Host.Handle(new RemoveSsdSetCommand(item));
+                AcDomain.Handle(new RemoveSsdSetCommand(item));
             }
 
             return this.JsonResult(new ResponseData { id = id, success = true });

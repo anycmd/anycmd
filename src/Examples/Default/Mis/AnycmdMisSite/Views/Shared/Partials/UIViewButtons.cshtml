@@ -4,7 +4,7 @@
     var controller = routeData.Values["Controller"].ToString();
     var action = routeData.Values["Action"].ToString();
     var prifix = string.Format("{0}_{1}_{2}_", area, controller, action);
-    var page = Html.GetRuntimeUIVIew(action, controller);
+    var page = Html.GetRuntimeUivIew(action, controller);
     var pageButtons = Html.CurrentHost().UiViewSet.GetUiViewButtons(page.UiView);
     if (pageButtons != null) {
         foreach (var button in Html.CurrentHost().ButtonSet.OrderBy(a => a.SortCode))

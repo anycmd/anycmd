@@ -94,7 +94,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             if (propertyId.HasValue)
             {
                 PropertyState property;
-                if (!Host.EntityTypeSet.TryGetProperty(propertyId.Value, out property))
+                if (!AcDomain.EntityTypeSet.TryGetProperty(propertyId.Value, out property))
                 {
                     throw new ValidationException("意外的系统属性标识" + propertyId);
                 }
@@ -115,14 +115,14 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             if (propertyId.HasValue)
             {
                 PropertyState property;
-                if (!Host.EntityTypeSet.TryGetProperty(propertyId.Value, out property))
+                if (!AcDomain.EntityTypeSet.TryGetProperty(propertyId.Value, out property))
                 {
                     throw new ValidationException("意外的系统属性标识" + propertyId);
                 }
                 if (Request.HttpMethod == "POST")
                 {
                     var entity = GetRequiredService<IRepository<Property>>().GetByKey(propertyId.Value);
-                    Host.Handle(new UpdatePropertyCommand(new PropertyUpdateInput
+                    AcDomain.Handle(new UpdatePropertyCommand(new PropertyUpdateInput
                     {
                         Code = entity.Code,
                         Description = entity.Description,
@@ -161,7 +161,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            var data = Host.GetPlistProperties(requestModel);
+            var data = AcDomain.GetPlistProperties(requestModel);
 
             Debug.Assert(requestModel.Total != null, "requestModel.total != null");
             return this.JsonResult(new MiniGrid<PropertyTr> { total = requestModel.Total.Value, data = data });
@@ -178,7 +178,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            Host.Handle(new AddPropertyCommand(input));
+            AcDomain.Handle(new AddPropertyCommand(input));
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -194,7 +194,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 throw new ValidationException("实体类型标识是必须的");
             }
-            Host.Handle(new AddCommonPropertiesCommand(entityTypeId.Value));
+            AcDomain.Handle(new AddCommonPropertiesCommand(entityTypeId.Value));
 
             return this.JsonResult(new ResponseData { id = null, success = true });
         }
@@ -210,7 +210,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            Host.Handle(new UpdatePropertyCommand(input));
+            AcDomain.Handle(new UpdatePropertyCommand(input));
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -238,7 +238,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             }
             foreach (var item in idArray)
             {
-                Host.Handle(new RemovePropertyCommand(item));
+                AcDomain.Handle(new RemovePropertyCommand(item));
             }
 
             return this.JsonResult(new ResponseData { id = id, success = true });

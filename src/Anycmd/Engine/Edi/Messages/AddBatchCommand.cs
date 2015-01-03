@@ -1,16 +1,21 @@
 ﻿
 namespace Anycmd.Engine.Edi.Messages
 {
-    using Commands;
     using InOuts;
-    using Model;
+    using System;
 
     public class AddBatchCommand : AddEntityCommand<IBatchCreateIo>, IAnycmdCommand
     {
-        public AddBatchCommand(IBatchCreateIo input)
+        public AddBatchCommand(IBatchCreateIo input, IUserSession userSession)
             : base(input)
         {
-
+            if (userSession == null)
+            {
+                throw new ArgumentNullException("userSession");
+            }
+            this.UserSession = userSession;
         }
+
+        public IUserSession UserSession { get; private set; }
     }
 }

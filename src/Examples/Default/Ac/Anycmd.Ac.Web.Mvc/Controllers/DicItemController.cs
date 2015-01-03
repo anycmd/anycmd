@@ -92,7 +92,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            var data = Host.GetPlistDicItems(requestModel);
+            var data = AcDomain.GetPlistDicItems(requestModel);
 
             Debug.Assert(requestModel.Total != null, "requestModel.total != null");
             return this.JsonResult(new MiniGrid<DicItemTr> { total = requestModel.Total.Value, data = data });
@@ -109,7 +109,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            Host.AddDicItem(input);
+            AcDomain.AddDicItem(input);
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -125,7 +125,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            Host.UpdateDicItem(input);
+            AcDomain.UpdateDicItem(input);
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -137,7 +137,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
         [Guid("6B2BD7D5-98C7-4AE6-BA43-A51BEB00C218")]
         public ActionResult Delete(string id)
         {
-            return this.HandleSeparateGuidString(Host.RemoveDicItem, id, ',');
+            return this.HandleSeparateGuidString(AcDomain.RemoveDicItem, id, ',');
         }
     }
 }

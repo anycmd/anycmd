@@ -19,7 +19,7 @@ namespace Anycmd
     /// 系统可以让UserSession被禁用的那个账户下线然后他再次登录就切换到新的UserSession了，系统也应该能做到在用户不知觉的情况下平滑的切换掉他的UserSession。
     /// </para>
     /// </summary>
-    public interface IUserSession
+    public interface IUserSession : IPrincipal
     {
         /// <summary>
         /// 用户会话标识。一个用户（Account）可以对应有多个会话，约定会话标识与账户标识相等的那个会话为这个账户的主会话。
@@ -33,10 +33,6 @@ namespace Anycmd
         /// </summary>
         /// <returns></returns>
         IAcDomain AcDomain { get; }
-        /// <summary>
-        /// 当事人
-        /// </summary>
-        IPrincipal Principal { get; }
         /// <summary>
         /// 当前会话所属的 账户 = 用户。
         /// </summary>

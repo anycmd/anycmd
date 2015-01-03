@@ -52,7 +52,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                 Guid id;
                 if (Guid.TryParse(Request["id"], out id))
                 {
-                    var data = new PluginInfo(Host, base.EntityType.GetData(id));
+                    var data = new PluginInfo(AcDomain, base.EntityType.GetData(id));
                     return new PartialViewResult { ViewName = "Partials/Details", ViewData = new ViewDataDictionary(data) };
                 }
                 else
@@ -103,7 +103,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             {
                 throw new ValidationException("未传入标识");
             }
-            return this.JsonResult(new PluginInfo(Host, base.EntityType.GetData(id.Value)));
+            return this.JsonResult(new PluginInfo(AcDomain, base.EntityType.GetData(id.Value)));
         }
 
         /// <summary>

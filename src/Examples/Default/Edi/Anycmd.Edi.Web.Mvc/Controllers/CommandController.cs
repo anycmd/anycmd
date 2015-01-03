@@ -261,7 +261,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
         {
             var response = new ResponseData { id = id, success = true };
             OntologyDescriptor ontology;
-            if (!Host.NodeHost.Ontologies.TryGetOntology(ontologyCode, out ontology))
+            if (!AcDomain.NodeHost.Ontologies.TryGetOntology(ontologyCode, out ontology))
             {
                 throw new ValidationException("非法的本体码");
             }
@@ -287,7 +287,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                     if (evnt.Status == (int)Status.ToAudit
                     && evnt.EventSourceType.Equals("Command", StringComparison.OrdinalIgnoreCase))
                     {
-                        var node = Host.NodeHost.Nodes.ThisNode;
+                        var node = AcDomain.NodeHost.Nodes.ThisNode;
                         var ticks = DateTime.UtcNow.Ticks;
                         var cmd = new Message()
                         {
@@ -319,7 +319,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                                 }
                             }
                         };
-                        var result = AnyMessage.Create(HecpRequest.Create(Host, cmd), Host.NodeHost.Nodes.ThisNode).Response();
+                        var result = AnyMessage.Create(HecpRequest.Create(AcDomain, cmd), AcDomain.NodeHost.Nodes.ThisNode).Response();
                         if (result.Body.Event.Status == (int)Status.NotExist)
                         {
                             ontology.MessageProvider.DeleteCommand(MessageTypeKind.LocalEvent, ontology, evnt.Id, evnt.IsDumb);
@@ -362,7 +362,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
         {
             var response = new ResponseData { id = id, success = true };
             OntologyDescriptor ontology;
-            if (!Host.NodeHost.Ontologies.TryGetOntology(ontologyCode, out ontology))
+            if (!AcDomain.NodeHost.Ontologies.TryGetOntology(ontologyCode, out ontology))
             {
                 throw new ValidationException("非法的本体码");
             }
@@ -388,7 +388,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                     if (evnt.Status == (int)Status.ToAudit
                     && evnt.EventSourceType.Equals("Command", StringComparison.OrdinalIgnoreCase))
                     {
-                        var node = Host.NodeHost.Nodes.ThisNode;
+                        var node = AcDomain.NodeHost.Nodes.ThisNode;
                         var ticks = DateTime.UtcNow.Ticks;
                         var cmd = new Message()
                         {
@@ -420,7 +420,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                                 }
                             }
                         };
-                        var result = AnyMessage.Create(HecpRequest.Create(Host, cmd), Host.NodeHost.Nodes.ThisNode).Response();
+                        var result = AnyMessage.Create(HecpRequest.Create(AcDomain, cmd), AcDomain.NodeHost.Nodes.ThisNode).Response();
                         if (result.Body.Event.Status == (int)Status.NotExist)
                         {
                             ontology.MessageProvider.DeleteCommand(MessageTypeKind.LocalEvent, ontology, evnt.Id, evnt.IsDumb);
@@ -464,7 +464,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                 throw new ValidationException("命令类型不能为空");
             }
             OntologyDescriptor ontology;
-            if (!Host.NodeHost.Ontologies.TryGetOntology(ontologyCode, out ontology))
+            if (!AcDomain.NodeHost.Ontologies.TryGetOntology(ontologyCode, out ontology))
             {
                 throw new ValidationException("非法的本体码");
             }
@@ -514,7 +514,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                 return ModelState.ToJsonResult();
             }
             OntologyDescriptor ontology;
-            if (!Host.NodeHost.Ontologies.TryGetOntology(requestModel.OntologyCode, out ontology))
+            if (!AcDomain.NodeHost.Ontologies.TryGetOntology(requestModel.OntologyCode, out ontology))
             {
                 throw new ValidationException("非法的本体码");
             }

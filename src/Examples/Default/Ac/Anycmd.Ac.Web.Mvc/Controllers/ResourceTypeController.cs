@@ -95,7 +95,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            var data = Host.GetPlistResources(requestModel);
+            var data = AcDomain.GetPlistResources(requestModel);
 
             Debug.Assert(requestModel.Total != null, "requestModel.total != null");
             return this.JsonResult(new MiniGrid<ResourceTypeTr> { total = requestModel.Total.Value, data = data });
@@ -110,7 +110,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            var data = Host.GetPlistAppSystemResources(requestModel);
+            var data = AcDomain.GetPlistAppSystemResources(requestModel);
 
             Debug.Assert(requestModel.Total != null, "requestModel.total != null");
             return this.JsonResult(new MiniGrid<ResourceTypeTr> { total = requestModel.Total.Value, data = data });
@@ -127,7 +127,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            Host.Handle(new AddResourceCommand(input));
+            AcDomain.Handle(new AddResourceCommand(input));
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -143,7 +143,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            Host.Handle(new UpdateResourceCommand(input));
+            AcDomain.Handle(new UpdateResourceCommand(input));
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -171,7 +171,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             }
             foreach (var item in idArray)
             {
-                Host.Handle(new RemoveResourceTypeCommand(item));
+                AcDomain.Handle(new RemoveResourceTypeCommand(item));
             }
 
             return this.JsonResult(new ResponseData { id = id, success = true });

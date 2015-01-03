@@ -2,6 +2,7 @@
 namespace Anycmd.Web.Mvc
 {
     using Engine.Ac;
+    using Engine.Host;
     using Exceptions;
     using Logging;
     using System;
@@ -25,15 +26,20 @@ namespace Anycmd.Web.Mvc
         {
             if (exceptionContext.Exception != null)
             {
-                var host = exceptionContext.HttpContext.Application["AcDomainInstance"] as IAcDomain;
-                var user = host.UserSession;
+                var host = (exceptionContext.HttpContext.Application["AcDomainInstance"] as IAcDomain);
+                if (host == null)
+                {
+                    throw new AnycmdException("");
+                }
+                var storage = host.GetRequiredService<IUserSessionStorage>();
+                var user = storage.GetData(host.Config.CurrentUserSessionCacheKey) as IUserSession;
                 bool isValidationException = exceptionContext.Exception is ValidationException;
                 bool isAjaxRequest = exceptionContext.HttpContext.Request.IsAjaxRequest();
                 ActionResult result = null;
                 // 如果是验证异常就不记录异常信息了
                 if (isValidationException)
                 {
-                    result = GetValidationException(exceptionContext, isAjaxRequest, result);
+                    result = GetValidationException(exceptionContext, isAjaxRequest);
                 }
                 else
                 {
@@ -43,7 +49,7 @@ namespace Anycmd.Web.Mvc
                     host.LoggingService.Error(logMessage, exceptionContext.Exception);
 
                     // 如果当前登录的不是开发人员就不展示详细异常了
-                    if (user.IsDeveloper() || GetClientIP() == IPAddress.Loopback.ToString())
+                    if (user.IsDeveloper() || GetClientIp() == IPAddress.Loopback.ToString())
                     {
                         result = GetErrorForDeveloper(exceptionContext, isAjaxRequest, logMessage.Id);
                     }
@@ -61,8 +67,9 @@ namespace Anycmd.Web.Mvc
         #region private methods
 
         private static ActionResult GetValidationException(ExceptionContext exceptionContext
-            , bool isAjaxRequest, ActionResult result)
+            , bool isAjaxRequest)
         {
+            ActionResult result;
             var msg = string.Format(
 @"<b>验证失败:  </b><span style='color:Red;'>{0}</span>", exceptionContext.Exception.Message);
             if (isAjaxRequest)
@@ -89,7 +96,7 @@ namespace Anycmd.Web.Mvc
 
         #region GetErrorForDeveloper
         private static ActionResult GetErrorForDeveloper(ExceptionContext exceptionContext
-            , bool isAjaxRequest, Guid logID)
+            , bool isAjaxRequest, Guid logId)
         {
             var urlHelper = new UrlHelper(exceptionContext.RequestContext, RouteTable.Routes);
             var url = urlHelper.Action(
@@ -97,7 +104,7 @@ namespace Anycmd.Web.Mvc
                 "ExceptionLog",
                 new RouteValueDictionary { { "area", "Ac" } },
                 "http",
-                exceptionContext.RequestContext.HttpContext.Request.Url.Host) + "?id=" + logID.ToString();
+                exceptionContext.RequestContext.HttpContext.Request.Url.Host) + "?id=" + logId.ToString();
             string msg = string.Format(
 @"<div style='text-align:left;'>
     <b>异常:  </b>{0}<br />
@@ -163,18 +170,18 @@ string.Format(@"出错了，系统已记录下本异常，相关人员会周期�
         }
         #endregion
 
-        private static string GetClientIP()
+        private static string GetClientIp()
         {
             if (HttpContext.Current == null)
             {
                 return "127.0.0.1";
             }
             string ip = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
-            if (null == ip || ip == String.Empty)
+            if (string.IsNullOrEmpty(ip))
             {
                 ip = HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
             }
-            if (null == ip || ip == String.Empty)
+            if (string.IsNullOrEmpty(ip))
             {
                 ip = HttpContext.Current.Request.UserHostAddress;
             }

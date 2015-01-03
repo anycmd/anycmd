@@ -15,7 +15,7 @@ namespace Anycmd.Engine.Ac
     public sealed class AccountPrivilege
     {
         private bool _initialized = false;
-        private readonly Guid _accountId;
+        private readonly IUserSession _userSession;
         private readonly IAcDomain _acDomain;
         private HashSet<Guid> _authorizedRoleIds;
         private List<RoleState> _authorizedRoles;
@@ -31,10 +31,10 @@ namespace Anycmd.Engine.Ac
         private HashSet<MenuState> _menus;
         private HashSet<AppSystemState> _appSystems;
 
-        public AccountPrivilege(IAcDomain acDomain, Guid accountId)
+        public AccountPrivilege(IAcDomain acDomain, IUserSession userSession)
         {
             this._acDomain = acDomain;
-            this._accountId = accountId;
+            this._userSession = userSession;
         }
 
         public HashSet<OrganizationState> Organizations
@@ -115,7 +115,7 @@ namespace Anycmd.Engine.Ac
             {
                 if (_accountPrivileges == null)
                 {
-                    if (_accountId == Guid.Empty)
+                    if (_userSession.Account.Id == Guid.Empty)
                     {
                         return new List<PrivilegeBigramState>();
                     }
@@ -129,7 +129,7 @@ namespace Anycmd.Engine.Ac
         {
             var subjectType = AcSubjectType.Account.ToName();
             var accountPrivileges = _acDomain.RetrieveRequiredService<IRepository<PrivilegeBigram>>().AsQueryable()
-                .Where(a => a.SubjectType == subjectType && a.SubjectInstanceId == _accountId).ToList().Select(PrivilegeBigramState.Create).ToList();
+                .Where(a => a.SubjectType == subjectType && a.SubjectInstanceId == _userSession.Account.Id).ToList().Select(PrivilegeBigramState.Create).ToList();
             return accountPrivileges;
         }
 
@@ -282,7 +282,7 @@ namespace Anycmd.Engine.Ac
                 if (_authorizedMenus != null) return _authorizedMenus;
                 _authorizedMenus = new HashSet<MenuState>();
                 var menuList = new List<MenuState>();
-                if (_acDomain.UserSession.IsDeveloper())
+                if (_userSession.IsDeveloper())
                 {
                     menuList.AddRange(_acDomain.MenuSet);
                 }

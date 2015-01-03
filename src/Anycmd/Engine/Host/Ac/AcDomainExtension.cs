@@ -24,14 +24,14 @@ namespace Anycmd.Engine.Host.Ac
             host.Handle(new RemoveAppSystemCommand(appSystemId));
         }
 
-        public static void AssignPassword(this IAcDomain host, IPasswordAssignIo input)
+        public static void AssignPassword(this IAcDomain host, IPasswordAssignIo input, IUserSession userSession)
         {
-            host.Handle(new AssignPasswordCommand(input));
+            host.Handle(new AssignPasswordCommand(input, userSession));
         }
 
-        public static void ChangePassword(this IAcDomain host, IPasswordChangeIo input)
+        public static void ChangePassword(this IAcDomain host, IPasswordChangeIo input, IUserSession userSession)
         {
-            host.Handle(new ChangePasswordCommand(input));
+            host.Handle(new ChangePasswordCommand(input, userSession));
         }
 
         public static void AddAccount(this IAcDomain host, IAccountCreateIo input)

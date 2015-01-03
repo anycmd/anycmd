@@ -222,14 +222,14 @@ namespace Anycmd.Tests
                 AuditState = "auditPass"
             }));
             Assert.NotNull(host.RetrieveRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
-            host.SignIn(new Dictionary<string, object>
+            UserSessionState.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
                 {"rememberMe", "rememberMe"}
             });
-            Assert.True(host.UserSession.Principal.Identity.IsAuthenticated);
-            Assert.Equal(0, host.UserSession.AccountPrivilege.Roles.Count);
+            Assert.True(host.GetUserSession().Identity.IsAuthenticated);
+            Assert.Equal(0, host.GetUserSession().AccountPrivilege.Roles.Count);
             host.Handle(new AddPrivilegeBigramCommand(new PrivilegeBigramCreateIo
             {
                 Id = Guid.NewGuid(),

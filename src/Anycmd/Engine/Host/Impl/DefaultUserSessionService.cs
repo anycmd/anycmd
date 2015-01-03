@@ -20,9 +20,8 @@ namespace Anycmd.Engine.Host.Impl
         public IUserSession CreateSession(IAcDomain host, Guid sessionId, AccountState account)
         {
             var userSessionRepository = host.RetrieveRequiredService<IRepository<UserSession>>();
-            var identity = new AnycmdIdentity("Anycmd", true, account.LoginName);
-            var principal = new AnycmdPrincipal(host, identity);
-            IUserSession user = new UserSessionState(host, sessionId, principal, account);
+            var identity = new AnycmdIdentity(account.LoginName);
+            IUserSession user = new UserSessionState(host, sessionId, account);
             var userSessionEntity = new UserSession
             {
                 Id = sessionId,

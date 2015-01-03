@@ -94,7 +94,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            var data = Host.GetPlistEntityTypes(requestData);
+            var data = AcDomain.GetPlistEntityTypes(requestData);
 
             Debug.Assert(requestData.Total != null, "requestData.total != null");
             return this.JsonResult(new MiniGrid<EntityTypeTr> { total = requestData.Total.Value, data = data });
@@ -111,7 +111,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            Host.AddEntityType(input);
+            AcDomain.AddEntityType(input);
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -127,7 +127,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            Host.UpdateEntityType(input);
+            AcDomain.UpdateEntityType(input);
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -139,7 +139,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
         [Guid("B6FAD137-535C-4668-A1BB-C7281455E719")]
         public ActionResult Delete(string id)
         {
-            return this.HandleSeparateGuidString(Host.RemoveEntityType, id, ',');
+            return this.HandleSeparateGuidString(AcDomain.RemoveEntityType, id, ',');
         }
     }
 }

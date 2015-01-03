@@ -218,7 +218,6 @@
     <Compile Include="Engine\Host\Ac\MessageHandlers\AccountLogoutedEventHandler.cs" />
     <Compile Include="Engine\Host\Ac\MessageHandlers\AddVisitingLogCommandHandler.cs" />
     <Compile Include="Engine\Host\Impl\AnycmdIdentity.cs" />
-    <Compile Include="Engine\Host\Impl\AnycmdPrincipal.cs" />
     <Compile Include="Engine\Host\Edi\DefaultNodeHost.cs" />
     <Compile Include="Engine\Hecp\IHecpHandler.cs" />
     <Compile Include="Engine\Host\Edi\INodeHost.cs" />

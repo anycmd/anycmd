@@ -3,6 +3,7 @@ namespace Anycmd.Web.Mvc
 {
     using Engine;
     using Engine.Ac;
+    using Engine.Host;
     using Exceptions;
     using System;
     using System.Web.Mvc;
@@ -28,17 +29,36 @@ namespace Anycmd.Web.Mvc
             }
         }
 
+
+        protected IUserSession UserSession
+        {
+            get
+            {
+                if (User.Identity.IsAuthenticated)
+                {
+                    var userSession =
+                        AcDomain.GetRequiredService<IUserSessionStorage>()
+                            .GetData(AcDomain.Config.CurrentUserSessionCacheKey) as IUserSession;
+                    
+                    return userSession;
+                }
+                else {
+                    return UserSessionState.Empty;
+                }
+            }
+        }
+
+
         protected EntityTypeState GetEntityType(Coder code)
         {
             EntityTypeState entityTypeEntityType;
-            if (!Host.EntityTypeSet.TryGetEntityType(code, out entityTypeEntityType))
+            if (!AcDomain.EntityTypeSet.TryGetEntityType(code, out entityTypeEntityType))
             {
                 throw new InvalidEntityTypeCodeException(code);
             }
             return entityTypeEntityType;
         }
-
-
+        
         protected ActionResult HandleSeparateGuidString(Action<Guid> action, string id, params char[] separator)
         {
             if (action == null)

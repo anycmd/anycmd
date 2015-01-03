@@ -11,7 +11,7 @@ namespace Anycmd.Engine.Host.Impl
         /// <param name="authenticationType"></param>
         /// <param name="isAuthenticated"></param>
         /// <param name="name">loginName</param>
-        public AnycmdIdentity(string authenticationType, bool isAuthenticated, string name)
+        public AnycmdIdentity(string name, string authenticationType = "Form", bool isAuthenticated = true)
         {
             this.AuthenticationType = authenticationType;
             this.IsAuthenticated = isAuthenticated;

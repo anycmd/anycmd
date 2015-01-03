@@ -73,8 +73,7 @@ namespace Anycmd.Engine.Host.Edi.MessageHandlers
             bool goOn = true;
             int count = 0;
             var pagingData = new PagingInput(pageIndex, pageSize, ontology.IncrementIdElement.Element.Code, "asc");
-            var selectElements = new OrderedElementSet();
-            selectElements.Add(ontology.IdElement);
+            var selectElements = new OrderedElementSet {ontology.IdElement};
             foreach (var item in ontology.Elements.Values.Where(a => a.Element.IsEnabled == 1))
             {
                 if (toNode.IsCareforElement(item) || toNode.IsInfoIdElement(item))
@@ -148,7 +147,7 @@ namespace Anycmd.Engine.Host.Edi.MessageHandlers
                                         Status = 200,
                                         EventSourceType = string.Empty,
                                         EventSubjectCode = string.Empty,
-                                        UserName = _host.UserSession.Account.Id.ToString(),
+                                        UserName = command.UserSession.Account.Id.ToString(),
                                         IsDumb = false,
                                         ReceivedOn = DateTime.Now,
                                         Version = ApiVersion.V1.ToName()

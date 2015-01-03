@@ -118,21 +118,21 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                 return ModelState.ToJsonResult();
             }
             EntityTypeState entityType;
-            if (!Host.EntityTypeSet.TryGetEntityType(new Coder("Edi", "Process"), out entityType))
+            if (!AcDomain.EntityTypeSet.TryGetEntityType(new Coder("Edi", "Process"), out entityType))
             {
                 throw new AnycmdException("意外的实体类型Edi.Process");
             }
             foreach (var filter in input.Filters)
             {
                 PropertyState property;
-                if (!Host.EntityTypeSet.TryGetProperty(entityType, filter.field, out property))
+                if (!AcDomain.EntityTypeSet.TryGetProperty(entityType, filter.field, out property))
                 {
                     throw new ValidationException("意外的Process实体类型属性" + filter.field);
                 }
             }
             int pageIndex = input.PageIndex;
             int pageSize = input.PageSize;
-            var queryable = Host.NodeHost.Processs.Select(ProcessTr.Create).AsQueryable();
+            var queryable = AcDomain.NodeHost.Processs.Select(ProcessTr.Create).AsQueryable();
             foreach (var filter in input.Filters)
             {
                 queryable = queryable.Where(filter.ToPredicate(), filter.value);
@@ -157,7 +157,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             {
                 return this.ModelState.ToJsonResult();
             }
-            Host.AddProcess(input);
+            AcDomain.AddProcess(input);
 
             return this.JsonResult(new ResponseData { success = true, id = input.Id.Value });
         }
@@ -177,7 +177,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             {
                 return this.ModelState.ToJsonResult();
             }
-            Host.UpdateProcess(input);
+            AcDomain.UpdateProcess(input);
 
             return this.JsonResult(new ResponseData { success = true, id = input.Id });
         }

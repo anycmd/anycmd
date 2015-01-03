@@ -62,6 +62,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AcDomainExtension.cs" />
     <Compile Include="AppSystemTest.cs" />
     <Compile Include="ButtonSetTest.cs" />
     <Compile Include="DbException.cs" />

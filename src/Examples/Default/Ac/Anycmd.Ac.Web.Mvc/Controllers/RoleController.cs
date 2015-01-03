@@ -132,7 +132,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            var data = Host.GetPlistRoles(requestModel);
+            var data = AcDomain.GetPlistRoles(requestModel);
 
             Debug.Assert(requestModel.Total != null, "requestModel.total != null");
             return this.JsonResult(new MiniGrid { total = requestModel.Total.Value, data = data.Select(a => a.ToTableRowData()) });
@@ -158,7 +158,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                     foreach (var ar in accountRoles)
                     {
                         RoleState role;
-                        if (!Host.RoleSet.TryGetRole(ar.ObjectInstanceId, out role))
+                        if (!AcDomain.RoleSet.TryGetRole(ar.ObjectInstanceId, out role))
                         {
                             throw new AnycmdException("意外的角色标识" + ar.ObjectInstanceId);
                         }
@@ -181,7 +181,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 }
                 else
                 {
-                    foreach (var role in Host.RoleSet)
+                    foreach (var role in AcDomain.RoleSet)
                     {
                         if (!accountRoles.Any(a => a.ObjectInstanceId == role.Id))
                         {
@@ -206,7 +206,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             }
             else
             {
-                foreach (var role in Host.RoleSet)
+                foreach (var role in AcDomain.RoleSet)
                 {
                     var ar = accountRoles.FirstOrDefault(a => a.ObjectInstanceId == role.Id);
                     if (ar == null)
@@ -271,13 +271,13 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 return ModelState.ToJsonResult();
             }
             SsdSetState ssdSet;
-            if (!Host.SsdSetSet.TryGetSsdSet(requestData.SsdSetId, out ssdSet))
+            if (!AcDomain.SsdSetSet.TryGetSsdSet(requestData.SsdSetId, out ssdSet))
             {
                 throw new ValidationException("非法的静态职责分离角色集标识" + requestData.SsdSetId);
             }
             var data = new List<SsdSetAssignRoleTr>();
             var privilegeType = AcObjectType.Role.ToName();
-            var ssdSetRoles = Host.SsdSetSet.GetSsdRoles(ssdSet);
+            var ssdSetRoles = AcDomain.SsdSetSet.GetSsdRoles(ssdSet);
             if (requestData.IsAssigned.HasValue)
             {
                 if (requestData.IsAssigned.Value)
@@ -285,7 +285,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                     foreach (var ar in ssdSetRoles)
                     {
                         RoleState role;
-                        if (!Host.RoleSet.TryGetRole(ar.RoleId, out role))
+                        if (!AcDomain.RoleSet.TryGetRole(ar.RoleId, out role))
                         {
                             throw new AnycmdException("意外的角色标识" + ar.RoleId);
                         }
@@ -305,7 +305,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 }
                 else
                 {
-                    data.AddRange(from role in Host.RoleSet
+                    data.AddRange(from role in AcDomain.RoleSet
                                   where ssdSetRoles.All(a => a.RoleId != role.Id)
                                   select new SsdSetAssignRoleTr
                                   {
@@ -324,7 +324,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             }
             else
             {
-                foreach (var role in Host.RoleSet)
+                foreach (var role in AcDomain.RoleSet)
                 {
                     var ar = ssdSetRoles.FirstOrDefault(a => a.RoleId == role.Id);
                     if (ar == null)
@@ -385,13 +385,13 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 return ModelState.ToJsonResult();
             }
             DsdSetState dsdSet;
-            if (!Host.DsdSetSet.TryGetDsdSet(requestData.DsdSetId, out dsdSet))
+            if (!AcDomain.DsdSetSet.TryGetDsdSet(requestData.DsdSetId, out dsdSet))
             {
                 throw new ValidationException("非法的动态职责分离角色集标识" + requestData.DsdSetId);
             }
             var data = new List<DsdSetAssignRoleTr>();
             var privilegeType = AcObjectType.Role.ToName();
-            var ssdSetRoles = Host.DsdSetSet.GetDsdRoles(dsdSet);
+            var ssdSetRoles = AcDomain.DsdSetSet.GetDsdRoles(dsdSet);
             if (requestData.IsAssigned.HasValue)
             {
                 if (requestData.IsAssigned.Value)
@@ -399,7 +399,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                     foreach (var ar in ssdSetRoles)
                     {
                         RoleState role;
-                        if (!Host.RoleSet.TryGetRole(ar.RoleId, out role))
+                        if (!AcDomain.RoleSet.TryGetRole(ar.RoleId, out role))
                         {
                             throw new AnycmdException("意外的角色标识" + ar.RoleId);
                         }
@@ -419,7 +419,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 }
                 else
                 {
-                    data.AddRange(from role in Host.RoleSet
+                    data.AddRange(from role in AcDomain.RoleSet
                                   where ssdSetRoles.All(a => a.RoleId != role.Id)
                                   select new DsdSetAssignRoleTr
                                   {
@@ -438,7 +438,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             }
             else
             {
-                foreach (var role in Host.RoleSet)
+                foreach (var role in AcDomain.RoleSet)
                 {
                     var ar = ssdSetRoles.FirstOrDefault(a => a.RoleId == role.Id);
                     if (ar == null)
@@ -498,7 +498,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            var data = Host.GetPlistGroupRoles(requestData);
+            var data = AcDomain.GetPlistGroupRoles(requestData);
 
             Debug.Assert(requestData.Total != null, "requestData.total != null");
             return this.JsonResult(new MiniGrid<GroupAssignRoleTr> { total = requestData.Total.Value, data = data });
@@ -516,7 +516,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             }
             if (requestData.MenuId.HasValue && requestData.MenuId.Value != Guid.Empty)
             {
-                var data = Host.GetPlistMenuRoles(requestData);
+                var data = AcDomain.GetPlistMenuRoles(requestData);
 
                 Debug.Assert(requestData.Total != null, "requestData.total != null");
                 return this.JsonResult(new MiniGrid<MenuAssignRoleTr> { total = requestData.Total.Value, data = data });
@@ -537,7 +537,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return this.ModelState.ToJsonResult();
             }
-            Host.Handle(new AddRoleCommand(input));
+            AcDomain.Handle(new AddRoleCommand(input));
 
             return this.JsonResult(new ResponseData { success = true, id = input.Id });
         }
@@ -552,7 +552,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return this.ModelState.ToJsonResult();
             }
-            Host.Handle(new UpdateRoleCommand(input));
+            AcDomain.Handle(new UpdateRoleCommand(input));
 
             return this.JsonResult(new ResponseData { success = true, id = input.Id });
         }
@@ -579,7 +579,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             }
             foreach (var item in idArray)
             {
-                Host.Handle(new RemoveRoleCommand(item));
+                AcDomain.Handle(new RemoveRoleCommand(item));
             }
 
             return this.JsonResult(new ResponseData { id = id, success = true });
@@ -609,13 +609,13 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                     {
                         if (!isAssigned)
                         {
-                            Host.Handle(new RemovePrivilegeBigramCommand(entity.Id));
+                            AcDomain.Handle(new RemovePrivilegeBigramCommand(entity.Id));
                         }
                         else
                         {
                             if (row.ContainsKey("PrivilegeConstraint"))
                             {
-                                Host.Handle(new UpdatePrivilegeBigramCommand(new PrivilegeBigramUpdateIo
+                                AcDomain.Handle(new UpdatePrivilegeBigramCommand(new PrivilegeBigramUpdateIo
                                 {
                                     Id = entity.Id,
                                     PrivilegeConstraint = row["PrivilegeConstraint"] == null ? null : row["PrivilegeConstraint"].ToString()
@@ -640,7 +640,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                         {
                             createInput.PrivilegeConstraint = row["PrivilegeConstraint"] == null ? null : row["PrivilegeConstraint"].ToString();
                         }
-                        Host.Handle(new AddPrivilegeBigramCommand(createInput));
+                        AcDomain.Handle(new AddPrivilegeBigramCommand(createInput));
                     }
                 }
             }
@@ -678,7 +678,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                             PrivilegeOrientation = 1,
                             PrivilegeConstraint = null
                         };
-                        Host.Handle(new AddPrivilegeBigramCommand(createInput));
+                        AcDomain.Handle(new AddPrivilegeBigramCommand(createInput));
                     }
                 }
             }
@@ -690,7 +690,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                     var entity = GetRequiredService<IRepository<PrivilegeBigram>>().AsQueryable().FirstOrDefault(a => a.SubjectType == subjectType && a.SubjectInstanceId == roleId && a.ObjectType == acObjectType && a.ObjectInstanceId == mId);
                     if (entity != null)
                     {
-                        Host.Handle(new RemovePrivilegeBigramCommand(entity.Id));
+                        AcDomain.Handle(new RemovePrivilegeBigramCommand(entity.Id));
                     }
                 }
             }
@@ -709,7 +709,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             foreach (var item in aIds)
             {
                 var accountId = new Guid(item);
-                Host.Handle(new AddPrivilegeBigramCommand(new PrivilegeBigramCreateIo
+                AcDomain.Handle(new AddPrivilegeBigramCommand(new PrivilegeBigramCreateIo
                 {
                     Id = Guid.NewGuid(),
                     ObjectInstanceId = roleId,
@@ -731,7 +731,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             string[] ids = id.Split(',');
             foreach (var item in ids)
             {
-                Host.Handle(new RemovePrivilegeBigramCommand(new Guid(item)));
+                AcDomain.Handle(new RemovePrivilegeBigramCommand(new Guid(item)));
             }
 
             return this.JsonResult(new ResponseData { success = true, id = id });
@@ -761,13 +761,13 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                     {
                         if (!isAssigned)
                         {
-                            Host.Handle(new RemovePrivilegeBigramCommand(id));
+                            AcDomain.Handle(new RemovePrivilegeBigramCommand(id));
                         }
                         else
                         {
                             if (row.ContainsKey("PrivilegeConstraint"))
                             {
-                                Host.Handle(new UpdatePrivilegeBigramCommand(new PrivilegeBigramUpdateIo
+                                AcDomain.Handle(new UpdatePrivilegeBigramCommand(new PrivilegeBigramUpdateIo
                                 {
                                     Id = id,
                                     PrivilegeConstraint = row["PrivilegeConstraint"].ToString()
@@ -791,7 +791,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                         {
                             createInput.PrivilegeConstraint = row["PrivilegeConstraint"].ToString();
                         }
-                        Host.Handle(new AddPrivilegeBigramCommand(createInput));
+                        AcDomain.Handle(new AddPrivilegeBigramCommand(createInput));
                     }
                 }
             }

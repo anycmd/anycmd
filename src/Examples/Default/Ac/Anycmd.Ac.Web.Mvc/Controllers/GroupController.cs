@@ -54,7 +54,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                     }
                     if (!dic.ContainsKey("IsEnabledName"))
                     {
-                        dic.Add("IsEnabledName", Host.Translate("Ac", "Group", "IsEnabledName", dic["IsEnabled"].ToString()));
+                        dic.Add("IsEnabledName", AcDomain.Translate("Ac", "Group", "IsEnabledName", dic["IsEnabled"].ToString()));
                     }
                     return new PartialViewResult { ViewName = "Partials/Details", ViewData = new ViewDataDictionary(dic) };
                 }
@@ -119,7 +119,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             }
             if (!dic.ContainsKey("IsEnabledName"))
             {
-                dic.Add("IsEnabledName", Host.Translate("Ac", "Group", "IsEnabledName", dic["IsEnabled"].ToString()));
+                dic.Add("IsEnabledName", AcDomain.Translate("Ac", "Group", "IsEnabledName", dic["IsEnabled"].ToString()));
             }
             return this.JsonResult(dic);
         }
@@ -133,7 +133,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            var data = Host.GetPlistGroups(requestModel);
+            var data = AcDomain.GetPlistGroups(requestModel);
 
             Debug.Assert(requestModel.Total != null, "requestModel.total != null");
             return this.JsonResult(new MiniGrid { total = requestModel.Total.Value, data = data.Select(a => a.ToTableRowData()) });
@@ -152,7 +152,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             var data = new List<Dictionary<string, object>>();
             var privilegeType = AcObjectType.Group.ToName();
             var accountGroups = GetRequiredService<IRepository<PrivilegeBigram>>().AsQueryable().Where(a => a.SubjectInstanceId == accountId && a.ObjectType == privilegeType);
-            var groups = Host.GroupSet.AsQueryable();
+            var groups = AcDomain.GroupSet.AsQueryable();
             if (!string.IsNullOrEmpty(key))
             {
                 groups = groups.Where(a => a.Name.Contains(key) || a.CategoryCode.Contains(key));
@@ -226,7 +226,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            var data = Host.GetPlistRoleGroups(requestData);
+            var data = AcDomain.GetPlistRoleGroups(requestData);
 
             Debug.Assert(requestData.Total != null, "requestData.total != null");
             return this.JsonResult(new MiniGrid<Dictionary<string, object>> { total = requestData.Total.Value, data = data });
@@ -247,7 +247,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 throw new ValidationException("非法的操作，试图越权。");
             }
-            Host.Handle(new AddGroupCommand(input));
+            AcDomain.Handle(new AddGroupCommand(input));
 
             return this.JsonResult(new ResponseData { success = true, id = input.Id });
         }
@@ -262,7 +262,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return this.ModelState.ToJsonResult();
             }
-            Host.Handle(new UpdateGroupCommand(input));
+            AcDomain.Handle(new UpdateGroupCommand(input));
 
             return this.JsonResult(new ResponseData { success = true, id = input.Id });
         }
@@ -289,7 +289,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             }
             foreach (var item in idArray)
             {
-                Host.Handle(new RemoveGroupCommand(item));
+                AcDomain.Handle(new RemoveGroupCommand(item));
             }
 
             return this.JsonResult(new ResponseData { id = id, success = true });
@@ -318,13 +318,13 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                     {
                         if (!isAssigned)
                         {
-                            Host.Handle(new RemovePrivilegeBigramCommand(entity.Id));
+                            AcDomain.Handle(new RemovePrivilegeBigramCommand(entity.Id));
                         }
                         else
                         {
                             if (row.ContainsKey("PrivilegeConstraint"))
                             {
-                                Host.Handle(new UpdatePrivilegeBigramCommand(new PrivilegeBigramUpdateIo
+                                AcDomain.Handle(new UpdatePrivilegeBigramCommand(new PrivilegeBigramUpdateIo
                                 {
                                     Id = id,
                                     PrivilegeConstraint = row["PrivilegeConstraint"].ToString()
@@ -348,7 +348,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                         {
                             createInput.PrivilegeConstraint = row["PrivilegeConstraint"].ToString();
                         }
-                        Host.Handle(new AddPrivilegeBigramCommand(createInput));
+                        AcDomain.Handle(new AddPrivilegeBigramCommand(createInput));
                     }
                 }
             }
@@ -366,7 +366,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             foreach (var item in aIds)
             {
                 var accountId = new Guid(item);
-                Host.Handle(new AddPrivilegeBigramCommand(new PrivilegeBigramCreateIo
+                AcDomain.Handle(new AddPrivilegeBigramCommand(new PrivilegeBigramCreateIo
                 {
                     Id = Guid.NewGuid(),
                     ObjectType = AcObjectType.Group.ToName(),
@@ -388,7 +388,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             string[] ids = id.Split(',');
             foreach (var item in ids)
             {
-                Host.Handle(new RemovePrivilegeBigramCommand(new Guid(item)));
+                AcDomain.Handle(new RemovePrivilegeBigramCommand(new Guid(item)));
             }
 
             return this.JsonResult(new ResponseData { success = true, id = id });

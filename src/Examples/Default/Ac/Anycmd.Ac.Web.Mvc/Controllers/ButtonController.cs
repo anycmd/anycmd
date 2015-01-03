@@ -99,7 +99,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            var data = Host.GetPlistButtons(requestModel);
+            var data = AcDomain.GetPlistButtons(requestModel);
 
             Debug.Assert(requestModel.Total != null, "requestModel.total != null");
             return this.JsonResult(new MiniGrid<ButtonTr> { total = requestModel.Total.Value, data = data });
@@ -116,7 +116,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            var data = Host.GetPlistUiViewButtons(requestData);
+            var data = AcDomain.GetPlistUiViewButtons(requestData);
 
             Debug.Assert(requestData.Total != null, "requestData.total != null");
             return this.JsonResult(new MiniGrid<UiViewAssignButtonTr> { total = requestData.Total.Value, data = data });
@@ -135,7 +135,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            Host.AddButton(input);
+            AcDomain.AddButton(input);
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -153,7 +153,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            Host.UpdateButton(input);
+            AcDomain.UpdateButton(input);
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -167,7 +167,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
         [Guid("DC8CD97F-220E-46BF-BBFC-6D684994330A")]
         public ActionResult Delete(string id)
         {
-            return this.HandleSeparateGuidString(Host.RemoveButton, id, ',');
+            return this.HandleSeparateGuidString(AcDomain.RemoveButton, id, ',');
         }
         #endregion
     }

@@ -6,7 +6,6 @@ namespace Anycmd
     using Events;
     using Events.Serialization;
     using Events.Storage;
-    using Exceptions;
     using Model;
     using Snapshots;
     using Snapshots.Serialization;
@@ -68,6 +67,36 @@ namespace Anycmd
         {
             host.CommandBus.Publish(command);
             host.CommandBus.Commit();
+        }
+
+        /// <summary>
+        /// Retrieves the service of type <c>T</c> from the provider.
+        /// If the service cannot be found, this method returns <c>null</c>.
+        /// </summary>
+        public static T GetService<T>(this IAcDomain acDomain)
+        {
+            return (T)acDomain.GetService(typeof(T));
+        }
+
+        /// <summary>
+        /// Retrieves the service of type <c>T</c> from the provider.
+        /// If the service cannot be found, a <see cref="ServiceNotFoundException"/> will be thrown.
+        /// </summary>
+        public static T GetRequiredService<T>(this IAcDomain acDomain)
+        {
+            return (T)GetRequiredService(acDomain, typeof(T));
+        }
+
+        /// <summary>
+        /// Retrieves the service of type <paramref name="serviceType"/> from the provider.
+        /// If the service cannot be found, a <see cref="ServiceNotFoundException"/> will be thrown.
+        /// </summary>
+        public static object GetRequiredService(this IAcDomain acDomain, Type serviceType)
+        {
+            object service = acDomain.GetService(serviceType);
+            if (service == null)
+                throw new ServiceNotFoundException(serviceType);
+            return service;
         }
 
         /// <summary>

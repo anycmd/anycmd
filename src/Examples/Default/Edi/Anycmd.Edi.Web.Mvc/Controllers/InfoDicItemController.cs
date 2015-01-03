@@ -49,7 +49,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                 Guid id;
                 if (Guid.TryParse(Request["id"], out id))
                 {
-                    var data = new InfoDicItemInfo(Host, base.EntityType.GetData(id));
+                    var data = new InfoDicItemInfo(AcDomain, base.EntityType.GetData(id));
                     return new PartialViewResult { ViewName = "Partials/Details", ViewData = new ViewDataDictionary(data) };
                 }
                 else
@@ -100,7 +100,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             {
                 throw new ValidationException("未传入标识");
             }
-            return this.JsonResult(new InfoDicItemInfo(Host, base.EntityType.GetData(id.Value)));
+            return this.JsonResult(new InfoDicItemInfo(AcDomain, base.EntityType.GetData(id.Value)));
         }
 
         /// <summary>
@@ -114,11 +114,11 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
         public ActionResult GetDicItemsByDicId(Guid dicId)
         {
             InfoDicState infoDic;
-            if (!Host.NodeHost.InfoDics.TryGetInfoDic(dicId, out infoDic))
+            if (!AcDomain.NodeHost.InfoDics.TryGetInfoDic(dicId, out infoDic))
             {
                 return this.JsonResult(null);
             }
-            var data = Host.NodeHost.InfoDics.GetInfoDicItems(infoDic).Select(d => new { code = d.Code, name = d.Name });
+            var data = AcDomain.NodeHost.InfoDics.GetInfoDicItems(infoDic).Select(d => new { code = d.Code, name = d.Name });
 
             return this.JsonResult(data);
         }
@@ -143,26 +143,26 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                 throw new ValidationException("infoDicID参数是必须的");
             }
             InfoDicState infoDic;
-            if (!Host.NodeHost.InfoDics.TryGetInfoDic(dicId.Value, out infoDic))
+            if (!AcDomain.NodeHost.InfoDics.TryGetInfoDic(dicId.Value, out infoDic))
             {
                 throw new ValidationException("意外的信息字典标识" + dicId);
             }
             EntityTypeState entityType;
-            if (!Host.EntityTypeSet.TryGetEntityType(new Coder("Edi", "InfoDicItem"), out entityType))
+            if (!AcDomain.EntityTypeSet.TryGetEntityType(new Coder("Edi", "InfoDicItem"), out entityType))
             {
                 throw new AnycmdException("意外的实体类型Edi.InfoDicItem");
             }
             foreach (var filter in input.Filters)
             {
                 PropertyState property;
-                if (!Host.EntityTypeSet.TryGetProperty(entityType, filter.field, out property))
+                if (!AcDomain.EntityTypeSet.TryGetProperty(entityType, filter.field, out property))
                 {
                     throw new ValidationException("意外的InfoDicItem实体类型属性" + filter.field);
                 }
             }
             int pageIndex = input.PageIndex;
             int pageSize = input.PageSize;
-            var queryable = Host.NodeHost.InfoDics.GetInfoDicItems(infoDic).Select(InfoDicItemTr.Create).AsQueryable();
+            var queryable = AcDomain.NodeHost.InfoDics.GetInfoDicItems(infoDic).Select(InfoDicItemTr.Create).AsQueryable();
             foreach (var filter in input.Filters)
             {
                 queryable = queryable.Where(filter.ToPredicate(), filter.value);
@@ -187,7 +187,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            Host.AddInfoDicItem(input);
+            AcDomain.AddInfoDicItem(input);
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -207,7 +207,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            Host.UpdateInfoDicItem(input);
+            AcDomain.UpdateInfoDicItem(input);
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -223,7 +223,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
         [Guid("131E3A46-EFA8-4817-A6AE-B470518E3F97")]
         public ActionResult Delete(string id)
         {
-            return this.HandleSeparateGuidString(Host.RemoveInfoDicItem, id, ',');
+            return this.HandleSeparateGuidString(AcDomain.RemoveInfoDicItem, id, ',');
         }
     }
 }

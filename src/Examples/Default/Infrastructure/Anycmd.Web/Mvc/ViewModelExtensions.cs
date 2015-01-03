@@ -1,11 +1,10 @@
 ﻿
-using Anycmd.Util;
-
 namespace Anycmd.Web.Mvc
 {
     using Engine.Ac;
     using Engine.Edi;
     using Engine.Edi.Abstractions;
+    using Engine.Host;
     using Exceptions;
     using System;
     using System.Collections.Generic;
@@ -13,6 +12,7 @@ namespace Anycmd.Web.Mvc
     using System.Text;
     using System.Web;
     using System.Web.Mvc;
+    using Util;
     using ViewModel;
 
     /// <summary>
@@ -157,11 +157,10 @@ namespace Anycmd.Web.Mvc
         /// <returns></returns>
         public static IHtmlString DicItemJsonArray(this HtmlHelper html, PropertyState property)
         {
-            var host = html.ViewContext.HttpContext.Application["AcDomainInstance"] as IAcDomain;
             if (property.DicId.HasValue)
             {
                 DicState dic;
-                if (host.DicSet.TryGetDic(property.DicId.Value, out dic))
+                if (GetAcDomain().DicSet.TryGetDic(property.DicId.Value, out dic))
                 {
                     return DicItemJsonArray(html, dic.Code);
                 }
@@ -285,7 +284,7 @@ namespace Anycmd.Web.Mvc
             {
                 return result;
             }
-            if (property != null && (!string.IsNullOrEmpty(property.Tooltip) || property.AcDomain.UserSession.IsDeveloper()))
+            if ((!string.IsNullOrEmpty(property.Tooltip) || GetUserSession().IsDeveloper()))
             {
                 var urlHelper = new UrlHelper(html.ViewContext.RequestContext, html.RouteCollection);
                 var href = urlHelper.Action("Tooltip", "Property", new { area = "Ac", propertyId = property.Id });
@@ -310,7 +309,7 @@ namespace Anycmd.Web.Mvc
             {
                 return result;
             }
-            if (page != null && (!string.IsNullOrEmpty(page.Tooltip) || page.AcDomain.UserSession.IsDeveloper()))
+            if (page != null && (!string.IsNullOrEmpty(page.Tooltip) || GetUserSession().IsDeveloper()))
             {
                 var urlHelper = new UrlHelper(html.ViewContext.RequestContext, html.RouteCollection);
                 var href = urlHelper.Action("Tooltip", "Page", new { area = "Ac", pageId = page.Id });
@@ -337,11 +336,11 @@ namespace Anycmd.Web.Mvc
         /// <param name="html"></param>
         /// <param name="action"></param>
         /// <returns></returns>
-        public static UiViewViewModel GetRuntimeUIVIew(this HtmlHelper html, string action)
+        public static UiViewViewModel GetRuntimeUivIew(this HtmlHelper html, string action)
         {
             var controller = html.ViewContext.RouteData.Values["Controller"].ToString();
 
-            return GetRuntimeUIVIew(html, action, controller);
+            return GetRuntimeUivIew(html, action, controller);
         }
 
         /// <summary>
@@ -350,9 +349,9 @@ namespace Anycmd.Web.Mvc
         /// <param name="viewPage"></param>
         /// <param name="action"></param>
         /// <returns></returns>
-        public static UiViewViewModel GetRuntimeUIVIew(this WebViewPage viewPage, string action)
+        public static UiViewViewModel GetRuntimeUivIew(this WebViewPage viewPage, string action)
         {
-            return GetRuntimeUIVIew(viewPage.Html, action);
+            return GetRuntimeUivIew(viewPage.Html, action);
         }
 
         /// <summary>
@@ -362,9 +361,9 @@ namespace Anycmd.Web.Mvc
         /// <param name="action"></param>
         /// <param name="controller"></param>
         /// <returns></returns>
-        public static UiViewViewModel GetRuntimeUIVIew(this WebViewPage viewPage, string action, string controller)
+        public static UiViewViewModel GetRuntimeUivIew(this WebViewPage viewPage, string action, string controller)
         {
-            return GetRuntimeUIVIew(viewPage.Html, action, controller);
+            return GetRuntimeUivIew(viewPage.Html, action, controller);
         }
 
         /// <summary>
@@ -373,9 +372,8 @@ namespace Anycmd.Web.Mvc
         /// <param name="html"></param>
         /// <param name="action"></param>
         /// <param name="controller"></param>
-        /// <param name="area"></param>
         /// <returns></returns>
-        public static UiViewViewModel GetRuntimeUIVIew(this HtmlHelper html, string action, string controller)
+        public static UiViewViewModel GetRuntimeUivIew(this HtmlHelper html, string action, string controller)
         {
             var host = html.CurrentHost();
             ResourceTypeState resource;
@@ -400,12 +398,12 @@ namespace Anycmd.Web.Mvc
         #endregion
 
         #region GetFunction
-        public static FunctionState GetFunction(this HtmlHelper html, Guid functionID)
+        public static FunctionState GetFunction(this HtmlHelper html, Guid functionId)
         {
             FunctionState function;
-            if (!html.CurrentHost().FunctionSet.TryGetFunction(functionID, out function))
+            if (!html.CurrentHost().FunctionSet.TryGetFunction(functionId, out function))
             {
-                throw new AnycmdException("意外的按钮功能标识" + functionID);
+                throw new AnycmdException("意外的按钮功能标识" + functionId);
             }
             return function;
         }
@@ -415,7 +413,7 @@ namespace Anycmd.Web.Mvc
         public static IHtmlString IsEnabled(this HtmlHelper html, string resourceCode, string functionCode)
         {
             var htmlEnabled = string.Empty;
-            if (!html.CurrentHost().UserSession.Permit(resourceCode, functionCode))
+            if (!GetUserSession().Permit(resourceCode, functionCode))
             {
                 htmlEnabled = "enabled='false'";
             }
@@ -553,23 +551,23 @@ namespace Anycmd.Web.Mvc
         #region Permit
         public static bool Permit(this UiViewState page)
         {
-            return page.AcDomain.UserSession.Permit(page);
+            return GetUserSession().Permit(page);
         }
 
         public static bool Permit(this UiViewViewModel page)
         {
-            return page.UiView.AcDomain.UserSession.Permit(page.UiView);
+            return GetUserSession().Permit(page.UiView);
         }
         #endregion
 
         public static IAcDomain CurrentHost(this HtmlHelper html)
         {
-            return html.ViewContext.HttpContext.Application["AcDomainInstance"] as IAcDomain;
+            return GetAcDomain();
         }
 
         public static IUserSession CurrentUser(this WebViewPage page)
         {
-            return page.Html.CurrentHost().UserSession;
+            return GetUserSession();
         }
 
         #region GetOperationLogEntityType
@@ -775,7 +773,7 @@ namespace Anycmd.Web.Mvc
         /// <returns></returns>
         public static IHtmlString NodesJsonArray(this HtmlHelper html)
         {
-            StringBuilder sb = new System.Text.StringBuilder();
+            var sb = new StringBuilder();
             sb.Append("[");
             var l = sb.Length;
             foreach (var node in CurrentHost(html).NodeHost.Nodes)
@@ -801,7 +799,7 @@ namespace Anycmd.Web.Mvc
         /// <returns></returns>
         public static IHtmlString ClientNodesJsonArray(this HtmlHelper html)
         {
-            StringBuilder sb = new System.Text.StringBuilder();
+            var sb = new System.Text.StringBuilder();
             sb.Append("[");
             var l = sb.Length;
             foreach (var node in CurrentHost(html).NodeHost.Nodes)
@@ -983,7 +981,7 @@ namespace Anycmd.Web.Mvc
         public static IHtmlString Qtip(this HtmlHelper html, IElement element)
         {
             IHtmlString result = MvcHtmlString.Empty;
-            if (element != null && (!string.IsNullOrEmpty(element.Tooltip) || CurrentHost(html).UserSession.IsDeveloper()))
+            if (element != null && (!string.IsNullOrEmpty(element.Tooltip) || GetUserSession().IsDeveloper()))
             {
                 var urlHelper = new UrlHelper(html.ViewContext.RequestContext, html.RouteCollection);
                 var href = urlHelper.Action("Tooltip", "Element", new { area = "Edi", elementId = element.Id });
@@ -997,5 +995,27 @@ namespace Anycmd.Web.Mvc
 
         #endregion
         #endregion
+
+        private static IAcDomain GetAcDomain()
+        {
+            var host = (HttpContext.Current.Application["AcDomainInstance"] as IAcDomain);
+            if (host == null)
+            {
+                throw new AnycmdException("");
+            }
+            return host;
+        }
+
+        private static IUserSession GetUserSession()
+        {
+            var host = GetAcDomain();
+            var storage = host.GetRequiredService<IUserSessionStorage>();
+            var user = storage.GetData(host.Config.CurrentUserSessionCacheKey) as IUserSession;
+            if (user == null)
+            {
+                return UserSessionState.Empty;
+            }
+            return user;
+        }
     }
 }

@@ -7,7 +7,6 @@
     using Logging;
     using Rdb;
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel.Design;
 
     /// <summary>
@@ -128,28 +127,12 @@
         #endregion
 
         /// <summary>
-        /// 当前活动用户
-        /// </summary>
-        IUserSession UserSession { get; }
-        /// <summary>
-        /// 日志服务
-        /// </summary>
-        ILoggingService LoggingService { get; }
-
-        /// <summary>
         /// 根据插件类型获取插件目录地址
         /// </summary>
         /// <param name="pluginType"></param>
         /// <returns></returns>
         string GetPluginBaseDirectory(PluginType pluginType);
 
-        /// <summary>
-        /// 查看或设置认证用户身份的用户登录方法。
-        /// </summary>
-        Action<Dictionary<string, object>> SignIn { get; set; }
-        /// <summary>
-        /// 查看或设置退出当前登录用户的退出方法。
-        /// </summary>
-        Action SignOut { get; set; }
+        ILoggingService LoggingService { get; }
     }
 }

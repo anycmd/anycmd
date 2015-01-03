@@ -162,15 +162,15 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             }
             if (!parentId.HasValue)
             {
-                if (Host.UserSession.IsDeveloper())
+                if (UserSession.IsDeveloper())
                 {
-                    return this.JsonResult(Host.OrganizationSet.Where(a => a != OrganizationState.VirtualRoot && a.ParentCode == null).OrderBy(a => a.SortCode).Select(a => new OrganizationMiniNode
+                    return this.JsonResult(AcDomain.OrganizationSet.Where(a => a != OrganizationState.VirtualRoot && a.ParentCode == null).OrderBy(a => a.SortCode).Select(a => new OrganizationMiniNode
                     {
                         CategoryCode = a.CategoryCode,
                         Code = a.Code,
                         expanded = false,
                         Id = a.Id.ToString(),
-                        isLeaf = !Host.OrganizationSet.Any(o => a.Code.Equals(o.ParentCode, StringComparison.OrdinalIgnoreCase)),
+                        isLeaf = !AcDomain.OrganizationSet.Any(o => a.Code.Equals(o.ParentCode, StringComparison.OrdinalIgnoreCase)),
                         Name = a.Name,
                         ParentCode = a.ParentCode,
                         ParentId = a.Parent.Id.ToString(),
@@ -179,7 +179,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 }
                 else
                 {
-                    var orgs = Host.UserSession.AccountPrivilege.Organizations;
+                    var orgs = UserSession.AccountPrivilege.Organizations;
                     if (orgs != null && orgs.Count > 0)
                     {
                         return this.JsonResult(orgs.Select(org => new OrganizationMiniNode
@@ -187,7 +187,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                             Code = org.Code ?? string.Empty,
                             Id = org.Id.ToString(),
                             Name = org.Name,
-                            isLeaf = Host.OrganizationSet.All(o => !org.Code.Equals(o.ParentCode, StringComparison.OrdinalIgnoreCase))
+                            isLeaf = AcDomain.OrganizationSet.All(o => !org.Code.Equals(o.ParentCode, StringComparison.OrdinalIgnoreCase))
                         }));
                     }
                     return this.JsonResult(new List<OrganizationMiniNode>());
@@ -197,17 +197,17 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 var pid = parentId.Value;
                 OrganizationState parentOrg;
-                if (!Host.OrganizationSet.TryGetOrganization(pid, out parentOrg))
+                if (!AcDomain.OrganizationSet.TryGetOrganization(pid, out parentOrg))
                 {
                     throw new ValidationException("意外的组织结构标识" + pid);
                 }
-                return this.JsonResult(Host.OrganizationSet.Where(a => parentOrg.Code.Equals(a.ParentCode, StringComparison.OrdinalIgnoreCase)).OrderBy(a => a.SortCode).Select(a => new OrganizationMiniNode
+                return this.JsonResult(AcDomain.OrganizationSet.Where(a => parentOrg.Code.Equals(a.ParentCode, StringComparison.OrdinalIgnoreCase)).OrderBy(a => a.SortCode).Select(a => new OrganizationMiniNode
                 {
                     CategoryCode = a.CategoryCode,
                     Code = a.Code,
                     expanded = false,
                     Id = a.Id.ToString(),
-                    isLeaf = !Host.OrganizationSet.Any(o => a.Code.Equals(o.ParentCode, StringComparison.OrdinalIgnoreCase)),
+                    isLeaf = !AcDomain.OrganizationSet.Any(o => a.Code.Equals(o.ParentCode, StringComparison.OrdinalIgnoreCase)),
                     Name = a.Name,
                     ParentCode = a.ParentCode,
                     ParentId = a.Parent.Id.ToString(),
@@ -242,7 +242,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             IQueryable<OrganizationTr> queryable = null;
             if (requestModel.IncludeDescendants.HasValue && requestModel.IncludeDescendants.Value)
             {
-                queryable = Host.OrganizationSet.Where(a => a != OrganizationState.VirtualRoot).Select(a => OrganizationTr.Create(a)).AsQueryable().Where(a => a.Code.Contains(requestModel.ParentCode));
+                queryable = AcDomain.OrganizationSet.Where(a => a != OrganizationState.VirtualRoot).Select(a => OrganizationTr.Create(a)).AsQueryable().Where(a => a.Code.Contains(requestModel.ParentCode));
             }
             else
             {
@@ -250,7 +250,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 {
                     requestModel.ParentCode = null;
                 }
-                queryable = Host.OrganizationSet.Where(a => a != OrganizationState.VirtualRoot && string.Equals(a.ParentCode, requestModel.ParentCode, StringComparison.OrdinalIgnoreCase)).Select(a => OrganizationTr.Create(a)).AsQueryable();
+                queryable = AcDomain.OrganizationSet.Where(a => a != OrganizationState.VirtualRoot && string.Equals(a.ParentCode, requestModel.ParentCode, StringComparison.OrdinalIgnoreCase)).Select(a => OrganizationTr.Create(a)).AsQueryable();
             }
             foreach (var filter in requestModel.Filters)
             {
@@ -276,7 +276,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 throw new ValidationException("organizationID是必须的");
             }
             OrganizationState organization;
-            if (!Host.OrganizationSet.TryGetOrganization(organizationId, out organization))
+            if (!AcDomain.OrganizationSet.TryGetOrganization(organizationId, out organization))
             {
                 throw new ValidationException("意外的组织结构标识" + organizationId);
             }
@@ -284,7 +284,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             foreach (var item in aIds)
             {
                 var accountId = new Guid(item);
-                Host.Handle(new AddPrivilegeBigramCommand(new PrivilegeBigramCreateIo
+                AcDomain.Handle(new AddPrivilegeBigramCommand(new PrivilegeBigramCreateIo
                 {
                     SubjectInstanceId = accountId,
                     SubjectType = AcSubjectType.Account.ToName(),
@@ -306,7 +306,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             string[] ids = id.Split(',');
             foreach (var item in ids)
             {
-                Host.Handle(new RemovePrivilegeBigramCommand(new Guid(item)));
+                AcDomain.Handle(new RemovePrivilegeBigramCommand(new Guid(item)));
             }
 
             return this.JsonResult(new ResponseData { success = true, id = id });
@@ -322,7 +322,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            Host.Handle(new AddOrganizationCommand(input));
+            AcDomain.Handle(new AddOrganizationCommand(input));
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -337,7 +337,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            Host.Handle(new UpdateOrganizationCommand(input));
+            AcDomain.Handle(new UpdateOrganizationCommand(input));
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -364,7 +364,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             }
             foreach (var item in idArray)
             {
-                Host.Handle(new RemoveOrganizationCommand(item));
+                AcDomain.Handle(new RemoveOrganizationCommand(item));
             }
 
             return this.JsonResult(new ResponseData { id = id, success = true });
@@ -394,12 +394,12 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                     {
                         if (!isAssigned)
                         {
-                            Host.Handle(new RemovePrivilegeBigramCommand(id));
+                            AcDomain.Handle(new RemovePrivilegeBigramCommand(id));
                         }
                     }
                     else if (isAssigned)
                     {
-                        Host.Handle(new AddPrivilegeBigramCommand(new PrivilegeBigramCreateIo
+                        AcDomain.Handle(new AddPrivilegeBigramCommand(new PrivilegeBigramCreateIo
                         {
                             Id = new Guid(row["Id"].ToString()),
                             ObjectType = AcObjectType.Role.ToName(),

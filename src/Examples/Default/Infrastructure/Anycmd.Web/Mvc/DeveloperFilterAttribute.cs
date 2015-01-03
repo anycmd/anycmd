@@ -2,6 +2,8 @@
 namespace Anycmd.Web.Mvc
 {
     using Engine.Ac;
+    using Engine.Host;
+    using Exceptions;
     using System;
     using System.Web.Mvc;
     using ViewModel;
@@ -12,7 +14,7 @@ namespace Anycmd.Web.Mvc
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false)]
     public class DeveloperFilterAttribute : ActionFilterAttribute
     {
-        private const string MSG = "对不起您不是开发人员";
+        private const string Msg = "对不起您不是开发人员";
 
         /// <summary>
         /// 
@@ -20,7 +22,13 @@ namespace Anycmd.Web.Mvc
         /// <param name="filterContext"></param>
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            var user = (filterContext.HttpContext.Application["AcDomainInstance"] as IAcDomain).UserSession;
+            var host = (filterContext.HttpContext.Application["AcDomainInstance"] as IAcDomain);
+            if (host == null)
+            {
+                throw new AnycmdException("");
+            }
+            var storage = host.GetRequiredService<IUserSessionStorage>();
+            var user = storage.GetData(host.Config.CurrentUserSessionCacheKey) as IUserSession;
             if (!user.IsDeveloper())
             {
                 var request = filterContext.HttpContext.Request;
@@ -29,12 +37,12 @@ namespace Anycmd.Web.Mvc
                 {
                     filterContext.Result = new FormatJsonResult
                     {
-                        Data = new ResponseData { success = false, msg = MSG }
+                        Data = new ResponseData { success = false, msg = Msg }
                     };
                 }
                 else
                 {
-                    filterContext.Result = new ContentResult() { Content = MSG }; ;
+                    filterContext.Result = new ContentResult() { Content = Msg }; ;
                 }
                 return;
             }

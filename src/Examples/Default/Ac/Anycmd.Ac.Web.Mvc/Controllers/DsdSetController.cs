@@ -99,7 +99,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            var data = Host.GetPlistDsdSets(requestModel);
+            var data = AcDomain.GetPlistDsdSets(requestModel);
 
             Debug.Assert(requestModel.Total != null, "requestModel.total != null");
             return this.JsonResult(new MiniGrid { total = requestModel.Total.Value, data = data.Select(a => a.ToTableRowData()) });
@@ -129,7 +129,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                     {
                         if (!isAssigned)
                         {
-                            Host.Handle(new RemoveDsdRoleCommand(id));
+                            AcDomain.Handle(new RemoveDsdRoleCommand(id));
                         }
                     }
                     else if (isAssigned)
@@ -140,7 +140,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                             RoleId = new Guid(row["RoleId"].ToString()),
                             DsdSetId = new Guid(row["DsdSetId"].ToString())
                         };
-                        Host.Handle(new AddDsdRoleCommand(createInput));
+                        AcDomain.Handle(new AddDsdRoleCommand(createInput));
                     }
                 }
             }
@@ -159,7 +159,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return this.ModelState.ToJsonResult();
             }
-            Host.Handle(new AddDsdSetCommand(input));
+            AcDomain.Handle(new AddDsdSetCommand(input));
 
             return this.JsonResult(new ResponseData { success = true, id = input.Id });
         }
@@ -174,7 +174,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return this.ModelState.ToJsonResult();
             }
-            Host.Handle(new UpdateDsdSetCommand(input));
+            AcDomain.Handle(new UpdateDsdSetCommand(input));
 
             return this.JsonResult(new ResponseData { success = true, id = input.Id });
         }
@@ -201,7 +201,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             }
             foreach (var item in idArray)
             {
-                Host.Handle(new RemoveDsdSetCommand(item));
+                AcDomain.Handle(new RemoveDsdSetCommand(item));
             }
 
             return this.JsonResult(new ResponseData { id = id, success = true });

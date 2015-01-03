@@ -11,7 +11,7 @@ namespace Anycmd.Engine.Host
     /// <summary>
     /// 一个线程安全的服务对象容器。
     /// </summary>
-    public class AnycmdServiceContainer : IServiceProvider, IServiceContainer, IDisposable
+    public class AnycmdServiceContainer : IServiceContainer, IDisposable
     {
         private readonly ConcurrentStack<IServiceProvider> _fallbackProviders = new ConcurrentStack<IServiceProvider>();
         private readonly Dictionary<Type, object> _services = new Dictionary<Type, object>();
@@ -169,13 +169,11 @@ namespace Anycmd.Engine.Host
             lock (_services)
             {
                 object instance;
-                if (_services.TryGetValue(serviceType, out instance))
-                {
-                    _services.Remove(serviceType);
-                    var disposableInstance = instance as IDisposable;
-                    if (disposableInstance != null)
-                        _servicesToDispose.Remove(serviceType);
-                }
+                if (!_services.TryGetValue(serviceType, out instance)) return;
+                _services.Remove(serviceType);
+                var disposableInstance = instance as IDisposable;
+                if (disposableInstance != null)
+                    _servicesToDispose.Remove(serviceType);
             }
         }
 

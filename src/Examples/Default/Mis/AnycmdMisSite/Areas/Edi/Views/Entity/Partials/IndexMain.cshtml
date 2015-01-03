@@ -3,25 +3,25 @@
     string ontologyCode = Request.Params["ontologyCode"];
     var ontology = Html.GetOntology(ontologyCode);
     var elements = ontology.Elements.Values.Where(e => e.Element.IsGridColumn && e.Element.IsEnabled == 1).OrderBy(e => e.Element.SortCode);
-    var executedCommandTabView = this.GetRuntimeUIVIew("HandledCommand", "Command");
-    var executeFailingCommandTabView = this.GetRuntimeUIVIew("HandleFailingCommand", "Command");
-    var localEventTabView = this.GetRuntimeUIVIew("LocalEvent", "Command");
-    var clientEventTabView = this.GetRuntimeUIVIew("ClientEvent", "Command");
-    var receivedCommandTabView = this.GetRuntimeUIVIew("ReceivedMessage", "Command");
-    var unacceptedMessageTabView = this.GetRuntimeUIVIew("UnacceptedMessage", "Command");
-    var distributeCommandTabView = this.GetRuntimeUIVIew("DistributeMessage", "Command");
-    var distributedCommandTabView = this.GetRuntimeUIVIew("DistributedMessage", "Command");
-    var distributeFailingCommandTabView = this.GetRuntimeUIVIew("DistributeFailingMessage", "Command");
+    var executedCommandTabView = this.GetRuntimeUivIew("HandledCommand", "Command");
+    var executeFailingCommandTabView = this.GetRuntimeUivIew("HandleFailingCommand", "Command");
+    var localEventTabView = this.GetRuntimeUivIew("LocalEvent", "Command");
+    var clientEventTabView = this.GetRuntimeUivIew("ClientEvent", "Command");
+    var receivedCommandTabView = this.GetRuntimeUivIew("ReceivedMessage", "Command");
+    var unacceptedMessageTabView = this.GetRuntimeUivIew("UnacceptedMessage", "Command");
+    var distributeCommandTabView = this.GetRuntimeUivIew("DistributeMessage", "Command");
+    var distributedCommandTabView = this.GetRuntimeUivIew("DistributedMessage", "Command");
+    var distributeFailingCommandTabView = this.GetRuntimeUivIew("DistributeFailingMessage", "Command");
 
-    var infoTabView = this.GetRuntimeUIVIew("Details");
-    var entityHandledCommandTabView = this.GetRuntimeUIVIew("EntityHandledCommands", "Command");
-    var entityHandleFailingCommandTabView = this.GetRuntimeUIVIew("EntityHandleFailingCommands", "Command");
-    var entityReceivedMessageTabView = this.GetRuntimeUIVIew("EntityReceivedMessages", "Command");
-    var entityLocalEventTabView = this.GetRuntimeUIVIew("EntityLocalEvents", "Command");
-    var entityClientEventTabView = this.GetRuntimeUIVIew("EntityClientEvents", "Command");
-    var entityDistributeMessageTabView = this.GetRuntimeUIVIew("EntityDistributeMessages", "Command");
-    var entityDistributedMessageTabView = this.GetRuntimeUIVIew("EntityDistributedMessages", "Command");
-    var entityDistributeFailingMessageTabView = this.GetRuntimeUIVIew("EntityDistributeFailingMessages", "Command");
+    var infoTabView = this.GetRuntimeUivIew("Details");
+    var entityHandledCommandTabView = this.GetRuntimeUivIew("EntityHandledCommands", "Command");
+    var entityHandleFailingCommandTabView = this.GetRuntimeUivIew("EntityHandleFailingCommands", "Command");
+    var entityReceivedMessageTabView = this.GetRuntimeUivIew("EntityReceivedMessages", "Command");
+    var entityLocalEventTabView = this.GetRuntimeUivIew("EntityLocalEvents", "Command");
+    var entityClientEventTabView = this.GetRuntimeUivIew("EntityClientEvents", "Command");
+    var entityDistributeMessageTabView = this.GetRuntimeUivIew("EntityDistributeMessages", "Command");
+    var entityDistributedMessageTabView = this.GetRuntimeUivIew("EntityDistributedMessages", "Command");
+    var entityDistributeFailingMessageTabView = this.GetRuntimeUivIew("EntityDistributeFailingMessages", "Command");
     var prifix = "Edi_Entity_Index_";
 }
 <div id="tabs1" class="mini-tabs" style="width: 100%; height: 100%;"

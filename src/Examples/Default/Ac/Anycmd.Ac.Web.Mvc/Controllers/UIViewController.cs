@@ -114,7 +114,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 UiViewState view;
                 IFunction function;
-                if (!Host.UiViewSet.TryGetUiView(uiViewId.Value, out view))
+                if (!AcDomain.UiViewSet.TryGetUiView(uiViewId.Value, out view))
                 {
                     view = UiViewState.Empty;
                     function = new Function();
@@ -122,7 +122,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 else
                 {
                     FunctionState functionState;
-                    if (!Host.FunctionSet.TryGetFunction(view.Id, out functionState))
+                    if (!AcDomain.FunctionSet.TryGetFunction(view.Id, out functionState))
                     {
                         throw new ValidationException("意外的功能标识" + view.Id);
                     }
@@ -145,7 +145,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 UiViewState view;
                 IFunction function;
-                if (!Host.UiViewSet.TryGetUiView(viewId.Value, out view))
+                if (!AcDomain.UiViewSet.TryGetUiView(viewId.Value, out view))
                 {
                     view = UiViewState.Empty;
                     function = new Function();
@@ -153,7 +153,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 else
                 {
                     FunctionState functionState;
-                    if (!Host.FunctionSet.TryGetFunction(view.Id, out functionState))
+                    if (!AcDomain.FunctionSet.TryGetFunction(view.Id, out functionState))
                     {
                         throw new ValidationException("意外的功能标识" + view.Id);
                     }
@@ -182,7 +182,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 throw new ValidationException("标识为" + uiViewId + "的页面不存在");
             }
-            Host.Handle(new UpdateUiViewCommand(new UiViewUpdateInput
+            AcDomain.Handle(new UpdateUiViewCommand(new UiViewUpdateInput
             {
                 Icon = entity.Icon,
                 Id = entity.Id,
@@ -200,7 +200,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            var data = Host.GetPlistUiViews(requestData);
+            var data = AcDomain.GetPlistUiViews(requestData);
 
             Debug.Assert(requestData.Total != null, "requestData.total != null");
             return this.JsonResult(new MiniGrid<UiViewTr> { total = requestData.Total.Value, data = data });
@@ -217,7 +217,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            Host.Handle(new AddUiViewCommand(input));
+            AcDomain.Handle(new AddUiViewCommand(input));
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -233,7 +233,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            Host.Handle(new UpdateUiViewCommand(input));
+            AcDomain.Handle(new UpdateUiViewCommand(input));
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -260,7 +260,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                     if (functionId.HasValue)
                     {
                         FunctionState function;
-                        if (!Host.FunctionSet.TryGetFunction(functionId.Value, out function))
+                        if (!AcDomain.FunctionSet.TryGetFunction(functionId.Value, out function))
                         {
                             throw new ValidationException("意外的托管功能标识" + functionId.Value);
                         }
@@ -276,7 +276,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
 
                     if (bool.Parse(row["IsAssigned"].ToString()))
                     {
-                        if (Host.RetrieveRequiredService<IRepository<UiViewButton>>().AsQueryable().Any(a => a.Id == inputModel.Id))
+                        if (AcDomain.RetrieveRequiredService<IRepository<UiViewButton>>().AsQueryable().Any(a => a.Id == inputModel.Id))
                         {
                             var updateModel = new UiViewButtonUpdateInput()
                             {
@@ -284,7 +284,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                                 IsEnabled = inputModel.IsEnabled,
                                 FunctionId = inputModel.FunctionId
                             };
-                            Host.Handle(new UpdateUiViewButtonCommand(updateModel));
+                            AcDomain.Handle(new UpdateUiViewButtonCommand(updateModel));
                         }
                         else
                         {
@@ -296,18 +296,18 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                                 FunctionId = inputModel.FunctionId,
                                 UiViewId = inputModel.UiViewId
                             };
-                            Host.Handle(new AddUiViewButtonCommand(input));
+                            AcDomain.Handle(new AddUiViewButtonCommand(input));
                         }
                     }
                     else
                     {
-                        Host.Handle(new RemoveUiViewButtonCommand(inputModel.Id));
+                        AcDomain.Handle(new RemoveUiViewButtonCommand(inputModel.Id));
                     }
                     if (functionId.HasValue)
                     {
                         int functionIsEnabled = int.Parse(row["FunctionIsEnabled"].ToString());
                         FunctionState function;
-                        if (!Host.FunctionSet.TryGetFunction(functionId.Value, out function))
+                        if (!AcDomain.FunctionSet.TryGetFunction(functionId.Value, out function))
                         {
                             throw new AnycmdException("意外的功能标识" + functionId.Value);
                         }
@@ -322,7 +322,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                             Description = function.Description
                         };
                         input.IsEnabled = functionIsEnabled;
-                        Host.Handle(new UpdateFunctionCommand(input));
+                        AcDomain.Handle(new UpdateFunctionCommand(input));
                     }
                 }
             }
@@ -353,7 +353,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             }
             foreach (var item in idArray)
             {
-                Host.Handle(new RemoveUiViewCommand(item));
+                AcDomain.Handle(new RemoveUiViewCommand(item));
             }
 
             return this.JsonResult(new ResponseData { id = id, success = true });

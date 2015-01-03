@@ -21,9 +21,9 @@ namespace Anycmd.Engine.Edi
             host.Handle(new RemoveArchiveCommand(archiveId));
         }
 
-        public static void AddBatch(this IAcDomain host, IBatchCreateIo input)
+        public static void AddBatch(this IAcDomain host, IBatchCreateIo input, IUserSession userSession)
         {
-            host.Handle(new AddBatchCommand(input));
+            host.Handle(new AddBatchCommand(input, userSession));
         }
         public static void UpdateBatch(this IAcDomain host, IBatchUpdateIo input)
         {

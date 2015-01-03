@@ -140,14 +140,14 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 parentId = null;
             }
-            var nodes = Host.MenuSet.Where(a => a.ParentId == parentId).Select(a => MenuMiniNode.Create(Host, a)).ToList();
+            var nodes = AcDomain.MenuSet.Where(a => a.ParentId == parentId).Select(a => MenuMiniNode.Create(AcDomain, a)).ToList();
             if (string.IsNullOrEmpty(rootNodeName))
             {
                 rootNodeName = "全部";
             }
             if (!parentId.HasValue)
             {
-                var rootNode = new MenuMiniNode(Host)
+                var rootNode = new MenuMiniNode(AcDomain)
                 {
                     Id = Guid.Empty,
                     Name = rootNodeName,
@@ -175,12 +175,12 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
         public ActionResult GetNodesByRoleId(Guid roleId)
         {
             RoleState role;
-            if (!Host.RoleSet.TryGetRole(roleId, out role))
+            if (!AcDomain.RoleSet.TryGetRole(roleId, out role))
             {
                 throw new ValidationException("意外的角色标识" + roleId);
             }
-            var roleMenus = Host.PrivilegeSet.Where(a => a.SubjectType == AcSubjectType.Role && a.ObjectType == AcObjectType.Menu && a.SubjectInstanceId == roleId);
-            var menus = Host.MenuSet;
+            var roleMenus = AcDomain.PrivilegeSet.Where(a => a.SubjectType == AcSubjectType.Role && a.ObjectType == AcObjectType.Menu && a.SubjectInstanceId == roleId);
+            var menus = AcDomain.MenuSet;
             var data = (from m in menus
                         let @checked = roleMenus.Any(a => a.ObjectInstanceId == m.Id)
                         let isLeaf = menus.All(a => a.ParentId != m.Id)
@@ -225,7 +225,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             }
             int pageIndex = requestModel.PageIndex;
             int pageSize = requestModel.PageSize;
-            var queryable = Host.MenuSet.Where(a => a.ParentId == requestModel.ParentId).Select(MenuTr.Create).AsQueryable();
+            var queryable = AcDomain.MenuSet.Where(a => a.ParentId == requestModel.ParentId).Select(MenuTr.Create).AsQueryable();
             foreach (var filter in requestModel.Filters)
             {
                 queryable = queryable.Where(filter.ToPredicate(), filter.value);
@@ -249,7 +249,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 input.ParentId = null;
             }
-            Host.Handle(new AddMenuCommand(input));
+            AcDomain.Handle(new AddMenuCommand(input));
 
             return this.JsonResult(new ResponseData { success = true, id = input.Id });
         }
@@ -264,7 +264,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return this.ModelState.ToJsonResult();
             }
-            Host.Handle(new UpdateMenuCommand(input));
+            AcDomain.Handle(new UpdateMenuCommand(input));
 
             return this.JsonResult(new ResponseData { success = true, id = input.Id });
         }
@@ -293,13 +293,13 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                     {
                         if (!isAssigned)
                         {
-                            Host.Handle(new RemovePrivilegeBigramCommand(id));
+                            AcDomain.Handle(new RemovePrivilegeBigramCommand(id));
                         }
                         else
                         {
                             if (row.ContainsKey("PrivilegeConstraint"))
                             {
-                                Host.Handle(new UpdatePrivilegeBigramCommand(new PrivilegeBigramUpdateIo
+                                AcDomain.Handle(new UpdatePrivilegeBigramCommand(new PrivilegeBigramUpdateIo
                                 {
                                     Id = entity.Id,
                                     PrivilegeConstraint = row["PrivilegeConstraint"].ToString()
@@ -323,7 +323,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                         {
                             createInput.PrivilegeConstraint = row["PrivilegeConstraint"].ToString();
                         }
-                        Host.Handle(new AddPrivilegeBigramCommand(createInput));
+                        AcDomain.Handle(new AddPrivilegeBigramCommand(createInput));
                     }
                 }
             }
@@ -354,7 +354,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             }
             foreach (var item in idArray)
             {
-                Host.Handle(new RemoveMenuCommand(item));
+                AcDomain.Handle(new RemoveMenuCommand(item));
             }
 
             return this.JsonResult(new ResponseData { id = id, success = true });

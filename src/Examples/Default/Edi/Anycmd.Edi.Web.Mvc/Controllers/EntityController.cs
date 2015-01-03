@@ -68,7 +68,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 				throw new ValidationException("本体码不能为空");
 			}
 			OntologyDescriptor ontology;
-			if (!Host.NodeHost.Ontologies.TryGetOntology(ontologyCode, out ontology))
+			if (!AcDomain.NodeHost.Ontologies.TryGetOntology(ontologyCode, out ontology))
 			{
 				throw new ValidationException("非法的本体码" + ontologyCode);
 			}
@@ -131,7 +131,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 			if (!archiveId.HasValue)
 			{
 				OntologyDescriptor ontology;
-				if (!Host.NodeHost.Ontologies.TryGetOntology(ontologyCode, out ontology))
+				if (!AcDomain.NodeHost.Ontologies.TryGetOntology(ontologyCode, out ontology))
 				{
 					throw new ValidationException("非法的本体码");
 				}
@@ -155,7 +155,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 			else
 			{
 				ArchiveState archive;
-				if (!archiveId.HasValue || !Host.NodeHost.Ontologies.TryGetArchive(archiveId.Value, out archive))
+				if (!archiveId.HasValue || !AcDomain.NodeHost.Ontologies.TryGetArchive(archiveId.Value, out archive))
 				{
 					throw new ValidationException("意外的归档Id");
 				}
@@ -200,7 +200,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 			if (!archiveId.HasValue)
 			{
 				OntologyDescriptor ontology;
-				if (!Host.NodeHost.Ontologies.TryGetOntology(ontologyCode, out ontology))
+				if (!AcDomain.NodeHost.Ontologies.TryGetOntology(ontologyCode, out ontology))
 				{
 					throw new ValidationException("非法的本体码");
 				}
@@ -224,7 +224,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 			else
 			{
 				ArchiveState archive;
-				if (!archiveId.HasValue || !Host.NodeHost.Ontologies.TryGetArchive(archiveId.Value, out archive))
+				if (!archiveId.HasValue || !AcDomain.NodeHost.Ontologies.TryGetArchive(archiveId.Value, out archive))
 				{
 					throw new ValidationException("意外的归档Id");
 				}
@@ -267,7 +267,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 				return ModelState.ToJsonResult();
 			}
 			OntologyDescriptor ontology;
-			if (!Host.NodeHost.Ontologies.TryGetOntology(requestModel.OntologyCode, out ontology))
+			if (!AcDomain.NodeHost.Ontologies.TryGetOntology(requestModel.OntologyCode, out ontology))
 			{
 				throw new ValidationException("非法的本体码");
 			}
@@ -278,7 +278,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 					throw new ValidationException("没有选中组织结构");
 				}
 				OrganizationState org;
-				if (!Host.OrganizationSet.TryGetOrganization(requestModel.OrganizationCode, out org))
+				if (!AcDomain.OrganizationSet.TryGetOrganization(requestModel.OrganizationCode, out org))
 				{
 					throw new ValidationException("非法的组织结构码" + requestModel.OrganizationCode);
 				}
@@ -334,7 +334,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 		public ActionResult DownloadTemplate(string ontologyCode, string elements)
 		{
 			OntologyDescriptor ontology;
-			if (!Host.NodeHost.Ontologies.TryGetOntology(ontologyCode, out ontology))
+			if (!AcDomain.NodeHost.Ontologies.TryGetOntology(ontologyCode, out ontology))
 			{
 				throw new ValidationException("非法的本体码" + ontologyCode);
 			}
@@ -401,11 +401,11 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 		public ActionResult DownloadResult(string ontologyCode, string fileName)
 		{
 			OntologyDescriptor ontology;
-			if (!Host.NodeHost.Ontologies.TryGetOntology(ontologyCode, out ontology))
+			if (!AcDomain.NodeHost.Ontologies.TryGetOntology(ontologyCode, out ontology))
 			{
 				throw new ValidationException("非法的本体码" + ontologyCode);
 			}
-			string dirPath = Server.MapPath("~/Content/Import/Excel/" + ontology.Ontology.Code + "/" + Host.UserSession.Account.Id);
+			string dirPath = Server.MapPath("~/Content/Import/Excel/" + ontology.Ontology.Code + "/" + UserSession.Account.Id);
 			string fullName = Path.Combine(dirPath, fileName);
 			if (!System.IO.File.Exists(fullName))
 			{
@@ -650,7 +650,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 					IDrawing draw = sheet.CreateDrawingPatriarch();
 					IComment comment = draw.CreateCellComment(new HSSFClientAnchor(0, 0, 0, 0, 1, 2, 4, 8));//里面参数应该是指示批注的位置大小吧
 					comment.String = new HSSFRichTextString(element.Element.Description);//添加批注内容
-					comment.Author = Host.NodeHost.Nodes.ThisNode.Name;//添加批注作者
+					comment.Author = AcDomain.NodeHost.Nodes.ThisNode.Name;//添加批注作者
 					cell.CellComment = comment;//将之前设置的批注给定某个单元格
 				}
 				cell.CellStyle = helderStyle;
@@ -737,18 +737,18 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 				throw new ValidationException("未传入本体码");
 			}
 			OntologyDescriptor ontology;
-			if (!Host.NodeHost.Ontologies.TryGetOntology(ontologyCode, out ontology))
+			if (!AcDomain.NodeHost.Ontologies.TryGetOntology(ontologyCode, out ontology))
 			{
 				throw new ValidationException("非法的本体码" + ontologyCode);
 			}
 			var files = new FileInfo[0];
-			string dirPath = Server.MapPath("~/Content/Import/Excel/" + ontology.Ontology.Code + "/" + Host.UserSession.Account.Id);
+			string dirPath = Server.MapPath("~/Content/Import/Excel/" + ontology.Ontology.Code + "/" + UserSession.Account.Id);
 			if (Directory.Exists(dirPath))
 			{
 				var dirInfo = new DirectoryInfo(dirPath);
 				files = dirInfo.GetFiles();
 			}
-			string userName = Host.UserSession.Account.Name;
+			string userName = UserSession.Account.Name;
 
 			return this.JsonResult(new MiniGrid
 			{
@@ -782,11 +782,11 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 				throw new ValidationException("未传入本体码");
 			}
 			OntologyDescriptor ontology;
-			if (!Host.NodeHost.Ontologies.TryGetOntology(ontologyCode, out ontology))
+			if (!AcDomain.NodeHost.Ontologies.TryGetOntology(ontologyCode, out ontology))
 			{
 				throw new ValidationException("非法的本体码" + ontologyCode);
 			}
-			string dirPath = Server.MapPath("~/Content/Import/Excel/" + ontology.Ontology.Code + "/" + Host.UserSession.Account.Id);
+			string dirPath = Server.MapPath("~/Content/Import/Excel/" + ontology.Ontology.Code + "/" + UserSession.Account.Id);
 			string fullName = Path.Combine(dirPath, fileName);
 			if (System.IO.File.Exists(fullName))
 			{
@@ -837,11 +837,11 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 				throw new ValidationException("未传入本体码");
 			}
 			OntologyDescriptor ontology;
-			if (!Host.NodeHost.Ontologies.TryGetOntology(ontologyCode, out ontology))
+			if (!AcDomain.NodeHost.Ontologies.TryGetOntology(ontologyCode, out ontology))
 			{
 				throw new ValidationException("非法的本体码" + ontologyCode);
 			}
-			string dirPath = Server.MapPath("~/Content/Import/Excel/" + ontology.Ontology.Code + "/" + Host.UserSession.Account.Id);
+			string dirPath = Server.MapPath("~/Content/Import/Excel/" + ontology.Ontology.Code + "/" + UserSession.Account.Id);
 			string fullName = Path.Combine(dirPath, fileName);
 			if (!System.IO.File.Exists(fullName))
 			{
@@ -897,7 +897,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 				throw new ValidationException("未传入本体码");
 			}
 			OntologyDescriptor ontology;
-			if (!Host.NodeHost.Ontologies.TryGetOntology(ontologyCode, out ontology))
+			if (!AcDomain.NodeHost.Ontologies.TryGetOntology(ontologyCode, out ontology))
 			{
 				throw new ValidationException("非法的本体码" + ontologyCode);
 			}
@@ -929,7 +929,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 				}
 				if (isSave)
 				{
-					string dirPath = Server.MapPath("~/Content/Import/Excel/" + ontology.Ontology.Code + "/" + Host.UserSession.Account.Id);
+					string dirPath = Server.MapPath("~/Content/Import/Excel/" + ontology.Ontology.Code + "/" + UserSession.Account.Id);
 					DirectoryInfo dirInfo;
 					dirInfo = !Directory.Exists(dirPath) ? Directory.CreateDirectory(dirPath) : new DirectoryInfo(dirPath);
 					string fullName = Path.Combine(dirPath, fileName + Guid.NewGuid().ToString() + fileType);
@@ -1000,19 +1000,18 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 						rowIndex++;
 						#region 提取列索引 这些字段在Excel模板上对应前缀为“$”的列。
 						int actionCodeIndex = -1,
-							localEntityIDIndex = -1,
+							localEntityIdIndex = -1,
 							descriptionIndex = -1,
 							eventReasonPhraseIndex = -1,
 							eventSourceTypeIndex = -1,
 							eventStateCodeIndex = -1,
 							eventSubjectCodeIndex = -1,
-							infoIDKeysIndex = -1,
+							infoIdKeysIndex = -1,
 							infoValueKeysIndex = -1,
 							isDumbIndex = -1,
 							timeStampIndex = -1,
 							ontologyCodeIndex = -1,
 							reasonPhraseIndex = -1,
-							requestIDIndex = -1,
 							requestTypeIndex = -1,
 							serverTicksIndex = -1,
 							stateCodeIndex = -1,
@@ -1021,7 +1020,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 							implicitVerb = string.Empty,
 							implicitOntology = string.Empty,
 							implicitVersion = string.Empty,
-							implicitInfoIDKeys = string.Empty,
+							implicitInfoIdKeys = string.Empty,
 							implicitInfoValueKeys = string.Empty;
 						bool implicitIsDumb = false;
 						for (int i = 0; i < headRow1.Cells.Count; i++)
@@ -1038,7 +1037,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 								}
 								else if (value == CommandColHeader.LocalEntityId.ToLower())
 								{
-									localEntityIDIndex = i;
+									localEntityIdIndex = i;
 								}
 								else if (value == CommandColHeader.Description.ToLower())
 								{
@@ -1062,8 +1061,8 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 								}
 								else if (value == CommandColHeader.InfoIdKeys.ToLower())
 								{
-									infoIDKeysIndex = i;
-									implicitInfoIDKeys = implicitValue;
+									infoIdKeysIndex = i;
+									implicitInfoIdKeys = implicitValue;
 								}
 								else if (value == CommandColHeader.InfoValueKeys.ToLower())
 								{
@@ -1096,7 +1095,6 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 								}
 								else if (value == CommandColHeader.MessageId.ToLower())
 								{
-									requestIDIndex = i;
 								}
 								else if (value == CommandColHeader.MessageType.ToLower())
 								{
@@ -1131,10 +1129,10 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 							var row = sheet.GetRow(i);
 							if (row != null)
 							{
-								string infoIdKeys = row.GetCell(infoIDKeysIndex).SafeToStringTrim();
+								string infoIdKeys = row.GetCell(infoIdKeysIndex).SafeToStringTrim();
 								if (string.IsNullOrEmpty(infoIdKeys))
 								{
-									infoIdKeys = implicitInfoIDKeys;
+									infoIdKeys = implicitInfoIdKeys;
 								}
 								string infoValueKeys = row.GetCell(infoValueKeysIndex).SafeToStringTrim();
 								if (string.IsNullOrEmpty(infoValueKeys))
@@ -1254,9 +1252,9 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 								{
 									ClientType = ClientType.Node.ToName(),
 									CredentialType = CredentialType.Token.ToName(),
-									ClientId = Host.NodeHost.Nodes.ThisNode.Node.Id.ToString(),
+									ClientId = AcDomain.NodeHost.Nodes.ThisNode.Node.Id.ToString(),
 									Ticks = ticks,
-									UserName = Host.UserSession.Account.Id.ToString()
+									UserName = UserSession.Account.Id.ToString()
 								};
 								command.Credential = credential;
 								commands.Add(i, command);
@@ -1272,7 +1270,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 							{
 								// 检测合法性的进度，未展示进度条
 								decimal percent = (decimal)(((decimal)100 * command.Key) / commands.Count);
-								var result = AnyMessage.Create(HecpRequest.Create(Host, command.Value), Host.NodeHost.Nodes.ThisNode).Response();
+								var result = AnyMessage.Create(HecpRequest.Create(AcDomain, command.Value), AcDomain.NodeHost.Nodes.ThisNode).Response();
 								if (result.Body.Event.Status < 200)
 								{
 									throw new ValidationException(string.Format("{0} {1} {2}", result.Body.Event.Status, result.Body.Event.ReasonPhrase, result.Body.Event.Description));
@@ -1282,7 +1280,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 								var reasonPhraseCell = row.CreateCell(reasonPhraseIndex);
 								var descriptionCell = row.CreateCell(descriptionIndex);
 								var serverTicksCell = row.CreateCell(serverTicksIndex);
-								var localEntityIDCell = row.CreateCell(localEntityIDIndex);
+								var localEntityIDCell = row.CreateCell(localEntityIdIndex);
 								if (result.Body.Event.Status < 200 || result.Body.Event.Status >= 300)
 								{
 									failSum++;
@@ -1349,11 +1347,11 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 				throw new ValidationException("未传入本体码");
 			}
 			OntologyDescriptor ontology;
-			if (!Host.NodeHost.Ontologies.TryGetOntology(ontologyCode, out ontology))
+			if (!AcDomain.NodeHost.Ontologies.TryGetOntology(ontologyCode, out ontology))
 			{
 				throw new ValidationException("非法的本体码" + ontologyCode);
 			}
-			string dirPath = Server.MapPath("~/Content/Import/Excel/" + ontology.Ontology.Code + "/" + Host.UserSession.Account.Id);
+			string dirPath = Server.MapPath("~/Content/Import/Excel/" + ontology.Ontology.Code + "/" + UserSession.Account.Id);
 			string[] files = fileNames.Split('/');
 			foreach (var fileName in files)
 			{
@@ -1386,7 +1384,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 				return ModelState.ToJsonResult();
 			}
 			OntologyDescriptor ontology;
-			if (!Host.NodeHost.Ontologies.TryGetOntology(requestModel.OntologyCode, out ontology))
+			if (!AcDomain.NodeHost.Ontologies.TryGetOntology(requestModel.OntologyCode, out ontology))
 			{
 				throw new ValidationException("非法的本体码");
 			}
@@ -1395,7 +1393,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 				throw new ValidationException("没有选中组织结构");
 			}
 			OrganizationState org;
-			if (!Host.OrganizationSet.TryGetOrganization(requestModel.OrganizationCode, out org))
+			if (!AcDomain.OrganizationSet.TryGetOrganization(requestModel.OrganizationCode, out org))
 			{
 				throw new ValidationException("非法的组织结构码" + requestModel.OrganizationCode);
 			}
@@ -1501,7 +1499,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 					IDrawing draw = sheet1.CreateDrawingPatriarch();
 					IComment comment = draw.CreateCellComment(new HSSFClientAnchor(0, 0, 0, 0, 1, 2, 4, 8));//里面参数应该是指示批注的位置大小吧
 					comment.String = new HSSFRichTextString(element.Element.Description);//添加批注内容
-					comment.Author = Host.NodeHost.Nodes.ThisNode.Name;//添加批注作者
+					comment.Author = AcDomain.NodeHost.Nodes.ThisNode.Name;//添加批注作者
 					cell.CellComment = comment;//将之前设置的批注给定某个单元格
 				}
 				cell.CellStyle = helderStyle;
@@ -1573,9 +1571,9 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 				cell.CellStyle = helderStyle;
 				i++;
 			}
-			if (Host.UserSession.IsDeveloper())
+			if (UserSession.IsDeveloper())
 			{
-				foreach (var item in Host.OrganizationSet)
+				foreach (var item in AcDomain.OrganizationSet)
 				{
 					var parentOrg = item.Parent;
 					var row = orgSheet.CreateRow(rowIndex);
@@ -1592,7 +1590,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 							IDrawing draw = orgSheet.CreateDrawingPatriarch();
 							IComment comment = draw.CreateCellComment(new HSSFClientAnchor(0, 0, 0, 0, 1, 2, 4, 8));//里面参数应该是指示批注的位置大小吧
 							comment.String = new HSSFRichTextString("警告：该组织结构的上级组织结构不存在。");//添加批注内容
-							comment.Author = Host.NodeHost.Nodes.ThisNode.Name;//添加批注作者
+							comment.Author = AcDomain.NodeHost.Nodes.ThisNode.Name;//添加批注作者
 							codeCell.CellComment = comment;//将之前设置的批注给定某个单元格
 						}
 						else if (parentOrg != OrganizationState.VirtualRoot && !item.Code.StartsWith(parentOrg.Code))
@@ -1602,7 +1600,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 							IDrawing draw = orgSheet.CreateDrawingPatriarch();
 							IComment comment = draw.CreateCellComment(new HSSFClientAnchor(0, 0, 0, 0, 1, 2, 4, 8));//里面参数应该是指示批注的位置大小吧
 							comment.String = new HSSFRichTextString("警告：该组织结构的编码没有以上级组织结构编码为前缀，这是错误的，后续是要改正的。");//添加批注内容
-							comment.Author = Host.NodeHost.Nodes.ThisNode.Name;//添加批注作者
+							comment.Author = AcDomain.NodeHost.Nodes.ThisNode.Name;//添加批注作者
 							codeCell.CellComment = comment;//将之前设置的批注给定某个单元格
 						}
 					}
@@ -1625,9 +1623,9 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 			}
 			else
 			{
-				foreach (var myOrg in Host.UserSession.AccountPrivilege.Organizations)
+				foreach (var myOrg in UserSession.AccountPrivilege.Organizations)
 				{
-					foreach (var item in Host.OrganizationSet)
+					foreach (var item in AcDomain.OrganizationSet)
 					{
 						if (item.Code.StartsWith(myOrg.Code, StringComparison.OrdinalIgnoreCase))
 						{
@@ -1646,7 +1644,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 									IDrawing draw = orgSheet.CreateDrawingPatriarch();
 									IComment comment = draw.CreateCellComment(new HSSFClientAnchor(0, 0, 0, 0, 1, 2, 4, 8));//里面参数应该是指示批注的位置大小吧
 									comment.String = new HSSFRichTextString("警告：该组织结构的上级组织结构不存在。");//添加批注内容
-									comment.Author = Host.NodeHost.Nodes.ThisNode.Name;//添加批注作者
+									comment.Author = AcDomain.NodeHost.Nodes.ThisNode.Name;//添加批注作者
 									codeCell.CellComment = comment;//将之前设置的批注给定某个单元格
 								}
 								else if (parentOrg != OrganizationState.VirtualRoot && !item.Code.StartsWith(parentOrg.Code, StringComparison.OrdinalIgnoreCase))
@@ -1656,7 +1654,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 									IDrawing draw = orgSheet.CreateDrawingPatriarch();
 									IComment comment = draw.CreateCellComment(new HSSFClientAnchor(0, 0, 0, 0, 1, 2, 4, 8));//里面参数应该是指示批注的位置大小吧
 									comment.String = new HSSFRichTextString("警告：该组织结构的编码没有以上级组织结构编码为前缀，这是错误的，后续是要改正的。");//添加批注内容
-									comment.Author = Host.NodeHost.Nodes.ThisNode.Name;//添加批注作者
+									comment.Author = AcDomain.NodeHost.Nodes.ThisNode.Name;//添加批注作者
 									codeCell.CellComment = comment;//将之前设置的批注给定某个单元格
 								}
 							}
@@ -1696,9 +1694,9 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 				cell.CellStyle = helderStyle;
 				i++;
 			}
-			foreach (var infoDic in Host.NodeHost.InfoDics)
+			foreach (var infoDic in AcDomain.NodeHost.InfoDics)
 			{
-				foreach (var infoDicItem in Host.NodeHost.InfoDics.GetInfoDicItems(infoDic))
+				foreach (var infoDicItem in AcDomain.NodeHost.InfoDics.GetInfoDicItems(infoDic))
 				{
 					var row = infoDicSheet.CreateRow(rowIndex);
 					row.CreateCell(0, CellType.String).SetCellValue(infoDic.Name);
@@ -1742,7 +1740,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 		public ActionResult AddOrUpdate(string ontologyCode)
 		{
 			OntologyDescriptor ontology;
-			if (!Host.NodeHost.Ontologies.TryGetOntology(ontologyCode, out ontology))
+			if (!AcDomain.NodeHost.Ontologies.TryGetOntology(ontologyCode, out ontology))
 			{
 				throw new ValidationException("非法的本体码");
 			}
@@ -1844,7 +1842,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 		{
 			var response = new ResponseData { success = true, id = id };
 			OntologyDescriptor ontology;
-			if (!Host.NodeHost.Ontologies.TryGetOntology(ontologyCode, out ontology))
+			if (!AcDomain.NodeHost.Ontologies.TryGetOntology(ontologyCode, out ontology))
 			{
 				throw new ValidationException("非法的本体码");
 			}
@@ -1875,17 +1873,17 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 		#endregion
 
 		#region GetInfoValues
-		private static IDataTuples GetInfoValues(
+		private IDataTuples GetInfoValues(
 			GetPlistEntity requestModel, OrderedElementSet selectElements)
 		{
 			OntologyDescriptor ontology;
-			if (!Host.NodeHost.Ontologies.TryGetOntology(requestModel.OntologyCode, out ontology))
+			if (!AcDomain.NodeHost.Ontologies.TryGetOntology(requestModel.OntologyCode, out ontology))
 			{
 				throw new ValidationException("非法的本体码");
 			}
 			requestModel.Includedescendants = requestModel.Includedescendants ?? false;
 			IDataTuples infoValues = null;
-			if (string.IsNullOrEmpty(requestModel.OrganizationCode) && !Host.UserSession.IsDeveloper())
+			if (string.IsNullOrEmpty(requestModel.OrganizationCode) && !UserSession.IsDeveloper())
 			{
 				throw new ValidationException("对不起，您没有查看全部数据的权限");
 			}
@@ -1914,10 +1912,10 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 		#endregion
 
 		#region GetArchivedInfoValues
-		private static IDataTuples GetArchivedInfoValues(GetPlistEntity requestModel)
+		private IDataTuples GetArchivedInfoValues(GetPlistEntity requestModel)
 		{
 			ArchiveState archive;
-			if (!requestModel.ArchiveId.HasValue || !Host.NodeHost.Ontologies.TryGetArchive(requestModel.ArchiveId.Value, out archive))
+			if (!requestModel.ArchiveId.HasValue || !AcDomain.NodeHost.Ontologies.TryGetArchive(requestModel.ArchiveId.Value, out archive))
 			{
 				throw new ValidationException("意外的归档Id");
 			}
@@ -1932,7 +1930,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 					selectElements.Add(element);
 				}
 			}
-			if (string.IsNullOrEmpty(requestModel.OrganizationCode) && !Host.UserSession.IsDeveloper())
+			if (string.IsNullOrEmpty(requestModel.OrganizationCode) && !UserSession.IsDeveloper())
 			{
 				throw new ValidationException("对不起，您没有查看全部数据的权限");
 			}
@@ -2009,11 +2007,11 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 		private IMessageDto DeleteEntity(OntologyDescriptor ontology, Guid id)
 		{
 			var actionCode = "delete";
-			var infoFormat = Host.Config.InfoFormat;
-			var infoIDDic = new List<InfoItem> {
+			var infoFormat = AcDomain.Config.InfoFormat;
+			var infoIdDic = new List<InfoItem> {
 				InfoItem.Create(ontology.IdElement, id.ToString())
 			};
-			var node = Host.NodeHost.Nodes.ThisNode;
+			var node = AcDomain.NodeHost.Nodes.ThisNode;
 			var ticks = DateTime.UtcNow.Ticks;
 			var cmd = new Message()
 			{
@@ -2026,7 +2024,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 					UserType = UserType.None.ToName(),
 					CredentialType = CredentialType.Token.ToName(),
 					ClientId = node.Node.Id.ToString(),
-					UserName = Host.UserSession.Account.Id.ToString(),// UserName
+					UserName = UserSession.Account.Id.ToString(),// UserName
 					Password = TokenObject.Token(node.Node.Id.ToString(), ticks, node.Node.SecretKey),
 					Ticks = ticks
 				},
@@ -2044,7 +2042,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 				}
 			};
 
-			return AnyMessage.Create(HecpRequest.Create(Host, cmd), Host.NodeHost.Nodes.ThisNode).Response();
+			return AnyMessage.Create(HecpRequest.Create(AcDomain, cmd), AcDomain.NodeHost.Nodes.ThisNode).Response();
 		}
 		#endregion
 
@@ -2080,11 +2078,11 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 			}
 
 			IInfoStringConverter converter;
-			if (!Host.NodeHost.InfoStringConverters.TryGetInfoStringConverter(Host.Config.InfoFormat, out converter))
+			if (!AcDomain.NodeHost.InfoStringConverters.TryGetInfoStringConverter(AcDomain.Config.InfoFormat, out converter))
 			{
 				throw new ValidationException("意外的信息字符串转化器，json信息格式转化器不存在或已被禁用");
 			}
-			var node = Host.NodeHost.Nodes.ThisNode;
+			var node = AcDomain.NodeHost.Nodes.ThisNode;
 			var ticks = DateTime.UtcNow.Ticks;
 			var cmd = new Message()
 			{
@@ -2097,7 +2095,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 					UserType = UserType.None.ToName(),
 					CredentialType = CredentialType.Token.ToName(),
 					ClientId = node.Node.Id.ToString(),
-					UserName = Host.UserSession.Account.Id.ToString(),// UserName
+					UserName = UserSession.Account.Id.ToString(),// UserName
 					Password = TokenObject.Token(node.Node.Id.ToString(), ticks, node.Node.SecretKey),
 					Ticks = ticks
 				},
@@ -2114,7 +2112,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 					}
 				}
 			};
-			var result = AnyMessage.Create(HecpRequest.Create(Host, cmd), Host.NodeHost.Nodes.ThisNode).Response();
+			var result = AnyMessage.Create(HecpRequest.Create(AcDomain, cmd), AcDomain.NodeHost.Nodes.ThisNode).Response();
 			id = result.Body.InfoValue.Where(a => a.Key.Equals("Id", StringComparison.OrdinalIgnoreCase)).Single().Value;
 
 			return result;

@@ -40,7 +40,7 @@ namespace Anycmd.Mis.Web.Mvc.Controllers
         [Guid("C331D9EC-9AAF-4A21-82E0-4A754854FED9")]
         public ActionResult LogOn()
         {
-            if (Host.UserSession.Principal.Identity.IsAuthenticated)
+            if (UserSession.Identity.IsAuthenticated)
             {
                 return this.RedirectToAction("Index");
             }

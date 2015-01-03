@@ -28,17 +28,17 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             if (!id.HasValue)
             {
                 AppSystemState appSystem;
-                if (!Host.AppSystemSet.TryGetAppSystem(appSystemCode, out appSystem))
+                if (!AcDomain.AppSystemSet.TryGetAppSystem(appSystemCode, out appSystem))
                 {
                     throw new ValidationException("意外的应用系统码" + appSystemCode);
                 }
                 ResourceTypeState resource;
-                if (!Host.ResourceTypeSet.TryGetResource(Host.AppSystemSet.SelfAppSystem, resourceCode, out resource))
+                if (!AcDomain.ResourceTypeSet.TryGetResource(AcDomain.AppSystemSet.SelfAppSystem, resourceCode, out resource))
                 {
                     throw new ValidationException("意外的资源码" + resourceCode);
                 }
                 FunctionState function;
-                if (!Host.FunctionSet.TryGetFunction(resource, functionCode, out function))
+                if (!AcDomain.FunctionSet.TryGetFunction(resource, functionCode, out function))
                 {
                     throw new ValidationException(string.Format("非法的操作:{0}.{1}.{2}", appSystemCode, resourceCode, functionCode));
                 }
@@ -82,17 +82,17 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             if (!id.HasValue)
             {
                 AppSystemState appSystem;
-                if (!Host.AppSystemSet.TryGetAppSystem(appSystemCode, out appSystem))
+                if (!AcDomain.AppSystemSet.TryGetAppSystem(appSystemCode, out appSystem))
                 {
                     throw new ValidationException("意外的应用系统码" + appSystemCode);
                 }
                 ResourceTypeState resource;
-                if (!Host.ResourceTypeSet.TryGetResource(Host.AppSystemSet.SelfAppSystem, resourceCode, out resource))
+                if (!AcDomain.ResourceTypeSet.TryGetResource(AcDomain.AppSystemSet.SelfAppSystem, resourceCode, out resource))
                 {
                     throw new ValidationException("意外的资源码" + resourceCode);
                 }
                 FunctionState function;
-                if (!Host.FunctionSet.TryGetFunction(resource, functionCode, out function))
+                if (!AcDomain.FunctionSet.TryGetFunction(resource, functionCode, out function))
                 {
                     throw new ValidationException(string.Format("非法的操作:{0}.{1}.{2}", appSystemCode, resourceCode, functionCode));
                 }
@@ -120,23 +120,23 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             if (!id.HasValue || id == Guid.Empty)
             {
                 AppSystemState appSystem;
-                if (!Host.AppSystemSet.TryGetAppSystem(appSystemCode, out appSystem))
+                if (!AcDomain.AppSystemSet.TryGetAppSystem(appSystemCode, out appSystem))
                 {
                     throw new ValidationException("意外的应用系统码" + appSystemCode);
                 }
                 ResourceTypeState resource;
-                if (!Host.ResourceTypeSet.TryGetResource(Host.AppSystemSet.SelfAppSystem, resourceCode, out resource))
+                if (!AcDomain.ResourceTypeSet.TryGetResource(AcDomain.AppSystemSet.SelfAppSystem, resourceCode, out resource))
                 {
                     throw new ValidationException("意外的资源码" + resourceCode);
                 }
                 FunctionState function;
-                if (!Host.FunctionSet.TryGetFunction(resource, functionCode, out function))
+                if (!AcDomain.FunctionSet.TryGetFunction(resource, functionCode, out function))
                 {
                     throw new ValidationException(string.Format("非法的操作:{0}.{1}.{2}", appSystemCode, resourceCode, functionCode));
                 }
                 id = function.Id;
             }
-            Host.Handle(new SaveHelpCommand(id.Value, content, isEnabled));
+            AcDomain.Handle(new SaveHelpCommand(id.Value, content, isEnabled));
 
             return new FormatJsonResult { Data = new ResponseData { success = true } };
         }

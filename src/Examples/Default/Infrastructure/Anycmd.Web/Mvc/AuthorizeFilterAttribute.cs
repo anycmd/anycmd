@@ -1,12 +1,14 @@
 ﻿
-using Anycmd.Util;
-
 namespace Anycmd.Web.Mvc
 {
     using Engine.Ac;
+    using Engine.Host;
+    using Engine.Host.Ac;
     using Exceptions;
+    using Repositories;
     using System;
     using System.Web.Mvc;
+    using Util;
     using ViewModel;
 
     /// <summary>
@@ -40,7 +42,11 @@ namespace Anycmd.Web.Mvc
                 }
                 resourceCode = resourceAttr.ResourceCode;
             }
-            var host = filterContext.HttpContext.Application["AcDomainInstance"] as IAcDomain;
+            var host = (filterContext.HttpContext.Application["AcDomainInstance"] as IAcDomain);
+            if (host == null)
+            {
+                throw new AnycmdException("");
+            }
             ResourceTypeState resource;
             if (!host.ResourceTypeSet.TryGetResource(host.AppSystemSet.SelfAppSystem, resourceCode, out resource))
             {
@@ -72,7 +78,9 @@ namespace Anycmd.Web.Mvc
             }
 
             #region 登录验证
-            if (!host.UserSession.Principal.Identity.IsAuthenticated)
+            var storage = host.GetRequiredService<IUserSessionStorage>();
+            var user = filterContext.HttpContext.User;
+            if (!user.Identity.IsAuthenticated)
             {
                 if (isAjaxRequest)
                 {
@@ -112,21 +120,61 @@ namespace Anycmd.Web.Mvc
             {
                 return;
             }
-            if (!host.UserSession.Permit(function, null))
+            var userSession = storage.GetData(host.Config.CurrentUserSessionCacheKey) as IUserSession;
+            if (userSession == null)
             {
-                if (isAjaxRequest)
+                var account = UserSessionState.GetAccountByLoginName(host, user.Identity.Name);
+                if (account == null)
                 {
-                    filterContext.Result = new FormatJsonResult
+                    if (!user.Identity.IsAuthenticated)
                     {
-                        Data = new ResponseData { success = false, msg = NoPermissionJsonResult }.Warning()
-                    };
+                        if (isAjaxRequest)
+                        {
+                            filterContext.Result = new FormatJsonResult
+                            {
+                                Data = new ResponseData { success = false, msg = NotLogon }.Info()
+                            };
+                        }
+                        else
+                        {
+                            filterContext.Result = new ViewResult
+                            {
+                                ViewName = "LogOn"
+                            };
+                        }
+                        return;
+                    }
+                    return;
+                }
+                var userSessionRepository = host.GetRequiredService<IRepository<UserSession>>();
+                var sessionEntity = userSessionRepository.GetByKey(account.Id);
+                if (sessionEntity != null)
+                {
+                    userSession = new UserSessionState(host, sessionEntity);
                 }
                 else
                 {
-                    filterContext.Result = new ContentResult { Content = NoPermissionViewResult };
+                    // 使用账户标识作为会话标识会导致一个账户只有一个会话
+                    // TODO:支持账户和会话的一对多，为会话级的动态责任分离做准备
+                    var userSessionService = host.GetRequiredService<IUserSessionService>();
+                    userSession = userSessionService.CreateSession(host, account.Id, AccountState.Create(account));
                 }
-                return;
+                storage.SetData(host.Config.CurrentUserSessionCacheKey, userSession);
             }
+            if (userSession.Permit(function, null)) return;
+            if (isAjaxRequest)
+            {
+                filterContext.Result = new FormatJsonResult
+                {
+                    Data = new ResponseData { success = false, msg = NoPermissionJsonResult }.Warning()
+                };
+            }
+            else
+            {
+                filterContext.Result = new ContentResult { Content = NoPermissionViewResult };
+            }
+            return;
+
             #endregion
         }
     }

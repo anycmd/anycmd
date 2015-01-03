@@ -2,7 +2,6 @@
 namespace Anycmd.Engine.Host.Impl
 {
     using Engine.Ac;
-    using Model;
     using System;
 
     public class DefaultSecurityService : ISecurityService
@@ -18,7 +17,7 @@ namespace Anycmd.Engine.Host.Impl
             {
                 return true;
             }
-            if (!user.Principal.Identity.IsAuthenticated)
+            if (!user.Identity.IsAuthenticated)
             {
                 return false;
             }

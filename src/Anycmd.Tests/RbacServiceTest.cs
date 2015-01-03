@@ -1,5 +1,7 @@
 ﻿
 
+using System.Collections.Generic;
+
 namespace Anycmd.Tests
 {
     using Ac.ViewModels.GroupViewModels;
@@ -715,7 +717,7 @@ namespace Anycmd.Tests
             Assert.NotNull(sessionEntity);
             Assert.Equal(1, userSession.AccountPrivilege.Functions.Count);
             Assert.Equal(2, userSession.AccountPrivilege.AuthorizedFunctions.Count);
-            Assert.Equal(2, rbacService.UserPermissions(accountId).Count);
+            Assert.Equal(2, rbacService.UserPermissions(userSession).Count);
         }
         #endregion
 
@@ -944,7 +946,13 @@ namespace Anycmd.Tests
 
             var roles = rbacService.AssignedRoles(accountId);
             Assert.Equal(1, roles.Count);
-            roles = rbacService.AuthorizedRoles(accountId);
+            UserSessionState.SignIn(host, new Dictionary<string, object>
+            {
+                {"loginName", "test"},
+                {"password", "111111"},
+                {"rememberMe", "rememberMe"}
+            });
+            roles = rbacService.AuthorizedRoles(host.GetUserSession());
             Assert.Equal(3, roles.Count);// 用户的全部角色来自直接角色、组织结构角色、工作组角色三者的并集所以是三个角色。
         }
         #endregion

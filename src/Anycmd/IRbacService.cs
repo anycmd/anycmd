@@ -121,27 +121,27 @@ namespace Anycmd
         /// 6 在给该会话增加新的激活角色后，所有的Dsd约束都被满足。
         /// </summary>
         /// <param name="roleId"></param>
-        /// <param name="sessionId"></param>
-        void AddActiveRole(Guid roleId, Guid sessionId);
+        /// <param name="userSession"></param>
+        void AddActiveRole(Guid roleId, IUserSession userSession);
 
         /// <summary>
         /// 【核心Rbac支持系统函数】该函数从给定用户会话中删除一个激活角色。该函数可用当且仅当该用户是Account数据集（表）的成员（记录），
         /// 会话标识是UserSession数据集（表）的成员（记录），该用户是该会话的拥有者并且该角色是该会话的一个激活角色。
         /// </summary>
-        /// <param name="sessionId"></param>
+        /// <param name="userSession"></param>
         /// <param name="roleId"></param>
-        void DropActiveRole(Guid sessionId, Guid roleId);
+        void DropActiveRole(IUserSession userSession, Guid roleId);
 
         /// <summary>
         /// 【核心Rbac支持系统函数】该函数决定一个给定的会话的主体是否允许对给定的对象执行某个给定的操作并返回一个布尔值。该函数可用当且仅当
         /// 会话标识符是UserSession数据集（表）的成员（记录），该对象是它对应类型的对象的数据集的成员，该操作是FunctionSet
         /// 数据集的成员。会话的主体可以对该对象执行该操作当且仅当会话的某个激活角色拥有对应的权限。
         /// </summary>
-        /// <param name="sessionId"></param>
+        /// <param name="userSession"></param>
         /// <param name="functionId"></param>
         /// <param name="obj"></param>
         /// <returns></returns>
-        bool CheckAccess(Guid sessionId, Guid functionId, IManagedObject obj);
+        bool CheckAccess(IUserSession userSession, Guid functionId, IManagedObject obj);
 
         /// <summary>
         /// 【核心Rbac查看函数】该函数返回被分配给了某个指定角色的用户。该函数可用当且仅当该角色是RoleSet数据集的成员。
@@ -160,17 +160,15 @@ namespace Anycmd
         /// <summary>
         /// 【核心Rbac高级查看函数】该函数返回给定会话的激活角色。该函数可用当且仅当该会话标识符是UserSession数据集（表）的成员（记录）。
         /// </summary>
-        /// <param name="sessionId"></param>
         /// <returns></returns>
-        IReadOnlyCollection<RoleState> SessionRoles(Guid sessionId);
+        IReadOnlyCollection<RoleState> SessionRoles(IUserSession userSession);
 
         /// <summary>
         /// 【核心Rbac高级查看函数】该函数返回给定会话的权限，即该会话的激活角色拥有的权限。该函数可用当且仅当会话标识符是
         /// UserSession数据集（表）的成员（记录）。
         /// </summary>
-        /// <param name="sessionId"></param>
         /// <returns></returns>
-        IReadOnlyCollection<FunctionState> SessionPermissions(Guid sessionId);
+        IReadOnlyCollection<FunctionState> SessionPermissions(IUserSession userSession);
 
         /// <summary>
         /// 【核心Rbac高级查看函数】该函数返回分配给一个给定角色的权限。该函数可用当且仅当该角色是RoleSet数据集的成员。
@@ -182,9 +180,8 @@ namespace Anycmd
         /// <summary>
         /// 【核心Rbac高级查看函数】该函数返回一个给定用户的权限。该函数可用当且仅当该用户是Account数据集（表）的成员（记录）。
         /// </summary>
-        /// <param name="accountId"></param>
         /// <returns></returns>
-        IReadOnlyCollection<FunctionState> UserPermissions(Guid accountId);
+        IReadOnlyCollection<FunctionState> UserPermissions(IUserSession userSession);
 
         /// <summary>
         /// 【核心Rbac高级查看函数】该函数返回一个给定角色被允许的对给定对象执行的操作。该函数可用当且仅当该角色是RoleSet数据集的成员，
@@ -199,10 +196,10 @@ namespace Anycmd
         /// 【核心Rbac高级查看函数】该函数返回给定用户被允许的针对给定角色执行的操作。该函数可用当且仅当该用户是Account数据集（表）
         /// 的成员（记录），该对象是obj对应类型数据集的成员。
         /// </summary>
-        /// <param name="accountId"></param>
+        /// <param name="userSession"></param>
         /// <param name="obj"></param>
         /// <returns></returns>
-        IReadOnlyCollection<FunctionState> UserOperationsOnObject(Guid accountId, IManagedObject obj);
+        IReadOnlyCollection<FunctionState> UserOperationsOnObject(IUserSession userSession, IManagedObject obj);
 
         /// <summary>
         /// 【通用角色层次、静态职责分离管理函数】该命令在两个已经存在的角色r_asc/客体和r_desc/主体之间建立直接继承关系。r_asc>>r_desc。该命令可用
@@ -251,9 +248,8 @@ namespace Anycmd
         /// <summary>
         /// 【通用角色层次查看函数】该函数返回给定用户的授权角色。该函数可用当且仅当该用户是Account数据集（表）的成员（记录）。
         /// </summary>
-        /// <param name="accountId"></param>
         /// <returns></returns>
-        IReadOnlyCollection<RoleState> AuthorizedRoles(Guid accountId);
+        IReadOnlyCollection<RoleState> AuthorizedRoles(IUserSession userSession);
 
         /// <summary>
         /// 【通用角色层次、Ssd关系管理函数】该命令创建一个命名的Ssd角色集合，并设定相应的阀值。该命令可用当且仅当：

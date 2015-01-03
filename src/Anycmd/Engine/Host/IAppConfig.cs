@@ -9,6 +9,7 @@ namespace Anycmd.Engine.Host
     /// </summary>
     public interface IAppConfig
     {
+        string CurrentUserSessionCacheKey { get; }
         bool EnableClientCache { get; }
         bool EnableOperationLog { get; }
         string SelfAppSystemCode { get; }

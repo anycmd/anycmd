@@ -95,7 +95,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            var data = Host.GetPlistAppSystems(requestModel);
+            var data = AcDomain.GetPlistAppSystems(requestModel);
 
             Debug.Assert(requestModel.Total != null, "requestModel.total != null");
             return this.JsonResult(new MiniGrid<AppSystemTr> { total = requestModel.Total.Value, data = data });
@@ -112,7 +112,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            Host.AddAppSystem(requestModel);
+            AcDomain.AddAppSystem(requestModel);
 
             return this.JsonResult(new ResponseData { id = requestModel.Id, success = true });
         }
@@ -128,7 +128,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            Host.UpdateAppSystem(requestModel);
+            AcDomain.UpdateAppSystem(requestModel);
 
             return this.JsonResult(new ResponseData { id = requestModel.Id, success = true });
         }
@@ -140,7 +140,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
         [Guid("B14960FD-319D-4B92-AE3D-A10455A10C3A")]
         public ActionResult Delete(string id)
         {
-            return this.HandleSeparateGuidString(Host.RemoveAppSystem, id, ',');
+            return this.HandleSeparateGuidString(AcDomain.RemoveAppSystem, id, ',');
         }
     }
 }

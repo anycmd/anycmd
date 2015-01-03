@@ -9,7 +9,6 @@ namespace Anycmd.Engine.Host.Impl
     using Engine.Ac.Messages;
     using Engine.Ac.Messages.Identity;
     using Exceptions;
-    using Model;
     using Repositories;
     using System;
     using System.Collections.Generic;
@@ -118,95 +117,53 @@ namespace Anycmd.Engine.Host.Impl
             sessionService.DeleteSession(_host, sessionId);
         }
 
-        public IReadOnlyCollection<RoleState> SessionRoles(Guid sessionId)
+        public IReadOnlyCollection<RoleState> SessionRoles(IUserSession userSession)
         {
             var result = new List<RoleState>();
-            if (sessionId == _host.UserSession.Id)
-            {
-                result.AddRange(_host.UserSession.AccountPrivilege.AuthorizedRoles);
-            }
-            else
-            {
-                var sessionRepository = _host.RetrieveRequiredService<IRepository<UserSession>>();
-                var entity = sessionRepository.GetByKey(sessionId);
-                var session = new UserSessionState(_host, entity);
-
-                return session.AccountPrivilege.AuthorizedRoles;
-            }
+            result.AddRange(userSession.AccountPrivilege.AuthorizedRoles);
 
             return result;
         }
 
-        public IReadOnlyCollection<FunctionState> SessionPermissions(Guid sessionId)
+        public IReadOnlyCollection<FunctionState> SessionPermissions(IUserSession userSession)
         {
             var result = new List<FunctionState>();
-            if (sessionId == _host.UserSession.Id)
-            {
-                result.AddRange(_host.UserSession.AccountPrivilege.AuthorizedFunctions);
-            }
-            else
-            {
-                var sessionRepository = _host.RetrieveRequiredService<IRepository<UserSession>>();
-                var entity = sessionRepository.GetByKey(sessionId);
-                var session = new UserSessionState(_host, entity);
-
-                return session.AccountPrivilege.AuthorizedFunctions;
-            }
+            result.AddRange(userSession.AccountPrivilege.AuthorizedFunctions);
 
             return result;
         }
 
-        public void AddActiveRole(Guid roleId, Guid sessionId)
+        public void AddActiveRole(Guid roleId, IUserSession userSession)
         {
             RoleState role;
             if (!_host.RoleSet.TryGetRole(roleId, out role))
             {
                 throw new ValidationException("给定标识的角色不存在" + roleId);
             }
-            IUserSession session;
-            if (sessionId == _host.UserSession.Id)
-            {
-                session = _host.UserSession;
-            }
-            else
-            {
-                var sessionRepository = _host.RetrieveRequiredService<IRepository<UserSession>>();
-                var entity = sessionRepository.GetByKey(sessionId);
-                session = new UserSessionState(_host, entity);
-            }
+            IUserSession session = userSession;
             if (session == null)
             {
-                throw new ValidationException("给定标识的会话不存在" + sessionId);
+                throw new ValidationException("给定标识的会话不存在");
             }
             session.AccountPrivilege.AddActiveRole(role);
         }
 
-        public void DropActiveRole(Guid sessionId, Guid roleId)
+        public void DropActiveRole(IUserSession userSession, Guid roleId)
         {
             RoleState role;
             if (!_host.RoleSet.TryGetRole(roleId, out role))
             {
                 throw new ValidationException("给定标识的角色不存在" + roleId);
             }
-            IUserSession session;
-            if (sessionId == _host.UserSession.Id)
-            {
-                session = _host.UserSession;
-            }
-            else
-            {
-                var sessionRepository = _host.RetrieveRequiredService<IRepository<UserSession>>();
-                var entity = sessionRepository.GetByKey(sessionId);
-                session = new UserSessionState(_host, entity);
-            }
+            IUserSession session = userSession;
             if (session == null)
             {
-                throw new ValidationException("给定标识的会话不存在" + sessionId);
+                throw new ValidationException("给定标识的会话不存在");
             }
             session.AccountPrivilege.DropActiveRole(role);
         }
 
-        public bool CheckAccess(Guid sessionId, Guid functionId, IManagedObject obj)
+        public bool CheckAccess(IUserSession userSession, Guid functionId, IManagedObject obj)
         {
             var securityService = _host.RetrieveRequiredService<ISecurityService>();
             FunctionState function;
@@ -214,20 +171,10 @@ namespace Anycmd.Engine.Host.Impl
             {
                 throw new ValidationException("给定标识的功能不存在" + functionId);
             }
-            IUserSession session;
-            if (sessionId == _host.UserSession.Id)
-            {
-                session = _host.UserSession;
-            }
-            else
-            {
-                var sessionRepository = _host.RetrieveRequiredService<IRepository<UserSession>>();
-                var entity = sessionRepository.GetByKey(sessionId);
-                session = new UserSessionState(_host, entity);
-            }
+            IUserSession session = userSession;
             if (session == null)
             {
-                throw new ValidationException("给定标识的会话不存在" + sessionId);
+                throw new ValidationException("给定标识的会话不存在");
             }
             return securityService.Permit(session, function, obj);
         }
@@ -345,17 +292,9 @@ namespace Anycmd.Engine.Host.Impl
             }
         }
 
-        public IReadOnlyCollection<RoleState> AuthorizedRoles(Guid accountId)
+        public IReadOnlyCollection<RoleState> AuthorizedRoles(IUserSession userSession)
         {
-            AccountPrivilege accountPrivilege;
-            if (accountId == _host.UserSession.Account.Id)
-            {
-                accountPrivilege = _host.UserSession.AccountPrivilege;
-            }
-            else
-            {
-                accountPrivilege = new AccountPrivilege(_host, accountId);
-            }
+            AccountPrivilege accountPrivilege = userSession.AccountPrivilege;
             return accountPrivilege.AuthorizedRoles;
         }
 
@@ -392,17 +331,9 @@ namespace Anycmd.Engine.Host.Impl
             return functions.ToList();
         }
 
-        public IReadOnlyCollection<FunctionState> UserPermissions(Guid accountId)
+        public IReadOnlyCollection<FunctionState> UserPermissions(IUserSession userSession)
         {
-            AccountPrivilege accountPrivilege;
-            if (accountId == _host.UserSession.Account.Id)
-            {
-                accountPrivilege = _host.UserSession.AccountPrivilege;
-            }
-            else
-            {
-                accountPrivilege = new AccountPrivilege(_host, accountId);
-            }
+            AccountPrivilege accountPrivilege = userSession.AccountPrivilege;
             return accountPrivilege.AuthorizedFunctions;
         }
 
@@ -430,17 +361,9 @@ namespace Anycmd.Engine.Host.Impl
             return functions.ToList();
         }
 
-        public IReadOnlyCollection<FunctionState> UserOperationsOnObject(Guid accountId, IManagedObject obj)
+        public IReadOnlyCollection<FunctionState> UserOperationsOnObject(IUserSession userSession, IManagedObject obj)
         {
-            AccountPrivilege accountPrivilege;
-            if (accountId == _host.UserSession.Account.Id)
-            {
-                accountPrivilege = _host.UserSession.AccountPrivilege;
-            }
-            else
-            {
-                accountPrivilege = new AccountPrivilege(_host, accountId);
-            }
+            AccountPrivilege accountPrivilege = userSession.AccountPrivilege;
             var functions = new HashSet<FunctionState>();
             foreach (var f in accountPrivilege.AuthorizedFunctions)
             {

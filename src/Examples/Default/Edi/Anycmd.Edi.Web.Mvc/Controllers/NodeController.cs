@@ -179,12 +179,12 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
         public ActionResult GetPlistNodeActions(GetPlistNodeActions requestModel)
         {
             NodeDescriptor node;
-            if (!Host.NodeHost.Nodes.TryGetNodeById(requestModel.NodeId.ToString(), out node))
+            if (!AcDomain.NodeHost.Nodes.TryGetNodeById(requestModel.NodeId.ToString(), out node))
             {
                 throw new ValidationException("意外的节点标识" + requestModel.NodeId);
             }
             OntologyDescriptor ontology;
-            if (!Host.NodeHost.Ontologies.TryGetOntology(requestModel.OntologyId, out ontology))
+            if (!AcDomain.NodeHost.Ontologies.TryGetOntology(requestModel.OntologyId, out ontology))
             {
                 throw new ValidationException("意外的本体标识" + requestModel.OntologyId);
             }
@@ -250,12 +250,12 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                 throw new ValidationException("elementID是必须的");
             }
             NodeDescriptor node;
-            if (!Host.NodeHost.Nodes.TryGetNodeById(nodeId.Value.ToString(), out node))
+            if (!AcDomain.NodeHost.Nodes.TryGetNodeById(nodeId.Value.ToString(), out node))
             {
                 throw new ValidationException("意外的节点标识" + nodeId);
             }
             ElementDescriptor element;
-            if (!Host.NodeHost.Ontologies.TryGetElement(elementId.Value, out element))
+            if (!AcDomain.NodeHost.Ontologies.TryGetElement(elementId.Value, out element))
             {
                 throw new ValidationException("意外的本体元素标识" + elementId);
             }
@@ -271,7 +271,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                     elementActionAllowType = elementAction.AllowType.ToName();
                     elementActionAuditType = elementAction.AuditType.ToName();
                 }
-                var nodeElementActions = Host.NodeHost.Nodes.GetNodeElementActions(node, element).Values;
+                var nodeElementActions = AcDomain.NodeHost.Nodes.GetNodeElementActions(node, element).Values;
                 var id = Guid.NewGuid();
                 DateTime? createOn = null;
                 bool isAllowed = false;
@@ -329,14 +329,14 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                 return ModelState.ToJsonResult();
             }
             OntologyDescriptor ontology;
-            if (!Host.NodeHost.Ontologies.TryGetOntology(ontologyId, out ontology))
+            if (!AcDomain.NodeHost.Ontologies.TryGetOntology(ontologyId, out ontology))
             {
                 throw new ValidationException("意外的本体标识" + ontologyId);
             }
             var data = new List<OntologyAssignNodeTr>();
-            foreach (var node in Host.NodeHost.Nodes)
+            foreach (var node in AcDomain.NodeHost.Nodes)
             {
-                var nodeOntologyCares = Host.NodeHost.Nodes.GetNodeOntologyCares(node);
+                var nodeOntologyCares = AcDomain.NodeHost.Nodes.GetNodeOntologyCares(node);
                 var id = Guid.NewGuid();
                 var isAssigned = false;
                 DateTime? createOn = null;
@@ -387,21 +387,21 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                 return ModelState.ToJsonResult();
             }
             EntityTypeState entityType;
-            if (!Host.EntityTypeSet.TryGetEntityType(new Coder("Edi", "Node"), out entityType))
+            if (!AcDomain.EntityTypeSet.TryGetEntityType(new Coder("Edi", "Node"), out entityType))
             {
                 throw new AnycmdException("意外的实体类型Edi.Node");
             }
             foreach (var filter in requestModel.Filters)
             {
                 PropertyState property;
-                if (!Host.EntityTypeSet.TryGetProperty(entityType, filter.field, out property))
+                if (!AcDomain.EntityTypeSet.TryGetProperty(entityType, filter.field, out property))
                 {
                     throw new ValidationException("意外的Node实体类型属性" + filter.field);
                 }
             }
             int pageIndex = requestModel.PageIndex;
             int pageSize = requestModel.PageSize;
-            var queryable = Host.NodeHost.Nodes.Select(NodeTr.Create).AsQueryable();
+            var queryable = AcDomain.NodeHost.Nodes.Select(NodeTr.Create).AsQueryable();
             foreach (var filter in requestModel.Filters)
             {
                 queryable = queryable.Where(filter.ToPredicate(), filter.value);
@@ -430,7 +430,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                 throw new ValidationException("未传入本体标识");
             }
             OntologyDescriptor ontology;
-            if (!Host.NodeHost.Ontologies.TryGetOntology(ontologyId.Value, out ontology))
+            if (!AcDomain.NodeHost.Ontologies.TryGetOntology(ontologyId.Value, out ontology))
             {
                 throw new ValidationException("意外的本体表示");
             }
@@ -442,14 +442,14 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             if (parentId.HasValue)
             {
                 OrganizationState org;
-                if (!Host.OrganizationSet.TryGetOrganization(parentId.Value, out org))
+                if (!AcDomain.OrganizationSet.TryGetOrganization(parentId.Value, out org))
                 {
                     throw new ValidationException("意外的组织结构标识" + parentId);
                 }
                 parentCode = org.Code;
             }
             var ontologyOrgs = ontology.Organizations;
-            var orgs = Host.OrganizationSet.Where(ontologyOrgs.ContainsKey);
+            var orgs = AcDomain.OrganizationSet.Where(ontologyOrgs.ContainsKey);
             var noos = GetRequiredService<IRepository<NodeOntologyOrganization>>().AsQueryable().Where(a => a.OntologyId == ontologyId.Value && a.NodeId == nodeId.Value).ToList<NodeOntologyOrganization>();
             return this.JsonResult(orgs.Where(a => string.Equals(a.ParentCode, parentCode, StringComparison.OrdinalIgnoreCase)).OrderBy(a => a.Code)
                 .Select(a =>
@@ -471,7 +471,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                         a.Code,
                         a.Name,
                         ParentId = a.ParentCode,
-                        isLeaf = Host.OrganizationSet.All(b => !a.Code.Equals(b.ParentCode, StringComparison.OrdinalIgnoreCase)),
+                        isLeaf = AcDomain.OrganizationSet.All(b => !a.Code.Equals(b.ParentCode, StringComparison.OrdinalIgnoreCase)),
                         expanded = false,
                         @checked = @checked,
                         NodeId = nodeId,
@@ -499,7 +499,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                 if (!string.IsNullOrEmpty(item))
                 {
                     var organizationId = new Guid(item);
-                    Host.Handle(new AddNodeOntologyOrganizationCommand(new NodeOntologyOrganizationCreateInput
+                    AcDomain.Handle(new AddNodeOntologyOrganizationCommand(new NodeOntologyOrganizationCreateInput
                     {
                         Id = Guid.NewGuid(),
                         NodeId = nodeId,
@@ -513,7 +513,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                 if (!string.IsNullOrEmpty(item))
                 {
                     var organizationId = new Guid(item);
-                    Host.Handle(new RemoveNodeOntologyOrganizationCommand(nodeId, ontologyId, organizationId));
+                    AcDomain.Handle(new RemoveNodeOntologyOrganizationCommand(nodeId, ontologyId, organizationId));
                 }
             }
             GetRequiredService<IRepository<NodeOntologyOrganization>>().Context.Commit();
@@ -536,7 +536,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            Host.AddNode(input);
+            AcDomain.AddNode(input);
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -555,7 +555,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            Host.UpdateNode(input);
+            AcDomain.UpdateNode(input);
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -592,7 +592,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                         entity.IsProduceEnabled = isProduceEnabled;
                         entity.IsReceiveEnabled = isReceiveEnabled;
                         entity.IsDistributeEnabled = isTransferEnabled;
-                        Host.Handle(new UpdateNodeCommand(new NodeUpdateInput
+                        AcDomain.Handle(new UpdateNodeCommand(new NodeUpdateInput
                         {
                             Abstract = entity.Abstract,
                             AnycmdApiAddress = entity.AnycmdApiAddress,
@@ -653,12 +653,12 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                     {
                         if (!isAssigned)
                         {
-                            Host.RemoveNodeOntologyCare(id);
+                            AcDomain.RemoveNodeOntologyCare(id);
                         }
                     }
                     else if (isAssigned)
                     {
-                        Host.AddNodeOntologyCare(new NodeOntologyCareCreateInput
+                        AcDomain.AddNodeOntologyCare(new NodeOntologyCareCreateInput
                         {
                             Id = id,
                             NodeId = new Guid(row["NodeId"].ToString()),
@@ -698,7 +698,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                     {
                         if (!isAssigned)
                         {
-                            Host.RemoveNodeElementCare(id);
+                            AcDomain.RemoveNodeElementCare(id);
                         }
                         else
                         {
@@ -707,7 +707,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                     }
                     else if (isAssigned)
                     {
-                        Host.AddNodeElementCare(new NodeElementCareCreateInput
+                        AcDomain.AddNodeElementCare(new NodeElementCareCreateInput
                         {
                             Id = id,
                             NodeId = new Guid(row["NodeId"].ToString()),
@@ -753,7 +753,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                         IsAudit = row["IsAudit"].ToString()
                     };
                     NodeDescriptor nodeDescriptor;
-                    if (!Host.NodeHost.Nodes.TryGetNodeById(inputModel.NodeId.ToString(), out nodeDescriptor))
+                    if (!AcDomain.NodeHost.Nodes.TryGetNodeById(inputModel.NodeId.ToString(), out nodeDescriptor))
                     {
                         throw new ValidationException("意外的节点标识" + inputModel.NodeId);
                     }
@@ -768,7 +768,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                             IsAudit = inputModel.IsAudit,
                             NodeId = inputModel.NodeId
                         };
-                        Host.PublishEvent(new NodeActionUpdatedEvent(entity));
+                        AcDomain.PublishEvent(new NodeActionUpdatedEvent(entity));
                     }
                     else
                     {
@@ -778,9 +778,9 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                         entity.ActionId = inputModel.ActionId;
                         entity.IsAudit = inputModel.IsAudit;
                         entity.IsAllowed = inputModel.IsAllowed;
-                        Host.PublishEvent(new NodeActionAddedEvent(entity));
+                        AcDomain.PublishEvent(new NodeActionAddedEvent(entity));
                     }
-                    Host.CommitEventBus();
+                    AcDomain.CommitEventBus();
                 }
             }
 
@@ -845,7 +845,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                         GetRequiredService<IRepository<NodeElementAction>>().Add(entity);
                     }
                     GetRequiredService<IRepository<NodeElementAction>>().Context.Commit();
-                    Host.CommitEventBus();
+                    AcDomain.CommitEventBus();
                 }
             }
 
@@ -864,7 +864,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
         [Guid("462C7447-5C3F-4363-9604-2407CBE22EDB")]
         public ActionResult Delete(string id)
         {
-            return this.HandleSeparateGuidString(Host.RemoveNode, id, ',');
+            return this.HandleSeparateGuidString(AcDomain.RemoveNode, id, ',');
         }
     }
 }

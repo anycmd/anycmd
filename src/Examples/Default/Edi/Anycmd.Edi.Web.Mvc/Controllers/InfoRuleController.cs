@@ -137,7 +137,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                 return ModelState.ToJsonResult();
             }
             EntityTypeState infoRuleEntityType;
-            if (!Host.EntityTypeSet.TryGetEntityType(new Coder("Edi", "InfoRule"), out infoRuleEntityType))
+            if (!AcDomain.EntityTypeSet.TryGetEntityType(new Coder("Edi", "InfoRule"), out infoRuleEntityType))
             {
                 throw new AnycmdException("意外的实体类型");
             }
@@ -151,7 +151,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             }
             int pageIndex = requestData.PageIndex;
             int pageSize = requestData.PageSize;
-            var queryable = Host.NodeHost.InfoRules.Select(a => InfoRuleTr.Create(Host, a)).AsQueryable();
+            var queryable = AcDomain.NodeHost.InfoRules.Select(a => InfoRuleTr.Create(AcDomain, a)).AsQueryable();
             foreach (var filter in requestData.Filters)
             {
                 queryable = queryable.Where(filter.ToPredicate(), filter.value);
@@ -173,7 +173,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
         public ActionResult GetPlistElementInfoRules(GetPlistElementInfoRules requestModel)
         {
             ElementDescriptor element;
-            if (!Host.NodeHost.Ontologies.TryGetElement(requestModel.ElementId, out element))
+            if (!AcDomain.NodeHost.Ontologies.TryGetElement(requestModel.ElementId, out element))
             {
                 throw new ValidationException("意外的本体元素标识" + requestModel.ElementId);
             }
@@ -181,7 +181,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             foreach (var item in element.Element.ElementInfoRules)
             {
                 InfoRuleState infoRule;
-                if (Host.NodeHost.InfoRules.TryGetInfoRule(item.InfoRuleId, out infoRule))
+                if (AcDomain.NodeHost.InfoRules.TryGetInfoRule(item.InfoRuleId, out infoRule))
                 {
                     list.Add(new ElementInfoRuleTr
                     {
