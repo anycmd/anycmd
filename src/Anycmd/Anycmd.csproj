@@ -244,12 +244,12 @@
     <Compile Include="Engine\IStateObject.cs" />
     <Compile Include="Engine\RemoveEntityCommand.cs" />
     <Compile Include="Engine\UpdateEntityCommand`1.cs" />
-    <Compile Include="Engine\AcEntities1.Designer.cs">
+    <Compile Include="Engine\AcEntities.Designer.cs">
       <DependentUpon>AcEntities.edmx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Engine\EdiEntities1.Designer.cs">
+    <Compile Include="Engine\EdiEntities.Designer.cs">
       <DependentUpon>EdiEntities.edmx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1558,11 +1558,11 @@
     <None Include="App.config" />
     <EntityDeploy Include="Engine\EdiEntities.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>EdiEntities1.Designer.cs</LastGenOutput>
+      <LastGenOutput>EdiEntities.Designer.cs</LastGenOutput>
     </EntityDeploy>
     <EntityDeploy Include="Engine\AcEntities.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>AcEntities1.Designer.cs</LastGenOutput>
+      <LastGenOutput>AcEntities.Designer.cs</LastGenOutput>
     </EntityDeploy>
     <None Include="Engine\README.md" />
     <None Include="Logging\Logging.cd" />
