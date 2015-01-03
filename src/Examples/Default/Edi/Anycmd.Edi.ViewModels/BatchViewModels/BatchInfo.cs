@@ -1,9 +1,9 @@
 ﻿
 namespace Anycmd.Edi.ViewModels.BatchViewModels
 {
+    using Engine;
     using Engine.Edi;
     using Exceptions;
-    using Model;
     using System;
     using System.Collections.Generic;
 

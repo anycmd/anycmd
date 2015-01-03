@@ -1,15 +1,15 @@
 ﻿
 namespace Anycmd.Edi.ViewModels.InfoDicViewModels
 {
+    using Engine;
     using Engine.Edi.InOuts;
-    using Model;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
 
     /// <summary>
     /// 
     /// </summary>
-    public class InfoDicCreateInput : EntityCreateInput, IInputModel, IInfoDicCreateIo
+    public class InfoDicCreateInput : EntityCreateInput, IInfoDicCreateIo
     {
         /// <summary>
         /// 

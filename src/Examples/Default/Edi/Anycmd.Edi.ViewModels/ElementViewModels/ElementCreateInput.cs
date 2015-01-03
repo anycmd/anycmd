@@ -1,8 +1,8 @@
 ﻿
 namespace Anycmd.Edi.ViewModels.ElementViewModels
 {
+    using Engine;
     using Engine.Edi.InOuts;
-    using Model;
     using System;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;

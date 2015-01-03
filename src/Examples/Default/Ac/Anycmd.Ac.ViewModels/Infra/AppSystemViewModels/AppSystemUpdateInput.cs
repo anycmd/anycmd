@@ -1,8 +1,8 @@
 ﻿
 namespace Anycmd.Ac.ViewModels.Infra.AppSystemViewModels
 {
+    using Engine;
     using Engine.Ac.InOuts;
-    using Model;
     using System;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
@@ -10,7 +10,7 @@ namespace Anycmd.Ac.ViewModels.Infra.AppSystemViewModels
     /// <summary>
     /// 
     /// </summary>
-    public class AppSystemUpdateInput : ManagedPropertyValues, IInputModel, IAppSystemUpdateIo
+    public class AppSystemUpdateInput : ManagedPropertyValues, IAppSystemUpdateIo
     {
         public Guid Id { get; set; }
         /// <summary>

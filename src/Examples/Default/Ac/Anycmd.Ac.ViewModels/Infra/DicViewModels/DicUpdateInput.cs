@@ -2,11 +2,10 @@
 namespace Anycmd.Ac.ViewModels.Infra.DicViewModels
 {
     using Engine.Ac.InOuts;
-    using Model;
     using System;
     using System.ComponentModel.DataAnnotations;
 
-    public class DicUpdateInput : IInputModel, IDicUpdateIo
+    public class DicUpdateInput : IDicUpdateIo
     {
         public Guid Id { get; set; }
         /// <summary>

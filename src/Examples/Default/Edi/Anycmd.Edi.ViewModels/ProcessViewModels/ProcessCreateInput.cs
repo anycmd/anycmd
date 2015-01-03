@@ -1,8 +1,8 @@
 ﻿
 namespace Anycmd.Edi.ViewModels.ProcessViewModels
 {
+    using Engine;
     using Engine.Edi.InOuts;
-    using Model;
     using System;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
@@ -10,7 +10,7 @@ namespace Anycmd.Edi.ViewModels.ProcessViewModels
     /// <summary>
     /// 
     /// </summary>
-    public class ProcessCreateInput : EntityCreateInput, IProcessCreateIo, IInputModel
+    public class ProcessCreateInput : EntityCreateInput, IProcessCreateIo
     {
         /// <summary>
         /// 

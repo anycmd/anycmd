@@ -1,7 +1,7 @@
 ﻿
 namespace Anycmd.Edi.ViewModels.InfoConstraintViewModels
 {
-    using Anycmd.Model;
+    using Engine;
     using System;
     using System.ComponentModel;
     using ViewModel;

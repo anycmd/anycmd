@@ -1,14 +1,13 @@
-﻿using System;
-
+﻿
 namespace Anycmd.Ac.ViewModels.Infra.UIViewViewModels
 {
     using Engine.Ac.InOuts;
-    using Model;
+    using System;
 
     /// <summary>
     /// 
     /// </summary>
-    public class UiViewButtonUpdateInput : IInputModel, IUiViewButtonUpdateIo
+    public class UiViewButtonUpdateInput : IUiViewButtonUpdateIo
     {
         public Guid Id { get; set; }
         /// <summary>

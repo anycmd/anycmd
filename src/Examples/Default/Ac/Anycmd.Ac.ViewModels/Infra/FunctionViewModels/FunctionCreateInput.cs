@@ -1,12 +1,12 @@
 ﻿
 namespace Anycmd.Ac.ViewModels.Infra.FunctionViewModels
 {
+    using Engine;
     using Engine.Ac.InOuts;
-    using Model;
     using System;
     using System.ComponentModel.DataAnnotations;
 
-    public class FunctionCreateInput : EntityCreateInput, IInputModel, IFunctionCreateIo
+    public class FunctionCreateInput : EntityCreateInput, IFunctionCreateIo
     {
         /// <summary>
         /// 

@@ -1,8 +1,8 @@
 ﻿
-namespace Anycmd.Model
+namespace Anycmd.Engine
 {
-    using Engine.Edi;
-    using Engine.Info;
+    using Edi;
+    using Info;
     using System.Collections.Generic;
 
     /// <summary>

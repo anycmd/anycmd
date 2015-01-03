@@ -1,8 +1,8 @@
 ﻿
 namespace Anycmd.Edi.ViewModels.ArchiveViewModels
 {
+    using Engine;
     using Engine.Edi.InOuts;
-    using Model;
     using System;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
@@ -10,7 +10,7 @@ namespace Anycmd.Edi.ViewModels.ArchiveViewModels
     /// <summary>
     /// 
     /// </summary>
-    public class ArchiveCreateInput : EntityCreateInput, IInputModel, IArchiveCreateIo
+    public class ArchiveCreateInput : EntityCreateInput, IArchiveCreateIo
     {
         /// <summary>
         /// 

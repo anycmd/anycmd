@@ -2,7 +2,6 @@
 namespace Anycmd.Edi.ViewModels.InfoDicViewModels
 {
     using Engine.Edi.InOuts;
-    using Model;
     using System;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
@@ -10,7 +9,7 @@ namespace Anycmd.Edi.ViewModels.InfoDicViewModels
     /// <summary>
     /// 
     /// </summary>
-    public class InfoDicItemUpdateInput : IInputModel, IInfoDicItemUpdateIo
+    public class InfoDicItemUpdateInput : IInfoDicItemUpdateIo
     {
         public Guid Id { get; set; }
         /// <summary>

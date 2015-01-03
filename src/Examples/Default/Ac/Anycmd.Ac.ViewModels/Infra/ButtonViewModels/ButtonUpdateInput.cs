@@ -2,7 +2,6 @@
 namespace Anycmd.Ac.ViewModels.Infra.ButtonViewModels
 {
     using Engine.Ac.InOuts;
-    using Model;
     using System;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
@@ -10,7 +9,7 @@ namespace Anycmd.Ac.ViewModels.Infra.ButtonViewModels
     /// <summary>
     /// 
     /// </summary>
-    public class ButtonUpdateInput : IInputModel, IButtonUpdateIo
+    public class ButtonUpdateInput : IButtonUpdateIo
     {
         public Guid Id { get; set; }
         /// <summary>

@@ -2,14 +2,13 @@
 namespace Anycmd.Ac.ViewModels.Infra.EntityTypeViewModels
 {
     using Engine.Ac.InOuts;
-    using Model;
     using System;
     using System.ComponentModel.DataAnnotations;
 
     /// <summary>
     /// 
     /// </summary>
-    public class PropertyUpdateInput : IInputModel, IPropertyUpdateIo
+    public class PropertyUpdateInput : IPropertyUpdateIo
     {
         public Guid Id { get; set; }
         /// <summary>

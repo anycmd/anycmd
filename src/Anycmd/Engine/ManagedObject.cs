@@ -1,12 +1,12 @@
 ﻿
-namespace Anycmd.Model
+namespace Anycmd.Engine
 {
-    using Engine.Edi;
-    using Engine.Info;
+    using Edi;
+    using Info;
     using System;
 
     /// <summary>
-    /// 表示权限托管对象。
+    /// 表示权限托管对象。<see cref="IManagedObject"/>
     /// </summary>
     public class ManagedObject : IManagedObject
     {

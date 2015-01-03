@@ -2,7 +2,6 @@
 namespace Anycmd.Ac.ViewModels.Infra.OrganizationViewModels
 {
     using Engine.Ac.InOuts;
-    using Model;
     using System;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
@@ -10,7 +9,7 @@ namespace Anycmd.Ac.ViewModels.Infra.OrganizationViewModels
     /// <summary>
     /// 
     /// </summary>
-    public class OrganizationUpdateInput : IInputModel, IOrganizationUpdateIo
+    public class OrganizationUpdateInput : IOrganizationUpdateIo
     {
         public Guid Id { get; set; }
         /// <summary>

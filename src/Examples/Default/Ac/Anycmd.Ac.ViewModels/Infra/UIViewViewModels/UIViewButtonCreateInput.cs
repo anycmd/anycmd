@@ -1,14 +1,14 @@
-﻿using System;
-
+﻿
 namespace Anycmd.Ac.ViewModels.Infra.UIViewViewModels
 {
+    using Engine;
     using Engine.Ac.InOuts;
-    using Model;
+    using System;
 
     /// <summary>
     /// 
     /// </summary>
-    public class UiViewButtonCreateInput : EntityCreateInput, IInputModel, IUiViewButtonCreateIo
+    public class UiViewButtonCreateInput : EntityCreateInput, IUiViewButtonCreateIo
     {
         /// <summary>
         /// 

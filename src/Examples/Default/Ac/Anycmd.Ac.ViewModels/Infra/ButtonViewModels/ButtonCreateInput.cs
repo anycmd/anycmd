@@ -1,15 +1,15 @@
 ﻿
 namespace Anycmd.Ac.ViewModels.Infra.ButtonViewModels
 {
+    using Engine;
     using Engine.Ac.InOuts;
-    using Model;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
 
     /// <summary>
     /// 
     /// </summary>
-    public class ButtonCreateInput : EntityCreateInput, IInputModel, IButtonCreateIo
+    public class ButtonCreateInput : EntityCreateInput, IButtonCreateIo
     {
         /// <summary>
         /// 

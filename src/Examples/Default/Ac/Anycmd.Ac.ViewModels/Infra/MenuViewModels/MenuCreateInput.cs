@@ -1,15 +1,15 @@
 ﻿
 namespace Anycmd.Ac.ViewModels.Infra.MenuViewModels
 {
+    using Engine;
     using Engine.Ac.InOuts;
-    using Model;
     using System;
     using System.ComponentModel.DataAnnotations;
 
     /// <summary>
     /// 
     /// </summary>
-    public class MenuCreateInput : EntityCreateInput, IInputModel, IMenuCreateIo
+    public class MenuCreateInput : EntityCreateInput, IMenuCreateIo
     {
         /// <summary>
         /// 

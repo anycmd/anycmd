@@ -1,13 +1,13 @@
 ﻿
 namespace Anycmd.Ac.ViewModels.Infra.UIViewViewModels
 {
+    using Engine;
     using Engine.Ac.InOuts;
-    using Model;
 
     /// <summary>
     /// 
     /// </summary>
-    public class UiViewCreateInput : EntityCreateInput, IInputModel, IUiViewCreateIo
+    public class UiViewCreateInput : EntityCreateInput, IUiViewCreateIo
     {
         /// <summary>
         /// 

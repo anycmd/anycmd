@@ -237,13 +237,13 @@
     <Compile Include="StringIdAttribute.cs" />
     <Compile Include="Util\Coder.cs" />
     <Compile Include="Util\IDAttribute.cs" />
-    <Compile Include="Model\StateObject`1.cs" />
+    <Compile Include="Engine\StateObject`1.cs" />
     <Compile Include="Engine\Ac\UserSessionState.cs" />
-    <Compile Include="Model\AddEntityCommand`1.cs" />
-    <Compile Include="Model\EntityAddedEvent`1.cs" />
-    <Compile Include="Model\IStateObject.cs" />
-    <Compile Include="Model\RemoveEntityCommand.cs" />
-    <Compile Include="Model\UpdateEntityCommand`1.cs" />
+    <Compile Include="Engine\AddEntityCommand`1.cs" />
+    <Compile Include="Engine\EntityAddedEvent`1.cs" />
+    <Compile Include="Engine\IStateObject.cs" />
+    <Compile Include="Engine\RemoveEntityCommand.cs" />
+    <Compile Include="Engine\UpdateEntityCommand`1.cs" />
     <Compile Include="Engine\AcEntities1.Designer.cs">
       <DependentUpon>AcEntities.edmx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -717,7 +717,7 @@
     <Compile Include="Bus\DirectBus\DirectBus.cs" />
     <Compile Include="Bus\DirectBus\DirectCommandBus.cs" />
     <Compile Include="Bus\DirectBus\DirectEventBus.cs" />
-    <Compile Include="Model\EntityCreateInput.cs" />
+    <Compile Include="Engine\EntityCreateInput.cs" />
     <Compile Include="Engine\Host\Ac\Infra\EntityTypeMap.cs" />
     <Compile Include="Bus\AggregatorBus\AggregatorBus.cs" />
     <Compile Include="Bus\AggregatorBus\AggregatorCommandBus.cs" />
@@ -767,11 +767,11 @@
     <Compile Include="Engine\Host\Impl\PasswordEncryptionService.cs" />
     <Compile Include="Engine\Host\IPasswordEncryptionService.cs" />
     <Compile Include="Engine\Host\IAppConfig.cs" />
-    <Compile Include="Model\IEntityCreateInput.cs" />
-    <Compile Include="Model\IEntityUpdateInput.cs" />
+    <Compile Include="Engine\IEntityCreateInput.cs" />
+    <Compile Include="Engine\IEntityUpdateInput.cs" />
     <Compile Include="Engine\Host\ITracer.cs" />
     <Compile Include="Engine\Host\JitMode.cs" />
-    <Compile Include="Model\IManagedPropertyValues.cs" />
+    <Compile Include="Engine\IManagedPropertyValues.cs" />
     <Compile Include="Engine\IdentityEntities.Designer.cs">
       <DependentUpon>IdentityEntities.edmx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -782,7 +782,7 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Model\DicReader.cs" />
+    <Compile Include="Engine\DicReader.cs" />
     <Compile Include="Query\UnifiedQueries\Compilers\LambdaExpressionCompiler.cs" />
     <Compile Include="Query\UnifiedQueries\Compilers\SqlWhereClauseCompiler.cs" />
     <Compile Include="Query\UnifiedQueries\DelegatedQuerySpecificationVisitor.cs" />
@@ -798,10 +798,10 @@
     <Compile Include="Query\UnifiedQueries\UnifiedQuerySchema.designer.cs" />
     <Compile Include="Query\UnifiedQueries\Utils.cs" />
     <Compile Include="Query\UnifiedQueries\Validators\ExpressionNameTypeValidator.cs" />
-    <Compile Include="Model\IManagedObject.cs" />
-    <Compile Include="Model\ManagedObject.cs" />
+    <Compile Include="Engine\IManagedObject.cs" />
+    <Compile Include="Engine\ManagedObject.cs" />
     <Compile Include="Engine\Ac\AccountState.cs" />
-    <Compile Include="Model\IInputModel.cs" />
+    <Compile Include="Engine\IInputModel.cs" />
     <Compile Include="Engine\Ac\AppSystemState.cs" />
     <Compile Include="Bus\BusException.cs" />
     <Compile Include="Bus\DispatchingException.cs" />
@@ -858,7 +858,7 @@
     <Compile Include="IUserSession.cs" />
     <Compile Include="Logging\ExceptionLog.cs" />
     <Compile Include="Logging\OperationLogBase.cs" />
-    <Compile Include="Model\ManagedPropertyValues.cs" />
+    <Compile Include="Engine\ManagedPropertyValues.cs" />
     <Compile Include="Logging\OperationLog.cs" />
     <Compile Include="Query\PagedResult.cs" />
     <Compile Include="Properties\Resources.Designer.cs">

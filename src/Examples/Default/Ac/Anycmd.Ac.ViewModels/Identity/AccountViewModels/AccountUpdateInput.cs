@@ -2,7 +2,6 @@
 namespace Anycmd.Ac.ViewModels.Identity.AccountViewModels
 {
     using Engine.Ac.InOuts;
-    using Model;
     using System;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
@@ -10,7 +9,7 @@ namespace Anycmd.Ac.ViewModels.Identity.AccountViewModels
     /// <summary>
     /// 
     /// </summary>
-    public class AccountUpdateInput : IInputModel, IAccountUpdateIo
+    public class AccountUpdateInput : IAccountUpdateIo
     {
         public Guid Id { get; set; }
         /// <summary>

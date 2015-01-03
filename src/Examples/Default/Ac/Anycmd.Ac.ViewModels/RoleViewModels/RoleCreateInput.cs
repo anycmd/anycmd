@@ -1,15 +1,15 @@
 ﻿
 namespace Anycmd.Ac.ViewModels.RoleViewModels
 {
+    using Engine;
     using Engine.Ac.InOuts;
-    using Model;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
 
     /// <summary>
     /// 
     /// </summary>
-    public class RoleCreateInput : EntityCreateInput, IInputModel, IRoleCreateIo
+    public class RoleCreateInput : EntityCreateInput, IRoleCreateIo
     {
         /// <summary>
         /// 

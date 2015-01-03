@@ -1,15 +1,15 @@
 ﻿
 namespace Anycmd.Edi.ViewModels.BatchViewModels
 {
+    using Engine;
     using Engine.Edi.InOuts;
-    using Model;
     using System;
     using System.ComponentModel.DataAnnotations;
 
     /// <summary>
     /// 
     /// </summary>
-    public class BatchCreateInput : EntityCreateInput, IInputModel, IBatchCreateIo
+    public class BatchCreateInput : EntityCreateInput, IBatchCreateIo
     {
         /// <summary>
         /// 

@@ -1,14 +1,14 @@
 ﻿
 namespace Anycmd.Ac.ViewModels.Infra.DicViewModels
 {
+    using Engine;
     using Engine.Ac.InOuts;
-    using Model;
     using System.ComponentModel.DataAnnotations;
 
     /// <summary>
     /// 
     /// </summary>
-    public class DicCreateInput : EntityCreateInput, IInputModel, IDicCreateIo
+    public class DicCreateInput : EntityCreateInput, IDicCreateIo
     {
         /// <summary>
         /// 

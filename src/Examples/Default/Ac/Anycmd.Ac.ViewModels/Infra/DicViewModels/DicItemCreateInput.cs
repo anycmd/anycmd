@@ -1,13 +1,13 @@
 ﻿
 namespace Anycmd.Ac.ViewModels.Infra.DicViewModels
 {
+    using Engine;
     using Engine.Ac.InOuts;
-    using Model;
     using System;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
 
-    public class DicItemCreateInput : EntityCreateInput, IInputModel, IDicItemCreateIo
+    public class DicItemCreateInput : EntityCreateInput, IDicItemCreateIo
     {
         /// <summary>
         /// 

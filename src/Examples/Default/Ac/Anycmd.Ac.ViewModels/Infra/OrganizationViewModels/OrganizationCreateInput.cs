@@ -1,8 +1,8 @@
 ﻿
 namespace Anycmd.Ac.ViewModels.Infra.OrganizationViewModels
 {
+    using Engine;
     using Engine.Ac.InOuts;
-    using Model;
     using System;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
@@ -10,7 +10,7 @@ namespace Anycmd.Ac.ViewModels.Infra.OrganizationViewModels
     /// <summary>
     /// 
     /// </summary>
-    public class OrganizationCreateInput : EntityCreateInput, IInputModel, IOrganizationCreateIo
+    public class OrganizationCreateInput : EntityCreateInput, IOrganizationCreateIo
     {
         /// <summary>
         /// 

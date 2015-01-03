@@ -1,6 +1,7 @@
 ﻿
 namespace Anycmd.Ef
 {
+    using Engine;
     using Engine.Ac;
     using Exceptions;
     using Model;

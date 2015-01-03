@@ -2,14 +2,13 @@
 namespace Anycmd.Ac.ViewModels.Infra.MenuViewModels
 {
     using Engine.Ac.InOuts;
-    using Model;
     using System;
     using System.ComponentModel.DataAnnotations;
 
     /// <summary>
     /// 
     /// </summary>
-    public class MenuUpdateInput : IInputModel, IMenuUpdateIo
+    public class MenuUpdateInput : IMenuUpdateIo
     {
         public Guid Id { get; set; }
         /// <summary>

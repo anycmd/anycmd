@@ -1,9 +1,9 @@
 ﻿
 namespace Anycmd.Ac.ViewModels.Infra.OrganizationViewModels
 {
+    using Engine;
     using Engine.Ac;
     using Exceptions;
-    using Model;
     using System;
     using System.Collections.Generic;
     using ViewModel;

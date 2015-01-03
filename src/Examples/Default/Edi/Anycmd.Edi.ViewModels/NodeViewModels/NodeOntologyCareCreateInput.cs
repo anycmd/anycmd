@@ -1,15 +1,15 @@
 ﻿
 namespace Anycmd.Edi.ViewModels.NodeViewModels
 {
+    using Engine;
     using Engine.Edi.InOuts;
-    using Model;
     using System;
     using System.ComponentModel.DataAnnotations;
 
     /// <summary>
     /// 
     /// </summary>
-    public class NodeOntologyCareCreateInput : ManagedPropertyValues, IInputModel, INodeOntologyCareCreateIo
+    public class NodeOntologyCareCreateInput : ManagedPropertyValues, INodeOntologyCareCreateIo
     {
         private Guid? _id = null;
 

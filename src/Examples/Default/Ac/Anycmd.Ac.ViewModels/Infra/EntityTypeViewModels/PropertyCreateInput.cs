@@ -1,15 +1,15 @@
 ﻿
 namespace Anycmd.Ac.ViewModels.Infra.EntityTypeViewModels
 {
+    using Engine;
     using Engine.Ac.InOuts;
-    using Model;
     using System;
     using System.ComponentModel.DataAnnotations;
 
     /// <summary>
     /// 
     /// </summary>
-    public class PropertyCreateInput : EntityCreateInput, IInputModel, IPropertyCreateIo
+    public class PropertyCreateInput : EntityCreateInput, IPropertyCreateIo
     {
         /// <summary>
         /// 

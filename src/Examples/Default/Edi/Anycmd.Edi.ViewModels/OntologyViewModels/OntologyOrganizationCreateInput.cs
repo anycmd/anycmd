@@ -1,8 +1,8 @@
 ﻿
 namespace Anycmd.Edi.ViewModels.OntologyViewModels
 {
+    using Engine;
     using Engine.Edi.InOuts;
-    using Model;
     using System;
 
     public class OntologyOrganizationCreateInput : EntityCreateInput, IOntologyOrganizationCreateIo

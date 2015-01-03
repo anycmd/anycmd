@@ -1,15 +1,15 @@
 ﻿
 namespace Anycmd.Ac.ViewModels.Infra.ResourceViewModels
 {
+    using Engine;
     using Engine.Ac.InOuts;
-    using Model;
     using System;
     using System.ComponentModel.DataAnnotations;
 
     /// <summary>
     /// 
     /// </summary>
-    public class ResourceTypeCreateInput : EntityCreateInput, IInputModel, IResourceTypeCreateIo
+    public class ResourceTypeCreateInput : EntityCreateInput, IResourceTypeCreateIo
     {
         public Guid AppSystemId { get; set; }
         /// <summary>

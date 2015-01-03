@@ -1,9 +1,9 @@
 ﻿
-namespace Anycmd.Model
+namespace Anycmd.Engine
 {
-    using Engine.Edi;
-    using Engine.Info;
+    using Edi;
     using Exceptions;
+    using Info;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;

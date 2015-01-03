@@ -1,8 +1,8 @@
 ﻿
 namespace Anycmd.Ac.ViewModels.Identity.AccountViewModels
 {
+    using Engine;
     using Engine.Ac.InOuts;
-    using Model;
     using System;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
@@ -10,7 +10,7 @@ namespace Anycmd.Ac.ViewModels.Identity.AccountViewModels
     /// <summary>
     /// 
     /// </summary>
-    public class AccountCreateInput : EntityCreateInput, IInputModel, IAccountCreateIo
+    public class AccountCreateInput : EntityCreateInput, IAccountCreateIo
     {
         /// <summary>
         /// 

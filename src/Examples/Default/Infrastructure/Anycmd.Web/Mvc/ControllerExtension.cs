@@ -17,15 +17,14 @@ namespace Anycmd.Web.Mvc
         }
 
         #region DetailsResult
+
         /// <summary>
         /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="c"></param>
         /// <param name="query"></param>
-        /// <param name="isInner"></param>
-        /// <param name="isTooltip"></param>
-        /// <param name="id"></param>
+        /// <param name="tableOrViewName"></param>
         /// <returns></returns>
         public static ViewResultBase DetailsResult(this Controller c, IQuery query, string tableOrViewName)
         {

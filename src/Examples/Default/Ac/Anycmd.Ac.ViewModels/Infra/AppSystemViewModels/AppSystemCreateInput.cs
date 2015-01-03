@@ -1,8 +1,8 @@
 ﻿
 namespace Anycmd.Ac.ViewModels.Infra.AppSystemViewModels
 {
+    using Engine;
     using Engine.Ac.InOuts;
-    using Model;
     using System;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
@@ -10,7 +10,7 @@ namespace Anycmd.Ac.ViewModels.Infra.AppSystemViewModels
     /// <summary>
     /// 
     /// </summary>
-    public class AppSystemCreateInput : EntityCreateInput, IInputModel, IAppSystemCreateIo
+    public class AppSystemCreateInput : EntityCreateInput, IAppSystemCreateIo
     {
         /// <summary>
         /// 
