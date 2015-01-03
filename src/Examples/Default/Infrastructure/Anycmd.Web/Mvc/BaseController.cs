@@ -3,6 +3,7 @@ namespace Anycmd.Web.Mvc
 {
     using System.Web.Mvc;
     using System.Web.Routing;
+    using Util;
 
     /// <summary>
     /// 自定义ASP.NET MVC控制器抽象基类
@@ -13,7 +14,7 @@ namespace Anycmd.Web.Mvc
         {
             get
             {
-                return System.Web.HttpContext.Current.Application["AcDomainInstance"] as IAcDomain;
+                return System.Web.HttpContext.Current.Application[Constants.ApplicationRuntime.AcDomainCacheKey] as IAcDomain;
             }
         }
 

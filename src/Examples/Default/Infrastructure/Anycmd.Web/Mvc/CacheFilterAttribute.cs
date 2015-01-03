@@ -5,6 +5,7 @@ namespace Anycmd.Web.Mvc
     using System.Diagnostics;
     using System.Web;
     using System.Web.Mvc;
+    using Util;
 
     /// <summary>
     /// 
@@ -47,7 +48,7 @@ namespace Anycmd.Web.Mvc
         /// <param name="filterContext"></param>
         public override void OnActionExecuted(ActionExecutedContext filterContext)
         {
-            var host = filterContext.HttpContext.Application["AcDomainInstance"] as IAcDomain;
+            var host = filterContext.HttpContext.Application[Constants.ApplicationRuntime.AcDomainCacheKey] as IAcDomain;
             if (Enable || host.Config.EnableClientCache)
             {
                 if (Duration <= 0) return;

@@ -319,7 +319,7 @@ namespace Anycmd.Engine.Ac
             }
             userSession.SetData("CurrentUser_Wallpaper", account.Wallpaper);
             userSession.SetData("CurrentUser_BackColor", account.BackColor);
-            if (userSession.Identity.AuthenticationType == "Form")
+            if (HttpContext.Current != null)
             {
                 HttpContext.Current.User = userSession;
                 bool createPersistentCookie = rememberMe.Equals("rememberMe", StringComparison.OrdinalIgnoreCase);

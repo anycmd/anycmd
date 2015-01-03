@@ -15,6 +15,7 @@ namespace Anycmd.Mis.Web.Mvc
     using System.Web;
     using System.Web.Mvc;
     using System.Web.Routing;
+    using Util;
 
     public class MvcApplication : HttpApplication
     {
@@ -56,7 +57,7 @@ namespace Anycmd.Mis.Web.Mvc
             #endregion
 
             var acDomain = new DefaultAcDomain();
-            Application.Add("AcDomainInstance", acDomain);
+            Application.Add(Constants.ApplicationRuntime.AcDomainCacheKey, acDomain);
             acDomain.AddService(typeof(IFunctionListImport), new FunctionListImport());
             acDomain.AddService(typeof(IEfFilterStringBuilder), new EfFilterStringBuilder());
             acDomain.AddService(typeof(ILoggingService), new Log4NetLoggingService(acDomain));

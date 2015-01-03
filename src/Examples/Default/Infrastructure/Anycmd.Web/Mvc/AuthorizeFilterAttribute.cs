@@ -42,7 +42,7 @@ namespace Anycmd.Web.Mvc
                 }
                 resourceCode = resourceAttr.ResourceCode;
             }
-            var host = (filterContext.HttpContext.Application["AcDomainInstance"] as IAcDomain);
+            var host = (filterContext.HttpContext.Application[Constants.ApplicationRuntime.AcDomainCacheKey] as IAcDomain);
             if (host == null)
             {
                 throw new AnycmdException("");
@@ -82,20 +82,7 @@ namespace Anycmd.Web.Mvc
             var user = filterContext.HttpContext.User;
             if (!user.Identity.IsAuthenticated)
             {
-                if (isAjaxRequest)
-                {
-                    filterContext.Result = new FormatJsonResult
-                    {
-                        Data = new ResponseData { success = false, msg = NotLogon }.Info()
-                    };
-                }
-                else
-                {
-                    filterContext.Result = new ViewResult
-                    {
-                        ViewName = "LogOn"
-                    };
-                }
+                ToLogin(filterContext, isAjaxRequest);
                 return;
             }
             #endregion
@@ -126,30 +113,19 @@ namespace Anycmd.Web.Mvc
                 var account = UserSessionState.GetAccountByLoginName(host, user.Identity.Name);
                 if (account == null)
                 {
-                    if (!user.Identity.IsAuthenticated)
-                    {
-                        if (isAjaxRequest)
-                        {
-                            filterContext.Result = new FormatJsonResult
-                            {
-                                Data = new ResponseData { success = false, msg = NotLogon }.Info()
-                            };
-                        }
-                        else
-                        {
-                            filterContext.Result = new ViewResult
-                            {
-                                ViewName = "LogOn"
-                            };
-                        }
-                        return;
-                    }
+                    if (user.Identity.IsAuthenticated) return;
+                    ToLogin(filterContext, isAjaxRequest);
                     return;
                 }
                 var userSessionRepository = host.GetRequiredService<IRepository<UserSession>>();
                 var sessionEntity = userSessionRepository.GetByKey(account.Id);
                 if (sessionEntity != null)
                 {
+                    if (!sessionEntity.IsAuthenticated)
+                    {
+                        ToLogin(filterContext, isAjaxRequest);
+                        return;
+                    }
                     userSession = new UserSessionState(host, sessionEntity);
                 }
                 else
@@ -176,6 +152,24 @@ namespace Anycmd.Web.Mvc
             return;
 
             #endregion
+        }
+
+        private static void ToLogin(ActionExecutingContext filterContext, bool isAjaxRequest)
+        {
+            if (isAjaxRequest)
+            {
+                filterContext.Result = new FormatJsonResult
+                {
+                    Data = new ResponseData { success = false, msg = NotLogon }.Info()
+                };
+            }
+            else
+            {
+                filterContext.Result = new ViewResult
+                {
+                    ViewName = "LogOn"
+                };
+            }
         }
     }
 }

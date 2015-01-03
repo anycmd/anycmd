@@ -10,6 +10,7 @@ namespace Anycmd.Web.Mvc
     using System.Web;
     using System.Web.Mvc;
     using System.Web.Routing;
+    using Util;
     using ViewModel;
 
     /// <summary>
@@ -26,7 +27,7 @@ namespace Anycmd.Web.Mvc
         {
             if (exceptionContext.Exception != null)
             {
-                var host = (exceptionContext.HttpContext.Application["AcDomainInstance"] as IAcDomain);
+                var host = (exceptionContext.HttpContext.Application[Constants.ApplicationRuntime.AcDomainCacheKey] as IAcDomain);
                 if (host == null)
                 {
                     throw new AnycmdException("");

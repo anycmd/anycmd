@@ -27,7 +27,7 @@ namespace Anycmd.Edi.MessageServices
         {
             get
             {
-                return System.Web.HttpContext.Current.Application["AcDomainInstance"] as IAcDomain;
+                return System.Web.HttpContext.Current.Application[Constants.ApplicationRuntime.AcDomainCacheKey] as IAcDomain;
             }
         }
 

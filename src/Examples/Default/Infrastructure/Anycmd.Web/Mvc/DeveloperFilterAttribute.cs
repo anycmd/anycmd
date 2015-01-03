@@ -6,6 +6,7 @@ namespace Anycmd.Web.Mvc
     using Exceptions;
     using System;
     using System.Web.Mvc;
+    using Util;
     using ViewModel;
 
     /// <summary>
@@ -22,7 +23,7 @@ namespace Anycmd.Web.Mvc
         /// <param name="filterContext"></param>
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            var host = (filterContext.HttpContext.Application["AcDomainInstance"] as IAcDomain);
+            var host = (filterContext.HttpContext.Application[Constants.ApplicationRuntime.AcDomainCacheKey] as IAcDomain);
             if (host == null)
             {
                 throw new AnycmdException("");

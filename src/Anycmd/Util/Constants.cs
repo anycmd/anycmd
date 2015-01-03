@@ -18,6 +18,11 @@
             /// 标识默认分支号。
             /// </summary>
             public static readonly long DefaultBranch = 0;
+
+            /// <summary>
+            /// 
+            /// </summary>
+            public static readonly string AcDomainCacheKey = "_acDomainInstance";
         }
     }
 }

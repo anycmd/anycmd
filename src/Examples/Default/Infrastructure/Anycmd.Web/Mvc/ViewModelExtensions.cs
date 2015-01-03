@@ -998,7 +998,7 @@ namespace Anycmd.Web.Mvc
 
         private static IAcDomain GetAcDomain()
         {
-            var host = (HttpContext.Current.Application["AcDomainInstance"] as IAcDomain);
+            var host = (HttpContext.Current.Application[Constants.ApplicationRuntime.AcDomainCacheKey] as IAcDomain);
             if (host == null)
             {
                 throw new AnycmdException("");
