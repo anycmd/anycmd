@@ -723,7 +723,7 @@
     <Compile Include="Bus\AggregatorBus\AggregatorCommandBus.cs" />
     <Compile Include="Bus\AggregatorBus\AggregatorEventBus.cs" />
     <Compile Include="Events\EventAggregatorExtension.cs" />
-    <Compile Include="Extensions\DataTableExtension.cs" />
+    <Compile Include="Util\DataTableExtension.cs" />
     <Compile Include="Engine\Host\Ac\MessageHandlers\ChangePasswordCommandHandler.cs" />
     <Compile Include="Engine\Host\Ac\MessageHandlers\AddAccountCommandHandler.cs" />
     <Compile Include="Engine\Host\Ac\MessageHandlers\AddPasswordCommandHandler.cs" />
@@ -960,8 +960,8 @@
     <Compile Include="Model\DisposableObject.cs" />
     <Compile Include="Model\EntityObject.cs" />
     <Compile Include="Model\IEntity.cs" />
-    <Compile Include="Extensions\DataRecordExtension.cs" />
-    <Compile Include="Extensions\StringBuilderExtension.cs" />
+    <Compile Include="Util\DataRecordExtension.cs" />
+    <Compile Include="Util\StringBuilderExtension.cs" />
     <Compile Include="Model\IUnitOfWork.cs" />
     <Compile Include="Engine\Host\Impl\AcDomain.cs" />
     <Compile Include="Engine\Host\Tracer.cs" />
@@ -1013,8 +1013,8 @@
     <Compile Include="Util\IpHelper.cs" />
     <Compile Include="Util\ReflectionHelper.cs" />
     <Compile Include="Util\ByAttribute.cs" />
-    <Compile Include="Extensions\DateTimeExtension.cs" />
-    <Compile Include="Extensions\StringExtension.cs" />
+    <Compile Include="Util\DateTimeExtension.cs" />
+    <Compile Include="Util\StringExtension.cs" />
     <Compile Include="Engine\Ac\Abstractions\Identity\IAccount.cs" />
     <Compile Include="Engine\Ac\Abstractions\IGroup.cs" />
     <Compile Include="Engine\Ac\Abstractions\Infra\IOrganization.cs" />

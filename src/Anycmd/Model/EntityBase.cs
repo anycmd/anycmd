@@ -2,7 +2,7 @@
 namespace Anycmd.Model
 {
     using Exceptions;
-    using Extensions;
+    using Util;
     using System;
 
     /// <summary>

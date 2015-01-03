@@ -9,7 +9,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
     using Engine.Edi.Messages;
     using Entities;
     using Exceptions;
-    using Extensions;
+    using Util;
     using Hecp;
     using Repositories;
     using System;

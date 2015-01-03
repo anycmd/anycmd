@@ -8,7 +8,7 @@ namespace Anycmd.Edi.MessageProvider.SqlServer2008
     using Engine.Host.Edi.Handlers;
     using Engine.Info;
     using Exceptions;
-    using Extensions;
+    using Util;
     using Rdb;
     using System;
     using System.Collections.Generic;

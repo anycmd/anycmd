@@ -1,7 +1,7 @@
 ﻿
 namespace Anycmd.MiniUI
 {
-    using Extensions;
+    using Util;
     using ViewModel;
 
     /// <summary>

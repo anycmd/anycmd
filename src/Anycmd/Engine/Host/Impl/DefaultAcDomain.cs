@@ -18,7 +18,7 @@ namespace Anycmd.Engine.Host.Impl
     using Engine.Ac.Messages.Infra;
     using Engine.Edi;
     using Engine.Edi.Messages;
-    using Extensions;
+    using Util;
     using Logging;
     using Query;
     using Rdb;

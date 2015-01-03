@@ -1,5 +1,5 @@
 ﻿
-namespace Anycmd.Extensions
+namespace Anycmd.Util
 {
     using System;
     using System.Collections.Generic;

@@ -2,7 +2,7 @@
 namespace Anycmd.Query
 {
     using Exceptions;
-    using Extensions;
+    using Util;
     using System;
     using System.Collections.Generic;
     using System.Data.SqlClient;

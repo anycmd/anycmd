@@ -435,7 +435,7 @@ IF EXISTS ( SELECT  1
 
 			var sb = new StringBuilder();
 			var sqlParameters = new List<SqlParameter>();
-			List<ElementDescriptor> elementList = selectElements.ToList();
+			var elementList = selectElements.ToList();
 			sb.Append("select top 2 ");
 			int l = sb.Length;
 			foreach (var element in elementList)

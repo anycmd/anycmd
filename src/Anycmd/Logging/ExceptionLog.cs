@@ -1,7 +1,7 @@
 ﻿
 namespace Anycmd.Logging
 {
-    using Extensions;
+    using Util;
     using System.Data;
 
     public class ExceptionLog : ExceptionLogBase

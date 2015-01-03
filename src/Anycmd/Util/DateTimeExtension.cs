@@ -1,9 +1,8 @@
 ﻿
-namespace Anycmd.Extensions
+namespace Anycmd.Util
 {
     using System;
     using System.Diagnostics;
-    using Util;
 
     /// <summary>
     /// 扩展<see cref="DateTime"/>类型对象的类
