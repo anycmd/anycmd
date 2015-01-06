@@ -9,7 +9,6 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     using Engine.Ac.Messages;
     using Engine.Ac.Messages.Infra;
     using Exceptions;
-    using Util;
     using Host;
     using Identity;
     using Repositories;
@@ -22,7 +21,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     /// <summary>
     /// 
     /// </summary>
-    public sealed class PrivilegeSet : IPrivilegeSet
+    internal sealed class PrivilegeSet : IPrivilegeSet
     {
         public static readonly IPrivilegeSet Empty = new PrivilegeSet(EmptyAcDomain.SingleInstance);
 
@@ -40,7 +39,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
         /// <summary>
         /// 
         /// </summary>
-        public PrivilegeSet(IAcDomain host)
+        internal PrivilegeSet(IAcDomain host)
         {
             if (host == null)
             {
@@ -101,19 +100,19 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             IHandler<AppSystemRemovingEvent>,
             IHandler<ResourceTypeRemovingEvent>
         {
-            private readonly PrivilegeSet set;
+            private readonly PrivilegeSet _set;
 
-            public MessageHandler(PrivilegeSet set)
+            internal MessageHandler(PrivilegeSet set)
             {
-                this.set = set;
+                this._set = set;
             }
 
             public void Register()
             {
-                var messageDispatcher = set._host.MessageDispatcher;
+                var messageDispatcher = _set._host.MessageDispatcher;
                 if (messageDispatcher == null)
                 {
-                    throw new ArgumentNullException("messageDispatcher has not be set of host:{0}".Fmt(set._host.Name));
+                    throw new ArgumentNullException("messageDispatcher has not be set of host:{0}".Fmt(_set._host.Name));
                 }
                 messageDispatcher.Register((IHandler<AddPrivilegeBigramCommand>)this);
                 messageDispatcher.Register((IHandler<PrivilegeBigramAddedEvent>)this);
@@ -132,9 +131,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(OrganizationRemovingEvent message)
             {
-                var host = set._host;
-                var privilegeList = set._privilegeList;
-                var items = new HashSet<PrivilegeBigramState>();
+                var host = _set._host;
+                var privilegeList = _set._privilegeList;
                 foreach (var item in privilegeList.Where(a => a.ObjectType == AcObjectType.Organization && a.ObjectInstanceId == message.Source.Id))
                 {
                     host.Handle(new RemovePrivilegeBigramCommand(item.Id));
@@ -143,8 +141,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(RoleRemovingEvent message)
             {
-                var host = set._host;
-                var privilegeList = set._privilegeList;
+                var host = _set._host;
+                var privilegeList = _set._privilegeList;
                 var accountPrivilegeRepository = host.RetrieveRequiredService<IRepository<PrivilegeBigram>>();
                 var accountPrivileges = accountPrivilegeRepository.AsQueryable().Where(a => a.ObjectInstanceId == message.Source.Id || a.SubjectInstanceId == message.Source.Id).ToList();
                 foreach (var item in accountPrivileges)
@@ -159,8 +157,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(FunctionRemovingEvent message)
             {
-                var host = set._host;
-                var privilegeList = set._privilegeList;
+                var host = _set._host;
+                var privilegeList = _set._privilegeList;
                 var accountPrivilegeRepository = host.RetrieveRequiredService<IRepository<PrivilegeBigram>>();
                 var accountPrivileges = accountPrivilegeRepository.AsQueryable().Where(a => a.ObjectInstanceId == message.Source.Id || a.SubjectInstanceId == message.Source.Id).ToList();
                 foreach (var item in accountPrivileges)
@@ -175,8 +173,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(MenuRemovingEvent message)
             {
-                var host = set._host;
-                var privilegeList = set._privilegeList;
+                var host = _set._host;
+                var privilegeList = _set._privilegeList;
                 var accountPrivilegeRepository = host.RetrieveRequiredService<IRepository<PrivilegeBigram>>();
                 var accountPrivileges = accountPrivilegeRepository.AsQueryable().Where(a => a.ObjectInstanceId == message.Source.Id || a.SubjectInstanceId == message.Source.Id).ToList();
                 foreach (var item in accountPrivileges)
@@ -191,8 +189,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(GroupRemovingEvent message)
             {
-                var host = set._host;
-                var privilegeList = set._privilegeList;
+                var host = _set._host;
+                var privilegeList = _set._privilegeList;
                 var accountPrivilegeRepository = host.RetrieveRequiredService<IRepository<PrivilegeBigram>>();
                 var accountPrivileges = accountPrivilegeRepository.AsQueryable().Where(a => a.ObjectInstanceId == message.Source.Id || a.SubjectInstanceId == message.Source.Id).ToList();
                 foreach (var item in accountPrivileges)
@@ -207,8 +205,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(AppSystemRemovingEvent message)
             {
-                var host = set._host;
-                var privilegeList = set._privilegeList;
+                var host = _set._host;
+                var privilegeList = _set._privilegeList;
                 var accountPrivilegeRepository = host.RetrieveRequiredService<IRepository<PrivilegeBigram>>();
                 var accountPrivileges = accountPrivilegeRepository.AsQueryable().Where(a => a.ObjectInstanceId == message.Source.Id || a.SubjectInstanceId == message.Source.Id).ToList();
                 foreach (var item in accountPrivileges)
@@ -223,8 +221,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(ResourceTypeRemovingEvent message)
             {
-                var host = set._host;
-                var privilegeList = set._privilegeList;
+                var host = _set._host;
+                var privilegeList = _set._privilegeList;
                 var accountPrivilegeRepository = host.RetrieveRequiredService<IRepository<PrivilegeBigram>>();
                 var accountPrivileges = accountPrivilegeRepository.AsQueryable().Where(a => a.ObjectInstanceId == message.Source.Id || a.SubjectInstanceId == message.Source.Id).ToList();
                 foreach (var item in accountPrivileges)
@@ -253,8 +251,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Handle(IPrivilegeBigramCreateIo input, bool isCommand)
             {
-                var host = set._host;
-                var privilegeList = set._privilegeList;
+                var host = _set._host;
+                var privilegeList = _set._privilegeList;
                 var privilegeBigramRepository = host.RetrieveRequiredService<IRepository<PrivilegeBigram>>();
                 var accountRepository = host.RetrieveRequiredService<IRepository<Account>>();
                 if (!input.Id.HasValue || input.Id.Value == Guid.Empty)
@@ -431,7 +429,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                     entity = PrivilegeBigram.Create(input);
 
-                    if (subjectType != AcSubjectType.Account && !privilegeList.Any(a => a.Id == entity.Id))
+                    if (subjectType != AcSubjectType.Account && privilegeList.All(a => a.Id != entity.Id))
                     {
                         privilegeList.Add(PrivilegeBigramState.Create(entity));
                     }
@@ -470,8 +468,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     parentIds = new HashSet<Guid>();
                 }
-                var host = set._host;
-                var privilegeList = set._privilegeList;
+                var privilegeList = _set._privilegeList;
                 foreach (var item in privilegeList.Where(a => a.SubjectType == AcSubjectType.Role && a.SubjectInstanceId == roleId && a.ObjectType == AcObjectType.Role))
                 {
                     RecDescendantRoles(item.ObjectInstanceId, parentIds);
@@ -485,8 +482,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     parentIds = new HashSet<Guid>();
                 }
-                var host = set._host;
-                var privilegeList = set._privilegeList;
+                var privilegeList = _set._privilegeList;
                 foreach (var item in privilegeList.Where(a => a.SubjectType == AcSubjectType.Organization && a.SubjectInstanceId == organizationId && a.ObjectType == AcObjectType.Organization))
                 {
                     RecDescendantRoles(item.ObjectInstanceId, parentIds);
@@ -500,8 +496,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     parentIds = new HashSet<Guid>();
                 }
-                var host = set._host;
-                var privilegeList = set._privilegeList;
+                var privilegeList = _set._privilegeList;
                 foreach (var item in privilegeList.Where(a => a.SubjectType == AcSubjectType.Account && a.SubjectInstanceId == accountId && a.ObjectType == AcObjectType.Account))
                 {
                     RecDescendantRoles(item.ObjectInstanceId, parentIds);
@@ -511,7 +506,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivatPrivilegeBigramAddedEvent : PrivilegeBigramAddedEvent
             {
-                public PrivatPrivilegeBigramAddedEvent(PrivilegeBigramBase source, IPrivilegeBigramCreateIo input)
+                internal PrivatPrivilegeBigramAddedEvent(PrivilegeBigramBase source, IPrivilegeBigramCreateIo input)
                     : base(source, input)
                 {
 
@@ -533,11 +528,11 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Handle(IPrivilegeBigramUpdateIo input, bool isCommand)
             {
-                var host = set._host;
-                var privilegeList = set._privilegeList;
+                var host = _set._host;
+                var privilegeList = _set._privilegeList;
                 var privilegeRepository = host.RetrieveRequiredService<IRepository<PrivilegeBigram>>();
                 PrivilegeBigram entity = null;
-                bool stateChanged = false;
+                var stateChanged = false;
                 lock (this)
                 {
                     entity = privilegeRepository.GetByKey(input.Id);
@@ -584,7 +579,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivatePrivilegeBigramUpdatedEvent : PrivilegeBigramUpdatedEvent
             {
-                public PrivatePrivilegeBigramUpdatedEvent(PrivilegeBigramBase source, IPrivilegeBigramUpdateIo input)
+                internal PrivatePrivilegeBigramUpdatedEvent(PrivilegeBigramBase source, IPrivilegeBigramUpdateIo input)
                     : base(source, input)
                 {
 
@@ -606,8 +601,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Handle(Guid rolePrivilegeId, bool isCommand)
             {
-                var host = set._host;
-                var privilegeList = set._privilegeList;
+                var host = _set._host;
+                var privilegeList = _set._privilegeList;
                 var privilegeRepository = host.RetrieveRequiredService<IRepository<PrivilegeBigram>>();
                 PrivilegeBigram entity;
                 AcSubjectType subjectType;
@@ -663,7 +658,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivatePrivilegeBigramRemovedEvent : PrivilegeBigramRemovedEvent
             {
-                public PrivatePrivilegeBigramRemovedEvent(PrivilegeBigramBase source)
+                internal PrivatePrivilegeBigramRemovedEvent(PrivilegeBigramBase source)
                     : base(source)
                 {
 

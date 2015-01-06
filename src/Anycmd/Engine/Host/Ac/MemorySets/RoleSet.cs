@@ -8,16 +8,17 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     using Engine.Ac.InOuts;
     using Engine.Ac.Messages;
     using Exceptions;
-    using Util;
     using Host;
     using Repositories;
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
+    using Util;
     using roleId = System.Guid;
 
-    public sealed class RoleSet : IRoleSet
+    internal sealed class RoleSet : IRoleSet
     {
         public static readonly IRoleSet Empty = new RoleSet(EmptyAcDomain.SingleInstance);
 
@@ -34,7 +35,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
         }
 
         #region Ctor
-        public RoleSet(IAcDomain host)
+        internal RoleSet(IAcDomain host)
         {
             if (host == null)
             {
@@ -99,32 +100,28 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
         private void Init()
         {
-            if (!_initialized)
+            if (_initialized) return;
+            lock (this)
             {
-                lock (this)
+                if (_initialized) return;
+                _roleDic.Clear();
+                _descendantRoles.Clear();
+                var roles = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllRoles();
+                foreach (var role in roles)
                 {
-                    if (!_initialized)
+                    var roleState = RoleState.Create(role);
+                    if (!_roleDic.ContainsKey(role.Id))
                     {
-                        _roleDic.Clear();
-                        _descendantRoles.Clear();
-                        var roles = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllRoles();
-                        foreach (var role in roles)
-                        {
-                            var roleState = RoleState.Create(role);
-                            if (!_roleDic.ContainsKey(role.Id))
-                            {
-                                _roleDic.Add(role.Id, roleState);
-                            }
-                        }
-                        foreach (var role in _roleDic)
-                        {
-                            var children = new List<RoleState>();
-                            RecDescendantRoles(this, role.Value, children);
-                            _descendantRoles.Add(role.Value, children);
-                        }
-                        _initialized = true;
+                        _roleDic.Add(role.Id, roleState);
                     }
                 }
+                foreach (var role in _roleDic)
+                {
+                    var children = new List<RoleState>();
+                    RecDescendantRoles(this, role.Value, children);
+                    _descendantRoles.Add(role.Value, children);
+                }
+                _initialized = true;
             }
         }
 
@@ -174,19 +171,19 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             IHandler<RoleRolePrivilegeAddedEvent>,
             IHandler<RoleRolePrivilegeRemovedEvent>
         {
-            private readonly RoleSet set;
+            private readonly RoleSet _set;
 
-            public MessageHandler(RoleSet set)
+            internal MessageHandler(RoleSet set)
             {
-                this.set = set;
+                this._set = set;
             }
 
             public void Register()
             {
-                var messageDispatcher = set._host.MessageDispatcher;
+                var messageDispatcher = _set._host.MessageDispatcher;
                 if (messageDispatcher == null)
                 {
-                    throw new ArgumentNullException("messageDispatcher has not be set of host:{0}".Fmt(set._host.Name));
+                    throw new ArgumentNullException("messageDispatcher has not be set of host:{0}".Fmt(_set._host.Name));
                 }
                 messageDispatcher.Register((IHandler<AddRoleCommand>)this);
                 messageDispatcher.Register((IHandler<RoleAddedEvent>)this);
@@ -214,8 +211,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Handle(IRoleCreateIo input, bool isCommand)
             {
-                var host = set._host;
-                var roleDic = set._roleDic;
+                var host = _set._host;
+                var roleDic = _set._roleDic;
                 var roleRepository = host.RetrieveRequiredService<IRepository<Role>>();
                 if (!input.Id.HasValue)
                 {
@@ -267,7 +264,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateRoleAddedEvent : RoleAddedEvent
             {
-                public PrivateRoleAddedEvent(RoleBase source, IRoleCreateIo input)
+                internal PrivateRoleAddedEvent(RoleBase source, IRoleCreateIo input)
                     : base(source, input)
                 {
 
@@ -289,8 +286,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Handle(IRoleUpdateIo input, bool isCommand)
             {
-                var host = set._host;
-                var roleDic = set._roleDic;
+                var host = _set._host;
+                var roleDic = _set._roleDic;
                 var roleRepository = host.RetrieveRequiredService<IRepository<Role>>();
                 RoleState bkState;
                 if (!host.RoleSet.TryGetRole(input.Id, out bkState))
@@ -350,14 +347,13 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Update(RoleState state)
             {
-                var host = set._host;
-                var roleDic = set._roleDic;
+                var roleDic = _set._roleDic;
                 roleDic[state.Id] = state;
             }
 
             private class PrivateRoleUpdatedEvent : RoleUpdatedEvent
             {
-                public PrivateRoleUpdatedEvent(RoleBase source, IRoleUpdateIo input)
+                internal PrivateRoleUpdatedEvent(RoleBase source, IRoleUpdateIo input)
                     : base(source, input)
                 {
 
@@ -379,8 +375,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Handle(Guid roleId, bool isCommand)
             {
-                var host = set._host;
-                var roleDic = set._roleDic;
+                var host = _set._host;
+                var roleDic = _set._roleDic;
                 var roleRepository = host.RetrieveRequiredService<IRepository<Role>>();
                 RoleState bkState;
                 if (!host.RoleSet.TryGetRole(roleId, out bkState))
@@ -434,7 +430,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateRoleRemovedEvent : RoleRemovedEvent
             {
-                public PrivateRoleRemovedEvent(RoleBase source)
+                internal PrivateRoleRemovedEvent(RoleBase source)
                     : base(source)
                 {
 
@@ -443,11 +439,11 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(RoleRolePrivilegeAddedEvent message)
             {
-                var host = set._host;
-                var roleDic = set._roleDic;
-                var descendantRoles = set._descendantRoles;
+                var roleDic = _set._roleDic;
+                var descendantRoles = _set._descendantRoles;
                 var entity = message.Source as PrivilegeBigramBase;
                 RoleState parentRole;
+                Debug.Assert(entity != null, "entity != null");
                 if (roleDic.TryGetValue(entity.SubjectInstanceId, out parentRole))
                 {
                     lock (descendantRoles)
@@ -462,7 +458,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                         if (roleDic.TryGetValue(entity.ObjectInstanceId, out roleObject))
                         {
                             var children = new List<RoleState>();
-                            RecDescendantRoles(set, roleObject, children);
+                            RecDescendantRoles(_set, roleObject, children);
                             children.Add(roleObject);
                             foreach (var role in children)
                             {
@@ -472,7 +468,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                                 }
                             }
                             var ancestorRoles = new List<RoleState>();
-                            set.RecAncestorRoles(parentRole, ancestorRoles);
+                            _set.RecAncestorRoles(parentRole, ancestorRoles);
                             foreach (var item in ancestorRoles)
                             {
                                 if (!descendantRoles.TryGetValue(item, out value))
@@ -495,11 +491,11 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(RoleRolePrivilegeRemovedEvent message)
             {
-                var host = set._host;
-                var roleDic = set._roleDic;
-                var descendantRoles = set._descendantRoles;
+                var roleDic = _set._roleDic;
+                var descendantRoles = _set._descendantRoles;
                 var entity = message.Source as PrivilegeBigramBase;
                 RoleState parentRole;
+                Debug.Assert(entity != null, "entity != null");
                 if (roleDic.TryGetValue(entity.SubjectInstanceId, out parentRole))
                 {
                     lock (descendantRoles)
@@ -516,7 +512,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                         if (roleDic.TryGetValue(entity.ObjectInstanceId, out roleObject))
                         {
                             var children = new List<RoleState>();
-                            RecDescendantRoles(set, roleObject, children);
+                            RecDescendantRoles(_set, roleObject, children);
                             children.Add(roleObject);
                             foreach (var role in children)
                             {
@@ -526,7 +522,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                                 }
                             }
                             var ancestorRoles = new List<RoleState>();
-                            set.RecAncestorRoles(parentRole, ancestorRoles);
+                            _set.RecAncestorRoles(parentRole, ancestorRoles);
                             foreach (var item in ancestorRoles)
                             {
                                 foreach (var role in children)

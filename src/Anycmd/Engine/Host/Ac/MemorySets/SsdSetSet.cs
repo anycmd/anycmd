@@ -7,15 +7,15 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     using Engine.Ac.InOuts;
     using Engine.Ac.Messages;
     using Exceptions;
-    using Util;
     using Host;
     using Repositories;
     using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
+    using Util;
 
-    public sealed class SsdSetSet : ISsdSetSet
+    internal sealed class SsdSetSet : ISsdSetSet
     {
         public static readonly ISsdSetSet Empty = new SsdSetSet(EmptyAcDomain.SingleInstance);
 
@@ -31,7 +31,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             get { return _id; }
         }
 
-        public SsdSetSet(IAcDomain host)
+        internal SsdSetSet(IAcDomain host)
         {
             if (host == null)
             {
@@ -121,49 +121,45 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
         private void Init()
         {
-            if (!_initialized)
+            if (_initialized) return;
+            lock (this)
             {
-                lock (this)
+                if (_initialized) return;
+                _ssdSetDic.Clear();
+                _ssdRoleBySet.Clear();
+                _ssdRoleById.Clear();
+                var stateReder = _host.RetrieveRequiredService<IOriginalHostStateReader>();
+                var ssdSets = stateReder.GetAllSsdSets();
+                foreach (var ssdSet in ssdSets)
                 {
-                    if (!_initialized)
+                    if (!_ssdSetDic.ContainsKey(ssdSet.Id))
                     {
-                        _ssdSetDic.Clear();
-                        _ssdRoleBySet.Clear();
-                        _ssdRoleById.Clear();
-                        var stateReder = _host.RetrieveRequiredService<IOriginalHostStateReader>();
-                        var ssdSets = stateReder.GetAllSsdSets();
-                        foreach (var ssdSet in ssdSets)
-                        {
-                            if (!_ssdSetDic.ContainsKey(ssdSet.Id))
-                            {
-                                _ssdSetDic.Add(ssdSet.Id, SsdSetState.Create(ssdSet));
-                            }
-                        }
-                        var ssdRoles = stateReder.GetAllSsdRoles();
-                        foreach (var ssdRole in ssdRoles)
-                        {
-                            SsdSetState ssdSetState;
-                            if (_ssdSetDic.TryGetValue(ssdRole.SsdSetId, out ssdSetState))
-                            {
-                                var state = SsdRoleState.Create(ssdRole);
-                                if (!_ssdRoleById.ContainsKey(ssdRole.Id))
-                                {
-                                    _ssdRoleById.Add(ssdRole.Id, state);
-                                }
-                                if (!_ssdRoleBySet.ContainsKey(ssdSetState))
-                                {
-                                    _ssdRoleBySet.Add(ssdSetState, new List<SsdRoleState>());
-                                }
-                                _ssdRoleBySet[ssdSetState].Add(state);
-                            }
-                            else
-                            {
-                                // TODO:删除非法的记录
-                            }
-                        }
-                        _initialized = true;
+                        _ssdSetDic.Add(ssdSet.Id, SsdSetState.Create(ssdSet));
                     }
                 }
+                var ssdRoles = stateReder.GetAllSsdRoles();
+                foreach (var ssdRole in ssdRoles)
+                {
+                    SsdSetState ssdSetState;
+                    if (_ssdSetDic.TryGetValue(ssdRole.SsdSetId, out ssdSetState))
+                    {
+                        var state = SsdRoleState.Create(ssdRole);
+                        if (!_ssdRoleById.ContainsKey(ssdRole.Id))
+                        {
+                            _ssdRoleById.Add(ssdRole.Id, state);
+                        }
+                        if (!_ssdRoleBySet.ContainsKey(ssdSetState))
+                        {
+                            _ssdRoleBySet.Add(ssdSetState, new List<SsdRoleState>());
+                        }
+                        _ssdRoleBySet[ssdSetState].Add(state);
+                    }
+                    else
+                    {
+                        // TODO:删除非法的记录
+                    }
+                }
+                _initialized = true;
             }
         }
 
@@ -182,7 +178,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
         {
             private readonly SsdSetSet _set;
 
-            public MessageHandler(SsdSetSet set)
+            internal MessageHandler(SsdSetSet set)
             {
                 this._set = set;
             }
@@ -273,7 +269,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateSsdSetAddedEvent : SsdSetAddedEvent
             {
-                public PrivateSsdSetAddedEvent(SsdSetBase source, ISsdSetCreateIo input)
+                internal PrivateSsdSetAddedEvent(SsdSetBase source, ISsdSetCreateIo input)
                     : base(source, input)
                 {
                 }
@@ -363,7 +359,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateSsdSetUpdatedEvent : SsdSetUpdatedEvent
             {
-                public PrivateSsdSetUpdatedEvent(SsdSetBase source, ISsdSetUpdateIo input)
+                internal PrivateSsdSetUpdatedEvent(SsdSetBase source, ISsdSetUpdateIo input)
                     : base(source, input)
                 {
 
@@ -437,7 +433,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateSsdSetRemovedEvent : SsdSetRemovedEvent
             {
-                public PrivateSsdSetRemovedEvent(SsdSetBase source)
+                internal PrivateSsdSetRemovedEvent(SsdSetBase source)
                     : base(source)
                 {
                 }
@@ -526,7 +522,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateSsdRoleAddedEvent : SsdRoleAddedEvent
             {
-                public PrivateSsdRoleAddedEvent(SsdRoleBase source, ISsdRoleCreateIo input)
+                internal PrivateSsdRoleAddedEvent(SsdRoleBase source, ISsdRoleCreateIo input)
                     : base(source, input)
                 {
 
@@ -611,7 +607,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateSsdRoleRemovedEvent : SsdRoleRemovedEvent
             {
-                public PrivateSsdRoleRemovedEvent(SsdRoleBase source)
+                internal PrivateSsdRoleRemovedEvent(SsdRoleBase source)
                     : base(source)
                 {
                 }

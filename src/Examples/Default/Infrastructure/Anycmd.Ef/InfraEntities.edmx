@@ -950,7 +950,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="InfraEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="InfraEntities" annotation:LazyLoadingEnabled="false">
           <EntitySet Name="AppSystems" EntityType="Self.AppSystem" />
           <EntitySet Name="Buttons" EntityType="Self.Button" />
           <EntitySet Name="Dics" EntityType="Self.Dic" />

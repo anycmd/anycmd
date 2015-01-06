@@ -9,15 +9,15 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     using Engine.Ac.Messages;
     using Engine.Ac.Messages.Infra;
     using Exceptions;
-    using Util;
     using Host;
     using Repositories;
     using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
+    using Util;
 
-    public sealed class GroupSet : IGroupSet
+    internal sealed class GroupSet : IGroupSet
     {
         public static readonly IGroupSet Empty = new GroupSet(EmptyAcDomain.SingleInstance);
 
@@ -31,7 +31,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             get { return _id; }
         }
 
-        public GroupSet(IAcDomain host)
+        internal GroupSet(IAcDomain host)
         {
             if (host == null)
             {
@@ -70,24 +70,20 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
         private void Init()
         {
-            if (!_initialized)
+            if (_initialized) return;
+            lock (this)
             {
-                lock (this)
+                if (_initialized) return;
+                _groupDic.Clear();
+                var groups = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllGroups();
+                foreach (var group in groups)
                 {
-                    if (!_initialized)
+                    if (!_groupDic.ContainsKey(@group.Id))
                     {
-                        _groupDic.Clear();
-                        var groups = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllGroups();
-                        foreach (var group in groups)
-                        {
-                            if (!_groupDic.ContainsKey(group.Id))
-                            {
-                                _groupDic.Add(group.Id, GroupState.Create(group));
-                            }
-                        }
-                        _initialized = true;
+                        _groupDic.Add(@group.Id, GroupState.Create(@group));
                     }
                 }
+                _initialized = true;
             }
         }
 
@@ -109,7 +105,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
         {
             private readonly GroupSet _set;
 
-            public MessageHandler(GroupSet set)
+            internal MessageHandler(GroupSet set)
             {
                 this._set = set;
             }
@@ -293,7 +289,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateGroupAddedEvent : GroupAddedEvent
             {
-                public PrivateGroupAddedEvent(GroupBase source, IGroupCreateIo input)
+                internal PrivateGroupAddedEvent(GroupBase source, IGroupCreateIo input)
                     : base(source, input)
                 {
 
@@ -301,7 +297,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             }
             private class PrivatePositionAddedEvent : PositionAddedEvent
             {
-                public PrivatePositionAddedEvent(GroupBase source, IPositionCreateIo input)
+                internal PrivatePositionAddedEvent(GroupBase source, IPositionCreateIo input)
                     : base(source, input)
                 {
 
@@ -339,7 +335,6 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             private void Handle(IGroupUpdateIo input, bool isCommand)
             {
                 var host = _set._host;
-                var groupDic = _set._groupDic;
                 var groupRepository = host.RetrieveRequiredService<IRepository<Group>>();
                 GroupState bkState;
                 if (!host.GroupSet.TryGetGroup(input.Id, out bkState))
@@ -347,7 +342,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     throw new NotExistException();
                 }
                 Group entity;
-                bool stateChanged = false;
+                var stateChanged = false;
                 lock (bkState)
                 {
                     GroupState oldState;
@@ -400,7 +395,6 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             private void Handle(IPositionUpdateIo input, bool isCommand)
             {
                 var host = _set._host;
-                var groupDic = _set._groupDic;
                 var groupRepository = host.RetrieveRequiredService<IRepository<Group>>();
                 GroupState bkState;
                 if (!host.GroupSet.TryGetGroup(input.Id, out bkState))
@@ -412,7 +406,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     throw new AnycmdException("组织结构码为空");
                 }
                 Group entity;
-                bool stateChanged = false;
+                var stateChanged = false;
                 lock (bkState)
                 {
                     GroupState oldState;
@@ -464,14 +458,13 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Update(GroupState state)
             {
-                var host = _set._host;
                 var groupDic = _set._groupDic;
                 groupDic[state.Id] = state;
             }
 
             private class PrivateGroupUpdatedEvent : GroupUpdatedEvent
             {
-                public PrivateGroupUpdatedEvent(GroupBase source, IGroupUpdateIo input)
+                internal PrivateGroupUpdatedEvent(GroupBase source, IGroupUpdateIo input)
                     : base(source, input)
                 {
 
@@ -480,7 +473,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivatePositionUpdatedEvent : PositionUpdatedEvent
             {
-                public PrivatePositionUpdatedEvent(GroupBase source, IPositionUpdateIo input)
+                internal PrivatePositionUpdatedEvent(GroupBase source, IPositionUpdateIo input)
                     : base(source, input)
                 {
 
@@ -576,7 +569,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateGroupRemovedEvent : GroupRemovedEvent
             {
-                public PrivateGroupRemovedEvent(GroupBase source)
+                internal PrivateGroupRemovedEvent(GroupBase source)
                     : base(source)
                 {
 
@@ -585,7 +578,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivatePositionRemovedEvent : PositionRemovedEvent
             {
-                public PrivatePositionRemovedEvent(GroupBase source)
+                internal PrivatePositionRemovedEvent(GroupBase source)
                     : base(source)
                 {
 

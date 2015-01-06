@@ -14,7 +14,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
     /// <summary>
     /// 
     /// </summary>
-    public sealed class EntityProviderSet : IEntityProviderSet
+    internal sealed class EntityProviderSet : IEntityProviderSet
     {
         public static readonly IEntityProviderSet Empty = new EntityProviderSet(EmptyAcDomain.SingleInstance);
 
@@ -34,7 +34,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
         /// <summary>
         /// 构造并接入总线
         /// </summary>
-        public EntityProviderSet(IAcDomain host)
+        internal EntityProviderSet(IAcDomain host)
         {
             if (host == null)
             {

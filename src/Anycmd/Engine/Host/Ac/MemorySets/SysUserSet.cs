@@ -6,15 +6,15 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     using Engine.Ac.Abstractions.Identity;
     using Engine.Ac.Messages.Identity;
     using Exceptions;
-    using Util;
     using Host;
     using Identity;
     using Repositories;
     using System;
     using System.Collections.Generic;
+    using Util;
     using loginName = System.String;
 
-    public sealed class SysUserSet : ISysUserSet
+    internal sealed class SysUserSet : ISysUserSet
     {
         public static readonly ISysUserSet Empty = new SysUserSet(EmptyAcDomain.SingleInstance);
 
@@ -30,7 +30,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             get { return _id; }
         }
 
-        public SysUserSet(IAcDomain host)
+        internal SysUserSet(IAcDomain host)
         {
             if (host == null)
             {
@@ -85,30 +85,26 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
         private void Init()
         {
-            if (!_initialized)
+            if (_initialized) return;
+            lock (this)
             {
-                lock (this)
+                if (_initialized) return;
+                _devAccountById.Clear();
+                _devAccountByLoginName.Clear();
+                var accounts = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllDevAccounts();
+                foreach (var account in accounts)
                 {
-                    if (!_initialized)
+                    var accountState = AccountState.Create(account);
+                    if (!_devAccountById.ContainsKey(account.Id))
                     {
-                        _devAccountById.Clear();
-                        _devAccountByLoginName.Clear();
-                        var accounts = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllDevAccounts();
-                        foreach (var account in accounts)
-                        {
-                            var accountState = AccountState.Create(account);
-                            if (!_devAccountById.ContainsKey(account.Id))
-                            {
-                                _devAccountById.Add(account.Id, accountState);
-                            }
-                            if (!_devAccountByLoginName.ContainsKey(account.LoginName))
-                            {
-                                _devAccountByLoginName.Add(account.LoginName, accountState);
-                            }
-                        }
-                        _initialized = true;
+                        _devAccountById.Add(account.Id, accountState);
+                    }
+                    if (!_devAccountByLoginName.ContainsKey(account.LoginName))
+                    {
+                        _devAccountByLoginName.Add(account.LoginName, accountState);
                     }
                 }
+                _initialized = true;
             }
         }
 
@@ -121,7 +117,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
         {
             private readonly SysUserSet _set;
 
-            public MessageHandle(SysUserSet set)
+            internal MessageHandle(SysUserSet set)
             {
                 this._set = set;
             }
@@ -205,7 +201,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateDeveloperAddedEvent : DeveloperAddedEvent
             {
-                public PrivateDeveloperAddedEvent(DeveloperId source) : base(source) { }
+                internal PrivateDeveloperAddedEvent(DeveloperId source) : base(source) { }
             }
 
             public void Handle(DeveloperUpdatedEvent message)
@@ -294,7 +290,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateDeveloperRemovedEvent : DeveloperRemovedEvent
             {
-                public PrivateDeveloperRemovedEvent(DeveloperId source) : base(source) { }
+                internal PrivateDeveloperRemovedEvent(DeveloperId source) : base(source) { }
             }
         }
     }

@@ -3,7 +3,6 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 {
     using Engine.Edi;
     using Entities;
-    using Util;
     using Info;
     using Model;
     using Repositories;
@@ -15,11 +14,12 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
     using System.IO;
     using System.Linq;
     using Transactions;
+    using Util;
 
     /// <summary>
     /// 
     /// </summary>
-    public sealed class InfoRuleSet : IInfoRuleSet
+    internal sealed class InfoRuleSet : IInfoRuleSet
     {
         public static readonly IInfoRuleSet Empty = new InfoRuleSet(EmptyAcDomain.SingleInstance);
 
@@ -38,7 +38,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
         /// <summary>
         /// 构造并接入总线
         /// </summary>
-        public InfoRuleSet(IAcDomain host)
+        internal InfoRuleSet(IAcDomain host)
         {
             if (host == null)
             {
@@ -95,31 +95,27 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
         private void Init()
         {
-            if (!_initialized)
+            if (_initialized) return;
+            lock (_locker)
             {
-                lock (_locker)
+                if (_initialized) return;
+                foreach (var item in _infoRuleEntities)
                 {
-                    if (!_initialized)
+                    item.Value.InfoRule.Dispose();
+                }
+                _infoRuleEntities.Clear();
+
+                var infoRules = GetInfoRules();
+                if (infoRules != null)
+                {
+                    // 填充信息项验证器库
+                    foreach (var infoRule in infoRules.Where(a => a.IsEnabled == 1))
                     {
-                        foreach (var item in _infoRuleEntities)
-                        {
-                            item.Value.InfoRule.Dispose();
-                        }
-                        _infoRuleEntities.Clear();
-
-                        var infoRules = GetInfoRules();
-                        if (infoRules != null)
-                        {
-                            // 填充信息项验证器库
-                            foreach (var infoRule in infoRules.Where(a => a.IsEnabled == 1))
-                            {
-                                _infoRuleEntities.Add(infoRule.Id, infoRule);
-                            }
-                        }
-
-                        _initialized = true;
+                        _infoRuleEntities.Add(infoRule.Id, infoRule);
                     }
                 }
+
+                _initialized = true;
             }
         }
 

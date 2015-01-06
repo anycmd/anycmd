@@ -7,7 +7,6 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     using Engine.Ac.InOuts;
     using Engine.Ac.Messages.Infra;
     using Exceptions;
-    using Util;
     using Host;
     using Infra;
     using Repositories;
@@ -15,11 +14,12 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
+    using Util;
 
     /// <summary>
     /// 资源上下文
     /// </summary>
-    public sealed class ResourceTypeSet : IResourceTypeSet
+    internal sealed class ResourceTypeSet : IResourceTypeSet
     {
         public static readonly IResourceTypeSet Empty = new ResourceTypeSet(EmptyAcDomain.SingleInstance);
 
@@ -35,7 +35,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             get { return _id; }
         }
 
-        public ResourceTypeSet(IAcDomain host)
+        internal ResourceTypeSet(IAcDomain host)
         {
             if (host == null)
             {
@@ -106,41 +106,37 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
         private void Init()
         {
-            if (!_initialized)
+            if (_initialized) return;
+            lock (this)
             {
-                lock (this)
+                if (_initialized) return;
+                _dicByCode.Clear();
+                _dicById.Clear();
+                var allResources = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllResources();
+                foreach (var resource in allResources)
                 {
-                    if (!_initialized)
+                    AppSystemState appSystem;
+                    if (!_host.AppSystemSet.TryGetAppSystem(resource.AppSystemId, out appSystem))
                     {
-                        _dicByCode.Clear();
-                        _dicById.Clear();
-                        var allResources = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllResources();
-                        foreach (var resource in allResources)
-                        {
-                            AppSystemState appSystem;
-                            if (!_host.AppSystemSet.TryGetAppSystem(resource.AppSystemId, out appSystem))
-                            {
-                                throw new AnycmdException("意外的资源类型应用系统标识" + resource.AppSystemId);
-                            }
-                            if (!_dicByCode.ContainsKey(appSystem))
-                            {
-                                _dicByCode.Add(appSystem, new Dictionary<string, ResourceTypeState>(StringComparer.OrdinalIgnoreCase));
-                            }
-                            if (_dicByCode[appSystem].ContainsKey(resource.Code))
-                            {
-                                throw new AnycmdException("意外重复的资源标识" + resource.Id);
-                            }
-                            if (_dicById.ContainsKey(resource.Id))
-                            {
-                                throw new AnycmdException("意外重复的资源标识" + resource.Id);
-                            }
-                            var resourceState = ResourceTypeState.Create(resource);
-                            _dicByCode[appSystem].Add(resource.Code, resourceState);
-                            _dicById.Add(resource.Id, resourceState);
-                        }
-                        _initialized = true;
+                        throw new AnycmdException("意外的资源类型应用系统标识" + resource.AppSystemId);
                     }
+                    if (!_dicByCode.ContainsKey(appSystem))
+                    {
+                        _dicByCode.Add(appSystem, new Dictionary<string, ResourceTypeState>(StringComparer.OrdinalIgnoreCase));
+                    }
+                    if (_dicByCode[appSystem].ContainsKey(resource.Code))
+                    {
+                        throw new AnycmdException("意外重复的资源标识" + resource.Id);
+                    }
+                    if (_dicById.ContainsKey(resource.Id))
+                    {
+                        throw new AnycmdException("意外重复的资源标识" + resource.Id);
+                    }
+                    var resourceState = ResourceTypeState.Create(resource);
+                    _dicByCode[appSystem].Add(resource.Code, resourceState);
+                    _dicById.Add(resource.Id, resourceState);
                 }
+                _initialized = true;
             }
         }
 
@@ -153,19 +149,19 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             IHandler<RemoveResourceTypeCommand>,
             IHandler<ResourceTypeRemovedEvent>
         {
-            private readonly ResourceTypeSet set;
+            private readonly ResourceTypeSet _set;
 
-            public MessageHandler(ResourceTypeSet set)
+            internal MessageHandler(ResourceTypeSet set)
             {
-                this.set = set;
+                this._set = set;
             }
 
             public void Register()
             {
-                var messageDispatcher = set._host.MessageDispatcher;
+                var messageDispatcher = _set._host.MessageDispatcher;
                 if (messageDispatcher == null)
                 {
-                    throw new ArgumentNullException("messageDispatcher has not be set of host:{0}".Fmt(set._host.Name));
+                    throw new ArgumentNullException("messageDispatcher has not be set of host:{0}".Fmt(_set._host.Name));
                 }
                 messageDispatcher.Register((IHandler<AddResourceCommand>)this);
                 messageDispatcher.Register((IHandler<ResourceTypeAddedEvent>)this);
@@ -191,9 +187,9 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Handle(IResourceTypeCreateIo input, bool isCommand)
             {
-                var host = set._host;
-                var dicByCode = set._dicByCode;
-                var dicById = set._dicById;
+                var host = _set._host;
+                var dicByCode = _set._dicByCode;
+                var dicById = _set._dicById;
                 var resourceRepository = host.RetrieveRequiredService<IRepository<ResourceType>>();
                 if (string.IsNullOrEmpty(input.Code))
                 {
@@ -266,7 +262,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateResourceAddedEvent : ResourceTypeAddedEvent
             {
-                public PrivateResourceAddedEvent(ResourceTypeBase source, IResourceTypeCreateIo input)
+                internal PrivateResourceAddedEvent(ResourceTypeBase source, IResourceTypeCreateIo input)
                     : base(source, input)
                 {
 
@@ -288,9 +284,9 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Handle(IResourceTypeUpdateIo input, bool isCommand)
             {
-                var host = set._host;
-                var dicByCode = set._dicByCode;
-                var dicById = set._dicById;
+                var host = _set._host;
+                var dicByCode = _set._dicByCode;
+                var dicById = _set._dicById;
                 var resourceRepository = host.RetrieveRequiredService<IRepository<ResourceType>>();
                 if (string.IsNullOrEmpty(input.Code))
                 {
@@ -360,9 +356,9 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Update(ResourceTypeState state)
             {
-                var host = set._host;
-                var dicByCode = set._dicByCode;
-                var dicById = set._dicById;
+                var host = _set._host;
+                var dicByCode = _set._dicByCode;
+                var dicById = _set._dicById;
                 AppSystemState appSystem;
                 if (!host.AppSystemSet.TryGetAppSystem(state.AppSystemId, out appSystem))
                 {
@@ -389,7 +385,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateResourceUpdatedEvent : ResourceTypeUpdatedEvent
             {
-                public PrivateResourceUpdatedEvent(ResourceTypeBase source, IResourceTypeUpdateIo input)
+                internal PrivateResourceUpdatedEvent(ResourceTypeBase source, IResourceTypeUpdateIo input)
                     : base(source, input)
                 {
 
@@ -411,9 +407,9 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Handle(Guid resourceTypeId, bool isCommand)
             {
-                var host = set._host;
-                var dicByCode = set._dicByCode;
-                var dicById = set._dicById;
+                var host = _set._host;
+                var dicByCode = _set._dicByCode;
+                var dicById = _set._dicById;
                 var resourceRepository = host.RetrieveRequiredService<IRepository<ResourceType>>();
                 ResourceTypeState bkState;
                 if (!host.ResourceTypeSet.TryGetResource(resourceTypeId, out bkState))
@@ -484,7 +480,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateResourceRemovedEvent : ResourceTypeRemovedEvent
             {
-                public PrivateResourceRemovedEvent(ResourceTypeBase source)
+                internal PrivateResourceRemovedEvent(ResourceTypeBase source)
                     : base(source)
                 {
 

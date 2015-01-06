@@ -213,7 +213,7 @@
           <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="RowGuid" Type="Guid" Nullable="false" />
         </EntityType>
-        <EntityContainer Name="AcEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="AcEntities" annotation:LazyLoadingEnabled="false">
           <EntitySet Name="Groups" EntityType="Self.Group" />
           <EntitySet Name="Roles" EntityType="Self.Role" />
           <EntitySet Name="PrivilegeBigrams" EntityType="AnycmdModel.PrivilegeBigram" />

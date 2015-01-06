@@ -7,7 +7,6 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     using Engine.Ac.InOuts;
     using Engine.Ac.Messages.Infra;
     using Exceptions;
-    using Util;
     using Host;
     using Infra;
     using Repositories;
@@ -15,8 +14,9 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
+    using Util;
 
-    public sealed class MenuSet : IMenuSet
+    internal sealed class MenuSet : IMenuSet
     {
         public static readonly IMenuSet Empty = new MenuSet(EmptyAcDomain.SingleInstance);
 
@@ -34,7 +34,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             }
         }
 
-        public MenuSet(IAcDomain host)
+        internal MenuSet(IAcDomain host)
         {
             if (host == null)
             {
@@ -73,21 +73,17 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
         private void Init()
         {
-            if (!_initialized)
+            if (_initialized) return;
+            lock (this)
             {
-                lock (this)
+                if (_initialized) return;
+                _menuById.Clear();
+                var menus = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllMenus().OrderBy(a => a.SortCode);
+                foreach (var menu in menus)
                 {
-                    if (!_initialized)
-                    {
-                        _menuById.Clear();
-                        var menus = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllMenus().OrderBy(a => a.SortCode);
-                        foreach (var menu in menus)
-                        {
-                            _menuById.Add(menu.Id, MenuState.Create(_host, menu));
-                        }
-                        _initialized = true;
-                    }
+                    _menuById.Add(menu.Id, MenuState.Create(_host, menu));
                 }
+                _initialized = true;
             }
         }
 
@@ -100,19 +96,19 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             IHandler<RemoveMenuCommand>, 
             IHandler<MenuRemovedEvent>
         {
-            private readonly MenuSet set;
+            private readonly MenuSet _set;
 
-            public MessageHandler(MenuSet set)
+            internal MessageHandler(MenuSet set)
             {
-                this.set = set;
+                this._set = set;
             }
 
             public void Register()
             {
-                var messageDispatcher = set._host.MessageDispatcher;
+                var messageDispatcher = _set._host.MessageDispatcher;
                 if (messageDispatcher == null)
                 {
-                    throw new ArgumentNullException("messageDispatcher has not be set of host:{0}".Fmt(set._host.Name));
+                    throw new ArgumentNullException("messageDispatcher has not be set of host:{0}".Fmt(_set._host.Name));
                 }
                 messageDispatcher.Register((IHandler<AddMenuCommand>)this);
                 messageDispatcher.Register((IHandler<MenuAddedEvent>)this);
@@ -138,8 +134,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Handle(IMenuCreateIo input, bool isCommand)
             {
-                var host = set._host;
-                var menuById = set._menuById;
+                var host = _set._host;
+                var menuById = _set._menuById;
                 var menuRepository = host.RetrieveRequiredService<IRepository<Menu>>();
                 if (!input.Id.HasValue)
                 {
@@ -211,7 +207,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateMenuAddedEvent : MenuAddedEvent
             {
-                public PrivateMenuAddedEvent(MenuBase source, IMenuCreateIo input)
+                internal PrivateMenuAddedEvent(MenuBase source, IMenuCreateIo input)
                     : base(source, input)
                 {
 
@@ -233,8 +229,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Handle(IMenuUpdateIo input, bool isCommand)
             {
-                var host = set._host;
-                var menuById = set._menuById;
+                var host = _set._host;
+                var menuById = _set._menuById;
                 var menuRepository = host.RetrieveRequiredService<IRepository<Menu>>();
                 MenuState bkState;
                 if (!host.MenuSet.TryGetMenu(input.Id, out bkState))
@@ -242,7 +238,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     throw new ValidationException("给定标识的菜单不存在" + input.Id);
                 }
                 Menu entity;
-                bool stateChanged = false;
+                var stateChanged = false;
                 lock (bkState)
                 {
                     MenuState oldState;
@@ -290,7 +286,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateMenuUpdatedEvent : MenuUpdatedEvent
             {
-                public PrivateMenuUpdatedEvent(MenuBase source, IMenuUpdateIo input)
+                internal PrivateMenuUpdatedEvent(MenuBase source, IMenuUpdateIo input)
                     : base(source, input)
                 {
 
@@ -299,24 +295,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Update(MenuState state)
             {
-                var host = set._host;
-                var menuById = set._menuById;
+                var menuById = _set._menuById;
                 menuById[state.Id] = state;
             }
 
-            private void RecChildMenus(Guid menuId, List<IMenu> menus)
-            {
-                var host = set._host;
-                var menuById = set._menuById;
-                foreach (var menu in host.MenuSet)
-                {
-                    if (menu.ParentId == menuId)
-                    {
-                        menus.Add(menu);
-                        RecChildMenus(menu.Id, menus);
-                    }
-                }
-            }
             public void Handle(RemoveMenuCommand message)
             {
                 this.Handle(message.EntityId, true);
@@ -333,8 +315,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Handle(Guid menuId, bool isCommand)
             {
-                var host = set._host;
-                var menuById = set._menuById;
+                var host = _set._host;
+                var menuById = _set._menuById;
                 var menuRepository = host.RetrieveRequiredService<IRepository<Menu>>();
                 MenuState bkState;
                 if (!host.MenuSet.TryGetMenu(menuId, out bkState))
@@ -392,7 +374,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateMenuRemovedEvent : MenuRemovedEvent
             {
-                public PrivateMenuRemovedEvent(MenuBase source)
+                internal PrivateMenuRemovedEvent(MenuBase source)
                     : base(source)
                 {
 

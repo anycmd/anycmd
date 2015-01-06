@@ -15,7 +15,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
     /// <summary>
     /// 
     /// </summary>
-    public sealed class InfoStringConverterSet : IInfoStringConverterSet
+    internal sealed class InfoStringConverterSet : IInfoStringConverterSet
     {
         public static readonly IInfoStringConverterSet Empty = new InfoStringConverterSet(EmptyAcDomain.SingleInstance);
 
@@ -34,7 +34,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
         /// <summary>
         /// 构造并接入总线
         /// </summary>
-        public InfoStringConverterSet(IAcDomain host)
+        internal InfoStringConverterSet(IAcDomain host)
         {
             if (host == null)
             {
@@ -102,31 +102,27 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
         private void Init()
         {
-            if (!_initialized)
+            if (_initialized) return;
+            lock (_locker)
             {
-                lock (_locker)
-                {
-                    if (!_initialized)
-                    {
-                        _dic.Clear();
+                if (_initialized) return;
+                _dic.Clear();
 
-                        var convertors = GetInfoStringConverters();
-                        if (convertors != null)
+                var convertors = GetInfoStringConverters();
+                if (convertors != null)
+                {
+                    var infoStringConverters = convertors as IInfoStringConverter[] ?? convertors.ToArray();
+                    foreach (var item in infoStringConverters)
+                    {
+                        if (_dic.ContainsKey(item.InfoFormat))
                         {
-                            var infoStringConverters = convertors as IInfoStringConverter[] ?? convertors.ToArray();
-                            foreach (var item in infoStringConverters)
-                            {
-                                if (_dic.ContainsKey(item.InfoFormat))
-                                {
-                                    throw new AnycmdException("信息格式转化器暂不支持优先级策略，每种格式只允许映射一个转化器");
-                                }
-                                var item1 = item;
-                                _dic.Add(item.InfoFormat, infoStringConverters.Single(a => a.Id == item1.Id));
-                            }
+                            throw new AnycmdException("信息格式转化器暂不支持优先级策略，每种格式只允许映射一个转化器");
                         }
-                        _initialized = true;
+                        var item1 = item;
+                        _dic.Add(item.InfoFormat, infoStringConverters.Single(a => a.Id == item1.Id));
                     }
                 }
+                _initialized = true;
             }
         }
 

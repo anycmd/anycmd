@@ -846,7 +846,7 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="AnycmdModel" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2009/11/edm" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
-        <EntityContainer Name="EdiEntities" annotation:LazyLoadingEnabled="true" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+        <EntityContainer Name="EdiEntities" annotation:LazyLoadingEnabled="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
           <EntitySet Name="Actions" EntityType="AnycmdModel.Action" />
           <EntitySet Name="Archives" EntityType="AnycmdModel.Archive" />
           <EntitySet Name="Batches" EntityType="AnycmdModel.Batch" />

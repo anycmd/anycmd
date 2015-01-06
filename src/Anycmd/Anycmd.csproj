@@ -243,16 +243,6 @@
     <Compile Include="Engine\IStateObject.cs" />
     <Compile Include="Engine\RemoveEntityCommand.cs" />
     <Compile Include="Engine\UpdateEntityCommand`1.cs" />
-    <Compile Include="Engine\AcEntities.Designer.cs">
-      <DependentUpon>AcEntities.edmx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Engine\EdiEntities.Designer.cs">
-      <DependentUpon>EdiEntities.edmx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="Engine\Edi\Abstractions\ActionBase.cs" />
     <Compile Include="Engine\Edi\Abstractions\ArchiveBase.cs" />
     <Compile Include="Engine\Edi\Abstractions\BatchType.cs" />
@@ -771,16 +761,6 @@
     <Compile Include="Engine\Host\ITracer.cs" />
     <Compile Include="Engine\Host\JitMode.cs" />
     <Compile Include="Engine\IManagedPropertyValues.cs" />
-    <Compile Include="Engine\IdentityEntities.Designer.cs">
-      <DependentUpon>IdentityEntities.edmx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Engine\InfraEntities.Designer.cs">
-      <DependentUpon>InfraEntities.edmx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="Engine\DicReader.cs" />
     <Compile Include="Query\UnifiedQueries\Compilers\LambdaExpressionCompiler.cs" />
     <Compile Include="Query\UnifiedQueries\Compilers\SqlWhereClauseCompiler.cs" />
@@ -1554,25 +1534,8 @@
   <ItemGroup>
     <None Include="Engine\Ac\Abstractions\Infra\README.md" />
     <None Include="Engine\Ac\Abstractions\README.md" />
-    <None Include="App.config" />
-    <EntityDeploy Include="Engine\EdiEntities.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>EdiEntities.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <EntityDeploy Include="Engine\AcEntities.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>AcEntities.Designer.cs</LastGenOutput>
-    </EntityDeploy>
     <None Include="Engine\README.md" />
     <None Include="Logging\Logging.cd" />
-    <EntityDeploy Include="Engine\InfraEntities.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>InfraEntities.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <EntityDeploy Include="Engine\IdentityEntities.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>IdentityEntities.Designer.cs</LastGenOutput>
-    </EntityDeploy>
     <None Include="packages.config" />
     <None Include="Query\UnifiedQueries\Expressions.cd" />
     <None Include="Specifications\Specifications.cd" />

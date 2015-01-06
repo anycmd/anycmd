@@ -8,12 +8,12 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
     using Engine.Edi.Messages;
     using Entities;
     using Exceptions;
-    using Util;
     using Repositories;
     using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
+    using Util;
     using dicCode = System.String;
     using dicId = System.Guid;
     using dicItemCode = System.String;
@@ -21,7 +21,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
     /// <summary>
     /// 
     /// </summary>
-    public sealed class InfoDicSet : IInfoDicSet
+    internal sealed class InfoDicSet : IInfoDicSet
     {
         public static readonly IInfoDicSet Empty = new InfoDicSet(EmptyAcDomain.SingleInstance);
 
@@ -44,7 +44,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
         /// <summary>
         /// 构造并接入总线
         /// </summary>
-        public InfoDicSet(IAcDomain host)
+        internal InfoDicSet(IAcDomain host)
         {
             if (host == null)
             {
@@ -214,7 +214,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
         {
             private readonly InfoDicSet _set;
 
-            public MessageHandler(InfoDicSet set)
+            internal MessageHandler(InfoDicSet set)
             {
                 this._set = set;
             }
@@ -348,8 +348,6 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             {
                 var host = _set._host;
                 var locker = _set._locker;
-                var infoDicDicById = _set._infoDicDicById;
-                var infoDicDicByCode = _set._infoDicDicByCode;
                 var infoDicRepository = host.RetrieveRequiredService<IRepository<InfoDic>>();
                 if (string.IsNullOrEmpty(input.Code))
                 {
@@ -407,8 +405,6 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
             private void Update(InfoDicState state)
             {
-                var host = _set._host;
-                var locker = _set._locker;
                 var infoDicDicById = _set._infoDicDicById;
                 var infoDicDicByCode = _set._infoDicDicByCode;
                 var newKey = state.Code;
@@ -454,7 +450,6 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 var infoDicDicById = _set._infoDicDicById;
                 var infoDicDicByCode = _set._infoDicDicByCode;
                 var infoDicRepository = host.RetrieveRequiredService<IRepository<InfoDic>>();
-                var infoDicItemRepository = host.RetrieveRequiredService<IRepository<InfoDicItem>>();
                 InfoDicState infoDic;
                 if (!host.NodeHost.InfoDics.TryGetInfoDic(infoDicId, out infoDic))
                 {
@@ -511,7 +506,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
             private class PrivateInfoDicRemovedEvent : InfoDicRemovedEvent
             {
-                public PrivateInfoDicRemovedEvent(InfoDicBase source)
+                internal PrivateInfoDicRemovedEvent(InfoDicBase source)
                     : base(source)
                 {
 
@@ -608,7 +603,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
             private class PrivateInfoDicItemAddedEvent : InfoDicItemAddedEvent
             {
-                public PrivateInfoDicItemAddedEvent(InfoDicItemBase source, IInfoDicItemCreateIo input)
+                internal PrivateInfoDicItemAddedEvent(InfoDicItemBase source, IInfoDicItemCreateIo input)
                     : base(source, input)
                 {
 
@@ -632,8 +627,6 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             {
                 var host = _set._host;
                 var locker = _set._locker;
-                var infoDicItemDic = _set._infoDicItemDic;
-                var infoDicItemByDic = _set._infoDicItemByDic;
                 var infoDicItemRepository = host.RetrieveRequiredService<IRepository<InfoDicItem>>();
                 if (string.IsNullOrEmpty(input.Code))
                 {
@@ -697,7 +690,6 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             private void Update(InfoDicItemState state)
             {
                 var host = _set._host;
-                var locker = _set._locker;
                 var infoDicItemDic = _set._infoDicItemDic;
                 var infoDicItemByDic = _set._infoDicItemByDic;
                 var oldState = infoDicItemDic[state.Id];
@@ -722,7 +714,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
             private class PrivateInfoDicItemUpdatedEvent : InfoDicItemUpdatedEvent
             {
-                public PrivateInfoDicItemUpdatedEvent(InfoDicItemBase source, IInfoDicItemUpdateIo input)
+                internal PrivateInfoDicItemUpdatedEvent(InfoDicItemBase source, IInfoDicItemUpdateIo input)
                     : base(source, input)
                 {
 
@@ -809,7 +801,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
             private class PrivateInfoDicItemRemovedEvent : InfoDicItemRemovedEvent
             {
-                public PrivateInfoDicItemRemovedEvent(InfoDicItemBase source)
+                internal PrivateInfoDicItemRemovedEvent(InfoDicItemBase source)
                     : base(source)
                 {
 

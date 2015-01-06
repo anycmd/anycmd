@@ -14,7 +14,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
     /// <summary>
     /// 
     /// </summary>
-    public sealed class MessageProviderSet : IMessageProviderSet
+    internal sealed class MessageProviderSet : IMessageProviderSet
     {
         public static readonly IMessageProviderSet Empty = new MessageProviderSet(EmptyAcDomain.SingleInstance);
 
@@ -32,7 +32,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
         /// <summary>
         /// 构造并接入总线
         /// </summary>
-        public MessageProviderSet(IAcDomain host)
+        internal MessageProviderSet(IAcDomain host)
         {
             if (host == null)
             {
@@ -90,26 +90,22 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
         private void Init()
         {
-            if (!_initialized)
+            if (_initialized) return;
+            lock (_locker)
             {
-                lock (_locker)
+                if (_initialized) return;
+                _dic.Clear();
+                var messageProviders = GetMessageProviders();
+                if (messageProviders != null)
                 {
-                    if (!_initialized)
+                    var enumerable = messageProviders as IMessageProvider[] ?? messageProviders.ToArray();
+                    foreach (var item in enumerable)
                     {
-                        _dic.Clear();
-                        var messageProviders = GetMessageProviders();
-                        if (messageProviders != null)
-                        {
-                            var enumerable = messageProviders as IMessageProvider[] ?? messageProviders.ToArray();
-                            foreach (var item in enumerable)
-                            {
-                                var item1 = item;
-                                _dic.Add(item.Id, enumerable.Single(a => a.Id == item1.Id));
-                            }
-                        }
-                        _initialized = true;
+                        var item1 = item;
+                        _dic.Add(item.Id, enumerable.Single(a => a.Id == item1.Id));
                     }
                 }
+                _initialized = true;
             }
         }
 

@@ -7,7 +7,6 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     using Engine.Ac.InOuts;
     using Engine.Ac.Messages.Infra;
     using Exceptions;
-    using Util;
     using Host;
     using Infra;
     using Repositories;
@@ -15,8 +14,9 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
+    using Util;
 
-    public sealed class OrganizationSet : IOrganizationSet
+    internal sealed class OrganizationSet : IOrganizationSet
     {
         public static readonly IOrganizationSet Empty = new OrganizationSet(EmptyAcDomain.SingleInstance);
 
@@ -32,7 +32,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             get { return _id; }
         }
 
-        public OrganizationSet(IAcDomain host)
+        internal OrganizationSet(IAcDomain host)
         {
             if (host == null)
             {
@@ -75,32 +75,28 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
         private void Init()
         {
-            if (!_initialized)
+            if (_initialized) return;
+            lock (this)
             {
-                lock (this)
+                if (_initialized) return;
+                _dicByCode.Clear();
+                _dicById.Clear();
+                _dicByCode.Add(OrganizationState.VirtualRoot.Code, OrganizationState.VirtualRoot);
+                _dicById.Add(OrganizationState.VirtualRoot.Id, OrganizationState.VirtualRoot);
+                var allOrganizations = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetOrganizations().OrderBy(a => a.ParentCode);
+                foreach (var organization in allOrganizations)
                 {
-                    if (!_initialized)
+                    OrganizationState orgState = OrganizationState.Create(_host, organization);
+                    if (!_dicByCode.ContainsKey(organization.Code))
                     {
-                        _dicByCode.Clear();
-                        _dicById.Clear();
-                        _dicByCode.Add(OrganizationState.VirtualRoot.Code, OrganizationState.VirtualRoot);
-                        _dicById.Add(OrganizationState.VirtualRoot.Id, OrganizationState.VirtualRoot);
-                        var allOrganizations = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetOrganizations().OrderBy(a => a.ParentCode);
-                        foreach (var organization in allOrganizations)
-                        {
-                            OrganizationState orgState = OrganizationState.Create(_host, organization);
-                            if (!_dicByCode.ContainsKey(organization.Code))
-                            {
-                                _dicByCode.Add(organization.Code, orgState);
-                            }
-                            if (!_dicById.ContainsKey(organization.Id))
-                            {
-                                _dicById.Add(organization.Id, orgState);
-                            }
-                        }
-                        _initialized = true;
+                        _dicByCode.Add(organization.Code, orgState);
+                    }
+                    if (!_dicById.ContainsKey(organization.Id))
+                    {
+                        _dicById.Add(organization.Id, orgState);
                     }
                 }
+                _initialized = true;
             }
         }
 
@@ -133,7 +129,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
         {
             private readonly OrganizationSet _set;
 
-            public MessageHandler(OrganizationSet set)
+            internal MessageHandler(OrganizationSet set)
             {
                 this._set = set;
             }
@@ -261,7 +257,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateOrganizationAddedEvent : OrganizationAddedEvent
             {
-                public PrivateOrganizationAddedEvent(OrganizationBase source, IOrganizationCreateIo input)
+                internal PrivateOrganizationAddedEvent(OrganizationBase source, IOrganizationCreateIo input)
                     : base(source, input)
                 {
 
@@ -285,8 +281,6 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             private void Handle(IOrganizationUpdateIo input, bool isCommand)
             {
                 var host = _set._host;
-                var dicByCode = _set._dicByCode;
-                var dicById = _set._dicById;
                 var organizationRepository = host.RetrieveRequiredService<IRepository<Organization>>();
                 if (string.IsNullOrEmpty(input.Code))
                 {
@@ -298,7 +292,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     throw new ValidationException("给定标识的组织结构不存在" + input.Id);
                 }
                 Organization entity;
-                bool stateChanged = false;
+                var stateChanged = false;
                 lock (bkState)
                 {
                     OrganizationState oragnization;
@@ -366,7 +360,6 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             }
             private void Update(OrganizationState state)
             {
-                var host = _set._host;
                 var dicByCode = _set._dicByCode;
                 var dicById = _set._dicById;
                 var oldKey = dicById[state.Id].Code;
@@ -385,7 +378,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateOrganizationUpdatedEvent : OrganizationUpdatedEvent
             {
-                public PrivateOrganizationUpdatedEvent(OrganizationBase source, IOrganizationUpdateIo input) : base(source, input) { }
+                internal PrivateOrganizationUpdatedEvent(OrganizationBase source, IOrganizationUpdateIo input) : base(source, input) { }
             }
 
             public void Handle(RemoveOrganizationCommand message)
@@ -466,7 +459,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateOrganizationRemovedEvent : OrganizationRemovedEvent
             {
-                public PrivateOrganizationRemovedEvent(OrganizationBase source)
+                internal PrivateOrganizationRemovedEvent(OrganizationBase source)
                     : base(source)
                 {
 

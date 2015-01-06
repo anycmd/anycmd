@@ -10,7 +10,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
     /// <summary>
     /// 状态码上下文
     /// </summary>
-    public sealed class StateCodes : IStateCodes
+    internal sealed class StateCodes : IStateCodes
     {
         public static readonly StateCodes Empty = new StateCodes();
 

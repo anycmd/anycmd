@@ -7,7 +7,6 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     using Engine.Ac.InOuts;
     using Engine.Ac.Messages.Infra;
     using Exceptions;
-    using Util;
     using Host;
     using Infra;
     using Repositories;
@@ -15,8 +14,9 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
+    using Util;
 
-    public sealed class UiViewSet : IUiViewSet
+    internal sealed class UiViewSet : IUiViewSet
     {
         public static readonly IUiViewSet Empty = new UiViewSet(EmptyAcDomain.SingleInstance);
 
@@ -33,7 +33,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             get { return _id; }
         }
 
-        public UiViewSet(IAcDomain host)
+        internal UiViewSet(IAcDomain host)
         {
             if (host == null)
             {
@@ -109,32 +109,28 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
         private void Init()
         {
-            if (!_initialized)
+            if (_initialized) return;
+            lock (this)
             {
-                lock (this)
+                if (_initialized) return;
+                _viewDicByFunction.Clear();
+                _viewDicById.Clear();
+                var views = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllUiViews();
+                foreach (var view in views)
                 {
-                    if (!_initialized)
+                    var viewState = UiViewState.Create(_host, view);
+                    _viewDicById.Add(view.Id, viewState);
+                    FunctionState function;
+                    if (!_host.FunctionSet.TryGetFunction(view.Id, out function))
                     {
-                        _viewDicByFunction.Clear();
-                        _viewDicById.Clear();
-                        var views = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllUiViews();
-                        foreach (var view in views)
-                        {
-                            var viewState = UiViewState.Create(_host, view);
-                            _viewDicById.Add(view.Id, viewState);
-                            FunctionState function;
-                            if (!_host.FunctionSet.TryGetFunction(view.Id, out function))
-                            {
-                                throw new NotExistException("意外的功能标识" + view.Id);
-                            }
-                            if (!_viewDicByFunction.ContainsKey(function))
-                            {
-                                _viewDicByFunction.Add(function, viewState);
-                            }
-                        }
-                        _initialized = true;
+                        throw new NotExistException("意外的功能标识" + view.Id);
+                    }
+                    if (!_viewDicByFunction.ContainsKey(function))
+                    {
+                        _viewDicByFunction.Add(function, viewState);
                     }
                 }
+                _initialized = true;
             }
         }
 
@@ -152,7 +148,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
         {
             private readonly UiViewSet _set;
 
-            public MessageHandler(UiViewSet set)
+            internal MessageHandler(UiViewSet set)
             {
                 this._set = set;
             }
@@ -195,7 +191,6 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             public void Handle(FunctionRemovingEvent message)
             {
                 var host = _set._host;
-                var viewDicByFunction = _set._viewDicByFunction;
                 var viewDicById = _set._viewDicById;
                 if (viewDicById.ContainsKey(message.Source.Id))
                 {
@@ -205,9 +200,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(FunctionRemovedEvent message)
             {
-                var host = _set._host;
                 var viewDicByFunction = _set._viewDicByFunction;
-                var viewDicById = _set._viewDicById;
                 var key = viewDicByFunction.Keys.FirstOrDefault(a => a.Id == message.Source.Id);
                 if (key != null)
                 {
@@ -294,7 +287,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateUiViewAddedEvent : UiViewAddedEvent
             {
-                public PrivateUiViewAddedEvent(UiViewBase source, IUiViewCreateIo input)
+                internal PrivateUiViewAddedEvent(UiViewBase source, IUiViewCreateIo input)
                     : base(source, input)
                 {
 
@@ -385,7 +378,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateUiViewUpdatedEvent : UiViewUpdatedEvent
             {
-                public PrivateUiViewUpdatedEvent(UiViewBase source, IUiViewUpdateIo input)
+                internal PrivateUiViewUpdatedEvent(UiViewBase source, IUiViewUpdateIo input)
                     : base(source, input)
                 {
 
@@ -483,7 +476,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateUiViewRemovedEvent : UiViewRemovedEvent
             {
-                public PrivateUiViewRemovedEvent(UiViewBase source)
+                internal PrivateUiViewRemovedEvent(UiViewBase source)
                     : base(source)
                 {
 
@@ -504,7 +497,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             private bool _initialized = false;
             private readonly IAcDomain _host;
 
-            public UiViewButtonSet(IAcDomain host)
+            internal UiViewButtonSet(IAcDomain host)
             {
                 this._host = host;
                 new UiViewButtonMessageHandler(this).Register();
@@ -544,35 +537,31 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Init()
             {
-                if (!_initialized)
+                if (_initialized) return;
+                lock (this)
                 {
-                    lock (this)
+                    if (_initialized) return;
+                    _viewButtonsByUiView.Clear();
+                    _viewButtonDicById.Clear();
+                    var allUiViewButtons = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllUiViewButtons();
+                    foreach (var viewButton in allUiViewButtons)
                     {
-                        if (!_initialized)
+                        var viewButtonState = UiViewButtonState.Create(_host, viewButton);
+                        if (!_viewButtonDicById.ContainsKey(viewButton.Id))
                         {
-                            _viewButtonsByUiView.Clear();
-                            _viewButtonDicById.Clear();
-                            var allUiViewButtons = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllUiViewButtons();
-                            foreach (var viewButton in allUiViewButtons)
-                            {
-                                var viewButtonState = UiViewButtonState.Create(_host, viewButton);
-                                if (!_viewButtonDicById.ContainsKey(viewButton.Id))
-                                {
-                                    _viewButtonDicById.Add(viewButton.Id, viewButtonState);
-                                }
-                                if (!_viewButtonsByUiView.ContainsKey(viewButtonState.UiView))
-                                {
-                                    _viewButtonsByUiView.Add(viewButtonState.UiView, new List<UiViewButtonState>());
-                                }
-                                _viewButtonsByUiView[viewButtonState.UiView].Add(viewButtonState);
-                            }
-                            foreach (var item in _viewButtonsByUiView)
-                            {
-                                item.Value.Sort(new UiViewButtonCompare());
-                            }
-                            _initialized = true;
+                            _viewButtonDicById.Add(viewButton.Id, viewButtonState);
                         }
+                        if (!_viewButtonsByUiView.ContainsKey(viewButtonState.UiView))
+                        {
+                            _viewButtonsByUiView.Add(viewButtonState.UiView, new List<UiViewButtonState>());
+                        }
+                        _viewButtonsByUiView[viewButtonState.UiView].Add(viewButtonState);
                     }
+                    foreach (var item in _viewButtonsByUiView)
+                    {
+                        item.Value.Sort(new UiViewButtonCompare());
+                    }
+                    _initialized = true;
                 }
             }
 
@@ -591,7 +580,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 private readonly UiViewButtonSet _set;
 
-                public UiViewButtonMessageHandler(UiViewButtonSet set)
+                internal UiViewButtonMessageHandler(UiViewButtonSet set)
                 {
                     this._set = set;
                 }
@@ -658,7 +647,6 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 public void Handle(UiViewRemovedEvent message)
                 {
-                    var host = _set._host;
                     var viewButtonsByUiView = _set._viewButtonsByUiView;
                     var key = viewButtonsByUiView.Keys.FirstOrDefault(a => a.Id == message.Source.Id);
                     if (key != null)
@@ -670,7 +658,6 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 public void Handle(FunctionRemovingEvent message)
                 {
                     var host = _set._host;
-                    var viewButtonsByUiView = _set._viewButtonsByUiView;
                     var viewButtonDicById = _set._viewButtonDicById;
                     var viewButtonIds = new HashSet<Guid>();
                     foreach (var item in viewButtonDicById.Values)
@@ -785,7 +772,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 private class PrivateUiViewButtonAddedEvent : UiViewButtonAddedEvent
                 {
-                    public PrivateUiViewButtonAddedEvent(UiViewButtonBase source, IUiViewButtonCreateIo input) : base(source, input) { }
+                    internal PrivateUiViewButtonAddedEvent(UiViewButtonBase source, IUiViewButtonCreateIo input) : base(source, input) { }
                 }
                 public void Handle(UpdateUiViewButtonCommand message)
                 {
@@ -821,8 +808,6 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 private void Handle(IUiViewButtonUpdateIo input, bool isCommand)
                 {
                     var host = _set._host;
-                    var viewButtonsByUiView = _set._viewButtonsByUiView;
-                    var viewButtonDicById = _set._viewButtonDicById;
                     var viewButtonRepository = host.RetrieveRequiredService<IRepository<UiViewButton>>();
                     var bkState = host.UiViewSet.GetUiViewButtons().FirstOrDefault(a => a.Id == input.Id);
                     if (bkState == null)
@@ -885,7 +870,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 private class PrivateUiViewButtonUpdatedEvent : UiViewButtonUpdatedEvent
                 {
-                    public PrivateUiViewButtonUpdatedEvent(UiViewButtonBase source, IUiViewButtonUpdateIo input)
+                    internal PrivateUiViewButtonUpdatedEvent(UiViewButtonBase source, IUiViewButtonUpdateIo input)
                         : base(source, input)
                     {
 
@@ -971,7 +956,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 private class PrivateUiViewButtonRemovedEvent : UiViewButtonRemovedEvent
                 {
-                    public PrivateUiViewButtonRemovedEvent(UiViewButtonBase source)
+                    internal PrivateUiViewButtonRemovedEvent(UiViewButtonBase source)
                         : base(source)
                     {
 

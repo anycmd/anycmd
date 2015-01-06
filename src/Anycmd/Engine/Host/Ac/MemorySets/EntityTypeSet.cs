@@ -7,10 +7,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     using Engine.Ac.InOuts;
     using Engine.Ac.Messages.Infra;
     using Exceptions;
-    using Util;
     using Host;
     using Infra;
-    using Model;
     using Repositories;
     using System;
     using System.Collections;
@@ -23,13 +21,13 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     using propertyCode = System.String;
     using propertyId = System.Guid;
 
-    public sealed class EntityTypeSet : IEntityTypeSet
+    internal sealed class EntityTypeSet : IEntityTypeSet
     {
         public static readonly IEntityTypeSet Empty = new EntityTypeSet(EmptyAcDomain.SingleInstance);
 
         private readonly Dictionary<entityTypeId, EntityTypeState> _dicById = new Dictionary<entityTypeId, EntityTypeState>();
         private readonly Dictionary<codespace, Dictionary<entityTypeCode, EntityTypeState>> _dicByCode = new Dictionary<codespace, Dictionary<entityTypeCode, EntityTypeState>>(StringComparer.OrdinalIgnoreCase);
-        private bool _initialized = false;
+        private bool _initialized;
 
         private readonly IAcDomain _host;
         private readonly Guid _id = Guid.NewGuid();
@@ -41,13 +39,13 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
         }
 
         #region Ctor
-        public EntityTypeSet(IAcDomain host)
+        internal EntityTypeSet(IAcDomain host)
         {
             if (host == null)
             {
                 throw new ArgumentNullException("host");
             }
-            this._host = host;
+            _host = host;
             _propertySet = new PropertySet(host);
             new MessageHandler(this).Register();
         }
@@ -164,39 +162,36 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
         #region Init
         private void Init()
         {
-            if (!_initialized)
+            if (_initialized) return;
+            lock (this)
             {
-                lock (this)
+                if (_initialized) return;
+                _dicById.Clear();
+                _dicByCode.Clear();
+                var entityTypes = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllEntityTypes().OrderBy(a => a.SortCode);
+                foreach (var entityType in entityTypes)
                 {
-                    if (!_initialized)
+                    if (_dicById.ContainsKey(entityType.Id))
                     {
-                        _dicById.Clear();
-                        _dicByCode.Clear();
-                        var entityTypes = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllEntityTypes().OrderBy(a => a.SortCode);
-                        foreach (var entityType in entityTypes)
-                        {
-                            if (_dicById.ContainsKey(entityType.Id))
-                            {
-                                throw new AnycmdException("意外的重复的实体类型标识" + entityType.Id);
-                            }
-                            if (!_dicByCode.ContainsKey(entityType.Codespace))
-                            {
-                                _dicByCode.Add(entityType.Codespace, new Dictionary<entityTypeCode, EntityTypeState>(StringComparer.OrdinalIgnoreCase));
-                            }
-                            if (_dicByCode[entityType.Codespace].ContainsKey(entityType.Code))
-                            {
-                                throw new AnycmdException("意外的重复的实体类型编码" + entityType.Codespace + "." + entityType.Code);
-                            }
-                            var map = _host.GetEntityTypeMaps().FirstOrDefault(a => a.Codespace.Equals(entityType.Codespace, StringComparison.OrdinalIgnoreCase) && a.Code.Equals(entityType.Code, StringComparison.OrdinalIgnoreCase));
-                            var entityTypeState = EntityTypeState.Create(_host, entityType, map);
-                            _dicByCode[entityType.Codespace].Add(entityType.Code, entityTypeState);
-                            _dicById.Add(entityType.Id, entityTypeState);
-                        }
-                        _initialized = true;
+                        throw new AnycmdException("意外的重复的实体类型标识" + entityType.Id);
                     }
+                    if (!_dicByCode.ContainsKey(entityType.Codespace))
+                    {
+                        _dicByCode.Add(entityType.Codespace, new Dictionary<entityTypeCode, EntityTypeState>(StringComparer.OrdinalIgnoreCase));
+                    }
+                    if (_dicByCode[entityType.Codespace].ContainsKey(entityType.Code))
+                    {
+                        throw new AnycmdException("意外的重复的实体类型编码" + entityType.Codespace + "." + entityType.Code);
+                    }
+                    var map = _host.GetEntityTypeMaps().FirstOrDefault(a => a.Codespace.Equals(entityType.Codespace, StringComparison.OrdinalIgnoreCase) && a.Code.Equals(entityType.Code, StringComparison.OrdinalIgnoreCase));
+                    var entityTypeState = EntityTypeState.Create(_host, entityType, map);
+                    _dicByCode[entityType.Codespace].Add(entityType.Code, entityTypeState);
+                    _dicById.Add(entityType.Id, entityTypeState);
                 }
+                _initialized = true;
             }
         }
+
         #endregion
 
         #region MessageHandler
@@ -208,19 +203,19 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             IHandler<EntityTypeUpdatedEvent>, 
             IHandler<RemoveEntityTypeCommand>
         {
-            private readonly EntityTypeSet set;
+            private readonly EntityTypeSet _set;
 
-            public MessageHandler(EntityTypeSet set)
+            internal MessageHandler(EntityTypeSet set)
             {
-                this.set = set;
+                _set = set;
             }
 
             public void Register()
             {
-                var messageDispatcher = set._host.MessageDispatcher;
+                var messageDispatcher = _set._host.MessageDispatcher;
                 if (messageDispatcher == null)
                 {
-                    throw new ArgumentNullException("messageDispatcher has not be set of host:{0}".Fmt(set._host.Name));
+                    throw new ArgumentNullException("messageDispatcher has not be set of host:{0}".Fmt(_set._host.Name));
                 }
                 messageDispatcher.Register((IHandler<AddEntityTypeCommand>)this);
                 messageDispatcher.Register((IHandler<EntityTypeAddedEvent>)this);
@@ -232,7 +227,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(AddEntityTypeCommand message)
             {
-                this.Handle(message.Input, true);
+                Handle(message.Input, true);
             }
 
             public void Handle(EntityTypeAddedEvent message)
@@ -241,14 +236,14 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                this.Handle(message.Output, false);
+                Handle(message.Output, false);
             }
 
             private void Handle(IEntityTypeCreateIo input, bool isCommand)
             {
-                var host = set._host;
-                var dicById = set._dicById;
-                var dicByCode = set._dicByCode;
+                var host = _set._host;
+                var dicById = _set._dicById;
+                var dicByCode = _set._dicByCode;
                 var entityTypeRepository = host.RetrieveRequiredService<IRepository<EntityType>>();
                 if (string.IsNullOrEmpty(input.Code))
                 {
@@ -317,7 +312,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateEntityTypeAddedEvent : EntityTypeAddedEvent
             {
-                public PrivateEntityTypeAddedEvent(EntityTypeBase source, IEntityTypeCreateIo input)
+                internal PrivateEntityTypeAddedEvent(EntityTypeBase source, IEntityTypeCreateIo input)
                     : base(source, input)
                 {
 
@@ -325,7 +320,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             }
             public void Handle(UpdateEntityTypeCommand message)
             {
-                this.Handle(message.Output, true);
+                Handle(message.Output, true);
             }
 
             public void Handle(EntityTypeUpdatedEvent message)
@@ -334,14 +329,12 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                this.Handle(message.Input, false);
+                Handle(message.Input, false);
             }
 
             private void Handle(IEntityTypeUpdateIo input, bool isCommand)
             {
-                var host = set._host;
-                var dicById = set._dicById;
-                var dicByCode = set._dicByCode;
+                var host = _set._host;
                 var entityTypeRepository = host.RetrieveRequiredService<IRepository<EntityType>>();
                 if (string.IsNullOrEmpty(input.Code))
                 {
@@ -353,7 +346,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     throw new NotExistException();
                 }
                 EntityType entity;
-                bool stateChanged = false;
+                bool stateChanged;
                 lock (bkState)
                 {
                     EntityTypeState entityType;
@@ -406,9 +399,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Update(EntityTypeState state)
             {
-                var host = set._host;
-                var dicById = set._dicById;
-                var dicByCode = set._dicByCode;
+                var dicById = _set._dicById;
+                var dicByCode = _set._dicByCode;
                 var oldState = dicById[state.Id];
                 string oldCodespace = oldState.Codespace;
                 string newCodespace = state.Codespace;
@@ -437,7 +429,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateEntityTypeUpdatedEvent : EntityTypeUpdatedEvent
             {
-                public PrivateEntityTypeUpdatedEvent(EntityTypeBase source, IEntityTypeUpdateIo input)
+                internal PrivateEntityTypeUpdatedEvent(EntityTypeBase source, IEntityTypeUpdateIo input)
                     : base(source, input)
                 {
 
@@ -459,10 +451,9 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Handle(Guid entityTypeId, bool isCommand)
             {
-                var host = set._host;
-                var dicById = set._dicById;
-                var dicByCode = set._dicByCode;
-                var propertyRepository = host.RetrieveRequiredService<IRepository<Property>>();
+                var host = _set._host;
+                var dicById = _set._dicById;
+                var dicByCode = _set._dicByCode;
                 var entityTypeRepository = host.RetrieveRequiredService<IRepository<EntityType>>();
                 EntityTypeState bkState;
                 if (!host.EntityTypeSet.TryGetEntityType(entityTypeId, out bkState))
@@ -529,7 +520,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateEntityTypeRemovedEvent : EntityTypeRemovedEvent
             {
-                public PrivateEntityTypeRemovedEvent(EntityTypeBase source)
+                internal PrivateEntityTypeRemovedEvent(EntityTypeBase source)
                     : base(source)
                 {
 
@@ -557,13 +548,13 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             }
 
             #region Ctor
-            public PropertySet(IAcDomain host)
+            internal PropertySet(IAcDomain host)
             {
                 if (host == null)
                 {
                     throw new ArgumentNullException("host");
                 }
-                this._host = host;
+                _host = host;
                 new PropertyMessageHandler(this).Register();
             }
             #endregion
@@ -586,18 +577,6 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
 
                 return _dicByCode[entityType].TryGetValue(propertyCode, out property);
-            }
-
-            public PropertyState this[Guid propertyId]
-            {
-                get
-                {
-                    if (!_initialized)
-                    {
-                        Init();
-                    }
-                    return !_dicById.ContainsKey(propertyId) ? PropertyState.CreateNoneProperty(string.Empty) : _dicById[propertyId];
-                }
             }
 
             public bool TryGetProperty(Guid propertyId, out PropertyState property)
@@ -651,42 +630,39 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             #region Init
             private void Init()
             {
-                if (!_initialized)
+                if (_initialized) return;
+                lock (this)
                 {
-                    lock (this)
+                    if (_initialized) return;
+                    _dicByCode.Clear();
+                    _dicById.Clear();
+                    var properties = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllProperties().OrderBy(a => a.SortCode);
+                    foreach (var property in properties)
                     {
-                        if (!_initialized)
+                        EntityTypeState entityType;
+                        if (!_host.EntityTypeSet.TryGetEntityType(property.EntityTypeId, out entityType))
                         {
-                            _dicByCode.Clear();
-                            _dicById.Clear();
-                            var properties = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllProperties().OrderBy(a => a.SortCode);
-                            foreach (var property in properties)
-                            {
-                                EntityTypeState entityType;
-                                if (!_host.EntityTypeSet.TryGetEntityType(property.EntityTypeId, out entityType))
-                                {
-                                    throw new AnycmdException("意外的实体属性类型标识" + property.EntityTypeId);
-                                }
-                                var propertyState = PropertyState.Create(_host, property);
-                                if (!_dicByCode.ContainsKey(entityType))
-                                {
-                                    _dicByCode.Add(entityType, new Dictionary<propertyCode, PropertyState>(StringComparer.OrdinalIgnoreCase));
-                                }
-                                if (!_dicByCode[entityType].ContainsKey(property.Code))
-                                {
-                                    _dicByCode[entityType].Add(property.Code, propertyState);
-                                }
-                                if (_dicById.ContainsKey(property.Id))
-                                {
-                                    throw new AnycmdException("意外的重复实体属性标识" + property.Id);
-                                }
-                                _dicById.Add(property.Id, propertyState);
-                            }
-                            _initialized = true;
+                            throw new AnycmdException("意外的实体属性类型标识" + property.EntityTypeId);
                         }
+                        var propertyState = PropertyState.Create(_host, property);
+                        if (!_dicByCode.ContainsKey(entityType))
+                        {
+                            _dicByCode.Add(entityType, new Dictionary<propertyCode, PropertyState>(StringComparer.OrdinalIgnoreCase));
+                        }
+                        if (!_dicByCode[entityType].ContainsKey(property.Code))
+                        {
+                            _dicByCode[entityType].Add(property.Code, propertyState);
+                        }
+                        if (_dicById.ContainsKey(property.Id))
+                        {
+                            throw new AnycmdException("意外的重复实体属性标识" + property.Id);
+                        }
+                        _dicById.Add(property.Id, propertyState);
                     }
+                    _initialized = true;
                 }
             }
+
             #endregion
 
             #region PropertyMessageHandler
@@ -701,19 +677,19 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 IHandler<EntityTypeUpdatedEvent>,
                 IHandler<EntityTypeRemovedEvent>
             {
-                private readonly PropertySet set;
+                private readonly PropertySet _set;
 
-                public PropertyMessageHandler(PropertySet set)
+                internal PropertyMessageHandler(PropertySet set)
                 {
-                    this.set = set;
+                    _set = set;
                 }
 
                 public void Register()
                 {
-                    var messageDispatcher = set._host.MessageDispatcher;
+                    var messageDispatcher = _set._host.MessageDispatcher;
                     if (messageDispatcher == null)
                     {
-                        throw new ArgumentNullException("messageDispatcher has not be set of host:{0}".Fmt(set._host.Name));
+                        throw new ArgumentNullException("messageDispatcher has not be set of host:{0}".Fmt(_set._host.Name));
                     }
                     messageDispatcher.Register((IHandler<AddPropertyCommand>)this);
                     messageDispatcher.Register((IHandler<PropertyAddedEvent>)this);
@@ -728,9 +704,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 public void Handle(EntityTypeUpdatedEvent message)
                 {
-                    var host = set._host;
-                    var dicByCode = set._dicByCode;
-                    var dicById = set._dicById;
+                    var host = _set._host;
+                    var dicByCode = _set._dicByCode;
                     EntityTypeState newKey;
                     if (!host.EntityTypeSet.TryGetEntityType(message.Source.Id, out newKey))
                     {
@@ -749,9 +724,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 public void Handle(EntityTypeRemovedEvent message)
                 {
-                    var host = set._host;
-                    var dicByCode = set._dicByCode;
-                    var dicById = set._dicById;
+                    var dicByCode = _set._dicByCode;
                     var key = dicByCode.Keys.FirstOrDefault(a => a.Id == message.Source.Id);
                     if (key != null)
                     {
@@ -761,7 +734,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 public void Handle(AddPropertyCommand message)
                 {
-                    this.Handle(message.Input, true);
+                    Handle(message.Input, true);
                 }
 
                 public void Handle(PropertyAddedEvent message)
@@ -770,14 +743,14 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     {
                         return;
                     }
-                    this.Handle(message.Output, false);
+                    Handle(message.Output, false);
                 }
 
                 private void Handle(IPropertyCreateIo input, bool isCommand)
                 {
-                    var host = set._host;
-                    var dicByCode = set._dicByCode;
-                    var dicById = set._dicById;
+                    var host = _set._host;
+                    var dicByCode = _set._dicByCode;
+                    var dicById = _set._dicById;
                     var propertyRepository = host.RetrieveRequiredService<IRepository<Property>>();
                     if (string.IsNullOrEmpty(input.Code))
                     {
@@ -850,7 +823,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 private class PrivatePropertyAddedEvent : PropertyAddedEvent
                 {
-                    public PrivatePropertyAddedEvent(PropertyBase source, IPropertyCreateIo input)
+                    internal PrivatePropertyAddedEvent(PropertyBase source, IPropertyCreateIo input)
                         : base(source, input)
                     {
 
@@ -859,9 +832,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 public void Handle(AddCommonPropertiesCommand message)
                 {
-                    var host = set._host;
-                    var dicByCode = set._dicByCode;
-                    var dicById = set._dicById;
+                    var host = _set._host;
                     EntityTypeState entityType;
                     if (!host.EntityTypeSet.TryGetEntityType(message.EntityTypeId, out entityType))
                     {
@@ -1059,7 +1030,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     #endregion
                 }
 
-                private class PropertyCreateInput : EntityCreateInput, IInputModel, IPropertyCreateIo
+                private class PropertyCreateInput : EntityCreateInput, IPropertyCreateIo
                 {
                     /// <summary>
                     /// 
@@ -1142,7 +1113,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 public void Handle(UpdatePropertyCommand message)
                 {
-                    this.Handle(message.Output, true);
+                    Handle(message.Output, true);
                 }
 
                 public void Handle(PropertyUpdatedEvent message)
@@ -1151,14 +1122,12 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     {
                         return;
                     }
-                    this.Handle(message.Input, false);
+                    Handle(message.Input, false);
                 }
 
                 private void Handle(IPropertyUpdateIo input, bool isCommand)
                 {
-                    var host = set._host;
-                    var dicByCode = set._dicByCode;
-                    var dicById = set._dicById;
+                    var host = _set._host;
                     var propertyRepository = host.RetrieveRequiredService<IRepository<Property>>();
                     if (string.IsNullOrEmpty(input.Code))
                     {
@@ -1228,9 +1197,9 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 private void Update(PropertyState state)
                 {
-                    var host = set._host;
-                    var dicByCode = set._dicByCode;
-                    var dicById = set._dicById;
+                    var host = _set._host;
+                    var dicByCode = _set._dicByCode;
+                    var dicById = _set._dicById;
                     var oldState = dicById[state.Id];
                     EntityTypeState entityType;
                     if (!host.EntityTypeSet.TryGetEntityType(oldState.EntityTypeId, out entityType))
@@ -1253,7 +1222,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 private class PrivatePropertyUpdatedEvent : PropertyUpdatedEvent
                 {
-                    public PrivatePropertyUpdatedEvent(PropertyBase source, IPropertyUpdateIo input)
+                    internal PrivatePropertyUpdatedEvent(PropertyBase source, IPropertyUpdateIo input)
                         : base(source, input)
                     {
 
@@ -1275,9 +1244,9 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 private void Handle(Guid propertyId, bool isCommand)
                 {
-                    var host = set._host;
-                    var dicByCode = set._dicByCode;
-                    var dicById = set._dicById;
+                    var host = _set._host;
+                    var dicByCode = _set._dicByCode;
+                    var dicById = _set._dicById;
                     var propertyRepository = host.RetrieveRequiredService<IRepository<Property>>();
                     PropertyState bkState;
                     if (!host.EntityTypeSet.TryGetProperty(propertyId, out bkState))
@@ -1339,7 +1308,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 private class PrivatePropertyRemovedEvent : PropertyRemovedEvent
                 {
-                    public PrivatePropertyRemovedEvent(PropertyBase source)
+                    internal PrivatePropertyRemovedEvent(PropertyBase source)
                         : base(source)
                     {
 

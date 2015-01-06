@@ -9,13 +9,13 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
     using Engine.Edi.Messages;
     using Entities;
     using Exceptions;
-    using Util;
     using Hecp;
     using Repositories;
     using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
+    using Util;
     using elementId = System.Guid;
     using isCare = System.Boolean;
     using ontologyId = System.Guid;
@@ -23,7 +23,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
     /// <summary>
     /// 节点上下文访问接口默认实现
     /// </summary>
-    public sealed class NodeSet : INodeSet
+    internal sealed class NodeSet : INodeSet
     {
         public static readonly INodeSet Empty = new NodeSet(EmptyAcDomain.SingleInstance);
 
@@ -51,7 +51,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
         /// <summary>
         /// 构造并接入总线
         /// </summary>
-        public NodeSet(IAcDomain host)
+        internal NodeSet(IAcDomain host)
         {
             if (host == null)
             {
@@ -314,37 +314,33 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
         /// </summary>
         private void Init()
         {
-            if (!_initialized)
+            if (_initialized) return;
+            lock (_locker)
             {
-                lock (_locker)
+                if (_initialized) return;
+                _allNodesById.Clear();
+                _allNodesByPublicKey.Clear();
+                var allNodes = _host.RetrieveRequiredService<INodeHostBootstrap>().GetNodes();
+                foreach (var node in allNodes)
                 {
-                    if (!_initialized)
+                    var nodeState = NodeState.Create(_host, node);
+                    var descriptor = new NodeDescriptor(_host, nodeState);
+                    _allNodesById.Add(node.Id.ToString(), descriptor);
+                    if (_allNodesByPublicKey.ContainsKey(node.PublicKey))
                     {
-                        _allNodesById.Clear();
-                        _allNodesByPublicKey.Clear();
-                        var allNodes = _host.RetrieveRequiredService<INodeHostBootstrap>().GetNodes();
-                        foreach (var node in allNodes)
-                        {
-                            var nodeState = NodeState.Create(_host, node);
-                            var descriptor = new NodeDescriptor(_host, nodeState);
-                            _allNodesById.Add(node.Id.ToString(), descriptor);
-                            if (_allNodesByPublicKey.ContainsKey(node.PublicKey))
-                            {
-                                throw new AnycmdException("重复的公钥" + node.PublicKey);
-                            }
-                            _allNodesByPublicKey.Add(node.PublicKey, descriptor);
-                            if (node.Id.ToString().Equals(_host.Config.ThisNodeId, StringComparison.OrdinalIgnoreCase))
-                            {
-                                _selfNode = descriptor;
-                            }
-                            if (node.Id.ToString().Equals(_host.Config.CenterNodeId, StringComparison.OrdinalIgnoreCase))
-                            {
-                                _centerNode = descriptor;
-                            }
-                        }
-                        _initialized = true;
+                        throw new AnycmdException("重复的公钥" + node.PublicKey);
+                    }
+                    _allNodesByPublicKey.Add(node.PublicKey, descriptor);
+                    if (node.Id.ToString().Equals(_host.Config.ThisNodeId, StringComparison.OrdinalIgnoreCase))
+                    {
+                        _selfNode = descriptor;
+                    }
+                    if (node.Id.ToString().Equals(_host.Config.CenterNodeId, StringComparison.OrdinalIgnoreCase))
+                    {
+                        _centerNode = descriptor;
                     }
                 }
+                _initialized = true;
             }
         }
 
@@ -359,7 +355,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
         {
             private readonly NodeSet _set;
 
-            public MessageHandler(NodeSet set)
+            internal MessageHandler(NodeSet set)
             {
                 this._set = set;
             }
@@ -450,7 +446,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
             private class PrivateNodeAddedEvent : NodeAddedEvent
             {
-                public PrivateNodeAddedEvent(NodeBase source, INodeCreateIo input)
+                internal PrivateNodeAddedEvent(NodeBase source, INodeCreateIo input)
                     : base(source, input)
                 {
 
@@ -474,8 +470,6 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             {
                 var host = _set._host;
                 var locker = _set._locker;
-                var allNodesById = _set._allNodesById;
-                var allNodesByPublicKey = _set._allNodesByPublicKey;
                 var nodeRepository = host.RetrieveRequiredService<IRepository<Node>>();
                 if (string.IsNullOrEmpty(input.Code))
                 {
@@ -535,8 +529,6 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
             private void Update(NodeDescriptor state)
             {
-                var host = _set._host;
-                var locker = _set._locker;
                 var allNodesById = _set._allNodesById;
                 var allNodesByPublicKey = _set._allNodesByPublicKey;
                 var oldState = allNodesById[state.Node.Id.ToString()];
@@ -554,7 +546,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
             private class PrivateNodeUpdatedEvent : NodeUpdatedEvent
             {
-                public PrivateNodeUpdatedEvent(NodeBase source, INodeUpdateIo input)
+                internal PrivateNodeUpdatedEvent(NodeBase source, INodeUpdateIo input)
                     : base(source, input)
                 {
 
@@ -620,7 +612,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
             private class PrivateNodeRemovedEvent : NodeRemovedEvent
             {
-                public PrivateNodeRemovedEvent(NodeBase source)
+                internal PrivateNodeRemovedEvent(NodeBase source)
                     : base(source)
                 {
 
@@ -733,7 +725,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             {
                 private readonly NodeElementActionSet _set;
 
-                public NodeElementActionMessageHandler(NodeElementActionSet set)
+                internal NodeElementActionMessageHandler(NodeElementActionSet set)
                 {
                     this._set = set;
                 }
@@ -833,7 +825,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 private class PrivateNodeElementActionAddedEvent : NodeElementActionAddedEvent
                 {
-                    public PrivateNodeElementActionAddedEvent(NodeElementActionBase source, INodeElementActionCreateIo input)
+                    internal PrivateNodeElementActionAddedEvent(NodeElementActionBase source, INodeElementActionCreateIo input)
                         : base(source, input)
                     {
 
@@ -972,7 +964,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     throw new ArgumentNullException("host");
                 }
                 this._host = host;
-                new MessageHandler(this).Register();
+                new NodeCareMessageHandler(this).Register();
             }
 
             /// <summary>
@@ -1101,13 +1093,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 {
                     Init();
                 }
-                foreach (var g in _nodeOntologyCareList)
-                {
-                    foreach (var item in g.Value)
-                    {
-                        yield return item;
-                    }
-                }
+                return _nodeOntologyCareList.SelectMany(g => g.Value);
             }
 
             public IReadOnlyCollection<NodeElementCareState> GetNodeElementCares(NodeDescriptor node)
@@ -1130,77 +1116,75 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             #region Init
             private void Init()
             {
-                if (!_initialized)
+                if (_initialized) return;
+                lock (_locker)
                 {
-                    lock (_locker)
+                    if (_initialized) return;
+                    _ontologyCareDic.Clear();
+                    _elementCareDic.Clear();
+                    _nodeOntologyCareList.Clear();
+                    _nodeElementCareList.Clear();
+                    _nodeInfoIdElements.Clear();
+                    var nodeOntologyCareStates = _host.RetrieveRequiredService<INodeHostBootstrap>().GetNodeOntologyCares().Select(NodeOntologyCareState.Create);
+                    var nodeElementCareStates = _host.RetrieveRequiredService<INodeHostBootstrap>().GetNodeElementCares().Select(NodeElementCareState.Create);
+                    foreach (var node in _host.NodeHost.Nodes)
                     {
-                        if (!_initialized)
+                        var node1 = node;
+                        _nodeOntologyCareList.Add(node, nodeOntologyCareStates.Where(a => a.NodeId == node1.Node.Id).ToList());
+                        var node2 = node;
+                        _nodeElementCareList.Add(node, nodeElementCareStates.Where(a => a.NodeId == node2.Node.Id).ToList());
+                    }
+
+                    foreach (var ontology in _host.NodeHost.Ontologies)
+                    {
+                        foreach (var element in _host.NodeHost.Ontologies[ontology.Ontology.Id].Elements.Values)
                         {
-                            _ontologyCareDic.Clear();
-                            _elementCareDic.Clear();
-                            _nodeOntologyCareList.Clear();
-                            _nodeElementCareList.Clear();
-                            _nodeInfoIdElements.Clear();
-                            var nodeOntologyCareStates = _host.RetrieveRequiredService<INodeHostBootstrap>().GetNodeOntologyCares().Select(NodeOntologyCareState.Create);
-                            var nodeElementCareStates = _host.RetrieveRequiredService<INodeHostBootstrap>().GetNodeElementCares().Select(NodeElementCareState.Create);
                             foreach (var node in _host.NodeHost.Nodes)
                             {
-                                var node1 = node;
-                                _nodeOntologyCareList.Add(node, nodeOntologyCareStates.Where(a => a.NodeId == node1.Node.Id).ToList());
-                                var node2 = node;
-                                _nodeElementCareList.Add(node, nodeElementCareStates.Where(a => a.NodeId == node2.Node.Id).ToList());
-                            }
-
-                            foreach (var ontology in _host.NodeHost.Ontologies)
-                            {
-                                foreach (var element in _host.NodeHost.Ontologies[ontology.Ontology.Id].Elements.Values)
+                                if (element == null)
                                 {
-                                    foreach (var node in _host.NodeHost.Nodes)
+                                    return;
+                                }
+                                if (!_ontologyCareDic.ContainsKey(node))
+                                {
+                                    _ontologyCareDic.Add(node, new Dictionary<ontologyId, isCare>());
+                                }
+                                if (!_ontologyCareDic[node].ContainsKey(element.Element.OntologyId))
+                                {
+                                    var element1 = element;
+                                    _ontologyCareDic[node].Add(element.Element.OntologyId, _nodeOntologyCareList[node]
+                                        .Any(s => s.OntologyId == element1.Element.OntologyId));
+                                }
+                                if (!_elementCareDic.ContainsKey(node))
+                                {
+                                    _elementCareDic.Add(node, new Dictionary<elementId, isCare>());
+                                }
+                                if (!_nodeInfoIdElements.ContainsKey(node))
+                                {
+                                    _nodeInfoIdElements.Add(node, new HashSet<ElementDescriptor>());
+                                    _nodeInfoIdElements[node].Add(ontology.IdElement);
+                                }
+                                if (!_elementCareDic[node].ContainsKey(element.Element.Id))
+                                {
+                                    var element2 = element;
+                                    var nodeElementCare = _nodeElementCareList[node].FirstOrDefault(f => f.ElementId == element2.Element.Id);
+                                    _elementCareDic[node].Add(element.Element.Id, nodeElementCare != null);
+                                    if (nodeElementCare != null && nodeElementCare.IsInfoIdItem)
                                     {
-                                        if (element == null)
-                                        {
-                                            return;
-                                        }
-                                        if (!_ontologyCareDic.ContainsKey(node))
-                                        {
-                                            _ontologyCareDic.Add(node, new Dictionary<ontologyId, isCare>());
-                                        }
-                                        if (!_ontologyCareDic[node].ContainsKey(element.Element.OntologyId))
-                                        {
-                                            var element1 = element;
-                                            _ontologyCareDic[node].Add(element.Element.OntologyId, _nodeOntologyCareList[node]
-                                                .Any(s => s.OntologyId == element1.Element.OntologyId));
-                                        }
-                                        if (!_elementCareDic.ContainsKey(node))
-                                        {
-                                            _elementCareDic.Add(node, new Dictionary<elementId, isCare>());
-                                        }
-                                        if (!_nodeInfoIdElements.ContainsKey(node))
-                                        {
-                                            _nodeInfoIdElements.Add(node, new HashSet<ElementDescriptor>());
-                                            _nodeInfoIdElements[node].Add(ontology.IdElement);
-                                        }
-                                        if (!_elementCareDic[node].ContainsKey(element.Element.Id))
-                                        {
-                                            var element2 = element;
-                                            var nodeElementCare = _nodeElementCareList[node].FirstOrDefault(f => f.ElementId == element2.Element.Id);
-                                            _elementCareDic[node].Add(element.Element.Id, nodeElementCare != null);
-                                            if (nodeElementCare != null && nodeElementCare.IsInfoIdItem)
-                                            {
-                                                _nodeInfoIdElements[node].Add(element);
-                                            }
-                                        }
+                                        _nodeInfoIdElements[node].Add(element);
                                     }
                                 }
                             }
-                            _initialized = true;
                         }
                     }
+                    _initialized = true;
                 }
             }
+
             #endregion
 
-            private class MessageHandler :
+            #region NodeCareMessageHandler
+            private class NodeCareMessageHandler :
                 IHandler<AddNodeOntologyCareCommand>,
                 IHandler<NodeOntologyCareAddedEvent>,
                 IHandler<RemoveNodeOntologyCareCommand>,
@@ -1212,19 +1196,19 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 IHandler<RemoveNodeElementCareCommand>,
                 IHandler<NodeElementCareRemovedEvent>
             {
-                private readonly NodeCareSet set;
+                private readonly NodeCareSet _set;
 
-                public MessageHandler(NodeCareSet set)
+                internal NodeCareMessageHandler(NodeCareSet set)
                 {
-                    this.set = set;
+                    this._set = set;
                 }
 
                 public void Register()
                 {
-                    var messageDispatcher = set._host.MessageDispatcher;
+                    var messageDispatcher = _set._host.MessageDispatcher;
                     if (messageDispatcher == null)
                     {
-                        throw new ArgumentNullException("messageDispatcher has not be set of host:{0}".Fmt(set._host.Name));
+                        throw new ArgumentNullException("messageDispatcher has not be set of host:{0}".Fmt(_set._host.Name));
                     }
                     messageDispatcher.Register((IHandler<AddNodeOntologyCareCommand>)this);
                     messageDispatcher.Register((IHandler<NodeOntologyCareAddedEvent>)this);
@@ -1254,9 +1238,9 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 private void Handle(INodeOntologyCareCreateIo input, bool isCommand)
                 {
-                    var host = set._host;
-                    var nodeOntologyCareList = set._nodeOntologyCareList;
-                    var ontologyCareDic = set._ontologyCareDic;
+                    var host = _set._host;
+                    var nodeOntologyCareList = _set._nodeOntologyCareList;
+                    var ontologyCareDic = _set._ontologyCareDic;
                     var repository = host.RetrieveRequiredService<IRepository<NodeOntologyCare>>();
                     NodeDescriptor bNode;
                     if (!host.NodeHost.Nodes.TryGetNodeById(input.NodeId.ToString(), out bNode))
@@ -1323,7 +1307,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 private class PrivateNodeOntologyCareAddedEvent : NodeOntologyCareAddedEvent
                 {
-                    public PrivateNodeOntologyCareAddedEvent(NodeOntologyCareBase source, INodeOntologyCareCreateIo input)
+                    internal PrivateNodeOntologyCareAddedEvent(NodeOntologyCareBase source, INodeOntologyCareCreateIo input)
                         : base(source, input)
                     {
 
@@ -1346,9 +1330,9 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 private void Handle(Guid nodeOntologyCareId, bool isCommand)
                 {
-                    var host = set._host;
-                    var nodeOntologyCareList = set._nodeOntologyCareList;
-                    var ontologyCareDic = set._ontologyCareDic;
+                    var host = _set._host;
+                    var nodeOntologyCareList = _set._nodeOntologyCareList;
+                    var ontologyCareDic = _set._ontologyCareDic;
                     var repository = host.RetrieveRequiredService<IRepository<NodeOntologyCare>>();
                     NodeOntologyCare entity;
                     lock (this)
@@ -1406,7 +1390,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 private class PrivateNodeOntologyCareRemovedEvent : NodeOntologyCareRemovedEvent
                 {
-                    public PrivateNodeOntologyCareRemovedEvent(NodeOntologyCareBase source) : base(source) { }
+                    internal PrivateNodeOntologyCareRemovedEvent(NodeOntologyCareBase source) : base(source) { }
 
                 }
 
@@ -1426,9 +1410,9 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 private void Handle(INodeElementCareCreateIo input, bool isCommand)
                 {
-                    var host = set._host;
-                    var nodeElementCareList = set._nodeElementCareList;
-                    var elementCareDic = set._elementCareDic;
+                    var host = _set._host;
+                    var nodeElementCareList = _set._nodeElementCareList;
+                    var elementCareDic = _set._elementCareDic;
                     var repository = host.RetrieveRequiredService<IRepository<NodeElementCare>>();
                     NodeDescriptor bNode;
                     if (!host.NodeHost.Nodes.TryGetNodeById(input.NodeId.ToString(), out bNode))
@@ -1495,7 +1479,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 private class PrivateNodeElementCareAddedEvent : NodeElementCareAddedEvent
                 {
-                    public PrivateNodeElementCareAddedEvent(NodeElementCareBase source, INodeElementCareCreateIo input)
+                    internal PrivateNodeElementCareAddedEvent(NodeElementCareBase source, INodeElementCareCreateIo input)
                         : base(source, input)
                     {
 
@@ -1518,10 +1502,9 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 private void Handle(Guid nodeElementCareId, bool isInfoIdItem, bool isCommand)
                 {
-                    var host = set._host;
-                    var nodeElementCareList = set._nodeElementCareList;
-                    var elementCareDic = set._elementCareDic;
-                    var nodeInfoIdElements = set._nodeInfoIdElements;
+                    var host = _set._host;
+                    var nodeElementCareList = _set._nodeElementCareList;
+                    var nodeInfoIdElements = _set._nodeInfoIdElements;
                     var repository = host.RetrieveRequiredService<IRepository<NodeElementCare>>();
                     NodeElementCare entity;
                     lock (this)
@@ -1588,7 +1571,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 private class PrivateNodeElementCareUpdatedEvent : NodeElementCareUpdatedEvent
                 {
-                    public PrivateNodeElementCareUpdatedEvent(NodeElementCareBase source)
+                    internal PrivateNodeElementCareUpdatedEvent(NodeElementCareBase source)
                         : base(source)
                     {
 
@@ -1597,7 +1580,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 public void Handle(RemoveNodeElementCareCommand message)
                 {
-                    this.Handle(message.EntityId, true);
+                    this.HandleElement(message.EntityId, true);
                 }
 
                 public void Handle(NodeElementCareRemovedEvent message)
@@ -1606,15 +1589,15 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     {
                         return;
                     }
-                    this.Handle(message.Source.Id, false);
+                    this.HandleElement(message.Source.Id, false);
                 }
 
                 private void HandleElement(Guid nodeElementCareId, bool isCommand)
                 {
-                    var host = set._host;
-                    var nodeElementCareList = set._nodeElementCareList;
-                    var elementCareDic = set._elementCareDic;
-                    var nodeInfoIdElements = set._nodeInfoIdElements;
+                    var host = _set._host;
+                    var nodeElementCareList = _set._nodeElementCareList;
+                    var elementCareDic = _set._elementCareDic;
+                    var nodeInfoIdElements = _set._nodeInfoIdElements;
                     var repository = host.RetrieveRequiredService<IRepository<NodeElementCare>>();
                     NodeElementCare entity;
                     lock (this)
@@ -1687,10 +1670,11 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 private class PrivateNodeElementCareRemovedEvent : NodeElementCareRemovedEvent
                 {
-                    public PrivateNodeElementCareRemovedEvent(NodeElementCareBase source) : base(source) { }
+                    internal PrivateNodeElementCareRemovedEvent(NodeElementCareBase source) : base(source) { }
 
                 }
             }
+            #endregion
         }
         #endregion
 
@@ -1710,7 +1694,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 get { return _id; }
             }
 
-            public OrganizationSet(IAcDomain host)
+            internal OrganizationSet(IAcDomain host)
             {
                 if (host == null)
                 {
@@ -1722,7 +1706,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 {
                     throw new ArgumentNullException("messageDispatcher has not be set of host:{0}".Fmt(host.Name));
                 }
-                new MessageHandler(this).Register();
+                new NodeOntologyOrganizationMessageHandler(this).Register();
             }
 
             /// <summary>
@@ -1780,65 +1764,61 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
             private void Init()
             {
-                if (!_initialized)
+                if (_initialized) return;
+                lock (_locker)
                 {
-                    lock (_locker)
+                    if (_initialized) return;
+                    _dic.Clear();
+                    var ontologyOrgs = _host.RetrieveRequiredService<INodeHostBootstrap>().GetNodeOntologyOrganizations();
+                    foreach (var nodeOntologyOrg in ontologyOrgs)
                     {
-                        if (!_initialized)
+                        OrganizationState org;
+                        NodeDescriptor node;
+                        OntologyDescriptor ontology;
+                        _host.NodeHost.Nodes.TryGetNodeById(nodeOntologyOrg.NodeId.ToString(), out node);
+                        _host.NodeHost.Ontologies.TryGetOntology(nodeOntologyOrg.OntologyId, out ontology);
+                        if (_host.OrganizationSet.TryGetOrganization(nodeOntologyOrg.OrganizationId, out org))
                         {
-                            _dic.Clear();
-                            var ontologyOrgs = _host.RetrieveRequiredService<INodeHostBootstrap>().GetNodeOntologyOrganizations();
-                            foreach (var nodeOntologyOrg in ontologyOrgs)
+                            if (!_dic.ContainsKey(node))
                             {
-                                OrganizationState org;
-                                NodeDescriptor node;
-                                OntologyDescriptor ontology;
-                                _host.NodeHost.Nodes.TryGetNodeById(nodeOntologyOrg.NodeId.ToString(), out node);
-                                _host.NodeHost.Ontologies.TryGetOntology(nodeOntologyOrg.OntologyId, out ontology);
-                                if (_host.OrganizationSet.TryGetOrganization(nodeOntologyOrg.OrganizationId, out org))
-                                {
-                                    if (!_dic.ContainsKey(node))
-                                    {
-                                        _dic.Add(node, new Dictionary<OntologyDescriptor, Dictionary<OrganizationState, NodeOntologyOrganizationState>>());
-                                    }
-                                    if (!_dic[node].ContainsKey(ontology))
-                                    {
-                                        _dic[node].Add(ontology, new Dictionary<OrganizationState, NodeOntologyOrganizationState>());
-                                    }
-                                    var nodeOntologyOrgState = NodeOntologyOrganizationState.Create(_host, nodeOntologyOrg);
-                                    _dic[node][ontology].Add(org, nodeOntologyOrgState);
-                                }
-                                else
-                                {
-                                    // TODO:移除废弃的组织结构
-                                }
+                                _dic.Add(node, new Dictionary<OntologyDescriptor, Dictionary<OrganizationState, NodeOntologyOrganizationState>>());
                             }
-                            _initialized = true;
+                            if (!_dic[node].ContainsKey(ontology))
+                            {
+                                _dic[node].Add(ontology, new Dictionary<OrganizationState, NodeOntologyOrganizationState>());
+                            }
+                            var nodeOntologyOrgState = NodeOntologyOrganizationState.Create(_host, nodeOntologyOrg);
+                            _dic[node][ontology].Add(org, nodeOntologyOrgState);
+                        }
+                        else
+                        {
+                            // TODO:移除废弃的组织结构
                         }
                     }
+                    _initialized = true;
                 }
             }
 
-            #region MessageHandler
-            private class MessageHandler :
+            #region NodeOntologyOrganizationMessageHandler
+            private class NodeOntologyOrganizationMessageHandler :
                 IHandler<AddNodeOntologyOrganizationCommand>,
                 IHandler<NodeOntologyOrganizationAddedEvent>,
                 IHandler<RemoveNodeOntologyOrganizationCommand>,
                 IHandler<NodeOntologyOrganizationRemovedEvent>
             {
-                private readonly OrganizationSet set;
+                private readonly OrganizationSet _set;
 
-                public MessageHandler(OrganizationSet set)
+                internal NodeOntologyOrganizationMessageHandler(OrganizationSet set)
                 {
-                    this.set = set;
+                    this._set = set;
                 }
 
                 public void Register()
                 {
-                    var messageDispatcher = set._host.MessageDispatcher;
+                    var messageDispatcher = _set._host.MessageDispatcher;
                     if (messageDispatcher == null)
                     {
-                        throw new ArgumentNullException("messageDispatcher has not be set of host:{0}".Fmt(set._host.Name));
+                        throw new ArgumentNullException("messageDispatcher has not be set of host:{0}".Fmt(_set._host.Name));
                     }
                     messageDispatcher.Register((IHandler<AddNodeOntologyOrganizationCommand>)this);
                     messageDispatcher.Register((IHandler<NodeOntologyOrganizationAddedEvent>)this);
@@ -1862,8 +1842,8 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 private void Handle(INodeOntologyOrganizationCreateIo input, bool isCommand)
                 {
-                    var host = set._host;
-                    var _dic = set._dic;
+                    var host = _set._host;
+                    var dic = _set._dic;
                     var repository = host.RetrieveRequiredService<IRepository<NodeOntologyOrganization>>();
                     if (!input.Id.HasValue)
                     {
@@ -1885,9 +1865,9 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                         throw new ValidationException("意外的组织结构标识" + input.OrganizationId);
                     }
                     NodeOntologyOrganization entity;
-                    lock (set._locker)
+                    lock (_set._locker)
                     {
-                        if (_dic.ContainsKey(node) && _dic[node].ContainsKey(ontology) && _dic[node][ontology].ContainsKey(organization))
+                        if (dic.ContainsKey(node) && dic[node].ContainsKey(ontology) && dic[node][ontology].ContainsKey(organization))
                         {
                             return;
                         }
@@ -1901,26 +1881,26 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                         try
                         {
                             var state = NodeOntologyOrganizationState.Create(host, entity);
-                            if (!_dic.ContainsKey(node))
+                            if (!dic.ContainsKey(node))
                             {
-                                _dic.Add(node, new Dictionary<OntologyDescriptor, Dictionary<OrganizationState, NodeOntologyOrganizationState>>());
+                                dic.Add(node, new Dictionary<OntologyDescriptor, Dictionary<OrganizationState, NodeOntologyOrganizationState>>());
                             }
-                            if (!_dic[node].ContainsKey(ontology))
+                            if (!dic[node].ContainsKey(ontology))
                             {
-                                _dic[node].Add(ontology, new Dictionary<OrganizationState, NodeOntologyOrganizationState>());
+                                dic[node].Add(ontology, new Dictionary<OrganizationState, NodeOntologyOrganizationState>());
                             }
-                            if (!_dic[node][ontology].ContainsKey(organization))
+                            if (!dic[node][ontology].ContainsKey(organization))
                             {
-                                _dic[node][ontology].Add(organization, state);
+                                dic[node][ontology].Add(organization, state);
                             }
                             repository.Add(entity);
                             repository.Context.Commit();
                         }
                         catch
                         {
-                            if (_dic.ContainsKey(node) && _dic[node].ContainsKey(ontology) && _dic[node][ontology].ContainsKey(organization))
+                            if (dic.ContainsKey(node) && dic[node].ContainsKey(ontology) && dic[node][ontology].ContainsKey(organization))
                             {
-                                _dic[node][ontology].Remove(organization);
+                                dic[node][ontology].Remove(organization);
                             }
                             throw;
                         }
@@ -1933,7 +1913,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 private class PrivateNodeOntologyOrganizationAddedEvent : NodeOntologyOrganizationAddedEvent
                 {
-                    public PrivateNodeOntologyOrganizationAddedEvent(NodeOntologyOrganizationBase source, INodeOntologyOrganizationCreateIo input)
+                    internal PrivateNodeOntologyOrganizationAddedEvent(NodeOntologyOrganizationBase source, INodeOntologyOrganizationCreateIo input)
                         : base(source, input)
                     {
 
@@ -1957,8 +1937,8 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 private void Handle(Guid nodeId, Guid ontologyId, Guid organizationId, bool isCommand)
                 {
-                    var host = set._host;
-                    var _dic = set._dic;
+                    var host = _set._host;
+                    var dic = _set._dic;
                     var repository = host.RetrieveRequiredService<IRepository<NodeOntologyOrganization>>();
                     NodeDescriptor node;
                     if (!host.NodeHost.Nodes.TryGetNodeById(nodeId.ToString(), out node))
@@ -1975,11 +1955,11 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     {
                         throw new ValidationException("意外的组织结构标识" + organizationId);
                     }
-                    if (!_dic.ContainsKey(node) && !_dic[node].ContainsKey(ontology) && !_dic[node][ontology].ContainsKey(organization))
+                    if (!dic.ContainsKey(node) && !dic[node].ContainsKey(ontology) && !dic[node][ontology].ContainsKey(organization))
                     {
                         return;
                     }
-                    var bkState = _dic[node][ontology][organization];
+                    var bkState = dic[node][ontology][organization];
                     NodeOntologyOrganization entity;
                     lock (bkState)
                     {
@@ -1990,12 +1970,12 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                         }
                         try
                         {
-                            _dic[node][ontology].Remove(organization);
+                            dic[node][ontology].Remove(organization);
                             repository.Remove(entity);
                         }
                         catch
                         {
-                            _dic[node][ontology].Add(organization, bkState);
+                            dic[node][ontology].Add(organization, bkState);
                             throw;
                         }
                     }
@@ -2007,7 +1987,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 private class PrivateNodeOntologyOrganizationRemovedEvent : NodeOntologyOrganizationRemovedEvent
                 {
-                    public PrivateNodeOntologyOrganizationRemovedEvent(NodeOntologyOrganizationBase source) : base(source) { }
+                    internal PrivateNodeOntologyOrganizationRemovedEvent(NodeOntologyOrganizationBase source) : base(source) { }
                 }
             }
             #endregion

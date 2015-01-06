@@ -11,10 +11,8 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
     using Engine.Edi.Messages;
     using Entities;
     using Exceptions;
-    using Util;
     using Hecp;
     using Host;
-    using Model;
     using Repositories;
     using System.Collections;
     using System.Collections.Generic;
@@ -27,7 +25,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
     /// <summary>
     /// 
     /// </summary>
-    public sealed class OntologySet : IOntologySet
+    internal sealed class OntologySet : IOntologySet
     {
         public static readonly IOntologySet Empty = new OntologySet(EmptyAcDomain.SingleInstance);
 

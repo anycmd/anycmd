@@ -6,16 +6,16 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
     using Engine.Edi.Messages;
     using Entities;
     using Exceptions;
-    using Util;
     using Repositories;
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using Util;
 
     /// <summary>
     /// 
     /// </summary>
-    public sealed class ProcesseSet : IProcesseSet
+    internal sealed class ProcesseSet : IProcesseSet
     {
         public static readonly IProcesseSet Empty = new ProcesseSet(EmptyAcDomain.SingleInstance);
 

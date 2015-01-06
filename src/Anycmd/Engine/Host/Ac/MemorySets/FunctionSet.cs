@@ -7,7 +7,6 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     using Engine.Ac.InOuts;
     using Engine.Ac.Messages.Infra;
     using Exceptions;
-    using Util;
     using Host;
     using Infra;
     using Repositories;
@@ -15,9 +14,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
+    using Util;
     using functionCode = System.String;
 
-    public sealed class FunctionSet : IFunctionSet
+    internal sealed class FunctionSet : IFunctionSet
     {
         public static readonly IFunctionSet Empty = new FunctionSet(EmptyAcDomain.SingleInstance);
 
@@ -34,7 +34,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             get { return _id; }
         }
 
-        public FunctionSet(IAcDomain host)
+        internal FunctionSet(IAcDomain host)
         {
             if (host == null)
             {
@@ -101,31 +101,30 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
         #region Init
         private void Init()
         {
-            if (!_initialized)
+            if (_initialized) return;
+            lock (this)
             {
-                lock (this)
+                if (_initialized) return;
+                _dicByCode.Clear();
+                _dicById.Clear();
+                var functions = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllFunctions();
+                foreach (var entity in functions)
                 {
-                    if (_initialized) return;
-                    _dicByCode.Clear();
-                    _dicById.Clear();
-                    var functions = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllFunctions();
-                    foreach (var entity in functions)
+                    var function = FunctionState.Create(_host, entity);
+                    _dicById.Add(function.Id, function);
+                    if (!_dicByCode.ContainsKey(function.Resource))
                     {
-                        var function = FunctionState.Create(_host, entity);
-                        _dicById.Add(function.Id, function);
-                        if (!_dicByCode.ContainsKey(function.Resource))
-                        {
-                            _dicByCode.Add(function.Resource, new Dictionary<functionCode, FunctionState>(StringComparer.OrdinalIgnoreCase));
-                        }
-                        if (!_dicByCode[function.Resource].ContainsKey(function.Code))
-                        {
-                            _dicByCode[function.Resource].Add(function.Code, function);
-                        }
+                        _dicByCode.Add(function.Resource, new Dictionary<functionCode, FunctionState>(StringComparer.OrdinalIgnoreCase));
                     }
-                    _initialized = true;
+                    if (!_dicByCode[function.Resource].ContainsKey(function.Code))
+                    {
+                        _dicByCode[function.Resource].Add(function.Code, function);
+                    }
                 }
+                _initialized = true;
             }
         }
+
         #endregion
 
         #region MessageHandler
@@ -139,19 +138,19 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             IHandler<ResourceTypeUpdatedEvent>, 
             IHandler<ResourceTypeRemovedEvent>
         {
-            private readonly FunctionSet set;
+            private readonly FunctionSet _set;
 
-            public MessageHandler(FunctionSet set)
+            internal MessageHandler(FunctionSet set)
             {
-                this.set = set;
+                this._set = set;
             }
 
             public void Register()
             {
-                var messageDispatcher = set._host.MessageDispatcher;
+                var messageDispatcher = _set._host.MessageDispatcher;
                 if (messageDispatcher == null)
                 {
-                    throw new ArgumentNullException("messageDispatcher has not be set of host:{0}".Fmt(set._host.Name));
+                    throw new ArgumentNullException("messageDispatcher has not be set of host:{0}".Fmt(_set._host.Name));
                 }
                 messageDispatcher.Register((IHandler<AddFunctionCommand>)this);
                 messageDispatcher.Register((IHandler<FunctionAddedEvent>)this);
@@ -165,8 +164,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(ResourceTypeUpdatedEvent message)
             {
-                var host = set._host;
-                var dicByCode = set._dicByCode;
+                var host = _set._host;
+                var dicByCode = _set._dicByCode;
                 ResourceTypeState newKey;
                 if (!host.ResourceTypeSet.TryGetResource(message.Source.Id, out newKey))
                 {
@@ -182,8 +181,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(ResourceTypeRemovedEvent message)
             {
-                var host = set._host;
-                var dicByCode = set._dicByCode;
+                var host = _set._host;
+                var dicByCode = _set._dicByCode;
                 var key = dicByCode.Keys.FirstOrDefault(a => a.Id == message.Source.Id);
                 if (key != null)
                 {
@@ -207,9 +206,9 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Handle(IFunctionCreateIo input, bool isCommand)
             {
-                var host = set._host;
-                var dicByCode = set._dicByCode;
-                var dicById = set._dicById;
+                var host = _set._host;
+                var dicByCode = _set._dicByCode;
+                var dicById = _set._dicById;
                 var functionRepository = host.RetrieveRequiredService<IRepository<Function>>();
                 if (string.IsNullOrEmpty(input.Code))
                 {
@@ -300,9 +299,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Handle(IFunctionUpdateIo input, bool isCommand)
             {
-                var host = set._host;
-                var dicByCode = set._dicByCode;
-                var dicById = set._dicById;
+                var host = _set._host;
                 var functionRepository = host.RetrieveRequiredService<IRepository<Function>>();
                 if (string.IsNullOrEmpty(input.Code))
                 {
@@ -372,9 +369,9 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Update(FunctionState state)
             {
-                var host = set._host;
-                var dicByCode = set._dicByCode;
-                var dicById = set._dicById;
+                var host = _set._host;
+                var dicByCode = _set._dicByCode;
+                var dicById = _set._dicById;
                 var oldState = dicById[state.Id];
                 string oldKey = oldState.Code;
                 string newKey = state.Code;
@@ -397,7 +394,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateFunctionUpdatedEvent : FunctionUpdatedEvent
             {
-                public PrivateFunctionUpdatedEvent(FunctionBase source, IFunctionUpdateIo input)
+                internal PrivateFunctionUpdatedEvent(FunctionBase source, IFunctionUpdateIo input)
                     : base(source, input)
                 {
 
@@ -419,9 +416,9 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Handle(Guid functionId, bool isCommand)
             {
-                var host = set._host;
-                var dicByCode = set._dicByCode;
-                var dicById = set._dicById;
+                var host = _set._host;
+                var dicByCode = _set._dicByCode;
+                var dicById = _set._dicById;
                 var functionRepository = host.RetrieveRequiredService<IRepository<Function>>();
                 var operationHelpRepository = host.RetrieveRequiredService<IRepository<OperationHelp>>();
 
@@ -498,7 +495,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateFunctionRemovedEvent : FunctionRemovedEvent
             {
-                public PrivateFunctionRemovedEvent(FunctionBase function)
+                internal PrivateFunctionRemovedEvent(FunctionBase function)
                     : base(function)
                 {
 

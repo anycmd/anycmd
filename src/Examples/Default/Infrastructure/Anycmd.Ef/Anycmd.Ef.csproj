@@ -49,6 +49,8 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
@@ -60,11 +62,31 @@
     <Compile Include="..\..\..\..\..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="AcEntities.Designer.cs">
+      <DependentUpon>AcEntities.edmx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="ConstKeys.cs" />
+    <Compile Include="EdiEntities.Designer.cs">
+      <DependentUpon>EdiEntities.edmx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="EfContext.cs" />
     <Compile Include="EfDbContextExtensions.cs" />
     <Compile Include="EfFilterStringBuilder.cs" />
+    <Compile Include="IdentityEntities.Designer.cs">
+      <DependentUpon>IdentityEntities.edmx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="IEfRepositoryContext.cs" />
+    <Compile Include="InfraEntities.Designer.cs">
+      <DependentUpon>InfraEntities.edmx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="ObjectFilter.cs" />
     <Compile Include="QueryableExtension.cs" />
     <Compile Include="QueryBase.cs" />
@@ -78,7 +100,23 @@
     <Compile Include="WebEfContextStorage.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EntityDeploy Include="AcEntities.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>AcEntities.Designer.cs</LastGenOutput>
+    </EntityDeploy>
     <None Include="App.config" />
+    <EntityDeploy Include="EdiEntities.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>EdiEntities.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <EntityDeploy Include="IdentityEntities.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>IdentityEntities.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <EntityDeploy Include="InfraEntities.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>InfraEntities.Designer.cs</LastGenOutput>
+    </EntityDeploy>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

@@ -15,7 +15,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
     /// <summary>
     /// 
     /// </summary>
-    public sealed class MessageTransferSet : IMessageTransferSet
+    internal sealed class MessageTransferSet : IMessageTransferSet
     {
         public static readonly IMessageTransferSet Empty = new MessageTransferSet(EmptyAcDomain.SingleInstance);
 
@@ -30,7 +30,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             get { return _id; }
         }
 
-        public MessageTransferSet(IAcDomain host)
+        internal MessageTransferSet(IAcDomain host)
         {
             if (host == null)
             {
@@ -91,31 +91,27 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
         private void Init()
         {
-            if (!_initialized)
+            if (_initialized) return;
+            lock (_locker)
             {
-                lock (_locker)
+                if (_initialized) return;
+                foreach (var item in _dic.Values)
                 {
-                    if (!_initialized)
-                    {
-                        foreach (var item in _dic.Values)
-                        {
-                            item.Dispose();
-                        }
-                        _dic.Clear();
+                    item.Dispose();
+                }
+                _dic.Clear();
 
-                        var transfers = GetTransfers();
-                        if (transfers != null)
-                        {
-                            var messageTransfers = transfers as IMessageTransfer[] ?? transfers.ToArray();
-                            foreach (var item in messageTransfers)
-                            {
-                                var item1 = item;
-                                _dic.Add(item.Id, messageTransfers.Single(a => a.Id == item1.Id));
-                            }
-                        }
-                        _initialized = true;
+                var transfers = GetTransfers();
+                if (transfers != null)
+                {
+                    var messageTransfers = transfers as IMessageTransfer[] ?? transfers.ToArray();
+                    foreach (var item in messageTransfers)
+                    {
+                        var item1 = item;
+                        _dic.Add(item.Id, messageTransfers.Single(a => a.Id == item1.Id));
                     }
                 }
+                _initialized = true;
             }
         }
 

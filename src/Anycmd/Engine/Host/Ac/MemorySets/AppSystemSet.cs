@@ -7,7 +7,6 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     using Engine.Ac.InOuts;
     using Engine.Ac.Messages.Infra;
     using Exceptions;
-    using Util;
     using Host;
     using Infra;
     using Repositories;
@@ -16,14 +15,15 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
+    using Util;
 
-    public sealed class AppSystemSet : IAppSystemSet
+    internal sealed class AppSystemSet : IAppSystemSet
     {
         public static readonly IAppSystemSet Empty = new AppSystemSet(EmptyAcDomain.SingleInstance);
 
         private readonly Dictionary<string, AppSystemState> _dicByCode = new Dictionary<string, AppSystemState>(StringComparer.OrdinalIgnoreCase);
         private readonly Dictionary<Guid, AppSystemState> _dicById = new Dictionary<Guid, AppSystemState>();
-        private bool _initialized = false;
+        private bool _initialized;
         private readonly Guid _id = Guid.NewGuid();
         private readonly IAcDomain _host;
 
@@ -32,17 +32,15 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             get { return _id; }
         }
 
-        #region Ctor
-        public AppSystemSet(IAcDomain host)
+        internal AppSystemSet(IAcDomain host)
         {
             if (host == null)
             {
                 throw new ArgumentNullException("host");
             }
-            this._host = host;
+            _host = host;
             new MessageHandler(this).Register();
         }
-        #endregion
 
         public AppSystemState SelfAppSystem
         {
@@ -56,10 +54,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return _dicByCode[_host.Config.SelfAppSystemCode];
                 }
-                else
-                {
-                    throw new AnycmdException("尚未配置SelfAppSystemCode");
-                }
+                throw new AnycmdException("尚未配置SelfAppSystemCode");
             }
         }
 
@@ -69,12 +64,9 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 Init();
             }
-            if (appSystemCode == null)
-            {
-                appSystem = AppSystemState.Empty;
-                return false;
-            }
-            return _dicByCode.TryGetValue(appSystemCode, out appSystem);
+            if (appSystemCode != null) return _dicByCode.TryGetValue(appSystemCode, out appSystem);
+            appSystem = AppSystemState.Empty;
+            return false;
         }
 
         public bool TryGetAppSystem(Guid appSystemId, out AppSystemState appSystem)
@@ -139,33 +131,32 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
         #region Init
         private void Init()
         {
-            if (!_initialized)
+            if (_initialized) return;
+            lock (this)
             {
-                lock (this)
+                if (_initialized) return;
+                _dicByCode.Clear();
+                _dicById.Clear();
+                var appSystems = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllAppSystems();
+                foreach (var appSystem in appSystems)
                 {
-                    if (_initialized) return;
-                    _dicByCode.Clear();
-                    _dicById.Clear();
-                    var appSystems = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllAppSystems();
-                    foreach (var appSystem in appSystems)
+                    Debug.Assert(appSystem != null, "appSystem != null");
+                    if (_dicByCode.ContainsKey(appSystem.Code))
                     {
-                        Debug.Assert(appSystem != null, "appSystem != null");
-                        if (_dicByCode.ContainsKey(appSystem.Code))
-                        {
-                            throw new AnycmdException("意外重复的应用系统编码" + appSystem.Code);
-                        }
-                        if (_dicById.ContainsKey(appSystem.Id))
-                        {
-                            throw new AnycmdException("意外重复的应用系统标识" + appSystem.Id);
-                        }
-                        var value = AppSystemState.Create(_host, appSystem);
-                        _dicByCode.Add(appSystem.Code, value);
-                        _dicById.Add(appSystem.Id, value);
+                        throw new AnycmdException("意外重复的应用系统编码" + appSystem.Code);
                     }
-                    _initialized = true;
+                    if (_dicById.ContainsKey(appSystem.Id))
+                    {
+                        throw new AnycmdException("意外重复的应用系统标识" + appSystem.Id);
+                    }
+                    var value = AppSystemState.Create(_host, appSystem);
+                    _dicByCode.Add(appSystem.Code, value);
+                    _dicById.Add(appSystem.Id, value);
                 }
+                _initialized = true;
             }
         }
+
         #endregion
 
         #region MessageHandler
@@ -177,19 +168,19 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             IHandler<UpdateAppSystemCommand>, 
             IHandler<RemoveAppSystemCommand>
         {
-            private readonly AppSystemSet set;
+            private readonly AppSystemSet _set;
 
-            public MessageHandler(AppSystemSet set)
+            internal MessageHandler(AppSystemSet set)
             {
-                this.set = set;
+                _set = set;
             }
 
             public void Register()
             {
-                var messageDispatcher = set._host.MessageDispatcher;
+                var messageDispatcher = _set._host.MessageDispatcher;
                 if (messageDispatcher == null)
                 {
-                    throw new ArgumentNullException("messageDispatcher has not be set of host:{0}".Fmt(set._host.Name));
+                    throw new ArgumentNullException("messageDispatcher has not be set of host:{0}".Fmt(_set._host.Name));
                 }
                 messageDispatcher.Register((IHandler<AddAppSystemCommand>)this);
                 messageDispatcher.Register((IHandler<AppSystemAddedEvent>)this);
@@ -201,7 +192,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(AddAppSystemCommand message)
             {
-                this.Handle(message.Input, true);
+                Handle(message.Input, true);
             }
 
             public void Handle(AppSystemAddedEvent message)
@@ -210,14 +201,14 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                this.Handle(message.Input, false);
+                Handle(message.Input, false);
             }
 
             private void Handle(IAppSystemCreateIo input, bool isCommand)
             {
-                var dicByCode = set._dicByCode;
-                var dicById = set._dicById;
-                var host = set._host;
+                var dicByCode = _set._dicByCode;
+                var dicById = _set._dicById;
+                var host = _set._host;
                 var repository = host.RetrieveRequiredService<IRepository<AppSystem>>();
                 if (string.IsNullOrEmpty(input.Code))
                 {
@@ -283,14 +274,14 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateAppSystemAddedEvent : AppSystemAddedEvent
             {
-                public PrivateAppSystemAddedEvent(AppSystemBase source, IAppSystemCreateIo input)
+                internal PrivateAppSystemAddedEvent(AppSystemBase source, IAppSystemCreateIo input)
                     : base(source, input)
                 {
                 }
             }
             public void Handle(UpdateAppSystemCommand message)
             {
-                this.Handle(message.Output, true);
+                Handle(message.Output, true);
             }
 
             public void Handle(AppSystemUpdatedEvent message)
@@ -299,14 +290,12 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                this.Handle(message.Input, false);
+                Handle(message.Input, false);
             }
 
             private void Handle(IAppSystemUpdateIo input, bool isCommand)
             {
-                var dicByCode = set._dicByCode;
-                var dicById = set._dicById;
-                var host = set._host;
+                var host = _set._host;
                 var repository = host.RetrieveRequiredService<IRepository<AppSystem>>();
                 if (string.IsNullOrEmpty(input.Code))
                 {
@@ -375,9 +364,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Update(AppSystemState state)
             {
-                var dicByCode = set._dicByCode;
-                var dicById = set._dicById;
-                var host = set._host;
+                var dicByCode = _set._dicByCode;
+                var dicById = _set._dicById;
                 var oldState = dicById[state.Id];
                 var oldKey = oldState.Code;
                 var newKey = state.Code;
@@ -396,7 +384,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateAppSystemUpdatedEvent : AppSystemUpdatedEvent
             {
-                public PrivateAppSystemUpdatedEvent(AppSystemBase source, IAppSystemUpdateIo input)
+                internal PrivateAppSystemUpdatedEvent(AppSystemBase source, IAppSystemUpdateIo input)
                     : base(source, input)
                 {
 
@@ -404,7 +392,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             }
             public void Handle(RemoveAppSystemCommand message)
             {
-                this.Handle(message.EntityId, true);
+                Handle(message.EntityId, true);
             }
 
             public void Handle(AppSystemRemovedEvent message)
@@ -413,14 +401,14 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                this.Handle(message.Source.Id, false);
+                Handle(message.Source.Id, false);
             }
 
             private void Handle(Guid appSystemId, bool isCommand)
             {
-                var dicByCode = set._dicByCode;
-                var dicById = set._dicById;
-                var host = set._host;
+                var dicByCode = _set._dicByCode;
+                var dicById = _set._dicById;
+                var host = _set._host;
                 var repository = host.RetrieveRequiredService<IRepository<AppSystem>>();
                 AppSystemState bkState;
                 if (!host.AppSystemSet.TryGetAppSystem(appSystemId, out bkState))
@@ -490,7 +478,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateAppSystemRemovedEvent : AppSystemRemovedEvent
             {
-                public PrivateAppSystemRemovedEvent(AppSystemBase source) : base(source) { }
+                internal PrivateAppSystemRemovedEvent(AppSystemBase source) : base(source) { }
             }
         }
         #endregion

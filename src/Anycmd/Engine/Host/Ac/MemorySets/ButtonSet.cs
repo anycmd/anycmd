@@ -16,13 +16,13 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     using System.Linq;
     using Util;
 
-    public sealed class ButtonSet : IButtonSet
+    internal sealed class ButtonSet : IButtonSet
     {
         public static readonly IButtonSet Empty = new ButtonSet(EmptyAcDomain.SingleInstance);
 
         private readonly Dictionary<Guid, ButtonState> _dicById = new Dictionary<Guid, ButtonState>();
         private readonly Dictionary<string, ButtonState> _dicByCode = new Dictionary<string, ButtonState>(StringComparer.OrdinalIgnoreCase);
-        private bool _initialized = false;
+        private bool _initialized;
         private readonly IAcDomain _host;
 
         private readonly Guid _id = Guid.NewGuid();
@@ -32,13 +32,13 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             get { return _id; }
         }
 
-        public ButtonSet(IAcDomain host)
+        internal ButtonSet(IAcDomain host)
         {
             if (host == null)
             {
                 throw new ArgumentNullException("host");
             }
-            this._host = host;
+            _host = host;
             new MessageHandler(this).Register();
         }
 
@@ -88,32 +88,28 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
         private void Init()
         {
-            if (!_initialized)
+            if (_initialized) return;
+            lock (this)
             {
-                lock (this)
+                if (_initialized) return;
+                _dicById.Clear();
+                _dicByCode.Clear();
+                var buttons = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllButtons().ToList();
+                foreach (var button in buttons)
                 {
-                    if (!_initialized)
+                    if (_dicById.ContainsKey(button.Id))
                     {
-                        _dicById.Clear();
-                        _dicByCode.Clear();
-                        var buttons = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllButtons().ToList();
-                        foreach (var button in buttons)
-                        {
-                            if (_dicById.ContainsKey(button.Id))
-                            {
-                                throw new AnycmdException("意外重复的按钮标识");
-                            }
-                            if (_dicByCode.ContainsKey(button.Code))
-                            {
-                                throw new AnycmdException("意外重复的按钮编码");
-                            }
-                            var buttonState = ButtonState.Create(button);
-                            _dicById.Add(button.Id, buttonState);
-                            _dicByCode.Add(button.Code, buttonState);
-                        }
-                        _initialized = true;
+                        throw new AnycmdException("意外重复的按钮标识");
                     }
+                    if (_dicByCode.ContainsKey(button.Code))
+                    {
+                        throw new AnycmdException("意外重复的按钮编码");
+                    }
+                    var buttonState = ButtonState.Create(button);
+                    _dicById.Add(button.Id, buttonState);
+                    _dicByCode.Add(button.Code, buttonState);
                 }
+                _initialized = true;
             }
         }
 
@@ -146,9 +142,9 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
         {
             private readonly ButtonSet _set;
 
-            public MessageHandler(ButtonSet set)
+            internal MessageHandler(ButtonSet set)
             {
-                this._set = set;
+                _set = set;
             }
 
             public void Register()
@@ -168,7 +164,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(AddButtonCommand message)
             {
-                this.Handle(message.Input, isCommand: true);
+                Handle(message.Input, isCommand: true);
             }
 
             public void Handle(ButtonAddedEvent message)
@@ -177,7 +173,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                this.Handle(message.Output, isCommand: false);
+                Handle(message.Output, isCommand: false);
             }
 
             private void Handle(IButtonCreateIo input, bool isCommand)
@@ -243,7 +239,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateButtonAddedEvent : ButtonAddedEvent
             {
-                public PrivateButtonAddedEvent(ButtonBase source, IButtonCreateIo input)
+                internal PrivateButtonAddedEvent(ButtonBase source, IButtonCreateIo input)
                     : base(source, input)
                 {
 
@@ -251,7 +247,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             }
             public void Handle(UpdateButtonCommand message)
             {
-                this.Handle(message.Output, isCommand: true);
+                Handle(message.Output, isCommand: true);
             }
 
             public void Handle(ButtonUpdatedEvent message)
@@ -260,14 +256,12 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                this.Handle(message.Input, isCommand: false);
+                Handle(message.Input, isCommand: false);
             }
 
             private void Handle(IButtonUpdateIo input, bool isCommand)
             {
                 var host = _set._host;
-                var dicById = _set._dicById;
-                var dicByCode = _set._dicByCode;
                 var buttonRepository = host.RetrieveRequiredService<IRepository<Button>>();
                 if (string.IsNullOrEmpty(input.Code))
                 {
@@ -279,7 +273,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     throw new NotExistException("意外的按钮标识" + input.Id);
                 }
                 Button entity;
-                bool stateChanged = false;
+                var stateChanged = false;
                 lock (bkState)
                 {
                     ButtonState oldState;
@@ -336,7 +330,6 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Update(ButtonState state)
             {
-                var host = _set._host;
                 var dicById = _set._dicById;
                 var dicByCode = _set._dicByCode;
                 var oldKey = dicById[state.Id].Code;
@@ -356,7 +349,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateButtonUpdatedEvent : ButtonUpdatedEvent
             {
-                public PrivateButtonUpdatedEvent(ButtonBase source, IButtonUpdateIo input)
+                internal PrivateButtonUpdatedEvent(ButtonBase source, IButtonUpdateIo input)
                     : base(source, input)
                 {
 
@@ -364,7 +357,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             }
             public void Handle(RemoveButtonCommand message)
             {
-                this.Handle(message.EntityId, isCommand: true);
+                Handle(message.EntityId, isCommand: true);
             }
 
             public void Handle(ButtonRemovedEvent message)
@@ -373,7 +366,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                this.Handle(message.Source.Id, isCommand: false);
+                Handle(message.Source.Id, isCommand: false);
             }
 
             private void Handle(Guid buttonId, bool isCommand)
@@ -382,7 +375,6 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 var dicById = _set._dicById;
                 var dicByCode = _set._dicByCode;
                 var buttonRepository = host.RetrieveRequiredService<IRepository<Button>>();
-                var viewButtonRepository = host.RetrieveRequiredService<IRepository<UiViewButton>>();
                 ButtonState bkState;
                 if (!host.ButtonSet.TryGetButton(buttonId, out bkState))
                 {
@@ -446,7 +438,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateButtonRemovedEvent : ButtonRemovedEvent
             {
-                public PrivateButtonRemovedEvent(ButtonBase source)
+                internal PrivateButtonRemovedEvent(ButtonBase source)
                     : base(source)
                 {
 
