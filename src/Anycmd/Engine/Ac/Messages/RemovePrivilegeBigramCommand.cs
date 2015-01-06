@@ -1,8 +1,6 @@
 ﻿
 namespace Anycmd.Engine.Ac.Messages
 {
-    using Commands;
-    using Model;
     using System;
 
     public class RemovePrivilegeBigramCommand : RemoveEntityCommand, IAnycmdCommand

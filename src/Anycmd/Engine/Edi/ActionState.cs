@@ -5,7 +5,6 @@ namespace Anycmd.Engine.Edi
     using Exceptions;
     using Hecp;
     using Host.Ac;
-    using Model;
     using System;
     using Util;
 

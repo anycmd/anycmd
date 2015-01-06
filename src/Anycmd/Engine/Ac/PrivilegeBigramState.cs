@@ -3,15 +3,15 @@ namespace Anycmd.Engine.Ac
 {
     using Abstractions;
     using Exceptions;
-    using Model;
     using System;
     using Util;
 
-    public sealed class PrivilegeBigramState : StateObject<PrivilegeBigramState>, IStateObject
+    public sealed class PrivilegeBigramState : StateObject<PrivilegeBigramState>, IAcRecord
     {
-        private AcSubjectType _subjectType;
+        private AcRecordType _acType;
+        private AcElementType _subjectType;
         private Guid _subjectInstanceId;
-        private AcObjectType _objectType;
+        private AcElementType _objectType;
         private Guid _objectInstanceId;
         private string _privilegeConstraint;
         private int _privilegeOrientation;
@@ -35,8 +35,9 @@ namespace Anycmd.Engine.Ac
             {
                 throw new AnycmdException("必须指定授权授权类型");
             }
-            AcSubjectType subjectType;
-            AcObjectType acObjectType;
+            AcElementType subjectType;
+            AcElementType acObjectType;
+            AcRecordType acType;
             if (!privilegeBigram.SubjectType.TryParse(out subjectType))
             {
                 throw new AnycmdException("非法的主授权类型" + privilegeBigram.SubjectType);
@@ -45,8 +46,13 @@ namespace Anycmd.Engine.Ac
             {
                 throw new AnycmdException("非法的从授权类型" + privilegeBigram.ObjectType);
             }
+            if (!(privilegeBigram.SubjectType + privilegeBigram.ObjectType).TryParse(out acType))
+            {
+                throw new AnycmdException("非法的授权类型" + privilegeBigram.ObjectType);
+            }
             return new PrivilegeBigramState(privilegeBigram.Id)
             {
+                _acType = acType,
                 _subjectType = subjectType,
                 _subjectInstanceId = privilegeBigram.SubjectInstanceId,
                 _objectType = acObjectType,
@@ -59,7 +65,12 @@ namespace Anycmd.Engine.Ac
             };
         }
 
-        public AcSubjectType SubjectType
+        public AcRecordType AcRecordType
+        {
+            get { return _acType; }
+        }
+
+        public AcElementType SubjectType
         {
             get { return _subjectType; }
         }
@@ -69,7 +80,7 @@ namespace Anycmd.Engine.Ac
             get { return _subjectInstanceId; }
         }
 
-        public AcObjectType ObjectType
+        public AcElementType ObjectType
         {
             get { return _objectType; }
         }

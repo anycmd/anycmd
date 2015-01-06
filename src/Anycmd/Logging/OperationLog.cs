@@ -1,7 +1,6 @@
 ﻿
 namespace Anycmd.Logging
 {
-    using Util;
     using System;
     using System.Data;
     using System.Diagnostics;

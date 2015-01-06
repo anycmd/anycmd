@@ -2,7 +2,6 @@
 namespace Anycmd.Engine.Ac
 {
     using Abstractions;
-    using Model;
     using System;
 
     /// <summary>

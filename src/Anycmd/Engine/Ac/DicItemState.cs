@@ -3,14 +3,13 @@ namespace Anycmd.Engine.Ac
 {
     using Abstractions.Infra;
     using Exceptions;
-    using Model;
     using System;
     using Util;
 
     /// <summary>
     /// 表示系统字典项业务实体。
     /// </summary>
-    public sealed class DicItemState : StateObject<DicItemState>, IDicItem, IStateObject
+    public sealed class DicItemState : StateObject<DicItemState>, IDicItem
     {
         public static readonly DicItemState Empty = new DicItemState(Guid.Empty)
         {

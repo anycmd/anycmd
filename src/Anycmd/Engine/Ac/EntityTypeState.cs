@@ -5,14 +5,13 @@ namespace Anycmd.Engine.Ac
     using Exceptions;
     using Host;
     using Host.Ac.Infra;
-    using Model;
     using System;
     using Util;
 
     /// <summary>
     /// 表示实体类型业务实体。
     /// </summary>
-    public sealed class EntityTypeState : StateObject<EntityTypeState>, IEntityType, IStateObject
+    public sealed class EntityTypeState : StateObject<EntityTypeState>, IEntityType
     {
         public static readonly EntityTypeState Empty = new EntityTypeState(Guid.Empty)
         {

@@ -4,7 +4,6 @@ namespace Anycmd.Engine.Edi
 {
     using Abstractions;
     using Exceptions;
-    using Model;
     using Util;
 
     public sealed class ProcessState : StateObject<ProcessState>, IProcess, IStateObject

@@ -1,9 +1,9 @@
 ﻿
 namespace Anycmd.Rdb
 {
-    using Util;
     using System;
     using System.Data;
+    using Util;
 
     /// <summary>
     /// 视图

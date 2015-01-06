@@ -1,7 +1,6 @@
 ﻿
 namespace Anycmd.Engine.Ac.InOuts
 {
-    using Model;
     using System;
 
     /// <summary>

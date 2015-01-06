@@ -2,12 +2,12 @@
 namespace Anycmd.Query
 {
     using Exceptions;
-    using Util;
     using System;
     using System.Collections.Generic;
     using System.Data.SqlClient;
     using System.Linq;
     using System.Text;
+    using Util;
 
     /// <summary>
     /// 将数据查询筛选器转化为sql查询条件字符串

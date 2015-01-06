@@ -6,8 +6,7 @@ namespace Anycmd.Engine.Edi
 	using Exceptions;
 	using Hecp;
 	using Host.Edi.Handlers;
-	using Model;
-	using System;
+    using System;
 	using System.Collections.Generic;
 	using System.Linq;
 

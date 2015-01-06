@@ -446,11 +446,11 @@ namespace Anycmd.Tests
             {
                 Id = entityId,
                 SubjectInstanceId = accountId,
-                SubjectType = AcSubjectType.Account.ToString(),// 主体是账户
+                SubjectType = UserAcSubjectType.Account.ToString(),// 主体是账户
                 PrivilegeConstraint = null,
                 PrivilegeOrientation = 1,
                 ObjectInstanceId = roleId,
-                ObjectType = AcObjectType.Role.ToString()
+                ObjectType = AcElementType.Role.ToString()
             }));
             Guid organizationId = Guid.NewGuid();
             host.Handle(new AddOrganizationCommand(new OrganizationCreateInput
@@ -468,11 +468,11 @@ namespace Anycmd.Tests
             {
                 Id = entityId,
                 SubjectInstanceId = accountId,
-                SubjectType = AcSubjectType.Account.ToString(),// 主体是账户
+                SubjectType = UserAcSubjectType.Account.ToString(),// 主体是账户
                 PrivilegeConstraint = null,
                 PrivilegeOrientation = 1,
                 ObjectInstanceId = organizationId,
-                ObjectType = AcObjectType.Organization.ToString()
+                ObjectType = AcElementType.Organization.ToString()
             }));
             // 授予组织结构角色
             entityId = Guid.NewGuid();
@@ -480,11 +480,11 @@ namespace Anycmd.Tests
             {
                 Id = entityId,
                 SubjectInstanceId = organizationId,
-                SubjectType = AcSubjectType.Organization.ToString(),// 主体是账户
+                SubjectType = UserAcSubjectType.Organization.ToString(),// 主体是账户
                 PrivilegeConstraint = null,
                 PrivilegeOrientation = 1,
                 ObjectInstanceId = roleId,
-                ObjectType = AcObjectType.Role.ToString()
+                ObjectType = AcElementType.Role.ToString()
             }));
             Guid groupId = Guid.NewGuid();
             host.Handle(new AddGroupCommand(new GroupCreateInput
@@ -504,11 +504,11 @@ namespace Anycmd.Tests
             {
                 Id = entityId,
                 SubjectInstanceId = accountId,
-                SubjectType = AcSubjectType.Account.ToString(),// 主体是账户
+                SubjectType = UserAcSubjectType.Account.ToString(),// 主体是账户
                 PrivilegeConstraint = null,
                 PrivilegeOrientation = 1,
                 ObjectInstanceId = groupId,
-                ObjectType = AcObjectType.Group.ToString()
+                ObjectType = AcElementType.Group.ToString()
             }));
             // 授予工作组角色
             entityId = Guid.NewGuid();
@@ -516,11 +516,11 @@ namespace Anycmd.Tests
             {
                 Id = entityId,
                 SubjectInstanceId = roleId,
-                SubjectType = AcSubjectType.Role.ToString(),// 主体是账户
+                SubjectType = UserAcSubjectType.Role.ToString(),// 主体是账户
                 PrivilegeConstraint = null,
                 PrivilegeOrientation = 1,
                 ObjectInstanceId = groupId,
-                ObjectType = AcObjectType.Group.ToString()
+                ObjectType = AcElementType.Group.ToString()
             }));
             roleId = Guid.NewGuid();
             // 添加一个新角色并将该角色授予上面创建的组织结构
@@ -539,22 +539,22 @@ namespace Anycmd.Tests
             {
                 Id = entityId,
                 SubjectInstanceId = organizationId,
-                SubjectType = AcSubjectType.Organization.ToString(),// 主体是账户
+                SubjectType = UserAcSubjectType.Organization.ToString(),// 主体是账户
                 PrivilegeConstraint = null,
                 PrivilegeOrientation = 1,
                 ObjectInstanceId = roleId,
-                ObjectType = AcObjectType.Role.ToString()
+                ObjectType = AcElementType.Role.ToString()
             }));
             entityId = Guid.NewGuid();
             host.Handle(new AddPrivilegeBigramCommand(new PrivilegeBigramCreateIo
             {
                 Id = entityId,
                 SubjectInstanceId = roleId,
-                SubjectType = AcSubjectType.Role.ToString(),// 主体是账户
+                SubjectType = UserAcSubjectType.Role.ToString(),// 主体是账户
                 PrivilegeConstraint = null,
                 PrivilegeOrientation = 1,
                 ObjectInstanceId = groupId,
-                ObjectType = AcObjectType.Group.ToString()
+                ObjectType = AcElementType.Group.ToString()
             }));
             roleId = Guid.NewGuid();
             // 添加一个新角色并将该角色授予上面创建的工作组
@@ -573,11 +573,11 @@ namespace Anycmd.Tests
             {
                 Id = entityId,
                 SubjectInstanceId = roleId,
-                SubjectType = AcSubjectType.Role.ToString(),// 主体是账户
+                SubjectType = UserAcSubjectType.Role.ToString(),// 主体是账户
                 PrivilegeConstraint = null,
                 PrivilegeOrientation = 1,
                 ObjectInstanceId = groupId,
-                ObjectType = AcObjectType.Group.ToString()
+                ObjectType = AcElementType.Group.ToString()
             }));
             var account = accountRepository.GetByKey(accountId);
             var sessionId = Guid.NewGuid();
@@ -668,11 +668,11 @@ namespace Anycmd.Tests
             {
                 Id = entityId,
                 SubjectInstanceId = roleId,
-                SubjectType = AcSubjectType.Role.ToString(),// 主体是账户
+                SubjectType = UserAcSubjectType.Role.ToString(),// 主体是账户
                 PrivilegeConstraint = null,
                 PrivilegeOrientation = 1,
                 ObjectInstanceId = functionId,
-                ObjectType = AcObjectType.Function.ToString()
+                ObjectType = AcElementType.Function.ToString()
             }));
             // 授予账户角色
             entityId = Guid.NewGuid();
@@ -680,11 +680,11 @@ namespace Anycmd.Tests
             {
                 Id = entityId,
                 SubjectInstanceId = accountId,
-                SubjectType = AcSubjectType.Account.ToString(),// 主体是账户
+                SubjectType = UserAcSubjectType.Account.ToString(),// 主体是账户
                 PrivilegeConstraint = null,
                 PrivilegeOrientation = 1,
                 ObjectInstanceId = roleId,
-                ObjectType = AcObjectType.Role.ToString()
+                ObjectType = AcElementType.Role.ToString()
             }));
             entityId = Guid.NewGuid();
             functionId = Guid.NewGuid();
@@ -703,11 +703,11 @@ namespace Anycmd.Tests
             {
                 Id = entityId,
                 SubjectInstanceId = accountId,
-                SubjectType = AcSubjectType.Account.ToString(),// 主体是账户
+                SubjectType = UserAcSubjectType.Account.ToString(),// 主体是账户
                 PrivilegeConstraint = null,
                 PrivilegeOrientation = 1,
                 ObjectInstanceId = functionId,
-                ObjectType = AcObjectType.Function.ToString()
+                ObjectType = AcElementType.Function.ToString()
             }));
             var account = accountRepository.GetByKey(accountId);
             var sessionId = Guid.NewGuid();
@@ -810,11 +810,11 @@ namespace Anycmd.Tests
             {
                 Id = entityId,
                 SubjectInstanceId = accountId,
-                SubjectType = AcSubjectType.Account.ToString(),// 主体是账户
+                SubjectType = UserAcSubjectType.Account.ToString(),// 主体是账户
                 PrivilegeConstraint = null,
                 PrivilegeOrientation = 1,
                 ObjectInstanceId = roleId,
-                ObjectType = AcObjectType.Role.ToString()
+                ObjectType = AcElementType.Role.ToString()
             }));
             Guid organizationId = Guid.NewGuid();
             host.Handle(new AddOrganizationCommand(new OrganizationCreateInput
@@ -832,11 +832,11 @@ namespace Anycmd.Tests
             {
                 Id = entityId,
                 SubjectInstanceId = accountId,
-                SubjectType = AcSubjectType.Account.ToString(),// 主体是账户
+                SubjectType = UserAcSubjectType.Account.ToString(),// 主体是账户
                 PrivilegeConstraint = null,
                 PrivilegeOrientation = 1,
                 ObjectInstanceId = organizationId,
-                ObjectType = AcObjectType.Organization.ToString()
+                ObjectType = AcElementType.Organization.ToString()
             }));
             // 授予组织结构角色
             entityId = Guid.NewGuid();
@@ -844,11 +844,11 @@ namespace Anycmd.Tests
             {
                 Id = entityId,
                 SubjectInstanceId = organizationId,
-                SubjectType = AcSubjectType.Organization.ToString(),// 主体是账户
+                SubjectType = UserAcSubjectType.Organization.ToString(),// 主体是账户
                 PrivilegeConstraint = null,
                 PrivilegeOrientation = 1,
                 ObjectInstanceId = roleId,
-                ObjectType = AcObjectType.Role.ToString()
+                ObjectType = AcElementType.Role.ToString()
             }));
             Guid groupId = Guid.NewGuid();
             host.Handle(new AddGroupCommand(new GroupCreateInput
@@ -868,11 +868,11 @@ namespace Anycmd.Tests
             {
                 Id = entityId,
                 SubjectInstanceId = accountId,
-                SubjectType = AcSubjectType.Account.ToString(),// 主体是账户
+                SubjectType = UserAcSubjectType.Account.ToString(),// 主体是账户
                 PrivilegeConstraint = null,
                 PrivilegeOrientation = 1,
                 ObjectInstanceId = groupId,
-                ObjectType = AcObjectType.Group.ToString()
+                ObjectType = AcElementType.Group.ToString()
             }));
             // 授予工作组角色
             entityId = Guid.NewGuid();
@@ -880,11 +880,11 @@ namespace Anycmd.Tests
             {
                 Id = entityId,
                 SubjectInstanceId = roleId,
-                SubjectType = AcSubjectType.Role.ToString(),// 主体是账户
+                SubjectType = UserAcSubjectType.Role.ToString(),// 主体是账户
                 PrivilegeConstraint = null,
                 PrivilegeOrientation = 1,
                 ObjectInstanceId = groupId,
-                ObjectType = AcObjectType.Group.ToString()
+                ObjectType = AcElementType.Group.ToString()
             }));
             roleId = Guid.NewGuid();
             // 添加一个新角色并将该角色授予上面创建的组织结构
@@ -903,22 +903,22 @@ namespace Anycmd.Tests
             {
                 Id = entityId,
                 SubjectInstanceId = organizationId,
-                SubjectType = AcSubjectType.Organization.ToString(),// 主体是账户
+                SubjectType = UserAcSubjectType.Organization.ToString(),// 主体是账户
                 PrivilegeConstraint = null,
                 PrivilegeOrientation = 1,
                 ObjectInstanceId = roleId,
-                ObjectType = AcObjectType.Role.ToString()
+                ObjectType = AcElementType.Role.ToString()
             }));
             entityId = Guid.NewGuid();
             host.Handle(new AddPrivilegeBigramCommand(new PrivilegeBigramCreateIo
             {
                 Id = entityId,
                 SubjectInstanceId = roleId,
-                SubjectType = AcSubjectType.Role.ToString(),// 主体是账户
+                SubjectType = UserAcSubjectType.Role.ToString(),// 主体是账户
                 PrivilegeConstraint = null,
                 PrivilegeOrientation = 1,
                 ObjectInstanceId = groupId,
-                ObjectType = AcObjectType.Group.ToString()
+                ObjectType = AcElementType.Group.ToString()
             }));
             roleId = Guid.NewGuid();
             // 添加一个新角色并将该角色授予上面创建的工作组
@@ -937,11 +937,11 @@ namespace Anycmd.Tests
             {
                 Id = entityId,
                 SubjectInstanceId = roleId,
-                SubjectType = AcSubjectType.Role.ToString(),// 主体是账户
+                SubjectType = UserAcSubjectType.Role.ToString(),// 主体是账户
                 PrivilegeConstraint = null,
                 PrivilegeOrientation = 1,
                 ObjectInstanceId = groupId,
-                ObjectType = AcObjectType.Group.ToString()
+                ObjectType = AcElementType.Group.ToString()
             }));
 
             var roles = rbacService.AssignedRoles(accountId);

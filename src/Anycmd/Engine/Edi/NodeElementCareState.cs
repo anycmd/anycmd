@@ -2,7 +2,6 @@
 namespace Anycmd.Engine.Edi
 {
     using Abstractions;
-    using Model;
     using System;
 
     public sealed class NodeElementCareState : StateObject<NodeElementCareState>, INodeElementCare, IStateObject

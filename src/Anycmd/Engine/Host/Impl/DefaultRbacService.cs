@@ -52,9 +52,9 @@ namespace Anycmd.Engine.Host.Impl
             _host.Handle(new AddPrivilegeBigramCommand(new PrivilegeBigramCreateIo
             {
                 Id = Guid.NewGuid(),
-                SubjectType = AcSubjectType.Account.ToName(),
+                SubjectType = UserAcSubjectType.Account.ToName(),
                 SubjectInstanceId = accountId,
-                ObjectType = AcObjectType.Role.ToName(),
+                ObjectType = AcElementType.Role.ToName(),
                 ObjectInstanceId = roleId,
                 PrivilegeConstraint = null,
                 PrivilegeOrientation = 1
@@ -64,8 +64,8 @@ namespace Anycmd.Engine.Host.Impl
         public void DeassignUser(Guid accountId, Guid roleId)
         {
             var repository = _host.RetrieveRequiredService<IRepository<PrivilegeBigram>>();
-            var subjectType = AcSubjectType.Account.ToName();
-            var objectType = AcObjectType.Role.ToName();
+            var subjectType = UserAcSubjectType.Account.ToName();
+            var objectType = AcElementType.Role.ToName();
             var entity = repository.AsQueryable().FirstOrDefault(a => 
                 a.SubjectType == subjectType && a.SubjectInstanceId == accountId 
                 && a.ObjectType == objectType && a.ObjectInstanceId == roleId);
@@ -81,9 +81,9 @@ namespace Anycmd.Engine.Host.Impl
             _host.Handle(new AddPrivilegeBigramCommand(new PrivilegeBigramCreateIo
             {
                 Id = Guid.NewGuid(),
-                SubjectType = AcSubjectType.Role.ToName(),
+                SubjectType = UserAcSubjectType.Role.ToName(),
                 SubjectInstanceId = roleId,
-                ObjectType = AcObjectType.Function.ToName(),
+                ObjectType = AcElementType.Function.ToName(),
                 ObjectInstanceId = functionId,
                 PrivilegeConstraint = null,
                 PrivilegeOrientation = 1
@@ -93,8 +93,8 @@ namespace Anycmd.Engine.Host.Impl
         public void RevokePermission(Guid functionId, Guid roleId)
         {
             var repository = _host.RetrieveRequiredService<IRepository<PrivilegeBigram>>();
-            var subjectType = AcSubjectType.Role.ToName();
-            var objectType = AcObjectType.Function.ToName();
+            var subjectType = UserAcSubjectType.Role.ToName();
+            var objectType = AcElementType.Function.ToName();
             var entity = repository.AsQueryable().FirstOrDefault(a => 
                 a.SubjectType == subjectType && a.SubjectInstanceId == roleId 
                 && a.ObjectType == objectType && a.ObjectInstanceId == functionId);
@@ -220,8 +220,8 @@ namespace Anycmd.Engine.Host.Impl
         public IReadOnlyCollection<RoleState> AssignedRoles(Guid accountId)
         {
             var repository = _host.RetrieveRequiredService<IRepository<PrivilegeBigram>>();
-            var subjectType = AcSubjectType.Account.ToName();
-            var objectType = AcObjectType.Role.ToName();
+            var subjectType = UserAcSubjectType.Account.ToName();
+            var objectType = AcElementType.Role.ToName();
             var privileges = repository.AsQueryable().Where(a => a.SubjectType == subjectType && a.SubjectInstanceId == accountId && a.ObjectType == objectType);
             var list = new List<RoleState>();
             foreach (var item in privileges)
@@ -306,8 +306,8 @@ namespace Anycmd.Engine.Host.Impl
                 throw new ValidationException("给定标识的角色不存在" + roleId);
             }
             var functions = new HashSet<FunctionState>();
-            foreach (var privilege in _host.PrivilegeSet.Where(a => 
-                a.SubjectType == AcSubjectType.Role && a.SubjectInstanceId == roleId && a.ObjectType == AcObjectType.Function))
+            foreach (var privilege in _host.PrivilegeSet.Where(a =>
+                a.SubjectType == AcElementType.Role && a.SubjectInstanceId == roleId && a.ObjectType == AcElementType.Function))
             {
                 FunctionState f;
                 if (_host.FunctionSet.TryGetFunction(privilege.ObjectInstanceId, out f))
@@ -317,10 +317,10 @@ namespace Anycmd.Engine.Host.Impl
             }
             foreach (var privilege in _host.RoleSet.GetDescendantRoles(role)
                 .SelectMany(item => 
-                    _host.PrivilegeSet.Where(a => 
-                        a.SubjectType == AcSubjectType.Role 
+                    _host.PrivilegeSet.Where(a =>
+                        a.SubjectType == AcElementType.Role 
                         && a.SubjectInstanceId == item.Id 
-                        && a.ObjectType == AcObjectType.Function)))
+                        && a.ObjectType == AcElementType.Function)))
             {
                 FunctionState f;
                 if (_host.FunctionSet.TryGetFunction(privilege.ObjectInstanceId, out f))
@@ -347,8 +347,8 @@ namespace Anycmd.Engine.Host.Impl
             var functions = new HashSet<FunctionState>();
             foreach (var item in _host.RoleSet.GetDescendantRoles(role))
             {
-                foreach (var privilege in _host.PrivilegeSet.Where(a => 
-                    a.SubjectType == AcSubjectType.Role && a.SubjectInstanceId == roleId && a.ObjectType == AcObjectType.Function))
+                foreach (var privilege in _host.PrivilegeSet.Where(a =>
+                    a.SubjectType == AcElementType.Role && a.SubjectInstanceId == roleId && a.ObjectType == AcElementType.Function))
                 {
                     FunctionState f;
                     if (_host.FunctionSet.TryGetFunction(privilege.ObjectInstanceId, out f))
@@ -378,9 +378,9 @@ namespace Anycmd.Engine.Host.Impl
             _host.Handle(new AddPrivilegeBigramCommand(new PrivilegeBigramCreateIo
             {
                 Id = Guid.NewGuid(),
-                SubjectType = AcSubjectType.Role.ToName(),
+                SubjectType = UserAcSubjectType.Role.ToName(),
                 SubjectInstanceId = subjectRoleId,
-                ObjectType = AcObjectType.Role.ToName(),
+                ObjectType = AcElementType.Role.ToName(),
                 ObjectInstanceId = objectRoleId,
                 PrivilegeConstraint = null,
                 PrivilegeOrientation = 1
@@ -390,8 +390,8 @@ namespace Anycmd.Engine.Host.Impl
         public void DeleteInheritance(Guid subjectRoleId, Guid objectRoleId)
         {
             var repository = _host.RetrieveRequiredService<IRepository<PrivilegeBigram>>();
-            var subjectType = AcSubjectType.Role.ToName();
-            var objectType = AcObjectType.Role.ToName();
+            var subjectType = UserAcSubjectType.Role.ToName();
+            var objectType = AcElementType.Role.ToName();
             var entity = repository.AsQueryable().FirstOrDefault(a => 
                 a.SubjectType == subjectType && a.SubjectInstanceId == subjectRoleId 
                 && a.ObjectType == objectType && a.ObjectInstanceId == objectRoleId);
@@ -409,9 +409,9 @@ namespace Anycmd.Engine.Host.Impl
             _host.Handle(new AddPrivilegeBigramCommand(new PrivilegeBigramCreateIo
             {
                 Id = Guid.NewGuid(),
-                SubjectType = AcSubjectType.Role.ToName(),
+                SubjectType = UserAcSubjectType.Role.ToName(),
                 SubjectInstanceId = childRoleId,
-                ObjectType = AcObjectType.Role.ToName(),
+                ObjectType = AcElementType.Role.ToName(),
                 ObjectInstanceId = parentRoleCreateInput.Id.Value,
                 PrivilegeConstraint = null,
                 PrivilegeOrientation = 1
@@ -425,9 +425,9 @@ namespace Anycmd.Engine.Host.Impl
             _host.Handle(new AddPrivilegeBigramCommand(new PrivilegeBigramCreateIo
             {
                 Id = Guid.NewGuid(),
-                SubjectType = AcSubjectType.Role.ToName(),
+                SubjectType = UserAcSubjectType.Role.ToName(),
                 SubjectInstanceId = childRoleCreateInput.Id.Value,
-                ObjectType = AcObjectType.Role.ToName(),
+                ObjectType = AcElementType.Role.ToName(),
                 ObjectInstanceId = parentRoleId,
                 PrivilegeConstraint = null,
                 PrivilegeOrientation = 1

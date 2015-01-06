@@ -127,7 +127,7 @@ namespace Anycmd.Engine.Ac
 
         private List<PrivilegeBigramState> GetAccountPrivileges()
         {
-            var subjectType = AcSubjectType.Account.ToName();
+            var subjectType = UserAcSubjectType.Account.ToName();
             var accountPrivileges = _acDomain.RetrieveRequiredService<IRepository<PrivilegeBigram>>().AsQueryable()
                 .Where(a => a.SubjectType == subjectType && a.SubjectInstanceId == _userSession.Account.Id).ToList().Select(PrivilegeBigramState.Create).ToList();
             return accountPrivileges;
@@ -201,12 +201,12 @@ namespace Anycmd.Engine.Ac
                 foreach (var organization in this.Organizations)
                 {
                     var organization1 = organization;
-                    foreach (var item in _acDomain.PrivilegeSet.Where(a => 
-                        a.SubjectType == AcSubjectType.Organization && a.SubjectInstanceId == organization1.Id))
+                    foreach (var item in _acDomain.PrivilegeSet.Where(a =>
+                        a.SubjectType == AcElementType.Organization && a.SubjectInstanceId == organization1.Id))
                     {
                         switch (item.ObjectType)
                         {
-                            case AcObjectType.Role:
+                            case AcElementType.Role:
                             {
                                 RoleState role;
                                 if (_acDomain.RoleSet.TryGetRole(item.ObjectInstanceId, out role))
@@ -215,10 +215,10 @@ namespace Anycmd.Engine.Ac
                                 }
                             }
                                 break;
-                            case AcObjectType.Group:
+                            case AcElementType.Group:
                                 var item1 = item;
-                                foreach (var roleGroup in _acDomain.PrivilegeSet.Where(a => 
-                                    a.SubjectType == AcSubjectType.Role && a.ObjectType == AcObjectType.Group 
+                                foreach (var roleGroup in _acDomain.PrivilegeSet.Where(a =>
+                                    a.SubjectType == AcElementType.Role && a.ObjectType == AcElementType.Group 
                                     && a.ObjectInstanceId == item1.ObjectInstanceId))
                                 {
                                     RoleState role;
@@ -234,8 +234,8 @@ namespace Anycmd.Engine.Ac
                 foreach (var group in this.Groups)
                 {
                     var g = group;
-                    foreach (var roleGroup in _acDomain.PrivilegeSet.Where(a => 
-                        a.SubjectType == AcSubjectType.Role && a.ObjectType == AcObjectType.Group && a.ObjectInstanceId == g.Id))
+                    foreach (var roleGroup in _acDomain.PrivilegeSet.Where(a =>
+                        a.SubjectType == AcElementType.Role && a.ObjectType == AcElementType.Group && a.ObjectInstanceId == g.Id))
                     {
                         RoleState role;
                         if (_acDomain.RoleSet.TryGetRole(roleGroup.SubjectInstanceId, out role))
@@ -293,8 +293,8 @@ namespace Anycmd.Engine.Ac
                     {
                         roleIDs.Add(roleId);
                     }
-                    foreach (var roleMenu in _acDomain.PrivilegeSet.Where(a => 
-                        a.SubjectType == AcSubjectType.Role && a.ObjectType == AcObjectType.Menu && roleIDs.Contains(a.SubjectInstanceId)))
+                    foreach (var roleMenu in _acDomain.PrivilegeSet.Where(a =>
+                        a.SubjectType == AcElementType.Role && a.ObjectType == AcElementType.Menu && roleIDs.Contains(a.SubjectInstanceId)))
                     {
                         MenuState menu;
                         if (_acDomain.MenuSet.TryGetMenu(roleMenu.ObjectInstanceId, out menu))
@@ -325,8 +325,8 @@ namespace Anycmd.Engine.Ac
                     _authorizedFunctionIds = new HashSet<Guid>();
                     // TODO:考虑在PrivilegeSet集合中计算好缓存起来，从而可以直接根据角色索引而
                     var roleIDs = this.AuthorizedRoleIds;
-                    foreach (var privilegeBigram in _acDomain.PrivilegeSet.Where(a => 
-                        a.SubjectType == AcSubjectType.Role && a.ObjectType == AcObjectType.Function && roleIDs.Contains(a.SubjectInstanceId)))
+                    foreach (var privilegeBigram in _acDomain.PrivilegeSet.Where(a =>
+                        a.SubjectType == AcElementType.Role && a.ObjectType == AcElementType.Function && roleIDs.Contains(a.SubjectInstanceId)))
                     {
                         _authorizedFunctionIds.Add(privilegeBigram.ObjectInstanceId);
                     }
@@ -334,8 +334,8 @@ namespace Anycmd.Engine.Ac
                     foreach (var organization in this.Organizations)
                     {
                         var organization1 = organization;
-                        foreach (var item in _acDomain.PrivilegeSet.Where(a => 
-                            a.SubjectType == AcSubjectType.Organization && a.ObjectType == AcObjectType.Function && a.SubjectInstanceId == organization1.Id))
+                        foreach (var item in _acDomain.PrivilegeSet.Where(a =>
+                            a.SubjectType == AcElementType.Organization && a.ObjectType == AcElementType.Function && a.SubjectInstanceId == organization1.Id))
                         {
                             var functionId = item.ObjectInstanceId;
                             _authorizedFunctionIds.Add(functionId);
@@ -387,11 +387,11 @@ namespace Anycmd.Engine.Ac
             {
                 switch (accountPrivilege.ObjectType)
                 {
-                    case AcObjectType.Undefined:
+                    case AcElementType.Undefined:
                         break;
-                    case AcObjectType.Account:
+                    case AcElementType.Account:
                         break;
-                    case AcObjectType.Organization:
+                    case AcElementType.Organization:
                     {
                         var organizationId = accountPrivilege.ObjectInstanceId;
                         OrganizationState organization;
@@ -401,7 +401,7 @@ namespace Anycmd.Engine.Ac
                         }
                         break;
                     }
-                    case AcObjectType.Role:
+                    case AcElementType.Role:
                     {
                         var roleId = accountPrivilege.ObjectInstanceId;
                         RoleState role;
@@ -411,7 +411,7 @@ namespace Anycmd.Engine.Ac
                         }
                         break;
                     }
-                    case AcObjectType.Group:
+                    case AcElementType.Group:
                     {
                         var groupId = accountPrivilege.ObjectInstanceId;
                         GroupState group;
@@ -421,7 +421,7 @@ namespace Anycmd.Engine.Ac
                         }
                         break;
                     }
-                    case AcObjectType.Function:
+                    case AcElementType.Function:
                     {
                         var functionId = accountPrivilege.ObjectInstanceId;
                         FunctionState function;
@@ -431,7 +431,7 @@ namespace Anycmd.Engine.Ac
                         }
                         break;
                     }
-                    case AcObjectType.Menu:
+                    case AcElementType.Menu:
                     {
                         var menuId = accountPrivilege.ObjectInstanceId;
                         MenuState menu;
@@ -441,7 +441,7 @@ namespace Anycmd.Engine.Ac
                         }
                         break;
                     }
-                    case AcObjectType.AppSystem:
+                    case AcElementType.AppSystem:
                     {
                         var appSystemId = accountPrivilege.ObjectInstanceId;
                         AppSystemState appSystem;
@@ -451,9 +451,9 @@ namespace Anycmd.Engine.Ac
                         }
                         break;
                     }
-                    case AcObjectType.ResourceType:
+                    case AcElementType.ResourceType:
                         break;
-                    case AcObjectType.Privilege:
+                    case AcElementType.Privilege:
                         break;
                     default:
                         break;

@@ -1,11 +1,11 @@
 ﻿
 namespace Anycmd.Engine.Hecp
 {
+    using Host;
     using Host.Edi;
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using Host;
     using Util;
 
     /// <summary>

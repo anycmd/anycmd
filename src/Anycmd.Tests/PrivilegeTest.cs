@@ -52,11 +52,11 @@ namespace Anycmd.Tests
             {
                 Id = entityId,
                 SubjectInstanceId = accountId,
-                SubjectType = AcSubjectType.Account.ToString(),// 主体是账户
+                SubjectType = UserAcSubjectType.Account.ToString(),// 主体是账户
                 PrivilegeConstraint = null,
                 PrivilegeOrientation = 1,
                 ObjectInstanceId = groupId,
-                ObjectType = AcObjectType.Group.ToString()
+                ObjectType = AcElementType.Group.ToString()
             }));
             Assert.Equal(0, host.PrivilegeSet.Count()); // 主体为账户的权限记录不驻留在内存中所以为0
             var privilegeBigram = host.RetrieveRequiredService<IRepository<PrivilegeBigram>>().AsQueryable().FirstOrDefault(a => a.Id == entityId);
@@ -124,11 +124,11 @@ namespace Anycmd.Tests
             {
                 Id = entityId,
                 SubjectInstanceId = roleId,
-                SubjectType = AcSubjectType.Role.ToString(),// 主体是角色
+                SubjectType = UserAcSubjectType.Role.ToString(),// 主体是角色
                 PrivilegeConstraint = null,
                 PrivilegeOrientation = 1,
                 ObjectInstanceId = functionId,
-                ObjectType = AcObjectType.Function.ToString()
+                ObjectType = AcElementType.Function.ToString()
             }));
             PrivilegeBigramState privilegeBigram = host.PrivilegeSet.First(a => a.Id == entityId);
             Assert.NotNull(privilegeBigram);
@@ -170,7 +170,7 @@ namespace Anycmd.Tests
                     PrivilegeConstraint = null,
                     PrivilegeOrientation = 1,
                     ObjectInstanceId = Guid.NewGuid(),
-                    ObjectType = AcObjectType.Group.ToString()
+                    ObjectType = AcElementType.Group.ToString()
                 }));
             }
             catch (Exception)
@@ -193,7 +193,7 @@ namespace Anycmd.Tests
                     PrivilegeConstraint = null,
                     PrivilegeOrientation = 1,
                     ObjectInstanceId = Guid.NewGuid(),
-                    ObjectType = AcObjectType.Group.ToString()
+                    ObjectType = AcElementType.Group.ToString()
                 }));
             }
             catch (Exception)
@@ -216,7 +216,7 @@ namespace Anycmd.Tests
                     PrivilegeConstraint = null,
                     PrivilegeOrientation = 1,
                     ObjectInstanceId = Guid.NewGuid(),
-                    ObjectType = AcObjectType.Group.ToString()
+                    ObjectType = AcElementType.Group.ToString()
                 }));
             }
             catch (Exception)

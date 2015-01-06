@@ -1,16 +1,16 @@
 ﻿
 namespace Anycmd.Engine.Ac
 {
+    using Abstractions;
     using Abstractions.Infra;
     using Host;
-    using Model;
     using System;
     using Util;
 
     /// <summary>
     /// 表示组织结构业务实体。
     /// </summary>
-    public sealed class OrganizationState : StateObject<OrganizationState>, IOrganization, IStateObject
+    public sealed class OrganizationState : StateObject<OrganizationState>, IOrganization, IAcElement
     {
         public static readonly OrganizationState VirtualRoot = new OrganizationState(Guid.Empty)
         {
@@ -80,6 +80,11 @@ namespace Anycmd.Engine.Ac
                 _sortCode = organization.SortCode,
                 _contractorId = organization.ContractorId
             };
+        }
+
+        public AcElementType AcElementType
+        {
+            get { return AcElementType.Organization; }
         }
 
         public IAcDomain AcDomain

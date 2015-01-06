@@ -551,7 +551,7 @@ namespace Anycmd.Ac.ViewModels
                     throw new ValidationException("意外的资源标识" + requestData.ResourceTypeId);
                 }
             }
-            var roleFunctions = host.PrivilegeSet.Where(a => a.SubjectType == AcSubjectType.Role && a.ObjectType == AcObjectType.Function).ToList();
+            var roleFunctions = host.PrivilegeSet.Where(a => a.SubjectType == AcElementType.Role && a.ObjectType == AcElementType.Function).ToList();
             var functions = host.FunctionSet.Where(a => a.AppSystem.Id == requestData.AppSystemId && a.IsManaged);
             if (requestData.ResourceTypeId.HasValue)
             {
@@ -671,7 +671,7 @@ namespace Anycmd.Ac.ViewModels
             foreach (var group in host.GroupSet)
             {
                 var roleGroup = host.PrivilegeSet.FirstOrDefault(a =>
-                    a.SubjectType == AcSubjectType.Role && a.ObjectType == AcObjectType.Group
+                    a.SubjectType == AcElementType.Role && a.ObjectType == AcElementType.Group
                     && a.SubjectInstanceId == role.Id && a.ObjectInstanceId == group.Id);
                 if (requestData.IsAssigned.HasValue)
                 {
@@ -970,8 +970,8 @@ namespace Anycmd.Ac.ViewModels
             var data = new List<GroupAssignRoleTr>();
             foreach (var role in host.RoleSet)
             {
-                var roleGroup = host.PrivilegeSet.FirstOrDefault(a => 
-                    a.SubjectType == AcSubjectType.Role && a.ObjectType == AcObjectType.Group 
+                var roleGroup = host.PrivilegeSet.FirstOrDefault(a =>
+                    a.SubjectType == AcElementType.Role && a.ObjectType == AcElementType.Group 
                     && a.SubjectInstanceId == role.Id && a.ObjectInstanceId == group.Id);
                 if (requestData.IsAssigned.HasValue)
                 {
@@ -1049,7 +1049,7 @@ namespace Anycmd.Ac.ViewModels
             {
                 throw new ValidationException("意外的菜单标识" + requestData.MenuId);
             }
-            var roleMenus = host.PrivilegeSet.Where(a => a.SubjectType == AcSubjectType.Role && a.ObjectType == AcObjectType.Menu).ToList();
+            var roleMenus = host.PrivilegeSet.Where(a => a.SubjectType == AcElementType.Role && a.ObjectType == AcElementType.Menu).ToList();
             var roles = host.RoleSet;
             var data = new List<MenuAssignRoleTr>();
             foreach (var role in roles)

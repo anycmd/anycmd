@@ -2,13 +2,12 @@
 namespace Anycmd.Engine.Ac
 {
     using Abstractions.Infra;
-    using Model;
     using System;
 
     /// <summary>
     /// 表示按钮业务实体。
     /// </summary>
-    public sealed class ButtonState : StateObject<ButtonState>, IButton, IStateObject
+    public sealed class ButtonState : StateObject<ButtonState>, IButton
     {
         private string _name;
         private string _code;

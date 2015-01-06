@@ -2,13 +2,12 @@
 namespace Anycmd.Engine.Ac
 {
     using Abstractions;
-    using Model;
     using System;
 
     /// <summary>
     /// 表示东塔职责分离角色业务实体。
     /// </summary>
-    public sealed class DsdRoleState : StateObject<DsdRoleState>, IDsdRole, IStateObject
+    public sealed class DsdRoleState : StateObject<DsdRoleState>, IDsdRole
     {
         private Guid _dsdSetId;
         private Guid _roleId;

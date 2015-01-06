@@ -169,7 +169,7 @@ namespace Anycmd.Engine.Host.Impl
             var repository = _host.RetrieveRequiredService<IRepository<PrivilegeBigram>>();
             using (var context = repository.Context)
             {
-                var subjectType = AcSubjectType.Account.ToName();
+                var subjectType = UserAcSubjectType.Account.ToName();
                 return repository.AsQueryable().Where(a=>a.SubjectType != subjectType).ToList();
             }
         }

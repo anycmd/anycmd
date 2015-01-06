@@ -128,7 +128,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
         private void RecAncestorRoles(RoleState childRole, List<RoleState> ancestors)
         {
-            foreach (var item in _host.PrivilegeSet.Where(a => a.SubjectType == AcSubjectType.Role && a.ObjectType == AcObjectType.Role))
+            foreach (var item in _host.PrivilegeSet.Where(a => a.SubjectType == AcElementType.Role && a.ObjectType == AcElementType.Role))
             {
                 if (item.ObjectInstanceId == childRole.Id)
                 {
@@ -146,7 +146,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
         {
             var host = set._host;
             var roleDic = set._roleDic;
-            foreach (var item in host.PrivilegeSet.Where(a => a.SubjectType == AcSubjectType.Role && a.ObjectType == AcObjectType.Role))
+            foreach (var item in host.PrivilegeSet.Where(a => a.SubjectType == AcElementType.Role && a.ObjectType == AcElementType.Role))
             {
                 if (item.SubjectInstanceId == parentRole.Id)
                 {

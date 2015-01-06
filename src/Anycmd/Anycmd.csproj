@@ -60,9 +60,13 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="AcDomainExtension.cs" />
-    <Compile Include="Engine\Ac\Abstractions\AcSubjectType.cs" />
+    <Compile Include="Engine\Ac\Abstractions\AcRecordType.cs" />
+    <Compile Include="Engine\Ac\Abstractions\IAcElement.cs" />
+    <Compile Include="Engine\Ac\Abstractions\SysAcSubjectType.cs" />
+    <Compile Include="Engine\Ac\Abstractions\UserAcSubjectType.cs" />
     <Compile Include="Engine\Ac\Abstractions\DsdRoleBase.cs" />
     <Compile Include="Engine\Ac\Abstractions\DsdSetBase.cs" />
+    <Compile Include="Engine\Ac\Abstractions\IAcRecord.cs" />
     <Compile Include="Engine\Ac\Abstractions\IDsdRole.cs" />
     <Compile Include="Engine\Ac\Abstractions\IDsdSet.cs" />
     <Compile Include="Engine\Ac\Abstractions\Infra\FunctionIoBase.cs" />
@@ -700,7 +704,7 @@
     <Compile Include="Engine\Ac\Abstractions\IPrivilegeBigram.cs" />
     <Compile Include="Engine\Ac\Abstractions\PrivilegeBigramBase.cs" />
     <Compile Include="Engine\Ac\PrivilegeBigramState.cs" />
-    <Compile Include="Engine\Ac\Abstractions\AcObjectType.cs" />
+    <Compile Include="Engine\Ac\Abstractions\AcElementType.cs" />
     <Compile Include="Engine\Ac\RoleState.cs" />
     <Compile Include="Bus\IMessage.cs" />
     <Compile Include="Bus\DirectBus\DirectBus.cs" />

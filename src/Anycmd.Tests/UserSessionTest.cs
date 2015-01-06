@@ -157,11 +157,11 @@ namespace Anycmd.Tests
             {
                 Id = entityId,
                 SubjectInstanceId = accountId,
-                SubjectType = AcSubjectType.Account.ToString(),// 主体是账户
+                SubjectType = UserAcSubjectType.Account.ToString(),// 主体是账户
                 PrivilegeConstraint = null,
                 PrivilegeOrientation = 1,
                 ObjectInstanceId = roleId,
-                ObjectType = AcObjectType.Role.ToString()
+                ObjectType = AcElementType.Role.ToString()
             }));
             Assert.Equal(0, host.PrivilegeSet.Count()); // 主体为账户的权限记录不驻留在内存中所以为0
             RoleState role;
@@ -172,8 +172,8 @@ namespace Anycmd.Tests
             Assert.NotNull(privilegeBigram);
             Assert.Equal(accountId, privilegeBigram.SubjectInstanceId);
             Assert.Equal(roleId, privilegeBigram.ObjectInstanceId);
-            Assert.Equal(AcSubjectType.Account.ToName(), privilegeBigram.SubjectType);
-            Assert.Equal(AcObjectType.Role.ToName(), privilegeBigram.ObjectType);
+            Assert.Equal(UserAcSubjectType.Account.ToName(), privilegeBigram.SubjectType);
+            Assert.Equal(AcElementType.Role.ToName(), privilegeBigram.ObjectType);
             UserSessionState.SignOut(host, host.GetUserSession());
             UserSessionState.SignIn(host, new Dictionary<string, object>
             {
@@ -269,11 +269,11 @@ namespace Anycmd.Tests
             {
                 Id = entityId,
                 SubjectInstanceId = accountId,
-                SubjectType = AcSubjectType.Account.ToString(),// 主体是账户
+                SubjectType = UserAcSubjectType.Account.ToString(),// 主体是账户
                 PrivilegeConstraint = null,
                 PrivilegeOrientation = 1,
                 ObjectInstanceId = functionId,
-                ObjectType = AcObjectType.Function.ToString()
+                ObjectType = AcElementType.Function.ToString()
             }));
             Assert.Equal(0, host.PrivilegeSet.Count()); // 主体为账户的权限记录不驻留在内存中所以为0
             Assert.Equal(0, host.GetUserSession().AccountPrivilege.Functions.Count);// 需要重新登录才能激活新添加的用户功能授权所以为0
@@ -281,8 +281,8 @@ namespace Anycmd.Tests
             Assert.NotNull(privilegeBigram);
             Assert.Equal(accountId, privilegeBigram.SubjectInstanceId);
             Assert.Equal(functionId, privilegeBigram.ObjectInstanceId);
-            Assert.Equal(AcSubjectType.Account.ToName(), privilegeBigram.SubjectType);
-            Assert.Equal(AcObjectType.Function.ToName(), privilegeBigram.ObjectType);
+            Assert.Equal(UserAcSubjectType.Account.ToName(), privilegeBigram.SubjectType);
+            Assert.Equal(AcElementType.Function.ToName(), privilegeBigram.ObjectType);
             UserSessionState.SignOut(host, host.GetUserSession());
             UserSessionState.SignIn(host, new Dictionary<string, object>
             {
@@ -374,11 +374,11 @@ namespace Anycmd.Tests
             {
                 Id = entityId,
                 SubjectInstanceId = accountId,
-                SubjectType = AcSubjectType.Account.ToString(),// 主体是账户
+                SubjectType = UserAcSubjectType.Account.ToString(),// 主体是账户
                 PrivilegeConstraint = null,
                 PrivilegeOrientation = 1,
                 ObjectInstanceId = organizationId,
-                ObjectType = AcObjectType.Organization.ToString()
+                ObjectType = AcElementType.Organization.ToString()
             }));
             Assert.Equal(0, host.PrivilegeSet.Count()); // 主体为账户的权限记录不驻留在内存中所以为0
             Assert.Equal(0, host.GetUserSession().AccountPrivilege.Organizations.Count);// 需要重新登录才能激活新添加的用户功能授权所以为0
@@ -386,8 +386,8 @@ namespace Anycmd.Tests
             Assert.NotNull(privilegeBigram);
             Assert.Equal(accountId, privilegeBigram.SubjectInstanceId);
             Assert.Equal(organizationId, privilegeBigram.ObjectInstanceId);
-            Assert.Equal(AcSubjectType.Account.ToName(), privilegeBigram.SubjectType);
-            Assert.Equal(AcObjectType.Organization.ToName(), privilegeBigram.ObjectType);
+            Assert.Equal(UserAcSubjectType.Account.ToName(), privilegeBigram.SubjectType);
+            Assert.Equal(AcElementType.Organization.ToName(), privilegeBigram.ObjectType);
             UserSessionState.SignOut(host, host.GetUserSession());
             UserSessionState.SignIn(host, new Dictionary<string, object>
             {
@@ -481,11 +481,11 @@ namespace Anycmd.Tests
             {
                 Id = entityId,
                 SubjectInstanceId = accountId,
-                SubjectType = AcSubjectType.Account.ToString(),// 主体是账户
+                SubjectType = UserAcSubjectType.Account.ToString(),// 主体是账户
                 PrivilegeConstraint = null,
                 PrivilegeOrientation = 1,
                 ObjectInstanceId = groupId,
-                ObjectType = AcObjectType.Group.ToString()
+                ObjectType = AcElementType.Group.ToString()
             }));
             Assert.Equal(0, host.PrivilegeSet.Count()); // 主体为账户的权限记录不驻留在内存中所以为0
             Assert.Equal(0, host.GetUserSession().AccountPrivilege.Groups.Count);// 需要重新登录才能激活新添加的用户功能授权所以为0
@@ -493,8 +493,8 @@ namespace Anycmd.Tests
             Assert.NotNull(privilegeBigram);
             Assert.Equal(accountId, privilegeBigram.SubjectInstanceId);
             Assert.Equal(groupId, privilegeBigram.ObjectInstanceId);
-            Assert.Equal(AcSubjectType.Account.ToName(), privilegeBigram.SubjectType);
-            Assert.Equal(AcObjectType.Group.ToName(), privilegeBigram.ObjectType);
+            Assert.Equal(UserAcSubjectType.Account.ToName(), privilegeBigram.SubjectType);
+            Assert.Equal(AcElementType.Group.ToName(), privilegeBigram.ObjectType);
             UserSessionState.SignOut(host, host.GetUserSession());
             UserSessionState.SignIn(host, new Dictionary<string, object>
             {
@@ -588,11 +588,11 @@ namespace Anycmd.Tests
             {
                 Id = entityId,
                 SubjectInstanceId = accountId,
-                SubjectType = AcSubjectType.Account.ToString(),// 主体是账户
+                SubjectType = UserAcSubjectType.Account.ToString(),// 主体是账户
                 PrivilegeConstraint = null,
                 PrivilegeOrientation = 1,
                 ObjectInstanceId = menuId,
-                ObjectType = AcObjectType.Menu.ToString()
+                ObjectType = AcElementType.Menu.ToString()
             }));
             Assert.Equal(0, host.PrivilegeSet.Count()); // 主体为账户的权限记录不驻留在内存中所以为0
             Assert.Equal(0, host.GetUserSession().AccountPrivilege.Menus.Count);// 需要重新登录才能激活新添加的用户功能授权所以为0
@@ -600,8 +600,8 @@ namespace Anycmd.Tests
             Assert.NotNull(privilegeBigram);
             Assert.Equal(accountId, privilegeBigram.SubjectInstanceId);
             Assert.Equal(menuId, privilegeBigram.ObjectInstanceId);
-            Assert.Equal(AcSubjectType.Account.ToName(), privilegeBigram.SubjectType);
-            Assert.Equal(AcObjectType.Menu.ToName(), privilegeBigram.ObjectType);
+            Assert.Equal(UserAcSubjectType.Account.ToName(), privilegeBigram.SubjectType);
+            Assert.Equal(AcElementType.Menu.ToName(), privilegeBigram.ObjectType);
             UserSessionState.SignOut(host, host.GetUserSession());
             UserSessionState.SignIn(host, new Dictionary<string, object>
             {
@@ -691,11 +691,11 @@ namespace Anycmd.Tests
             {
                 Id = entityId,
                 SubjectInstanceId = accountId,
-                SubjectType = AcSubjectType.Account.ToString(),// 主体是账户
+                SubjectType = UserAcSubjectType.Account.ToString(),// 主体是账户
                 PrivilegeConstraint = null,
                 PrivilegeOrientation = 1,
                 ObjectInstanceId = appSystemId,
-                ObjectType = AcObjectType.AppSystem.ToString()
+                ObjectType = AcElementType.AppSystem.ToString()
             }));
             Assert.Equal(0, host.PrivilegeSet.Count()); // 主体为账户的权限记录不驻留在内存中所以为0
             Assert.Equal(0, host.GetUserSession().AccountPrivilege.AppSystems.Count);// 需要重新登录才能激活新添加的用户功能授权所以为0
@@ -703,8 +703,8 @@ namespace Anycmd.Tests
             Assert.NotNull(privilegeBigram);
             Assert.Equal(accountId, privilegeBigram.SubjectInstanceId);
             Assert.Equal(appSystemId, privilegeBigram.ObjectInstanceId);
-            Assert.Equal(AcSubjectType.Account.ToName(), privilegeBigram.SubjectType);
-            Assert.Equal(AcObjectType.AppSystem.ToName(), privilegeBigram.ObjectType);
+            Assert.Equal(UserAcSubjectType.Account.ToName(), privilegeBigram.SubjectType);
+            Assert.Equal(AcElementType.AppSystem.ToName(), privilegeBigram.ObjectType);
             UserSessionState.SignOut(host, host.GetUserSession());
             UserSessionState.SignIn(host, new Dictionary<string, object>
             {
@@ -798,11 +798,11 @@ namespace Anycmd.Tests
             {
                 Id = entityId,
                 SubjectInstanceId = accountId,
-                SubjectType = AcSubjectType.Account.ToString(),// 主体是账户
+                SubjectType = UserAcSubjectType.Account.ToString(),// 主体是账户
                 PrivilegeConstraint = null,
                 PrivilegeOrientation = 1,
                 ObjectInstanceId = roleId,
-                ObjectType = AcObjectType.Role.ToString()
+                ObjectType = AcElementType.Role.ToString()
             }));
             Guid organizationId = Guid.NewGuid();
             host.Handle(new AddOrganizationCommand(new OrganizationCreateInput
@@ -820,11 +820,11 @@ namespace Anycmd.Tests
             {
                 Id = entityId,
                 SubjectInstanceId = accountId,
-                SubjectType = AcSubjectType.Account.ToString(),// 主体是账户
+                SubjectType = UserAcSubjectType.Account.ToString(),// 主体是账户
                 PrivilegeConstraint = null,
                 PrivilegeOrientation = 1,
                 ObjectInstanceId = organizationId,
-                ObjectType = AcObjectType.Organization.ToString()
+                ObjectType = AcElementType.Organization.ToString()
             }));
             // 授予组织结构角色
             entityId = Guid.NewGuid();
@@ -832,11 +832,11 @@ namespace Anycmd.Tests
             {
                 Id = entityId,
                 SubjectInstanceId = organizationId,
-                SubjectType = AcSubjectType.Organization.ToString(),// 主体是账户
+                SubjectType = UserAcSubjectType.Organization.ToString(),// 主体是账户
                 PrivilegeConstraint = null,
                 PrivilegeOrientation = 1,
                 ObjectInstanceId = roleId,
-                ObjectType = AcObjectType.Role.ToString()
+                ObjectType = AcElementType.Role.ToString()
             }));
             Guid groupId = Guid.NewGuid();
             host.Handle(new AddGroupCommand(new GroupCreateInput
@@ -856,11 +856,11 @@ namespace Anycmd.Tests
             {
                 Id = entityId,
                 SubjectInstanceId = accountId,
-                SubjectType = AcSubjectType.Account.ToString(),// 主体是账户
+                SubjectType = UserAcSubjectType.Account.ToString(),// 主体是账户
                 PrivilegeConstraint = null,
                 PrivilegeOrientation = 1,
                 ObjectInstanceId = groupId,
-                ObjectType = AcObjectType.Group.ToString()
+                ObjectType = AcElementType.Group.ToString()
             }));
             // 授予工作组角色
             entityId = Guid.NewGuid();
@@ -868,11 +868,11 @@ namespace Anycmd.Tests
             {
                 Id = entityId,
                 SubjectInstanceId = roleId,
-                SubjectType = AcSubjectType.Role.ToString(),// 主体是账户
+                SubjectType = UserAcSubjectType.Role.ToString(),// 主体是账户
                 PrivilegeConstraint = null,
                 PrivilegeOrientation = 1,
                 ObjectInstanceId = groupId,
-                ObjectType = AcObjectType.Group.ToString()
+                ObjectType = AcElementType.Group.ToString()
             }));
             UserSessionState.SignOut(host, host.GetUserSession());
             UserSessionState.SignIn(host, new Dictionary<string, object>
@@ -900,11 +900,11 @@ namespace Anycmd.Tests
             {
                 Id = entityId,
                 SubjectInstanceId = organizationId,
-                SubjectType = AcSubjectType.Organization.ToString(),// 主体是账户
+                SubjectType = UserAcSubjectType.Organization.ToString(),// 主体是账户
                 PrivilegeConstraint = null,
                 PrivilegeOrientation = 1,
                 ObjectInstanceId = roleId,
-                ObjectType = AcObjectType.Role.ToString()
+                ObjectType = AcElementType.Role.ToString()
             }));
             UserSessionState.SignOut(host, host.GetUserSession());
             UserSessionState.SignIn(host, new Dictionary<string, object>
@@ -920,11 +920,11 @@ namespace Anycmd.Tests
             {
                 Id = entityId,
                 SubjectInstanceId = roleId,
-                SubjectType = AcSubjectType.Role.ToString(),// 主体是账户
+                SubjectType = UserAcSubjectType.Role.ToString(),// 主体是账户
                 PrivilegeConstraint = null,
                 PrivilegeOrientation = 1,
                 ObjectInstanceId = groupId,
-                ObjectType = AcObjectType.Group.ToString()
+                ObjectType = AcElementType.Group.ToString()
             }));
             UserSessionState.SignOut(host, host.GetUserSession());
             UserSessionState.SignIn(host, new Dictionary<string, object>
@@ -952,11 +952,11 @@ namespace Anycmd.Tests
             {
                 Id = entityId,
                 SubjectInstanceId = roleId,
-                SubjectType = AcSubjectType.Role.ToString(),// 主体是账户
+                SubjectType = UserAcSubjectType.Role.ToString(),// 主体是账户
                 PrivilegeConstraint = null,
                 PrivilegeOrientation = 1,
                 ObjectInstanceId = groupId,
-                ObjectType = AcObjectType.Group.ToString()
+                ObjectType = AcElementType.Group.ToString()
             }));
 
             UserSessionState.SignOut(host, host.GetUserSession());
@@ -1047,11 +1047,11 @@ namespace Anycmd.Tests
             {
                 Id = entityId,
                 SubjectInstanceId = roleId,
-                SubjectType = AcSubjectType.Role.ToString(),// 主体是账户
+                SubjectType = UserAcSubjectType.Role.ToString(),// 主体是账户
                 PrivilegeConstraint = null,
                 PrivilegeOrientation = 1,
                 ObjectInstanceId = functionId,
-                ObjectType = AcObjectType.Function.ToString()
+                ObjectType = AcElementType.Function.ToString()
             }));
             // 授予账户角色
             entityId = Guid.NewGuid();
@@ -1059,11 +1059,11 @@ namespace Anycmd.Tests
             {
                 Id = entityId,
                 SubjectInstanceId = accountId,
-                SubjectType = AcSubjectType.Account.ToString(),// 主体是账户
+                SubjectType = UserAcSubjectType.Account.ToString(),// 主体是账户
                 PrivilegeConstraint = null,
                 PrivilegeOrientation = 1,
                 ObjectInstanceId = roleId,
-                ObjectType = AcObjectType.Role.ToString()
+                ObjectType = AcElementType.Role.ToString()
             }));
             entityId = Guid.NewGuid();
             functionId = Guid.NewGuid();
@@ -1082,11 +1082,11 @@ namespace Anycmd.Tests
             {
                 Id = entityId,
                 SubjectInstanceId = accountId,
-                SubjectType = AcSubjectType.Account.ToString(),// 主体是账户
+                SubjectType = UserAcSubjectType.Account.ToString(),// 主体是账户
                 PrivilegeConstraint = null,
                 PrivilegeOrientation = 1,
                 ObjectInstanceId = functionId,
-                ObjectType = AcObjectType.Function.ToString()
+                ObjectType = AcElementType.Function.ToString()
             }));
             UserSessionState.SignIn(host, new Dictionary<string, object>
             {
@@ -1175,11 +1175,11 @@ namespace Anycmd.Tests
             {
                 Id = entityId,
                 SubjectInstanceId = roleId,
-                SubjectType = AcSubjectType.Role.ToString(),// 主体是账户
+                SubjectType = UserAcSubjectType.Role.ToString(),// 主体是账户
                 PrivilegeConstraint = null,
                 PrivilegeOrientation = 1,
                 ObjectInstanceId = menuId,
-                ObjectType = AcObjectType.Menu.ToString()
+                ObjectType = AcElementType.Menu.ToString()
             }));
             // 授予账户角色
             entityId = Guid.NewGuid();
@@ -1187,11 +1187,11 @@ namespace Anycmd.Tests
             {
                 Id = entityId,
                 SubjectInstanceId = accountId,
-                SubjectType = AcSubjectType.Account.ToString(),// 主体是账户
+                SubjectType = UserAcSubjectType.Account.ToString(),// 主体是账户
                 PrivilegeConstraint = null,
                 PrivilegeOrientation = 1,
                 ObjectInstanceId = roleId,
-                ObjectType = AcObjectType.Role.ToString()
+                ObjectType = AcElementType.Role.ToString()
             }));
             entityId = Guid.NewGuid();
             menuId = Guid.NewGuid();
@@ -1210,11 +1210,11 @@ namespace Anycmd.Tests
             {
                 Id = entityId,
                 SubjectInstanceId = accountId,
-                SubjectType = AcSubjectType.Account.ToString(),// 主体是账户
+                SubjectType = UserAcSubjectType.Account.ToString(),// 主体是账户
                 PrivilegeConstraint = null,
                 PrivilegeOrientation = 1,
                 ObjectInstanceId = menuId,
-                ObjectType = AcObjectType.Menu.ToString()
+                ObjectType = AcElementType.Menu.ToString()
             }));
             UserSessionState.SignIn(host, new Dictionary<string, object>
             {

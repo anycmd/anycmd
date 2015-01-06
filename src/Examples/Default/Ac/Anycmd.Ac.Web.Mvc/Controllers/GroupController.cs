@@ -150,7 +150,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 return ModelState.ToJsonResult();
             }
             var data = new List<Dictionary<string, object>>();
-            var privilegeType = AcObjectType.Group.ToName();
+            var privilegeType = AcElementType.Group.ToName();
             var accountGroups = GetRequiredService<IRepository<PrivilegeBigram>>().AsQueryable().Where(a => a.SubjectInstanceId == accountId && a.ObjectType == privilegeType);
             var groups = AcDomain.GroupSet.AsQueryable();
             if (!string.IsNullOrEmpty(key))
@@ -337,10 +337,10 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                         var createInput = new PrivilegeBigramCreateIo()
                         {
                             Id = new Guid(row["Id"].ToString()),
-                            SubjectType = AcSubjectType.Role.ToName(),
+                            SubjectType = UserAcSubjectType.Role.ToName(),
                             SubjectInstanceId = new Guid(row["RoleId"].ToString()),
                             ObjectInstanceId = new Guid(row["GroupId"].ToString()),
-                            ObjectType = AcObjectType.Group.ToName(),
+                            ObjectType = AcElementType.Group.ToName(),
                             PrivilegeConstraint = null,
                             PrivilegeOrientation = 1
                         };
@@ -369,8 +369,8 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 AcDomain.Handle(new AddPrivilegeBigramCommand(new PrivilegeBigramCreateIo
                 {
                     Id = Guid.NewGuid(),
-                    ObjectType = AcObjectType.Group.ToName(),
-                    SubjectType = AcSubjectType.Account.ToName(),
+                    ObjectType = AcElementType.Group.ToName(),
+                    SubjectType = UserAcSubjectType.Account.ToName(),
                     ObjectInstanceId = groupId,
                     SubjectInstanceId = accountId
                 }));

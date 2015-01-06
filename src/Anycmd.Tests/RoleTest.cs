@@ -188,11 +188,11 @@ namespace Anycmd.Tests
             {
                 Id = privilegeId,
                 SubjectInstanceId = roleId1,
-                SubjectType = AcSubjectType.Role.ToString(),// 主体是角色
+                SubjectType = UserAcSubjectType.Role.ToString(),// 主体是角色
                 PrivilegeConstraint = null,
                 PrivilegeOrientation = 1,
                 ObjectInstanceId = roleId2,
-                ObjectType = AcObjectType.Role.ToString()// 客体也是角色
+                ObjectType = AcElementType.Role.ToString()// 客体也是角色
             }));
             PrivilegeBigramState privilegeBigram = host.PrivilegeSet.First(a => a.Id == privilegeId);
             Assert.NotNull(privilegeBigram);
@@ -216,11 +216,11 @@ namespace Anycmd.Tests
             {
                 Id = privilegeId,
                 SubjectInstanceId = roleId2,
-                SubjectType = AcSubjectType.Role.ToString(),// 主体是角色
+                SubjectType = UserAcSubjectType.Role.ToString(),// 主体是角色
                 PrivilegeConstraint = null,
                 PrivilegeOrientation = 1,
                 ObjectInstanceId = roleId3,
-                ObjectType = AcObjectType.Role.ToString()// 客体也是角色
+                ObjectType = AcElementType.Role.ToString()// 客体也是角色
             }));
             RoleState role3;
             Assert.True(host.RoleSet.TryGetRole(roleId3, out role3));
@@ -240,11 +240,11 @@ namespace Anycmd.Tests
             {
                 Id = privilegeId,
                 SubjectInstanceId = roleId3,
-                SubjectType = AcSubjectType.Role.ToString(),// 主体是角色
+                SubjectType = UserAcSubjectType.Role.ToString(),// 主体是角色
                 PrivilegeConstraint = null,
                 PrivilegeOrientation = 1,
                 ObjectInstanceId = roleId4,
-                ObjectType = AcObjectType.Role.ToString()// 客体也是角色
+                ObjectType = AcElementType.Role.ToString()// 客体也是角色
             }));
             Assert.Equal(1, host.RoleSet.GetDescendantRoles(role3).Count);
         }

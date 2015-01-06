@@ -179,7 +179,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 throw new ValidationException("意外的角色标识" + roleId);
             }
-            var roleMenus = AcDomain.PrivilegeSet.Where(a => a.SubjectType == AcSubjectType.Role && a.ObjectType == AcObjectType.Menu && a.SubjectInstanceId == roleId);
+            var roleMenus = AcDomain.PrivilegeSet.Where(a => a.SubjectType == AcElementType.Role && a.ObjectType == AcElementType.Menu && a.SubjectInstanceId == roleId);
             var menus = AcDomain.MenuSet;
             var data = (from m in menus
                         let @checked = roleMenus.Any(a => a.ObjectInstanceId == m.Id)
@@ -312,10 +312,10 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                         var createInput = new PrivilegeBigramCreateIo
                         {
                             Id = new Guid(row["Id"].ToString()),
-                            SubjectType = AcSubjectType.Role.ToName(),
+                            SubjectType = UserAcSubjectType.Role.ToName(),
                             SubjectInstanceId = new Guid(row["RoleId"].ToString()),
                             ObjectInstanceId = new Guid(row["MenuId"].ToString()),
-                            ObjectType = AcObjectType.Menu.ToName(),
+                            ObjectType = AcElementType.Menu.ToName(),
                             PrivilegeOrientation = 1,
                             PrivilegeConstraint = null
                         };

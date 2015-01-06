@@ -10,7 +10,7 @@ namespace Anycmd.Engine.Ac.Abstractions
     /// </remarks>
     /// </summary>
     [Flags]
-    public enum AcObjectType
+    public enum AcElementType
     {
         /// <summary>
         /// 未定义

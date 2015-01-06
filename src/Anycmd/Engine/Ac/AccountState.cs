@@ -1,15 +1,15 @@
 ﻿
 namespace Anycmd.Engine.Ac
 {
+    using Abstractions;
     using Abstractions.Identity;
-    using Model;
     using System;
     using Util;
 
     /// <summary>
     /// 表示账户业务实体类型。
     /// </summary>
-    public sealed class AccountState : StateObject<AccountState>, IAccount, IStateObject
+    public sealed class AccountState : StateObject<AccountState>, IAccount, IAcElement
     {
         private string _name;
         private int _numberId;
@@ -54,6 +54,11 @@ namespace Anycmd.Engine.Ac
                 _name = account.Name,
                 _qq = account.Qq
             };
+        }
+
+        public AcElementType AcElementType
+        {
+            get { return AcElementType.Account; }
         }
 
         public int NumberId

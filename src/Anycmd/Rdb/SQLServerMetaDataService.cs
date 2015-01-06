@@ -2,7 +2,6 @@
 namespace Anycmd.Rdb
 {
     using Exceptions;
-    using Util;
     using System;
     using System.Collections.Generic;
     using System.Configuration;
@@ -10,6 +9,7 @@ namespace Anycmd.Rdb
     using System.Data.SqlClient;
     using System.Diagnostics.Contracts;
     using System.Text;
+    using Util;
 
     /// <summary>
     /// 数据库元数据提供程序。提供访问数据库表、视图、列元数据的方法。

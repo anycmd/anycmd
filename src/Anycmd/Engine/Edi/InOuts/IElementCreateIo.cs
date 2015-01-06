@@ -2,7 +2,6 @@
 
 namespace Anycmd.Engine.Edi.InOuts
 {
-    using Model;
 
     public interface IElementCreateIo : IEntityCreateInput
     {

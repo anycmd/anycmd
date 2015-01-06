@@ -2,13 +2,12 @@
 namespace Anycmd.Engine.Ac
 {
     using Abstractions;
-    using Model;
     using System;
 
     /// <summary>
     /// 表示角色业务实体。
     /// </summary>
-    public sealed class RoleState : StateObject<RoleState>, IRole, IStateObject
+    public sealed class RoleState : StateObject<RoleState>, IRole, IAcElement
     {
         private string _name;
         private string _categoryCode;
@@ -34,6 +33,11 @@ namespace Anycmd.Engine.Ac
                 _icon = role.Icon,
                 _sortCode = role.SortCode
             };
+        }
+
+        public AcElementType AcElementType
+        {
+            get { return AcElementType.Role; }
         }
 
         public string Name

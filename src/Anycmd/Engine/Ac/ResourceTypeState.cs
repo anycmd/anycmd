@@ -1,15 +1,15 @@
 ﻿
 namespace Anycmd.Engine.Ac
 {
+    using Abstractions;
     using Abstractions.Infra;
-    using Model;
     using System;
     using Util;
 
     /// <summary>
     /// 表示系统资源类型业务实体。
     /// </summary>
-    public sealed class ResourceTypeState : StateObject<ResourceTypeState>, IResourceType, IStateObject
+    public sealed class ResourceTypeState : StateObject<ResourceTypeState>, IResourceType, IAcElement
     {
         public static readonly ResourceTypeState Empty = new ResourceTypeState(Guid.Empty)
         {
@@ -45,6 +45,11 @@ namespace Anycmd.Engine.Ac
                 _sortCode = resource.SortCode,
                 _createOn = resource.CreateOn,
             };
+        }
+
+        public AcElementType AcElementType
+        {
+            get { return AcElementType.ResourceType; }
         }
 
         public Guid AppSystemId

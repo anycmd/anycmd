@@ -3,14 +3,13 @@ namespace Anycmd.Engine.Ac
 {
     using Abstractions.Infra;
     using Exceptions;
-    using Model;
     using System;
     using Util;
 
     /// <summary>
     /// 表示过程的输入输出参数业务实体。
     /// </summary>
-    public sealed class FunctionIoState : StateObject<FunctionIoState>, IStateObject
+    public sealed class FunctionIoState : StateObject<FunctionIoState>
     {
         private Guid _functionId;
         private IoDirection _direction;

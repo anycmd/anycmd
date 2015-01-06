@@ -4,7 +4,6 @@ namespace Anycmd.Engine.Edi
     using Abstractions;
     using Engine.Ac;
     using Exceptions;
-    using Model;
     using System;
     using System.Net;
     using Util;

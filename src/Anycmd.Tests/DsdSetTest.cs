@@ -235,31 +235,31 @@ namespace Anycmd.Tests
             {
                 Id = Guid.NewGuid(),
                 SubjectInstanceId = accountId,
-                SubjectType = AcSubjectType.Account.ToString(),// 主体是账户
+                SubjectType = UserAcSubjectType.Account.ToString(),// 主体是账户
                 PrivilegeConstraint = null,
                 PrivilegeOrientation = 1,
                 ObjectInstanceId = roleId1,
-                ObjectType = AcObjectType.Role.ToString()
+                ObjectType = AcElementType.Role.ToString()
             }));
             host.Handle(new AddPrivilegeBigramCommand(new PrivilegeBigramCreateIo
             {
                 Id = Guid.NewGuid(),
                 SubjectInstanceId = accountId,
-                SubjectType = AcSubjectType.Account.ToString(),// 主体是账户
+                SubjectType = UserAcSubjectType.Account.ToString(),// 主体是账户
                 PrivilegeConstraint = null,
                 PrivilegeOrientation = 1,
                 ObjectInstanceId = roleId2,
-                ObjectType = AcObjectType.Role.ToString()
+                ObjectType = AcElementType.Role.ToString()
             }));
             host.Handle(new AddPrivilegeBigramCommand(new PrivilegeBigramCreateIo
             {
                 Id = Guid.NewGuid(),
                 SubjectInstanceId = accountId,
-                SubjectType = AcSubjectType.Account.ToString(),// 主体是账户
+                SubjectType = UserAcSubjectType.Account.ToString(),// 主体是账户
                 PrivilegeConstraint = null,
                 PrivilegeOrientation = 1,
                 ObjectInstanceId = roleId3,
-                ObjectType = AcObjectType.Role.ToString()
+                ObjectType = AcElementType.Role.ToString()
             }));
             var catched = false;
             UserSessionState.SignOut(host, host.GetUserSession());

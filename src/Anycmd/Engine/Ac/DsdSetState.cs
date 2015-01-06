@@ -2,13 +2,12 @@
 namespace Anycmd.Engine.Ac
 {
     using Abstractions;
-    using Model;
     using System;
 
     /// <summary>
     /// 表示动态职责分离角色集业务实体。
     /// </summary>
-    public sealed class DsdSetState : StateObject<DsdSetState>, IDsdSet, IStateObject
+    public sealed class DsdSetState : StateObject<DsdSetState>, IDsdSet
     {
         private string _name;
         private int _isEnabled;

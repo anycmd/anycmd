@@ -204,7 +204,7 @@ namespace Anycmd.Mis.Web.Mvc
                             if (reflectionFunctions.All(o => o.Id != oldFunction.Id))
                             {
                                 // 删除角色功能
-                                var privilegeType = AcObjectType.Function.ToName();
+                                var privilegeType = AcElementType.Function.ToName();
                                 foreach (var rolePrivilege in privilegeBigramRepository.AsQueryable().Where(a => privilegeType == a.ObjectType && a.ObjectInstanceId == oldFunction.Id).ToList())
                                 {
                                     privilegeBigramRepository.Remove(rolePrivilege);

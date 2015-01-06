@@ -3,7 +3,6 @@ namespace Anycmd.Engine.Edi
 {
     using Abstractions;
     using Exceptions;
-    using Model;
     using System;
     using Util;
 

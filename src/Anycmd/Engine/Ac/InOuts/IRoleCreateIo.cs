@@ -1,7 +1,6 @@
 ﻿
 namespace Anycmd.Engine.Ac.InOuts
 {
-    using Model;
 
     /// <summary>
     /// 表示该接口的实现类是创建角色时的输入或输出参数类型。

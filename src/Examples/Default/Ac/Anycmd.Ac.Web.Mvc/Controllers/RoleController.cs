@@ -149,7 +149,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 return ModelState.ToJsonResult();
             }
             var data = new List<AccountAssignRoleTr>();
-            var privilegeType = AcObjectType.Role.ToName();
+            var privilegeType = AcElementType.Role.ToName();
             var accountRoles = GetRequiredService<IRepository<PrivilegeBigram>>().AsQueryable().Where(a => a.SubjectInstanceId == requestData.AccountId && a.ObjectType == privilegeType);
             if (requestData.IsAssigned.HasValue)
             {
@@ -276,7 +276,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 throw new ValidationException("非法的静态职责分离角色集标识" + requestData.SsdSetId);
             }
             var data = new List<SsdSetAssignRoleTr>();
-            var privilegeType = AcObjectType.Role.ToName();
+            var privilegeType = AcElementType.Role.ToName();
             var ssdSetRoles = AcDomain.SsdSetSet.GetSsdRoles(ssdSet);
             if (requestData.IsAssigned.HasValue)
             {
@@ -390,7 +390,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 throw new ValidationException("非法的动态职责分离角色集标识" + requestData.DsdSetId);
             }
             var data = new List<DsdSetAssignRoleTr>();
-            var privilegeType = AcObjectType.Role.ToName();
+            var privilegeType = AcElementType.Role.ToName();
             var ssdSetRoles = AcDomain.DsdSetSet.GetDsdRoles(dsdSet);
             if (requestData.IsAssigned.HasValue)
             {
@@ -629,10 +629,10 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                         var createInput = new PrivilegeBigramCreateIo()
                         {
                             Id = new Guid(row["Id"].ToString()),
-                            SubjectType = AcSubjectType.Role.ToName(),
+                            SubjectType = UserAcSubjectType.Role.ToName(),
                             SubjectInstanceId = new Guid(row["RoleId"].ToString()),
                             ObjectInstanceId = new Guid(row["FunctionId"].ToString()),
-                            ObjectType = AcObjectType.Function.ToName(),
+                            ObjectType = AcElementType.Function.ToName(),
                             PrivilegeConstraint = null,
                             PrivilegeOrientation = 1
                         };
@@ -658,8 +658,8 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
         {
             string[] addIDs = addMenuIDs.Split(',');
             string[] removeIDs = removeMenuIDs.Split(',');
-            var subjectType = AcSubjectType.Role.ToName();
-            var acObjectType = AcObjectType.Menu.ToName();
+            var subjectType = UserAcSubjectType.Role.ToName();
+            var acObjectType = AcElementType.Menu.ToName();
             foreach (var item in addIDs)
             {
                 if (!string.IsNullOrEmpty(item))
@@ -714,8 +714,8 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                     Id = Guid.NewGuid(),
                     ObjectInstanceId = roleId,
                     SubjectInstanceId = accountId,
-                    SubjectType = AcSubjectType.Account.ToName(),
-                    ObjectType = AcObjectType.Role.ToName()
+                    SubjectType = UserAcSubjectType.Account.ToName(),
+                    ObjectType = AcElementType.Role.ToName()
                 }));
             }
 
@@ -781,8 +781,8 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                         {
                             Id = new Guid(row["Id"].ToString()),
                             ObjectInstanceId = new Guid(row["GroupId"].ToString()),
-                            ObjectType = AcObjectType.Group.ToName(),
-                            SubjectType = AcSubjectType.Role.ToName(),
+                            ObjectType = AcElementType.Group.ToName(),
+                            SubjectType = UserAcSubjectType.Role.ToName(),
                             SubjectInstanceId = new Guid(row["RoleId"].ToString()),
                             PrivilegeConstraint = null,
                             PrivilegeOrientation = 1

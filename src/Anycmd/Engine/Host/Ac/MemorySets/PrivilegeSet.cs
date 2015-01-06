@@ -133,7 +133,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 var host = _set._host;
                 var privilegeList = _set._privilegeList;
-                foreach (var item in privilegeList.Where(a => a.ObjectType == AcObjectType.Organization && a.ObjectInstanceId == message.Source.Id))
+                foreach (var item in privilegeList.Where(a => a.ObjectType == AcElementType.Organization && a.ObjectInstanceId == message.Source.Id))
                 {
                     host.Handle(new RemovePrivilegeBigramCommand(item.Id));
                 }
@@ -149,7 +149,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     accountPrivilegeRepository.Remove(item);
                 }
-                foreach (var item in privilegeList.Where(a => a.ObjectType == AcObjectType.Role && a.ObjectInstanceId == message.Source.Id))
+                foreach (var item in privilegeList.Where(a => a.ObjectType == AcElementType.Role && a.ObjectInstanceId == message.Source.Id))
                 {
                     host.Handle(new RemovePrivilegeBigramCommand(item.Id));
                 }
@@ -165,7 +165,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     accountPrivilegeRepository.Remove(item);
                 }
-                foreach (var item in privilegeList.Where(a => a.ObjectType == AcObjectType.Function && a.ObjectInstanceId == message.Source.Id))
+                foreach (var item in privilegeList.Where(a => a.ObjectType == AcElementType.Function && a.ObjectInstanceId == message.Source.Id))
                 {
                     host.Handle(new RemovePrivilegeBigramCommand(item.Id));
                 }
@@ -181,7 +181,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     accountPrivilegeRepository.Remove(item);
                 }
-                foreach (var item in privilegeList.Where(a => a.ObjectType == AcObjectType.Menu && a.ObjectInstanceId == message.Source.Id))
+                foreach (var item in privilegeList.Where(a => a.ObjectType == AcElementType.Menu && a.ObjectInstanceId == message.Source.Id))
                 {
                     host.Handle(new RemovePrivilegeBigramCommand(item.Id));
                 }
@@ -197,7 +197,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     accountPrivilegeRepository.Remove(item);
                 }
-                foreach (var item in privilegeList.Where(a => a.ObjectType == AcObjectType.Group && a.ObjectInstanceId == message.Source.Id))
+                foreach (var item in privilegeList.Where(a => a.ObjectType == AcElementType.Group && a.ObjectInstanceId == message.Source.Id))
                 {
                     host.Handle(new RemovePrivilegeBigramCommand(item.Id));
                 }
@@ -213,7 +213,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     accountPrivilegeRepository.Remove(item);
                 }
-                foreach (var item in privilegeList.Where(a => a.ObjectType == AcObjectType.AppSystem && a.ObjectInstanceId == message.Source.Id))
+                foreach (var item in privilegeList.Where(a => a.ObjectType == AcElementType.AppSystem && a.ObjectInstanceId == message.Source.Id))
                 {
                     host.Handle(new RemovePrivilegeBigramCommand(item.Id));
                 }
@@ -229,7 +229,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     accountPrivilegeRepository.Remove(item);
                 }
-                foreach (var item in privilegeList.Where(a => a.ObjectType == AcObjectType.ResourceType && a.ObjectInstanceId == message.Source.Id))
+                foreach (var item in privilegeList.Where(a => a.ObjectType == AcElementType.ResourceType && a.ObjectInstanceId == message.Source.Id))
                 {
                     host.Handle(new RemovePrivilegeBigramCommand(item.Id));
                 }
@@ -259,12 +259,12 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     throw new AnycmdException("意外的标识");
                 }
-                AcSubjectType subjectType;
+                AcElementType subjectType;
                 if (!input.SubjectType.TryParse(out subjectType))
                 {
                     throw new ValidationException("非法的主体类型" + input.SubjectType);
                 }
-                AcObjectType acObjectType;
+                AcElementType acObjectType;
                 if (!input.ObjectType.TryParse(out acObjectType))
                 {
                     throw new ValidationException("非法的客体类型" + input.ObjectType);
@@ -274,91 +274,91 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     switch (subjectType)
                     {
-                        case AcSubjectType.Undefined:
+                        case AcElementType.Undefined:
                             throw new AnycmdException("意外的主体类型" + subjectType.ToString());
-                        case AcSubjectType.Account:
+                        case AcElementType.Account:
                             if (!accountRepository.AsQueryable().Any(a => a.Id == input.SubjectInstanceId))
                             {
                                 throw new ValidationException("给定标识的账户不存在" + input.SubjectInstanceId); ;
                             }
                             break;
-                        case AcSubjectType.Role:
+                        case AcElementType.Role:
                             RoleState role;
                             if (!host.RoleSet.TryGetRole(input.SubjectInstanceId, out role))
                             {
                                 throw new ValidationException("意外的角色标识" + input.SubjectInstanceId);
                             }
                             break;
-                        case AcSubjectType.Organization:
+                        case AcElementType.Organization:
                             OrganizationState org;
                             if (!host.OrganizationSet.TryGetOrganization(input.SubjectInstanceId, out org))
                             {
                                 throw new ValidationException("意外的组织结构标识" + input.SubjectInstanceId);
                             }
                             break;
-                        case AcSubjectType.Privilege:
+                        case AcElementType.Privilege:
                             throw new NotSupportedException();
                         default:
                             throw new AnycmdException("意外的主体类型" + subjectType.ToString());
                     }
                     switch (acObjectType)
                     {
-                        case AcObjectType.Undefined:
+                        case AcElementType.Undefined:
                             throw new ValidationException("意外的账户权限类型" + input.SubjectType);
-                        case AcObjectType.Organization:
+                        case AcElementType.Organization:
                             OrganizationState organization;
                             if (!host.OrganizationSet.TryGetOrganization(input.ObjectInstanceId, out organization))
                             {
                                 throw new ValidationException("意外的组织结构标识" + input.ObjectInstanceId);
                             }
                             break;
-                        case AcObjectType.Role:
+                        case AcElementType.Role:
                             RoleState role;
                             if (!host.RoleSet.TryGetRole(input.ObjectInstanceId, out role))
                             {
                                 throw new ValidationException("意外的角色标识" + input.ObjectInstanceId);
                             }
                             break;
-                        case AcObjectType.Group:
+                        case AcElementType.Group:
                             GroupState group;
                             if (!host.GroupSet.TryGetGroup(input.ObjectInstanceId, out group))
                             {
                                 throw new ValidationException("意外的工作组标识" + input.ObjectInstanceId);
                             }
                             break;
-                        case AcObjectType.Function:
+                        case AcElementType.Function:
                             FunctionState function;
                             if (!host.FunctionSet.TryGetFunction(input.ObjectInstanceId, out function))
                             {
                                 throw new ValidationException("意外的功能标识" + input.ObjectInstanceId);
                             }
                             break;
-                        case AcObjectType.Menu:
+                        case AcElementType.Menu:
                             MenuState menu;
                             if (!host.MenuSet.TryGetMenu(input.ObjectInstanceId, out menu))
                             {
                                 throw new ValidationException("意外的菜单标识" + input.ObjectInstanceId);
                             }
                             break;
-                        case AcObjectType.AppSystem:
+                        case AcElementType.AppSystem:
                             if (!host.AppSystemSet.ContainsAppSystem(input.ObjectInstanceId))
                             {
                                 throw new ValidationException("意外的应用系统标识" + input.ObjectInstanceId);
                             }
                             break;
-                        case AcObjectType.ResourceType:
+                        case AcElementType.ResourceType:
                             ResourceTypeState resource;
                             if (!host.ResourceTypeSet.TryGetResource(input.ObjectInstanceId, out resource))
                             {
                                 throw new ValidationException("意外的资源类型标识" + input.ObjectInstanceId);
                             }
                             break;
-                        case AcObjectType.Privilege:
+                        case AcElementType.Privilege:
                             throw new ValidationException("暂不支持" + input.SubjectType + "类型的授权");
                         default:
                             throw new ValidationException("意外的账户权限类型" + input.SubjectType);
                     }
-                    if (subjectType == AcSubjectType.Role && acObjectType == AcObjectType.Role)
+                    if (subjectType == AcElementType.Role && acObjectType == AcElementType.Role)
                     {
                         if (input.SubjectInstanceId == input.ObjectInstanceId)
                         {
@@ -371,7 +371,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                             throw new ValidationException("角色不能继承自己的子孙");
                         }
                     }
-                    if (subjectType == AcSubjectType.Account && acObjectType == AcObjectType.Account)
+                    if (subjectType == AcElementType.Account && acObjectType == AcElementType.Account)
                     {
                         if (input.SubjectInstanceId == input.ObjectInstanceId)
                         {
@@ -384,10 +384,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                             throw new ValidationException("账户不能继承自己的子孙");
                         }
                     }
-                    if (subjectType == AcSubjectType.Account && acObjectType == AcObjectType.Role)
+                    if (subjectType == AcElementType.Account && acObjectType == AcElementType.Role)
                     {
-                        var sType = AcSubjectType.Account.ToName();
-                        var oType = AcObjectType.Role.ToName();
+                        var sType = UserAcSubjectType.Account.ToName();
+                        var oType = AcElementType.Role.ToName();
                         var rolePrivileges = privilegeBigramRepository.AsQueryable().Where(a => a.SubjectType == sType && a.SubjectInstanceId == input.SubjectInstanceId && a.ObjectType == oType);
                         var roles = new HashSet<RoleState>();
                         RoleState role;
@@ -409,7 +409,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                         }
                         // TODO:应用静态职责分离
                     }
-                    if (subjectType == AcSubjectType.Organization && acObjectType == AcObjectType.Organization)
+                    if (subjectType == AcElementType.Organization && acObjectType == AcElementType.Organization)
                     {
                         if (input.SubjectInstanceId == input.ObjectInstanceId)
                         {
@@ -429,7 +429,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                     entity = PrivilegeBigram.Create(input);
 
-                    if (subjectType != AcSubjectType.Account && privilegeList.All(a => a.Id != entity.Id))
+                    if (subjectType != AcElementType.Account && privilegeList.All(a => a.Id != entity.Id))
                     {
                         privilegeList.Add(PrivilegeBigramState.Create(entity));
                     }
@@ -442,7 +442,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                         }
                         catch
                         {
-                            if (subjectType != AcSubjectType.Account && privilegeList.Any(a => a.Id == entity.Id))
+                            if (subjectType != AcElementType.Account && privilegeList.Any(a => a.Id == entity.Id))
                             {
                                 var item = privilegeList.First(a => a.Id == entity.Id);
                                 privilegeList.Remove(item);
@@ -456,7 +456,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     host.MessageDispatcher.DispatchMessage(new PrivatPrivilegeBigramAddedEvent(entity, input));
                 }
-                if (subjectType == AcSubjectType.Role && acObjectType == AcObjectType.Role)
+                if (subjectType == AcElementType.Role && acObjectType == AcElementType.Role)
                 {
                     host.MessageDispatcher.DispatchMessage(new RoleRolePrivilegeAddedEvent(entity));
                 }
@@ -469,7 +469,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     parentIds = new HashSet<Guid>();
                 }
                 var privilegeList = _set._privilegeList;
-                foreach (var item in privilegeList.Where(a => a.SubjectType == AcSubjectType.Role && a.SubjectInstanceId == roleId && a.ObjectType == AcObjectType.Role))
+                foreach (var item in privilegeList.Where(a => a.SubjectType == AcElementType.Role && a.SubjectInstanceId == roleId && a.ObjectType == AcElementType.Role))
                 {
                     RecDescendantRoles(item.ObjectInstanceId, parentIds);
                     parentIds.Add(item.ObjectInstanceId);
@@ -483,7 +483,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     parentIds = new HashSet<Guid>();
                 }
                 var privilegeList = _set._privilegeList;
-                foreach (var item in privilegeList.Where(a => a.SubjectType == AcSubjectType.Organization && a.SubjectInstanceId == organizationId && a.ObjectType == AcObjectType.Organization))
+                foreach (var item in privilegeList.Where(a => a.SubjectType == AcElementType.Organization && a.SubjectInstanceId == organizationId && a.ObjectType == AcElementType.Organization))
                 {
                     RecDescendantRoles(item.ObjectInstanceId, parentIds);
                     parentIds.Add(item.ObjectInstanceId);
@@ -497,7 +497,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     parentIds = new HashSet<Guid>();
                 }
                 var privilegeList = _set._privilegeList;
-                foreach (var item in privilegeList.Where(a => a.SubjectType == AcSubjectType.Account && a.SubjectInstanceId == accountId && a.ObjectType == AcObjectType.Account))
+                foreach (var item in privilegeList.Where(a => a.SubjectType == AcElementType.Account && a.SubjectInstanceId == accountId && a.ObjectType == AcElementType.Account))
                 {
                     RecDescendantRoles(item.ObjectInstanceId, parentIds);
                     parentIds.Add(item.ObjectInstanceId);
@@ -541,7 +541,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                         throw new NotExistException("不存在的权限记录标识" + input.Id);
                     }
                     var bkState = host.PrivilegeSet.FirstOrDefault(a => a.Id == input.Id);
-                    bool isAccountSubjectType = string.Equals(AcSubjectType.Account.ToName(), entity.SubjectType);
+                    bool isAccountSubjectType = string.Equals(UserAcSubjectType.Account.ToName(), entity.SubjectType);
 
                     entity.Update(input);
 
@@ -605,8 +605,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 var privilegeList = _set._privilegeList;
                 var privilegeRepository = host.RetrieveRequiredService<IRepository<PrivilegeBigram>>();
                 PrivilegeBigram entity;
-                AcSubjectType subjectType;
-                AcObjectType acObjectType;
+                UserAcSubjectType subjectType;
+                AcElementType acObjectType;
                 lock (this)
                 {
                     var bkState = host.PrivilegeSet.FirstOrDefault(a => a.Id == rolePrivilegeId);
@@ -649,7 +649,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 if (isCommand)
                 {
                     host.MessageDispatcher.DispatchMessage(new PrivatePrivilegeBigramRemovedEvent(entity));
-                    if (subjectType == AcSubjectType.Role && acObjectType == AcObjectType.Role)
+                    if (subjectType == UserAcSubjectType.Role && acObjectType == AcElementType.Role)
                     {
                         host.MessageDispatcher.DispatchMessage(new RoleRolePrivilegeRemovedEvent(entity));
                     }

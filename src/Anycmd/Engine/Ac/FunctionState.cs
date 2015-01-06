@@ -1,17 +1,17 @@
 ﻿
 namespace Anycmd.Engine.Ac
 {
+    using Abstractions;
     using Abstractions.Infra;
     using Exceptions;
     using Host;
-    using Model;
     using System;
     using Util;
 
     /// <summary>
     /// 表示标识过程的业务实体。
     /// </summary>
-    public sealed class FunctionState : StateObject<FunctionState>, IFunction, IStateObject
+    public sealed class FunctionState : StateObject<FunctionState>, IFunction, IAcElement
     {
         private Guid _resourceTypeId;
         private IAcDomain _acDomain;
@@ -68,6 +68,11 @@ namespace Anycmd.Engine.Ac
                 _description = function.Description,
                 _createOn = function.CreateOn
             };
+        }
+
+        public AcElementType AcElementType
+        {
+            get { return AcElementType.Function; }
         }
 
         public IAcDomain AcDomain

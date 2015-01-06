@@ -1,16 +1,16 @@
 ﻿
 namespace Anycmd.Engine.Ac
 {
+    using Abstractions;
     using Abstractions.Infra;
     using Exceptions;
-    using Model;
     using System;
     using Util;
 
     /// <summary>
     /// 表示应用系统业务实体类型。
     /// </summary>
-    public sealed class AppSystemState : StateObject<AppSystemState>, IAppSystem, IStateObject
+    public sealed class AppSystemState : StateObject<AppSystemState>, IAppSystem, IAcElement
     {
         public static readonly AppSystemState Empty = new AppSystemState(Guid.Empty)
         {
@@ -57,6 +57,11 @@ namespace Anycmd.Engine.Ac
                 _icon = appSystem.Icon,
                 _createOn = appSystem.CreateOn,
             };
+        }
+
+        public AcElementType AcElementType
+        {
+            get { return AcElementType.AppSystem; }
         }
 
         public string Code

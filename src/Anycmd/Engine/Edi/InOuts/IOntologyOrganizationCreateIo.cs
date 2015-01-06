@@ -1,5 +1,4 @@
-﻿using Anycmd.Model;
-using System;
+﻿using System;
 
 namespace Anycmd.Engine.Edi.InOuts
 {

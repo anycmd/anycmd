@@ -2,14 +2,13 @@
 namespace Anycmd.Engine.Ac
 {
     using Abstractions.Infra;
-    using Model;
     using System;
     using Util;
 
     /// <summary>
     /// 表示系统字典业务实体。
     /// </summary>
-    public sealed class DicState : StateObject<DicState>, IDic, IStateObject
+    public sealed class DicState : StateObject<DicState>, IDic
     {
         public static readonly DicState Empty = new DicState(Guid.Empty)
         {

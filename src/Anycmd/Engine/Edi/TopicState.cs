@@ -4,7 +4,6 @@ namespace Anycmd.Engine.Edi
 {
     using Abstractions;
     using Exceptions;
-    using Model;
 
     public sealed class TopicState : StateObject<TopicState>, ITopic, IStateObject
     {

@@ -18,11 +18,11 @@ namespace Anycmd.Engine.Host.Impl
     using Engine.Ac.Messages.Infra;
     using Engine.Edi;
     using Engine.Edi.Messages;
-    using Util;
     using Logging;
     using Query;
     using Rdb;
     using System;
+    using Util;
 
     /// <summary>
     /// 系统实体宿主。

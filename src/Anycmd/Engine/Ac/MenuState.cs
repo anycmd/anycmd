@@ -1,15 +1,15 @@
 ﻿
 namespace Anycmd.Engine.Ac
 {
+    using Abstractions;
     using Abstractions.Infra;
     using Exceptions;
-    using Model;
     using System;
 
     /// <summary>
     /// 表示系统菜单业务实体。
     /// </summary>
-    public sealed class MenuState : StateObject<MenuState>, IMenu
+    public sealed class MenuState : StateObject<MenuState>, IMenu, IAcElement
     {
         private IAcDomain AcDomain { get; set; }
         private Guid _appSystemId;
@@ -43,6 +43,11 @@ namespace Anycmd.Engine.Ac
                 _sortCode = menu.SortCode,
                 _description = menu.Description
             };
+        }
+
+        public AcElementType AcElementType
+        {
+            get { return AcElementType.Menu; }
         }
 
         public Guid AppSystemId

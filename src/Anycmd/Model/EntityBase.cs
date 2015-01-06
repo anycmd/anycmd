@@ -2,8 +2,8 @@
 namespace Anycmd.Model
 {
     using Exceptions;
-    using Util;
     using System;
+    using Util;
 
     /// <summary>
     /// 实体模型基类型

@@ -6,8 +6,7 @@ namespace Anycmd.Engine.Edi
 	using Hecp;
 	using Host.Ac.Infra;
 	using Host.Edi;
-	using Model;
-	using System;
+    using System;
 	using System.Collections.Generic;
 	using System.Data;
 	using Util;

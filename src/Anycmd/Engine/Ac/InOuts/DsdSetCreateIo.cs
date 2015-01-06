@@ -1,7 +1,6 @@
 ﻿
 namespace Anycmd.Engine.Ac.InOuts
 {
-    using Model;
 
     /// <summary>
     /// 创建动态职责分离角色集时的输入或输出参数类型。

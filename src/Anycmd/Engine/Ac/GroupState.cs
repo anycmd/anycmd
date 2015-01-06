@@ -2,13 +2,12 @@
 namespace Anycmd.Engine.Ac
 {
     using Abstractions;
-    using Model;
     using System;
 
     /// <summary>
     /// 表示组业务实体。
     /// </summary>
-    public sealed class GroupState : StateObject<GroupState>, IGroup, IStateObject
+    public sealed class GroupState : StateObject<GroupState>, IGroup, IAcElement
     {
         private string _name;
         private string _organizationCode;
@@ -34,6 +33,11 @@ namespace Anycmd.Engine.Ac
                 _isEnabled = group.IsEnabled,
                 _createOn = group.CreateOn
             };
+        }
+
+        public AcElementType AcElementType
+        {
+            get { return AcElementType.Group; }
         }
 
         public string Name

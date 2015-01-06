@@ -26,7 +26,7 @@ namespace Anycmd.Engine.Ac.Abstractions
     {
         Guid Id { get; }
         /// <summary>
-        /// 主体类型<see cref="AcSubjectType"/>
+        /// 主体类型<see cref="UserAcSubjectType"/>
         /// </summary>
         string SubjectType { get; }
         /// <summary>
@@ -34,7 +34,7 @@ namespace Anycmd.Engine.Ac.Abstractions
         /// </summary>
         Guid SubjectInstanceId { get; }
         /// <summary>
-        /// 客体类型<see cref="AcObjectType"/>
+        /// 客体类型<see cref="AcElementType"/>
         /// </summary>
         string ObjectType { get; }
         /// <summary>

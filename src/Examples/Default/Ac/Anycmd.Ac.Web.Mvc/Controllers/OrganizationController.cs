@@ -287,10 +287,10 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 AcDomain.Handle(new AddPrivilegeBigramCommand(new PrivilegeBigramCreateIo
                 {
                     SubjectInstanceId = accountId,
-                    SubjectType = AcSubjectType.Account.ToName(),
+                    SubjectType = UserAcSubjectType.Account.ToName(),
                     Id = Guid.NewGuid(),
                     ObjectInstanceId = organizationId,
-                    ObjectType = AcObjectType.Organization.ToName()
+                    ObjectType = AcElementType.Organization.ToName()
                 }));
             }
 
@@ -402,8 +402,8 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                         AcDomain.Handle(new AddPrivilegeBigramCommand(new PrivilegeBigramCreateIo
                         {
                             Id = new Guid(row["Id"].ToString()),
-                            ObjectType = AcObjectType.Role.ToName(),
-                            SubjectType = AcSubjectType.Organization.ToName(),
+                            ObjectType = AcElementType.Role.ToName(),
+                            SubjectType = UserAcSubjectType.Organization.ToName(),
                             ObjectInstanceId = new Guid(row["RoleId"].ToString()),
                             SubjectInstanceId = new Guid(row["OrganizationId"].ToString())
                         }));

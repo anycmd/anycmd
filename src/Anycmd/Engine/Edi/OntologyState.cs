@@ -2,7 +2,6 @@
 namespace Anycmd.Engine.Edi
 {
     using Abstractions;
-    using Model;
     using System;
 
     public sealed class OntologyState : StateObject<OntologyState>, IOntology, IStateObject
