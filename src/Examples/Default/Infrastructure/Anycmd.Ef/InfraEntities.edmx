@@ -19,6 +19,8 @@
           <Property Name="Icon" Type="varchar" MaxLength="200" />
           <Property Name="IsEnabled" Type="int" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="200" />
+          <Property Name="AcContentType" Type="varchar" MaxLength="50" />
+          <Property Name="AcContent" Type="varchar" MaxLength="2000" />
           <Property Name="CreateOn" Type="datetime" />
           <Property Name="CreateUserId" Type="uniqueidentifier" />
           <Property Name="CreateBy" Type="varchar" MaxLength="50" />
@@ -40,6 +42,8 @@
           <Property Name="IsEnabled" Type="int" Nullable="false" />
           <Property Name="Icon" Type="varchar" MaxLength="200" />
           <Property Name="Description" Type="nvarchar" MaxLength="500" />
+          <Property Name="AcContentType" Type="varchar" MaxLength="50" />
+          <Property Name="AcContent" Type="varchar" MaxLength="2000" />
           <Property Name="CreateOn" Type="datetime" />
           <Property Name="CreateUserId" Type="uniqueidentifier" />
           <Property Name="CreateBy" Type="varchar" MaxLength="50" />
@@ -59,6 +63,8 @@
           <Property Name="IsEnabled" Type="int" Nullable="false" />
           <Property Name="SortCode" Type="int" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="500" />
+          <Property Name="AcContentType" Type="varchar" MaxLength="50" />
+          <Property Name="AcContent" Type="varchar" MaxLength="2000" />
           <Property Name="CreateOn" Type="datetime" />
           <Property Name="CreateUserId" Type="uniqueidentifier" />
           <Property Name="CreateBy" Type="varchar" MaxLength="50" />
@@ -79,6 +85,8 @@
           <Property Name="IsEnabled" Type="int" Nullable="false" />
           <Property Name="SortCode" Type="int" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="500" />
+          <Property Name="AcContentType" Type="varchar" MaxLength="50" />
+          <Property Name="AcContent" Type="varchar" MaxLength="2000" />
           <Property Name="CreateOn" Type="datetime" />
           <Property Name="CreateUserId" Type="uniqueidentifier" />
           <Property Name="CreateBy" Type="varchar" MaxLength="50" />
@@ -105,6 +113,8 @@
           <Property Name="EditWidth" Type="int" Nullable="false" />
           <Property Name="EditHeight" Type="int" Nullable="false" />
           <Property Name="DeveloperId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="AcContentType" Type="varchar" MaxLength="50" />
+          <Property Name="AcContent" Type="varchar" MaxLength="2000" />
           <Property Name="CreateOn" Type="datetime" />
           <Property Name="CreateUserId" Type="uniqueidentifier" />
           <Property Name="CreateBy" Type="nvarchar" MaxLength="255" />
@@ -127,6 +137,8 @@
           <Property Name="Description" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="DeveloperId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="SortCode" Type="int" Nullable="false" />
+          <Property Name="AcContentType" Type="varchar" MaxLength="50" />
+          <Property Name="AcContent" Type="varchar" MaxLength="2000" />
           <Property Name="CreateOn" Type="datetime" />
           <Property Name="CreateUserId" Type="uniqueidentifier" />
           <Property Name="CreateBy" Type="varchar" MaxLength="50" />
@@ -146,6 +158,8 @@
           <Property Name="Code" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="500" />
+          <Property Name="AcContentType" Type="varchar" MaxLength="50" />
+          <Property Name="AcContent" Type="varchar" MaxLength="2000" />
           <Property Name="CreateOn" Type="datetime" />
           <Property Name="CreateUserId" Type="uniqueidentifier" />
           <Property Name="CreateBy" Type="varchar" MaxLength="50" />
@@ -167,6 +181,8 @@
           <Property Name="SortCode" Type="int" Nullable="false" />
           <Property Name="Icon" Type="varchar" MaxLength="200" />
           <Property Name="Description" Type="nvarchar" MaxLength="500" />
+          <Property Name="AcContentType" Type="varchar" MaxLength="50" />
+          <Property Name="AcContent" Type="varchar" MaxLength="2000" />
           <Property Name="CreateOn" Type="datetime" />
           <Property Name="CreateUserId" Type="uniqueidentifier" />
           <Property Name="CreateBy" Type="varchar" MaxLength="50" />
@@ -183,6 +199,8 @@
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Content" Type="nvarchar(max)" />
           <Property Name="IsEnabled" Type="int" Nullable="false" />
+          <Property Name="AcContentType" Type="varchar" MaxLength="50" />
+          <Property Name="AcContent" Type="varchar" MaxLength="2000" />
           <Property Name="CreateOn" Type="datetime" />
           <Property Name="CreateUserId" Type="uniqueidentifier" />
           <Property Name="CreateBy" Type="varchar" MaxLength="50" />
@@ -214,6 +232,8 @@
           <Property Name="Icon" Type="varchar" MaxLength="200" />
           <Property Name="SortCode" Type="int" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="500" />
+          <Property Name="AcContentType" Type="varchar" MaxLength="50" />
+          <Property Name="AcContent" Type="varchar" MaxLength="2000" />
           <Property Name="CreateOn" Type="datetime" />
           <Property Name="CreateUserId" Type="uniqueidentifier" />
           <Property Name="CreateBy" Type="varchar" MaxLength="50" />
@@ -245,6 +265,8 @@
           <Property Name="InputType" Type="varchar" MaxLength="50" />
           <Property Name="IsTotalLine" Type="bit" Nullable="false" />
           <Property Name="GroupCode" Type="varchar" MaxLength="20" />
+          <Property Name="AcContentType" Type="varchar" MaxLength="50" />
+          <Property Name="AcContent" Type="varchar" MaxLength="2000" />
           <Property Name="CreateOn" Type="datetime" />
           <Property Name="CreateBy" Type="nvarchar" MaxLength="255" />
           <Property Name="CreateUserId" Type="uniqueidentifier" />
@@ -265,6 +287,8 @@
           <Property Name="Description" Type="nvarchar" MaxLength="500" />
           <Property Name="Icon" Type="varchar" MaxLength="200" />
           <Property Name="SortCode" Type="int" Nullable="false" />
+          <Property Name="AcContentType" Type="varchar" MaxLength="50" />
+          <Property Name="AcContent" Type="varchar" MaxLength="2000" />
           <Property Name="CreateOn" Type="datetime" />
           <Property Name="CreateUserId" Type="uniqueidentifier" />
           <Property Name="CreateBy" Type="varchar" MaxLength="50" />
@@ -281,6 +305,8 @@
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Icon" Type="varchar" MaxLength="200" />
           <Property Name="Tooltip" Type="nvarchar(max)" />
+          <Property Name="AcContentType" Type="varchar" MaxLength="50" />
+          <Property Name="AcContent" Type="varchar" MaxLength="2000" />
           <Property Name="CreateOn" Type="datetime" />
           <Property Name="CreateUserId" Type="uniqueidentifier" />
           <Property Name="CreateBy" Type="varchar" MaxLength="50" />
@@ -300,6 +326,8 @@
           <Property Name="ButtonId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="IsEnabled" Type="int" Nullable="false" />
           <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="AcContentType" Type="varchar" MaxLength="50" />
+          <Property Name="AcContent" Type="varchar" MaxLength="2000" />
           <Property Name="CreateOn" Type="datetime" />
           <Property Name="CreateUserId" Type="uniqueidentifier" />
           <Property Name="CreateBy" Type="varchar" MaxLength="50" />
@@ -575,6 +603,8 @@
           <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="RowGuid" Type="Guid" Nullable="false" />
+          <Property Name="AcContentType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AcContent" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Button">
           <Key>
@@ -596,6 +626,8 @@
           <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="RowGuid" Type="Guid" Nullable="false" />
+          <Property Name="AcContentType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AcContent" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Dic">
           <Key>
@@ -615,6 +647,8 @@
           <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="RowGuid" Type="Guid" Nullable="false" />
+          <Property Name="AcContentType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AcContent" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="DicItem">
           <Key>
@@ -635,6 +669,8 @@
           <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="RowGuid" Type="Guid" Nullable="false" />
+          <Property Name="AcContentType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AcContent" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="EntityType">
           <Key>
@@ -661,6 +697,8 @@
           <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="RowGuid" Type="Guid" Nullable="false" />
+          <Property Name="AcContentType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AcContent" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Function">
           <Key>
@@ -683,6 +721,8 @@
           <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="RowGuid" Type="Guid" Nullable="false" />
+          <Property Name="AcContentType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AcContent" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Menu">
           <Key>
@@ -704,6 +744,8 @@
           <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="RowGuid" Type="Guid" Nullable="false" />
+          <Property Name="AcContentType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AcContent" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="OperationHelp">
           <Key>
@@ -720,6 +762,8 @@
           <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="RowGuid" Type="Guid" Nullable="false" />
+          <Property Name="AcContentType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AcContent" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Organization">
           <Key>
@@ -751,6 +795,8 @@
           <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="RowGuid" Type="Guid" Nullable="false" />
+          <Property Name="AcContentType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AcContent" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="UiView">
           <Key>
@@ -767,6 +813,8 @@
           <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="RowGuid" Type="Guid" Nullable="false" />
+          <Property Name="AcContentType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AcContent" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="UiViewButton">
           <Key>
@@ -786,6 +834,8 @@
           <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="RowGuid" Type="Guid" Nullable="false" />
+          <Property Name="AcContentType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AcContent" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Property">
           <Key>
@@ -817,6 +867,8 @@
           <Property Name="ModifiedUserId" Type="Guid" />
           <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="RowGuid" Type="Guid" Nullable="false" />
+          <Property Name="AcContentType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AcContent" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK_Menu_AppSystem">
           <End Role="AppSystem" Type="Self.AppSystem" Multiplicity="1" />
@@ -1041,6 +1093,8 @@
           <Property Name="ModifiedUserId" Type="Guid" />
           <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="RowGuid" Type="Guid" Nullable="false" />
+          <Property Name="AcContentType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AcContent" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK_Resource_AppSystem">
           <End Type="AnycmdModel.AppSystem" Role="AppSystem" Multiplicity="1" />
@@ -1084,6 +1138,8 @@
           <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="RowGuid" Type="Guid" Nullable="false" />
           <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="AcContentType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AcContent" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK_FunctionIo_Function">
           <End Type="AnycmdModel.Function" Role="Function" Multiplicity="1" />
@@ -1106,6 +1162,8 @@
           <EntitySetMapping Name="AppSystems">
             <EntityTypeMapping TypeName="AnycmdModel.AppSystem">
               <MappingFragment StoreEntitySet="AppSystem">
+                <ScalarProperty Name="AcContent" ColumnName="AcContent" />
+                <ScalarProperty Name="AcContentType" ColumnName="AcContentType" />
                 <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="PrincipalId" ColumnName="PrincipalId" />
@@ -1130,6 +1188,8 @@
           <EntitySetMapping Name="Buttons">
             <EntityTypeMapping TypeName="AnycmdModel.Button">
               <MappingFragment StoreEntitySet="Button">
+                <ScalarProperty Name="AcContent" ColumnName="AcContent" />
+                <ScalarProperty Name="AcContentType" ColumnName="AcContentType" />
                 <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
@@ -1152,6 +1212,8 @@
           <EntitySetMapping Name="Dics">
             <EntityTypeMapping TypeName="AnycmdModel.Dic">
               <MappingFragment StoreEntitySet="Dic">
+                <ScalarProperty Name="AcContent" ColumnName="AcContent" />
+                <ScalarProperty Name="AcContentType" ColumnName="AcContentType" />
                 <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
@@ -1172,6 +1234,8 @@
           <EntitySetMapping Name="DicItems">
             <EntityTypeMapping TypeName="AnycmdModel.DicItem">
               <MappingFragment StoreEntitySet="DicItem">
+                <ScalarProperty Name="AcContent" ColumnName="AcContent" />
+                <ScalarProperty Name="AcContentType" ColumnName="AcContentType" />
                 <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="DicId" ColumnName="DicId" />
@@ -1193,6 +1257,8 @@
           <EntitySetMapping Name="EntityTypes">
             <EntityTypeMapping TypeName="AnycmdModel.EntityType">
               <MappingFragment StoreEntitySet="EntityType">
+                <ScalarProperty Name="AcContent" ColumnName="AcContent" />
+                <ScalarProperty Name="AcContentType" ColumnName="AcContentType" />
                 <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="DatabaseId" ColumnName="DatabaseId" />
@@ -1220,6 +1286,8 @@
           <EntitySetMapping Name="Functions">
             <EntityTypeMapping TypeName="AnycmdModel.Function">
               <MappingFragment StoreEntitySet="Function">
+                <ScalarProperty Name="AcContent" ColumnName="AcContent" />
+                <ScalarProperty Name="AcContentType" ColumnName="AcContentType" />
                 <ScalarProperty Name="Guid" ColumnName="Guid" />
                 <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -1243,6 +1311,8 @@
           <EntitySetMapping Name="Menus">
             <EntityTypeMapping TypeName="AnycmdModel.Menu">
               <MappingFragment StoreEntitySet="Menu">
+                <ScalarProperty Name="AcContent" ColumnName="AcContent" />
+                <ScalarProperty Name="AcContentType" ColumnName="AcContentType" />
                 <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="ParentId" ColumnName="ParentId" />
@@ -1265,6 +1335,8 @@
           <EntitySetMapping Name="OperationHelps">
             <EntityTypeMapping TypeName="AnycmdModel.OperationHelp">
               <MappingFragment StoreEntitySet="OperationHelp">
+                <ScalarProperty Name="AcContent" ColumnName="AcContent" />
+                <ScalarProperty Name="AcContentType" ColumnName="AcContentType" />
                 <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Content" ColumnName="Content" />
@@ -1282,6 +1354,8 @@
           <EntitySetMapping Name="Organizations">
             <EntityTypeMapping TypeName="AnycmdModel.Organization">
               <MappingFragment StoreEntitySet="Organization">
+                <ScalarProperty Name="AcContent" ColumnName="AcContent" />
+                <ScalarProperty Name="AcContentType" ColumnName="AcContentType" />
                 <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
                 <ScalarProperty Name="ContractorId" ColumnName="ContractorId" />
                 <ScalarProperty Name="ParentCode" ColumnName="ParentCode" />
@@ -1314,6 +1388,8 @@
           <EntitySetMapping Name="UiViews">
             <EntityTypeMapping TypeName="AnycmdModel.UiView">
               <MappingFragment StoreEntitySet="UiView">
+                <ScalarProperty Name="AcContent" ColumnName="AcContent" />
+                <ScalarProperty Name="AcContentType" ColumnName="AcContentType" />
                 <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Icon" ColumnName="Icon" />
@@ -1331,6 +1407,8 @@
           <EntitySetMapping Name="UiViewButtons">
             <EntityTypeMapping TypeName="AnycmdModel.UiViewButton">
               <MappingFragment StoreEntitySet="UiViewButton">
+                <ScalarProperty Name="AcContent" ColumnName="AcContent" />
+                <ScalarProperty Name="AcContentType" ColumnName="AcContentType" />
                 <ScalarProperty Name="UiViewId" ColumnName="UiViewId" />
                 <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -1351,6 +1429,8 @@
           <EntitySetMapping Name="Properties">
             <EntityTypeMapping TypeName="AnycmdModel.Property">
               <MappingFragment StoreEntitySet="Property">
+                <ScalarProperty Name="AcContent" ColumnName="AcContent" />
+                <ScalarProperty Name="AcContentType" ColumnName="AcContentType" />
                 <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="EntityTypeId" ColumnName="EntityTypeId" />
@@ -1383,6 +1463,8 @@
           <EntitySetMapping Name="ResourceTypes">
             <EntityTypeMapping TypeName="AnycmdModel.ResourceType">
               <MappingFragment StoreEntitySet="ResourceType">
+                <ScalarProperty Name="AcContent" ColumnName="AcContent" />
+                <ScalarProperty Name="AcContentType" ColumnName="AcContentType" />
                 <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
                 <ScalarProperty Name="Etag" ColumnName="Etag" />
                 <ScalarProperty Name="ModifiedUserId" ColumnName="ModifiedUserId" />
@@ -1404,6 +1486,8 @@
           <EntitySetMapping Name="FunctionIos">
             <EntityTypeMapping TypeName="AnycmdModel.FunctionIo">
               <MappingFragment StoreEntitySet="FunctionIo">
+                <ScalarProperty Name="AcContent" ColumnName="AcContent" />
+                <ScalarProperty Name="AcContentType" ColumnName="AcContentType" />
                 <ScalarProperty Name="Etag" ColumnName="Etag" />
                 <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
@@ -1444,18 +1528,18 @@
     <!-- Diagram content (shape and connector positions) -->
     <Diagrams>
       <Diagram DiagramId="027e1892ab0543529a35ea0861bcf6a7" Name="Diagram1" ZoomLevel="95">
-        <EntityTypeShape EntityType="AnycmdModel.AppSystem" Width="1.75" PointX="0.75" PointY="7.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="AnycmdModel.Button" Width="1.625" PointX="8" PointY="14.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="AnycmdModel.Dic" Width="1.625" PointX="10.75" PointY="14.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="AnycmdModel.DicItem" Width="1.625" PointX="13.125" PointY="14.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="AnycmdModel.EntityType" Width="1.625" PointX="13.75" PointY="8" IsExpanded="true" />
-        <EntityTypeShape EntityType="AnycmdModel.Function" Width="1.625" PointX="5.625" PointY="5.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="AnycmdModel.Menu" Width="1.625" PointX="3.25" PointY="13.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="AnycmdModel.OperationHelp" Width="1.625" PointX="8" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AnycmdModel.AppSystem" Width="1.75" PointX="0.75" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="AnycmdModel.Button" Width="1.625" PointX="8" PointY="16" IsExpanded="true" />
+        <EntityTypeShape EntityType="AnycmdModel.Dic" Width="1.625" PointX="10.75" PointY="15.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AnycmdModel.DicItem" Width="1.625" PointX="13.125" PointY="15.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AnycmdModel.EntityType" Width="1.625" PointX="13.75" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="AnycmdModel.Function" Width="1.625" PointX="5.625" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AnycmdModel.Menu" Width="1.625" PointX="3.25" PointY="15" IsExpanded="true" />
+        <EntityTypeShape EntityType="AnycmdModel.OperationHelp" Width="1.625" PointX="8" PointY="2" IsExpanded="true" />
         <EntityTypeShape EntityType="AnycmdModel.Organization" Width="1.875" PointX="12.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="AnycmdModel.UiView" Width="1.625" PointX="8" PointY="5.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="AnycmdModel.UiViewButton" Width="1.625" PointX="10.375" PointY="5.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="AnycmdModel.Property" Width="1.75" PointX="16.125" PointY="13.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="AnycmdModel.UiView" Width="1.625" PointX="8" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="AnycmdModel.UiViewButton" Width="1.625" PointX="10.375" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="AnycmdModel.Property" Width="1.75" PointX="16.125" PointY="14.875" IsExpanded="true" />
         <AssociationConnector Association="AnycmdModel.FK_Menu_AppSystem" ManuallyRouted="false" />
         <AssociationConnector Association="AnycmdModel.FK_UiViewButton_Button" ManuallyRouted="false" />
         <AssociationConnector Association="AnycmdModel.FK_DicItem_Dic" ManuallyRouted="false" />
@@ -1467,10 +1551,10 @@
         <AssociationConnector Association="AnycmdModel.FK_Menu_Parent" ManuallyRouted="false" />
         <AssociationConnector Association="AnycmdModel.FK_UiViewButton_UiView" ManuallyRouted="false" />
         <AssociationConnector Association="AnycmdModel.FK_Property_Property" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="AnycmdModel.ResourceType" Width="1.625" PointX="3.25" PointY="5.625" />
+        <EntityTypeShape EntityType="AnycmdModel.ResourceType" Width="1.625" PointX="3.25" PointY="6" />
         <AssociationConnector Association="AnycmdModel.FK_Resource_AppSystem" />
         <AssociationConnector Association="AnycmdModel.FK_Function_Resource" />
-        <EntityTypeShape EntityType="AnycmdModel.FunctionIo" Width="1.5" PointX="8" PointY="9.5" />
+        <EntityTypeShape EntityType="AnycmdModel.FunctionIo" Width="1.5" PointX="8" PointY="10.25" />
         <AssociationConnector Association="AnycmdModel.FK_FunctionIo_Function" />
       </Diagram>
     </Diagrams>

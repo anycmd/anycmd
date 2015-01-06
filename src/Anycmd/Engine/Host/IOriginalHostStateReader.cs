@@ -122,7 +122,7 @@ namespace Anycmd.Engine.Host
         /// 
         /// </summary>
         /// <returns></returns>
-        IList<PrivilegeBigram> GetPrivilegeBigrams();
+        IList<Privilege> GetPrivileges();
 
         /// <summary>
         /// 

@@ -46,6 +46,8 @@
           <Property Name="Mobile" Type="varchar" MaxLength="50" />
           <Property Name="Telephone" Type="varchar" MaxLength="50" />
           <Property Name="Qq" Type="varchar" MaxLength="50" />
+          <Property Name="AcContentType" Type="varchar" MaxLength="50" />
+          <Property Name="AcContent" Type="varchar" MaxLength="2000" />
           <Property Name="DeletionStateCode" Type="int" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="500" />
           <Property Name="CreateOn" Type="datetime" />
@@ -62,6 +64,8 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="AcContentType" Type="varchar" MaxLength="50" />
+          <Property Name="AcContent" Type="varchar" MaxLength="2000" />
           <Property Name="CreateOn" Type="datetime" />
           <Property Name="CreateUserId" Type="uniqueidentifier" />
           <Property Name="CreateBy" Type="nvarchar" MaxLength="255" />
@@ -192,6 +196,8 @@
           <Property Name="Telephone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Qq" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="RowGuid" Type="Guid" Nullable="false" />
+          <Property Name="AcContentType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AcContent" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="VisitingLog">
           <Key>
@@ -234,6 +240,8 @@
           <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="RowGuid" Type="Guid" Nullable="false" />
+          <Property Name="AcContentType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AcContent" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK_DeveloperId_Account">
           <End Type="AnycmdModel.Account" Role="Account" Multiplicity="1" />
@@ -256,6 +264,8 @@
           <EntitySetMapping Name="Accounts">
             <EntityTypeMapping TypeName="AnycmdModel.Account">
               <MappingFragment StoreEntitySet="Account">
+                <ScalarProperty Name="AcContent" ColumnName="AcContent" />
+                <ScalarProperty Name="AcContentType" ColumnName="AcContentType" />
                 <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
                 <ScalarProperty Name="Qq" ColumnName="Qq" />
                 <ScalarProperty Name="Telephone" ColumnName="Telephone" />
@@ -326,6 +336,8 @@
           <EntitySetMapping Name="DeveloperIds">
             <EntityTypeMapping TypeName="AnycmdModel.DeveloperId">
               <MappingFragment StoreEntitySet="DeveloperId">
+                <ScalarProperty Name="AcContent" ColumnName="AcContent" />
+                <ScalarProperty Name="AcContentType" ColumnName="AcContentType" />
                 <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
                 <ScalarProperty Name="Etag" ColumnName="Etag" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />

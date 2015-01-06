@@ -128,7 +128,7 @@ namespace Anycmd.Tests
             moAcDomainBootstrap.Setup<IList<Menu>>(a => a.GetAllMenus()).Returns(this.GetRequiredService<IRepository<Menu>>().AsQueryable().ToList());
             moAcDomainBootstrap.Setup<IList<UiView>>(a => a.GetAllUiViews()).Returns(this.GetRequiredService<IRepository<UiView>>().AsQueryable().ToList());
             moAcDomainBootstrap.Setup<IList<UiViewButton>>(a => a.GetAllUiViewButtons()).Returns(this.GetRequiredService<IRepository<UiViewButton>>().AsQueryable().ToList());
-            moAcDomainBootstrap.Setup<IList<PrivilegeBigram>>(a => a.GetPrivilegeBigrams()).Returns(this.GetRequiredService<IRepository<PrivilegeBigram>>().AsQueryable().ToList());
+            moAcDomainBootstrap.Setup<IList<Privilege>>(a => a.GetPrivileges()).Returns(this.GetRequiredService<IRepository<Privilege>>().AsQueryable().ToList());
             moAcDomainBootstrap.Setup<IList<ResourceType>>(a => a.GetAllResources()).Returns(this.GetRequiredService<IRepository<ResourceType>>().AsQueryable().ToList());
             moAcDomainBootstrap.Setup<IList<Role>>(a => a.GetAllRoles()).Returns(this.GetRequiredService<IRepository<Role>>().AsQueryable().ToList());
             moAcDomainBootstrap.Setup<IList<SsdSet>>(a => a.GetAllSsdSets()).Returns(this.GetRequiredService<IRepository<SsdSet>>().AsQueryable().ToList());

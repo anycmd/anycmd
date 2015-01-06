@@ -8,7 +8,7 @@ namespace Anycmd.Engine.Ac.Abstractions
     /// <summary>
     /// 权限二元组基类。
     /// </summary>
-    public abstract class PrivilegeBigramBase : EntityBase, IPrivilegeBigram
+    public abstract class PrivilegeBase : EntityBase, IPrivilege
     {
         private string _subjectType;
         private Guid _subjectInstanceId;
@@ -81,9 +81,5 @@ namespace Anycmd.Engine.Ac.Abstractions
                 _objectInstanceId = value;
             }
         }
-
-        public int PrivilegeOrientation { get; set; }
-
-        public string PrivilegeConstraint { get; set; }
     }
 }

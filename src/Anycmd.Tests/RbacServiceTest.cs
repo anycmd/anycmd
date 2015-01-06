@@ -145,7 +145,7 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             var rbacService = host.RetrieveRequiredService<IRbacService>();
-            var privilegeBigramRepository = host.RetrieveRequiredService<IRepository<PrivilegeBigram>>();
+            var privilegeBigramRepository = host.RetrieveRequiredService<IRepository<Privilege>>();
             var roleId = Guid.NewGuid();
             rbacService.AddRole(new RoleCreateInput
             {
@@ -188,7 +188,7 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             var rbacService = host.RetrieveRequiredService<IRbacService>();
-            var privilegeBigramRepository = host.RetrieveRequiredService<IRepository<PrivilegeBigram>>();
+            var privilegeBigramRepository = host.RetrieveRequiredService<IRepository<Privilege>>();
             var roleId = Guid.NewGuid();
             rbacService.AddRole(new RoleCreateInput
             {
@@ -234,7 +234,7 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             var rbacService = host.RetrieveRequiredService<IRbacService>();
-            var privilegeBigramRepository = host.RetrieveRequiredService<IRepository<PrivilegeBigram>>();
+            var privilegeBigramRepository = host.RetrieveRequiredService<IRepository<Privilege>>();
             var roleId = Guid.NewGuid();
             rbacService.AddRole(new RoleCreateInput
             {
@@ -271,7 +271,7 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             var rbacService = host.RetrieveRequiredService<IRbacService>();
-            var privilegeBigramRepository = host.RetrieveRequiredService<IRepository<PrivilegeBigram>>();
+            var privilegeBigramRepository = host.RetrieveRequiredService<IRepository<Privilege>>();
             var roleId = Guid.NewGuid();
             rbacService.AddRole(new RoleCreateInput
             {
@@ -442,13 +442,13 @@ namespace Anycmd.Tests
             }));
             Guid entityId = Guid.NewGuid();
             // 授予账户角色
-            host.Handle(new AddPrivilegeBigramCommand(new PrivilegeBigramCreateIo
+            host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
             {
                 Id = entityId,
                 SubjectInstanceId = accountId,
                 SubjectType = UserAcSubjectType.Account.ToString(),// 主体是账户
-                PrivilegeConstraint = null,
-                PrivilegeOrientation = 1,
+                AcContent = null,
+                AcContentType = null,
                 ObjectInstanceId = roleId,
                 ObjectType = AcElementType.Role.ToString()
             }));
@@ -464,25 +464,25 @@ namespace Anycmd.Tests
             }));
             entityId = Guid.NewGuid();
             // 授予账户组织结构
-            host.Handle(new AddPrivilegeBigramCommand(new PrivilegeBigramCreateIo
+            host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
             {
                 Id = entityId,
                 SubjectInstanceId = accountId,
                 SubjectType = UserAcSubjectType.Account.ToString(),// 主体是账户
-                PrivilegeConstraint = null,
-                PrivilegeOrientation = 1,
+                AcContent = null,
+                AcContentType = null,
                 ObjectInstanceId = organizationId,
                 ObjectType = AcElementType.Organization.ToString()
             }));
             // 授予组织结构角色
             entityId = Guid.NewGuid();
-            host.Handle(new AddPrivilegeBigramCommand(new PrivilegeBigramCreateIo
+            host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
             {
                 Id = entityId,
                 SubjectInstanceId = organizationId,
                 SubjectType = UserAcSubjectType.Organization.ToString(),// 主体是账户
-                PrivilegeConstraint = null,
-                PrivilegeOrientation = 1,
+                AcContent = null,
+                AcContentType = null,
                 ObjectInstanceId = roleId,
                 ObjectType = AcElementType.Role.ToString()
             }));
@@ -500,25 +500,25 @@ namespace Anycmd.Tests
             }));
             entityId = Guid.NewGuid();
             // 授予账户工作组
-            host.Handle(new AddPrivilegeBigramCommand(new PrivilegeBigramCreateIo
+            host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
             {
                 Id = entityId,
                 SubjectInstanceId = accountId,
                 SubjectType = UserAcSubjectType.Account.ToString(),// 主体是账户
-                PrivilegeConstraint = null,
-                PrivilegeOrientation = 1,
+                AcContent = null,
+                AcContentType = null,
                 ObjectInstanceId = groupId,
                 ObjectType = AcElementType.Group.ToString()
             }));
             // 授予工作组角色
             entityId = Guid.NewGuid();
-            host.Handle(new AddPrivilegeBigramCommand(new PrivilegeBigramCreateIo
+            host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
             {
                 Id = entityId,
                 SubjectInstanceId = roleId,
                 SubjectType = UserAcSubjectType.Role.ToString(),// 主体是账户
-                PrivilegeConstraint = null,
-                PrivilegeOrientation = 1,
+                AcContent = null,
+                AcContentType = null,
                 ObjectInstanceId = groupId,
                 ObjectType = AcElementType.Group.ToString()
             }));
@@ -535,24 +535,24 @@ namespace Anycmd.Tests
                 Icon = null
             }));
             entityId = Guid.NewGuid();
-            host.Handle(new AddPrivilegeBigramCommand(new PrivilegeBigramCreateIo
+            host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
             {
                 Id = entityId,
                 SubjectInstanceId = organizationId,
                 SubjectType = UserAcSubjectType.Organization.ToString(),// 主体是账户
-                PrivilegeConstraint = null,
-                PrivilegeOrientation = 1,
+                AcContent = null,
+                AcContentType = null,
                 ObjectInstanceId = roleId,
                 ObjectType = AcElementType.Role.ToString()
             }));
             entityId = Guid.NewGuid();
-            host.Handle(new AddPrivilegeBigramCommand(new PrivilegeBigramCreateIo
+            host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
             {
                 Id = entityId,
                 SubjectInstanceId = roleId,
                 SubjectType = UserAcSubjectType.Role.ToString(),// 主体是账户
-                PrivilegeConstraint = null,
-                PrivilegeOrientation = 1,
+                AcContent = null,
+                AcContentType = null,
                 ObjectInstanceId = groupId,
                 ObjectType = AcElementType.Group.ToString()
             }));
@@ -569,13 +569,13 @@ namespace Anycmd.Tests
                 Icon = null
             }));
             entityId = Guid.NewGuid();
-            host.Handle(new AddPrivilegeBigramCommand(new PrivilegeBigramCreateIo
+            host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
             {
                 Id = entityId,
                 SubjectInstanceId = roleId,
                 SubjectType = UserAcSubjectType.Role.ToString(),// 主体是账户
-                PrivilegeConstraint = null,
-                PrivilegeOrientation = 1,
+                AcContent = null,
+                AcContentType = null,
                 ObjectInstanceId = groupId,
                 ObjectType = AcElementType.Group.ToString()
             }));
@@ -664,25 +664,25 @@ namespace Anycmd.Tests
             }));
             Guid entityId = Guid.NewGuid();
             // 授予角色功能
-            host.Handle(new AddPrivilegeBigramCommand(new PrivilegeBigramCreateIo
+            host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
             {
                 Id = entityId,
                 SubjectInstanceId = roleId,
                 SubjectType = UserAcSubjectType.Role.ToString(),// 主体是账户
-                PrivilegeConstraint = null,
-                PrivilegeOrientation = 1,
+                AcContent = null,
+                AcContentType = null,
                 ObjectInstanceId = functionId,
                 ObjectType = AcElementType.Function.ToString()
             }));
             // 授予账户角色
             entityId = Guid.NewGuid();
-            host.Handle(new AddPrivilegeBigramCommand(new PrivilegeBigramCreateIo
+            host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
             {
                 Id = entityId,
                 SubjectInstanceId = accountId,
                 SubjectType = UserAcSubjectType.Account.ToString(),// 主体是账户
-                PrivilegeConstraint = null,
-                PrivilegeOrientation = 1,
+                AcContent = null,
+                AcContentType = null,
                 ObjectInstanceId = roleId,
                 ObjectType = AcElementType.Role.ToString()
             }));
@@ -699,13 +699,13 @@ namespace Anycmd.Tests
                 ResourceTypeId = host.ResourceTypeSet.First().Id,
                 SortCode = 10
             }));
-            host.Handle(new AddPrivilegeBigramCommand(new PrivilegeBigramCreateIo
+            host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
             {
                 Id = entityId,
                 SubjectInstanceId = accountId,
                 SubjectType = UserAcSubjectType.Account.ToString(),// 主体是账户
-                PrivilegeConstraint = null,
-                PrivilegeOrientation = 1,
+                AcContent = null,
+                AcContentType = null,
                 ObjectInstanceId = functionId,
                 ObjectType = AcElementType.Function.ToString()
             }));
@@ -806,13 +806,13 @@ namespace Anycmd.Tests
             }));
             Guid entityId = Guid.NewGuid();
             // 授予账户角色
-            host.Handle(new AddPrivilegeBigramCommand(new PrivilegeBigramCreateIo
+            host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
             {
                 Id = entityId,
                 SubjectInstanceId = accountId,
                 SubjectType = UserAcSubjectType.Account.ToString(),// 主体是账户
-                PrivilegeConstraint = null,
-                PrivilegeOrientation = 1,
+                AcContent = null,
+                AcContentType = null,
                 ObjectInstanceId = roleId,
                 ObjectType = AcElementType.Role.ToString()
             }));
@@ -828,25 +828,25 @@ namespace Anycmd.Tests
             }));
             entityId = Guid.NewGuid();
             // 授予账户组织结构
-            host.Handle(new AddPrivilegeBigramCommand(new PrivilegeBigramCreateIo
+            host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
             {
                 Id = entityId,
                 SubjectInstanceId = accountId,
                 SubjectType = UserAcSubjectType.Account.ToString(),// 主体是账户
-                PrivilegeConstraint = null,
-                PrivilegeOrientation = 1,
+                AcContent = null,
+                AcContentType = null,
                 ObjectInstanceId = organizationId,
                 ObjectType = AcElementType.Organization.ToString()
             }));
             // 授予组织结构角色
             entityId = Guid.NewGuid();
-            host.Handle(new AddPrivilegeBigramCommand(new PrivilegeBigramCreateIo
+            host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
             {
                 Id = entityId,
                 SubjectInstanceId = organizationId,
                 SubjectType = UserAcSubjectType.Organization.ToString(),// 主体是账户
-                PrivilegeConstraint = null,
-                PrivilegeOrientation = 1,
+                AcContent = null,
+                AcContentType = null,
                 ObjectInstanceId = roleId,
                 ObjectType = AcElementType.Role.ToString()
             }));
@@ -864,25 +864,25 @@ namespace Anycmd.Tests
             }));
             entityId = Guid.NewGuid();
             // 授予账户工作组
-            host.Handle(new AddPrivilegeBigramCommand(new PrivilegeBigramCreateIo
+            host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
             {
                 Id = entityId,
                 SubjectInstanceId = accountId,
                 SubjectType = UserAcSubjectType.Account.ToString(),// 主体是账户
-                PrivilegeConstraint = null,
-                PrivilegeOrientation = 1,
+                AcContent = null,
+                AcContentType = null,
                 ObjectInstanceId = groupId,
                 ObjectType = AcElementType.Group.ToString()
             }));
             // 授予工作组角色
             entityId = Guid.NewGuid();
-            host.Handle(new AddPrivilegeBigramCommand(new PrivilegeBigramCreateIo
+            host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
             {
                 Id = entityId,
                 SubjectInstanceId = roleId,
                 SubjectType = UserAcSubjectType.Role.ToString(),// 主体是账户
-                PrivilegeConstraint = null,
-                PrivilegeOrientation = 1,
+                AcContent = null,
+                AcContentType = null,
                 ObjectInstanceId = groupId,
                 ObjectType = AcElementType.Group.ToString()
             }));
@@ -899,24 +899,24 @@ namespace Anycmd.Tests
                 Icon = null
             }));
             entityId = Guid.NewGuid();
-            host.Handle(new AddPrivilegeBigramCommand(new PrivilegeBigramCreateIo
+            host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
             {
                 Id = entityId,
                 SubjectInstanceId = organizationId,
                 SubjectType = UserAcSubjectType.Organization.ToString(),// 主体是账户
-                PrivilegeConstraint = null,
-                PrivilegeOrientation = 1,
+                AcContent = null,
+                AcContentType = null,
                 ObjectInstanceId = roleId,
                 ObjectType = AcElementType.Role.ToString()
             }));
             entityId = Guid.NewGuid();
-            host.Handle(new AddPrivilegeBigramCommand(new PrivilegeBigramCreateIo
+            host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
             {
                 Id = entityId,
                 SubjectInstanceId = roleId,
                 SubjectType = UserAcSubjectType.Role.ToString(),// 主体是账户
-                PrivilegeConstraint = null,
-                PrivilegeOrientation = 1,
+                AcContent = null,
+                AcContentType = null,
                 ObjectInstanceId = groupId,
                 ObjectType = AcElementType.Group.ToString()
             }));
@@ -933,13 +933,13 @@ namespace Anycmd.Tests
                 Icon = null
             }));
             entityId = Guid.NewGuid();
-            host.Handle(new AddPrivilegeBigramCommand(new PrivilegeBigramCreateIo
+            host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
             {
                 Id = entityId,
                 SubjectInstanceId = roleId,
                 SubjectType = UserAcSubjectType.Role.ToString(),// 主体是账户
-                PrivilegeConstraint = null,
-                PrivilegeOrientation = 1,
+                AcContent = null,
+                AcContentType = null,
                 ObjectInstanceId = groupId,
                 ObjectType = AcElementType.Group.ToString()
             }));
@@ -971,7 +971,7 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             var rbacService = host.RetrieveRequiredService<IRbacService>();
-            var privilegeBigramRepository = host.RetrieveRequiredService<IRepository<PrivilegeBigram>>();
+            var privilegeBigramRepository = host.RetrieveRequiredService<IRepository<Privilege>>();
             var roleId = Guid.NewGuid();
             rbacService.AddRole(new RoleCreateInput
             {

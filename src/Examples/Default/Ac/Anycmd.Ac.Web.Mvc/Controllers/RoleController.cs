@@ -150,7 +150,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             }
             var data = new List<AccountAssignRoleTr>();
             var privilegeType = AcElementType.Role.ToName();
-            var accountRoles = GetRequiredService<IRepository<PrivilegeBigram>>().AsQueryable().Where(a => a.SubjectInstanceId == requestData.AccountId && a.ObjectType == privilegeType);
+            var accountRoles = GetRequiredService<IRepository<Privilege>>().AsQueryable().Where(a => a.SubjectInstanceId == requestData.AccountId && a.ObjectType == privilegeType);
             if (requestData.IsAssigned.HasValue)
             {
                 if (requestData.IsAssigned.Value)
@@ -604,21 +604,21 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 if (state == "modified" || state == "")
                 {
                     bool isAssigned = bool.Parse(row["IsAssigned"].ToString());
-                    PrivilegeBigram entity = GetRequiredService<IRepository<PrivilegeBigram>>().GetByKey(id);
+                    Privilege entity = GetRequiredService<IRepository<Privilege>>().GetByKey(id);
                     if (entity != null)
                     {
                         if (!isAssigned)
                         {
-                            AcDomain.Handle(new RemovePrivilegeBigramCommand(entity.Id));
+                            AcDomain.Handle(new RemovePrivilegeCommand(entity.Id));
                         }
                         else
                         {
-                            if (row.ContainsKey("PrivilegeConstraint"))
+                            if (row.ContainsKey("AcContent"))
                             {
-                                AcDomain.Handle(new UpdatePrivilegeBigramCommand(new PrivilegeBigramUpdateIo
+                                AcDomain.Handle(new UpdatePrivilegeCommand(new PrivilegeUpdateIo
                                 {
                                     Id = entity.Id,
-                                    PrivilegeConstraint = row["PrivilegeConstraint"] == null ? null : row["PrivilegeConstraint"].ToString()
+                                    AcContent = row["AcContent"] == null ? null : row["AcContent"].ToString()
                                 }));
                             }
                         }
@@ -626,21 +626,21 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                     else if (isAssigned)
                     {
 
-                        var createInput = new PrivilegeBigramCreateIo()
+                        var createInput = new PrivilegeCreateIo()
                         {
                             Id = new Guid(row["Id"].ToString()),
                             SubjectType = UserAcSubjectType.Role.ToName(),
                             SubjectInstanceId = new Guid(row["RoleId"].ToString()),
                             ObjectInstanceId = new Guid(row["FunctionId"].ToString()),
                             ObjectType = AcElementType.Function.ToName(),
-                            PrivilegeConstraint = null,
-                            PrivilegeOrientation = 1
+                            AcContent = null,
+                            AcContentType = null
                         };
-                        if (row.ContainsKey("PrivilegeConstraint"))
+                        if (row.ContainsKey("AcContent"))
                         {
-                            createInput.PrivilegeConstraint = row["PrivilegeConstraint"] == null ? null : row["PrivilegeConstraint"].ToString();
+                            createInput.AcContent = row["AcContent"] == null ? null : row["AcContent"].ToString();
                         }
-                        AcDomain.Handle(new AddPrivilegeBigramCommand(createInput));
+                        AcDomain.Handle(new AddPrivilegeCommand(createInput));
                     }
                 }
             }
@@ -665,20 +665,20 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 if (!string.IsNullOrEmpty(item))
                 {
                     var mId = new Guid(item);
-                    var entity = GetRequiredService<IRepository<PrivilegeBigram>>().AsQueryable().FirstOrDefault(a => a.SubjectType == subjectType && a.SubjectInstanceId == roleId && a.ObjectType == acObjectType && a.ObjectInstanceId == mId);
+                    var entity = GetRequiredService<IRepository<Privilege>>().AsQueryable().FirstOrDefault(a => a.SubjectType == subjectType && a.SubjectInstanceId == roleId && a.ObjectType == acObjectType && a.ObjectInstanceId == mId);
                     if (entity == null)
                     {
-                        var createInput = new PrivilegeBigramCreateIo
+                        var createInput = new PrivilegeCreateIo
                         {
                             Id = Guid.NewGuid(),
                             SubjectType = subjectType,
                             SubjectInstanceId = roleId,
                             ObjectInstanceId = mId,
                             ObjectType = acObjectType,
-                            PrivilegeOrientation = 1,
-                            PrivilegeConstraint = null
+                            AcContentType = null,
+                            AcContent = null
                         };
-                        AcDomain.Handle(new AddPrivilegeBigramCommand(createInput));
+                        AcDomain.Handle(new AddPrivilegeCommand(createInput));
                     }
                 }
             }
@@ -687,10 +687,10 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 if (!string.IsNullOrEmpty(item))
                 {
                     var mId = new Guid(item);
-                    var entity = GetRequiredService<IRepository<PrivilegeBigram>>().AsQueryable().FirstOrDefault(a => a.SubjectType == subjectType && a.SubjectInstanceId == roleId && a.ObjectType == acObjectType && a.ObjectInstanceId == mId);
+                    var entity = GetRequiredService<IRepository<Privilege>>().AsQueryable().FirstOrDefault(a => a.SubjectType == subjectType && a.SubjectInstanceId == roleId && a.ObjectType == acObjectType && a.ObjectInstanceId == mId);
                     if (entity != null)
                     {
-                        AcDomain.Handle(new RemovePrivilegeBigramCommand(entity.Id));
+                        AcDomain.Handle(new RemovePrivilegeCommand(entity.Id));
                     }
                 }
             }
@@ -709,7 +709,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             foreach (var item in aIds)
             {
                 var accountId = new Guid(item);
-                AcDomain.Handle(new AddPrivilegeBigramCommand(new PrivilegeBigramCreateIo
+                AcDomain.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
                 {
                     Id = Guid.NewGuid(),
                     ObjectInstanceId = roleId,
@@ -731,7 +731,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             string[] ids = id.Split(',');
             foreach (var item in ids)
             {
-                AcDomain.Handle(new RemovePrivilegeBigramCommand(new Guid(item)));
+                AcDomain.Handle(new RemovePrivilegeCommand(new Guid(item)));
             }
 
             return this.JsonResult(new ResponseData { success = true, id = id });
@@ -756,42 +756,42 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 if (state == "modified" || state == "")
                 {
                     bool isAssigned = bool.Parse(row["IsAssigned"].ToString());
-                    var entity = GetRequiredService<IRepository<PrivilegeBigram>>().GetByKey(id);
+                    var entity = GetRequiredService<IRepository<Privilege>>().GetByKey(id);
                     if (entity != null)
                     {
                         if (!isAssigned)
                         {
-                            AcDomain.Handle(new RemovePrivilegeBigramCommand(id));
+                            AcDomain.Handle(new RemovePrivilegeCommand(id));
                         }
                         else
                         {
-                            if (row.ContainsKey("PrivilegeConstraint"))
+                            if (row.ContainsKey("AcContent"))
                             {
-                                AcDomain.Handle(new UpdatePrivilegeBigramCommand(new PrivilegeBigramUpdateIo
+                                AcDomain.Handle(new UpdatePrivilegeCommand(new PrivilegeUpdateIo
                                 {
                                     Id = id,
-                                    PrivilegeConstraint = row["PrivilegeConstraint"].ToString()
+                                    AcContent = row["AcContent"].ToString()
                                 }));
                             }
                         }
                     }
                     else if (isAssigned)
                     {
-                        var createInput = new PrivilegeBigramCreateIo()
+                        var createInput = new PrivilegeCreateIo()
                         {
                             Id = new Guid(row["Id"].ToString()),
                             ObjectInstanceId = new Guid(row["GroupId"].ToString()),
                             ObjectType = AcElementType.Group.ToName(),
                             SubjectType = UserAcSubjectType.Role.ToName(),
                             SubjectInstanceId = new Guid(row["RoleId"].ToString()),
-                            PrivilegeConstraint = null,
-                            PrivilegeOrientation = 1
+                            AcContent = null,
+                            AcContentType = null
                         };
-                        if (row.ContainsKey("PrivilegeConstraint"))
+                        if (row.ContainsKey("AcContent"))
                         {
-                            createInput.PrivilegeConstraint = row["PrivilegeConstraint"].ToString();
+                            createInput.AcContent = row["AcContent"].ToString();
                         }
-                        AcDomain.Handle(new AddPrivilegeBigramCommand(createInput));
+                        AcDomain.Handle(new AddPrivilegeCommand(createInput));
                     }
                 }
             }

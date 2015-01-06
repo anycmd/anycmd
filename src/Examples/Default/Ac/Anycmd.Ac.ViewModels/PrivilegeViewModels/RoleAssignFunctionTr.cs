@@ -51,7 +51,7 @@ namespace Anycmd.Ac.ViewModels.PrivilegeViewModels
         /// <summary>
         /// 
         /// </summary>
-        public string PrivilegeConstraint { get; set; }
+        public string AcContent { get; set; }
         /// <summary>
         /// 
         /// </summary>
@@ -59,7 +59,7 @@ namespace Anycmd.Ac.ViewModels.PrivilegeViewModels
         /// <summary>
         /// 
         /// </summary>
-        public int PrivilegeOrientation { get; set; }
+        public string AcContentType { get; set; }
         /// <summary>
         /// 
         /// </summary>

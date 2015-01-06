@@ -284,7 +284,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             foreach (var item in aIds)
             {
                 var accountId = new Guid(item);
-                AcDomain.Handle(new AddPrivilegeBigramCommand(new PrivilegeBigramCreateIo
+                AcDomain.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
                 {
                     SubjectInstanceId = accountId,
                     SubjectType = UserAcSubjectType.Account.ToName(),
@@ -306,7 +306,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             string[] ids = id.Split(',');
             foreach (var item in ids)
             {
-                AcDomain.Handle(new RemovePrivilegeBigramCommand(new Guid(item)));
+                AcDomain.Handle(new RemovePrivilegeCommand(new Guid(item)));
             }
 
             return this.JsonResult(new ResponseData { success = true, id = id });
@@ -389,17 +389,17 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 if (state == "modified" || state == "")
                 {
                     bool isAssigned = bool.Parse(row["IsAssigned"].ToString());
-                    var entity = GetRequiredService<IRepository<PrivilegeBigram>>().GetByKey(id);
+                    var entity = GetRequiredService<IRepository<Privilege>>().GetByKey(id);
                     if (entity != null)
                     {
                         if (!isAssigned)
                         {
-                            AcDomain.Handle(new RemovePrivilegeBigramCommand(id));
+                            AcDomain.Handle(new RemovePrivilegeCommand(id));
                         }
                     }
                     else if (isAssigned)
                     {
-                        AcDomain.Handle(new AddPrivilegeBigramCommand(new PrivilegeBigramCreateIo
+                        AcDomain.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
                         {
                             Id = new Guid(row["Id"].ToString()),
                             ObjectType = AcElementType.Role.ToName(),

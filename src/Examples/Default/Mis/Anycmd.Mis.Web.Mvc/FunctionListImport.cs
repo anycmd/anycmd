@@ -37,7 +37,7 @@ namespace Anycmd.Mis.Web.Mvc
                 {
                     if (_isChanged)
                     {
-                        var privilegeBigramRepository = host.RetrieveRequiredService<IRepository<PrivilegeBigram>>();
+                        var privilegeBigramRepository = host.RetrieveRequiredService<IRepository<Privilege>>();
                         if (string.IsNullOrEmpty(appSystemCode))
                         {
                             throw new ArgumentNullException("appSystemCode");
@@ -208,7 +208,7 @@ namespace Anycmd.Mis.Web.Mvc
                                 foreach (var rolePrivilege in privilegeBigramRepository.AsQueryable().Where(a => privilegeType == a.ObjectType && a.ObjectInstanceId == oldFunction.Id).ToList())
                                 {
                                     privilegeBigramRepository.Remove(rolePrivilege);
-                                    host.EventBus.Publish(new PrivilegeBigramRemovedEvent(rolePrivilege));
+                                    host.EventBus.Publish(new PrivilegeRemovedEvent(rolePrivilege));
                                 }
                                 host.EventBus.Commit();
                                 privilegeBigramRepository.Context.Commit();

@@ -9,28 +9,28 @@ namespace Anycmd.Engine.Host.Ac
     /// <summary>
     /// 表示权限二元组数据访问实体。
     /// </summary>
-    public class PrivilegeBigram : PrivilegeBigramBase, IAggregateRoot
+    public class Privilege : PrivilegeBase, IAggregateRoot
     {
-        public PrivilegeBigram() { }
+        public Privilege() { }
 
-        public static PrivilegeBigram Create(IPrivilegeBigramCreateIo input)
+        public static Privilege Create(IPrivilegeCreateIo input)
         {
             Debug.Assert(input.Id != null, "input.Id != null");
-            return new PrivilegeBigram
+            return new Privilege
             {
                 Id = input.Id.Value,
                 SubjectType = input.SubjectType,
                 SubjectInstanceId = input.SubjectInstanceId,
                 ObjectType = input.ObjectType,
                 ObjectInstanceId = input.ObjectInstanceId,
-                PrivilegeConstraint = input.PrivilegeConstraint,
-                PrivilegeOrientation = input.PrivilegeOrientation
+                AcContent = input.AcContent,
+                AcContentType = input.AcContentType
             };
         }
 
-        public void Update(IPrivilegeBigramUpdateIo input)
+        public void Update(IPrivilegeUpdateIo input)
         {
-            this.PrivilegeConstraint = input.PrivilegeConstraint;
+            this.AcContent = input.AcContent;
         }
     }
 }

@@ -28,6 +28,10 @@ namespace Anycmd.Model
             }
         }
 
+        public string AcContentType { get; set; }
+
+        public string AcContent { get; set; }
+
         /// <summary>
         /// 
         /// </summary>

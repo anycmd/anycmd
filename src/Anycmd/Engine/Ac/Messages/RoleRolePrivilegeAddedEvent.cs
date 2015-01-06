@@ -6,7 +6,7 @@ namespace Anycmd.Engine.Ac.Messages
 
     public class RoleRolePrivilegeAddedEvent : DomainEvent
     {
-        public RoleRolePrivilegeAddedEvent(PrivilegeBigramBase source)
+        public RoleRolePrivilegeAddedEvent(PrivilegeBase source)
             : base(source)
         {
         }

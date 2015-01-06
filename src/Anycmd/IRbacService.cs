@@ -36,8 +36,8 @@ namespace Anycmd
 
         /// <summary>
         /// 【核心Rbac管理函数】该命令从Rbac数据库中删除一个已经存在的用户。该命令可用当且仅当被删除的用户是Account数据集（Account表）
-        /// 的一个成员（记录）。Accounts数据集（Account表）将被更新、PrivilegeBigram数据集（PrivilegeBigram表）将被更新，
-        /// PrivilegeBigram集合中主体为当前被删除的账户的成员将被删除。如果一个正处在会话中的用户被删除，anycmd
+        /// 的一个成员（记录）。Accounts数据集（Account表）将被更新、Privilege数据集（Privilege表）将被更新，
+        /// Privilege集合中主体为当前被删除的账户的成员将被删除。如果一个正处在会话中的用户被删除，anycmd
         /// 的实现会等待该会话结束后删除，但账户管理员是可以看到被删除的账户是否正在会话的且有权的管理员是可以强行终止给定的账户的会话的。
         /// </summary>
         /// <param name="accountId"></param>
@@ -59,7 +59,7 @@ namespace Anycmd
 
         /// <summary>
         /// 【核心Rbac、通用角色层次、静态职责分离管理函数】该命令给用户分配角色。该命令可用当且仅当该用户是Account数据集（Account表）的成员（记录），该角色是RoleSet
-        /// 数据集的成员，并且该角色尚未分配给该用户。数据集（表）PrivilegeBigram将被更新。
+        /// 数据集的成员，并且该角色尚未分配给该用户。数据集（表）Privilege将被更新。
         /// 1 该用户是Account数据集（表）的成员（记录）；
         /// 2 该角色是RoleSet数据集的成员；
         /// 3 该用户还没有被分配该角色；

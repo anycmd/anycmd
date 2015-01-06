@@ -48,35 +48,35 @@ namespace Anycmd.Tests
             host.RetrieveRequiredService<IRepository<Account>>().Context.Commit();
             var entityId = Guid.NewGuid();
 
-            host.Handle(new AddPrivilegeBigramCommand(new PrivilegeBigramCreateIo
+            host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
             {
                 Id = entityId,
                 SubjectInstanceId = accountId,
                 SubjectType = UserAcSubjectType.Account.ToString(),// 主体是账户
-                PrivilegeConstraint = null,
-                PrivilegeOrientation = 1,
+                AcContent = null,
+                AcContentType = null,
                 ObjectInstanceId = groupId,
                 ObjectType = AcElementType.Group.ToString()
             }));
             Assert.Equal(0, host.PrivilegeSet.Count()); // 主体为账户的权限记录不驻留在内存中所以为0
-            var privilegeBigram = host.RetrieveRequiredService<IRepository<PrivilegeBigram>>().AsQueryable().FirstOrDefault(a => a.Id == entityId);
+            var privilegeBigram = host.RetrieveRequiredService<IRepository<Privilege>>().AsQueryable().FirstOrDefault(a => a.Id == entityId);
             Assert.NotNull(privilegeBigram);
             Assert.Equal(accountId, privilegeBigram.SubjectInstanceId);
             Assert.Equal(groupId, privilegeBigram.ObjectInstanceId);
 
-            host.Handle(new UpdatePrivilegeBigramCommand(new PrivilegeBigramUpdateIo
+            host.Handle(new UpdatePrivilegeCommand(new PrivilegeUpdateIo
             {
                 Id = entityId,
-                PrivilegeConstraint = "this is a test"
+                AcContent = "this is a test"
             }));
             Assert.Equal(0, host.PrivilegeSet.Count());// 主体为账户的权限记录不驻留在内存中所以为0
-            var firstOrDefault = host.RetrieveRequiredService<IRepository<PrivilegeBigram>>().AsQueryable().FirstOrDefault(a => a.Id == entityId);
+            var firstOrDefault = host.RetrieveRequiredService<IRepository<Privilege>>().AsQueryable().FirstOrDefault(a => a.Id == entityId);
             if (
                 firstOrDefault != null)
-                Assert.Equal("this is a test", firstOrDefault.PrivilegeConstraint);
+                Assert.Equal("this is a test", firstOrDefault.AcContent);
 
-            host.Handle(new RemovePrivilegeBigramCommand(entityId));
-            Assert.Null(host.RetrieveRequiredService<IRepository<PrivilegeBigram>>().AsQueryable().FirstOrDefault(a => a.Id == entityId));
+            host.Handle(new RemovePrivilegeCommand(entityId));
+            Assert.Null(host.RetrieveRequiredService<IRepository<Privilege>>().AsQueryable().FirstOrDefault(a => a.Id == entityId));
         }
         #endregion
 
@@ -120,30 +120,30 @@ namespace Anycmd.Tests
             Assert.True(host.FunctionSet.TryGetFunction(functionId, out functionById));
             var entityId = Guid.NewGuid();
 
-            host.Handle(new AddPrivilegeBigramCommand(new PrivilegeBigramCreateIo
+            host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
             {
                 Id = entityId,
                 SubjectInstanceId = roleId,
                 SubjectType = UserAcSubjectType.Role.ToString(),// 主体是角色
-                PrivilegeConstraint = null,
-                PrivilegeOrientation = 1,
+                AcContent = null,
+                AcContentType = null,
                 ObjectInstanceId = functionId,
                 ObjectType = AcElementType.Function.ToString()
             }));
-            PrivilegeBigramState privilegeBigram = host.PrivilegeSet.First(a => a.Id == entityId);
+            PrivilegeState privilegeBigram = host.PrivilegeSet.First(a => a.Id == entityId);
             Assert.NotNull(privilegeBigram);
-            Assert.NotNull(host.RetrieveRequiredService<IRepository<PrivilegeBigram>>().AsQueryable().FirstOrDefault(a => a.Id == entityId));
+            Assert.NotNull(host.RetrieveRequiredService<IRepository<Privilege>>().AsQueryable().FirstOrDefault(a => a.Id == entityId));
             Assert.Equal(roleId, privilegeBigram.SubjectInstanceId);
             Assert.Equal(functionId, privilegeBigram.ObjectInstanceId);
 
-            host.Handle(new UpdatePrivilegeBigramCommand(new PrivilegeBigramUpdateIo
+            host.Handle(new UpdatePrivilegeCommand(new PrivilegeUpdateIo
             {
                 Id = entityId,
-                PrivilegeConstraint = "this is a test"
+                AcContent = "this is a test"
             }));
-            Assert.Equal("this is a test", host.PrivilegeSet.Single(a => a.Id == entityId).PrivilegeConstraint);
+            Assert.Equal("this is a test", host.PrivilegeSet.Single(a => a.Id == entityId).AcContent);
 
-            host.Handle(new RemovePrivilegeBigramCommand(entityId));
+            host.Handle(new RemovePrivilegeCommand(entityId));
             Assert.Null(host.PrivilegeSet.FirstOrDefault(a => a.Id == entityId));
         }
 
@@ -162,13 +162,13 @@ namespace Anycmd.Tests
             bool catched = false;
             try
             {
-                host.Handle(new AddPrivilegeBigramCommand(new PrivilegeBigramCreateIo
+                host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
                 {
                     Id = Guid.NewGuid(),
                     SubjectInstanceId = Guid.NewGuid(),
                     SubjectType = "Group",// 用户类别的主体类型只有Account、Organization、Role。Group不是合法的主体类型所以会报错。
-                    PrivilegeConstraint = null,
-                    PrivilegeOrientation = 1,
+                    AcContent = null,
+                    AcContentType = null,
                     ObjectInstanceId = Guid.NewGuid(),
                     ObjectType = AcElementType.Group.ToString()
                 }));
@@ -185,13 +185,13 @@ namespace Anycmd.Tests
             catched = false;
             try
             {
-                host.Handle(new AddPrivilegeBigramCommand(new PrivilegeBigramCreateIo
+                host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
                 {
                     Id = Guid.NewGuid(),
                     SubjectInstanceId = Guid.NewGuid(),
                     SubjectType = "InvalidSubjectType",// 非法的Ac元素类型
-                    PrivilegeConstraint = null,
-                    PrivilegeOrientation = 1,
+                    AcContent = null,
+                    AcContentType = null,
                     ObjectInstanceId = Guid.NewGuid(),
                     ObjectType = AcElementType.Group.ToString()
                 }));
@@ -208,13 +208,13 @@ namespace Anycmd.Tests
             catched = false;
             try
             {
-                host.Handle(new AddPrivilegeBigramCommand(new PrivilegeBigramCreateIo
+                host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
                 {
                     Id = Guid.NewGuid(),
                     SubjectInstanceId = Guid.NewGuid(),// 标识为它的账户不存在，应报错
                     SubjectType = "Account",
-                    PrivilegeConstraint = null,
-                    PrivilegeOrientation = 1,
+                    AcContent = null,
+                    AcContentType = null,
                     ObjectInstanceId = Guid.NewGuid(),
                     ObjectType = AcElementType.Group.ToString()
                 }));
@@ -253,13 +253,13 @@ namespace Anycmd.Tests
             catched = false;
             try
             {
-                host.Handle(new AddPrivilegeBigramCommand(new PrivilegeBigramCreateIo
+                host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
                 {
                     Id = Guid.NewGuid(),
                     SubjectInstanceId = accountId,
                     SubjectType = "Account",
-                    PrivilegeConstraint = null,
-                    PrivilegeOrientation = 1,
+                    AcContent = null,
+                    AcContentType = null,
                     ObjectInstanceId = groupId,
                     ObjectType = "InvalidObjectType"// 非法的Ac客体类型应报错
                 }));

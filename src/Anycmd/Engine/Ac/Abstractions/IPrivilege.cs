@@ -22,7 +22,7 @@ namespace Anycmd.Engine.Ac.Abstractions
     /// 权限数据交换所交换的就是它。
     /// </remarks>
     /// </summary>
-    public interface IPrivilegeBigram
+    public interface IPrivilege
     {
         Guid Id { get; }
         /// <summary>
@@ -43,7 +43,7 @@ namespace Anycmd.Engine.Ac.Abstractions
         Guid ObjectInstanceId { get; }
 
         // TODO:以下两个属性会被重构掉，以下两个属性会被xacml的策略取代。
-        int PrivilegeOrientation { get; }
-        string PrivilegeConstraint { get; }
+        string AcContentType { get; }
+        string AcContent { get; }
     }
 }

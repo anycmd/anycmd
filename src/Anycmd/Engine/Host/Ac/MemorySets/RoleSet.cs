@@ -441,7 +441,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 var roleDic = _set._roleDic;
                 var descendantRoles = _set._descendantRoles;
-                var entity = message.Source as PrivilegeBigramBase;
+                var entity = message.Source as PrivilegeBase;
                 RoleState parentRole;
                 Debug.Assert(entity != null, "entity != null");
                 if (roleDic.TryGetValue(entity.SubjectInstanceId, out parentRole))
@@ -493,7 +493,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 var roleDic = _set._roleDic;
                 var descendantRoles = _set._descendantRoles;
-                var entity = message.Source as PrivilegeBigramBase;
+                var entity = message.Source as PrivilegeBase;
                 RoleState parentRole;
                 Debug.Assert(entity != null, "entity != null");
                 if (roleDic.TryGetValue(entity.SubjectInstanceId, out parentRole))

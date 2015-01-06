@@ -230,36 +230,36 @@ namespace Anycmd.Tests
             });
             Assert.True(host.GetUserSession().Identity.IsAuthenticated);
             Assert.Equal(0, host.GetUserSession().AccountPrivilege.Roles.Count);
-            host.Handle(new AddPrivilegeBigramCommand(new PrivilegeBigramCreateIo
+            host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
             {
                 Id = Guid.NewGuid(),
                 SubjectInstanceId = accountId,
                 SubjectType = UserAcSubjectType.Account.ToString(),// 主体是账户
-                PrivilegeConstraint = null,
-                PrivilegeOrientation = 1,
+                AcContent = null,
+                AcContentType = null,
                 ObjectInstanceId = roleId1,
                 ObjectType = AcElementType.Role.ToString()
             }));
-            host.Handle(new AddPrivilegeBigramCommand(new PrivilegeBigramCreateIo
+            host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
             {
                 Id = Guid.NewGuid(),
                 SubjectInstanceId = accountId,
                 SubjectType = UserAcSubjectType.Account.ToString(),// 主体是账户
-                PrivilegeConstraint = null,
-                PrivilegeOrientation = 1,
+                AcContent = null,
+                AcContentType = null,
                 ObjectInstanceId = roleId2,
                 ObjectType = AcElementType.Role.ToString()
             }));
             var catched = false;
             try
             {
-                host.Handle(new AddPrivilegeBigramCommand(new PrivilegeBigramCreateIo
+                host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
                 {
                     Id = Guid.NewGuid(),
                     SubjectInstanceId = accountId,
                     SubjectType = UserAcSubjectType.Account.ToString(),// 主体是账户
-                    PrivilegeConstraint = null,
-                    PrivilegeOrientation = 1,
+                    AcContent = null,
+                    AcContentType = null,
                     ObjectInstanceId = roleId3,
                     ObjectType = AcElementType.Role.ToString()
                 }));

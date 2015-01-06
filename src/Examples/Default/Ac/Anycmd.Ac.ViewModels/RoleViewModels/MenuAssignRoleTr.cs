@@ -27,9 +27,9 @@ namespace Anycmd.Ac.ViewModels.RoleViewModels
         /// </summary>
         public bool IsAssigned { get; set; }
 
-        public int PrivilegeOrientation { get; set; }
+        public string AcContentType { get; set; }
 
-        public string PrivilegeConstraint { get; set; }
+        public string AcContent { get; set; }
 
         /// <summary>
         /// 

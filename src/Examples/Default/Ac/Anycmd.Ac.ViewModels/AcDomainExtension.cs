@@ -583,7 +583,7 @@ namespace Anycmd.Ac.ViewModels
                 Guid? createUserId = null;
                 Guid id;
                 bool isAssigned;
-                int orientation = 0;
+                string orientation = null;
                 string privilegeConstraint = null;
                 if (roleFunction != null)
                 {
@@ -592,8 +592,8 @@ namespace Anycmd.Ac.ViewModels
                     createUserId = roleFunction.CreateUserId;
                     id = roleFunction.Id;
                     isAssigned = true;
-                    orientation = roleFunction.PrivilegeOrientation;
-                    privilegeConstraint = roleFunction.PrivilegeConstraint;
+                    orientation = roleFunction.AcContentType;
+                    privilegeConstraint = roleFunction.AcContent;
                 }
                 else
                 {
@@ -612,8 +612,8 @@ namespace Anycmd.Ac.ViewModels
                     FunctionId = function.Id,
                     Id = id,
                     IsAssigned = isAssigned,
-                    PrivilegeOrientation = orientation,
-                    PrivilegeConstraint = privilegeConstraint,
+                    AcContentType = orientation,
+                    AcContent = privilegeConstraint,
                     ResourceCode = function.Resource.Code,
                     ResourceTypeId = function.ResourceTypeId,
                     ResourceName = function.Resource.Name,
@@ -1077,7 +1077,7 @@ namespace Anycmd.Ac.ViewModels
                 Guid? createUserId = null;
                 Guid id;
                 bool isAssigned;
-                int orientation = 0;
+                string orientation = null;
                 string privilegeConstraint = null;
                 if (roleMenu != null)
                 {
@@ -1086,8 +1086,8 @@ namespace Anycmd.Ac.ViewModels
                     createUserId = roleMenu.CreateUserId;
                     id = roleMenu.Id;
                     isAssigned = true;
-                    orientation = roleMenu.PrivilegeOrientation;
-                    privilegeConstraint = roleMenu.PrivilegeConstraint;
+                    orientation = roleMenu.AcContentType;
+                    privilegeConstraint = roleMenu.AcContent;
                 }
                 else
                 {
@@ -1101,8 +1101,8 @@ namespace Anycmd.Ac.ViewModels
                     CreateUserId = createUserId,
                     Id = id,
                     IsAssigned = isAssigned,
-                    PrivilegeOrientation = orientation,
-                    PrivilegeConstraint = privilegeConstraint,
+                    AcContentType = orientation,
+                    AcContent = privilegeConstraint,
                     RoleId = role.Id,
                     CategoryCode = role.CategoryCode,
                     Icon = role.Icon,

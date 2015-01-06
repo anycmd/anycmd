@@ -4,7 +4,7 @@ namespace Anycmd.Engine.Ac.Abstractions
     using System;
 
     /// <summary>
-    /// 权限二元组<see cref="IPrivilegeBigram"/>模型化的是9种Ac元素的两两组合，为了简化问题我们把二元中的其中一员指定为Subject，另一元指定为Object。9种Ac元素都可以充当Object。
+    /// 权限二元组<see cref="IPrivilege"/>模型化的是9种Ac元素的两两组合，为了简化问题我们把二元中的其中一员指定为Subject，另一元指定为Object。9种Ac元素都可以充当Object。
     /// <remarks>
     /// 注意：系统按钮（Button）和系统界面视图（UIView）不属于Ac元素，属于Ac元素的是它们对应的功能（Function）。
     /// </remarks>

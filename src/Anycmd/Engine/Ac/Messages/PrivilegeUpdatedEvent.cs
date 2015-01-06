@@ -5,9 +5,9 @@ namespace Anycmd.Engine.Ac.Messages
     using Events;
     using InOuts;
 
-    public class PrivilegeBigramUpdatedEvent : DomainEvent
+    public class PrivilegeUpdatedEvent : DomainEvent
     {
-        public PrivilegeBigramUpdatedEvent(PrivilegeBigramBase source, IPrivilegeBigramUpdateIo output)
+        public PrivilegeUpdatedEvent(PrivilegeBase source, IPrivilegeUpdateIo output)
             : base(source)
         {
             if (output == null)
@@ -17,6 +17,6 @@ namespace Anycmd.Engine.Ac.Messages
             this.Output = output;
         }
 
-        public IPrivilegeBigramUpdateIo Output { get; private set; }
+        public IPrivilegeUpdateIo Output { get; private set; }
     }
 }

@@ -22,7 +22,7 @@ namespace Anycmd.Engine.Ac
         private HashSet<MenuState> _authorizedMenus;
         private HashSet<Guid> _authorizedFunctionIds;
         private List<FunctionState> _authorizedFunctions;
-        private List<PrivilegeBigramState> _accountPrivileges;
+        private List<PrivilegeState> _accountPrivileges;
 
         private HashSet<OrganizationState> _organizations;
         private HashSet<RoleState> _roles;
@@ -109,7 +109,7 @@ namespace Anycmd.Engine.Ac
             }
         }
 
-        public IReadOnlyCollection<PrivilegeBigramState> AccountPrivileges
+        public IReadOnlyCollection<PrivilegeState> AccountPrivileges
         {
             get
             {
@@ -117,7 +117,7 @@ namespace Anycmd.Engine.Ac
                 {
                     if (_userSession.Account.Id == Guid.Empty)
                     {
-                        return new List<PrivilegeBigramState>();
+                        return new List<PrivilegeState>();
                     }
                     _accountPrivileges = GetAccountPrivileges();
                 }
@@ -125,11 +125,11 @@ namespace Anycmd.Engine.Ac
             }
         }
 
-        private List<PrivilegeBigramState> GetAccountPrivileges()
+        private List<PrivilegeState> GetAccountPrivileges()
         {
             var subjectType = UserAcSubjectType.Account.ToName();
-            var accountPrivileges = _acDomain.RetrieveRequiredService<IRepository<PrivilegeBigram>>().AsQueryable()
-                .Where(a => a.SubjectType == subjectType && a.SubjectInstanceId == _userSession.Account.Id).ToList().Select(PrivilegeBigramState.Create).ToList();
+            var accountPrivileges = _acDomain.RetrieveRequiredService<IRepository<Privilege>>().AsQueryable()
+                .Where(a => a.SubjectType == subjectType && a.SubjectInstanceId == _userSession.Account.Id).ToList().Select(PrivilegeState.Create).ToList();
             return accountPrivileges;
         }
 
@@ -207,19 +207,18 @@ namespace Anycmd.Engine.Ac
                         switch (item.ObjectType)
                         {
                             case AcElementType.Role:
-                            {
-                                RoleState role;
-                                if (_acDomain.RoleSet.TryGetRole(item.ObjectInstanceId, out role))
                                 {
-                                    _authorizedRoleIds.Add(role.Id);
+                                    RoleState role;
+                                    if (_acDomain.RoleSet.TryGetRole(item.ObjectInstanceId, out role))
+                                    {
+                                        _authorizedRoleIds.Add(role.Id);
+                                    }
                                 }
-                            }
                                 break;
                             case AcElementType.Group:
                                 var item1 = item;
                                 foreach (var roleGroup in _acDomain.PrivilegeSet.Where(a =>
-                                    a.SubjectType == AcElementType.Role && a.ObjectType == AcElementType.Group 
-                                    && a.ObjectInstanceId == item1.ObjectInstanceId))
+                                    a.AcRecordType == AcRecordType.RoleGroup && a.ObjectInstanceId == item1.ObjectInstanceId))
                                 {
                                     RoleState role;
                                     if (_acDomain.RoleSet.TryGetRole(roleGroup.SubjectInstanceId, out role))
@@ -235,7 +234,7 @@ namespace Anycmd.Engine.Ac
                 {
                     var g = group;
                     foreach (var roleGroup in _acDomain.PrivilegeSet.Where(a =>
-                        a.SubjectType == AcElementType.Role && a.ObjectType == AcElementType.Group && a.ObjectInstanceId == g.Id))
+                        a.AcRecordType == AcRecordType.RoleGroup && a.ObjectInstanceId == g.Id))
                     {
                         RoleState role;
                         if (_acDomain.RoleSet.TryGetRole(roleGroup.SubjectInstanceId, out role))
@@ -294,7 +293,7 @@ namespace Anycmd.Engine.Ac
                         roleIDs.Add(roleId);
                     }
                     foreach (var roleMenu in _acDomain.PrivilegeSet.Where(a =>
-                        a.SubjectType == AcElementType.Role && a.ObjectType == AcElementType.Menu && roleIDs.Contains(a.SubjectInstanceId)))
+                        a.AcRecordType == AcRecordType.RoleMenu && roleIDs.Contains(a.SubjectInstanceId)))
                     {
                         MenuState menu;
                         if (_acDomain.MenuSet.TryGetMenu(roleMenu.ObjectInstanceId, out menu))
@@ -326,7 +325,7 @@ namespace Anycmd.Engine.Ac
                     // TODO:考虑在PrivilegeSet集合中计算好缓存起来，从而可以直接根据角色索引而
                     var roleIDs = this.AuthorizedRoleIds;
                     foreach (var privilegeBigram in _acDomain.PrivilegeSet.Where(a =>
-                        a.SubjectType == AcElementType.Role && a.ObjectType == AcElementType.Function && roleIDs.Contains(a.SubjectInstanceId)))
+                        a.AcRecordType == AcRecordType.RoleFunction && roleIDs.Contains(a.SubjectInstanceId)))
                     {
                         _authorizedFunctionIds.Add(privilegeBigram.ObjectInstanceId);
                     }
@@ -335,7 +334,7 @@ namespace Anycmd.Engine.Ac
                     {
                         var organization1 = organization;
                         foreach (var item in _acDomain.PrivilegeSet.Where(a =>
-                            a.SubjectType == AcElementType.Organization && a.ObjectType == AcElementType.Function && a.SubjectInstanceId == organization1.Id))
+                            a.AcRecordType == AcRecordType.OrganizationFunction && a.SubjectInstanceId == organization1.Id))
                         {
                             var functionId = item.ObjectInstanceId;
                             _authorizedFunctionIds.Add(functionId);
@@ -392,65 +391,65 @@ namespace Anycmd.Engine.Ac
                     case AcElementType.Account:
                         break;
                     case AcElementType.Organization:
-                    {
-                        var organizationId = accountPrivilege.ObjectInstanceId;
-                        OrganizationState organization;
-                        if (_acDomain.OrganizationSet.TryGetOrganization(organizationId, out organization))
                         {
-                            organizations.Add(organization);
+                            var organizationId = accountPrivilege.ObjectInstanceId;
+                            OrganizationState organization;
+                            if (_acDomain.OrganizationSet.TryGetOrganization(organizationId, out organization))
+                            {
+                                organizations.Add(organization);
+                            }
+                            break;
                         }
-                        break;
-                    }
                     case AcElementType.Role:
-                    {
-                        var roleId = accountPrivilege.ObjectInstanceId;
-                        RoleState role;
-                        if (_acDomain.RoleSet.TryGetRole(roleId, out role))
                         {
-                            roles.Add(role);
+                            var roleId = accountPrivilege.ObjectInstanceId;
+                            RoleState role;
+                            if (_acDomain.RoleSet.TryGetRole(roleId, out role))
+                            {
+                                roles.Add(role);
+                            }
+                            break;
                         }
-                        break;
-                    }
                     case AcElementType.Group:
-                    {
-                        var groupId = accountPrivilege.ObjectInstanceId;
-                        GroupState group;
-                        if (_acDomain.GroupSet.TryGetGroup(groupId, out @group))
                         {
-                            groups.Add(@group);
+                            var groupId = accountPrivilege.ObjectInstanceId;
+                            GroupState group;
+                            if (_acDomain.GroupSet.TryGetGroup(groupId, out @group))
+                            {
+                                groups.Add(@group);
+                            }
+                            break;
                         }
-                        break;
-                    }
                     case AcElementType.Function:
-                    {
-                        var functionId = accountPrivilege.ObjectInstanceId;
-                        FunctionState function;
-                        if (_acDomain.FunctionSet.TryGetFunction(functionId, out function))
                         {
-                            functions.Add(function);
+                            var functionId = accountPrivilege.ObjectInstanceId;
+                            FunctionState function;
+                            if (_acDomain.FunctionSet.TryGetFunction(functionId, out function))
+                            {
+                                functions.Add(function);
+                            }
+                            break;
                         }
-                        break;
-                    }
                     case AcElementType.Menu:
-                    {
-                        var menuId = accountPrivilege.ObjectInstanceId;
-                        MenuState menu;
-                        if (_acDomain.MenuSet.TryGetMenu(menuId, out menu))
                         {
-                            menus.Add(menu);
+                            var menuId = accountPrivilege.ObjectInstanceId;
+                            MenuState menu;
+                            if (_acDomain.MenuSet.TryGetMenu(menuId, out menu))
+                            {
+                                menus.Add(menu);
+                            }
+                            break;
                         }
-                        break;
-                    }
                     case AcElementType.AppSystem:
-                    {
-                        var appSystemId = accountPrivilege.ObjectInstanceId;
-                        AppSystemState appSystem;
-                        if (_acDomain.AppSystemSet.TryGetAppSystem(appSystemId, out appSystem))
                         {
-                            appSystems.Add(appSystem);
+                            var appSystemId = accountPrivilege.ObjectInstanceId;
+                            AppSystemState appSystem;
+                            if (_acDomain.AppSystemSet.TryGetAppSystem(appSystemId, out appSystem))
+                            {
+                                appSystems.Add(appSystem);
+                            }
+                            break;
                         }
-                        break;
-                    }
                     case AcElementType.ResourceType:
                         break;
                     case AcElementType.Privilege:

@@ -151,7 +151,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             }
             var data = new List<Dictionary<string, object>>();
             var privilegeType = AcElementType.Group.ToName();
-            var accountGroups = GetRequiredService<IRepository<PrivilegeBigram>>().AsQueryable().Where(a => a.SubjectInstanceId == accountId && a.ObjectType == privilegeType);
+            var accountGroups = GetRequiredService<IRepository<Privilege>>().AsQueryable().Where(a => a.SubjectInstanceId == accountId && a.ObjectType == privilegeType);
             var groups = AcDomain.GroupSet.AsQueryable();
             if (!string.IsNullOrEmpty(key))
             {
@@ -313,42 +313,42 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 if (state == "modified" || state == "")
                 {
                     bool isAssigned = bool.Parse(row["IsAssigned"].ToString());
-                    var entity = GetRequiredService<IRepository<PrivilegeBigram>>().GetByKey(id);
+                    var entity = GetRequiredService<IRepository<Privilege>>().GetByKey(id);
                     if (entity != null)
                     {
                         if (!isAssigned)
                         {
-                            AcDomain.Handle(new RemovePrivilegeBigramCommand(entity.Id));
+                            AcDomain.Handle(new RemovePrivilegeCommand(entity.Id));
                         }
                         else
                         {
-                            if (row.ContainsKey("PrivilegeConstraint"))
+                            if (row.ContainsKey("AcContent"))
                             {
-                                AcDomain.Handle(new UpdatePrivilegeBigramCommand(new PrivilegeBigramUpdateIo
+                                AcDomain.Handle(new UpdatePrivilegeCommand(new PrivilegeUpdateIo
                                 {
                                     Id = id,
-                                    PrivilegeConstraint = row["PrivilegeConstraint"].ToString()
+                                    AcContent = row["AcContent"].ToString()
                                 }));
                             }
                         }
                     }
                     else if (isAssigned)
                     {
-                        var createInput = new PrivilegeBigramCreateIo()
+                        var createInput = new PrivilegeCreateIo()
                         {
                             Id = new Guid(row["Id"].ToString()),
                             SubjectType = UserAcSubjectType.Role.ToName(),
                             SubjectInstanceId = new Guid(row["RoleId"].ToString()),
                             ObjectInstanceId = new Guid(row["GroupId"].ToString()),
                             ObjectType = AcElementType.Group.ToName(),
-                            PrivilegeConstraint = null,
-                            PrivilegeOrientation = 1
+                            AcContent = null,
+                            AcContentType = null
                         };
-                        if (row.ContainsKey("PrivilegeConstraint"))
+                        if (row.ContainsKey("AcContent"))
                         {
-                            createInput.PrivilegeConstraint = row["PrivilegeConstraint"].ToString();
+                            createInput.AcContent = row["AcContent"].ToString();
                         }
-                        AcDomain.Handle(new AddPrivilegeBigramCommand(createInput));
+                        AcDomain.Handle(new AddPrivilegeCommand(createInput));
                     }
                 }
             }
@@ -366,7 +366,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             foreach (var item in aIds)
             {
                 var accountId = new Guid(item);
-                AcDomain.Handle(new AddPrivilegeBigramCommand(new PrivilegeBigramCreateIo
+                AcDomain.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
                 {
                     Id = Guid.NewGuid(),
                     ObjectType = AcElementType.Group.ToName(),
@@ -388,7 +388,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             string[] ids = id.Split(',');
             foreach (var item in ids)
             {
-                AcDomain.Handle(new RemovePrivilegeBigramCommand(new Guid(item)));
+                AcDomain.Handle(new RemovePrivilegeCommand(new Guid(item)));
             }
 
             return this.JsonResult(new ResponseData { success = true, id = id });

@@ -184,19 +184,19 @@ namespace Anycmd.Tests
 
             var privilegeId = Guid.NewGuid();
             // 使role1继承role2
-            host.Handle(new AddPrivilegeBigramCommand(new PrivilegeBigramCreateIo
+            host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
             {
                 Id = privilegeId,
                 SubjectInstanceId = roleId1,
                 SubjectType = UserAcSubjectType.Role.ToString(),// 主体是角色
-                PrivilegeConstraint = null,
-                PrivilegeOrientation = 1,
+                AcContent = null,
+                AcContentType = null,
                 ObjectInstanceId = roleId2,
                 ObjectType = AcElementType.Role.ToString()// 客体也是角色
             }));
-            PrivilegeBigramState privilegeBigram = host.PrivilegeSet.First(a => a.Id == privilegeId);
+            PrivilegeState privilegeBigram = host.PrivilegeSet.First(a => a.Id == privilegeId);
             Assert.NotNull(privilegeBigram);
-            Assert.NotNull(host.RetrieveRequiredService<IRepository<PrivilegeBigram>>().AsQueryable().FirstOrDefault(a => a.Id == privilegeId));
+            Assert.NotNull(host.RetrieveRequiredService<IRepository<Privilege>>().AsQueryable().FirstOrDefault(a => a.Id == privilegeId));
 
             var roleId3 = Guid.NewGuid();
             // 创建role3
@@ -212,13 +212,13 @@ namespace Anycmd.Tests
             }));
             privilegeId = Guid.NewGuid();
             // 使role2继承role3
-            host.Handle(new AddPrivilegeBigramCommand(new PrivilegeBigramCreateIo
+            host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
             {
                 Id = privilegeId,
                 SubjectInstanceId = roleId2,
                 SubjectType = UserAcSubjectType.Role.ToString(),// 主体是角色
-                PrivilegeConstraint = null,
-                PrivilegeOrientation = 1,
+                AcContent = null,
+                AcContentType = null,
                 ObjectInstanceId = roleId3,
                 ObjectType = AcElementType.Role.ToString()// 客体也是角色
             }));
@@ -236,13 +236,13 @@ namespace Anycmd.Tests
                 Icon = null
             }));
             privilegeId = Guid.NewGuid();
-            host.Handle(new AddPrivilegeBigramCommand(new PrivilegeBigramCreateIo
+            host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
             {
                 Id = privilegeId,
                 SubjectInstanceId = roleId3,
                 SubjectType = UserAcSubjectType.Role.ToString(),// 主体是角色
-                PrivilegeConstraint = null,
-                PrivilegeOrientation = 1,
+                AcContent = null,
+                AcContentType = null,
                 ObjectInstanceId = roleId4,
                 ObjectType = AcElementType.Role.ToString()// 客体也是角色
             }));

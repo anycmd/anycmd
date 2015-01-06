@@ -49,19 +49,19 @@ namespace Anycmd.Engine.Host.Ac
             host.Handle(new RemoveAccountCommand(accountId));
         }
 
-        public static void RemovePrivilegeBigram(this IAcDomain host, Guid privilegeBigramId)
+        public static void RemovePrivilege(this IAcDomain host, Guid privilegeBigramId)
         {
-            host.Handle(new RemovePrivilegeBigramCommand(privilegeBigramId));
+            host.Handle(new RemovePrivilegeCommand(privilegeBigramId));
         }
 
-        public static void UpdatePrivilegeBigram(this IAcDomain host, IPrivilegeBigramUpdateIo input)
+        public static void UpdatePrivilege(this IAcDomain host, IPrivilegeUpdateIo input)
         {
-            host.Handle(new UpdatePrivilegeBigramCommand(input));
+            host.Handle(new UpdatePrivilegeCommand(input));
         }
 
-        public static void AddPrivilegeBigram(this IAcDomain host, IPrivilegeBigramCreateIo input)
+        public static void AddPrivilege(this IAcDomain host, IPrivilegeCreateIo input)
         {
-            host.Handle(new AddPrivilegeBigramCommand(input));
+            host.Handle(new AddPrivilegeCommand(input));
         }
 
         public static void AddButton(this IAcDomain host, IButtonCreateIo input)

@@ -164,9 +164,9 @@ namespace Anycmd.Engine.Host.Impl
             }
         }
 
-        public IList<PrivilegeBigram> GetPrivilegeBigrams()
+        public IList<Privilege> GetPrivileges()
         {
-            var repository = _host.RetrieveRequiredService<IRepository<PrivilegeBigram>>();
+            var repository = _host.RetrieveRequiredService<IRepository<Privilege>>();
             using (var context = repository.Context)
             {
                 var subjectType = UserAcSubjectType.Account.ToName();

@@ -288,42 +288,42 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 if (state == "modified" || state == "")
                 {
                     bool isAssigned = bool.Parse(row["IsAssigned"].ToString());
-                    var entity = GetRequiredService<IRepository<PrivilegeBigram>>().GetByKey(id);
+                    var entity = GetRequiredService<IRepository<Privilege>>().GetByKey(id);
                     if (entity != null)
                     {
                         if (!isAssigned)
                         {
-                            AcDomain.Handle(new RemovePrivilegeBigramCommand(id));
+                            AcDomain.Handle(new RemovePrivilegeCommand(id));
                         }
                         else
                         {
-                            if (row.ContainsKey("PrivilegeConstraint"))
+                            if (row.ContainsKey("AcContent"))
                             {
-                                AcDomain.Handle(new UpdatePrivilegeBigramCommand(new PrivilegeBigramUpdateIo
+                                AcDomain.Handle(new UpdatePrivilegeCommand(new PrivilegeUpdateIo
                                 {
                                     Id = entity.Id,
-                                    PrivilegeConstraint = row["PrivilegeConstraint"].ToString()
+                                    AcContent = row["AcContent"].ToString()
                                 }));
                             }
                         }
                     }
                     else if (isAssigned)
                     {
-                        var createInput = new PrivilegeBigramCreateIo
+                        var createInput = new PrivilegeCreateIo
                         {
                             Id = new Guid(row["Id"].ToString()),
                             SubjectType = UserAcSubjectType.Role.ToName(),
                             SubjectInstanceId = new Guid(row["RoleId"].ToString()),
                             ObjectInstanceId = new Guid(row["MenuId"].ToString()),
                             ObjectType = AcElementType.Menu.ToName(),
-                            PrivilegeOrientation = 1,
-                            PrivilegeConstraint = null
+                            AcContentType = null,
+                            AcContent = null
                         };
-                        if (row.ContainsKey("PrivilegeConstraint"))
+                        if (row.ContainsKey("AcContent"))
                         {
-                            createInput.PrivilegeConstraint = row["PrivilegeConstraint"].ToString();
+                            createInput.AcContent = row["AcContent"].ToString();
                         }
-                        AcDomain.Handle(new AddPrivilegeBigramCommand(createInput));
+                        AcDomain.Handle(new AddPrivilegeCommand(createInput));
                     }
                 }
             }

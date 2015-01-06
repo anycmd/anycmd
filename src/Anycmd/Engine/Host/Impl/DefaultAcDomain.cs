@@ -151,7 +151,7 @@ namespace Anycmd.Engine.Host.Impl
             this.Map(EntityTypeMap.Create<Role>("Ac"));
             this.Map(EntityTypeMap.Create<SsdSet>("Ac"));
             this.Map(EntityTypeMap.Create<DsdSet>("Ac"));
-            this.Map(EntityTypeMap.Create<PrivilegeBigram>("Ac"));
+            this.Map(EntityTypeMap.Create<Privilege>("Ac"));
         }
 
         private void AddDefaultService<T>(object service)

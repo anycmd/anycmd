@@ -3,7 +3,7 @@ namespace Anycmd.Engine.Ac.Abstractions
 {
     /// <summary>
     /// 定义用户类别的合法Ac主体取值。
-    /// <see cref="IPrivilegeBigram"/>
+    /// <see cref="IPrivilege"/>
     /// </summary>
     public enum UserAcSubjectType
     {

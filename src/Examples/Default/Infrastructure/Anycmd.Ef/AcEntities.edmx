@@ -12,6 +12,8 @@
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="DsdSetId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="RoleId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="AcContentType" Type="varchar" MaxLength="50" />
+          <Property Name="AcContent" Type="varchar" MaxLength="2000" />
           <Property Name="CreateOn" Type="datetime" />
           <Property Name="CreateUserId" Type="uniqueidentifier" />
           <Property Name="CreateBy" Type="varchar" MaxLength="50" />
@@ -30,6 +32,8 @@
           <Property Name="DsdCard" Type="int" Nullable="false" />
           <Property Name="IsEnabled" Type="int" Nullable="false" />
           <Property Name="Description" Type="varchar" MaxLength="500" />
+          <Property Name="AcContentType" Type="varchar" MaxLength="50" />
+          <Property Name="AcContent" Type="varchar" MaxLength="2000" />
           <Property Name="CreateOn" Type="datetime" />
           <Property Name="CreateUserId" Type="uniqueidentifier" />
           <Property Name="CreateBy" Type="varchar" MaxLength="50" />
@@ -52,6 +56,8 @@
           <Property Name="IsEnabled" Type="int" Nullable="false" />
           <Property Name="SortCode" Type="int" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="500" />
+          <Property Name="AcContentType" Type="varchar" MaxLength="50" />
+          <Property Name="AcContent" Type="varchar" MaxLength="2000" />
           <Property Name="CreateOn" Type="datetime" />
           <Property Name="CreateUserId" Type="uniqueidentifier" />
           <Property Name="CreateBy" Type="varchar" MaxLength="50" />
@@ -61,7 +67,7 @@
           <Property Name="RowGuid" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Etag" Type="timestamp" StoreGeneratedPattern="Computed" />
         </EntityType>
-        <EntityType Name="PrivilegeBigram">
+        <EntityType Name="Privilege">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -70,8 +76,8 @@
           <Property Name="SubjectInstanceId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="ObjectType" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ObjectInstanceId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="PrivilegeOrientation" Type="int" Nullable="false" />
-          <Property Name="PrivilegeConstraint" Type="varchar" MaxLength="500" />
+          <Property Name="AcContentType" Type="varchar" MaxLength="50" />
+          <Property Name="AcContent" Type="varchar" MaxLength="2000" />
           <Property Name="CreateOn" Type="datetime" />
           <Property Name="CreateUserId" Type="uniqueidentifier" />
           <Property Name="CreateBy" Type="varchar" MaxLength="50" />
@@ -93,6 +99,8 @@
           <Property Name="Icon" Type="varchar" MaxLength="200" />
           <Property Name="IsEnabled" Type="int" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="200" />
+          <Property Name="AcContentType" Type="varchar" MaxLength="50" />
+          <Property Name="AcContent" Type="varchar" MaxLength="2000" />
           <Property Name="CreateOn" Type="datetime" />
           <Property Name="CreateUserId" Type="uniqueidentifier" />
           <Property Name="CreateBy" Type="varchar" MaxLength="50" />
@@ -109,6 +117,8 @@
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="SsdSetId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="RoleId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="AcContentType" Type="varchar" MaxLength="50" />
+          <Property Name="AcContent" Type="varchar" MaxLength="2000" />
           <Property Name="CreateOn" Type="datetime" />
           <Property Name="CreateUserId" Type="uniqueidentifier" />
           <Property Name="CreateBy" Type="varchar" MaxLength="50" />
@@ -127,6 +137,8 @@
           <Property Name="SsdCard" Type="int" Nullable="false" />
           <Property Name="IsEnabled" Type="int" Nullable="false" />
           <Property Name="Description" Type="varchar" MaxLength="500" />
+          <Property Name="AcContentType" Type="varchar" MaxLength="50" />
+          <Property Name="AcContent" Type="varchar" MaxLength="2000" />
           <Property Name="CreateOn" Type="datetime" />
           <Property Name="CreateUserId" Type="uniqueidentifier" />
           <Property Name="CreateBy" Type="varchar" MaxLength="50" />
@@ -147,6 +159,8 @@
           <Property Name="AccountId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="IsEnabled" Type="int" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="200" />
+          <Property Name="AcContentType" Type="varchar" MaxLength="50" />
+          <Property Name="AcContent" Type="varchar" MaxLength="2000" />
           <Property Name="CreateOn" Type="datetime" />
           <Property Name="CreateUserId" Type="uniqueidentifier" />
           <Property Name="CreateBy" Type="varchar" MaxLength="50" />
@@ -160,7 +174,7 @@
           <EntitySet Name="DsdRole" EntityType="Self.DsdRole" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DsdSet" EntityType="Self.DsdSet" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Group" EntityType="Self.Group" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="PrivilegeBigram" EntityType="Self.PrivilegeBigram" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Privilege" EntityType="Self.Privilege" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SsdRole" EntityType="Self.SsdRole" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SsdSet" EntityType="Self.SsdSet" Schema="dbo" store:Type="Tables" />
@@ -191,6 +205,8 @@
           <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="OrganizationCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="RowGuid" Type="Guid" Nullable="false" />
+          <Property Name="AcContentType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AcContent" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -212,37 +228,19 @@
           <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="RowGuid" Type="Guid" Nullable="false" />
+          <Property Name="AcContentType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AcContent" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityContainer Name="AcEntities" annotation:LazyLoadingEnabled="false">
           <EntitySet Name="Groups" EntityType="Self.Group" />
           <EntitySet Name="Roles" EntityType="Self.Role" />
-          <EntitySet Name="PrivilegeBigrams" EntityType="AnycmdModel.PrivilegeBigram" />
           <EntitySet Name="UserSessions" EntityType="AnycmdModel.UserSession" />
           <EntitySet Name="DsdSets" EntityType="AnycmdModel.DsdSet" />
           <EntitySet Name="SsdSets" EntityType="AnycmdModel.SsdSet" />
           <EntitySet Name="DsdRoles" EntityType="AnycmdModel.DsdRole" />
           <EntitySet Name="SsdRoles" EntityType="AnycmdModel.SsdRole" />
+          <EntitySet Name="Privileges" EntityType="AnycmdModel.Privilege" />
         </EntityContainer>
-        <EntityType Name="PrivilegeBigram">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Guid" Nullable="false" />
-          <Property Name="SubjectType" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="SubjectInstanceId" Type="Guid" Nullable="false" />
-          <Property Name="ObjectType" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ObjectInstanceId" Type="Guid" Nullable="false" />
-          <Property Name="PrivilegeOrientation" Type="Int32" Nullable="false" />
-          <Property Name="PrivilegeConstraint" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="CreateOn" Type="DateTime" Precision="3" />
-          <Property Name="CreateUserId" Type="Guid" />
-          <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
-          <Property Name="ModifiedUserId" Type="Guid" />
-          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
-          <Property Name="RowGuid" Type="Guid" Nullable="false" />
-        </EntityType>
         <EntityType Name="UserSession">
           <Key>
             <PropertyRef Name="Id" />
@@ -262,6 +260,8 @@
           <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="RowGuid" Type="Guid" Nullable="false" />
+          <Property Name="AcContentType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AcContent" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="DsdSet">
           <Key>
@@ -280,6 +280,8 @@
           <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="RowGuid" Type="Guid" Nullable="false" />
+          <Property Name="AcContentType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AcContent" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="SsdSet">
           <Key>
@@ -298,6 +300,8 @@
           <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="RowGuid" Type="Guid" Nullable="false" />
+          <Property Name="AcContentType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AcContent" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="DsdRole">
           <Key>
@@ -314,6 +318,8 @@
           <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="RowGuid" Type="Guid" Nullable="false" />
+          <Property Name="AcContentType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AcContent" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="SsdRole">
           <Key>
@@ -330,6 +336,28 @@
           <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="RowGuid" Type="Guid" Nullable="false" />
+          <Property Name="AcContentType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AcContent" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Privilege">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="SubjectType" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SubjectInstanceId" Type="Guid" Nullable="false" />
+          <Property Name="ObjectType" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ObjectInstanceId" Type="Guid" Nullable="false" />
+          <Property Name="AcContentType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AcContent" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="CreateOn" Type="DateTime" Precision="3" />
+          <Property Name="CreateUserId" Type="Guid" />
+          <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedUserId" Type="Guid" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RowGuid" Type="Guid" Nullable="false" />
+          <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -340,6 +368,8 @@
           <EntitySetMapping Name="Groups">
             <EntityTypeMapping TypeName="AnycmdModel.Group">
               <MappingFragment StoreEntitySet="Group">
+                <ScalarProperty Name="AcContent" ColumnName="AcContent" />
+                <ScalarProperty Name="AcContentType" ColumnName="AcContentType" />
                 <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
                 <ScalarProperty Name="OrganizationCode" ColumnName="OrganizationCode" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -363,6 +393,8 @@
           <EntitySetMapping Name="Roles">
             <EntityTypeMapping TypeName="AnycmdModel.Role">
               <MappingFragment StoreEntitySet="Role">
+                <ScalarProperty Name="AcContent" ColumnName="AcContent" />
+                <ScalarProperty Name="AcContentType" ColumnName="AcContentType" />
                 <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="CategoryCode" ColumnName="CategoryCode" />
@@ -382,30 +414,11 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="PrivilegeBigrams">
-            <EntityTypeMapping TypeName="AnycmdModel.PrivilegeBigram">
-              <MappingFragment StoreEntitySet="PrivilegeBigram">
-                <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
-                <ScalarProperty Name="Etag" ColumnName="Etag" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="ModifiedUserId" ColumnName="ModifiedUserId" />
-                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
-                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
-                <ScalarProperty Name="CreateUserId" ColumnName="CreateUserId" />
-                <ScalarProperty Name="CreateOn" ColumnName="CreateOn" />
-                <ScalarProperty Name="PrivilegeConstraint" ColumnName="PrivilegeConstraint" />
-                <ScalarProperty Name="PrivilegeOrientation" ColumnName="PrivilegeOrientation" />
-                <ScalarProperty Name="ObjectInstanceId" ColumnName="ObjectInstanceId" />
-                <ScalarProperty Name="ObjectType" ColumnName="ObjectType" />
-                <ScalarProperty Name="SubjectInstanceId" ColumnName="SubjectInstanceId" />
-                <ScalarProperty Name="SubjectType" ColumnName="SubjectType" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="UserSessions">
             <EntityTypeMapping TypeName="AnycmdModel.UserSession">
               <MappingFragment StoreEntitySet="UserSession">
+                <ScalarProperty Name="AcContent" ColumnName="AcContent" />
+                <ScalarProperty Name="AcContentType" ColumnName="AcContentType" />
                 <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
                 <ScalarProperty Name="AccountId" ColumnName="AccountId" />
                 <ScalarProperty Name="Etag" ColumnName="Etag" />
@@ -427,6 +440,8 @@
           <EntitySetMapping Name="DsdSets">
             <EntityTypeMapping TypeName="AnycmdModel.DsdSet">
               <MappingFragment StoreEntitySet="DsdSet">
+                <ScalarProperty Name="AcContent" ColumnName="AcContent" />
+                <ScalarProperty Name="AcContentType" ColumnName="AcContentType" />
                 <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
                 <ScalarProperty Name="Etag" ColumnName="Etag" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
@@ -446,6 +461,8 @@
           <EntitySetMapping Name="SsdSets">
             <EntityTypeMapping TypeName="AnycmdModel.SsdSet">
               <MappingFragment StoreEntitySet="SsdSet">
+                <ScalarProperty Name="AcContent" ColumnName="AcContent" />
+                <ScalarProperty Name="AcContentType" ColumnName="AcContentType" />
                 <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
                 <ScalarProperty Name="Etag" ColumnName="Etag" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
@@ -465,6 +482,8 @@
           <EntitySetMapping Name="DsdRoles">
             <EntityTypeMapping TypeName="AnycmdModel.DsdRole">
               <MappingFragment StoreEntitySet="DsdRole">
+                <ScalarProperty Name="AcContent" ColumnName="AcContent" />
+                <ScalarProperty Name="AcContentType" ColumnName="AcContentType" />
                 <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
                 <ScalarProperty Name="Etag" ColumnName="Etag" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
@@ -482,6 +501,8 @@
           <EntitySetMapping Name="SsdRoles">
             <EntityTypeMapping TypeName="AnycmdModel.SsdRole">
               <MappingFragment StoreEntitySet="SsdRole">
+                <ScalarProperty Name="AcContent" ColumnName="AcContent" />
+                <ScalarProperty Name="AcContentType" ColumnName="AcContentType" />
                 <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
                 <ScalarProperty Name="Etag" ColumnName="Etag" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
@@ -492,6 +513,27 @@
                 <ScalarProperty Name="CreateOn" ColumnName="CreateOn" />
                 <ScalarProperty Name="RoleId" ColumnName="RoleId" />
                 <ScalarProperty Name="SsdSetId" ColumnName="SsdSetId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Privileges">
+            <EntityTypeMapping TypeName="AnycmdModel.Privilege">
+              <MappingFragment StoreEntitySet="Privilege">
+                <ScalarProperty Name="Etag" ColumnName="Etag" />
+                <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedUserId" ColumnName="ModifiedUserId" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateUserId" ColumnName="CreateUserId" />
+                <ScalarProperty Name="CreateOn" ColumnName="CreateOn" />
+                <ScalarProperty Name="AcContent" ColumnName="AcContent" />
+                <ScalarProperty Name="AcContentType" ColumnName="AcContentType" />
+                <ScalarProperty Name="ObjectInstanceId" ColumnName="ObjectInstanceId" />
+                <ScalarProperty Name="ObjectType" ColumnName="ObjectType" />
+                <ScalarProperty Name="SubjectInstanceId" ColumnName="SubjectInstanceId" />
+                <ScalarProperty Name="SubjectType" ColumnName="SubjectType" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -521,12 +563,12 @@
       <Diagram DiagramId="0a093552d4e242ca87b0a83d8d1917f6" Name="Diagram1">
         <EntityTypeShape EntityType="AnycmdModel.Group" Width="1.75" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="AnycmdModel.Role" Width="1.625" PointX="3.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="AnycmdModel.PrivilegeBigram" Width="1.75" PointX="0.75" PointY="5.75" />
-        <EntityTypeShape EntityType="AnycmdModel.UserSession" Width="1.75" PointX="3.75" PointY="5.75" />
-        <EntityTypeShape EntityType="AnycmdModel.DsdSet" Width="1.625" PointX="6.75" PointY="0.75" />
-        <EntityTypeShape EntityType="AnycmdModel.SsdSet" Width="1.625" PointX="6.75" PointY="5.75" />
-        <EntityTypeShape EntityType="AnycmdModel.DsdRole" Width="1.625" PointX="9.75" PointY="0.75" />
-        <EntityTypeShape EntityType="AnycmdModel.SsdRole" Width="1.625" PointX="9.75" PointY="4.75" />
+        <EntityTypeShape EntityType="AnycmdModel.UserSession" Width="1.75" PointX="6.75" PointY="0.75" />
+        <EntityTypeShape EntityType="AnycmdModel.DsdSet" Width="1.625" PointX="0.75" PointY="6.75" />
+        <EntityTypeShape EntityType="AnycmdModel.SsdSet" Width="1.625" PointX="3.75" PointY="6.75" />
+        <EntityTypeShape EntityType="AnycmdModel.DsdRole" Width="1.625" PointX="6.75" PointY="5.75" />
+        <EntityTypeShape EntityType="AnycmdModel.SsdRole" Width="1.625" PointX="9.75" PointY="0.75" />
+        <EntityTypeShape EntityType="AnycmdModel.Privilege" Width="1.625" PointX="9.75" PointY="5.75" />
       </Diagram>
     </Diagrams>
   </Designer>

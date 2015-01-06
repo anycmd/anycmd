@@ -65,7 +65,7 @@ namespace Anycmd.Engine.Host.Impl
                         Append(sb, "Group", "select * from [Group] where TypeCode='Ac';");
                         Append(sb, "UiView", "select * from [UiView];");
                         Append(sb, "UiViewButton", "select * from [UiViewButton];");
-                        Append(sb, "PrivilegeBigram", "select * from [PrivilegeBigram] where SubjectType!='Account';");// 查询非账户主体的权限记录，账户主体的权限记录在会话中查询
+                        Append(sb, "Privilege", "select * from [Privilege] where SubjectType!='Account';");// 查询非账户主体的权限记录，账户主体的权限记录在会话中查询
                         Append(sb, "Role", "select * from [Role];");
                         Append(sb, "SsdSet", "select * from [SsdSet];");
                         Append(sb, "DsdSet", "select * from [DsdSet];");
@@ -500,20 +500,20 @@ namespace Anycmd.Engine.Host.Impl
             return list;
         }
 
-        public IList<PrivilegeBigram> GetPrivilegeBigrams()
+        public IList<Privilege> GetPrivileges()
         {
-            var list = new List<PrivilegeBigram>();
-            foreach (DataRow row in this["PrivilegeBigram"].Rows)
+            var list = new List<Privilege>();
+            foreach (DataRow row in this["Privilege"].Rows)
             {
-                var item = new PrivilegeBigram
+                var item = new Privilege
                 {
                     Id = (Guid)row["Id"],
                     SubjectType = (string)row["SubjectType"],
                     SubjectInstanceId = (Guid)row["SubjectInstanceId"],
                     ObjectType = (string)row["ObjectType"],
                     ObjectInstanceId = (Guid)row["ObjectInstanceId"],
-                    PrivilegeOrientation = (int)row["PrivilegeOrientation"],
-                    PrivilegeConstraint = row["PrivilegeConstraint"] == DBNull.Value ? null : row["PrivilegeConstraint"].ToString(),
+                    AcContentType = (string)row["AcContentType"],
+                    AcContent = row["AcContent"] == DBNull.Value ? null : row["AcContent"].ToString(),
                     Etag = (byte[])row["Etag"]
                 };
                 var entity = item as IEntityBase;

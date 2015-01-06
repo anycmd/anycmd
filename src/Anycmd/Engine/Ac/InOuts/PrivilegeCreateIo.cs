@@ -6,7 +6,7 @@ namespace Anycmd.Engine.Ac.InOuts
     /// <summary>
     /// 创建权限二元组时的输入或输出参数类型。
     /// </summary>
-    public class PrivilegeBigramCreateIo : EntityCreateInput, IInputModel, IPrivilegeBigramCreateIo
+    public class PrivilegeCreateIo : EntityCreateInput, IPrivilegeCreateIo
     {
         public string SubjectType { get; set; }
 
@@ -16,8 +16,8 @@ namespace Anycmd.Engine.Ac.InOuts
 
         public Guid ObjectInstanceId { get; set; }
 
-        public string PrivilegeConstraint { get; set; }
+        public string AcContent { get; set; }
 
-        public int PrivilegeOrientation { get; set; }
+        public string AcContentType { get; set; }
     }
 }

@@ -6,22 +6,22 @@ namespace Anycmd.Engine.Ac
     using System;
     using Util;
 
-    public sealed class PrivilegeBigramState : StateObject<PrivilegeBigramState>, IAcRecord
+    public sealed class PrivilegeState : StateObject<PrivilegeState>, IAcRecord
     {
         private AcRecordType _acType;
         private AcElementType _subjectType;
         private Guid _subjectInstanceId;
         private AcElementType _objectType;
         private Guid _objectInstanceId;
-        private string _privilegeConstraint;
-        private int _privilegeOrientation;
+        private string _acContent;
+        private string _acContentType;
         private DateTime? _createOn;
         private string _createBy;
         private Guid? _createUserId;
 
-        private PrivilegeBigramState(Guid id) : base(id) { }
+        private PrivilegeState(Guid id) : base(id) { }
 
-        public static PrivilegeBigramState Create(PrivilegeBigramBase privilegeBigram)
+        public static PrivilegeState Create(PrivilegeBase privilegeBigram)
         {
             if (privilegeBigram == null)
             {
@@ -50,18 +50,18 @@ namespace Anycmd.Engine.Ac
             {
                 throw new AnycmdException("非法的授权类型" + privilegeBigram.ObjectType);
             }
-            return new PrivilegeBigramState(privilegeBigram.Id)
+            return new PrivilegeState(privilegeBigram.Id)
             {
                 _acType = acType,
                 _subjectType = subjectType,
                 _subjectInstanceId = privilegeBigram.SubjectInstanceId,
                 _objectType = acObjectType,
                 _objectInstanceId = privilegeBigram.ObjectInstanceId,
-                _privilegeConstraint = privilegeBigram.PrivilegeConstraint,
+                _acContent = privilegeBigram.AcContent,
                 _createOn = privilegeBigram.CreateOn,
                 _createBy = privilegeBigram.CreateBy,
                 _createUserId = privilegeBigram.CreateUserId,
-                _privilegeOrientation = privilegeBigram.PrivilegeOrientation
+                _acContentType = privilegeBigram.AcContentType
             };
         }
 
@@ -90,14 +90,14 @@ namespace Anycmd.Engine.Ac
             get { return _objectInstanceId; }
         }
 
-        public string PrivilegeConstraint
+        public string AcContent
         {
-            get { return _privilegeConstraint; }
+            get { return _acContent; }
         }
 
-        public int PrivilegeOrientation
+        public string AcContentType
         {
-            get { return _privilegeOrientation; }
+            get { return _acContentType; }
         }
 
         public DateTime? CreateOn
@@ -115,15 +115,15 @@ namespace Anycmd.Engine.Ac
             get { return _createUserId; }
         }
 
-        protected override bool DoEquals(PrivilegeBigramState other)
+        protected override bool DoEquals(PrivilegeState other)
         {
             return Id == other.Id &&
                 SubjectType == other.SubjectType &&
                 SubjectInstanceId == other.SubjectInstanceId &&
                 ObjectType == other.ObjectType &&
                 ObjectInstanceId == other.ObjectInstanceId &&
-                PrivilegeConstraint == other.PrivilegeConstraint &&
-                PrivilegeOrientation == other.PrivilegeOrientation;
+                AcContent == other.AcContent &&
+                AcContentType == other.AcContentType;
         }
     }
 }
