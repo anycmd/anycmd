@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Ac.InOuts
     /// <summary>
     /// 创建动态职责分离角色集时的输入或输出参数类型。
     /// </summary>
-    public class DsdSetCreateIo : EntityCreateInput, IInputModel, IDsdSetCreateIo
+    public class DsdSetCreateIo : EntityCreateInput, IDsdSetCreateIo
     {
         public string Name { get; set; }
 

@@ -1,16 +1,17 @@
 ﻿
 namespace Anycmd.Engine.Edi.Messages
 {
-    using Engine.Edi.Abstractions;
+    using Abstractions;
     using Events;
 
-    public sealed class ActionUpdatedEvent : DomainEvent {
+    public sealed class ActionUpdatedEvent : DomainEvent
+    {
         /// <summary>
         /// 
         /// </summary>
-        #region Ctor
         public ActionUpdatedEvent(ActionBase source)
-            : base(source) {
+            : base(source)
+        {
             this.Verb = source.Verb;
             this.Name = source.Name;
             this.IsAllowed = source.IsAllowed;
@@ -18,7 +19,6 @@ namespace Anycmd.Engine.Edi.Messages
             this.IsPersist = source.IsPersist;
             this.SortCode = source.SortCode;
         }
-        #endregion
 
         public string Verb { get; private set; }
         /// <summary>

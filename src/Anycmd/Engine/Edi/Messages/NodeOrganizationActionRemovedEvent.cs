@@ -1,7 +1,7 @@
 ﻿
 namespace Anycmd.Engine.Edi.Messages
 {
-    using Engine.Edi.Abstractions;
+    using Abstractions;
     using Events;
 
     public class NodeOrganizationActionRemovedEvent : DomainEvent

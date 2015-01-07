@@ -1,7 +1,7 @@
 ﻿
 namespace Anycmd.Engine.Ac.Messages
 {
-    using Engine.Ac.Abstractions;
+    using Abstractions;
     using InOuts;
 
     public class PositionAddedEvent : EntityAddedEvent<IPositionCreateIo>

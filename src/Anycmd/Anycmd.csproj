@@ -114,6 +114,7 @@
     <Compile Include="Engine\ServiceNotFoundException.cs" />
     <Compile Include="Engine\Host\Dapper\SqlMapper.cs" />
     <Compile Include="Engine\Host\Dapper\SqlMapperAsync.cs" />
+    <Compile Include="Events\Storage\AcDomainExtension.cs" />
     <Compile Include="GuidAttribute.cs" />
     <Compile Include="Engine\Ac\AccountPrivilege.cs" />
     <Compile Include="Engine\Host\Ac\AcDomainExtension.cs" />
@@ -237,6 +238,7 @@
     <Compile Include="IAcDomain.cs" />
     <Compile Include="Int32IdAttribute.cs" />
     <Compile Include="IRbacService.cs" />
+    <Compile Include="Snapshots\AcDomainExtension.cs" />
     <Compile Include="StringIdAttribute.cs" />
     <Compile Include="Util\Coder.cs" />
     <Compile Include="Util\IDAttribute.cs" />

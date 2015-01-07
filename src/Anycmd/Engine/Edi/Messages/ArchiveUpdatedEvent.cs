@@ -1,7 +1,7 @@
 ﻿
 namespace Anycmd.Engine.Edi.Messages
 {
-    using Engine.Edi.Abstractions;
+    using Abstractions;
     using Events;
 
     /// <summary>
@@ -9,7 +9,6 @@ namespace Anycmd.Engine.Edi.Messages
     /// </summary>
     public sealed class ArchiveUpdatedEvent : DomainEvent
     {
-        #region Ctor
         public ArchiveUpdatedEvent(ArchiveBase source)
             : base(source)
         {
@@ -19,7 +18,6 @@ namespace Anycmd.Engine.Edi.Messages
             this.UserId = source.UserId;
             this.Password = source.Password;
         }
-        #endregion
 
         /// <summary>
         /// 源

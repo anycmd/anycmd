@@ -1,9 +1,10 @@
 ﻿
 namespace Anycmd.Engine.Ac.Messages
 {
-    using Engine.Ac.Abstractions;
+    using Abstractions;
     using Events;
     using InOuts;
+    using System;
 
     public class RoleUpdatedEvent : DomainEvent
     {
@@ -12,7 +13,7 @@ namespace Anycmd.Engine.Ac.Messages
         {
             if (output == null)
             {
-                throw new System.ArgumentNullException("output");
+                throw new ArgumentNullException("output");
             }
             this.Output = output;
         }

@@ -6,7 +6,7 @@ namespace Anycmd.Engine.Ac.InOuts
     /// <summary>
     /// 更新动态职责分离角色集时的输入或输出参数类型。
     /// </summary>
-    public class DsdSetUpdateIo : IInputModel, IDsdSetUpdateIo
+    public class DsdSetUpdateIo : IDsdSetUpdateIo
     {
         public string Name { get; set; }
 

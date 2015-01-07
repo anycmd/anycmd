@@ -1,8 +1,9 @@
-﻿using Anycmd.Commands;
-using System;
-
+﻿
 namespace Anycmd.Engine.Edi.Messages
 {
+    using Commands;
+    using System;
+
     public class ChangeProcessNetPortCommand: Command, IAnycmdCommand
     {
         public ChangeProcessNetPortCommand(Guid processId, int netPort)

@@ -1,8 +1,9 @@
-﻿using Anycmd.Commands;
-using System;
-
+﻿
 namespace Anycmd.Engine.Edi.Messages
 {
+    using Commands;
+    using System;
+
     public class ChangeProcessOrganizationCommand : Command, IAnycmdCommand
     {
         public ChangeProcessOrganizationCommand(Guid processId, string organizationCode)

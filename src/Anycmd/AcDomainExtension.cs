@@ -4,15 +4,8 @@ namespace Anycmd
     using Engine;
     using Engine.Host.Ac.Infra;
     using Events;
-    using Events.Serialization;
-    using Events.Storage;
-    using Model;
-    using Snapshots;
-    using Snapshots.Serialization;
     using System;
     using System.Collections.Generic;
-    using System.IO;
-    using Util;
 
     public static class AcDomainExtension
     {
@@ -42,12 +35,12 @@ namespace Anycmd
         /// <summary>
         /// 将给定的事件发布到事件总线
         /// </summary>
-        /// <typeparam name="TEvent"></typeparam>
-        /// <param name="host"></param>
-        /// <param name="evnt"></param>
-        public static void PublishEvent<TEvent>(this IAcDomain host, TEvent evnt) where TEvent : class, IEvent
+        /// <typeparam name="TEvent">事件.NET类型</typeparam>
+        /// <param name="acDomain"></param>
+        /// <param name="evnt">事件</param>
+        public static void PublishEvent<TEvent>(this IAcDomain acDomain, TEvent evnt) where TEvent : class, IEvent
         {
-            host.EventBus.Publish(evnt);
+            acDomain.EventBus.Publish(evnt);
         }
 
         /// <summary>
@@ -61,17 +54,17 @@ namespace Anycmd
         /// <summary>
         /// 处理命令，发布并提交命令。
         /// </summary>
-        /// <param name="host"></param>
+        /// <param name="acDomain"></param>
         /// <param name="command"></param>
-        public static void Handle(this IAcDomain host, IAnycmdCommand command)
+        public static void Handle(this IAcDomain acDomain, IAnycmdCommand command)
         {
-            host.CommandBus.Publish(command);
-            host.CommandBus.Commit();
+            acDomain.CommandBus.Publish(command);
+            acDomain.CommandBus.Commit();
         }
 
         /// <summary>
-        /// Retrieves the service of type <c>T</c> from the provider.
-        /// If the service cannot be found, this method returns <c>null</c>.
+        /// 从对象容器中返回给定.NET类型 <c>T</c> 的服务对象。
+        /// 如果未找到将返回 <c>null</c>值.
         /// </summary>
         public static T GetService<T>(this IAcDomain acDomain)
         {
@@ -79,8 +72,8 @@ namespace Anycmd
         }
 
         /// <summary>
-        /// Retrieves the service of type <c>T</c> from the provider.
-        /// If the service cannot be found, a <see cref="ServiceNotFoundException"/> will be thrown.
+        /// 从对象容器中返回给定.NET类型 <c>T</c> 的服务对象。
+        /// 如果未找到将抛出 <see cref="ServiceNotFoundException"/> 类型的异常。
         /// </summary>
         public static T GetRequiredService<T>(this IAcDomain acDomain)
         {
@@ -88,14 +81,15 @@ namespace Anycmd
         }
 
         /// <summary>
-        /// Retrieves the service of type <paramref name="serviceType"/> from the provider.
-        /// If the service cannot be found, a <see cref="ServiceNotFoundException"/> will be thrown.
+        /// 从对象容器中返回给定.NET类型 <paramref name="serviceType"/>  的服务对象。
+        /// 如果未找到将抛出 <see cref="ServiceNotFoundException"/> 类型的异常。
         /// </summary>
         public static object GetRequiredService(this IAcDomain acDomain, Type serviceType)
         {
-            object service = acDomain.GetService(serviceType);
+            var service = acDomain.GetService(serviceType);
             if (service == null)
                 throw new ServiceNotFoundException(serviceType);
+
             return service;
         }
 
@@ -103,118 +97,31 @@ namespace Anycmd
         /// 从容器中取出给定类型的服务。
         /// 如果服务未找到将返回null值。
         /// </summary>
-        public static T RetrieveService<T>(this IAcDomain host)
+        public static T RetrieveService<T>(this IAcDomain acDomain)
         {
-            return (T)host.GetService(typeof(T));
+            return (T)acDomain.GetService(typeof(T));
         }
 
         /// <summary>
         /// 从容器中取出给定类型的服务。
         /// 如果服务未找到将抛出<see cref="ServiceNotFoundException"/>类型异常。
         /// </summary>
-        public static T RetrieveRequiredService<T>(this IAcDomain host)
+        public static T RetrieveRequiredService<T>(this IAcDomain acDomain)
         {
-            return (T)RetrieveRequiredService(host, typeof(T));
+            return (T)RetrieveRequiredService(acDomain, typeof(T));
         }
 
         /// <summary>
         /// 从容器中取出给定类型的服务。
         /// 如果服务未找到将抛出<see cref="ServiceNotFoundException"/>类型异常。
         /// </summary>
-        public static object RetrieveRequiredService(this IAcDomain host, Type serviceType)
+        public static object RetrieveRequiredService(this IAcDomain acDomain, Type serviceType)
         {
-            var service = host.GetService(serviceType);
+            var service = acDomain.GetService(serviceType);
             if (service == null)
                 throw new ServiceNotFoundException(serviceType);
+
             return service;
-        }
-
-        /// <summary>
-        /// Creates and initializes the domain event data object from the given domain event.
-        /// </summary>
-        /// <param name="host"></param>
-        /// <param name="entity">The domain event instance from which the domain event data object
-        /// is created and initialized.</param>
-        /// <returns>The initialized data object instance.</returns>
-        public static DomainEventDataObject FromDomainEvent(this IAcDomain host, IDomainEvent entity)
-        {
-            var serializer = host.RetrieveRequiredService<IDomainEventSerializer>();
-            var obj = new DomainEventDataObject
-            {
-                Branch = entity.Branch,
-                Data = serializer.Serialize(entity),
-                Id = entity.Id,
-                AssemblyQualifiedEventType =
-                    string.IsNullOrEmpty(entity.AssemblyQualifiedEventType)
-                        ? entity.GetType().AssemblyQualifiedName
-                        : entity.AssemblyQualifiedEventType,
-                Timestamp = entity.Timestamp,
-                Version = entity.Version,
-                SourceId = entity.Source.Id,
-                AssemblyQualifiedSourceType = entity.Source.GetType().AssemblyQualifiedName
-            };
-            return obj;
-        }
-
-        /// <summary>
-        /// Converts the domain event data object to its corresponding domain event entity instance.
-        /// </summary>
-        /// <returns>The domain event entity instance that is converted from the current domain event data object.</returns>
-        public static IDomainEvent ToDomainEvent(this IAcDomain host, DomainEventDataObject from)
-        {
-            if (string.IsNullOrEmpty(from.AssemblyQualifiedEventType))
-                throw new InvalidDataException("form.AssemblyQualifiedTypeName");
-            if (from.Data == null || from.Data.Length == 0)
-                throw new InvalidDataException("Data");
-
-            var serializer = host.RetrieveRequiredService<IDomainEventSerializer>();
-            var type = Type.GetType(from.AssemblyQualifiedEventType);
-            var ret = (IDomainEvent)serializer.Deserialize(type, from.Data);
-            return ret;
-        }
-
-        /// <summary>
-        /// Extracts the snapshot from the current snapshot data object.
-        /// </summary>
-        /// <returns>The snapshot instance.</returns>
-        public static ISnapshot ExtractSnapshot(this IAcDomain host, SnapshotDataObject dataObject)
-        {
-            try
-            {
-                var serializer = host.RetrieveRequiredService<ISnapshotSerializer>();
-                var snapshotType = Type.GetType(dataObject.SnapshotType);
-                if (snapshotType == null)
-                    return null;
-                return (ISnapshot)serializer.Deserialize(snapshotType, dataObject.SnapshotData);
-            }
-            catch
-            {
-                throw;
-            }
-        }
-
-        /// <summary>
-        /// Creates the snapshot data object from the aggregate root.
-        /// </summary>
-        /// <param name="host"></param>
-        /// <param name="aggregateRoot">The aggregate root for which the snapshot is being created.</param>
-        /// <returns>The snapshot data object.</returns>
-        public static SnapshotDataObject CreateFromAggregateRoot(this IAcDomain host, ISourcedAggregateRoot aggregateRoot)
-        {
-            var serializer = host.RetrieveRequiredService<ISnapshotSerializer>();
-
-            var snapshot = aggregateRoot.CreateSnapshot();
-
-            return new SnapshotDataObject
-            {
-                AggregateRootId = aggregateRoot.Id,
-                AggregateRootType = aggregateRoot.GetType().AssemblyQualifiedName,
-                Version = aggregateRoot.Version,
-                Branch = Constants.ApplicationRuntime.DefaultBranch,
-                SnapshotType = snapshot.GetType().AssemblyQualifiedName,
-                Timestamp = snapshot.Timestamp,
-                SnapshotData = serializer.Serialize(snapshot)
-            };
         }
     }
 }

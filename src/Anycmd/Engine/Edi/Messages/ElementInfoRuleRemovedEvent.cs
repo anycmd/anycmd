@@ -1,10 +1,11 @@
 ﻿
 namespace Anycmd.Engine.Edi.Messages
 {
-    using Anycmd.Events;
-    using Engine.Edi.Abstractions;
+    using Events;
+    using Abstractions;
 
-    public class ElementInfoRuleRemovedEvent : DomainEvent {
+    public class ElementInfoRuleRemovedEvent : DomainEvent
+    {
         public ElementInfoRuleRemovedEvent(ElementInfoRule source) : base(source) { }
     }
 }

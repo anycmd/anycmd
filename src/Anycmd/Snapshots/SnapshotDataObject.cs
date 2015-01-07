@@ -15,63 +15,66 @@ namespace Anycmd.Snapshots
     [DataContract]
     public class SnapshotDataObject : IEntity
     {
-        #region Ctor
         /// <summary>
         /// 初始化一个 <c>SnapshotDataObject</c> 类型的对象。
         /// </summary>
         public SnapshotDataObject()
         {
         }
-        #endregion
 
         #region Public Properties
         /// <summary>
-        /// Gets or sets an array of <see cref="System.Byte"/> values that represents
-        /// the binary content of the snapshot data.
+        /// 读取或设置表示快照数据的<see cref="System.Byte"/>数组。
         /// </summary>
         [XmlElement]
         [DataMember]
         public byte[] SnapshotData { get; set; }
+
         /// <summary>
-        /// Gets or sets the identifier of the aggregate root.
+        /// 读取或设置聚合根标识
         /// </summary>
         [XmlElement]
         [DataMember]
         public Guid AggregateRootId { get; set; }
+
         /// <summary>
-        /// Gets or sets the assembly qualified name of the type of the aggregate root.
+        /// 读取或设置程序集级唯一的快照聚合根对象类型
         /// </summary>
         [XmlElement]
         [DataMember]
         public string AggregateRootType { get; set; }
+
         /// <summary>
-        /// Gets or sets the assembly qualified name of the type of the snapshot.
+        /// 读取或设置程序集级唯一的快照对象类型
         /// </summary>
         [XmlElement]
         [DataMember]
         public string SnapshotType { get; set; }
+
         /// <summary>
-        /// Gets or sets the version of the snapshot.
+        /// 读取或设置快照的版本
         /// </summary>
-        /// <remarks>This version is also equal to the version of the event
-        /// on which the snapshot was taken.</remarks>
+        /// <remarks>该值与该快照拍摄时所在的事件对象的version相等。</remarks>
         [XmlElement]
         [DataMember]
         public long Version { get; set; }
+
         /// <summary>
-        /// Gets or sets the branch of the snapshot.
+        /// 读取或设置分支标识。
         /// </summary>
         [XmlElement]
         [DataMember]
         public long Branch { get; set; }
+
         /// <summary>
-        /// Gets or sets the timestamp on which the snapshot was taken.
+        /// 读取或设置快照拍摄时间戳
         /// </summary>
         [XmlElement]
         [DataMember]
         public DateTime Timestamp { get; set; }
+
         /// <summary>
-        /// Gets or sets the identifier of the snapshot data object.
+        /// 读取或设置快照数据对象标识
         /// </summary>
         [XmlElement]
         [DataMember]
@@ -94,6 +97,7 @@ namespace Anycmd.Snapshots
                 this.Timestamp.GetHashCode(),
                 this.Version.GetHashCode());
         }
+
         /// <summary>
         /// Returns a <see cref="System.Boolean"/> value indicating whether this instance is equal to a specified
         /// object.

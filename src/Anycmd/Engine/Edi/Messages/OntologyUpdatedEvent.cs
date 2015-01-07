@@ -1,7 +1,7 @@
 ﻿
 namespace Anycmd.Engine.Edi.Messages
 {
-    using Engine.Edi.Abstractions;
+    using Abstractions;
     using Events;
     using InOuts;
 
@@ -10,7 +10,6 @@ namespace Anycmd.Engine.Edi.Messages
     /// </summary>
     public class OntologyUpdatedEvent : DomainEvent
     {
-        #region Ctor
         public OntologyUpdatedEvent(OntologyBase source, IOntologyUpdateIo output)
             : base(source)
         {
@@ -20,7 +19,6 @@ namespace Anycmd.Engine.Edi.Messages
             }
             this.Output = output;
         }
-        #endregion
 
         public IOntologyUpdateIo Output { get; private set; }
     }

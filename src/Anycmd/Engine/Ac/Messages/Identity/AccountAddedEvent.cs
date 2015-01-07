@@ -1,7 +1,7 @@
 ﻿
 namespace Anycmd.Engine.Ac.Messages.Identity
 {
-    using Engine.Ac.Abstractions.Identity;
+    using Abstractions.Identity;
     using Events;
 
     public class AccountAddedEvent : DomainEvent

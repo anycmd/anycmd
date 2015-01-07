@@ -6,7 +6,7 @@ namespace Anycmd.Engine.Ac.InOuts
     /// <summary>
     /// 更新静态职责分离角色集时的输入或输出参数类型。
     /// </summary>
-    public class SsdSetUpdateIo : IInputModel, ISsdSetUpdateIo
+    public class SsdSetUpdateIo : ISsdSetUpdateIo
     {
         public string Name { get; set; }
 

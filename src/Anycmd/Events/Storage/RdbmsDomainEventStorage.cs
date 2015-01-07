@@ -115,7 +115,7 @@ namespace Anycmd.Events.Storage
                 sort.AddSort<long>("Version");
                 var aggregateRootTypeName = aggregateRootType.AssemblyQualifiedName;
                 ISpecification<DomainEventDataObject> specification = Specification<DomainEventDataObject>.Eval(p => p.SourceId == id && p.AssemblyQualifiedSourceType == aggregateRootTypeName);
-                return _storage.Select<DomainEventDataObject>(specification, sort, Anycmd.Storage.SortOrder.Ascending).Select(p => _host.ToDomainEvent(p));
+                return _storage.Select<DomainEventDataObject>(specification, sort, SortOrder.Ascending).Select(p => _host.ToDomainEvent(p));
             }
             catch { throw; }
         }
@@ -134,7 +134,7 @@ namespace Anycmd.Events.Storage
             var aggregateRootTypeName = aggregateRootType.AssemblyQualifiedName;
             ISpecification<DomainEventDataObject> specification = Specification<DomainEventDataObject>
                 .Eval(p => p.SourceId == id && p.AssemblyQualifiedSourceType == aggregateRootTypeName && p.Version > version);
-            return _storage.Select<DomainEventDataObject>(specification, sort, Anycmd.Storage.SortOrder.Ascending).Select(p => _host.ToDomainEvent(p));
+            return _storage.Select<DomainEventDataObject>(specification, sort, SortOrder.Ascending).Select(p => _host.ToDomainEvent(p));
         }
 
         #endregion
