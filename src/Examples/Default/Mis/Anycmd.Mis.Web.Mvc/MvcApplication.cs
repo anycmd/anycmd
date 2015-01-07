@@ -56,7 +56,7 @@ namespace Anycmd.Mis.Web.Mvc
                new { controller = "Error", action = "Http404", id = UrlParameter.Optional });
             #endregion
 
-            var acDomain = new DefaultAcDomain();
+            var acDomain = new MisAcDomain();
             Application.Add(Constants.ApplicationRuntime.AcDomainCacheKey, acDomain);
             acDomain.AddService(typeof(IFunctionListImport), new FunctionListImport());
             acDomain.AddService(typeof(IEfFilterStringBuilder), new EfFilterStringBuilder());

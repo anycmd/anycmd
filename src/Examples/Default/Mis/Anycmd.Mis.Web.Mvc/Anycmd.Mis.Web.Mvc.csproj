@@ -109,6 +109,7 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="FunctionListImport.cs" />
+    <Compile Include="MisAcDomain.cs" />
     <Compile Include="MisAreaRegistration.cs" />
     <Compile Include="Properties\AssemblyInfo.log4net.cs" />
     <Compile Include="Controllers\HomeController.cs" />
