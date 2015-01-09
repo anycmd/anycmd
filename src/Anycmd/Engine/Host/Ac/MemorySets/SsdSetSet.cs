@@ -15,7 +15,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     using System.Linq;
     using Util;
 
-    internal sealed class SsdSetSet : ISsdSetSet
+    internal sealed class SsdSetSet : ISsdSetSet, IMemorySet
     {
         public static readonly ISsdSetSet Empty = new SsdSetSet(EmptyAcDomain.SingleInstance);
 
@@ -125,6 +125,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             lock (this)
             {
                 if (_initialized) return;
+                _host.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
                 _ssdSetDic.Clear();
                 _ssdRoleBySet.Clear();
                 _ssdRoleById.Clear();
@@ -160,6 +161,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                 }
                 _initialized = true;
+                _host.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
             }
         }
 

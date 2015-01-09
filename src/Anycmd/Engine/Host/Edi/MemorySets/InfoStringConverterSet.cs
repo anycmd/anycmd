@@ -15,7 +15,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
     /// <summary>
     /// 
     /// </summary>
-    internal sealed class InfoStringConverterSet : IInfoStringConverterSet
+    internal sealed class InfoStringConverterSet : IInfoStringConverterSet, IMemorySet
     {
         public static readonly IInfoStringConverterSet Empty = new InfoStringConverterSet(EmptyAcDomain.SingleInstance);
 
@@ -106,6 +106,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             lock (_locker)
             {
                 if (_initialized) return;
+                _host.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
                 _dic.Clear();
 
                 var convertors = GetInfoStringConverters();
@@ -123,6 +124,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                 }
                 _initialized = true;
+                _host.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
             }
         }
 

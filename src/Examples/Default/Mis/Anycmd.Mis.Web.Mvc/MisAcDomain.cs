@@ -1,22 +1,59 @@
 ﻿
 namespace Anycmd.Mis.Web.Mvc
 {
+    using Ac.Queries.Ef.Identity;
+    using Anycmd.Web;
     using Bus;
+    using Edi.Application;
+    using Edi.MessageServices;
+    using Edi.Queries.Ef;
+    using Ef;
     using Engine.Ac;
     using Engine.Ac.InOuts;
     using Engine.Ac.Messages.Infra;
     using Engine.Edi;
     using Engine.Edi.Messages;
+    using Engine.Host;
     using Engine.Host.Impl;
+    using Logging;
     using System;
+    using System.Collections.Generic;
+    using System.Web;
     using Util;
+
+
 
     public class MisAcDomain : DefaultAcDomain
     {
+        internal MisAcDomain(HttpApplication application)
+        {
+            application.Application.Add(Constants.ApplicationRuntime.AcDomainCacheKey, this);
+        }
+
         public override void Configure()
         {
             base.Configure();
+            base.AddService(typeof(IFunctionListImport), new FunctionListImport());
+            base.AddService(typeof(IEfFilterStringBuilder), new EfFilterStringBuilder());
+            base.AddService(typeof(ILoggingService), new Log4NetLoggingService(this));
+            base.AddService(typeof(IUserSessionStorage), new WebUserSessionStorage());
+            this.RegisterRepository(new List<string>
+            {
+                "EdiEntities",
+                "AcEntities",
+                "InfraEntities",
+                "IdentityEntities"
+            }, typeof(AcDomain).Assembly);
+            this.RegisterQuery(typeof(BatchQuery).Assembly, typeof(AccountQuery).Assembly);
+            this.RegisterEdiCore();
             new OntologyMessageHandler(this).Register();
+        }
+
+        public override AcDomain Init()
+        {
+            base.Init();
+            (new ServiceHost(this, "", typeof(MessageService).Assembly)).Init();
+            return this;
         }
 
         private class OntologyMessageHandler :

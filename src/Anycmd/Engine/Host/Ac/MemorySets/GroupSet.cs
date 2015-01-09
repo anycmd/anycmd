@@ -17,7 +17,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     using System.Linq;
     using Util;
 
-    internal sealed class GroupSet : IGroupSet
+    internal sealed class GroupSet : IGroupSet, IMemorySet
     {
         public static readonly IGroupSet Empty = new GroupSet(EmptyAcDomain.SingleInstance);
 
@@ -74,6 +74,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             lock (this)
             {
                 if (_initialized) return;
+                _host.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
                 _groupDic.Clear();
                 var groups = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllGroups();
                 foreach (var group in groups)
@@ -84,6 +85,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                 }
                 _initialized = true;
+                _host.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
             }
         }
 

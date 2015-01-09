@@ -14,7 +14,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     using Util;
     using loginName = System.String;
 
-    internal sealed class SysUserSet : ISysUserSet
+    internal sealed class SysUserSet : ISysUserSet, IMemorySet
     {
         public static readonly ISysUserSet Empty = new SysUserSet(EmptyAcDomain.SingleInstance);
 
@@ -89,6 +89,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             lock (this)
             {
                 if (_initialized) return;
+                _host.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
                 _devAccountById.Clear();
                 _devAccountByLoginName.Clear();
                 var accounts = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllDevAccounts();
@@ -105,6 +106,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                 }
                 _initialized = true;
+                _host.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
             }
         }
 

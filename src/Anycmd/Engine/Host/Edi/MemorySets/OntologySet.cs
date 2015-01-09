@@ -25,7 +25,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
     /// <summary>
     /// 
     /// </summary>
-    internal sealed class OntologySet : IOntologySet
+    internal sealed class OntologySet : IOntologySet, IMemorySet
     {
         public static readonly IOntologySet Empty = new OntologySet(EmptyAcDomain.SingleInstance);
 
@@ -339,6 +339,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             lock (_locker)
             {
                 if (_initialized) return;
+                _host.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
                 _ontologyDicByCode.Clear();
                 _ontologyDicById.Clear();
                 var allOntologies = _host.RetrieveRequiredService<INodeHostBootstrap>().GetOntologies().OrderBy(s => s.SortCode);
@@ -349,6 +350,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     _ontologyDicById.Add(ontology.Id, ontologyDescriptor);
                 }
                 _initialized = true;
+                _host.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
             }
         }
 

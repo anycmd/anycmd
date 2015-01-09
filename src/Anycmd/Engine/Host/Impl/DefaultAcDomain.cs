@@ -20,7 +20,7 @@ namespace Anycmd.Engine.Host.Impl
     /// <summary>
     /// 系统实体宿主。
     /// </summary>
-    public class DefaultAcDomain : AcDomain
+    public class DefaultAcDomain : AcDomain, IHandler<MemorySetInitingEvent>, IHandler<MemorySetInitializedEvent>
     {
         public DefaultAcDomain()
         {
@@ -49,6 +49,18 @@ namespace Anycmd.Engine.Host.Impl
             base.DsdSetSet = new DsdSetSet(this);
             base.GroupSet = new GroupSet(this);
             this.NodeHost = new DefaultNodeHost(this);
+            this.MessageDispatcher.Register((IHandler<MemorySetInitingEvent>)this);
+            this.MessageDispatcher.Register((IHandler<MemorySetInitializedEvent>)this);
+        }
+
+        public virtual void Handle(MemorySetInitingEvent message)
+        {
+            
+        }
+
+        public virtual void Handle(MemorySetInitializedEvent message)
+        {
+
         }
 
         public override void Configure()

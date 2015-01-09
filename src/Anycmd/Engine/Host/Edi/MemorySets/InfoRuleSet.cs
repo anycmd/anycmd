@@ -19,7 +19,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
     /// <summary>
     /// 
     /// </summary>
-    internal sealed class InfoRuleSet : IInfoRuleSet
+    internal sealed class InfoRuleSet : IInfoRuleSet, IMemorySet
     {
         public static readonly IInfoRuleSet Empty = new InfoRuleSet(EmptyAcDomain.SingleInstance);
 
@@ -99,6 +99,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             lock (_locker)
             {
                 if (_initialized) return;
+                _host.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
                 foreach (var item in _infoRuleEntities)
                 {
                     item.Value.InfoRule.Dispose();
@@ -116,6 +117,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
 
                 _initialized = true;
+                _host.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
             }
         }
 

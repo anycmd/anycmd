@@ -78,7 +78,6 @@ namespace Anycmd.Web.Mvc
             }
 
             #region 登录验证
-            var storage = host.GetRequiredService<IUserSessionStorage>();
             var user = filterContext.HttpContext.User;
             if (!user.Identity.IsAuthenticated)
             {
@@ -107,6 +106,7 @@ namespace Anycmd.Web.Mvc
             {
                 return;
             }
+            var storage = host.GetRequiredService<IUserSessionStorage>();
             var userSession = storage.GetData(host.Config.CurrentUserSessionCacheKey) as IUserSession;
             if (userSession == null)
             {

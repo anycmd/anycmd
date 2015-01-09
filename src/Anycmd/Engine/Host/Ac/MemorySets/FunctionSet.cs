@@ -17,7 +17,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     using Util;
     using functionCode = System.String;
 
-    internal sealed class FunctionSet : IFunctionSet
+    internal sealed class FunctionSet : IFunctionSet, IMemorySet
     {
         public static readonly IFunctionSet Empty = new FunctionSet(EmptyAcDomain.SingleInstance);
 
@@ -105,6 +105,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             lock (this)
             {
                 if (_initialized) return;
+                _host.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
                 _dicByCode.Clear();
                 _dicById.Clear();
                 var functions = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllFunctions();
@@ -122,6 +123,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                 }
                 _initialized = true;
+                _host.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
             }
         }
 

@@ -19,7 +19,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     /// <summary>
     /// 资源上下文
     /// </summary>
-    internal sealed class ResourceTypeSet : IResourceTypeSet
+    internal sealed class ResourceTypeSet : IResourceTypeSet, IMemorySet
     {
         public static readonly IResourceTypeSet Empty = new ResourceTypeSet(EmptyAcDomain.SingleInstance);
 
@@ -110,6 +110,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             lock (this)
             {
                 if (_initialized) return;
+                _host.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
                 _dicByCode.Clear();
                 _dicById.Clear();
                 var allResources = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllResources();
@@ -137,6 +138,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     _dicById.Add(resource.Id, resourceState);
                 }
                 _initialized = true;
+                _host.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
             }
         }
 

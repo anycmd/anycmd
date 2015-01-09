@@ -15,7 +15,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
     /// <summary>
     /// 
     /// </summary>
-    internal sealed class MessageTransferSet : IMessageTransferSet
+    internal sealed class MessageTransferSet : IMessageTransferSet, IMemorySet
     {
         public static readonly IMessageTransferSet Empty = new MessageTransferSet(EmptyAcDomain.SingleInstance);
 
@@ -95,6 +95,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             lock (_locker)
             {
                 if (_initialized) return;
+                _host.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
                 foreach (var item in _dic.Values)
                 {
                     item.Dispose();
@@ -112,6 +113,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                 }
                 _initialized = true;
+                _host.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
             }
         }
 

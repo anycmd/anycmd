@@ -1,22 +1,22 @@
 ﻿
 namespace Anycmd.Edi.MessageHandler
 {
-    using Anycmd.Web;
-    using Application;
-    using Ef;
-    using Engine.Edi;
-    using Engine.Host;
-    using Engine.Host.Edi.Handlers;
-    using Engine.Host.Edi.Handlers.Execute;
-    using Engine.Host.Impl;
-    using Exceptions;
-    using Logging;
-    using System;
-    using System.Collections.Generic;
-    using System.Configuration;
-    using System.Reflection;
-    using System.Security.Principal;
-    using System.Threading;
+	using Anycmd.Web;
+	using Application;
+	using Ef;
+	using Engine.Edi;
+	using Engine.Host;
+	using Engine.Host.Edi.Handlers;
+	using Engine.Host.Edi.Handlers.Execute;
+	using Engine.Host.Impl;
+	using Exceptions;
+	using Logging;
+	using System;
+	using System.Collections.Generic;
+	using System.Configuration;
+	using System.Reflection;
+	using System.Security.Principal;
+	using System.Threading;
 
 	/// <summary>
 	/// <remarks>
@@ -70,7 +70,7 @@ namespace Anycmd.Edi.MessageHandler
 			// 环境初始化
 			acDomain = new DefaultAcDomain();
 			acDomain.AddService(typeof(ILoggingService), new Log4NetLoggingService(acDomain));
-			acDomain.AddService(typeof(IUserSessionStorage), new WebUserSessionStorage());
+			acDomain.AddService(typeof(IUserSessionStorage), new SimpleUserSessionStorage());
 			acDomain.Init();
 			acDomain.RegisterRepository(new List<string>
 			{

@@ -21,7 +21,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
     /// <summary>
     /// 
     /// </summary>
-    internal sealed class InfoDicSet : IInfoDicSet
+    internal sealed class InfoDicSet : IInfoDicSet, IMemorySet
     {
         public static readonly IInfoDicSet Empty = new InfoDicSet(EmptyAcDomain.SingleInstance);
 
@@ -172,6 +172,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             lock (_locker)
             {
                 if (_initialized) return;
+                _host.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
                 _infoDicDicById.Clear();
                 _infoDicDicByCode.Clear();
                 _infoDicItemByDic.Clear();
@@ -194,6 +195,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     _infoDicItemDic.Add(infoDicItem.Id, infoDicItemState);
                 }
                 _initialized = true;
+                _host.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
             }
         }
 

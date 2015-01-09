@@ -75,7 +75,7 @@ namespace Anycmd.Edi.MessageDispatcher
 			// 环境初始化
 			_acDomain = new DefaultAcDomain();
 			_acDomain.AddService(typeof(ILoggingService), new Log4NetLoggingService(_acDomain));
-			_acDomain.AddService(typeof(IUserSessionStorage), new WebUserSessionStorage());
+			_acDomain.AddService(typeof(IUserSessionStorage), new SimpleUserSessionStorage());
 			_acDomain.Init();
 			_acDomain.RegisterRepository(new List<string>
 			{

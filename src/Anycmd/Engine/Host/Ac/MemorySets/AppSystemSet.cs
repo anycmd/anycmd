@@ -17,7 +17,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     using System.Linq;
     using Util;
 
-    internal sealed class AppSystemSet : IAppSystemSet
+    internal sealed class AppSystemSet : IAppSystemSet, IMemorySet
     {
         public static readonly IAppSystemSet Empty = new AppSystemSet(EmptyAcDomain.SingleInstance);
 
@@ -135,6 +135,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             lock (this)
             {
                 if (_initialized) return;
+                _host.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
                 _dicByCode.Clear();
                 _dicById.Clear();
                 var appSystems = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllAppSystems();
@@ -154,6 +155,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     _dicById.Add(appSystem.Id, value);
                 }
                 _initialized = true;
+                _host.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
             }
         }
 

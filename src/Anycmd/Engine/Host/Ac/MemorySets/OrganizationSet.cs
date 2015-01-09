@@ -16,7 +16,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     using System.Linq;
     using Util;
 
-    internal sealed class OrganizationSet : IOrganizationSet
+    internal sealed class OrganizationSet : IOrganizationSet, IMemorySet
     {
         public static readonly IOrganizationSet Empty = new OrganizationSet(EmptyAcDomain.SingleInstance);
 
@@ -79,6 +79,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             lock (this)
             {
                 if (_initialized) return;
+                _host.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
                 _dicByCode.Clear();
                 _dicById.Clear();
                 _dicByCode.Add(OrganizationState.VirtualRoot.Code, OrganizationState.VirtualRoot);
@@ -97,6 +98,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                 }
                 _initialized = true;
+                _host.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
             }
         }
 

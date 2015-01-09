@@ -16,7 +16,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     using System.Linq;
     using Util;
 
-    internal sealed class UiViewSet : IUiViewSet
+    internal sealed class UiViewSet : IUiViewSet, IMemorySet
     {
         public static readonly IUiViewSet Empty = new UiViewSet(EmptyAcDomain.SingleInstance);
 
@@ -113,6 +113,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             lock (this)
             {
                 if (_initialized) return;
+                _host.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
                 _viewDicByFunction.Clear();
                 _viewDicById.Clear();
                 var views = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllUiViews();
@@ -131,6 +132,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                 }
                 _initialized = true;
+                _host.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
             }
         }
 

@@ -14,9 +14,8 @@ namespace Anycmd.Engine.Host.Impl
     /// </summary>
     public abstract class AcDomain : AnycmdServiceContainer, IAcDomain
     {
-        private static readonly object Locker = new object();
         private bool _pluginsLoaded;
-
+        private bool _initialized;
         private readonly Guid _id = Guid.NewGuid();
 
         public Guid Id
@@ -41,11 +40,8 @@ namespace Anycmd.Engine.Host.Impl
 
         protected AcDomain()
         {
-            lock (Locker)
-            {
-                this.Name = "DefaultAcDomain";
-                this.StartedAt = DateTime.UtcNow;
-            }
+            this.Name = "DefaultAcDomain";
+            this.StartedAt = DateTime.UtcNow;
         }
 
         /// <summary>
@@ -54,14 +50,25 @@ namespace Anycmd.Engine.Host.Impl
         /// <returns></returns>
         public virtual AcDomain Init()
         {
-            this.Config = Conventions;
-            OnConfigLoad();
+            if (_initialized)
+            {
+                return this;
+            }
+            lock (this)
+            {
+                if (_initialized)
+                {
+                    return this;
+                }
+                this.Config = Conventions;
+                OnConfigLoad();
 
-            Configure();
+                Configure();
 
-            OnAfterInit();
-
-            return this;
+                OnAfterInit();
+                _initialized = true;
+                return this;
+            }
         }
 
         private HostConvention _conventions;

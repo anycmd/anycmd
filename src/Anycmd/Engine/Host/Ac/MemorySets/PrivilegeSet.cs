@@ -21,7 +21,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     /// <summary>
     /// 
     /// </summary>
-    internal sealed class PrivilegeSet : IPrivilegeSet
+    internal sealed class PrivilegeSet : IPrivilegeSet, IMemorySet
     {
         public static readonly IPrivilegeSet Empty = new PrivilegeSet(EmptyAcDomain.SingleInstance);
 
@@ -55,6 +55,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             lock (this)
             {
                 if (_initialized) return;
+                _host.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
                 _privilegeList.Clear();
                 var rolePrivileges = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetPrivileges();
                 foreach (var rolePrivilege in rolePrivileges)
@@ -63,6 +64,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     _privilegeList.Add(rolePrivilegeState);
                 }
                 _initialized = true;
+                _host.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
             }
         }
 

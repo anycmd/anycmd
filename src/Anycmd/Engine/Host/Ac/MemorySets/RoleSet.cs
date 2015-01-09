@@ -18,7 +18,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     using Util;
     using roleId = System.Guid;
 
-    internal sealed class RoleSet : IRoleSet
+    internal sealed class RoleSet : IRoleSet, IMemorySet
     {
         public static readonly IRoleSet Empty = new RoleSet(EmptyAcDomain.SingleInstance);
 
@@ -104,6 +104,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             lock (this)
             {
                 if (_initialized) return;
+                _host.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
                 _roleDic.Clear();
                 _descendantRoles.Clear();
                 var roles = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllRoles();
@@ -122,6 +123,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     _descendantRoles.Add(role.Value, children);
                 }
                 _initialized = true;
+                _host.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
             }
         }
 

@@ -14,7 +14,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
     /// <summary>
     /// 
     /// </summary>
-    internal sealed class MessageProviderSet : IMessageProviderSet
+    internal sealed class MessageProviderSet : IMessageProviderSet, IMemorySet
     {
         public static readonly IMessageProviderSet Empty = new MessageProviderSet(EmptyAcDomain.SingleInstance);
 
@@ -94,6 +94,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             lock (_locker)
             {
                 if (_initialized) return;
+                _host.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
                 _dic.Clear();
                 var messageProviders = GetMessageProviders();
                 if (messageProviders != null)
@@ -106,6 +107,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                 }
                 _initialized = true;
+                _host.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
             }
         }
 

@@ -1,7 +1,9 @@
 ﻿
+
 namespace Anycmd.Engine.Host.Edi.MemorySets
 {
     using Engine.Edi;
+    using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.ComponentModel;
@@ -10,13 +12,29 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
     /// <summary>
     /// 状态码上下文
     /// </summary>
-    internal sealed class StateCodes : IStateCodes
+    internal sealed class StateCodes : IStateCodes, IMemorySet
     {
-        public static readonly StateCodes Empty = new StateCodes();
+        public static readonly StateCodes Empty = new StateCodes(EmptyAcDomain.SingleInstance);
 
         private static readonly List<StateCode> List = new List<StateCode>();
         private static bool _initialized = false;
         private static readonly object Locker = new object();
+        private readonly Guid _id = Guid.NewGuid();
+        private readonly IAcDomain _host;
+
+        public StateCodes(IAcDomain host)
+        {
+            if (host == null)
+            {
+                throw new ArgumentNullException("host");
+            }
+            this._host = host;
+        }
+
+        public Guid Id
+        {
+            get { return _id; }
+        }
 
         /// <summary>
         /// 
@@ -35,6 +53,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             lock (Locker)
             {
                 if (_initialized) return;
+                _host.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
                 List.Clear();
                 var stateCodeEnumType = typeof(Status);
                 var members = stateCodeEnumType.GetFields();
@@ -63,6 +82,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     List.Add(item);
                 }
                 _initialized = true;
+                _host.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
             }
         }
 

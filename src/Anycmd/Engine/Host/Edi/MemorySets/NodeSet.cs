@@ -23,7 +23,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
     /// <summary>
     /// 节点上下文访问接口默认实现
     /// </summary>
-    internal sealed class NodeSet : INodeSet
+    internal sealed class NodeSet : INodeSet, IMemorySet
     {
         public static readonly INodeSet Empty = new NodeSet(EmptyAcDomain.SingleInstance);
 
@@ -318,6 +318,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             lock (_locker)
             {
                 if (_initialized) return;
+                _host.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
                 _allNodesById.Clear();
                 _allNodesByPublicKey.Clear();
                 var allNodes = _host.RetrieveRequiredService<INodeHostBootstrap>().GetNodes();
@@ -341,6 +342,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                 }
                 _initialized = true;
+                _host.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
             }
         }
 

@@ -16,7 +16,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     using System.Linq;
     using Util;
 
-    internal sealed class MenuSet : IMenuSet
+    internal sealed class MenuSet : IMenuSet, IMemorySet
     {
         public static readonly IMenuSet Empty = new MenuSet(EmptyAcDomain.SingleInstance);
 
@@ -77,6 +77,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             lock (this)
             {
                 if (_initialized) return;
+                _host.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
                 _menuById.Clear();
                 var menus = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllMenus().OrderBy(a => a.SortCode);
                 foreach (var menu in menus)
@@ -84,6 +85,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     _menuById.Add(menu.Id, MenuState.Create(_host, menu));
                 }
                 _initialized = true;
+                _host.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
             }
         }
 

@@ -17,7 +17,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     using System.Text;
     using Util;
 
-    internal sealed class DicSet : IDicSet
+    internal sealed class DicSet : IDicSet, IMemorySet
     {
         public static readonly IDicSet Empty = new DicSet(EmptyAcDomain.SingleInstance);
 
@@ -168,6 +168,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             lock (this)
             {
                 if (_initialized) return;
+                _host.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
                 _dicById.Clear();
                 _dicByCode.Clear();
                 var dics = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllDics().ToList();
@@ -186,6 +187,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     _dicByCode.Add(dic.Code, dicState);
                 }
                 _initialized = true;
+                _host.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
             }
         }
 

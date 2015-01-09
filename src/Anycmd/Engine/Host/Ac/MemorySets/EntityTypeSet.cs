@@ -21,7 +21,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     using propertyCode = System.String;
     using propertyId = System.Guid;
 
-    internal sealed class EntityTypeSet : IEntityTypeSet
+    internal sealed class EntityTypeSet : IEntityTypeSet, IMemorySet
     {
         public static readonly IEntityTypeSet Empty = new EntityTypeSet(EmptyAcDomain.SingleInstance);
 
@@ -166,6 +166,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             lock (this)
             {
                 if (_initialized) return;
+                _host.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
                 _dicById.Clear();
                 _dicByCode.Clear();
                 var entityTypes = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllEntityTypes().OrderBy(a => a.SortCode);
@@ -189,6 +190,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     _dicById.Add(entityType.Id, entityTypeState);
                 }
                 _initialized = true;
+                _host.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
             }
         }
 

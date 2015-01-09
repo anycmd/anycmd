@@ -1,21 +1,11 @@
 ﻿
 namespace Anycmd.Mis.Web.Mvc
 {
-    using Ac.Queries.Ef.Identity;
-    using Anycmd.Web;
     using Anycmd.Web.Mvc;
-    using Edi.Application;
-    using Edi.MessageServices;
-    using Edi.Queries.Ef;
     using Ef;
-    using Engine.Host;
-    using Engine.Host.Impl;
-    using Logging;
-    using System.Collections.Generic;
     using System.Web;
     using System.Web.Mvc;
     using System.Web.Routing;
-    using Util;
 
     public class MvcApplication : HttpApplication
     {
@@ -56,25 +46,7 @@ namespace Anycmd.Mis.Web.Mvc
                new { controller = "Error", action = "Http404", id = UrlParameter.Optional });
             #endregion
 
-            var acDomain = new MisAcDomain();
-            Application.Add(Constants.ApplicationRuntime.AcDomainCacheKey, acDomain);
-            acDomain.AddService(typeof(IFunctionListImport), new FunctionListImport());
-            acDomain.AddService(typeof(IEfFilterStringBuilder), new EfFilterStringBuilder());
-            acDomain.AddService(typeof(ILoggingService), new Log4NetLoggingService(acDomain));
-            acDomain.AddService(typeof(IUserSessionStorage), new WebUserSessionStorage());
-            acDomain.Init();
-
-            acDomain.RegisterRepository(new List<string>
-            {
-                "EdiEntities",
-                "AcEntities",
-                "InfraEntities",
-                "IdentityEntities"
-            }, typeof(AcDomain).Assembly);
-            acDomain.RegisterQuery(typeof(BatchQuery).Assembly, typeof(AccountQuery).Assembly);
-            acDomain.RegisterEdiCore();
-
-            (new ServiceHost(acDomain, "", typeof(MessageService).Assembly)).Init();
+            new MisAcDomain(this).Init();
         }
     }
 }

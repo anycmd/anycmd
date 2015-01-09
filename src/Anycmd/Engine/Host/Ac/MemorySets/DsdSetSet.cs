@@ -15,7 +15,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     using System.Linq;
     using Util;
 
-    internal sealed class DsdSetSet : IDsdSetSet
+    internal sealed class DsdSetSet : IDsdSetSet, IMemorySet
     {
         public static readonly IDsdSetSet Empty = new DsdSetSet(EmptyAcDomain.SingleInstance);
 
@@ -121,6 +121,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             lock (this)
             {
                 if (_initialized) return;
+                _host.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
                 _dsdSetDic.Clear();
                 _dsdRoleBySet.Clear();
                 _dsdRoleById.Clear();
@@ -156,6 +157,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                 }
                 _initialized = true;
+                _host.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
             }
         }
 

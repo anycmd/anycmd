@@ -15,7 +15,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
     /// <summary>
     /// 
     /// </summary>
-    internal sealed class ProcesseSet : IProcesseSet
+    internal sealed class ProcesseSet : IProcesseSet, IMemorySet
     {
         public static readonly IProcesseSet Empty = new ProcesseSet(EmptyAcDomain.SingleInstance);
 
@@ -123,21 +123,19 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
         private void Init()
         {
-            if (!_initialized)
+            if (_initialized) return;
+            lock (_locker)
             {
-                lock (_locker)
+                if (_initialized) return;
+                _host.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
+                _dic.Clear();
+                var processes = _host.RetrieveRequiredService<INodeHostBootstrap>().GetProcesses();
+                foreach (var process in processes)
                 {
-                    if (!_initialized)
-                    {
-                        _dic.Clear();
-                        var processes = _host.RetrieveRequiredService<INodeHostBootstrap>().GetProcesses();
-                        foreach (var process in processes)
-                        {
-                            _dic.Add(process.Id, new ProcessDescriptor(_host, ProcessState.Create(process), process.Id));
-                        }
-                        _initialized = true;
-                    }
+                    _dic.Add(process.Id, new ProcessDescriptor(_host, ProcessState.Create(process), process.Id));
                 }
+                _initialized = true;
+                _host.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
             }
         }
 

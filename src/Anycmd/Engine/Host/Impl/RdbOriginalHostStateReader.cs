@@ -512,7 +512,7 @@ namespace Anycmd.Engine.Host.Impl
                     SubjectInstanceId = (Guid)row["SubjectInstanceId"],
                     ObjectType = (string)row["ObjectType"],
                     ObjectInstanceId = (Guid)row["ObjectInstanceId"],
-                    AcContentType = (string)row["AcContentType"],
+                    AcContentType = row["AcContentType"] == DBNull.Value ? null : row["AcContentType"].ToString(),
                     AcContent = row["AcContent"] == DBNull.Value ? null : row["AcContent"].ToString(),
                     Etag = (byte[])row["Etag"]
                 };

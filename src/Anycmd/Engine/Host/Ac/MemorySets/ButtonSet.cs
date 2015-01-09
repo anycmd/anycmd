@@ -16,7 +16,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     using System.Linq;
     using Util;
 
-    internal sealed class ButtonSet : IButtonSet
+    internal sealed class ButtonSet : IButtonSet, IMemorySet
     {
         public static readonly IButtonSet Empty = new ButtonSet(EmptyAcDomain.SingleInstance);
 
@@ -92,6 +92,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             lock (this)
             {
                 if (_initialized) return;
+                _host.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
                 _dicById.Clear();
                 _dicByCode.Clear();
                 var buttons = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllButtons().ToList();
@@ -110,6 +111,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     _dicByCode.Add(button.Code, buttonState);
                 }
                 _initialized = true;
+                _host.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
             }
         }
 
