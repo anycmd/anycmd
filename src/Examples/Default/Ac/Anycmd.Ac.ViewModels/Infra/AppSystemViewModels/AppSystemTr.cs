@@ -71,11 +71,7 @@ namespace Anycmd.Ac.ViewModels.Infra.AppSystemViewModels
         {
             get
             {
-                if (this.PrincipalId.HasValue)
-                {
-                    return this.Principal.LoginName;
-                }
-                return null;
+                return this.PrincipalId.HasValue ? this.Principal.LoginName : null;
             }
         }
 
@@ -98,15 +94,12 @@ namespace Anycmd.Ac.ViewModels.Infra.AppSystemViewModels
         {
             get
             {
-                if (this.PrincipalId.HasValue)
+                if (!this.PrincipalId.HasValue) return null;
+                if (!_host.SysUsers.TryGetDevAccount(this.PrincipalId.Value, out _principal))
                 {
-                    if (!_host.SysUsers.TryGetDevAccount(this.PrincipalId.Value, out _principal))
-                    {
-                        throw new ValidationException("意外的开发人员标识" + this.PrincipalId);
-                    }
-                    return _principal;
+                    throw new ValidationException("意外的开发人员标识" + this.PrincipalId);
                 }
-                return null;
+                return _principal;
             }
         }
     }

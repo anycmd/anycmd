@@ -10,7 +10,23 @@ namespace Anycmd.Ac.ViewModels.Infra.AppSystemViewModels
 
     public class AppSystemInfo : Dictionary<string, object>
     {
-        private AppSystemInfo() { }
+        private AppSystemInfo(DicReader dic)
+            : base(dic)
+        {
+            AccountState principal;
+            if (!dic.Host.SysUsers.TryGetDevAccount((Guid)this["PrincipalId"], out principal))
+            {
+                throw new AnycmdException("意外的开发人员标识" + this["PrincipalId"]);
+            }
+            if (!this.ContainsKey("PrincipalName"))
+            {
+                this.Add("PrincipalName", principal.LoginName);
+            }
+            if (!this.ContainsKey("IsEnabledName"))
+            {
+                this.Add("IsEnabledName", dic.Host.Translate("Ac", "AppSystem", "IsEnabledName", this["IsEnabled"].ToString()));
+            }
+        }
 
         public static AppSystemInfo Create(DicReader dic)
         {
@@ -18,24 +34,7 @@ namespace Anycmd.Ac.ViewModels.Infra.AppSystemViewModels
             {
                 return null;
             }
-            var data = new AppSystemInfo();
-            foreach (var item in dic)
-            {
-                data.Add(item.Key, item.Value);
-            }
-            AccountState principal;
-            if (!dic.Host.SysUsers.TryGetDevAccount((Guid)data["PrincipalId"], out principal))
-            {
-                throw new AnycmdException("意外的开发人员标识" + data["PrincipalId"]);
-            }
-            if (!data.ContainsKey("PrincipalName"))
-            {
-                data.Add("PrincipalName", principal.LoginName);
-            }
-            if (!data.ContainsKey("IsEnabledName"))
-            {
-                data.Add("IsEnabledName", dic.Host.Translate("Ac", "AppSystem", "IsEnabledName", data["IsEnabled"].ToString()));
-            }
+            var data = new AppSystemInfo(dic);
 
             return data;
         }

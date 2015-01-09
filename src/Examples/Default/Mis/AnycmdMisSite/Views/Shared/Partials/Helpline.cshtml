@@ -3,7 +3,7 @@
     FunctionState function = null;
     if (!Html.CurrentHost().FunctionSet.TryGetFunction(Model.Id, out function))
     {
-        throw new Anycmd.Exceptions.CoreException();
+        throw new Anycmd.Exceptions.AnycmdException();
     }
 }
 <h2>
