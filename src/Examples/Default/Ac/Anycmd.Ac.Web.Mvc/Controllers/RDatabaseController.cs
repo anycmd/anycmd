@@ -172,7 +172,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 throw new ValidationException("意外的数据库Id");
             }
             DbTable dbTable;
-            if (!AcDomain.DbTables.TryGetDbTable(db, id, out dbTable))
+            if (!db.TryGetDbTable(id, out dbTable))
             {
                 throw new ValidationException("意外的数据库表标识" + id);
             }
@@ -191,7 +191,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 throw new ValidationException("意外的数据库Id");
             }
             DbView dbView;
-            if (!AcDomain.DbViews.TryGetDbView(db, id, out dbView))
+            if (!db.TryGetDbView(id, out dbView))
             {
                 throw new ValidationException("意外的数据库视图标识" + id);
             }
@@ -209,7 +209,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 throw new ValidationException("意外的数据库Id");
             }
             DbView view;
-            if (!AcDomain.DbViews.TryGetDbView(db, viewId, out view))
+            if (!db.TryGetDbView(viewId, out view))
             {
                 throw new ValidationException("意外的数据库视图" + viewId);
             }
@@ -227,7 +227,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 throw new ValidationException("意外的数据库Id");
             }
             DbTableColumn colum;
-            if (!AcDomain.DbTableColumns.TryGetDbTableColumn(db, id, out colum))
+            if (!AcDomain.Rdbs.DbTableColumns.TryGetDbTableColumn(db, id, out colum))
             {
                 throw new ValidationException("意外的数据库表列标识" + id);
             }
@@ -245,7 +245,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 throw new ValidationException("意外的数据库Id");
             }
             DbViewColumn colum;
-            if (!AcDomain.DbViewColumns.TryGetDbViewColumn(db, id, out colum))
+            if (!AcDomain.Rdbs.DbViewColumns.TryGetDbViewColumn(db, id, out colum))
             {
                 throw new ValidationException("意外的数据库视图列标识" + id);
             }

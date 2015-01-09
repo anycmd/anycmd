@@ -101,16 +101,17 @@ namespace Anycmd.Edi.MessageProvider.SqlServer2008
         #endregion
 
         #region SaveCommands
+
         /// <summary>
         /// 批量保存本地事件
         /// </summary>
         /// <param name="ontology">本体</param>
-        /// <param name="commandEvents">本地事件</param>
+        /// <param name="commands"></param>
         public ProcessResult SaveCommands(OntologyDescriptor ontology, MessageEntity[] commands)
         {
             if (ontology == null)
             {
-                return new ProcessResult(new ArgumentNullException("ontology", "ontology参数为null"));
+                return new ProcessResult(new ArgumentNullException("ontology", @"ontology参数为null"));
             }
             if (commands == null)
             {
@@ -138,7 +139,7 @@ namespace Anycmd.Edi.MessageProvider.SqlServer2008
                 // 本组命令类型所对应的数据库表
                 string tableId = string.Format("[{0}][{1}]", ontology.Ontology.MessageSchemaName, GetTableName(g.Key));
                 DbTable dbTable;
-                if (!ontology.Host.DbTables.TryGetDbTable(this.GetCommandDb(ontology), tableId, out dbTable))
+                if (!this.GetCommandDb(ontology).TryGetDbTable(tableId, out dbTable))
                 {
                     r = new ProcessResult(new AnycmdException("意外的数据库表标识" + tableId));
                 }

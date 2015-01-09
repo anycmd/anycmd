@@ -45,6 +45,12 @@ namespace Anycmd.Engine.Ac
             get { return _name; }
         }
 
+        /// <summary>
+        /// 组所属组织结构，如果该属性有指向组织结构的值的话该组就是绑定了组织结构的，比如岗位就属于绑定了组织结构的组。绑定了组织结构的工作组中的资源只能来自于这个组织结构和其子组织结构。
+        /// <remarks>
+        /// 工作组是组中有主体的组。工作组是跨组织结构的资源组，组中的资源不只来自一个组织结构。
+        /// </remarks>
+        /// </summary>
         public string OrganizationCode
         {
             get { return _organizationCode; }

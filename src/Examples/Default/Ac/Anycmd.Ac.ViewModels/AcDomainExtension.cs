@@ -235,7 +235,7 @@ namespace Anycmd.Ac.ViewModels
             }
             int pageIndex = requestModel.PageIndex;
             int pageSize = requestModel.PageSize;
-            var queryable = host.DbTables[db].Values.Select(a => a).AsQueryable();
+            var queryable = db.DbTables.Values.Select(a => a).AsQueryable();
             foreach (var filter in requestModel.Filters)
             {
                 queryable = queryable.Where(filter.ToPredicate(), filter.value);
@@ -276,7 +276,7 @@ namespace Anycmd.Ac.ViewModels
             }
             int pageIndex = requestModel.PageIndex;
             int pageSize = requestModel.PageSize;
-            var queryable = host.DbViews[db].Values.Select(a => a).AsQueryable();
+            var queryable = db.DbViews.Values.Select(a => a).AsQueryable();
             foreach (var filter in requestModel.Filters)
             {
                 queryable = queryable.Where(filter.ToPredicate(), filter.value);
@@ -300,7 +300,7 @@ namespace Anycmd.Ac.ViewModels
                 throw new ValidationException("意外的数据库Id");
             }
             DbTable dbTable;
-            if (!host.DbTables.TryGetDbTable(db, requestModel.TableId, out dbTable))
+            if (!db.TryGetDbTable(requestModel.TableId, out dbTable))
             {
                 throw new ValidationException("意外的数据库表名" + requestModel.TableName);
             }
@@ -335,7 +335,7 @@ namespace Anycmd.Ac.ViewModels
             int pageIndex = requestModel.PageIndex;
             int pageSize = requestModel.PageSize;
             IReadOnlyDictionary<string, DbTableColumn> dbTableColumns;
-            if (!host.DbTableColumns.TryGetDbTableColumns(db, dbTable, out dbTableColumns))
+            if (!host.Rdbs.DbTableColumns.TryGetDbTableColumns(db, dbTable, out dbTableColumns))
             {
                 throw new AnycmdException("意外的数据库表列");
             }
@@ -363,7 +363,7 @@ namespace Anycmd.Ac.ViewModels
                 throw new ValidationException("意外的数据库Id");
             }
             DbView dbView;
-            if (!host.DbViews.TryGetDbView(db, requestModel.ViewId, out dbView))
+            if (!db.TryGetDbView(requestModel.ViewId, out dbView))
             {
                 throw new ValidationException("意外的数据库表名" + requestModel.ViewName);
             } 
@@ -398,7 +398,7 @@ namespace Anycmd.Ac.ViewModels
             int pageIndex = requestModel.PageIndex;
             int pageSize = requestModel.PageSize;
             IReadOnlyDictionary<string, DbViewColumn> dbViewColumns;
-            if (!host.DbViewColumns.TryGetDbViewColumns(db, dbView, out dbViewColumns))
+            if (!host.Rdbs.DbViewColumns.TryGetDbViewColumns(db, dbView, out dbViewColumns))
             {
                 throw new AnycmdException("意外的数据库视图列");
             }

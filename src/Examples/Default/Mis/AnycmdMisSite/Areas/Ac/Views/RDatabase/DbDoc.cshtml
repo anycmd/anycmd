@@ -84,7 +84,7 @@
             @{
         var i = 0;
             }
-            @foreach (var table in Model.AcDomain.DbTables[Model].Values)
+            @foreach (var table in Model.DbTables.Values)
             {
                 <tr>
                     <td>@(++i)</td>
@@ -95,7 +95,7 @@
             }
         </table>
         <h3>表列</h3>
-        foreach (var table in Model.AcDomain.DbTables[Model].Values)
+        foreach (var table in Model.DbTables.Values)
         {
             <br />
             <div>

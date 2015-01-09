@@ -263,7 +263,7 @@ namespace Anycmd.Engine.Ac
                     {
                         return null;
                     }
-                    AcDomain.DbTableColumns.TryGetDbTableColumn(Database, string.Format("[{0}][{1}][{2}]", EntityType.SchemaName, EntityType.TableName, this.Code), out _tableColumn);
+                    AcDomain.Rdbs.DbTableColumns.TryGetDbTableColumn(Database, string.Format("[{0}][{1}][{2}]", EntityType.SchemaName, EntityType.TableName, this.Code), out _tableColumn);
                 }
 
                 return _tableColumn;

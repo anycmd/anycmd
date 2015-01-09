@@ -28,11 +28,7 @@ namespace Anycmd.Engine.Host.Impl
             base.CommandBus = new DirectCommandBus(this.MessageDispatcher);
             this.EventBus = new DirectEventBus(this.MessageDispatcher);
 
-            base.Rdbs = new Rdbs(this);
-            base.DbTables = new DbTables(this);
-            base.DbViews = new DbViews(this);
-            base.DbTableColumns = new DbTableColumns(this);
-            base.DbViewColumns = new DbViewColumns(this);
+            base.Rdbs = new Rdbs(this, new DbTables(this), new DbViews(this), new DbTableColumns(this), new DbViewColumns(this));
             base.AppSystemSet = new AppSystemSet(this);
             base.ButtonSet = new ButtonSet(this);
             base.SysUsers = new SysUserSet(this);
@@ -55,7 +51,7 @@ namespace Anycmd.Engine.Host.Impl
 
         public virtual void Handle(MemorySetInitingEvent message)
         {
-            
+
         }
 
         public virtual void Handle(MemorySetInitializedEvent message)

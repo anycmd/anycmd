@@ -109,7 +109,7 @@ namespace Anycmd.Edi.EntityProvider.SqlServer2008
 				var db = this.GetEntityDb(element.Ontology);
 				DbTableColumn column;
 				string columnId = string.Format("[{0}][{1}][{2}]", element.Ontology.Ontology.EntitySchemaName, element.Ontology.Ontology.EntityTableName, element.Element.FieldCode);
-				if (!element.Host.DbTableColumns.TryGetDbTableColumn(db, columnId, out column))
+				if (!element.Host.Rdbs.DbTableColumns.TryGetDbTableColumn(db, columnId, out column))
 				{
 					var msg = "实体库中不存在" + columnId + "列";
 					element.Host.LoggingService.Error(msg);

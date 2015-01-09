@@ -115,26 +115,6 @@ namespace Anycmd.Engine.Host.Impl
         public IRdbs Rdbs { get; protected set; }
 
         /// <summary>
-        /// 
-        /// </summary>
-        public IDbTables DbTables { get; protected set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public IDbViews DbViews { get; protected set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public IDbTableColumns DbTableColumns { get; protected set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public IDbViewColumns DbViewColumns { get; protected set; }
-
-        /// <summary>
         /// 应用系统。
         /// </summary>
         public IAppSystemSet AppSystemSet { get; protected set; }

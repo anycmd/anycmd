@@ -1,6 +1,4 @@
 ﻿
-using System.Diagnostics;
-
 namespace Anycmd.Rdb
 {
     using Exceptions;
@@ -9,6 +7,7 @@ namespace Anycmd.Rdb
     using System.Data;
     using System.Data.Common;
     using System.Data.SqlClient;
+    using System.Diagnostics;
     using System.IO;
     using System.Linq;
     using System.Net;
@@ -65,6 +64,16 @@ namespace Anycmd.Rdb
         /// 
         /// </summary>
         public IRDatabase Database { get; private set; }
+
+        public IReadOnlyDictionary<string, DbTable> DbTables
+        {
+            get { return _host.Rdbs.DbTables[this]; }
+        }
+
+        public IReadOnlyDictionary<string, DbView> DbViews
+        {
+            get { return _host.Rdbs.DbViews[this]; }
+        }
 
         /// <summary>
         /// 数据库连接字符串
@@ -127,6 +136,16 @@ namespace Anycmd.Rdb
         #endregion
 
         #region Public Methods
+
+        public bool TryGetDbTable(string dbTableId, out DbTable dbTable)
+        {
+            return _host.Rdbs.DbTables.TryGetDbTable(this, dbTableId, out dbTable);
+        }
+
+        public bool TryGetDbView(string dbViewId, out DbView dbView)
+        {
+            return _host.Rdbs.DbViews.TryGetDbView(this, dbViewId, out dbView);
+        }
 
         #region GetConnection
         /// <summary>
@@ -398,7 +417,7 @@ namespace Anycmd.Rdb
                 {
                     if (_tableSchemas.ContainsKey(dbTable.Id)) return _tableSchemas[dbTable.Id];
                     IReadOnlyDictionary<string, DbTableColumn> dbTableColumns;
-                    if (!_host.DbTableColumns.TryGetDbTableColumns(this, dbTable, out dbTableColumns))
+                    if (!_host.Rdbs.DbTableColumns.TryGetDbTableColumns(this, dbTable, out dbTableColumns))
                     {
                         throw new AnycmdException("意外的数据库表");
                     }

@@ -57,22 +57,6 @@
         /// </summary>
         IRdbs Rdbs { get; }
         /// <summary>
-        /// 关系数据库表列数据集
-        /// </summary>
-        IDbTableColumns DbTableColumns { get; }
-        /// <summary>
-        /// 关系数据库表数据集
-        /// </summary>
-        IDbTables DbTables { get; }
-        /// <summary>
-        /// 关系数据库视图列数据集
-        /// </summary>
-        IDbViewColumns DbViewColumns { get; }
-        /// <summary>
-        /// 关系数据库视图数据集
-        /// </summary>
-        IDbViews DbViews { get; }
-        /// <summary>
         /// 系统字典数据集
         /// </summary>
         IDicSet DicSet { get; }

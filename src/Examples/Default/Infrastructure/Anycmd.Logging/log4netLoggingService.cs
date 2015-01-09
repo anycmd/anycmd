@@ -1,6 +1,4 @@
 ﻿
-using Anycmd.Util;
-
 namespace Anycmd.Logging
 {
     using Engine.Ac;
@@ -17,6 +15,7 @@ namespace Anycmd.Logging
     using System.Globalization;
     using System.IO;
     using System.Linq;
+    using Util;
 
     /// <summary>
     /// <remarks>日志存储在引导库的AnyLog表</remarks>
@@ -52,7 +51,7 @@ namespace Anycmd.Logging
         /// <param name="anyLog"></param>
         public void Log(IAnyLog anyLog)
         {
-            this.Log(new IAnyLog[] { anyLog });
+            this.Log(new[] { anyLog });
         }
 
         /// <summary>
@@ -65,7 +64,7 @@ namespace Anycmd.Logging
             const string tableId = "[dbo][AnyLog]";
             RdbDescriptor db = GetAnyLogDb();
             DbTable dbTable;
-            if (!_host.DbTables.TryGetDbTable(db, tableId, out dbTable))
+            if (!db.TryGetDbTable(tableId, out dbTable))
             {
                 throw new AnycmdException("意外的数据库表标识" + tableId);
             }

@@ -10,6 +10,9 @@ namespace Anycmd.Engine.Ac
 
     /// <summary>
     /// 表示标识过程的业务实体。
+    /// <remarks>
+    /// Operation = user oriented Function;Permission = managed Function;Function = Action + ResourceType。
+    /// </remarks>
     /// </summary>
     public sealed class FunctionState : StateObject<FunctionState>, IFunction, IAcElement
     {
@@ -99,6 +102,19 @@ namespace Anycmd.Engine.Ac
         }
 
         public bool IsManaged
+        {
+            get { return _isManaged; }
+        }
+
+        public bool IsOperation
+        {
+            get { return true; }
+        }
+
+        /// <summary>
+        /// 与IsManaged等值。
+        /// </summary>
+        public bool IsPermission
         {
             get { return _isManaged; }
         }

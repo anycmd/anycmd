@@ -72,7 +72,7 @@ namespace Anycmd.Engine.Host.Rdb
                             var columns = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetTableColumns(database);
                             _dic.Add(database, new Dictionary<DbTable, Dictionary<string, DbTableColumn>>());
                             _dicById.Add(database, new Dictionary<string, DbTableColumn>(StringComparer.OrdinalIgnoreCase));
-                            foreach (var table in _host.DbTables[database].Values)
+                            foreach (var table in database.DbTables.Values)
                             {
                                 if (_dic[database].ContainsKey(table))
                                 {

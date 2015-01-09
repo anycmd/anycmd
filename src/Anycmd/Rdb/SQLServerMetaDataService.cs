@@ -329,7 +329,7 @@ ORDER BY " + sortField + " " + sortOrder +
                 case RDbMetaDataType.Table:
                     #region Table
                     DbTable table;
-                    if (!db.AcDomain.DbTables.TryGetDbTable(db, id, out table))
+                    if (!db.TryGetDbTable(id, out table))
                     {
                         throw new AnycmdException("意外的数据库表" + id);
                     }
@@ -368,7 +368,7 @@ ORDER BY " + sortField + " " + sortOrder +
                 case RDbMetaDataType.View:
                     #region View
                     DbView view;
-                    if (!db.AcDomain.DbViews.TryGetDbView(db, id, out view))
+                    if (!db.TryGetDbView(id, out view))
                     {
                         throw new AnycmdException("意外的数据库视图" + id);
                     }
@@ -407,7 +407,7 @@ ORDER BY " + sortField + " " + sortOrder +
                 case RDbMetaDataType.TableColumn:
                     #region TableColumn
                     DbTableColumn tableColumn;
-                    if (!db.AcDomain.DbTableColumns.TryGetDbTableColumn(db, id, out tableColumn))
+                    if (!db.AcDomain.Rdbs.DbTableColumns.TryGetDbTableColumn(db, id, out tableColumn))
                     {
                         throw new AnycmdException("意外的数据库表列标识" + id);
                     }
@@ -452,7 +452,7 @@ ORDER BY " + sortField + " " + sortOrder +
                 case RDbMetaDataType.ViewColumn:
                     #region ViewColumn
                     DbViewColumn viewColumn;
-                    if (!db.AcDomain.DbViewColumns.TryGetDbViewColumn(db, id, out viewColumn))
+                    if (!db.AcDomain.Rdbs.DbViewColumns.TryGetDbViewColumn(db, id, out viewColumn))
                     {
                         throw new AnycmdException("意外的数据库视图列标识" + id);
                     }

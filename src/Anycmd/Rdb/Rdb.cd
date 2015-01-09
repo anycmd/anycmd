@@ -3,51 +3,51 @@
   <Class Name="Anycmd.Rdb.DbTable">
     <Position X="8" Y="0.5" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAACAAAAAAAgAAAAAAAAAAQAAAAAAAAAAAAAAFAAQAA=</HashCode>
+      <HashCode>AAACAAAAAAAgAAAAAAAAAAQAAAAAAAAAQAAAABAAQAA=</HashCode>
       <FileName>Rdb\DbTable.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Anycmd.Rdb.DbTableColumn">
     <Position X="3.25" Y="0.5" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>AAACAAAAAAAgAACAABIAAAQAABJAAFAAAAAQAVQAdAA=</HashCode>
+      <HashCode>AAACAAAAAAAgAACAABIAAAQAABJAAFAAQAAQARQAdAA=</HashCode>
       <FileName>Rdb\DbTableColumn.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Anycmd.Rdb.DbView">
     <Position X="8" Y="3" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAACAAAAAAAgAAAAAAAAAAQAAAAAAAAAAAAAAFAAQAA=</HashCode>
+      <HashCode>AAACAAAAAAAgAAAAAAAAAAQAAAAAAAAAQAAAABAAQAA=</HashCode>
       <FileName>Rdb\DbView.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Anycmd.Rdb.DbViewColumn">
     <Position X="3.25" Y="5.75" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>AAACAAAQAAAgAACAABIAAAQAABIAAFAAAAAQAFQAcAA=</HashCode>
+      <HashCode>AAACAAAQAAAgAACAABIAAAQAABIAAFAAQAAQABQAcAA=</HashCode>
       <FileName>Rdb\DbViewColumn.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Anycmd.Rdb.RdbDescriptor">
     <Position X="0.5" Y="0.5" Width="2.75" />
     <TypeIdentifier>
-      <HashCode>ACAAEAAAAECgiKAAgAKAAFAAAAAACMABEAgAAFAgAAA=</HashCode>
+      <HashCode>AEAAEACAAECACCGAoECAEEAQAAAgAMBREAAABRAgAAA=</HashCode>
       <FileName>Rdb\RdbDescriptor.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Anycmd.Rdb.RDatabase" BaseTypeListCollapsed="true">
     <Position X="5.75" Y="0.5" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAQCCABAAACgAiAAhEAAAAgACAgAAAACAhAAABgQAAA=</HashCode>
+      <HashCode>AAACCABAAAAgCgAAhAAAAAgACAAAAAACABAAABgQAAA=</HashCode>
       <FileName>Rdb\RDatabase.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="Anycmd.Rdb.SQLServerMetaDataService" BaseTypeListCollapsed="true">
-    <Position X="0.5" Y="6.75" Width="2.75" />
+  <Class Name="Anycmd.Rdb.SqlServerMetaDataService" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="7.5" Width="2.75" />
     <TypeIdentifier>
-      <HashCode>AAQAOAIAAAAIAAAAAkAAIAAAAAAAAACAgAwAAAAAAAA=</HashCode>
-      <FileName>Rdb\SQLServerMetaDataService.cs</FileName>
+      <HashCode>AAQAOAIAAAAIAAAAAkAAIAAAAAAAAACAgAQABAAAAAA=</HashCode>
+      <FileName>Rdb\SqlServerMetaDataService.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
@@ -73,28 +73,28 @@
     </TypeIdentifier>
   </Interface>
   <Interface Name="Anycmd.Rdb.IDbTableColumns">
-    <Position X="5.75" Y="7.5" Width="2" />
+    <Position X="5.75" Y="6.5" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAIAAAAA=</HashCode>
       <FileName>Rdb\IDbTableColumns.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="Anycmd.Rdb.IDbTables">
-    <Position X="5.75" Y="10.25" Width="1.5" />
+    <Position X="5.75" Y="9.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAEACAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Rdb\IDbTables.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="Anycmd.Rdb.IDbViews">
-    <Position X="5.75" Y="8.75" Width="1.5" />
+    <Position X="5.75" Y="7.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAACAAAAAAAAAAAAAAQAAAAAAAAAAA=</HashCode>
       <FileName>Rdb\IDbViews.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="Anycmd.Rdb.IRdbs">
-    <Position X="5.75" Y="6" Width="2" />
+    <Position X="5.75" Y="5" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAQAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Rdb\IRdbs.cs</FileName>
