@@ -62,6 +62,10 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             {
                 throw new ArgumentNullException("host");
             }
+            if (host.Equals(EmptyAcDomain.SingleInstance))
+            {
+                _initialized = true;
+            }
             this._host = host;
             new MessageHandler(this).Register();
             this._elementSet = new ElementSet(host);
@@ -708,6 +712,10 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 {
                     throw new ArgumentNullException("host");
                 }
+                if (host.Equals(EmptyAcDomain.SingleInstance))
+                {
+                    _initialized = true;
+                }
                 this._host = host;
                 new MessageHandler(this).Register();
             }
@@ -1146,6 +1154,10 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 {
                     throw new ArgumentNullException("host");
                 }
+                if (host.Equals(EmptyAcDomain.SingleInstance))
+                {
+                    _initialized = true;
+                }
                 this._host = host;
                 new MessageHandler(this).Register();
             }
@@ -1456,6 +1468,10 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 {
                     throw new ArgumentNullException("host");
                 }
+                if (host.Equals(EmptyAcDomain.SingleInstance))
+                {
+                    _initialized = true;
+                }
                 this._host = host;
                 new MessageHandler(this).Register();
             }
@@ -1713,6 +1729,10 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 if (host == null)
                 {
                     throw new ArgumentNullException("host");
+                }
+                if (host.Equals(EmptyAcDomain.SingleInstance))
+                {
+                    _initialized = true;
                 }
                 this._host = host;
                 new MessageHandler(this).Register();
@@ -2030,6 +2050,10 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 {
                     throw new ArgumentNullException("host");
                 }
+                if (host.Equals(EmptyAcDomain.SingleInstance))
+                {
+                    _initialized = true;
+                }
                 this._host = host;
                 new MessageHandler(this).Register();
             }
@@ -2318,6 +2342,10 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 if (host == null)
                 {
                     throw new ArgumentNullException("host");
+                }
+                if (host.Equals(EmptyAcDomain.SingleInstance))
+                {
+                    _initialized = true;
                 }
                 this._host = host;
                 new MessageHandler(this).Register();

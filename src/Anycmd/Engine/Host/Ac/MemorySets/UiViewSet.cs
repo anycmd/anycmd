@@ -39,6 +39,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 throw new ArgumentNullException("host");
             }
+            if (host.Equals(EmptyAcDomain.SingleInstance))
+            {
+                _initialized = true;
+            }
             this._host = host;
             _viewButtonSet = new UiViewButtonSet(host);
             new MessageHandler(this).Register();
@@ -501,6 +505,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             internal UiViewButtonSet(IAcDomain host)
             {
+                if (host.Equals(EmptyAcDomain.SingleInstance))
+                {
+                    _initialized = true;
+                }
                 this._host = host;
                 new UiViewButtonMessageHandler(this).Register();
             }

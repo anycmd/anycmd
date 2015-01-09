@@ -45,6 +45,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 throw new ArgumentNullException("host");
             }
+            if (host.Equals(EmptyAcDomain.SingleInstance))
+            {
+                _initialized = true;
+            }
             _host = host;
             _propertySet = new PropertySet(host);
             new MessageHandler(this).Register();
@@ -555,6 +559,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 if (host == null)
                 {
                     throw new ArgumentNullException("host");
+                }
+                if (host.Equals(EmptyAcDomain.SingleInstance))
+                {
+                    _initialized = true;
                 }
                 _host = host;
                 new PropertyMessageHandler(this).Register();

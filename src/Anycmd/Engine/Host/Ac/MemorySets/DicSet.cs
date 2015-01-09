@@ -41,6 +41,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 throw new ArgumentNullException("host");
             }
+            if (host.Equals(EmptyAcDomain.SingleInstance))
+            {
+                _initialized = true;
+            }
             _host = host;
             _dicItemSet = new DicItemSet(host);
             new DicMessageHandler(this).Register();
@@ -533,6 +537,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 if (host == null)
                 {
                     throw new ArgumentNullException("host");
+                }
+                if (host.Equals(EmptyAcDomain.SingleInstance))
+                {
+                    _initialized = true;
                 }
                 _host = host;
                 var messageDispatcher = host.MessageDispatcher;

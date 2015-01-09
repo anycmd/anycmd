@@ -40,6 +40,10 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             {
                 throw new ArgumentNullException("host");
             }
+            if (host.Equals(EmptyAcDomain.SingleInstance))
+            {
+                _initialized = true;
+            }
             this._host = host;
         }
 
