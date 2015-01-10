@@ -76,6 +76,20 @@ namespace Anycmd.Engine.Ac
             get { return _createOn; }
         }
 
+        public override string ToString()
+        {
+            return string.Format(
+@"{{
+    Id:'{0}',
+    Name:'{1}',
+    OrganizationCode:'{2}',
+    CategoryCode:'{3}',
+    SortCodeP:{4},
+    IsEnabled:{5},
+    CreateOn:'{6}'
+}}", Id, Name, OrganizationCode, CategoryCode, SortCode, IsEnabled, CreateOn);
+        }
+
         protected override bool DoEquals(GroupState other)
         {
             return Id == other.Id &&

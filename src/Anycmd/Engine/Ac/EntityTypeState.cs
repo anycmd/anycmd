@@ -86,11 +86,7 @@ namespace Anycmd.Engine.Ac
         {
             get
             {
-                if (_map == null)
-                {
-                    return EntityTypeMap.Empty;
-                }
-                return _map;
+                return _map ?? EntityTypeMap.Empty;
             }
         }
 
@@ -114,7 +110,6 @@ namespace Anycmd.Engine.Ac
             get { return _isOrganizational; }
         }
 
-        // TODO:databaseID应该是可空的
         public Guid DatabaseId
         {
             get { return _databaseId; }
@@ -153,6 +148,26 @@ namespace Anycmd.Engine.Ac
         public DateTime? CreateOn
         {
             get { return _createOn; }
+        }
+
+        public override string ToString()
+        {
+            return string.Format(
+@"{{
+    Id:'{0}',
+    Codespace:'{1}',
+    Code:'{2}',
+    Name:'{3}',
+    IsOrganizational:{4},
+    DatabaseId:'{5}',
+    DeveloperId:'{6}',
+    SchemaName:'{7}',
+    TableName:'{8}',
+    SortCode:{9},
+    EditWidth:{10},
+    EditHeight:{11},
+    CreateOn:'{12}'
+}}", Id, Codespace, Code, Name, IsOrganizational, DatabaseId, DeveloperId, SchemaName, TableName, SortCode, EditWidth, EditHeight, CreateOn);
         }
 
         protected override bool DoEquals(EntityTypeState other)

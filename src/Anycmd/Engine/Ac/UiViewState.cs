@@ -9,7 +9,7 @@ namespace Anycmd.Engine.Ac
     /// <summary>
     /// 界面视图业务实体类型。
     /// </summary>
-    public sealed class UiViewState : StateObject<UiViewState>, IUiView, IStateObject
+    public sealed class UiViewState : StateObject<UiViewState>, IUiView
     {
         public static readonly UiViewState Empty = new UiViewState(Guid.Empty)
         {
@@ -60,6 +60,17 @@ namespace Anycmd.Engine.Ac
         public DateTime? CreateOn
         {
             get { return _createOn; }
+        }
+
+        public override string ToString()
+        {
+            return string.Format(
+@"{{
+    Id:'{0}',
+    Tooltip:'{1}',
+    Icon:'{2}',
+    CreateOn:'{3}'
+}}", Id, Tooltip, Icon, CreateOn);
         }
 
         protected override bool DoEquals(UiViewState other)

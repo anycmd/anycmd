@@ -54,6 +54,19 @@ namespace Anycmd.Engine.Ac
             get { return _createOn; }
         }
 
+        public override string ToString()
+        {
+            return string.Format(
+@"{{
+    Id:'{0}',
+    Name:'{1}',
+    IsEnabled:{2},
+    DsdCard:{3},
+    Description:'{4}',
+    CreateOn:'{5}'
+}}", Id, Name, IsEnabled, DsdCard, Description, CreateOn);
+        }
+
         protected override bool DoEquals(DsdSetState other)
         {
             return Id == other.Id &&

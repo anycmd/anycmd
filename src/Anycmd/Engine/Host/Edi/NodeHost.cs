@@ -1,7 +1,7 @@
 ﻿
 namespace Anycmd.Engine.Host.Edi
 {
-    using Engine.Edi;
+    using Engine.Edi.Abstractions;
     using Handlers;
     using Hecp;
     using System;
@@ -17,7 +17,7 @@ namespace Anycmd.Engine.Host.Edi
             this.GlobalHecpResponseFilters = new List<Func<HecpContext, ProcessResult>>();
         }
 
-        public IStateCodes StateCodes { get; protected set; }
+        public IStateCodeSet StateCodes { get; protected set; }
 
         /// <summary>
         /// 本节点数据交换进程上下文。进程列表。

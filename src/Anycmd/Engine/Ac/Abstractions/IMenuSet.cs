@@ -1,5 +1,5 @@
 ﻿
-namespace Anycmd.Engine.Ac
+namespace Anycmd.Engine.Ac.Abstractions
 {
     using System;
     using System.Collections.Generic;

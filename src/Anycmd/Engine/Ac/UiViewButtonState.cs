@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Ac
     using Exceptions;
     using System;
 
-    public sealed class UiViewButtonState : StateObject<UiViewButtonState>, IUiViewButton, IStateObject
+    public sealed class UiViewButtonState : StateObject<UiViewButtonState>, IUiViewButton
     {
         private IAcDomain _acDomain;
         private Guid _viewId;

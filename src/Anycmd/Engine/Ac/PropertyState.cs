@@ -139,10 +139,7 @@ namespace Anycmd.Engine.Ac
 
         public string GuideWords
         {
-            get
-            {
-                return _guideWords;
-            }
+            get { return _guideWords; }
         }
 
         public string Tooltip
@@ -197,13 +194,11 @@ namespace Anycmd.Engine.Ac
 
         public bool IsViewField
         {
-            get
-            {
-                return PropertyInfo == null;
-            }
+            get { return PropertyInfo == null; }
         }
 
-        public DateTime? CreateOn {
+        public DateTime? CreateOn
+        {
             get { return _createOn; }
         }
 
@@ -309,11 +304,7 @@ namespace Anycmd.Engine.Ac
         {
             get
             {
-                if (TableColumn == null)
-                {
-                    return false;
-                }
-                return TableColumn.IsNullable;
+                return TableColumn != null && TableColumn.IsNullable;
             }
         }
         /// <summary>
@@ -323,11 +314,7 @@ namespace Anycmd.Engine.Ac
         {
             get
             {
-                if (TableColumn == null)
-                {
-                    return string.Empty;
-                }
-                return TableColumn.TypeName;
+                return TableColumn == null ? string.Empty : TableColumn.TypeName;
             }
         }
         /// <summary>
@@ -337,11 +324,7 @@ namespace Anycmd.Engine.Ac
         {
             get
             {
-                if (TableColumn == null)
-                {
-                    return null;
-                }
-                return TableColumn.MaxLength;
+                return TableColumn == null ? null : TableColumn.MaxLength;
             }
         }
 

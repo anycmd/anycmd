@@ -4,7 +4,7 @@ namespace Anycmd.Engine.Host.Impl
     using Anycmd.Rdb;
     using Bus;
     using Edi;
-    using Engine.Ac;
+    using Engine.Ac.Abstractions;
     using Events;
     using Logging;
     using System;

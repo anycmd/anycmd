@@ -92,6 +92,36 @@ namespace Anycmd.Engine.Ac
             get { return _acDomain; }
         }
 
+        /// <summary>
+        /// 返回Empty，不会返回null。
+        /// 虚拟根的父级是Empty。Empty没有父级
+        /// </summary>
+        public OrganizationState Parent
+        {
+            get
+            {
+                if (this.Equals(Empty))
+                {
+                    throw new InvalidOperationException("不能访问Null组织结构的父级");
+                }
+                if (this.Equals(VirtualRoot))
+                {
+                    return Empty;
+                }
+                if (string.IsNullOrEmpty(this.ParentCode))
+                {
+                    return OrganizationState.VirtualRoot;
+                }
+                OrganizationState parent;
+                if (!AcDomain.OrganizationSet.TryGetOrganization(this.ParentCode, out parent))
+                {
+                    return Empty;
+                }
+
+                return parent;
+            }
+        }
+
         public string Code
         {
             get { return _code; }
@@ -117,6 +147,9 @@ namespace Anycmd.Engine.Ac
             get { return _categoryCode; }
         }
 
+        /// <summary>
+        /// 包工头
+        /// </summary>
         public Guid? ContractorId
         {
             get { return _contractorId; }
@@ -147,34 +180,23 @@ namespace Anycmd.Engine.Ac
             get { return _sortCode; }
         }
 
-        /// <summary>
-        /// 返回Empty，不会返回null。
-        /// 虚拟根的父级是Empty。Empty没有父级
-        /// </summary>
-        public OrganizationState Parent
+        public override string ToString()
         {
-            get
-            {
-                if (this.Equals(OrganizationState.Empty))
-                {
-                    throw new InvalidOperationException("不能访问Null组织结构的父级");
-                }
-                if (this.Equals(OrganizationState.VirtualRoot))
-                {
-                    return OrganizationState.Empty;
-                }
-                if (string.IsNullOrEmpty(this.ParentCode))
-                {
-                    return OrganizationState.VirtualRoot;
-                }
-                OrganizationState parent;
-                if (!AcDomain.OrganizationSet.TryGetOrganization(this.ParentCode, out parent))
-                {
-                    return OrganizationState.Empty;
-                }
-
-                return parent;
-            }
+            return string.Format(
+@"{{
+    Id:'{0}',
+    Code:'{1}',
+    Name:'{2}',
+    ShortName:'{3}',
+    ParentCode:'{4}',
+    CategoryCode:'{5}',
+    ContractorId:'{6}'，
+    CreateOn:'{7}',
+    ModifiedOn:'{8}',
+    Description:'{9}',
+    IsEnabled:{10},
+    SortCode:{11}
+}}", Id, Code, Name, ShortName, ParentCode, CategoryCode, ContractorId, CreateOn, ModifiedOn, Description, IsEnabled, SortCode);
         }
 
         protected override bool DoEquals(OrganizationState other)

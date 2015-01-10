@@ -8,7 +8,8 @@ namespace Anycmd.Engine.Host
     using Edi;
     using Edi.Handlers;
     using Engine.Ac;
-    using Engine.Edi;
+    using Engine.Ac.Abstractions;
+    using Engine.Edi.Abstractions;
     using Hecp;
     using Logging;
     using System;
@@ -210,11 +211,11 @@ namespace Anycmd.Engine.Host
                 this._host = host;
             }
 
-            public IStateCodes StateCodes
+            public IStateCodeSet StateCodes
             {
                 get
                 {
-                    return Edi.MemorySets.StateCodes.Empty;
+                    return Edi.MemorySets.StateCodeSet.Empty;
                 }
             }
 

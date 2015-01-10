@@ -83,6 +83,40 @@ namespace Anycmd.Engine.Ac
             get { return _acDomain; }
         }
 
+        public AppSystemState AppSystem
+        {
+            get
+            {
+                if (this == Empty)
+                {
+                    return AppSystemState.Empty;
+                }
+                AppSystemState appSystem;
+                if (!AcDomain.AppSystemSet.TryGetAppSystem(this.Resource.AppSystemId, out appSystem))
+                {
+                    throw new AnycmdException("意外的应用系统标识");
+                }
+                return appSystem;
+            }
+        }
+
+        public ResourceTypeState Resource
+        {
+            get
+            {
+                if (this == Empty)
+                {
+                    return ResourceTypeState.Empty;
+                }
+                ResourceTypeState resource;
+                if (!AcDomain.ResourceTypeSet.TryGetResource(this.ResourceTypeId, out resource))
+                {
+                    throw new AnycmdException("意外的资源标识");
+                }
+                return resource;
+            }
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -144,38 +178,23 @@ namespace Anycmd.Engine.Ac
             get { return _createOn; }
         }
 
-        public AppSystemState AppSystem
+        public override string ToString()
         {
-            get
-            {
-                if (this == Empty)
-                {
-                    return AppSystemState.Empty;
-                }
-                AppSystemState appSystem;
-                if (!AcDomain.AppSystemSet.TryGetAppSystem(this.Resource.AppSystemId, out appSystem))
-                {
-                    throw new AnycmdException("意外的应用系统标识");
-                }
-                return appSystem;
-            }
-        }
-
-        public ResourceTypeState Resource
-        {
-            get
-            {
-                if (this == Empty)
-                {
-                    return ResourceTypeState.Empty;
-                }
-                ResourceTypeState resource;
-                if (!AcDomain.ResourceTypeSet.TryGetResource(this.ResourceTypeId, out resource))
-                {
-                    throw new AnycmdException("意外的资源标识");
-                }
-                return resource;
-            }
+            return string.Format(
+@"{{
+    Id:'{0}',
+    ResourceTypeId:'{1}',
+    Guid:'{2}',
+    Code:'{3}',
+    IsManaged:{4},
+    IsOperation:{5},
+    IsPermission:{6},
+    IsEnabled:{7},
+    DeveloperId:'{8}',
+    SortCode:{9},
+    Description:'{10}',
+    CreateOn:'{11}'
+}}", Id, ResourceTypeId, Guid, Code, IsManaged, IsOperation, IsPermission, IsEnabled, DeveloperId, SortCode, Description, CreateOn);
         }
 
         protected override bool DoEquals(FunctionState other)

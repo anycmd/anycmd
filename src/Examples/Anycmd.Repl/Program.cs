@@ -1,7 +1,6 @@
 ﻿
 namespace Anycmd.Repl
 {
-	using Edi.Application;
 	using Ef;
 	using Engine.Host;
 	using Engine.Host.Impl;
@@ -38,7 +37,6 @@ namespace Anycmd.Repl
 						"InfraEntities",
 						"IdentityEntities"
 					}, typeof(AcDomain).Assembly);
-				_acDomain.RegisterEdiCore();
 
 				Run(args);
 			}

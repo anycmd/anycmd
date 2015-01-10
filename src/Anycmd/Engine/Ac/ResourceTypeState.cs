@@ -82,6 +82,20 @@ namespace Anycmd.Engine.Ac
             get { return _createOn; }
         }
 
+        public override string ToString()
+        {
+            return string.Format(
+@"{{
+    Id:'{0}',
+    AppSystemId:'{1}',
+    Name:'{2}',
+    Code:'{3}',
+    Icon:'{4}',
+    SortCode:{5},
+    CreateOn:'{6}'
+}}", Id, AppSystemId, Name, Code, Icon, SortCode, CreateOn);
+        }
+
         protected override bool DoEquals(ResourceTypeState other)
         {
             return Id == other.Id &&

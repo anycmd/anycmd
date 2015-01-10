@@ -7,7 +7,7 @@ namespace Anycmd.Engine.Ac
     /// <summary>
     /// 表示静态职责分离角色集业务实体。
     /// </summary>
-    public class SsdSetState : StateObject<SsdSetState>, ISsdSet, IStateObject
+    public class SsdSetState : StateObject<SsdSetState>, ISsdSet
     {
         private string _name;
         private int _ssdCard;
@@ -52,6 +52,19 @@ namespace Anycmd.Engine.Ac
         public DateTime? CreateOn
         {
             get { return _createOn; }
+        }
+
+        public override string ToString()
+        {
+            return string.Format(
+@"{{
+    Id:'{0}',
+    Name:'{1}',
+    SsdCard:{2},
+    IsEnabled:{3},
+    Description:'{4}',
+    CreateOn:'{5}'
+}}", Id, Name, SsdCard, IsEnabled, Description, CreateOn);
         }
 
         protected override bool DoEquals(SsdSetState other)

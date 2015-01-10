@@ -1,7 +1,7 @@
 ﻿
 namespace Anycmd.Engine.Host.Edi
 {
-    using Engine.Edi;
+    using Engine.Edi.Abstractions;
     using Handlers;
     using Hecp;
     using System;
@@ -10,7 +10,7 @@ namespace Anycmd.Engine.Host.Edi
     public interface INodeHost
     {
 
-        IStateCodes StateCodes { get; }
+        IStateCodeSet StateCodes { get; }
 
         /// <summary>
         /// 本节点数据交换进程上下文。进程列表。

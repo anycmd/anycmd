@@ -85,6 +85,21 @@ namespace Anycmd.Engine.Ac
             get { return _description; }
         }
 
+        public override string ToString()
+        {
+            return string.Format(
+@"{{
+    Id:'{0}',
+    AppSystemId:'{1}',
+    ParentId:'{2}',
+    Name:'{3}',
+    Url:'{4}',
+    Icon:'{5}',
+    SortCode:{6},
+    Description:'{7}'
+}}", Id, AppSystemId, ParentId, Name, Url, Icon, SortCode, Description);
+        }
+
         protected override bool DoEquals(MenuState other)
         {
             return Id == other.Id &&

@@ -1,5 +1,5 @@
 ﻿
-namespace Anycmd.Engine.Edi
+namespace Anycmd.Engine.Edi.Abstractions
 {
     using Ac;
     using Hecp;

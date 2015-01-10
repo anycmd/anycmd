@@ -1,7 +1,7 @@
 ﻿
 namespace Anycmd.Engine.Host.Edi.MemorySets
 {
-    using Engine.Edi;
+    using Engine.Edi.Abstractions;
     using Exceptions;
     using Info;
     using System;

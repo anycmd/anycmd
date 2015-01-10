@@ -3,6 +3,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 {
     using Bus;
     using Engine.Ac;
+    using Engine.Ac.Abstractions;
     using Engine.Ac.Abstractions.Identity;
     using Engine.Ac.Messages.Identity;
     using Exceptions;

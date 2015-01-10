@@ -1,7 +1,7 @@
 ﻿namespace Anycmd
 {
     using Bus;
-    using Engine.Ac;
+    using Engine.Ac.Abstractions;
     using Engine.Host;
     using Engine.Host.Edi;
     using Logging;

@@ -49,7 +49,6 @@
       <HintPath>..\..\..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
@@ -88,25 +87,9 @@
       <Project>{8d1e81d1-e4b8-41cc-88e3-98539b333b93}</Project>
       <Name>Anycmd.Ac.ViewModels</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Default\Edi\Anycmd.Edi.Application\Anycmd.Edi.Application.csproj">
-      <Project>{2106a327-42d8-4efa-b02c-4545a2c6a844}</Project>
-      <Name>Anycmd.Edi.Application</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Default\Edi\Anycmd.Edi.Client\Anycmd.Edi.Client.csproj">
-      <Project>{5968f1ff-f4f5-4cfc-9f6e-a4ec04540737}</Project>
-      <Name>Anycmd.Edi.Client</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Default\Edi\Anycmd.Edi.MessageServices\Anycmd.Edi.MessageServices.csproj">
-      <Project>{dd134c5a-b6f3-42c2-bc7e-5e5a9ee67829}</Project>
-      <Name>Anycmd.Edi.MessageServices</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Default\Edi\Anycmd.Edi.Queries.Ef\Anycmd.Edi.Queries.Ef.csproj">
       <Project>{e41a2250-96ee-4008-9fa0-b9b8f7d57497}</Project>
       <Name>Anycmd.Edi.Queries.Ef</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Default\Edi\Anycmd.Edi.ServiceModel\Anycmd.Edi.ServiceModel.csproj">
-      <Project>{b06290d0-ed50-42fb-92cf-e3694c77034d}</Project>
-      <Name>Anycmd.Edi.ServiceModel</Name>
     </ProjectReference>
     <ProjectReference Include="..\Default\Edi\Anycmd.Edi.ViewModels\Anycmd.Edi.ViewModels.csproj">
       <Project>{eaa6e3c3-20f9-47ff-9d9f-7929f50f4d5b}</Project>

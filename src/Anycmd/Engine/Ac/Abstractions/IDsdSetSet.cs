@@ -1,34 +1,34 @@
 ﻿
-namespace Anycmd.Engine.Ac
+namespace Anycmd.Engine.Ac.Abstractions
 {
     using System;
     using System.Collections.Generic;
 
     /// <summary>
-    /// 表示该接口的实现类是静态职责分离角色集。
+    /// 表示该接口的实现类是动态职责分离角色集。
     /// </summary>
-    public interface ISsdSetSet : IEnumerable<SsdSetState>
+    public interface IDsdSetSet : IEnumerable<DsdSetState>
     {
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="ssdSetId"></param>
-        /// <param name="ssdSet"></param>
+        /// <param name="dsdSetId"></param>
+        /// <param name="dsdSet"></param>
         /// <returns></returns>
-        bool TryGetSsdSet(Guid ssdSetId, out SsdSetState ssdSet);
+        bool TryGetDsdSet(Guid dsdSetId, out DsdSetState dsdSet);
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="ssdSet"></param>
+        /// <param name="dsdSet"></param>
         /// <returns></returns>
-        IReadOnlyCollection<SsdRoleState> GetSsdRoles(SsdSetState ssdSet);
+        IReadOnlyCollection<DsdRoleState> GetDsdRoles(DsdSetState dsdSet);
 
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
-        IReadOnlyCollection<SsdRoleState> GetSsdRoles();
+        IReadOnlyCollection<DsdRoleState> GetDsdRoles();
 
         /// <summary>
         /// 

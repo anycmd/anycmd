@@ -13,7 +13,7 @@
                     <tr style="text-align:center; font-weight:bold;"><td>登录名</td><td>姓名</td><td>QQ</td><td>Email</td></tr>
                 </thead>
                 <tbody>
-                    @foreach (var account in Html.CurrentHost().SysUsers.GetDevAccounts())
+                    @foreach (var account in Html.CurrentHost().SysUserSet.GetDevAccounts())
                     {
                         <tr><td>@account.LoginName</td><td>@account.Name</td><td>@account.Qq</td><td>@account.Email</td></tr>
                     }

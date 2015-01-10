@@ -1,5 +1,5 @@
 ﻿
-namespace Anycmd.Engine.Edi
+namespace Anycmd.Engine.Edi.Abstractions
 {
     using Host.Edi.Handlers;
     using System;

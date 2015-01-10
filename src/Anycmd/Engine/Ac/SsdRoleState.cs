@@ -7,7 +7,7 @@ namespace Anycmd.Engine.Ac
     /// <summary>
     /// 表示静态职责分离角色业务实体。
     /// </summary>
-    public sealed class SsdRoleState : StateObject<SsdRoleState>, ISsdRole, IStateObject
+    public sealed class SsdRoleState : StateObject<SsdRoleState>, ISsdRole
     {
         private Guid _ssdSetId;
         private Guid _roleId;

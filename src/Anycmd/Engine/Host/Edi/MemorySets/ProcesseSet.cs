@@ -3,6 +3,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 {
     using Bus;
     using Engine.Edi;
+    using Engine.Edi.Abstractions;
     using Engine.Edi.Messages;
     using Entities;
     using Exceptions;

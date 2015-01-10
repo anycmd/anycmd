@@ -2,7 +2,7 @@
 
 namespace Anycmd.Engine.Host.Edi.MemorySets
 {
-    using Engine.Edi;
+    using Engine.Edi.Abstractions;
     using System;
     using System.Collections;
     using System.Collections.Generic;
@@ -12,9 +12,9 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
     /// <summary>
     /// 状态码上下文
     /// </summary>
-    internal sealed class StateCodes : IStateCodes, IMemorySet
+    internal sealed class StateCodeSet : IStateCodeSet, IMemorySet
     {
-        public static readonly StateCodes Empty = new StateCodes(EmptyAcDomain.SingleInstance);
+        public static readonly StateCodeSet Empty = new StateCodeSet(EmptyAcDomain.SingleInstance);
 
         private static readonly List<StateCode> List = new List<StateCode>();
         private static bool _initialized = false;
@@ -22,7 +22,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
         private readonly Guid _id = Guid.NewGuid();
         private readonly IAcDomain _host;
 
-        public StateCodes(IAcDomain host)
+        public StateCodeSet(IAcDomain host)
         {
             if (host == null)
             {

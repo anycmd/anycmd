@@ -9,7 +9,7 @@ namespace Anycmd.Engine.Host.Edi
     {
         public DefaultNodeHost(IAcDomain host)
         {
-            this.StateCodes = new StateCodes(host);
+            this.StateCodes = new StateCodeSet(host);
             this.HecpHandler = new HecpHandler();
             this.MessageProducer = new DefaultMessageProducer();
             this.Ontologies = new OntologySet(host);
