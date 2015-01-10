@@ -66,7 +66,7 @@ namespace Anycmd.Ac.ViewModels.Infra.FunctionViewModels
             if (!data.ContainsKey("DeveloperCode"))
             {
                 AccountState developer;
-                if (dic.Host.SysUsers.TryGetDevAccount((Guid)data["DeveloperId"], out developer))
+                if (dic.Host.SysUserSet.TryGetDevAccount((Guid)data["DeveloperId"], out developer))
                 {
                     data.Add("DeveloperCode", developer.LoginName);
                 }

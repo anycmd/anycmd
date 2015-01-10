@@ -258,7 +258,7 @@ namespace Anycmd.Tests
                 Id = functionId,
                 Code = "fun1",
                 Description = string.Empty,
-                DeveloperId = host.SysUsers.GetDevAccounts().First().Id,
+                DeveloperId = host.SysUserSet.GetDevAccounts().First().Id,
                 IsEnabled = 1,
                 IsManaged = true,
                 ResourceTypeId = host.ResourceTypeSet.First().Id,
@@ -684,7 +684,7 @@ namespace Anycmd.Tests
                 Id = appSystemId,
                 Code = "app1",
                 Name = "测试1",
-                PrincipalId = host.SysUsers.GetDevAccounts().First().Id
+                PrincipalId = host.SysUserSet.GetDevAccounts().First().Id
             }));
             Guid entityId = Guid.NewGuid();
             host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
@@ -1035,7 +1035,7 @@ namespace Anycmd.Tests
                 Id = functionId,
                 Code = "fun1",
                 Description = string.Empty,
-                DeveloperId = host.SysUsers.GetDevAccounts().First().Id,
+                DeveloperId = host.SysUserSet.GetDevAccounts().First().Id,
                 IsEnabled = 1,
                 IsManaged = true,
                 ResourceTypeId = host.ResourceTypeSet.First().Id,
@@ -1072,7 +1072,7 @@ namespace Anycmd.Tests
                 Id = functionId,
                 Code = "fun2",
                 Description = string.Empty,
-                DeveloperId = host.SysUsers.GetDevAccounts().First().Id,
+                DeveloperId = host.SysUserSet.GetDevAccounts().First().Id,
                 IsEnabled = 1,
                 IsManaged = true,
                 ResourceTypeId = host.ResourceTypeSet.First().Id,

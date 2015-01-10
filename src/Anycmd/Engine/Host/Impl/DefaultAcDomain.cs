@@ -31,7 +31,7 @@ namespace Anycmd.Engine.Host.Impl
             base.Rdbs = new Rdbs(this, new DbTables(this), new DbViews(this), new DbTableColumns(this), new DbViewColumns(this));
             base.AppSystemSet = new AppSystemSet(this);
             base.ButtonSet = new ButtonSet(this);
-            base.SysUsers = new SysUserSet(this);
+            base.SysUserSet = new SysUserSet(this);
             base.DicSet = new DicSet(this);
             base.EntityTypeSet = new EntityTypeSet(this);
             base.FunctionSet = new FunctionSet(this);

@@ -7,7 +7,7 @@ namespace Anycmd.Engine.Ac
     /// <summary>
     /// 表示该接口的实现类是系统用户集。
     /// </summary>
-    public interface ISysUserSet
+    public interface ISysUserSet : IEnumerable<AccountState>
     {
         /// <summary>
         /// 

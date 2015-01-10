@@ -21,7 +21,7 @@ namespace Anycmd.Engine.Host.Ac.MessageHandlers
         {
             var accountRepository = _host.RetrieveRequiredService<IRepository<Account>>();
             AccountState developer;
-            if (_host.SysUsers.TryGetDevAccount(command.EntityId, out developer))
+            if (_host.SysUserSet.TryGetDevAccount(command.EntityId, out developer))
             {
                 throw new ValidationException("该账户是开发人员，删除该账户之前需先删除该开发人员");
             }

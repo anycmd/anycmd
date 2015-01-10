@@ -112,7 +112,7 @@ namespace Anycmd.Mis.Web.Mvc
                                     {
                                         string loginName = ((ByAttribute) byAttrs[0]).DeveloperCode;
                                         AccountState developer;
-                                        if (!host.SysUsers.TryGetDevAccount(loginName, out developer))
+                                        if (!host.SysUserSet.TryGetDevAccount(loginName, out developer))
                                         {
                                             throw new ValidationException("意外的开发人员" + loginName + "在" + controllerType.FullName + "在" + method.Name);
                                         }

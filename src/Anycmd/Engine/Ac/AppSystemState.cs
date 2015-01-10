@@ -42,7 +42,7 @@ namespace Anycmd.Engine.Ac
                 throw new ArgumentNullException("appSystem");
             }
             AccountState principal;
-            if (!host.SysUsers.TryGetDevAccount(appSystem.PrincipalId, out principal))
+            if (!host.SysUserSet.TryGetDevAccount(appSystem.PrincipalId, out principal))
             {
                 throw new AnycmdException("意外的应用系统负责人标识" + appSystem.PrincipalId);
             }

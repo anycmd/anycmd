@@ -127,7 +127,7 @@ namespace Anycmd.Engine.Host.Impl
         /// <summary>
         /// 系统用户/账户
         /// </summary>
-        public ISysUserSet SysUsers { get; protected set; }
+        public ISysUserSet SysUserSet { get; protected set; }
 
         /// <summary>
         /// 系统字典
@@ -346,6 +346,17 @@ namespace Anycmd.Engine.Host.Impl
                 return false;
             }
             return ((IAcDomain)obj).Id == this.Id;
+        }
+
+        public override string ToString()
+        {
+            return string.Format(
+@"{{
+    Id:'{0}',
+    Name:'{1}',
+    StartedAt:{2},
+    ReadyAt:{3}
+}}", Id, Name, StartedAt, ReadyAt);
         }
     }
 }

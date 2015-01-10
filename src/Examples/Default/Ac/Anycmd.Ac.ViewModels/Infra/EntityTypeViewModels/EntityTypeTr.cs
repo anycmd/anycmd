@@ -89,7 +89,7 @@ namespace Anycmd.Ac.ViewModels.Infra.EntityTypeViewModels
             get
             {
                 AccountState developer;
-                if (!_host.SysUsers.TryGetDevAccount(this.DeveloperId, out developer))
+                if (!_host.SysUserSet.TryGetDevAccount(this.DeveloperId, out developer))
                 {
                     return "无效值";
                 }

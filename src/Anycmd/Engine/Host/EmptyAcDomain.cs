@@ -174,7 +174,7 @@ namespace Anycmd.Engine.Host
         public Action<Dictionary<string, object>> SignIn { get; set; }
         public Action SignOut { get; set; }
 
-        public ISysUserSet SysUsers
+        public ISysUserSet SysUserSet
         {
             get { return Ac.MemorySets.SysUserSet.Empty; }
         }

@@ -21,7 +21,7 @@ namespace Anycmd.Tests
                 Description = string.Empty,
                 Icon = string.Empty,
                 IsEnabled = 1,
-                PrincipalId = host.SysUsers.GetDevAccounts().First().Id,
+                PrincipalId = host.SysUserSet.GetDevAccounts().First().Id,
                 SortCode = 10,
                 SsoAuthAddress = string.Empty,
                 ImageUrl = string.Empty

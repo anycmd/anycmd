@@ -62,7 +62,7 @@ namespace Anycmd.Web.Mvc
             var sb = new StringBuilder();
             sb.Append("[");
             int l = sb.Length;
-            foreach (var item in html.CurrentHost().SysUsers.GetDevAccounts())
+            foreach (var item in html.CurrentHost().SysUserSet.GetDevAccounts())
             {
                 if (sb.Length > l)
                 {

@@ -39,7 +39,7 @@ namespace Anycmd.Engine.Host.Ac.MessageHandlers
             }
             bool loginNameChanged = !string.Equals(command.Input.LoginName, entity.LoginName);
             AccountState developer;
-            if (_host.SysUsers.TryGetDevAccount(command.Input.LoginName, out developer) && !command.UserSession.IsDeveloper())
+            if (_host.SysUserSet.TryGetDevAccount(command.Input.LoginName, out developer) && !command.UserSession.IsDeveloper())
             {
                 throw new ValidationException("对不起，您不能修改开发人员的密码。");
             }
@@ -83,7 +83,7 @@ namespace Anycmd.Engine.Host.Ac.MessageHandlers
             if (loginNameChanged)
             {
                 _host.EventBus.Publish(new LoginNameChangedEvent(entity));
-                if (_host.SysUsers.TryGetDevAccount(entity.Id, out developer))
+                if (_host.SysUserSet.TryGetDevAccount(entity.Id, out developer))
                 {
                     _host.MessageDispatcher.DispatchMessage(new DeveloperUpdatedEvent(entity));
                 }

@@ -10,6 +10,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     using Identity;
     using Repositories;
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using Util;
     using loginName = System.String;
@@ -85,6 +86,24 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 _initialized = false;
             }
+        }
+
+        public IEnumerator<AccountState> GetEnumerator()
+        {
+            if (!_initialized)
+            {
+                Init();
+            }
+            return _devAccountById.Values.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            if (!_initialized)
+            {
+                Init();
+            }
+            return _devAccountById.Values.GetEnumerator();
         }
 
         private void Init()

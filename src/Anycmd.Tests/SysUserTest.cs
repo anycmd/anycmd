@@ -16,7 +16,7 @@ namespace Anycmd.Tests
         public void SysUserSet()
         {
             var host = TestHelper.GetAcDomain();
-            Assert.True(host.SysUsers.GetDevAccounts().Count == 1);
+            Assert.True(host.SysUserSet.GetDevAccounts().Count == 1);
             Guid accountId = Guid.NewGuid();
             host.RetrieveRequiredService<IRepository<Account>>().Add(new Account
             {
@@ -26,17 +26,17 @@ namespace Anycmd.Tests
                 LoginName = "anycmd"
             });
             host.RetrieveRequiredService<IRepository<Account>>().Context.Commit();
-            Assert.True(host.SysUsers.GetDevAccounts().Count == 1);
+            Assert.True(host.SysUserSet.GetDevAccounts().Count == 1);
             host.Handle(new AddDeveloperCommand(accountId));
             AccountState developer;
-            Assert.True(host.SysUsers.GetDevAccounts().Count == 2);
-            Assert.True(host.SysUsers.TryGetDevAccount(accountId, out developer));
-            Assert.True(host.SysUsers.TryGetDevAccount("anycmd", out developer));
+            Assert.True(host.SysUserSet.GetDevAccounts().Count == 2);
+            Assert.True(host.SysUserSet.TryGetDevAccount(accountId, out developer));
+            Assert.True(host.SysUserSet.TryGetDevAccount("anycmd", out developer));
 
             host.Handle(new RemoveDeveloperCommand(accountId));
-            Assert.True(host.SysUsers.GetDevAccounts().Count == 1);
-            Assert.False(host.SysUsers.TryGetDevAccount(accountId, out developer));
-            Assert.False(host.SysUsers.TryGetDevAccount("anycmd", out developer));
+            Assert.True(host.SysUserSet.GetDevAccounts().Count == 1);
+            Assert.False(host.SysUserSet.TryGetDevAccount(accountId, out developer));
+            Assert.False(host.SysUserSet.TryGetDevAccount("anycmd", out developer));
 
             bool catched = false;
             try
@@ -58,7 +58,7 @@ namespace Anycmd.Tests
         public void SysUserSetShouldRollbackedWhenPersistFailed()
         {
             var host = TestHelper.GetAcDomain();
-            Assert.Equal(1, host.SysUsers.GetDevAccounts().Count);
+            Assert.Equal(1, host.SysUserSet.GetDevAccounts().Count);
 
             host.RemoveService(typeof(IRepository<Account>));
             host.RemoveService(typeof(IRepository<DeveloperId>));
@@ -93,7 +93,7 @@ namespace Anycmd.Tests
                 LoginName = loginName2
             });
             host.RetrieveRequiredService<IRepository<Account>>().Context.Commit();
-            Assert.True(host.SysUsers.GetDevAccounts().Count == 1);
+            Assert.True(host.SysUserSet.GetDevAccounts().Count == 1);
             bool catched = false;
             try
             {
@@ -108,11 +108,11 @@ namespace Anycmd.Tests
             finally
             {
                 Assert.True(catched);
-                Assert.Equal(1, host.SysUsers.GetDevAccounts().Count);
+                Assert.Equal(1, host.SysUserSet.GetDevAccounts().Count);
             }
 
             host.Handle(new AddDeveloperCommand(entityId2));
-            Assert.Equal(2, host.SysUsers.GetDevAccounts().Count);
+            Assert.Equal(2, host.SysUserSet.GetDevAccounts().Count);
 
             host.Handle(new UpdateAccountCommand(new AccountUpdateInput
             {
@@ -120,7 +120,7 @@ namespace Anycmd.Tests
                 Name = "test2"
             }));
             Assert.True(catched);
-            Assert.Equal(2, host.SysUsers.GetDevAccounts().Count);
+            Assert.Equal(2, host.SysUserSet.GetDevAccounts().Count);
 
             catched = false;
             try
@@ -136,7 +136,7 @@ namespace Anycmd.Tests
             finally
             {
                 Assert.True(catched);
-                Assert.Equal(2, host.SysUsers.GetDevAccounts().Count);
+                Assert.Equal(2, host.SysUserSet.GetDevAccounts().Count);
             }
         }
         #endregion

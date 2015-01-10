@@ -29,7 +29,7 @@ namespace Anycmd.Tests
                 Id = entityId,
                 Code = "fun1",
                 Description = string.Empty,
-                DeveloperId = host.SysUsers.GetDevAccounts().First().Id,
+                DeveloperId = host.SysUserSet.GetDevAccounts().First().Id,
                 IsEnabled = 1,
                 IsManaged = true,
                 ResourceTypeId = host.ResourceTypeSet.First().Id,
@@ -45,7 +45,7 @@ namespace Anycmd.Tests
                 Id = entityId,
                 Description = "test2",
                 Code = "fun2",
-                DeveloperId = host.SysUsers.GetDevAccounts().First().Id,
+                DeveloperId = host.SysUserSet.GetDevAccounts().First().Id,
                 IsEnabled = 1,
                 IsManaged = false,
                 SortCode = 10
@@ -75,7 +75,7 @@ namespace Anycmd.Tests
                 Id = entityId,
                 Code = "fun1",
                 Description = string.Empty,
-                DeveloperId = host.SysUsers.GetDevAccounts().First().Id,
+                DeveloperId = host.SysUserSet.GetDevAccounts().First().Id,
                 IsEnabled = 1,
                 IsManaged = true,
                 ResourceTypeId = host.ResourceTypeSet.First().Id,
@@ -93,7 +93,7 @@ namespace Anycmd.Tests
                     Id = entityId,
                     Code = "fun1",
                     Description = string.Empty,
-                    DeveloperId = host.SysUsers.GetDevAccounts().First().Id,
+                    DeveloperId = host.SysUserSet.GetDevAccounts().First().Id,
                     IsEnabled = 1,
                     IsManaged = true,
                     ResourceTypeId = host.ResourceTypeSet.First().Id,
@@ -129,13 +129,13 @@ namespace Anycmd.Tests
             {
                 Id = entityId1,
                 ResourceTypeId = host.ResourceTypeSet.First().Id,
-                DeveloperId = host.SysUsers.GetDevAccounts().First().Id
+                DeveloperId = host.SysUserSet.GetDevAccounts().First().Id
             });
             moFunctionRepository.Setup<Function>(a => a.GetByKey(entityId2)).Returns(new Function
             {
                 Id = entityId2,
                 ResourceTypeId = host.ResourceTypeSet.First().Id,
-                DeveloperId = host.SysUsers.GetDevAccounts().First().Id
+                DeveloperId = host.SysUserSet.GetDevAccounts().First().Id
             });
             host.AddService(typeof(IRepository<Function>), moFunctionRepository.Object);
 
@@ -144,7 +144,7 @@ namespace Anycmd.Tests
                 Id = appsystemId,
                 Code = "app1",
                 Name = "测试1",
-                PrincipalId = host.SysUsers.GetDevAccounts().First().Id
+                PrincipalId = host.SysUserSet.GetDevAccounts().First().Id
             }));
 
             bool catched = false;
@@ -155,7 +155,7 @@ namespace Anycmd.Tests
                     Id = entityId1,
                     Code = "fun1",
                     Description = string.Empty,
-                    DeveloperId = host.SysUsers.GetDevAccounts().First().Id,
+                    DeveloperId = host.SysUserSet.GetDevAccounts().First().Id,
                     IsEnabled = 1,
                     IsManaged = true,
                     ResourceTypeId = host.ResourceTypeSet.First().Id,
@@ -179,7 +179,7 @@ namespace Anycmd.Tests
                 Id = entityId2,
                 Code = "fun2",
                 Description = string.Empty,
-                DeveloperId = host.SysUsers.GetDevAccounts().First().Id,
+                DeveloperId = host.SysUserSet.GetDevAccounts().First().Id,
                 IsEnabled = 1,
                 IsManaged = true,
                 ResourceTypeId = host.ResourceTypeSet.First().Id,
@@ -195,7 +195,7 @@ namespace Anycmd.Tests
                     Id = entityId2,
                     Description = "test2",
                     Code = "fun",
-                    DeveloperId = host.SysUsers.GetDevAccounts().First().Id,
+                    DeveloperId = host.SysUserSet.GetDevAccounts().First().Id,
                     IsEnabled = 1,
                     IsManaged = false,
                     SortCode = 10

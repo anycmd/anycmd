@@ -19,7 +19,7 @@ namespace Anycmd.Engine.Ac
                 return false;
             }
             AccountState account;
-            return user.Identity.IsAuthenticated && user.AcDomain.SysUsers.TryGetDevAccount(user.Account.Id, out account);
+            return user.Identity.IsAuthenticated && user.AcDomain.SysUserSet.TryGetDevAccount(user.Account.Id, out account);
         }
         #endregion
 

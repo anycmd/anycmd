@@ -46,7 +46,7 @@ namespace Anycmd.Engine.Host.Ac.MessageHandlers
             accountRepository.Update(entity);
             accountRepository.Context.Commit();
             AccountState devAccount;
-            if (_host.SysUsers.TryGetDevAccount(entity.Id, out devAccount))
+            if (_host.SysUserSet.TryGetDevAccount(entity.Id, out devAccount))
             {
                 _host.EventBus.Publish(new DeveloperUpdatedEvent(entity));
             }

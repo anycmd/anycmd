@@ -130,8 +130,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 _host.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
             }
         }
-
-
+        
         private void RecAncestorRoles(RoleState childRole, List<RoleState> ancestors)
         {
             foreach (var item in _host.PrivilegeSet.Where(a => a.SubjectType == AcElementType.Role && a.ObjectType == AcElementType.Role))

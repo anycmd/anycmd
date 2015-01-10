@@ -232,7 +232,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                         throw new AnycmdException("意外的应用系统标识");
                     }
                     AccountState principal;
-                    if (!host.SysUsers.TryGetDevAccount(input.PrincipalId, out principal))
+                    if (!host.SysUserSet.TryGetDevAccount(input.PrincipalId, out principal))
                     {
                         throw new ValidationException("意外的应用系统负责人，业务系统负责人必须是开发人员");
                     }

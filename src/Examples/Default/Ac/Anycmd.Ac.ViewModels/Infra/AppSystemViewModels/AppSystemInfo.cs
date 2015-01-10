@@ -14,7 +14,7 @@ namespace Anycmd.Ac.ViewModels.Infra.AppSystemViewModels
             : base(dic)
         {
             AccountState principal;
-            if (!dic.Host.SysUsers.TryGetDevAccount((Guid)this["PrincipalId"], out principal))
+            if (!dic.Host.SysUserSet.TryGetDevAccount((Guid)this["PrincipalId"], out principal))
             {
                 throw new AnycmdException("意外的开发人员标识" + this["PrincipalId"]);
             }

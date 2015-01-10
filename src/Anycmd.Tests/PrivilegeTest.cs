@@ -108,7 +108,7 @@ namespace Anycmd.Tests
                 Id = functionId,
                 Code = "fun1",
                 Description = string.Empty,
-                DeveloperId = host.SysUsers.GetDevAccounts().First().Id,
+                DeveloperId = host.SysUserSet.GetDevAccounts().First().Id,
                 IsEnabled = 1,
                 IsManaged = true,
                 ResourceTypeId = host.ResourceTypeSet.First().Id,

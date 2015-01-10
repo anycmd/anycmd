@@ -107,7 +107,7 @@
         /// <summary>
         /// 系统用户数据集
         /// </summary>
-        ISysUserSet SysUsers { get; }
+        ISysUserSet SysUserSet { get; }
         #endregion
 
         /// <summary>

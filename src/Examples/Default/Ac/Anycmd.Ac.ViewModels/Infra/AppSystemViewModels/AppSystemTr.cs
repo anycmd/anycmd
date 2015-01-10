@@ -95,7 +95,7 @@ namespace Anycmd.Ac.ViewModels.Infra.AppSystemViewModels
             get
             {
                 if (!this.PrincipalId.HasValue) return null;
-                if (!_host.SysUsers.TryGetDevAccount(this.PrincipalId.Value, out _principal))
+                if (!_host.SysUserSet.TryGetDevAccount(this.PrincipalId.Value, out _principal))
                 {
                     throw new ValidationException("意外的开发人员标识" + this.PrincipalId);
                 }

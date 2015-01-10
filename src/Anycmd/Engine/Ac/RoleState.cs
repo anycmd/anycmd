@@ -70,6 +70,20 @@ namespace Anycmd.Engine.Ac
             get { return _sortCode; }
         }
 
+        public override string ToString()
+        {
+            return string.Format(
+@"{{
+    Id:'{0}',
+    Name:'{1}',
+    CategoryCode:'{2}',
+    CreateOn:{3},
+    IsEnabled:{4},
+    Icon:'{5}',
+    SortCode:{6}
+}}", Id, Name, CategoryCode, CreateOn, IsEnabled, Icon, SortCode);
+        }
+
         protected override bool DoEquals(RoleState other)
         {
             return Id == other.Id &&

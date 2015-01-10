@@ -71,11 +71,6 @@ namespace Anycmd.Engine.Ac
             get { return _loginName; }
         }
 
-        public DateTime? CreateOn
-        {
-            get { return _createOn; }
-        }
-
         public string Name
         {
             get { return _name; }
@@ -99,6 +94,27 @@ namespace Anycmd.Engine.Ac
         public string Mobile
         {
             get { return _mobile; }
+        }
+
+        public DateTime? CreateOn
+        {
+            get { return _createOn; }
+        }
+
+        public override string ToString()
+        {
+            return string.Format(
+@"{{
+    Id:'{0}',
+    NumberId:'{1}',
+    LoginName:'{2}',
+    Name:'{3}',
+    Code:'{4}',
+    Email:'{5}',
+    Qq:'{6}',
+    Mobile:'{7}',
+    CreateOn:{8}
+}}", Id, NumberId, LoginName, Name, Code, Email, Qq, Mobile, CreateOn);
         }
 
         protected override bool DoEquals(AccountState other)

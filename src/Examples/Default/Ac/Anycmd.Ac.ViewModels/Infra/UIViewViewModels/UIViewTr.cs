@@ -88,7 +88,7 @@ namespace Anycmd.Ac.ViewModels.Infra.UIViewViewModels
             get
             {
                 AccountState developer;
-                if (!_host.SysUsers.TryGetDevAccount(this.DeveloperId, out developer))
+                if (!_host.SysUserSet.TryGetDevAccount(this.DeveloperId, out developer))
                 {
                     throw new ValidationException("意外的开发人员标识" + this.DeveloperId);
                 }

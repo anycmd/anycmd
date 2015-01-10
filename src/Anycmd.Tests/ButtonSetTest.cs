@@ -92,13 +92,13 @@ namespace Anycmd.Tests
                 Id = appSystemId,
                 Code = "app1",
                 Name = "app1",
-                PrincipalId = host.SysUsers.GetDevAccounts().First().Id
+                PrincipalId = host.SysUserSet.GetDevAccounts().First().Id
             }));
             host.Handle(new AddFunctionCommand(new FunctionCreateInput
             {
                 Id = functionId,
                 ResourceTypeId = host.ResourceTypeSet.First().Id,
-                DeveloperId = host.SysUsers.GetDevAccounts().First().Id,
+                DeveloperId = host.SysUserSet.GetDevAccounts().First().Id,
                 Description = string.Empty,
                 Code = "function1",
                 IsEnabled = 1,

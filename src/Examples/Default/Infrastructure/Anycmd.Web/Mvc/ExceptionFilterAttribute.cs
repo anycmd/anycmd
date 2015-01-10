@@ -140,7 +140,7 @@ namespace Anycmd.Web.Mvc
         private static ActionResult GetErrorForNormalUser(IAcDomain host, bool isAjaxRequest)
         {
             AccountState account;
-            host.SysUsers.TryGetDevAccount(host.AppSystemSet.SelfAppSystem.PrincipalId, out account);
+            host.SysUserSet.TryGetDevAccount(host.AppSystemSet.SelfAppSystem.PrincipalId, out account);
             string name = string.Empty;
             string email = string.Empty;
             string qq = string.Empty;

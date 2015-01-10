@@ -10,6 +10,7 @@ namespace Anycmd.Repl
 	using Jint.Runtime;
 	using Logging;
 	using System;
+	using System.Collections;
 	using System.Collections.Generic;
 	using System.Diagnostics;
 	using System.IO;
@@ -50,10 +51,25 @@ namespace Anycmd.Repl
 			}
 		}
 
+		private static void Print(object value)
+		{
+			if (value is IEnumerable)
+			{
+				foreach (var item in (value as IEnumerable))
+				{
+					Console.WriteLine(item);
+				}
+			}
+			else
+			{
+				Console.WriteLine(value);
+			}
+		}
+
 		private static void Run(string[] args)
 		{
 			var engine = new Engine(cfg => cfg.AllowClr())
-				.SetValue("print", new Action<object>(Console.WriteLine))
+				.SetValue("print", new Action<object>(Print))
 				.SetValue("ac", _acDomain);
 
 			var filename = args.Length > 0 ? args[0] : "";
@@ -90,7 +106,7 @@ namespace Anycmd.Repl
 
 				try
 				{
-					var result = engine.GetValue(engine.Execute(input).GetCompletionValue());
+					var result = engine.GetValue(engine.Execute(string.Format("print({0})", input)).GetCompletionValue());
 					if (result.Type != Types.None && result.Type != Types.Null && result.Type != Types.Undefined)
 					{
 						var str = TypeConverter.ToString(engine.Json.Stringify(engine.Json, Arguments.From(result, Undefined.Instance, "  ")));
