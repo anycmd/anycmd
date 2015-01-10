@@ -66,6 +66,17 @@ namespace Anycmd.Repl
 			}
 		}
 
+		private static void Welcome()
+		{
+			Assembly assembly = Assembly.GetExecutingAssembly();
+			FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
+			string version = fvi.FileVersion;
+
+			Console.WriteLine(@"欢迎来到 Anycmd ({0})", version);
+			Console.WriteLine(@"通过敲出 'exit' 并回车可以退出");
+			Console.WriteLine();
+		}
+
 		private static void Run(string[] args)
 		{
 			var engine = new Engine(cfg => cfg.AllowClr())
@@ -85,13 +96,7 @@ namespace Anycmd.Repl
 				return;
 			}
 
-			Assembly assembly = Assembly.GetExecutingAssembly();
-			FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
-			string version = fvi.FileVersion;
-
-			Console.WriteLine(@"欢迎来到 Anycmd ({0})", version);
-			Console.WriteLine(@"通过敲出 'exit' 并回车可以退出");
-			Console.WriteLine();
+			Welcome();
 
 			var defaultColor = Console.ForegroundColor;
 			while (true)
@@ -102,6 +107,12 @@ namespace Anycmd.Repl
 				if (input == "exit")
 				{
 					return;
+				}
+				if (input == "clear")
+				{
+					Console.Clear();
+					Welcome();
+					continue;
 				}
 
 				try

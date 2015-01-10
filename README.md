@@ -49,11 +49,12 @@ http://git.oschina.net/anycmd/anycmd/blob/master/src/Anycmd/IRbacService.cs
 ---
 ## 感谢
 * [Apworks](https://github.com/daxnet/Apworks/) @ [Apache License 2.0]
+* [Jint](https://github.com/sebastienros/jint/) @ [BSD 2-Clause License]
 ---
 ## 学习资源
-* javacript引擎：https://github.com/sebastienros/jint
-* actor框架：https://github.com/akkadotnet/akka.net
-* nosql文档数据库：https://github.com/ravendb/ravendb
+* javacript引擎：https://github.com/sebastienros/jint/
+* actor框架：https://github.com/akkadotnet/akka.net/
+* nosql文档数据库：https://github.com/ravendb/ravendb/
 
 ---
 ##授权协议
