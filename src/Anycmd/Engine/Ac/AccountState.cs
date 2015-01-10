@@ -113,7 +113,7 @@ namespace Anycmd.Engine.Ac
     Email:'{5}',
     Qq:'{6}',
     Mobile:'{7}',
-    CreateOn:{8}
+    CreateOn:'{8}'
 }}", Id, NumberId, LoginName, Name, Code, Email, Qq, Mobile, CreateOn);
         }
 

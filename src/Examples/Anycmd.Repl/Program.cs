@@ -89,8 +89,8 @@ namespace Anycmd.Repl
 			FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
 			string version = fvi.FileVersion;
 
-			Console.WriteLine(@"Welcome to Anycmd ({0})", version);
-			Console.WriteLine(@"Type 'exit' to leave, 'print()' to write on the console.");
+			Console.WriteLine(@"欢迎来到 Anycmd ({0})", version);
+			Console.WriteLine(@"通过敲出 'exit' 并回车可以退出");
 			Console.WriteLine();
 
 			var defaultColor = Console.ForegroundColor;

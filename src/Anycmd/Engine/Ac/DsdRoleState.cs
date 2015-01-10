@@ -40,6 +40,17 @@ namespace Anycmd.Engine.Ac
             get { return _createOn; }
         }
 
+        public override string ToString()
+        {
+            return string.Format(
+@"{{
+    Id:'{0}',
+    DsdSetId:'{1}',
+    RoleId:'{2}',
+    CreateOn:'{3}'
+}}", Id, DsdSetId, RoleId, CreateOn);
+        }
+
         protected override bool DoEquals(DsdRoleState other)
         {
             return Id == other.Id &&

@@ -45,42 +45,40 @@ namespace Anycmd.Engine.Ac
 
         public string Code
         {
-            get
-            {
-                return _code;
-            }
+            get { return _code; }
         }
 
         public string Name
         {
-            get
-            {
-                return _name;
-            }
+            get { return _name; }
         }
 
         public int IsEnabled
         {
-            get
-            {
-                return _isEnabled;
-            }
+            get { return _isEnabled; }
         }
 
         public int SortCode
         {
-            get
-            {
-                return _sortCode;
-            }
+            get { return _sortCode; }
         }
 
         public DateTime? CreateOn
         {
-            get
-            {
-                return _createOn;
-            }
+            get { return _createOn; }
+        }
+
+        public override string ToString()
+        {
+            return string.Format(
+@"{{
+    Id:'{0}',
+    Code:'{1}',
+    Name:'{2}',
+    IsEnabled:{3},
+    SortCode:{4},
+    CreateOn:'{5}'
+}}", Id, Code, Name, IsEnabled, SortCode, CreateOn);
         }
 
         protected override bool DoEquals(DicState other)

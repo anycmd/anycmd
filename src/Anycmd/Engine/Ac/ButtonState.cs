@@ -39,18 +39,12 @@ namespace Anycmd.Engine.Ac
 
         public string Name
         {
-            get
-            {
-                return _name;
-            }
+            get { return _name; }
         }
 
         public string Code
         {
-            get
-            {
-                return _code;
-            }
+            get { return _code; }
         }
 
         /// <summary>
@@ -58,42 +52,42 @@ namespace Anycmd.Engine.Ac
         /// </summary>
         public string CategoryCode
         {
-            get
-            {
-                return _categoryCode;
-            }
+            get { return _categoryCode; }
         }
 
         public string Icon
         {
-            get
-            {
-                return _icon;
-            }
+            get { return _icon; }
         }
 
         public int SortCode
         {
-            get
-            {
-                return _sortCode;
-            }
+            get { return _sortCode; }
         }
 
         public int IsEnabled
         {
-            get
-            {
-                return _isEnabled;
-            }
+            get { return _isEnabled; }
         }
 
         public DateTime? CreateOn
         {
-            get
-            {
-                return _createOn;
-            }
+            get { return _createOn; }
+        }
+
+        public override string ToString()
+        {
+            return string.Format(
+@"{{
+    Id:'{0}',
+    Name:'{1}',
+    Code:'{2}',
+    CategoryCode:'{3}',
+    Icon:'{4}',
+    SortCode:{5},
+    IsEnabled:{6},
+    CreateOn:'{7}'
+}}", Id, Name, Code, CategoryCode, Icon, SortCode, IsEnabled, CreateOn);
         }
 
         protected override bool DoEquals(ButtonState other)

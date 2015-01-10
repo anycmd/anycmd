@@ -66,66 +66,58 @@ namespace Anycmd.Engine.Ac
 
         public string Code
         {
-            get
-            {
-                return _code;
-            }
+            get { return _code; }
         }
 
         public string Name
         {
-            get
-            {
-                return _name;
-            }
+            get { return _name; }
         }
 
         public int SortCode
         {
-            get
-            {
-                return _sortCode;
-            }
+            get { return _sortCode; }
         }
 
         public Guid PrincipalId
         {
-            get
-            {
-                return _principalId;
-            }
+            get { return _principalId; }
         }
 
         public int IsEnabled
         {
-            get
-            {
-                return _isEnabled;
-            }
+            get { return _isEnabled; }
         }
 
         public string SsoAuthAddress
         {
-            get
-            {
-                return _ssoAuthAddress;
-            }
+            get { return _ssoAuthAddress; }
         }
 
         public string Icon
         {
-            get
-            {
-                return _icon;
-            }
+            get { return _icon; }
         }
 
         public DateTime? CreateOn
         {
-            get
-            {
-                return _createOn;
-            }
+            get { return _createOn; }
+        }
+
+        public override string ToString()
+        {
+            return string.Format(
+@"{{
+    Id:'{0}',
+    Code:'{1}',
+    Name:'{2}',
+    SortCode:{3},
+    PrincipalId:'{4}',
+    IsEnabled:{5},
+    SsoAuthAddress:'{6}',
+    Icon:'{7}',
+    CreateOn:'{8}'
+}}", Id, Code, Name, SortCode, PrincipalId, IsEnabled, SsoAuthAddress, Icon, CreateOn);
         }
 
         protected override bool DoEquals(AppSystemState other)

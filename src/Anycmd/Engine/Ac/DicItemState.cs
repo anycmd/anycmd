@@ -53,50 +53,46 @@ namespace Anycmd.Engine.Ac
 
         public string Code
         {
-            get
-            {
-                return _code;
-            }
+            get { return _code; }
         }
 
         public string Name
         {
-            get
-            {
-                return _name;
-            }
+            get { return _name; }
         }
 
         public Guid DicId
         {
-            get
-            {
-                return _dicId;
-            }
+            get { return _dicId; }
         }
 
         public int SortCode
         {
-            get
-            {
-                return _sortCode;
-            }
+            get { return _sortCode; }
         }
 
         public int IsEnabled
         {
-            get
-            {
-                return _isEnabled;
-            }
+            get { return _isEnabled; }
         }
 
         public DateTime? CreateOn
         {
-            get
-            {
-                return _createOn;
-            }
+            get { return _createOn; }
+        }
+
+        public override string ToString()
+        {
+            return string.Format(
+@"{{
+    Id:'{0}',
+    Code:'{1}',
+    Name:'{2}',
+    DicId:'{3}',
+    SortCode:{4},
+    IsEnabled:{5},
+    CreateOn:'{6}'
+}}", Id, Code, Name, DicId, SortCode, IsEnabled, CreateOn);
         }
 
         protected override bool DoEquals(DicItemState other)

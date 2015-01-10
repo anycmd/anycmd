@@ -77,7 +77,7 @@ namespace Anycmd.Engine.Ac
     Id:'{0}',
     Name:'{1}',
     CategoryCode:'{2}',
-    CreateOn:{3},
+    CreateOn:;{3}',
     IsEnabled:{4},
     Icon:'{5}',
     SortCode:{6}
