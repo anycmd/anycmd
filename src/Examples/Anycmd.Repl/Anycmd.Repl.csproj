@@ -35,13 +35,22 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\..\..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\..\..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Jint">
       <HintPath>..\..\..\packages\Jint.2.4.0\lib\portable-net40+sl50+win+wpa81+wp80\Jint.dll</HintPath>
     </Reference>
+    <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -57,8 +66,64 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Anycmd.DataContracts\Anycmd.DataContracts.csproj">
+      <Project>{7ebbd487-f38f-475c-bc2c-3ebfacbd8f7d}</Project>
+      <Name>Anycmd.DataContracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Anycmd\Anycmd.csproj">
+      <Project>{a5ee9ffc-35f4-4cab-9ab0-c9c98e97c8b5}</Project>
+      <Name>Anycmd</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Default\Ac\Anycmd.Ac.Queries.Ef\Anycmd.Ac.Queries.Ef.csproj">
+      <Project>{af71fcbf-734d-4287-93fd-e9f4db2d3381}</Project>
+      <Name>Anycmd.Ac.Queries.Ef</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Default\Ac\Anycmd.Ac.ViewModels\Anycmd.Ac.ViewModels.csproj">
+      <Project>{8d1e81d1-e4b8-41cc-88e3-98539b333b93}</Project>
+      <Name>Anycmd.Ac.ViewModels</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Default\Edi\Anycmd.Edi.Application\Anycmd.Edi.Application.csproj">
+      <Project>{2106a327-42d8-4efa-b02c-4545a2c6a844}</Project>
+      <Name>Anycmd.Edi.Application</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Default\Edi\Anycmd.Edi.Client\Anycmd.Edi.Client.csproj">
+      <Project>{5968f1ff-f4f5-4cfc-9f6e-a4ec04540737}</Project>
+      <Name>Anycmd.Edi.Client</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Default\Edi\Anycmd.Edi.MessageServices\Anycmd.Edi.MessageServices.csproj">
+      <Project>{dd134c5a-b6f3-42c2-bc7e-5e5a9ee67829}</Project>
+      <Name>Anycmd.Edi.MessageServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Default\Edi\Anycmd.Edi.Queries.Ef\Anycmd.Edi.Queries.Ef.csproj">
+      <Project>{e41a2250-96ee-4008-9fa0-b9b8f7d57497}</Project>
+      <Name>Anycmd.Edi.Queries.Ef</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Default\Edi\Anycmd.Edi.ServiceModel\Anycmd.Edi.ServiceModel.csproj">
+      <Project>{b06290d0-ed50-42fb-92cf-e3694c77034d}</Project>
+      <Name>Anycmd.Edi.ServiceModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Default\Edi\Anycmd.Edi.ViewModels\Anycmd.Edi.ViewModels.csproj">
+      <Project>{eaa6e3c3-20f9-47ff-9d9f-7929f50f4d5b}</Project>
+      <Name>Anycmd.Edi.ViewModels</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Default\Infrastructure\Anycmd.Ef\Anycmd.Ef.csproj">
+      <Project>{fe6f62fd-7f74-478c-9b3c-5a66ae1c642d}</Project>
+      <Name>Anycmd.Ef</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Default\Infrastructure\Anycmd.Logging\Anycmd.Logging.csproj">
+      <Project>{546a1f79-3490-4518-9a66-ed3bd5625363}</Project>
+      <Name>Anycmd.Logging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Default\Infrastructure\Anycmd.ViewModel\Anycmd.ViewModel.csproj">
+      <Project>{a82b9d2c-f780-4eac-8ada-d9e8108e8155}</Project>
+      <Name>Anycmd.ViewModel</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

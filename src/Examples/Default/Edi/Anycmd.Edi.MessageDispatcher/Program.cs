@@ -1,9 +1,6 @@
 ﻿
-using System.Diagnostics;
-
 namespace Anycmd.Edi.MessageDispatcher
 {
-	using Anycmd.Web;
 	using Application;
 	using Ef;
 	using Engine.Edi;
@@ -16,6 +13,7 @@ namespace Anycmd.Edi.MessageDispatcher
 	using System;
 	using System.Collections.Generic;
 	using System.Configuration;
+	using System.Diagnostics;
 	using System.Reflection;
 	using System.Security.Principal;
 	using System.Threading;
@@ -46,15 +44,17 @@ namespace Anycmd.Edi.MessageDispatcher
 				else
 				{
 					//创建启动对象
-					var startInfo = new System.Diagnostics.ProcessStartInfo();
+					var startInfo = new ProcessStartInfo
+					{
+						FileName = Assembly.GetExecutingAssembly().Location,
+						Arguments = String.Join(" ", args),
+						Verb = "runas"
+					};
 					//设置运行文件
-					startInfo.FileName = Assembly.GetExecutingAssembly().Location;
 					//设置启动参数
-					startInfo.Arguments = String.Join(" ", args);
 					//设置启动动作,确保以管理员身份运行
-					startInfo.Verb = "runas";
 					//如果不是管理员，则启动UAC
-					System.Diagnostics.Process.Start(startInfo);
+					Process.Start(startInfo);
 				}
 			}
 			catch (Exception ex)
@@ -85,7 +85,7 @@ namespace Anycmd.Edi.MessageDispatcher
 				"IdentityEntities"
 			}, typeof(AcDomain).Assembly);
 			_acDomain.RegisterEdiCore();
-			string processId = ConfigurationManager.AppSettings["ProcessId"];
+			var processId = ConfigurationManager.AppSettings["ProcessId"];
 			ProcessDescriptor process;
 			if (!_acDomain.NodeHost.Processs.TryGetProcess(new Guid(processId), out process))
 			{
@@ -105,7 +105,7 @@ namespace Anycmd.Edi.MessageDispatcher
 			}
 			#endregion
 
-			IDispatcher dispatcher = _acDomain.GetRequiredService<IDispatcherFactory>().CreateDispatcher(process);
+			var dispatcher = _acDomain.GetRequiredService<IDispatcherFactory>().CreateDispatcher(process);
 			Console.Title = process.Title;
 			if (process.IsRuning())
 			{
@@ -118,7 +118,7 @@ namespace Anycmd.Edi.MessageDispatcher
 
 			var serviceHost = new ServiceSelfHost(_acDomain, process);
 			serviceHost.Init();
-			string words = "命令提示：开始:start 停止:stop 退出:exit 帮助:help\n"
+			var words = "命令提示：开始:start 停止:stop 退出:exit 帮助:help\n"
 				+ string.Format("监听地址：{0}", process.WebApiBaseAddress);
 			Console.WriteLine(words);
 
@@ -126,7 +126,7 @@ namespace Anycmd.Edi.MessageDispatcher
 			dispatcher.Start();
 
 			#region 控制
-			bool isRuning = false;
+			var isRuning = false;
 			while (true)
 			{
 				var arg = "";
@@ -183,15 +183,16 @@ namespace Anycmd.Edi.MessageDispatcher
 		#region event methods
 		static void sender_Waked(object sender, EventArgs e)
 		{
-			Console.WriteLine(@"醒来" + DateTime.Now.ToString());
+			Console.WriteLine(@"醒来" + DateTime.Now);
 		}
 
 		private static void sender_Starting(object sender, EventArgs e)
 		{
 			var s = sender as IDispatcher;
+			Debug.Assert(s != null, "s != null");
 			Console.ForegroundColor = ConsoleColor.White;
-			Console.WriteLine(string.Format("发送者:{0}", s.Id.ToString()));
-			Console.WriteLine(@"开始工作" + DateTime.Now.ToString());
+			Console.WriteLine(string.Format("发送者:{0}", s.Id));
+			Console.WriteLine(@"开始工作" + DateTime.Now);
 		}
 
 		private static void sender_Stopping(object sender, StoppingEventArgs e)
@@ -201,7 +202,7 @@ namespace Anycmd.Edi.MessageDispatcher
 
 		private static void sender_Stoped(object sender, EventArgs e)
 		{
-			Console.WriteLine(@"停止工作" + DateTime.Now.ToString());
+			Console.WriteLine(@"停止工作" + DateTime.Now);
 		}
 
 		private static void sender_Sending(object sender, DistributingEventArgs e)
@@ -238,7 +239,7 @@ namespace Anycmd.Edi.MessageDispatcher
 			{
 				Console.ForegroundColor = ConsoleColor.Green;
 			}
-			Console.WriteLine(string.Format("完成发送时间戳:{0}\n本次发送耗时长:{1}", e.DistributedOn.ToString(), e.TimeSpan.ToString()));
+			Console.WriteLine(string.Format("完成发送时间戳:{0}\n本次发送耗时长:{1}", e.DistributedOn, e.TimeSpan));
 			Console.WriteLine(string.Format(
 				"累计发送{0}条，成功{1}条，失败{2}条",
 				dispatcher.SucessCount + dispatcher.FailCount,
@@ -254,20 +255,18 @@ namespace Anycmd.Edi.MessageDispatcher
 		private static void sender_Sleepping(object sender, SleepingEventArgs e)
 		{
 			Console.WriteLine();
-			Console.WriteLine(string.Format("没有待上传数据！休眠{0}秒...", (e.SleepTimeSpan / 1000).ToString()));
+			Console.WriteLine(string.Format("没有待上传数据！休眠{0}秒...", e.SleepTimeSpan / 1000));
 			Console.ForegroundColor = ConsoleColor.Gray;
 		}
 
 		private static void sender_Error(object sender, ExceptionEventArgs e)
 		{
-			if (e.Exception != null)
+			if (e.Exception == null) return;
+			Console.WriteLine();
+			Console.WriteLine(e.Exception.Message);
+			if (!e.ExceptionHandled)
 			{
-				Console.WriteLine();
-				Console.WriteLine(e.Exception.Message);
-				if (!e.ExceptionHandled)
-				{
-					_acDomain.LoggingService.Error(e.Exception);
-				}
+				_acDomain.LoggingService.Error(e.Exception);
 			}
 		}
 		#endregion
