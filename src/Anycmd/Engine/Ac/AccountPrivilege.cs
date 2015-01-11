@@ -109,7 +109,7 @@ namespace Anycmd.Engine.Ac
             }
         }
 
-        public IReadOnlyCollection<PrivilegeState> AccountPrivileges
+        private IEnumerable<PrivilegeState> AccountPrivileges
         {
             get
             {

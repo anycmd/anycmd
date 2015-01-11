@@ -3,6 +3,7 @@ namespace Anycmd.Engine.Ac.Abstractions
 {
     public enum AcRecordType
     {
+        Undefined,
         AccountAccount = 20,
         AccountOrganization,
         AccountRole,
