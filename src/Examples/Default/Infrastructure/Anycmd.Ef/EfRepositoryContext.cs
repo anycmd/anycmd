@@ -8,6 +8,8 @@ namespace Anycmd.Ef
     using System;
     using System.Configuration;
     using System.Data.Entity;
+    using System.Data.Entity.Core.Objects;
+    using System.Data.Entity.Infrastructure;
     using System.Linq;
 
     /// <summary>
@@ -175,7 +177,7 @@ namespace Anycmd.Ef
             {
                 lock (_sync)
                 {
-                    DbContext.SaveChanges();
+                    ((IObjectContextAdapter)DbContext).ObjectContext.SaveChanges(SaveOptions.DetectChangesBeforeSave);
                 }
                 Committed = true;
             }

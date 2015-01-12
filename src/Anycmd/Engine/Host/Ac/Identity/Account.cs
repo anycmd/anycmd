@@ -39,7 +39,7 @@ namespace Anycmd.Engine.Host.Ac.Identity
                 QuickQuery1 = input.QuickQuery1,
                 QuickQuery2 = input.QuickQuery2,
                 Telephone = input.Telephone,
-                Question = input.QuickQuery      ,
+                Question = input.QuickQuery,
                 Password=input.Password
             };
         }
