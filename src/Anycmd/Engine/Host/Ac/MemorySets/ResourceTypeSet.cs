@@ -292,8 +292,6 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             private void Handle(IResourceTypeUpdateIo input, bool isCommand)
             {
                 var host = _set._host;
-                var dicByCode = _set._dicByCode;
-                var dicById = _set._dicById;
                 var resourceRepository = host.RetrieveRequiredService<IRepository<ResourceType>>();
                 if (string.IsNullOrEmpty(input.Code))
                 {

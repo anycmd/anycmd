@@ -408,12 +408,17 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                                 roles.Add(role);
                             }
                         }
+                        // TODO:考虑上角色继承
+                        /*
+                         * 其实就是在当前账户的角色集中元素的数目有增加时执行责任分离验证。
+                         * 这个地方没考虑清楚。可能只考虑（Account, Role）是对的，没有办法去考虑上Organization上的角色、Group上的角色，甚至别的Account委托过来的角色。
+                         * 那些角色是在进入这些场景、边界之后才会并入到当前账户的角色集的，离开那个边界时就会收回。也就是说可能需要在当前活动的账户进入某个Organization、Group、和变身为某人时执行一下职责分离约束规则。
+                         */
                         string msg;
                         if (!host.SsdSetSet.CheckRoles(roles, out msg))
                         {
                             throw new ValidationException(msg);
                         }
-                        // TODO:应用静态职责分离
                     }
                     if (subjectType == AcElementType.Organization && acObjectType == AcElementType.Organization)
                     {

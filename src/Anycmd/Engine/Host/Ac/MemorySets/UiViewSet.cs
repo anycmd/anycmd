@@ -317,8 +317,6 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             private void Handle(IUiViewUpdateIo input, bool isCommand)
             {
                 var host = _set._host;
-                var viewDicByFunction = _set._viewDicByFunction;
-                var viewDicById = _set._viewDicById;
                 var viewRepository = host.RetrieveRequiredService<IRepository<UiView>>();
                 UiViewState bkState;
                 if (!host.UiViewSet.TryGetUiView(input.Id, out bkState))

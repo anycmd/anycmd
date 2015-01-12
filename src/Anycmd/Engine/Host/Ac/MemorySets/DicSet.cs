@@ -383,10 +383,6 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                             throw;
                         }
                     }
-                    if (!stateChanged)
-                    {
-                        return;
-                    }
                 }
                 if (isCommand && stateChanged)
                 {
@@ -442,7 +438,6 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 var dicById = _set._dicById;
                 var dicByCode = _set._dicByCode;
                 var dicRepository = host.RetrieveRequiredService<IRepository<Dic>>();
-                var dicItemRepository = host.RetrieveRequiredService<IRepository<DicItem>>();
                 DicState bkState;
                 if (!host.DicSet.TryGetDic(dicId, out bkState))
                 {
@@ -865,10 +860,6 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                                 dicItemRepository.Context.Rollback();
                                 throw;
                             }
-                        }
-                        if (!stateChanged)
-                        {
-                            return;
                         }
                     }
                     if (isCommand && stateChanged)

@@ -1,4 +1,6 @@
 ﻿
+using System.Diagnostics;
+
 namespace Anycmd.Engine.Host.Edi.MemorySets
 {
     using Bus;
@@ -414,6 +416,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 lock (locker)
                 {
                     NodeDescriptor node;
+                    Debug.Assert(input.Id != null, "input.Id != null");
                     if (host.NodeHost.Nodes.TryGetNodeById(input.Id.Value.ToString(), out node))
                     {
                         throw new ValidationException("已经存在");
@@ -793,6 +796,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                         {
                             nodeElementActionDic[node].Add(element, new Dictionary<Verb, NodeElementActionState>());
                         }
+                        Debug.Assert(input.Id != null, "input.Id != null");
                         entity = new NodeElementAction
                         {
                             Id = input.Id.Value,

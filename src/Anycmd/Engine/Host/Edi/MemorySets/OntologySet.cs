@@ -106,7 +106,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
         }
         #endregion
 
-        #region this[Guid ontologyID]
+        #region this[Guid ontologyId]
         /// <summary>
         /// 
         /// </summary>
@@ -717,7 +717,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     _initialized = true;
                 }
                 this._host = host;
-                new MessageHandler(this).Register();
+                new ElementMessageHandler(this).Register();
             }
             #endregion
 
@@ -809,8 +809,8 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
             #endregion
 
-            #region MessageHandler
-            private class MessageHandler : 
+            #region ElementMessageHandler
+            private class ElementMessageHandler : 
                 IHandler<AddElementCommand>,
                 IHandler<AddSystemElementCommand>,
                 IHandler<UpdateElementCommand>,
@@ -818,7 +818,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             {
                 private readonly ElementSet _set;
 
-                public MessageHandler(ElementSet set)
+                public ElementMessageHandler(ElementSet set)
                 {
                     this._set = set;
                 }
@@ -1159,7 +1159,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     _initialized = true;
                 }
                 this._host = host;
-                new MessageHandler(this).Register();
+                new ActionMessageHandler(this).Register();
             }
 
             #region GetActons
@@ -1213,7 +1213,6 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     _actionDicByVerb.Clear();
                     _actionsById.Clear();
                     var actions = _host.RetrieveRequiredService<INodeHostBootstrap>().GetActions();
-                    var nodeElementActions = _host.RetrieveRequiredService<INodeHostBootstrap>().GetNodeElementActions();
                     foreach (var ontology in _host.NodeHost.Ontologies)
                     {
                         if (!_actionDicByVerb.ContainsKey(ontology))
@@ -1237,15 +1236,15 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
             #endregion
 
-            #region MessageHandler
-            private class MessageHandler : 
+            #region ActionMessageHandler
+            private class ActionMessageHandler : 
                 IHandler<AddActionCommand>,
                 IHandler<UpdateActionCommand>,
                 IHandler<RemoveActionCommand>
             {
                 private readonly ActionSet _set;
 
-                public MessageHandler(ActionSet set)
+                public ActionMessageHandler(ActionSet set)
                 {
                     this._set = set;
                 }
@@ -1473,7 +1472,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     _initialized = true;
                 }
                 this._host = host;
-                new MessageHandler(this).Register();
+                new InfoGroupMessageHandler(this).Register();
             }
 
             public IList<InfoGroupState> GetInfoGroups(OntologyDescriptor ontology)
@@ -1522,15 +1521,15 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             }
             #endregion
 
-            #region MessageHandler
-            private class MessageHandler : 
+            #region InfoGroupMessageHandler
+            private class InfoGroupMessageHandler : 
                 IHandler<AddInfoGroupCommand>,
                 IHandler<UpdateInfoGroupCommand>,
                 IHandler<RemoveInfoGroupCommand>
             {
                 private readonly InfoGroupSet _set;
 
-                public MessageHandler(InfoGroupSet set)
+                public InfoGroupMessageHandler(InfoGroupSet set)
                 {
                     this._set = set;
                 }
@@ -1735,7 +1734,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     _initialized = true;
                 }
                 this._host = host;
-                new MessageHandler(this).Register();
+                new OntologyOrganizationMessageHandler(this).Register();
             }
 
             /// <summary>
@@ -1797,7 +1796,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
             }
 
-            private class MessageHandler :
+            private class OntologyOrganizationMessageHandler :
                 IHandler<AddOntologyOrganizationCommand>,
                 IHandler<OntologyOrganizationAddedEvent>,
                 IHandler<RemoveOntologyOrganizationCommand>,
@@ -1811,7 +1810,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             {
                 private readonly OntologyOrganizationSet set;
 
-                public MessageHandler(OntologyOrganizationSet set)
+                public OntologyOrganizationMessageHandler(OntologyOrganizationSet set)
                 {
                     this.set = set;
                 }
@@ -2055,7 +2054,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     _initialized = true;
                 }
                 this._host = host;
-                new MessageHandler(this).Register();
+                new TopicMessageHandler(this).Register();
             }
 
             public Dictionary<string, TopicState> this[OntologyDescriptor ontology]
@@ -2114,15 +2113,15 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             }
             #endregion
 
-            #region MessageHandler
-            private class MessageHandler : 
+            #region TopicMessageHandler
+            private class TopicMessageHandler : 
                 IHandler<AddTopicCommand>,
                 IHandler<UpdateTopicCommand>,
                 IHandler<RemoveTopicCommand>
             {
                 private readonly TopicSet _set;
 
-                public MessageHandler(TopicSet set)
+                public TopicMessageHandler(TopicSet set)
                 {
                     this._set = set;
                 }
@@ -2348,7 +2347,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     _initialized = true;
                 }
                 this._host = host;
-                new MessageHandler(this).Register();
+                new ArchiveMessageHandler(this).Register();
             }
 
             /// <summary>
@@ -2413,15 +2412,15 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
             }
 
-            #region MessageHandler
-            private class MessageHandler : 
+            #region ArchiveMessageHandler
+            private class ArchiveMessageHandler : 
                 IHandler<AddArchiveCommand>,
                 IHandler<UpdateArchiveCommand>,
                 IHandler<RemoveArchiveCommand>
             {
                 private readonly ArchiveSet _set;
 
-                public MessageHandler(ArchiveSet set)
+                public ArchiveMessageHandler(ArchiveSet set)
                 {
                     this._set = set;
                 }

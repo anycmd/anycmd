@@ -42,7 +42,6 @@ namespace Anycmd.Engine.Ac.Abstractions
         /// </summary>
         Guid ObjectInstanceId { get; }
 
-        // TODO:以下两个属性会被重构掉，以下两个属性会被xacml的策略取代。
         string AcContentType { get; }
         string AcContent { get; }
     }

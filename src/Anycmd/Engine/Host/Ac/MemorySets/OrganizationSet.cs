@@ -322,7 +322,6 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                         {
                             throw new ValidationException("子级组织结构的编码必须以父级组织结构编码为前缀");
                         }
-                        var childOrgs = new List<IOrganization>();
                         if (input.ParentCode.StartsWith(input.Code, StringComparison.OrdinalIgnoreCase))
                         {
                             throw new AnycmdException("组织结构的父组织结构不能是自己的子孙级组织结构");

@@ -324,10 +324,6 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                             throw;
                         }
                     }
-                    if (!stateChanged)
-                    {
-                        return;
-                    }
                 }
                 if (isCommand && stateChanged)
                 {
