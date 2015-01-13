@@ -128,6 +128,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Winform", "Winform", "{56B7
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Anycmd.Repl", "src\Examples\Anycmd.Repl\Anycmd.Repl.csproj", "{C7D7AC7B-E408-447F-9C0A-7783BC5A9721}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Anycmd.MongoDb", "src\Examples\Default\Infrastructure\Anycmd.MongoDb\Anycmd.MongoDb.csproj", "{59A0137C-D9D8-4D88-8FBF-CE757722306A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -340,6 +342,12 @@ Global
 		{C7D7AC7B-E408-447F-9C0A-7783BC5A9721}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C7D7AC7B-E408-447F-9C0A-7783BC5A9721}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C7D7AC7B-E408-447F-9C0A-7783BC5A9721}.Release|x86.ActiveCfg = Release|Any CPU
+		{59A0137C-D9D8-4D88-8FBF-CE757722306A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59A0137C-D9D8-4D88-8FBF-CE757722306A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59A0137C-D9D8-4D88-8FBF-CE757722306A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{59A0137C-D9D8-4D88-8FBF-CE757722306A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59A0137C-D9D8-4D88-8FBF-CE757722306A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59A0137C-D9D8-4D88-8FBF-CE757722306A}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -389,10 +397,11 @@ Global
 		{E6DB0D91-1678-4B87-B4CD-F56C6DAD332D} = {E441DF99-1108-4125-835D-3AB5F8DA67DA}
 		{56B77909-94F4-4509-8E94-633CA3C72ECC} = {E441DF99-1108-4125-835D-3AB5F8DA67DA}
 		{C7D7AC7B-E408-447F-9C0A-7783BC5A9721} = {E441DF99-1108-4125-835D-3AB5F8DA67DA}
+		{59A0137C-D9D8-4D88-8FBF-CE757722306A} = {731267FF-CAA1-4575-BA86-8FF93AE21F53}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35;packages\Unity.Interception.2.1.505.2\lib\NET35;packages\EnterpriseLibrary.Common.5.0.505.0\lib\NET35;packages\EnterpriseLibrary.Data.5.0.505.0\lib\NET35;packages\EnterpriseLibrary.Logging.5.0.505.1\lib\NET35;packages\EnterpriseLibrary.ExceptionHandling.5.0.505.0\lib\NET35
 		VisualSVNWorkingCopyRoot = .
+		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35;packages\Unity.Interception.2.1.505.2\lib\NET35;packages\EnterpriseLibrary.Common.5.0.505.0\lib\NET35;packages\EnterpriseLibrary.Data.5.0.505.0\lib\NET35;packages\EnterpriseLibrary.Logging.5.0.505.1\lib\NET35;packages\EnterpriseLibrary.ExceptionHandling.5.0.505.0\lib\NET35
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = src\Anycmd.AccessControl\Anycmd.AccessControl.csproj

@@ -13,7 +13,7 @@ namespace Anycmd.Repositories
     public abstract class RepositoryContext : DisposableObject, IRepositoryContext
     {
         #region Private Fields
-        private readonly Guid id = Guid.NewGuid();
+        private readonly Guid _id = Guid.NewGuid();
         private ThreadLocal<List<object>> _localNewCollection = new ThreadLocal<List<object>>(() => new List<object>());
         private ThreadLocal<List<object>> _localModifiedCollection = new ThreadLocal<List<object>>(() => new List<object>());
         private ThreadLocal<List<object>> _localDeletedCollection = new ThreadLocal<List<object>>(() => new List<object>());
@@ -119,7 +119,7 @@ namespace Anycmd.Repositories
         /// </summary>
         public Guid Id
         {
-            get { return id; }
+            get { return _id; }
         }
         /// <summary>
         /// Registers a new object to the repository context.
