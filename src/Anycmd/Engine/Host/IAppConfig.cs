@@ -20,6 +20,16 @@ namespace Anycmd.Engine.Host
         int TicksTimeout { get; }
 
         /// <summary>
+        /// 序列标识生成器类型标识字符串
+        /// </summary>
+        string SequenceIdGenerator { get; }
+
+        /// <summary>
+        /// 标识生成器类型标识字符串
+        /// </summary>
+        string IdGenerator { get; }
+
+        /// <summary>
         /// 命令的InfoID和InfoValue字符串的格式。该格式是命令持久化所使用的默认格式。
         /// </summary>
         string InfoFormat { get; }

@@ -11,6 +11,7 @@ namespace Anycmd.Engine.Host
     using Engine.Ac.Abstractions;
     using Engine.Edi.Abstractions;
     using Hecp;
+    using IdGenerators;
     using Logging;
     using System;
     using System.Collections.Generic;
@@ -51,6 +52,22 @@ namespace Anycmd.Engine.Host
             {
                 return EmptyAppConfig.Empty;
             }
+        }
+
+        /// <summary>
+        /// 标识生成器
+        /// </summary>
+        public IIdGenerator IdGenerator
+        {
+            get { return EmptyIdGenerator.Empty; }
+        }
+
+        /// <summary>
+        /// 序列标识生成器
+        /// </summary>
+        public ISequenceIdGenerator SequenceIdGenerator
+        {
+            get { return EmptySequenceIdGenerator.Empty; }
         }
 
         public IUserSession CreateSession(Guid sessionId, AccountState account)
@@ -366,6 +383,16 @@ namespace Anycmd.Engine.Host
             public int TicksTimeout
             {
                 get { return 0; }
+            }
+
+            public string SequenceIdGenerator
+            {
+                get { return null; }
+            }
+
+            public string IdGenerator
+            {
+                get { return null; }
             }
 
 
@@ -696,6 +723,26 @@ namespace Anycmd.Engine.Host
             public event EventHandler<MessageDispatchEventArgs> DispatchFailed;
 
             public event EventHandler<MessageDispatchEventArgs> Dispatched;
+        }
+
+        private class EmptyIdGenerator : IIdGenerator
+        {
+            public static readonly EmptyIdGenerator Empty = new EmptyIdGenerator();
+
+            public object Generate()
+            {
+                return Guid.Empty;
+            }
+        }
+
+        private class EmptySequenceIdGenerator : ISequenceIdGenerator
+        {
+            public static readonly EmptySequenceIdGenerator Empty = new EmptySequenceIdGenerator();
+
+            public object Next
+            {
+                get { return Guid.Empty; }
+            }
         }
     }
 }

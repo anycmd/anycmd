@@ -1,9 +1,11 @@
-﻿namespace Anycmd
+﻿
+namespace Anycmd
 {
     using Bus;
     using Engine.Ac.Abstractions;
     using Engine.Host;
     using Engine.Host.Edi;
+    using IdGenerators;
     using Logging;
     using Rdb;
     using System;
@@ -22,6 +24,14 @@
         /// 宿主名称
         /// </summary>
         string Name { get; }
+        /// <summary>
+        /// 标识生成器
+        /// </summary>
+        IIdGenerator IdGenerator { get; }
+        /// <summary>
+        /// 序列标识生成器
+        /// </summary>
+        ISequenceIdGenerator SequenceIdGenerator { get; }
         /// <summary>
         /// 消息分发器
         /// </summary>

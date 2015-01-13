@@ -239,6 +239,9 @@
     <Compile Include="Engine\Ac\SsdSetState.cs" />
     <Compile Include="Engine\Host\Impl\UnauthenticatedIdentity.cs" />
     <Compile Include="IAcDomain.cs" />
+    <Compile Include="IdGenerators\IIdGenerator.cs" />
+    <Compile Include="IdGenerators\ISequenceIdGenerator.cs" />
+    <Compile Include="IdGenerators\SequentialIdGenerator.cs" />
     <Compile Include="Int32IdAttribute.cs" />
     <Compile Include="IRbacService.cs" />
     <Compile Include="Snapshots\AcDomainExtension.cs" />

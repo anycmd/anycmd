@@ -13,6 +13,7 @@ namespace Anycmd.Engine.Host.Impl
     using Edi.Entities;
     using Edi.Handlers;
     using Edi.MessageHandlers;
+    using IdGenerators;
     using Logging;
     using Query;
     using Rdb;
@@ -27,6 +28,8 @@ namespace Anycmd.Engine.Host.Impl
             base.MessageDispatcher = new MessageDispatcher();
             base.CommandBus = new DirectCommandBus(this.MessageDispatcher);
             this.EventBus = new DirectEventBus(this.MessageDispatcher);
+            this.IdGenerator = new SequentialIdGenerator();
+            this.SequenceIdGenerator = new SequentialIdGenerator();
 
             base.Rdbs = new Rdbs(this, new DbTables(this), new DbViews(this), new DbTableColumns(this), new DbViewColumns(this));
             base.AppSystemSet = new AppSystemSet(this);
@@ -47,6 +50,12 @@ namespace Anycmd.Engine.Host.Impl
             this.NodeHost = new DefaultNodeHost(this);
             this.MessageDispatcher.Register((IHandler<MemorySetInitingEvent>)this);
             this.MessageDispatcher.Register((IHandler<MemorySetInitializedEvent>)this);
+        }
+
+        public DefaultAcDomain(IAppConfig config)
+            : base(config)
+        {
+
         }
 
         public virtual void Handle(MemorySetInitingEvent message)

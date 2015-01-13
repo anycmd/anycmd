@@ -882,6 +882,10 @@ FROM    ( SELECT    [Extent1].[Id] AS [Id] ,
         public string SqlServerViewsSelect { get; set; }
         public int TicksTimeout { get; set; }
 
+        public string SequenceIdGenerator { get; set; }
+
+        public string IdGenerator { get; set; }
+
         /// <summary>
         /// 命令的InfoID和InfoValue字符串的格式。该格式是命令持久化所使用的默认格式。
         /// </summary>

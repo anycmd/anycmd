@@ -6,6 +6,7 @@ namespace Anycmd.Engine.Host.Impl
     using Edi;
     using Engine.Ac.Abstractions;
     using Events;
+    using IdGenerators;
     using Logging;
     using System;
 
@@ -40,8 +41,18 @@ namespace Anycmd.Engine.Host.Impl
 
         protected AcDomain()
         {
+            this.Config = this.Conventions;
             this.Name = "DefaultAcDomain";
             this.StartedAt = DateTime.UtcNow;
+        }
+
+        protected AcDomain(IAppConfig config)
+        {
+            if (config == null)
+            {
+                throw new ArgumentNullException("config");
+            }
+            this.Config = config;
         }
 
         /// <summary>
@@ -60,7 +71,6 @@ namespace Anycmd.Engine.Host.Impl
                 {
                     return this;
                 }
-                this.Config = Conventions;
                 OnConfigLoad();
 
                 Configure();
@@ -77,10 +87,9 @@ namespace Anycmd.Engine.Host.Impl
         /// Gets the conventions.
         /// </summary>
         /// <value>The conventions.</value>
-        public virtual HostConvention Conventions
+        private HostConvention Conventions
         {
             get { return _conventions ?? (_conventions = new HostConvention()); }
-            set { _conventions = value; }
         }
 
         private IAppConfig _config;
@@ -99,6 +108,15 @@ namespace Anycmd.Engine.Host.Impl
                 OnAfterConfigChanged();
             }
         }
+
+        /// <summary>
+        /// 标识生成器
+        /// </summary>
+        public IIdGenerator IdGenerator { get; protected set; }
+        /// <summary>
+        /// 序列标识生成器
+        /// </summary>
+        public ISequenceIdGenerator SequenceIdGenerator { get; protected set; }
 
         public INodeHost NodeHost { get; protected set; }
 
