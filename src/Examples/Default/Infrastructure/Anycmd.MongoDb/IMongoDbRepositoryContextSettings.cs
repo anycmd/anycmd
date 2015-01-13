@@ -12,7 +12,7 @@ namespace Anycmd.MongoDb
     /// <returns>The name of the <see cref="MongoCollection"/>.</returns>
     public delegate string MapTypeToCollectionNameDelegate(Type type);
 
-    public interface IMongoDdRepositoryContextSettings
+    public interface IMongoDbRepositoryContextSettings
     {
         /// <summary>
         /// Gets the database name.

@@ -53,10 +53,10 @@
     </Compile>
     <Compile Include="Conventions\GuidIdGeneratorConvention.cs" />
     <Compile Include="Conventions\UseLocalDateTimeConvention.cs" />
-    <Compile Include="IMongoDdRepositoryContext.cs" />
-    <Compile Include="IMongoDdRepositoryContextSettings.cs" />
+    <Compile Include="IMongoDbRepositoryContext.cs" />
+    <Compile Include="IMongoDbRepositoryContextSettings.cs" />
     <Compile Include="MongoDbRepository`1.cs" />
-    <Compile Include="MongoDdRepositoryContext.cs" />
+    <Compile Include="MongoDbRepositoryContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

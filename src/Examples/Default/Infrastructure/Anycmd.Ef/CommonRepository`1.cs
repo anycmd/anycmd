@@ -15,6 +15,10 @@ namespace Anycmd.Ef
 
         public CommonRepository(IAcDomain host, string efDbContextName)
         {
+            if (host == null)
+            {
+                throw new ArgumentNullException("host");
+            }
             this._host = host;
             this._efDbContextName = efDbContextName;
         }

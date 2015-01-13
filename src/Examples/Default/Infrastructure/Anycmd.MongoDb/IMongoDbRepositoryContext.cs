@@ -5,13 +5,13 @@ namespace Anycmd.MongoDb
     using Repositories;
     using System;
 
-    public interface IMongoDdRepositoryContext : IRepositoryContext
+    public interface IMongoDbRepositoryContext : IRepositoryContext
     {
         /// <summary>
-        /// Gets a <see cref="IMongoDdRepositoryContextSettings"/> instance which contains the settings
+        /// Gets a <see cref="IMongoDbRepositoryContextSettings"/> instance which contains the settings
         /// information used by current context.
         /// </summary>
-        IMongoDdRepositoryContextSettings Settings { get; }
+        IMongoDbRepositoryContextSettings Settings { get; }
         /// <summary>
         /// Gets the <see cref="MongoCollection"/> instance by the given <see cref="Type"/>.
         /// </summary>

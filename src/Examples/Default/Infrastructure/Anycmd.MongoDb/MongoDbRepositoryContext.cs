@@ -11,12 +11,12 @@ namespace Anycmd.MongoDb
     using System.Linq;
     using System.Reflection;
 
-    public class MongoDdRepositoryContext : RepositoryContext, IMongoDdRepositoryContext
+    public class MongoDbRepositoryContext : RepositoryContext, IMongoDbRepositoryContext
     {
         #region Private Fields
         private readonly MongoServer _server;
         private readonly MongoDatabase _database;
-        private readonly IMongoDdRepositoryContextSettings _settings;
+        private readonly IMongoDbRepositoryContextSettings _settings;
         private readonly object _syncObj = new object();
         private readonly Dictionary<Type, MongoCollection> _mongoCollections = new Dictionary<Type, MongoCollection>();
         #endregion
@@ -25,9 +25,9 @@ namespace Anycmd.MongoDb
         /// <summary>
         /// Initializes a new instance of <c>MongoDBRepositoryContext</c> class.
         /// </summary>
-        /// <param name="settings">The <see cref="IMongoDdRepositoryContextSettings"/> instance which contains
+        /// <param name="settings">The <see cref="IMongoDbRepositoryContextSettings"/> instance which contains
         /// the setting information for initializing the repository context.</param>
-        public MongoDdRepositoryContext(IMongoDdRepositoryContextSettings settings)
+        public MongoDbRepositoryContext(IMongoDbRepositoryContextSettings settings)
         {
             this._settings = settings;
             _server = new MongoServer(settings.ServerSettings);
@@ -95,10 +95,10 @@ namespace Anycmd.MongoDb
 
         #region IMongoDBRepositoryContext Members
         /// <summary>
-        /// Gets a <see cref="IMongoDdRepositoryContextSettings"/> instance which contains the settings
+        /// Gets a <see cref="IMongoDbRepositoryContextSettings"/> instance which contains the settings
         /// information used by current context.
         /// </summary>
-        public IMongoDdRepositoryContextSettings Settings
+        public IMongoDbRepositoryContextSettings Settings
         {
             get { return _settings; }
         }
