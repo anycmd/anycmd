@@ -10,7 +10,7 @@
 
 * 1，视频介绍《anycmd筑基》 http://www.tudou.com/programs/view/4jXoarZKwCk/
 
-<div><form action="https://shenghuo.alipay.com/send/payment/fill.htm" accept-charset="gbk" id="dinggou" method="post" name="dinggou" target="_blank"><input name="" type="submit" value="打赏" class="btn btn-success" /> <input name="optEmail" type="hidden" value="anycmd@qq.com" /> <input name="memo" type="hidden" value="" /> <input id="payAmount" name="payAmount" type="hidden"value="9.9" /> <input id="title" name="title" type="hidden" value="如果您觉得anycmd人还不错，不妨打赏一杯咖啡吧" /><br /></form></div>
+<div>如果您觉得anycmd人还不错，不妨打赏一杯咖啡吧 **[打赏][1]**</div>
 
 #Anycmd简介
 
@@ -65,3 +65,5 @@ http://git.oschina.net/anycmd/anycmd/blob/master/src/Anycmd/IRbacService.cs
 The MIT license。
 <img src="http://git.oschina.net/anycmd/anycmd/raw/master/docs/MIT.png" />
 ><img border="0" src="http://git.oschina.net/anycmd/anycmd/raw/master/docs/logoBig.png" alt="logo" title="logo"> QQ交流群:306029222 <a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=7c53e6d84b1c9ca2a31a1cd58e33cea5f32ffa9ef8427996a8c0a15d9fe3ef35"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt=".NET 开源权限引擎" title=".NET 开源权限引擎"></a>
+
+[1]: http://meiweihezi.com/dashang/dashang.php?id=ZGs1NjM=
