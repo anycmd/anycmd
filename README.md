@@ -10,7 +10,7 @@
 
 * 1，视频介绍《anycmd筑基》 http://www.tudou.com/programs/view/4jXoarZKwCk/
 
-如果您觉得anycmd人还不错，不妨打赏一杯咖啡吧 ** [打赏][1] **
+**如果您觉得anycmd人还不错，不妨打赏一杯咖啡吧 [打赏][1]**
 
 #Anycmd简介
 
