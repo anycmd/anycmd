@@ -10,8 +10,8 @@
 
 * 1，视频介绍《anycmd筑基》 http://www.tudou.com/programs/view/4jXoarZKwCk/
 
-<form action="https://shenghuo.alipay.com/send/payment/fill.htm" accept-charset="gbk" id="dinggou" method="post" name="dinggou" target="_blank"><input name="" type="submit" value="打赏" class="btn btn-success" /> <input name="optEmail" type="hidden" value="anycmd@qq.com" /> <input name="memo" type="hidden" value="" /> <input id="payAmount" name="payAmount" type="hidden"value="9.9" /> <input id="title" name="title" type="hidden" value="如果您觉得anycmd人还不错，不妨打赏一杯咖啡吧" /><br /></form>
-	
+<div><form action="https://shenghuo.alipay.com/send/payment/fill.htm" accept-charset="gbk" id="dinggou" method="post" name="dinggou" target="_blank"><input name="" type="submit" value="打赏" class="btn btn-success" /> <input name="optEmail" type="hidden" value="anycmd@qq.com" /> <input name="memo" type="hidden" value="" /> <input id="payAmount" name="payAmount" type="hidden"value="9.9" /> <input id="title" name="title" type="hidden" value="如果您觉得anycmd人还不错，不妨打赏一杯咖啡吧" /><br /></form></div>
+
 #Anycmd简介
 
 Anycmd是一个.net平台的完全开源的，完整支持Rbac的（包括核心Rbac、通用角色层次Rbac、静态职责分离Rbac和动态责任分离Rbac），将会支持xacml的通用的权限框架、中间件、解决方案。完整的Rbac规范所定义的能力只是anycmd所提供的能力集的一个子集。
