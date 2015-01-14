@@ -11,6 +11,7 @@
 * 1，视频介绍《anycmd筑基》 http://www.tudou.com/programs/view/4jXoarZKwCk/
 
 **如果您觉得anycmd人还不错，不妨打赏一杯咖啡吧 [打赏][1]**
+**您还可以赞助anycmd购买演示服务器 [梁山-开源权限引擎][2]**
 
 #Anycmd简介
 
@@ -67,3 +68,4 @@ The MIT license。
 ><img border="0" src="http://git.oschina.net/anycmd/anycmd/raw/master/docs/logoBig.png" alt="logo" title="logo"> QQ交流群:306029222 <a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=7c53e6d84b1c9ca2a31a1cd58e33cea5f32ffa9ef8427996a8c0a15d9fe3ef35"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt=".NET 开源权限引擎" title=".NET 开源权限引擎"></a>
 
 [1]: http://meiweihezi.com/dashang/dashang.php?id=ZGs1NjM=
+[2]: https://shenghuo.alipay.com/transfer/aaCollect/pay.htm?id=51298211&sign=119fa8dd6e74ed8ec91e558f2f195db6
