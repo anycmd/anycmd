@@ -1288,7 +1288,7 @@
     <Content Include="Areas\Ac\Views\Button\Partials\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Shared\Partials\UIViewButtons.cshtml" />
+    <Content Include="Views\Shared\Partials\UiViewButtons.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\wallpapers\" />

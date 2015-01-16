@@ -300,22 +300,22 @@ namespace Anycmd.Web.Mvc
         /// 
         /// </summary>
         /// <param name="html"></param>
-        /// <param name="page"></param>
+        /// <param name="uiView"></param>
         /// <returns></returns>
-        public static IHtmlString Qtip(this HtmlHelper html, UiViewState page)
+        public static IHtmlString Qtip(this HtmlHelper html, UiViewState uiView)
         {
             IHtmlString result = MvcHtmlString.Empty;
-            if (page == UiViewState.Empty)
+            if (uiView == UiViewState.Empty)
             {
                 return result;
             }
-            if (page != null && (!string.IsNullOrEmpty(page.Tooltip) || GetUserSession().IsDeveloper()))
+            if (uiView != null && (!string.IsNullOrEmpty(uiView.Tooltip) || GetUserSession().IsDeveloper()))
             {
                 var urlHelper = new UrlHelper(html.ViewContext.RequestContext, html.RouteCollection);
-                var href = urlHelper.Action("Tooltip", "Page", new { area = "Ac", pageId = page.Id });
+                var href = urlHelper.Action("Tooltip", "UiView", new { area = "Ac", uiViewId = uiView.Id });
                 var s = "<a class='tooltip pageTooltip' tabIndex='-1' href='{0}' rel='{0}' title='{1}'><b>?</b></a>";
                 FunctionState function;
-                html.CurrentHost().FunctionSet.TryGetFunction(page.Id, out function);
+                html.CurrentHost().FunctionSet.TryGetFunction(uiView.Id, out function);
                 string title = "未知页面";
                 if (!function.Equals(FunctionState.Empty))
                 {
