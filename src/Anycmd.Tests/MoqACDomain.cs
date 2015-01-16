@@ -6,6 +6,7 @@ namespace Anycmd.Tests
     using Engine.Host.Ac;
     using Engine.Host.Ac.Identity;
     using Engine.Host.Ac.Infra;
+    using Engine.Host.Ac.Rbac;
     using Engine.Host.Impl;
     using Logging;
     using Moq;

@@ -6,6 +6,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
     using Engine.Ac.Abstractions;
     using Engine.Ac.InOuts;
     using Engine.Ac.Messages;
+    using Engine.Ac.Messages.Rbac;
     using Engine.Host.Ac;
     using Exceptions;
     using MiniUI;
@@ -23,7 +24,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
     using ViewModels.RoleViewModels;
 
     /// <summary>
-    /// 系统角色模型视图控制器<see cref="Role"/>
+    /// 系统角色模型视图控制器
     /// </summary>
     [Guid("78C0154F-9F40-4491-910F-B9443CF53122")]
     public class RoleController : AnycmdController

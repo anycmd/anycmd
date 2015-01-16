@@ -8,6 +8,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     using Engine.Ac.InOuts;
     using Engine.Ac.Messages;
     using Engine.Ac.Messages.Infra;
+    using Engine.Ac.Messages.Rbac;
     using Exceptions;
     using Host;
     using Identity;

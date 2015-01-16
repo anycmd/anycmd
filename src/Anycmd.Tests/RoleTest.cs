@@ -6,7 +6,9 @@ namespace Anycmd.Tests
     using Engine.Ac.Abstractions;
     using Engine.Ac.InOuts;
     using Engine.Ac.Messages;
+    using Engine.Ac.Messages.Rbac;
     using Engine.Host.Ac;
+    using Engine.Host.Ac.Rbac;
     using Moq;
     using Repositories;
     using System;

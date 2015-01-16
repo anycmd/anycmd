@@ -4,6 +4,7 @@ namespace Anycmd.Engine.Host.Impl
     using Ac;
     using Ac.Identity;
     using Ac.Infra;
+    using Ac.Rbac;
     using Anycmd.Rdb;
     using Engine.Ac.Abstractions;
     using Repositories;

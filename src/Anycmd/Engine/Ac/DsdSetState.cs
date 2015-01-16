@@ -1,7 +1,7 @@
 ﻿
 namespace Anycmd.Engine.Ac
 {
-    using Abstractions;
+    using Abstractions.Rbac;
     using System;
 
     /// <summary>

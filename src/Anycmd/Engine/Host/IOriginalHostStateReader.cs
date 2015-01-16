@@ -4,6 +4,7 @@ namespace Anycmd.Engine.Host
     using Ac;
     using Ac.Identity;
     using Ac.Infra;
+    using Ac.Rbac;
     using Anycmd.Rdb;
     using System.Collections.Generic;
 

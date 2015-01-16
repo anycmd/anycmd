@@ -1,8 +1,8 @@
 ﻿
 namespace Anycmd.Ac.ViewModels
 {
-    using Engine.Ac.Abstractions;
     using Engine.Ac.Abstractions.Infra;
+    using Engine.Ac.Abstractions.Rbac;
     using System.Collections.Generic;
 
     public static class ModelExtension
