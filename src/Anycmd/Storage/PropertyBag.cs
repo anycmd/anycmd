@@ -7,7 +7,7 @@ namespace Anycmd.Storage
     using System.Reflection;
 
     /// <summary>
-    /// 表示一个属性名称值对映射列表。
+    /// 属性袋。表示一个属性名称值对映射列表。
     /// </summary>
     public class PropertyBag : IEnumerable<KeyValuePair<string, object>>
     {
@@ -17,22 +17,23 @@ namespace Anycmd.Storage
 
         #region Public Static Fields
         /// <summary>
-        /// The binding flags for getting properties on a given object.
+        /// 用于反射获取给定对象的属性的绑定标记。
         /// </summary>
         public static readonly BindingFlags PropertyBagBindingFlags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.SetProperty | BindingFlags.GetProperty;
         #endregion
 
         #region Ctor
         /// <summary>
-        /// Initializes a new instance of <c>PropertyBag</c> class.
+        /// 初始化一个 <c>PropertyBag</c> 类型的对象。
         /// </summary>
         public PropertyBag()
         {
         }
+
         /// <summary>
-        /// Initializes a new instance of <c>PropertyBag</c> class and populates the content by using the given object.
+        /// 初始化一个 <c>PropertyBag</c> 类型的对象并用给定的对象初始化袋的内容。
         /// </summary>
-        /// <param name="target">The target object used for initializing the property bag.</param>
+        /// <param name="target">给定的用来初始化属性袋的内容的对象。</param>
         public PropertyBag(object target)
         {
             target
@@ -45,10 +46,10 @@ namespace Anycmd.Storage
 
         #region Public Properties
         /// <summary>
-        /// Gets or sets the property value by using the index.
+        /// 获取或设置给定属性名的属性值。
         /// </summary>
-        /// <param name="idx">The index.</param>
-        /// <returns>The property value.</returns>
+        /// <param name="idx">属性名</param>
+        /// <returns>属性值。</returns>
         public object this[string idx]
         {
             get
@@ -60,8 +61,9 @@ namespace Anycmd.Storage
                 _propertyValues[idx] = value;
             }
         }
+
         /// <summary>
-        /// Gets the number of elements in the property bag.
+        /// 读取属性袋中属性的个数。
         /// </summary>
         public int Count
         {
@@ -71,23 +73,25 @@ namespace Anycmd.Storage
 
         #region Public Methods
         /// <summary>
-        /// Clears the property bag.
+        /// 清空属性袋。
         /// </summary>
         public void Clear()
         {
             _propertyValues.Clear();
         }
+
         /// <summary>
-        /// Adds a property and its value to the property bag.
+        /// 添加一个属性到属性袋中。
         /// </summary>
-        /// <param name="propertyName">The name of the property to be added.</param>
-        /// <param name="propertyValue">The value of the property.</param>
-        /// <returns>The instance with the added property.</returns>
+        /// <param name="propertyName">要添加的属性的名字。</param>
+        /// <param name="propertyValue">属性的值。</param>
+        /// <returns>当前属性袋。</returns>
         public PropertyBag Add(string propertyName, object propertyValue)
         {
             _propertyValues.Add(propertyName, propertyValue);
             return this;
         }
+
         /// <summary>
         /// Adds a property to property bag, to be used as the sort field.
         /// </summary>
@@ -99,6 +103,7 @@ namespace Anycmd.Storage
             _propertyValues.Add(propertyName, default(T));
             return this;
         }
+
         /// <summary>
         /// Gets the <see cref="System.String"/> value which represents the current property bag.
         /// </summary>

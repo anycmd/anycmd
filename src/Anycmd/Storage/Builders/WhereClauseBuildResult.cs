@@ -7,35 +7,33 @@ namespace Anycmd.Storage.Builders
     using System.Text;
 
     /// <summary>
-    /// Represents the where clause build result.
+    /// 表示where子句建造结果。
     /// </summary>
     public sealed class WhereClauseBuildResult
     {
         #region Public Properties
         /// <summary>
-        /// Gets or sets a <c>System.String</c> value which represents the generated
-        /// WHERE clause.
+        /// 读取或设置表示where子句的字符串值 a <c>System.String</c>。
         /// </summary>
         public string WhereClause { get; set; }
+
         /// <summary>
-        /// Gets or sets a <c>Dictionary&lt;string, object&gt;</c> instance which contains
-        /// the mapping of the parameters and their values.
+        /// 读取或设置一个包含where子句的参数和参数值的 <c>Dictionary&lt;string, object&gt;</c> 对象实例。
         /// </summary>
         public Dictionary<string, object> ParameterValues { get; set; }
         #endregion
 
         #region Ctor
         /// <summary>
-        /// Initializes a new instance of <c>WhereClauseBuildResult</c> class.
+        /// 初始化一个 <c>WhereClauseBuildResult</c> 类型的对象。
         /// </summary>
         public WhereClauseBuildResult() { }
+
         /// <summary>
-        /// Initializes a new instance of <c>WhereClauseBuildResult</c> class.
+        /// 初始化一个 <c>WhereClauseBuildResult</c> 类型的对象。
         /// </summary>
-        /// <param name="whereClause">The <c>System.String</c> value which represents the generated
-        /// WHERE clause.</param>
-        /// <param name="parameterValues">The <c>Dictionary&lt;string, object&gt;</c> instance which contains
-        /// the mapping of the parameters and their values.</param>
+        /// <param name="whereClause">表示where子句的字符串值 a <c>System.String</c>。</param>
+        /// <param name="parameterValues">一个包含where子句的参数和参数值的 <c>Dictionary&lt;string, object&gt;</c> 对象实例。</param>
         public WhereClauseBuildResult(string whereClause, Dictionary<string, object> parameterValues)
         {
             WhereClause = whereClause;

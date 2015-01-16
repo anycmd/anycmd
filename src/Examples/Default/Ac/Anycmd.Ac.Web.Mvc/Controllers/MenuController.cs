@@ -4,7 +4,6 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
     using Anycmd.Web.Mvc;
     using Engine.Ac;
     using Engine.Ac.Abstractions;
-    using Engine.Ac.InOuts;
     using Engine.Ac.Messages;
     using Engine.Ac.Messages.Infra;
     using Engine.Host.Ac;
@@ -20,6 +19,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
     using Util;
     using ViewModel;
     using ViewModels.Infra.MenuViewModels;
+    using ViewModels.PrivilegeViewModels;
 
     /// <summary>
     /// 系统菜单模型视图控制器
@@ -299,11 +299,11 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                         {
                             if (row.ContainsKey("AcContent"))
                             {
-                                AcDomain.Handle(new UpdatePrivilegeCommand(new PrivilegeUpdateIo
+                                AcDomain.Handle(new PrivilegeUpdateIo
                                 {
                                     Id = entity.Id,
                                     AcContent = row["AcContent"].ToString()
-                                }));
+                                }.ToCommand());
                             }
                         }
                     }
@@ -323,7 +323,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                         {
                             createInput.AcContent = row["AcContent"].ToString();
                         }
-                        AcDomain.Handle(new AddPrivilegeCommand(createInput));
+                        AcDomain.Handle(createInput.ToCommand());
                     }
                 }
             }

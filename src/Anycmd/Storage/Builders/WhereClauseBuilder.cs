@@ -27,7 +27,7 @@ namespace Anycmd.Storage.Builders
 
         #region Ctor
         /// <summary>
-        /// Initializes a new instance of <c>WhereClauseBuilderBase&lt;T&gt;</c> class.
+        /// 初始化一个 <c>WhereClauseBuilderBase&lt;T&gt;</c> 类型的对象。
         /// </summary>
         /// <param name="mappingResolver">The <c>anycmd.Storage.IStorageMappingResolver</c>
         /// instance which will be used for generating the mapped field names.</param>
@@ -165,7 +165,7 @@ namespace Anycmd.Storage.Builders
                     str = "-";
                     break;
                 default:
-                    throw new NotSupportedException(string.Format(Resources.EX_EXPRESSION_NODE_TYPE_NOT_SUPPORT, node.NodeType.ToString()));
+                    throw new NotSupportedException(string.Format(Resources.EX_EXPRESSION_NODE_TYPE_NOT_SUPPORT, node.NodeType));
             }
 
             Out("(");
@@ -186,7 +186,7 @@ namespace Anycmd.Storage.Builders
         protected override Expression VisitMember(MemberExpression node)
         {
             if (node.Member.DeclaringType == typeof(TDataObject) ||
-                typeof(TDataObject).IsSubclassOf(node.Member.DeclaringType))
+                (node.Member.DeclaringType != null && typeof(TDataObject).IsSubclassOf(node.Member.DeclaringType)))
             {
                 var mappedFieldName = _mappingResolver.ResolveFieldName<TDataObject>(node.Member.Name);
                 Out(mappedFieldName);

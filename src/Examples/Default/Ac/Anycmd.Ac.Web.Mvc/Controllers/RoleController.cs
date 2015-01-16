@@ -4,7 +4,6 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
     using Anycmd.Web.Mvc;
     using Engine.Ac;
     using Engine.Ac.Abstractions;
-    using Engine.Ac.InOuts;
     using Engine.Ac.Messages;
     using Engine.Ac.Messages.Rbac;
     using Engine.Host.Ac;
@@ -21,6 +20,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
     using Util;
     using ViewModel;
     using ViewModels;
+    using ViewModels.PrivilegeViewModels;
     using ViewModels.RoleViewModels;
 
     /// <summary>
@@ -616,11 +616,11 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                         {
                             if (row.ContainsKey("AcContent"))
                             {
-                                AcDomain.Handle(new UpdatePrivilegeCommand(new PrivilegeUpdateIo
+                                AcDomain.Handle(new PrivilegeUpdateIo
                                 {
                                     Id = entity.Id,
                                     AcContent = row["AcContent"] == null ? null : row["AcContent"].ToString()
-                                }));
+                                }.ToCommand());
                             }
                         }
                     }
@@ -641,7 +641,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                         {
                             createInput.AcContent = row["AcContent"] == null ? null : row["AcContent"].ToString();
                         }
-                        AcDomain.Handle(new AddPrivilegeCommand(createInput));
+                        AcDomain.Handle(createInput.ToCommand());
                     }
                 }
             }
@@ -679,7 +679,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                             AcContentType = null,
                             AcContent = null
                         };
-                        AcDomain.Handle(new AddPrivilegeCommand(createInput));
+                        AcDomain.Handle(createInput.ToCommand());
                     }
                 }
             }
@@ -710,14 +710,14 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             foreach (var item in aIds)
             {
                 var accountId = new Guid(item);
-                AcDomain.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
+                AcDomain.Handle(new PrivilegeCreateIo
                 {
                     Id = Guid.NewGuid(),
                     ObjectInstanceId = roleId,
                     SubjectInstanceId = accountId,
                     SubjectType = UserAcSubjectType.Account.ToName(),
                     ObjectType = AcElementType.Role.ToName()
-                }));
+                }.ToCommand());
             }
 
             return this.JsonResult(new ResponseData { success = true, id = accountIDs });
@@ -768,11 +768,11 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                         {
                             if (row.ContainsKey("AcContent"))
                             {
-                                AcDomain.Handle(new UpdatePrivilegeCommand(new PrivilegeUpdateIo
+                                AcDomain.Handle(new PrivilegeUpdateIo
                                 {
                                     Id = id,
                                     AcContent = row["AcContent"].ToString()
-                                }));
+                                }.ToCommand());
                             }
                         }
                     }
@@ -792,7 +792,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                         {
                             createInput.AcContent = row["AcContent"].ToString();
                         }
-                        AcDomain.Handle(new AddPrivilegeCommand(createInput));
+                        AcDomain.Handle(createInput.ToCommand());
                     }
                 }
             }

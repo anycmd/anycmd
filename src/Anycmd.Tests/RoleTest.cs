@@ -1,10 +1,10 @@
 ﻿
 namespace Anycmd.Tests
 {
+    using Ac.ViewModels.PrivilegeViewModels;
     using Ac.ViewModels.RoleViewModels;
     using Engine.Ac;
     using Engine.Ac.Abstractions;
-    using Engine.Ac.InOuts;
     using Engine.Ac.Messages;
     using Engine.Ac.Messages.Rbac;
     using Engine.Host.Ac;

@@ -2,13 +2,23 @@
 namespace Anycmd.Ac.ViewModels.GroupViewModels
 {
     using Engine.Ac.InOuts;
-    using Model;
+    using Engine.Ac.Messages.Infra;
     using System;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
 
     public class PositionUpdateInput : IPositionUpdateIo
     {
+        public PositionUpdateInput()
+        {
+            OntologyCode = "Position";
+            Verb = "Update";
+        }
+
+        public string OntologyCode { get; private set; }
+
+        public string Verb { get; private set; }
+
         public Guid Id { get; set; }
         /// <summary>
         /// 
@@ -42,5 +52,10 @@ namespace Anycmd.Ac.ViewModels.GroupViewModels
         /// </summary>
         [Required]
         public int SortCode { get; set; }
+
+        public UpdatePositionCommand ToCommand()
+        {
+            return new UpdatePositionCommand(this);
+        }
     }
 }

@@ -3,7 +3,6 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
 {
     using Anycmd.Web.Mvc;
     using Engine.Ac;
-    using Engine.Ac.InOuts;
     using Engine.Ac.Messages.Rbac;
     using Engine.Host.Ac.Rbac;
     using Exceptions;
@@ -18,6 +17,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
     using Util;
     using ViewModel;
     using ViewModels;
+    using ViewModels.DsdViewModels;
 
     [Guid("2BB502B3-EEE9-43A8-A24B-32A5ED5CA4D8")]
     public class DsdSetController : AnycmdController
@@ -140,7 +140,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                             RoleId = new Guid(row["RoleId"].ToString()),
                             DsdSetId = new Guid(row["DsdSetId"].ToString())
                         };
-                        AcDomain.Handle(new AddDsdRoleCommand(createInput));
+                        AcDomain.Handle(createInput.ToCommand());
                     }
                 }
             }
@@ -159,7 +159,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return this.ModelState.ToJsonResult();
             }
-            AcDomain.Handle(new AddDsdSetCommand(input));
+            AcDomain.Handle(input.ToCommand());
 
             return this.JsonResult(new ResponseData { success = true, id = input.Id });
         }
@@ -174,7 +174,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return this.ModelState.ToJsonResult();
             }
-            AcDomain.Handle(new UpdateDsdSetCommand(input));
+            AcDomain.Handle(input.ToCommand());
 
             return this.JsonResult(new ResponseData { success = true, id = input.Id });
         }

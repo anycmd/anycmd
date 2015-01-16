@@ -129,9 +129,6 @@
     <Compile Include="Engine\Host\Ac\Rbac\DsdSet.cs" />
     <Compile Include="Engine\Host\Ac\Infra\FunctionIo.cs" />
     <Compile Include="Engine\Ac\Messages\Rbac\RoleRolePrivilegeRemovedEvent.cs" />
-    <Compile Include="Engine\Ac\InOuts\DsdRoleCreateIo.cs" />
-    <Compile Include="Engine\Ac\InOuts\DsdSetCreateIo.cs" />
-    <Compile Include="Engine\Ac\InOuts\DsdSetUpdateIo.cs" />
     <Compile Include="Engine\Ac\InOuts\IAccountCreateIo.cs" />
     <Compile Include="Engine\Ac\InOuts\IAccountUpdateIo.cs" />
     <Compile Include="Engine\Ac\InOuts\IAppSystemCreateIo.cs" />
@@ -174,11 +171,6 @@
     <Compile Include="Engine\Ac\InOuts\IUiViewButtonUpdateIo.cs" />
     <Compile Include="Engine\Ac\InOuts\IUiViewCreateIo.cs" />
     <Compile Include="Engine\Ac\InOuts\IUiViewUpdateIo.cs" />
-    <Compile Include="Engine\Ac\InOuts\PrivilegeCreateIo.cs" />
-    <Compile Include="Engine\Ac\InOuts\PrivilegeUpdateIo.cs" />
-    <Compile Include="Engine\Ac\InOuts\SsdRoleCreateIo.cs" />
-    <Compile Include="Engine\Ac\InOuts\SsdSetCreateIo.cs" />
-    <Compile Include="Engine\Ac\InOuts\SsdSetUpdateIo.cs" />
     <Compile Include="Engine\Edi\Messages\AddNodeActionCommand.cs" />
     <Compile Include="Engine\Edi\Messages\AddNodeOntologyOrganizationCommand.cs" />
     <Compile Include="Engine\Edi\Messages\NodeOntologyOrganizationAddedEvent.cs" />
@@ -1550,7 +1542,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Ac\Abstractions\Infra\README.md" />
-    <None Include="Engine\README.md" />
     <None Include="Logging\Logging.cd" />
     <None Include="packages.config" />
     <None Include="Query\UnifiedQueries\Expressions.cd" />

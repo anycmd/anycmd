@@ -8,10 +8,10 @@ namespace Anycmd.Tests
     using Ac.ViewModels.Infra.FunctionViewModels;
     using Ac.ViewModels.Infra.MenuViewModels;
     using Ac.ViewModels.Infra.OrganizationViewModels;
+    using Ac.ViewModels.PrivilegeViewModels;
     using Ac.ViewModels.RoleViewModels;
     using Engine.Ac;
     using Engine.Ac.Abstractions;
-    using Engine.Ac.InOuts;
     using Engine.Ac.Messages;
     using Engine.Ac.Messages.Identity;
     using Engine.Ac.Messages.Infra;

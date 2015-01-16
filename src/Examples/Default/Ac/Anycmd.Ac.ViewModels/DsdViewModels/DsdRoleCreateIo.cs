@@ -1,0 +1,33 @@
+﻿
+namespace Anycmd.Ac.ViewModels.DsdViewModels
+{
+    using Engine;
+    using Engine.Ac.InOuts;
+    using Engine.Ac.Messages.Rbac;
+    using System;
+
+    /// <summary>
+    /// 创建动态职责分离角色时的输入或输出参数类型。
+    /// </summary>
+    public class DsdRoleCreateIo : EntityCreateInput, IDsdRoleCreateIo
+    {
+        public DsdRoleCreateIo()
+        {
+            OntologyCode = "DsdRole";
+            Verb = "Create";
+        }
+
+        public string OntologyCode { get; private set; }
+
+        public string Verb { get; private set; }
+
+        public Guid DsdSetId { get; set; }
+
+        public Guid RoleId { get; set; }
+
+        public AddDsdRoleCommand ToCommand()
+        {
+            return new AddDsdRoleCommand(this);
+        }
+    }
+}

@@ -3,6 +3,7 @@ namespace Anycmd.Ac.ViewModels.GroupViewModels
 {
     using Engine;
     using Engine.Ac.InOuts;
+    using Engine.Ac.Messages.Infra;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
 
@@ -11,6 +12,16 @@ namespace Anycmd.Ac.ViewModels.GroupViewModels
     /// </summary>
     public class GroupCreateInput : EntityCreateInput, IGroupCreateIo
     {
+        public GroupCreateInput()
+        {
+            OntologyCode = "Group";
+            Verb = "Create";
+        }
+
+        public string OntologyCode { get; private set; }
+
+        public string Verb { get; private set; }
+
         /// <summary>
         /// 
         /// </summary>
@@ -48,5 +59,10 @@ namespace Anycmd.Ac.ViewModels.GroupViewModels
         /// </summary>
         [Required]
         public int SortCode { get; set; }
+
+        public AddGroupCommand ToCommand()
+        {
+            return new AddGroupCommand(this);
+        }
     }
 }

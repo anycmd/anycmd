@@ -611,5 +611,131 @@ namespace Anycmd.Engine.Host.Impl
             }
             return dsdSet.DsdCard;
         }
+
+        public class PrivilegeCreateIo : EntityCreateInput, IPrivilegeCreateIo
+        {
+            public string SubjectType { get; set; }
+
+            public Guid SubjectInstanceId { get; set; }
+
+            public string ObjectType { get; set; }
+
+            public Guid ObjectInstanceId { get; set; }
+
+            public string AcContent { get; set; }
+
+            public string AcContentType { get; set; }
+
+            public AddPrivilegeCommand ToCommand()
+            {
+                return new AddPrivilegeCommand(this);
+            }
+        }
+
+        public class PrivilegeUpdateIo : IPrivilegeUpdateIo
+        {
+            public Guid Id { get; set; }
+            /// <summary>
+            /// 
+            /// </summary>
+            public string AcContent { get; set; }
+
+            public UpdatePrivilegeCommand ToCommand()
+            {
+                return new UpdatePrivilegeCommand(this);
+            }
+        }
+
+        public class DsdRoleCreateIo : EntityCreateInput, IDsdRoleCreateIo
+        {
+            public Guid DsdSetId { get; set; }
+
+            public Guid RoleId { get; set; }
+
+            public AddDsdRoleCommand ToCommand()
+            {
+                return new AddDsdRoleCommand(this);
+            }
+        }
+
+        public class DsdSetCreateIo : EntityCreateInput, IDsdSetCreateIo
+        {
+            public string Name { get; set; }
+
+            public int DsdCard { get; set; }
+
+            public int IsEnabled { get; set; }
+
+            public string Description { get; set; }
+
+            public AddDsdSetCommand ToCommand()
+            {
+                return new AddDsdSetCommand(this);
+            }
+        }
+
+        public class DsdSetUpdateIo : IDsdSetUpdateIo
+        {
+            public Guid Id { get; set; }
+
+            public string Name { get; set; }
+
+            public int DsdCard { get; set; }
+
+            public int IsEnabled { get; set; }
+
+            public string Description { get; set; }
+
+            public UpdateDsdSetCommand ToCommand()
+            {
+                return new UpdateDsdSetCommand(this);
+            }
+        }
+
+        public class SsdRoleCreateIo : EntityCreateInput, ISsdRoleCreateIo
+        {
+            public Guid SsdSetId { get; set; }
+
+            public Guid RoleId { get; set; }
+
+            public AddSsdRoleCommand ToCommand()
+            {
+                return new AddSsdRoleCommand(this);
+            }
+        }
+
+        public class SsdSetCreateIo : EntityCreateInput, ISsdSetCreateIo
+        {
+            public string Name { get; set; }
+
+            public int SsdCard { get; set; }
+
+            public int IsEnabled { get; set; }
+
+            public string Description { get; set; }
+
+            public AddSsdSetCommand ToCommand()
+            {
+                return new AddSsdSetCommand(this);
+            }
+        }
+
+        public class SsdSetUpdateIo : ISsdSetUpdateIo
+        {
+            public string Name { get; set; }
+
+            public int SsdCard { get; set; }
+
+            public int IsEnabled { get; set; }
+
+            public string Description { get; set; }
+
+            public Guid Id { get; set; }
+
+            public UpdateSsdSetCommand ToCommand()
+            {
+                return new UpdateSsdSetCommand(this);
+            }
+        }
     }
 }

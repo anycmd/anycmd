@@ -1,6 +1,9 @@
 ﻿
-namespace Anycmd.Engine.Ac.InOuts
+namespace Anycmd.Ac.ViewModels.PrivilegeViewModels
 {
+    using Engine;
+    using Engine.Ac.InOuts;
+    using Engine.Ac.Messages;
     using System;
 
     /// <summary>
@@ -8,6 +11,16 @@ namespace Anycmd.Engine.Ac.InOuts
     /// </summary>
     public class PrivilegeCreateIo : EntityCreateInput, IPrivilegeCreateIo
     {
+        public PrivilegeCreateIo()
+        {
+            OntologyCode = "Privilege";
+            Verb = "Create";
+        }
+
+        public string OntologyCode { get; private set; }
+
+        public string Verb { get; private set; }
+
         public string SubjectType { get; set; }
 
         public Guid SubjectInstanceId { get; set; }
@@ -19,5 +32,10 @@ namespace Anycmd.Engine.Ac.InOuts
         public string AcContent { get; set; }
 
         public string AcContentType { get; set; }
+
+        public AddPrivilegeCommand ToCommand()
+        {
+            return new AddPrivilegeCommand(this);
+        }
     }
 }

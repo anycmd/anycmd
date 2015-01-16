@@ -3,7 +3,6 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
 {
     using Anycmd.Web.Mvc;
     using Engine.Ac;
-    using Engine.Ac.InOuts;
     using Engine.Ac.Messages.Rbac;
     using Engine.Host.Ac.Rbac;
     using Exceptions;
@@ -18,6 +17,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
     using Util;
     using ViewModel;
     using ViewModels;
+    using ViewModels.SsdViewModels;
 
     [Guid("C297BB87-7A94-4E5B-81B1-BC440D145018")]
     public class SsdSetController : AnycmdController
@@ -140,7 +140,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                             RoleId = new Guid(row["RoleId"].ToString()),
                             SsdSetId = new Guid(row["SsdSetId"].ToString())
                         };
-                        AcDomain.Handle(new AddSsdRoleCommand(createInput));
+                        AcDomain.Handle(createInput.ToCommand());
                     }
                 }
             }
@@ -159,7 +159,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return this.ModelState.ToJsonResult();
             }
-            AcDomain.Handle(new AddSsdSetCommand(input));
+            AcDomain.Handle(input.ToCommand());
 
             return this.JsonResult(new ResponseData { success = true, id = input.Id });
         }
@@ -174,7 +174,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return this.ModelState.ToJsonResult();
             }
-            AcDomain.Handle(new UpdateSsdSetCommand(input));
+            AcDomain.Handle(input.ToCommand());
 
             return this.JsonResult(new ResponseData { success = true, id = input.Id });
         }

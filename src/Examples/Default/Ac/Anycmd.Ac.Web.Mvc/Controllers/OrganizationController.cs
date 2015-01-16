@@ -4,7 +4,6 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
     using Anycmd.Web.Mvc;
     using Engine.Ac;
     using Engine.Ac.Abstractions;
-    using Engine.Ac.InOuts;
     using Engine.Ac.Messages;
     using Engine.Ac.Messages.Infra;
     using Engine.Host.Ac;
@@ -20,6 +19,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
     using Util;
     using ViewModel;
     using ViewModels.Infra.OrganizationViewModels;
+    using ViewModels.PrivilegeViewModels;
 
     /// <summary>
     /// 组织结构模型视图控制器
@@ -284,14 +284,14 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             foreach (var item in aIds)
             {
                 var accountId = new Guid(item);
-                AcDomain.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
+                AcDomain.Handle(new PrivilegeCreateIo
                 {
                     SubjectInstanceId = accountId,
                     SubjectType = UserAcSubjectType.Account.ToName(),
                     Id = Guid.NewGuid(),
                     ObjectInstanceId = organizationId,
                     ObjectType = AcElementType.Organization.ToName()
-                }));
+                }.ToCommand());
             }
 
             return this.JsonResult(new ResponseData { success = true, id = accountIDs });
@@ -399,14 +399,14 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                     }
                     else if (isAssigned)
                     {
-                        AcDomain.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
+                        AcDomain.Handle(new PrivilegeCreateIo
                         {
                             Id = new Guid(row["Id"].ToString()),
                             ObjectType = AcElementType.Role.ToName(),
                             SubjectType = UserAcSubjectType.Organization.ToName(),
                             ObjectInstanceId = new Guid(row["RoleId"].ToString()),
                             SubjectInstanceId = new Guid(row["OrganizationId"].ToString())
-                        }));
+                        }.ToCommand());
                     }
                 }
             }

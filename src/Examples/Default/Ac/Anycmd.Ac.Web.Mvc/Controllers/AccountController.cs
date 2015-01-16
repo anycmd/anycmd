@@ -417,11 +417,11 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                         {
                             if (row.ContainsKey("AcContent"))
                             {
-                                AcDomain.UpdatePrivilege(new PrivilegeUpdateIo
+                                AcDomain.Handle(new PrivilegeUpdateIo
                                 {
                                     Id = id,
                                     AcContent = row["AcContent"].ToString()
-                                });
+                                }.ToCommand());
                             }
                         }
                     }
@@ -441,7 +441,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                         {
                             createInput.AcContent = row["AcContent"].ToString();
                         }
-                        AcDomain.AddPrivilege(createInput);
+                        AcDomain.Handle(createInput.ToCommand());
                     }
                 }
             }
@@ -479,14 +479,14 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                     }
                     else if (isAssigned)
                     {
-                        AcDomain.AddPrivilege(new PrivilegeCreateIo
+                        AcDomain.Handle(new PrivilegeCreateIo
                         {
                             Id = id,
                             ObjectType = AcElementType.Group.ToName(),
                             ObjectInstanceId = new Guid(row["GroupId"].ToString()),
                             SubjectInstanceId = new Guid(row["AccountId"].ToString()),
                             SubjectType = UserAcSubjectType.Account.ToName()
-                        });
+                        }.ToCommand());
                     }
                 }
             }

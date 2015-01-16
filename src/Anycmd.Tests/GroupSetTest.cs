@@ -169,7 +169,7 @@ namespace Anycmd.Tests
             var entityId = Guid.NewGuid();
 
             GroupState groupById;
-            host.Handle(new AddPositionCommand(new PositionCreateInput
+            host.Handle(new PositionCreateInput
             {
                 Id = entityId,
                 Name = "测试1",
@@ -179,7 +179,7 @@ namespace Anycmd.Tests
                 ShortName = "",
                 SortCode = 10,
                 OrganizationCode = "100"
-            }));
+            }.ToCommand());
             Assert.Equal(1, host.GroupSet.Count());
             Assert.True(host.GroupSet.TryGetGroup(entityId, out groupById));
             host.Handle(new RemovePositionCommand(entityId));

@@ -3,11 +3,21 @@ namespace Anycmd.Ac.ViewModels.GroupViewModels
 {
     using Engine;
     using Engine.Ac.InOuts;
+    using Engine.Ac.Messages.Infra;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
 
     public class PositionCreateInput : EntityCreateInput, IPositionCreateIo
     {
+        public PositionCreateInput()
+        {
+            OntologyCode = "Position";
+            Verb = "Create";
+        }
+
+        public string OntologyCode { get; private set; }
+
+        public string Verb { get; private set; }
 
         [Required]
         public string OrganizationCode { get; set; }
@@ -43,5 +53,10 @@ namespace Anycmd.Ac.ViewModels.GroupViewModels
         /// </summary>
         [Required]
         public int SortCode { get; set; }
+
+        public AddPositionCommand ToCommand()
+        {
+            return new AddPositionCommand(this);
+        }
     }
 }

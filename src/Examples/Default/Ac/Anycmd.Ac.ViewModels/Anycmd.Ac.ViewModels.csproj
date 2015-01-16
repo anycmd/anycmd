@@ -49,6 +49,9 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="AcDomainExtension.cs" />
+    <Compile Include="DsdViewModels\DsdRoleCreateIo.cs" />
+    <Compile Include="DsdViewModels\DsdSetCreateIo.cs" />
+    <Compile Include="DsdViewModels\DsdSetUpdateIo.cs" />
     <Compile Include="GroupViewModels\GetPlistRoleGroups.cs" />
     <Compile Include="GroupViewModels\PositionCreateInput.cs" />
     <Compile Include="GroupViewModels\PositionUpdateInput.cs" />
@@ -123,8 +126,13 @@
     <Compile Include="PrivilegeViewModels\GetPlistAccountOrganizationPrivileges.cs" />
     <Compile Include="PrivilegeViewModels\GetPlistFunctionByRoleId.cs" />
     <Compile Include="PrivilegeViewModels\IPrivilegeQuery.cs" />
+    <Compile Include="PrivilegeViewModels\PrivilegeCreateIo.cs" />
+    <Compile Include="PrivilegeViewModels\PrivilegeUpdateIo.cs" />
     <Compile Include="PrivilegeViewModels\RoleAssignFunctionTr.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SsdViewModels\SsdRoleCreateIo.cs" />
+    <Compile Include="SsdViewModels\SsdSetCreateIo.cs" />
+    <Compile Include="SsdViewModels\SsdSetUpdateIo.cs" />
     <Compile Include="ViewModelHelper.cs" />
     <Compile Include="RdbViewModels\DatabaseInfo.cs" />
     <Compile Include="RdbViewModels\DatabaseInput.cs" />

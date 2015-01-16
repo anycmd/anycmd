@@ -47,6 +47,7 @@ namespace Anycmd.Storage
                 throw new InvalidOperationException("Cannot locate the DoInsert method.");
             return insertMethod.MakeGenericMethod(genericType);
         }
+
         private MethodInfo MakeGenericUpdateMethod(Type genericType)
         {
             var updateMethod = this.GetType().GetMethod("DoUpdate", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -54,6 +55,7 @@ namespace Anycmd.Storage
                 throw new InvalidOperationException("Cannot locate the DoUpdate method.");
             return updateMethod.MakeGenericMethod(genericType);
         }
+
         private MethodInfo MakeGenericDeleteMethod(Type genericType)
         {
             var deleteMethod = this.GetType().GetMethod("DoDelete", BindingFlags.NonPublic | BindingFlags.Instance);

@@ -15,8 +15,7 @@ namespace Anycmd.Storage.Builders
         /// 基于给定的表达式对象构建where子句。
         /// </summary>
         /// <param name="expression">表达式对象。</param>
-        /// <returns>The <c>Anycmd.Storage.Builders.WhereClauseBuildResult</c> instance
-        /// which contains the build result.</returns>
+        /// <returns>包含建造结果的<c>Anycmd.Storage.Builders.WhereClauseBuildResult</c> where子句对象实例。</returns>
         WhereClauseBuildResult BuildWhereClause(Expression<Func<T, bool>> expression);
     }
 }
