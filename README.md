@@ -6,12 +6,14 @@
 然后提供一个简单的唯一的接口，这个接口的一端是应用系统一端是权限引擎。权限引擎所回答的只是：谁是否对某资源具有实施
 某个动作（运动、计算）的权限。返回的结果只有：有、没有、权限引擎异常了。
 
-#wiki https://github.com/anycmd/anycmd/wiki
+##wiki https://github.com/anycmd/anycmd/wiki
 
 * 1，视频介绍《anycmd筑基》 http://www.tudou.com/programs/view/4jXoarZKwCk/
 
-**如果您觉得anycmd人还不错，不妨打赏一杯咖啡吧 [打赏][1]**
-**您还可以赞助anycmd购买演示服务器 [梁山-开源权限引擎][2]**
+##演示站 http://www.anycmd.com/
+##打赏
+**如果您觉得anycmd有用，不妨打赏一杯咖啡给作者吧 [打赏][1]**
+**求赞助：用于aliyun服务器免费试用半年过期时续费 [梁山-开源权限引擎][2]**
 
 #Anycmd简介
 
