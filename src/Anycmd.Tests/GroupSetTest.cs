@@ -4,9 +4,8 @@ namespace Anycmd.Tests
     using Ac.ViewModels.GroupViewModels;
     using Ac.ViewModels.Infra.OrganizationViewModels;
     using Engine.Ac;
-    using Engine.Ac.Messages;
     using Engine.Ac.Messages.Infra;
-    using Engine.Host.Ac;
+    using Engine.Host.Ac.Infra;
     using Moq;
     using Repositories;
     using System;

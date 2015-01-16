@@ -2,6 +2,7 @@
 namespace Anycmd.Ac.ViewModels
 {
     using Engine.Ac.Abstractions;
+    using Engine.Ac.Abstractions.Infra;
     using System.Collections.Generic;
 
     public static class ModelExtension

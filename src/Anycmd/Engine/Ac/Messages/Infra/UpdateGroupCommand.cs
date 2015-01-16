@@ -1,5 +1,5 @@
 ﻿
-namespace Anycmd.Engine.Ac.Messages
+namespace Anycmd.Engine.Ac.Messages.Infra
 {
     using InOuts;
 

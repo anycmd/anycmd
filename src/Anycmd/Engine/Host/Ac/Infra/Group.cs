@@ -1,7 +1,7 @@
 ﻿
-namespace Anycmd.Engine.Host.Ac
+namespace Anycmd.Engine.Host.Ac.Infra
 {
-    using Engine.Ac.Abstractions;
+    using Engine.Ac.Abstractions.Infra;
     using Engine.Ac.InOuts;
     using Model;
     using System.Diagnostics;
@@ -9,7 +9,7 @@ namespace Anycmd.Engine.Host.Ac
     /// <summary>
     /// 表示组数据访问实体。
     /// </summary>
-    public class Group : GroupBase, IAggregateRoot, IGroup
+    public class Group : GroupBase, IAggregateRoot
     {
         public Group()
         {

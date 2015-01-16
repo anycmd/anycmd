@@ -191,6 +191,30 @@
           <Property Name="RowGuid" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Etag" Type="timestamp" StoreGeneratedPattern="Computed" />
         </EntityType>
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CategoryCode" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TypeCode" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="OrganizationCode" Type="varchar" MaxLength="50" />
+          <Property Name="ShortName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="IsEnabled" Type="int" Nullable="false" />
+          <Property Name="SortCode" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="500" />
+          <Property Name="AcContentType" Type="varchar" MaxLength="50" />
+          <Property Name="AcContent" Type="varchar" MaxLength="2000" />
+          <Property Name="CreateOn" Type="datetime" />
+          <Property Name="CreateUserId" Type="uniqueidentifier" />
+          <Property Name="CreateBy" Type="varchar" MaxLength="50" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="ModifiedUserId" Type="uniqueidentifier" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" />
+          <Property Name="RowGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Etag" Type="timestamp" StoreGeneratedPattern="Computed" />
+        </EntityType>
         <EntityType Name="Menu">
           <Key>
             <PropertyRef Name="Id" />
@@ -548,6 +572,7 @@
           <EntitySet Name="Field" EntityType="Self.Field" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Function" EntityType="Self.Function" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FunctionIo" EntityType="Self.FunctionIo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Group" EntityType="Self.Group" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Menu" EntityType="Self.Menu" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OperationHelp" EntityType="Self.OperationHelp" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Organization" EntityType="Self.Organization" Schema="dbo" store:Type="Tables" />
@@ -1117,6 +1142,7 @@
             <End Role="ResourceType" EntitySet="ResourceTypes" />
             <End Role="Field" EntitySet="Fields" />
           </AssociationSet>
+          <EntitySet Name="Groups" EntityType="AnycmdModel.Group" />
         </EntityContainer>
         <EntityType Name="ResourceType">
           <Key>
@@ -1231,6 +1257,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="CategoryCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TypeCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="OrganizationCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ShortName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="IsEnabled" Type="Int32" Nullable="false" />
+          <Property Name="SortCode" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="AcContentType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AcContent" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="CreateOn" Type="DateTime" Precision="3" />
+          <Property Name="CreateUserId" Type="Guid" />
+          <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedUserId" Type="Guid" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RowGuid" Type="Guid" Nullable="false" />
+          <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1606,6 +1656,31 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Groups">
+            <EntityTypeMapping TypeName="AnycmdModel.Group">
+              <MappingFragment StoreEntitySet="Group">
+                <ScalarProperty Name="Etag" ColumnName="Etag" />
+                <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedUserId" ColumnName="ModifiedUserId" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateUserId" ColumnName="CreateUserId" />
+                <ScalarProperty Name="CreateOn" ColumnName="CreateOn" />
+                <ScalarProperty Name="AcContent" ColumnName="AcContent" />
+                <ScalarProperty Name="AcContentType" ColumnName="AcContentType" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="SortCode" ColumnName="SortCode" />
+                <ScalarProperty Name="IsEnabled" ColumnName="IsEnabled" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ShortName" ColumnName="ShortName" />
+                <ScalarProperty Name="OrganizationCode" ColumnName="OrganizationCode" />
+                <ScalarProperty Name="TypeCode" ColumnName="TypeCode" />
+                <ScalarProperty Name="CategoryCode" ColumnName="CategoryCode" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -1659,6 +1734,7 @@
         <AssociationConnector Association="AnycmdModel.FK_FunctionIo_Function" />
         <EntityTypeShape EntityType="AnycmdModel.Field" Width="1.625" PointX="5.625" PointY="15.25" />
         <AssociationConnector Association="AnycmdModel.FK_Field_ResourceType" />
+        <EntityTypeShape EntityType="AnycmdModel.Group" Width="1.75" PointX="3.75" PointY="0.75" />
       </Diagram>
     </Diagrams>
   </Designer>

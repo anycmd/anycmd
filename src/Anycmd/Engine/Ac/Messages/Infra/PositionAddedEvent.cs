@@ -1,7 +1,7 @@
 ﻿
-namespace Anycmd.Engine.Ac.Messages
+namespace Anycmd.Engine.Ac.Messages.Infra
 {
-    using Abstractions;
+    using Abstractions.Infra;
     using InOuts;
 
     public class PositionAddedEvent : EntityAddedEvent<IPositionCreateIo>

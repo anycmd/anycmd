@@ -4,6 +4,7 @@ namespace Anycmd.Ac.ViewModels
     using Engine;
     using Engine.Ac;
     using Engine.Ac.Abstractions;
+    using Engine.Ac.Abstractions.Infra;
     using Exceptions;
     using GroupViewModels;
     using Infra.AppSystemViewModels;
