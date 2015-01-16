@@ -24,28 +24,29 @@
                 @{
                     ResourceTypeState organization;
                     if (Html.CurrentHost().ResourceTypeSet.TryGetResource(Html.CurrentHost().AppSystemSet.SelfAppSystem, "Organization", out organization)) {
-                    <img src="@Url.Content("~/content/icons/16x16/" + organization.Icon)" style="border:0px;" />
+                        <img src="@Url.Content("~/content/icons/16x16/" + organization.Icon)" style="border:0px;" />
                     }
                     if (this.CurrentUser().IsDeveloper()) {
-                    <span>组织结构</span>
+                        <span>组织结构</span>
                     }
                     int i = 0;
                     foreach (var org in this.CurrentUser().AccountPrivilege.Organizations) {
                         if (i != 0) {
-                    <span>,</span>
+                            <span>,</span>
                         }
                         if (i > 1) {
-                    <span>...</span>
+                            <span>...</span>
                             break;
                         }
-                    <span>@org.Name</span>
+                        <span>@org.Name</span>
                         i++;
                     }
                     if (i == 0 && !this.CurrentUser().IsDeveloper()) {
-                    <span style="color: red;">您没有组织结构</span>
+                        <span style="color: red;">您没有组织结构</span>
                     }
                 }
             </a>
+            <a href="http://git.oschina.net/anycmd/anycmd" target="_blank" plain="true" style="float: left; margin-top: 2px; color: red;">源码</a>
             <div style="float: right; margin-right: 5px; margin-top: 8px;">
                 @{ Html.RenderPartial("Partials/SkinSelector"); }
             </div>

@@ -1,5 +1,4 @@
-﻿@using Anycmd.Web.MarkdownSharp;
-@{
+﻿@{
     ViewBag.Title = "关于";
     Layout = null;
 }
@@ -19,15 +18,5 @@
 <body>
     @{ Html.RenderPartial("Partials/About"); }
     <div style="clear:left;"></div>
-    @{
-        var onlineReadMeUrl = "http://git.oschina.net/anycmd/anycmd/raw/master/README.md";
-        var webRequest = WebRequest.Create(onlineReadMeUrl);
-        var response = webRequest.GetResponse();
-        var reader = new StreamReader(response.GetResponseStream());
-        var readMeContent = reader.ReadToEnd();
-        Markdown markdown = new Markdown();
-        var htmlBodyContent = markdown.Transform(readMeContent);
-        <div>@Html.Raw(htmlBodyContent)</div>
-    }
 </body>
 </html>
