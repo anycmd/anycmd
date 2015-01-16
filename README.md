@@ -10,7 +10,7 @@
 
 * 1，视频介绍《anycmd筑基》 http://www.tudou.com/programs/view/4jXoarZKwCk/
 
-##演示站 http://www.anycmd.com/
+##演示站 http://www.anycmd.com:20150/
 ##打赏
 **如果您觉得anycmd有用，不妨打赏一杯咖啡给作者吧 [打赏][1]**
 **求赞助：用于aliyun服务器免费试用半年过期时续费 [梁山-开源权限引擎][2]**
