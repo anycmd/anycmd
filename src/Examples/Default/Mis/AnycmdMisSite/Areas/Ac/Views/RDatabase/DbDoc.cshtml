@@ -122,7 +122,7 @@
                 </tr>
                 @{
             IReadOnlyDictionary<string, Anycmd.Rdb.DbTableColumn> dbTableColumns;
-            if (Model.AcDomain.DbTableColumns.TryGetDbTableColumns(Model, table, out dbTableColumns))
+            if (Model.AcDomain.Rdbs.DbTableColumns.TryGetDbTableColumns(Model, table, out dbTableColumns))
             {
                 foreach (var column in dbTableColumns.Values)
                 {
