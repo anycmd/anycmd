@@ -38,7 +38,7 @@
                     @{
                         ResourceTypeState r;
                         if (!Html.CurrentHost().ResourceTypeSet.TryGetResource(Html.CurrentHost().AppSystemSet.SelfAppSystem, "InfoDic", out r)) {
-                            throw new Anycmd.Exceptions.CoreException("意外的资源码");
+                            throw new Anycmd.Exceptions.AnycmdException("意外的资源码");
                         }
                     }
                     <a id="btnInfoDicItem" class="mini-button" target="_blank" iconStyle="background: url(/content/icons/16x16/@r.Icon) no-repeat;" plain="true">
