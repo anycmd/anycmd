@@ -61,7 +61,9 @@
     </Compile>
     <Compile Include="AcDomainExtension.cs" />
     <Compile Include="Engine\Ac\Abstractions\AcRecordType.cs" />
+    <Compile Include="Engine\Ac\Abstractions\Infra\FieldBase.cs" />
     <Compile Include="Engine\Ac\Abstractions\IAcElement.cs" />
+    <Compile Include="Engine\Ac\Abstractions\Infra\IField.cs" />
     <Compile Include="Engine\Ac\Abstractions\SysAcSubjectType.cs" />
     <Compile Include="Engine\Ac\Abstractions\UserAcSubjectType.cs" />
     <Compile Include="Engine\Ac\Abstractions\DsdRoleBase.cs" />
@@ -86,6 +88,9 @@
     <Compile Include="Engine\Ac\Abstractions\IFunctionSet.cs" />
     <Compile Include="Engine\Ac\Abstractions\IGroupSet.cs" />
     <Compile Include="Engine\Ac\Abstractions\IMenuSet.cs" />
+    <Compile Include="Engine\Ac\InOuts\IFieldCreateIo.cs" />
+    <Compile Include="Engine\Ac\InOuts\IFieldUpdateIo.cs" />
+    <Compile Include="Engine\Host\Ac\Infra\Field.cs" />
     <Compile Include="Engine\Host\Ac\MemorySets\AppSystemSet.cs" />
     <Compile Include="Engine\Host\Ac\MemorySets\ButtonSet.cs" />
     <Compile Include="Engine\Host\Ac\MemorySets\DicSet.cs" />

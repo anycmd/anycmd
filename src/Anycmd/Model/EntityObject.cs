@@ -28,8 +28,15 @@ namespace Anycmd.Model
             }
         }
 
+        /// <summary>
+        /// 访问控制内容类型。
+        /// 取值形如：text/javascript、text/xacml、text/javascript,fileLocation、text/xacml,fileLocation。
+        /// </summary>
         public string AcContentType { get; set; }
 
+        /// <summary>
+        /// 访问控制内容。一些作用域为当前实体的javascript或xacml脚本。
+        /// </summary>
         public string AcContent { get; set; }
 
         /// <summary>
