@@ -2,11 +2,22 @@
 namespace Anycmd.Ac.ViewModels.Infra.DicViewModels
 {
     using Engine.Ac.InOuts;
+    using Engine.Ac.Messages.Infra;
     using System;
     using System.ComponentModel.DataAnnotations;
 
     public class DicUpdateInput : IDicUpdateIo
     {
+        public DicUpdateInput()
+        {
+            OntologyCode = "Dic";
+            Verb = "Update";
+        }
+
+        public string OntologyCode { get; private set; }
+
+        public string Verb { get; private set; }
+
         public Guid Id { get; set; }
         /// <summary>
         /// 
@@ -30,5 +41,10 @@ namespace Anycmd.Ac.ViewModels.Infra.DicViewModels
         /// 
         /// </summary>
         public int SortCode { get; set; }
+
+        public UpdateDicCommand ToCommand()
+        {
+            return new UpdateDicCommand(this);
+        }
     }
 }

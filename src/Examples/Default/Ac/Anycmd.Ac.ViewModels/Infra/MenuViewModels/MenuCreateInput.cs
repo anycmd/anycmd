@@ -3,6 +3,7 @@ namespace Anycmd.Ac.ViewModels.Infra.MenuViewModels
 {
     using Engine;
     using Engine.Ac.InOuts;
+    using Engine.Ac.Messages.Infra;
     using System;
     using System.ComponentModel.DataAnnotations;
 
@@ -11,6 +12,16 @@ namespace Anycmd.Ac.ViewModels.Infra.MenuViewModels
     /// </summary>
     public class MenuCreateInput : EntityCreateInput, IMenuCreateIo
     {
+        public MenuCreateInput()
+        {
+            OntologyCode = "Menu";
+            Verb = "Create";
+        }
+
+        public string OntologyCode { get; private set; }
+
+        public string Verb { get; private set; }
+
         /// <summary>
         /// 
         /// </summary>
@@ -42,5 +53,10 @@ namespace Anycmd.Ac.ViewModels.Infra.MenuViewModels
         /// </summary>
         [Required]
         public int SortCode { get; set; }
+
+        public AddMenuCommand ToCommand()
+        {
+            return new AddMenuCommand(this);
+        }
     }
 }

@@ -3,6 +3,7 @@ namespace Anycmd.Ac.ViewModels.Infra.AppSystemViewModels
 {
     using Engine;
     using Engine.Ac.InOuts;
+    using Engine.Ac.Messages.Infra;
     using System;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
@@ -12,6 +13,16 @@ namespace Anycmd.Ac.ViewModels.Infra.AppSystemViewModels
     /// </summary>
     public class AppSystemCreateInput : EntityCreateInput, IAppSystemCreateIo
     {
+        public AppSystemCreateInput()
+        {
+            OntologyCode = "AppSystem";
+            Verb = "Create";
+        }
+
+        public string OntologyCode { get; private set; }
+
+        public string Verb { get; private set; }
+
         /// <summary>
         /// 
         /// </summary>
@@ -52,5 +63,10 @@ namespace Anycmd.Ac.ViewModels.Infra.AppSystemViewModels
         /// 
         /// </summary>
         public Guid PrincipalId { get; set; }
+
+        public AddAppSystemCommand ToCommand()
+        {
+            return new AddAppSystemCommand(this);
+        }
     }
 }

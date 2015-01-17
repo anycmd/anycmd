@@ -3,6 +3,7 @@ namespace Anycmd.Ac.ViewModels.RoleViewModels
 {
     using Engine;
     using Engine.Ac.InOuts;
+    using Engine.Ac.Messages.Rbac;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
 
@@ -11,6 +12,16 @@ namespace Anycmd.Ac.ViewModels.RoleViewModels
     /// </summary>
     public class RoleCreateInput : EntityCreateInput, IRoleCreateIo
     {
+        public RoleCreateInput()
+        {
+            OntologyCode = "Role";
+            Verb = "Create";
+        }
+
+        public string OntologyCode { get; private set; }
+
+        public string Verb { get; private set; }
+
         /// <summary>
         /// 
         /// </summary>
@@ -41,5 +52,10 @@ namespace Anycmd.Ac.ViewModels.RoleViewModels
         /// 
         /// </summary>
         public string Icon { get; set; }
+
+        public AddRoleCommand ToCommand()
+        {
+            return new AddRoleCommand(this);
+        }
     }
 }

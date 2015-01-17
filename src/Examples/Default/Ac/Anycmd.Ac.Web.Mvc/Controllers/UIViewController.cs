@@ -182,12 +182,12 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 throw new ValidationException("标识为" + uiViewId + "的页面不存在");
             }
-            AcDomain.Handle(new UpdateUiViewCommand(new UiViewUpdateInput
+            AcDomain.Handle(new UiViewUpdateInput
             {
                 Icon = entity.Icon,
                 Id = entity.Id,
                 Tooltip = tooltip
-            }));
+            }.ToCommand());
             return this.JsonResult(new ResponseData { success = true });
         }
 
@@ -217,7 +217,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            AcDomain.Handle(new AddUiViewCommand(input));
+            AcDomain.Handle(input.ToCommand());
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -233,7 +233,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            AcDomain.Handle(new UpdateUiViewCommand(input));
+            AcDomain.Handle(input.ToCommand());
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -284,7 +284,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                                 IsEnabled = inputModel.IsEnabled,
                                 FunctionId = inputModel.FunctionId
                             };
-                            AcDomain.Handle(new UpdateUiViewButtonCommand(updateModel));
+                            AcDomain.Handle(updateModel.ToCommand());
                         }
                         else
                         {
@@ -296,7 +296,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                                 FunctionId = inputModel.FunctionId,
                                 UiViewId = inputModel.UiViewId
                             };
-                            AcDomain.Handle(new AddUiViewButtonCommand(input));
+                            AcDomain.Handle(input.ToCommand());
                         }
                     }
                     else
@@ -322,7 +322,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                             Description = function.Description
                         };
                         input.IsEnabled = functionIsEnabled;
-                        AcDomain.Handle(new UpdateFunctionCommand(input));
+                        AcDomain.Handle(input.ToCommand());
                     }
                 }
             }

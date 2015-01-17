@@ -28,12 +28,12 @@ namespace Anycmd.Tests
 
             ButtonState buttonById;
             ButtonState buttonByCode;
-            host.Handle(new AddButtonCommand(new ButtonCreateInput
+            host.Handle(new ButtonCreateInput
             {
                 Id = entityId,
                 Code = "btn1",
                 Name = "测试1"
-            }));
+            }.ToCommand());
             Assert.Equal(1, host.ButtonSet.Count());
             Assert.True(host.ButtonSet.ContainsButton(entityId));
             Assert.True(host.ButtonSet.ContainsButton("btn1"));
@@ -42,12 +42,12 @@ namespace Anycmd.Tests
             Assert.Equal(buttonByCode, buttonById);
             Assert.True(ReferenceEquals(buttonById, buttonByCode));
 
-            host.Handle(new UpdateButtonCommand(new ButtonUpdateInput
+            host.Handle(new ButtonUpdateInput
             {
                 Id = entityId,
                 Name = "test2",
                 Code = "btn2"
-            }));
+            }.ToCommand());
             Assert.Equal(1, host.ButtonSet.Count());
             Assert.True(host.ButtonSet.ContainsButton(entityId));
             Assert.True(host.ButtonSet.ContainsButton("btn2"));
@@ -80,21 +80,21 @@ namespace Anycmd.Tests
             var pageId = functionId;
             var pageButtonId = Guid.NewGuid();
 
-            host.Handle(new AddButtonCommand(new ButtonCreateInput
+            host.Handle(new ButtonCreateInput
             {
                 Id = entityId,
                 Code = "app1",
                 Name = "测试1"
-            }));
+            }.ToCommand());
             Assert.Equal(1, host.ButtonSet.Count());
-            host.Handle(new AddAppSystemCommand(new AppSystemCreateInput
+            host.Handle(new AppSystemCreateInput
             {
                 Id = appSystemId,
                 Code = "app1",
                 Name = "app1",
                 PrincipalId = host.SysUserSet.GetDevAccounts().First().Id
-            }));
-            host.Handle(new AddFunctionCommand(new FunctionCreateInput
+            }.ToCommand());
+            host.Handle(new FunctionCreateInput
             {
                 Id = functionId,
                 ResourceTypeId = host.ResourceTypeSet.First().Id,
@@ -104,19 +104,19 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 IsManaged = true,
                 SortCode = 0
-            }));
-            host.Handle(new AddUiViewCommand(new UiViewCreateInput
+            }.ToCommand());
+            host.Handle(new UiViewCreateInput
             {
                 Id = functionId
-            }));
-            host.Handle(new AddUiViewButtonCommand(new UiViewButtonCreateInput
+            }.ToCommand());
+            host.Handle(new UiViewButtonCreateInput
             {
                 Id = pageButtonId,
                 ButtonId = entityId,
                 UiViewId = pageId,
                 FunctionId = null,
                 IsEnabled = 1
-            }));
+            }.ToCommand());
 
             bool catched = false;
             try
@@ -167,12 +167,12 @@ namespace Anycmd.Tests
             bool catched = false;
             try
             {
-                host.Handle(new AddButtonCommand(new ButtonCreateInput
+                host.Handle(new ButtonCreateInput
                 {
                     Id = entityId1,
                     Code = code,
                     Name = name
-                }));
+                }.ToCommand());
             }
             catch (Exception e)
             {
@@ -186,23 +186,23 @@ namespace Anycmd.Tests
                 Assert.Equal(0, host.ButtonSet.Count());
             }
 
-            host.Handle(new AddButtonCommand(new ButtonCreateInput
+            host.Handle(new ButtonCreateInput
             {
                 Id = entityId2,
                 Code = code,
                 Name = name
-            }));
+            }.ToCommand());
             Assert.Equal(1, host.ButtonSet.Count());
 
             catched = false;
             try
             {
-                host.Handle(new UpdateButtonCommand(new ButtonUpdateInput
+                host.Handle(new ButtonUpdateInput
                 {
                     Id = entityId2,
                     Name = "test2",
                     Code = "btn2"
-                }));
+                }.ToCommand());
             }
             catch (Exception e)
             {

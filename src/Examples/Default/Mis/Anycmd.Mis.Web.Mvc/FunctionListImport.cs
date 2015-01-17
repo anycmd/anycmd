@@ -139,7 +139,7 @@ namespace Anycmd.Mis.Web.Mvc
                                             throw new ValidationException("同一Controller下不能有命名相同的Action。" + method.DeclaringType.FullName + "." + method.Name);
                                         }
                                         reflectionFunctions.Add(function);
-                                        host.Handle(new AddFunctionCommand(new FunctionCreateInput()
+                                        host.Handle(new FunctionCreateInput()
                                         {
                                             Description = description,
                                             DeveloperId = developerId,
@@ -149,13 +149,13 @@ namespace Anycmd.Mis.Web.Mvc
                                             ResourceTypeId = resource.Id,
                                             SortCode = sortCode,
                                             Code = function.FunctionCode
-                                        }));
+                                        }.ToCommand());
                                         if (isPage)
                                         {
-                                            host.Handle(new AddUiViewCommand(new UiViewCreateInput
+                                            host.Handle(new UiViewCreateInput
                                             {
                                                 Id = function.Id
-                                            }));
+                                            }.ToCommand());
                                         }
                                     }
                                     else
@@ -164,24 +164,24 @@ namespace Anycmd.Mis.Web.Mvc
                                         // 更新作者
                                         if (oldFunction.DeveloperId != developerId)
                                         {
-                                            host.Handle(new UpdateFunctionCommand(new FunctionUpdateInput
+                                            host.Handle(new FunctionUpdateInput
                                             {
                                                 Code = oldFunction.Code,
                                                 Description = oldFunction.Description,
                                                 DeveloperId = developerId,
                                                 Id = oldFunction.Id,
                                                 SortCode = oldFunction.SortCode
-                                            }));
+                                            }.ToCommand());
                                         }
                                         reflectionFunctions.Add(FunctionId.Create(oldFunction.Id, appSystemCode, areaCode, resourceCode, action));
                                         if (isPage)
                                         {
                                             if (oldPages.All(a => a.Id != oldFunction.Id))
                                             {
-                                                host.Handle(new AddUiViewCommand(new UiViewCreateInput
+                                                host.Handle(new UiViewCreateInput
                                                 {
                                                     Id = oldFunction.Id
-                                                }));
+                                                }.ToCommand());
                                             }
                                         }
                                         else

@@ -135,7 +135,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            AcDomain.AddButton(input);
+            AcDomain.Handle(input.ToCommand());
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -153,7 +153,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            AcDomain.UpdateButton(input);
+            AcDomain.Handle(input.ToCommand());
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }

@@ -8,7 +8,7 @@ namespace Anycmd.Ac.ViewModels.RdbViewModels
     /// <summary>
     /// 数据库视图输入模型
     /// </summary>
-    public sealed class DbViewInput : IInputModel
+    public sealed class DbViewUpdateInput : IInputModel
     {
         /// <summary>
         /// 

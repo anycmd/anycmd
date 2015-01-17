@@ -127,7 +127,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            AcDomain.Handle(new AddResourceCommand(input));
+            AcDomain.Handle(input.ToCommand());
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -143,7 +143,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            AcDomain.Handle(new UpdateResourceCommand(input));
+            AcDomain.Handle(input.ToCommand());
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }

@@ -23,7 +23,7 @@ namespace Anycmd.Tests
 
             var entityId = Guid.NewGuid();
 
-            host.Handle(new AddFunctionCommand(new FunctionCreateInput
+            host.Handle(new FunctionCreateInput
             {
                 Id = entityId,
                 Code = "fun1",
@@ -33,28 +33,28 @@ namespace Anycmd.Tests
                 IsManaged = true,
                 ResourceTypeId = host.ResourceTypeSet.First().Id,
                 SortCode = 10
-            }));
+            }.ToCommand());
             FunctionState functionById;
             Assert.Equal(1, host.FunctionSet.Count());
             Assert.True(host.FunctionSet.TryGetFunction(entityId, out functionById));
             UiViewState pageById;
-            host.Handle(new AddUiViewCommand(new UiViewCreateInput
+            host.Handle(new UiViewCreateInput
             {
                 Id = entityId,
                 Icon = null,
                 Tooltip = null
-            }));
+            }.ToCommand());
             Assert.Equal(1, host.UiViewSet.Count());
             Assert.True(host.UiViewSet.TryGetUiView(entityId, out pageById));
             bool catched = false;
             try
             {
-                host.Handle(new AddUiViewCommand(new UiViewCreateInput
+                host.Handle(new UiViewCreateInput
                 {
                     Id = Guid.NewGuid(),
                     Icon = null,
                     Tooltip = null
-                }));
+                }.ToCommand());
             }
             catch (Exception)
             {
@@ -64,12 +64,12 @@ namespace Anycmd.Tests
             {
                 Assert.True(catched);
             }
-            host.Handle(new UpdateUiViewCommand(new UiViewUpdateInput
+            host.Handle(new UiViewUpdateInput
             {
                 Id = entityId,
                 Icon = null,
                 Tooltip = null
-            }));
+            }.ToCommand());
             Assert.Equal(1, host.UiViewSet.Count());
             Assert.True(host.UiViewSet.TryGetUiView(entityId, out pageById));
 
@@ -97,7 +97,7 @@ namespace Anycmd.Tests
             moPageRepository.Setup<UiView>(a => a.GetByKey(entityId2)).Returns(new UiView { Id = entityId2 });
             host.AddService(typeof(IRepository<UiView>), moPageRepository.Object);
 
-            host.Handle(new AddFunctionCommand(new FunctionCreateInput
+            host.Handle(new FunctionCreateInput
             {
                 Id = entityId1,
                 Code = "fun1",
@@ -107,8 +107,8 @@ namespace Anycmd.Tests
                 IsManaged = true,
                 ResourceTypeId = host.ResourceTypeSet.First().Id,
                 SortCode = 10
-            }));
-            host.Handle(new AddFunctionCommand(new FunctionCreateInput
+            }.ToCommand());
+            host.Handle(new FunctionCreateInput
             {
                 Id = entityId2,
                 Code = "fun2",
@@ -118,7 +118,7 @@ namespace Anycmd.Tests
                 IsManaged = true,
                 ResourceTypeId = host.ResourceTypeSet.First().Id,
                 SortCode = 10
-            }));
+            }.ToCommand());
             FunctionState functionById;
             Assert.Equal(2, host.FunctionSet.Count());
             Assert.True(host.FunctionSet.TryGetFunction(entityId1, out functionById));
@@ -127,10 +127,10 @@ namespace Anycmd.Tests
             bool catched = false;
             try
             {
-                host.Handle(new AddUiViewCommand(new UiViewCreateInput
+                host.Handle(new UiViewCreateInput
                 {
                     Id = entityId1
-                }));
+                }.ToCommand());
             }
             catch (Exception e)
             {
@@ -144,19 +144,19 @@ namespace Anycmd.Tests
                 Assert.Equal(0, host.UiViewSet.Count());
             }
 
-            host.Handle(new AddUiViewCommand(new UiViewCreateInput
+            host.Handle(new UiViewCreateInput
             {
                 Id = entityId2
-            }));
+            }.ToCommand());
             Assert.Equal(1, host.UiViewSet.Count());
 
             catched = false;
             try
             {
-                host.Handle(new UpdateUiViewCommand(new UiViewUpdateInput
+                host.Handle(new UiViewUpdateInput
                 {
                     Id = entityId2
-                }));
+                }.ToCommand());
             }
             catch (Exception e)
             {

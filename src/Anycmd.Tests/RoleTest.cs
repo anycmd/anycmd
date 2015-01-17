@@ -27,7 +27,7 @@ namespace Anycmd.Tests
             var entityId = Guid.NewGuid();
 
             RoleState roleById;
-            host.Handle(new AddRoleCommand(new RoleCreateInput
+            host.Handle(new RoleCreateInput
             {
                 Id = entityId,
                 Name = "测试1",
@@ -36,11 +36,11 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }));
+            }.ToCommand());
             Assert.Equal(1, host.RoleSet.Count());
             Assert.True(host.RoleSet.TryGetRole(entityId, out roleById));
 
-            host.Handle(new UpdateRoleCommand(new RoleUpdateInput
+            host.Handle(new RoleUpdateInput
             {
                 Id = entityId,
                 Name = "test2",
@@ -49,7 +49,7 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }));
+            }.ToCommand());
             Assert.Equal(1, host.RoleSet.Count());
             Assert.True(host.RoleSet.TryGetRole(entityId, out roleById));
             Assert.Equal("test2", roleById.Name);
@@ -82,11 +82,11 @@ namespace Anycmd.Tests
             bool catched = false;
             try
             {
-                host.Handle(new AddRoleCommand(new RoleCreateInput
+                host.Handle(new RoleCreateInput
                 {
                     Id = entityId1,
                     Name = name
-                }));
+                }.ToCommand());
             }
             catch (Exception e)
             {
@@ -100,21 +100,21 @@ namespace Anycmd.Tests
                 Assert.Equal(0, host.RoleSet.Count());
             }
 
-            host.Handle(new AddRoleCommand(new RoleCreateInput
+            host.Handle(new RoleCreateInput
             {
                 Id = entityId2,
                 Name = name
-            }));
+            }.ToCommand());
             Assert.Equal(1, host.RoleSet.Count());
 
             catched = false;
             try
             {
-                host.Handle(new UpdateRoleCommand(new RoleUpdateInput
+                host.Handle(new RoleUpdateInput
                 {
                     Id = entityId2,
                     Name = "test2"
-                }));
+                }.ToCommand());
             }
             catch (Exception e)
             {
@@ -160,7 +160,7 @@ namespace Anycmd.Tests
 
             var roleId1 = Guid.NewGuid();
             // 创建一个角色
-            host.Handle(new AddRoleCommand(new RoleCreateInput
+            host.Handle(new RoleCreateInput
             {
                 Id = roleId1,
                 Name = "role1",
@@ -169,11 +169,11 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }));
+            }.ToCommand());
 
             var roleId2 = Guid.NewGuid();
             // 再创建一个角色
-            host.Handle(new AddRoleCommand(new RoleCreateInput
+            host.Handle(new RoleCreateInput
             {
                 Id = roleId2,
                 Name = "role2",
@@ -182,7 +182,7 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }));
+            }.ToCommand());
 
             var privilegeId = Guid.NewGuid();
             // 使role1继承role2
@@ -202,7 +202,7 @@ namespace Anycmd.Tests
 
             var roleId3 = Guid.NewGuid();
             // 创建role3
-            host.Handle(new AddRoleCommand(new RoleCreateInput
+            host.Handle(new RoleCreateInput
             {
                 Id = roleId3,
                 Name = "role3",
@@ -211,7 +211,7 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }));
+            }.ToCommand());
             privilegeId = Guid.NewGuid();
             // 使role2继承role3
             host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
@@ -227,7 +227,7 @@ namespace Anycmd.Tests
             RoleState role3;
             Assert.True(host.RoleSet.TryGetRole(roleId3, out role3));
             var roleId4 = Guid.NewGuid();
-            host.Handle(new AddRoleCommand(new RoleCreateInput
+            host.Handle(new RoleCreateInput
             {
                 Id = roleId4,
                 Name = "role4",
@@ -236,7 +236,7 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }));
+            }.ToCommand());
             privilegeId = Guid.NewGuid();
             host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
             {

@@ -1,13 +1,14 @@
 ﻿
 namespace Anycmd.Ac.ViewModels.RdbViewModels
 {
+    using Engine;
     using System;
     using System.ComponentModel.DataAnnotations;
 
     /// <summary>
-    /// 数据库视图列输入模型
+    /// 数据库表输入模型
     /// </summary>
-    public sealed class DbViewColumnInput
+    public sealed class DbTableUpdateInput : IInputModel
     {
         /// <summary>
         /// 

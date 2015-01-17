@@ -114,11 +114,11 @@ namespace Anycmd.Tests
             host.Handle(new AddDeveloperCommand(entityId2));
             Assert.Equal(2, host.SysUserSet.GetDevAccounts().Count);
 
-            host.Handle(new UpdateAccountCommand(new AccountUpdateInput
+            host.Handle(new AccountUpdateInput
             {
                 Id = entityId2,
                 Name = "test2"
-            }));
+            }.ToCommand());
             Assert.True(catched);
             Assert.Equal(2, host.SysUserSet.GetDevAccounts().Count);
 

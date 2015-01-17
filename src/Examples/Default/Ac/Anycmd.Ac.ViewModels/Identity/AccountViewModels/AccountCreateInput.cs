@@ -3,6 +3,7 @@ namespace Anycmd.Ac.ViewModels.Identity.AccountViewModels
 {
     using Engine;
     using Engine.Ac.InOuts;
+    using Engine.Ac.Messages.Identity;
     using System;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
@@ -12,6 +13,16 @@ namespace Anycmd.Ac.ViewModels.Identity.AccountViewModels
     /// </summary>
     public class AccountCreateInput : EntityCreateInput, IAccountCreateIo
     {
+        public AccountCreateInput()
+        {
+            OntologyCode = "Account";
+            Verb = "Create";
+        }
+
+        public string OntologyCode { get; private set; }
+
+        public string Verb { get; private set; }
+
         /// <summary>
         /// 
         /// </summary>
@@ -107,5 +118,10 @@ namespace Anycmd.Ac.ViewModels.Identity.AccountViewModels
         /// 
         /// </summary>
         public string QQ { get; set; }
+
+        public AddAccountCommand ToCommand()
+        {
+            return new AddAccountCommand(this);
+        }
     }
 }

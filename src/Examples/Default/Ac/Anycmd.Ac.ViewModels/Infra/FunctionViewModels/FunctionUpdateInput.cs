@@ -2,11 +2,22 @@
 namespace Anycmd.Ac.ViewModels.Infra.FunctionViewModels
 {
     using Engine.Ac.InOuts;
+    using Engine.Ac.Messages.Infra;
     using System;
     using System.ComponentModel.DataAnnotations;
 
     public class FunctionUpdateInput : IFunctionUpdateIo
     {
+        public FunctionUpdateInput()
+        {
+            OntologyCode = "Function";
+            Verb = "Update";
+        }
+
+        public string OntologyCode { get; private set; }
+
+        public string Verb { get; private set; }
+
         public Guid Id { get; set; }
         /// <summary>
         /// 
@@ -38,5 +49,10 @@ namespace Anycmd.Ac.ViewModels.Infra.FunctionViewModels
         /// </summary>
         [Required]
         public int SortCode { get; set; }
+
+        public UpdateFunctionCommand ToCommand()
+        {
+            return new UpdateFunctionCommand(this);
+        }
     }
 }

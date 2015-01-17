@@ -3,6 +3,7 @@ namespace Anycmd.Ac.ViewModels.Infra.ResourceViewModels
 {
     using Engine;
     using Engine.Ac.InOuts;
+    using Engine.Ac.Messages.Infra;
     using System;
     using System.ComponentModel.DataAnnotations;
 
@@ -11,6 +12,16 @@ namespace Anycmd.Ac.ViewModels.Infra.ResourceViewModels
     /// </summary>
     public class ResourceTypeCreateInput : EntityCreateInput, IResourceTypeCreateIo
     {
+        public ResourceTypeCreateInput()
+        {
+            OntologyCode = "ResourceType";
+            Verb = "Create";
+        }
+
+        public string OntologyCode { get; private set; }
+
+        public string Verb { get; private set; }
+
         public Guid AppSystemId { get; set; }
         /// <summary>
         /// 
@@ -35,5 +46,10 @@ namespace Anycmd.Ac.ViewModels.Infra.ResourceViewModels
         /// </summary>
         [Required]
         public int SortCode { get; set; }
+
+        public AddResourceCommand ToCommand()
+        {
+            return new AddResourceCommand(this);
+        }
     }
 }

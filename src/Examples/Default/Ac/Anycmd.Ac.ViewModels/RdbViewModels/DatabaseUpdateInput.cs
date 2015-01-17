@@ -8,8 +8,18 @@ namespace Anycmd.Ac.ViewModels.RdbViewModels
     /// <summary>
     /// 关系数据库输入模型
     /// </summary>
-    public sealed class DatabaseInput : IInputModel
+    public sealed class DatabaseUpdateInput : IInputModel
     {
+        public DatabaseUpdateInput()
+        {
+            OntologyCode = "Database";
+            Verb = "Update";
+        }
+
+        public string OntologyCode { get; private set; }
+
+        public string Verb { get; private set; }
+
         /// <summary>
         /// 
         /// </summary>

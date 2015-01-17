@@ -2,6 +2,7 @@
 namespace Anycmd.Ac.ViewModels.Infra.EntityTypeViewModels
 {
     using Engine.Ac.InOuts;
+    using Engine.Ac.Messages.Infra;
     using System;
     using System.ComponentModel.DataAnnotations;
 
@@ -10,6 +11,16 @@ namespace Anycmd.Ac.ViewModels.Infra.EntityTypeViewModels
     /// </summary>
     public class EntityTypeUpdateInput : IEntityTypeUpdateIo
     {
+        public EntityTypeUpdateInput()
+        {
+            OntologyCode = "EntityType";
+            Verb = "Update";
+        }
+
+        public string OntologyCode { get; private set; }
+
+        public string Verb { get; private set; }
+
         public Guid Id { get; set; }
         /// <summary>
         /// 
@@ -63,5 +74,10 @@ namespace Anycmd.Ac.ViewModels.Infra.EntityTypeViewModels
         /// </summary>
         [Required]
         public Guid DeveloperId { get; set; }
+
+        public UpdateEntityTypeCommand ToCommand()
+        {
+            return new UpdateEntityTypeCommand(this);
+        }
     }
 }

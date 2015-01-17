@@ -538,7 +538,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return this.ModelState.ToJsonResult();
             }
-            AcDomain.Handle(new AddRoleCommand(input));
+            AcDomain.Handle(input.ToCommand());
 
             return this.JsonResult(new ResponseData { success = true, id = input.Id });
         }
@@ -553,7 +553,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return this.ModelState.ToJsonResult();
             }
-            AcDomain.Handle(new UpdateRoleCommand(input));
+            AcDomain.Handle(input.ToCommand());
 
             return this.JsonResult(new ResponseData { success = true, id = input.Id });
         }

@@ -2,6 +2,7 @@
 namespace Anycmd.Ac.ViewModels.Identity.AccountViewModels
 {
     using Engine.Ac.InOuts;
+    using Engine.Ac.Messages.Identity;
     using System;
     using System.ComponentModel.DataAnnotations;
 
@@ -10,6 +11,16 @@ namespace Anycmd.Ac.ViewModels.Identity.AccountViewModels
     /// </summary>
     public class PasswordAssignInput : IPasswordAssignIo
     {
+        public PasswordAssignInput()
+        {
+            OntologyCode = "Account";
+            Verb = "AssignPassword";
+        }
+
+        public string OntologyCode { get; private set; }
+
+        public string Verb { get; private set; }
+
         /// <summary>
         /// 
         /// </summary>
@@ -26,5 +37,10 @@ namespace Anycmd.Ac.ViewModels.Identity.AccountViewModels
         /// </summary>
         [Required]
         public string Password { get; set; }
+
+        public AssignPasswordCommand ToCommand(IUserSession userSession)
+        {
+            return new AssignPasswordCommand(this, userSession);
+        }
     }
 }

@@ -109,7 +109,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            AcDomain.AddDicItem(input);
+            AcDomain.Handle(input.ToCommand());
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -125,7 +125,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            AcDomain.UpdateDicItem(input);
+            AcDomain.Handle(input.ToCommand());
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }

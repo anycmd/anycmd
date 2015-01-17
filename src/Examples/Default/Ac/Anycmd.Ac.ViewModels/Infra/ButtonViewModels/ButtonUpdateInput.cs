@@ -2,6 +2,7 @@
 namespace Anycmd.Ac.ViewModels.Infra.ButtonViewModels
 {
     using Engine.Ac.InOuts;
+    using Engine.Ac.Messages.Infra;
     using System;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
@@ -11,6 +12,16 @@ namespace Anycmd.Ac.ViewModels.Infra.ButtonViewModels
     /// </summary>
     public class ButtonUpdateInput : IButtonUpdateIo
     {
+        public ButtonUpdateInput()
+        {
+            OntologyCode = "Button";
+            Verb = "Update";
+        }
+
+        public string OntologyCode { get; private set; }
+
+        public string Verb { get; private set; }
+
         public Guid Id { get; set; }
         /// <summary>
         /// 
@@ -45,5 +56,10 @@ namespace Anycmd.Ac.ViewModels.Infra.ButtonViewModels
         /// </summary>
         [DefaultValue(1)]
         public int IsEnabled { get; set; }
+
+        public UpdateButtonCommand ToCommand()
+        {
+            return new UpdateButtonCommand(this);
+        }
     }
 }

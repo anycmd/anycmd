@@ -6,7 +6,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
     using Engine.Ac;
     using Engine.Ac.Abstractions;
     using Engine.Ac.Abstractions.Infra;
-    using Engine.Ac.InOuts;
+    using Engine.Ac.Messages;
     using Engine.Host.Ac;
     using Engine.Host.Ac.Identity;
     using Exceptions;
@@ -171,7 +171,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            AcDomain.AssignPassword(input, UserSession);
+            AcDomain.Handle(input.ToCommand(UserSession));
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -186,12 +186,12 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 throw new ValidationException("两次输入的密码不一致");
             }
-            AcDomain.ChangePassword(new PasswordChangeInput
+            AcDomain.Handle(new PasswordChangeInput
             {
                 LoginName = UserSession.Identity.Name,
                 OldPassword = oldPassword,
                 NewPassword = password
-            }, UserSession);
+            }.ToCommand(UserSession));
 
             return this.JsonResult(new ResponseData { success = true });
         }
@@ -224,7 +224,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
         [By("xuexs")]
         [Description("根据用户分页获取账户")]
         [Guid("C891E24F-D124-449D-B0FC-3AAB7479C55B")]
-        public ActionResult GetPlistAccounts(GetPlistAccounts requestModel)
+        public ActionResult GetPlistAccounts(GetPlistAccounts input)
         {
             if (!ModelState.IsValid)
             {
@@ -235,7 +235,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 throw new AnycmdException("意外的实体类型Ac.Account");
             }
-            foreach (var filter in requestModel.Filters)
+            foreach (var filter in input.Filters)
             {
                 PropertyState property;
                 if (!AcDomain.EntityTypeSet.TryGetProperty(entityType, filter.field, out property))
@@ -243,10 +243,10 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                     throw new ValidationException("意外的Account实体类型属性" + filter.field);
                 }
             }
-            requestModel.IncludeDescendants = requestModel.IncludeDescendants ?? false;
+            input.IncludeDescendants = input.IncludeDescendants ?? false;
             List<DicReader> userAccountTrs = null;
             // 如果组织机构为空则需要检测是否是开发人员，因为只有开发人员才可以看到全部用户。组织结构为空表示查询全部组织结构。
-            if (string.IsNullOrEmpty(requestModel.OrganizationCode))
+            if (string.IsNullOrEmpty(input.OrganizationCode))
             {
                 if (!UserSession.IsDeveloper())
                 {
@@ -254,17 +254,17 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 }
                 else
                 {
-                    userAccountTrs = GetRequiredService<IAccountQuery>().GetPlistAccountTrs(requestModel.Filters, requestModel.OrganizationCode
-                , requestModel.IncludeDescendants.Value, requestModel);
+                    userAccountTrs = GetRequiredService<IAccountQuery>().GetPlistAccountTrs(input.Filters, input.OrganizationCode
+                , input.IncludeDescendants.Value, input);
                 }
             }
             else
             {
-                userAccountTrs = GetRequiredService<IAccountQuery>().GetPlistAccountTrs(requestModel.Filters, requestModel.OrganizationCode
-                , requestModel.IncludeDescendants.Value, requestModel);
+                userAccountTrs = GetRequiredService<IAccountQuery>().GetPlistAccountTrs(input.Filters, input.OrganizationCode
+                , input.IncludeDescendants.Value, input);
             }
-            Debug.Assert(requestModel.Total != null, "requestModel.total != null");
-            var data = new MiniGrid<Dictionary<string, object>> { total = requestModel.Total.Value, data = userAccountTrs };
+            Debug.Assert(input.Total != null, "requestModel.total != null");
+            var data = new MiniGrid<Dictionary<string, object>> { total = input.Total.Value, data = userAccountTrs };
 
             return this.JsonResult(data);
         }
@@ -273,17 +273,17 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
         [By("xuexs")]
         [Description("根据工作组ID分页获取账户")]
         [Guid("E81C2463-612F-4C5E-9876-CF221F572F10")]
-        public ActionResult GetPlistGroupAccounts(GetPlistGroupAccounts requestModel)
+        public ActionResult GetPlistGroupAccounts(GetPlistGroupAccounts input)
         {
             if (!ModelState.IsValid)
             {
                 return ModelState.ToJsonResult();
             }
-            Debug.Assert(requestModel.GroupId != null, "requestModel.GroupId != null");
+            Debug.Assert(input.GroupId != null, "requestModel.GroupId != null");
             var groupUserAccountTrs = GetRequiredService<IAccountQuery>().GetPlistGroupAccountTrs(
-                requestModel.Key, requestModel.GroupId.Value, requestModel);
-            Debug.Assert(requestModel.Total != null, "requestModel.total != null");
-            var data = new MiniGrid<Dictionary<string, object>> { total = requestModel.Total.Value, data = groupUserAccountTrs };
+                input.Key, input.GroupId.Value, input);
+            Debug.Assert(input.Total != null, "requestModel.total != null");
+            var data = new MiniGrid<Dictionary<string, object>> { total = input.Total.Value, data = groupUserAccountTrs };
 
             return this.JsonResult(data);
         }
@@ -291,17 +291,17 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
         [By("xuexs")]
         [Description("根据角色ID分页获取账户")]
         [Guid("073C1CFC-EAB3-4BE9-AB2F-57A13E9E0F91")]
-        public ActionResult GetPlistRoleAccounts(GetPlistRoleAccounts requestModel)
+        public ActionResult GetPlistRoleAccounts(GetPlistRoleAccounts input)
         {
             if (!ModelState.IsValid)
             {
                 return ModelState.ToJsonResult();
             }
-            Debug.Assert(requestModel.RoleId != null, "requestModel.RoleId != null");
+            Debug.Assert(input.RoleId != null, "requestModel.RoleId != null");
             var roleUserAccountTrs = GetRequiredService<IAccountQuery>().GetPlistRoleAccountTrs(
-                requestModel.Key, requestModel.RoleId.Value, requestModel);
-            Debug.Assert(requestModel.Total != null, "requestModel.total != null");
-            var data = new MiniGrid<Dictionary<string, object>> { total = requestModel.Total.Value, data = roleUserAccountTrs };
+                input.Key, input.RoleId.Value, input);
+            Debug.Assert(input.Total != null, "requestModel.total != null");
+            var data = new MiniGrid<Dictionary<string, object>> { total = input.Total.Value, data = roleUserAccountTrs };
 
             return this.JsonResult(data);
         }
@@ -316,7 +316,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            AcDomain.AddAccount(input);
+            AcDomain.Handle(input.ToCommand());
 
             return this.JsonResult(new ResponseData { success = true, id = input.Id });
         }
@@ -325,15 +325,15 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
         [Description("更新账户")]
         [HttpPost]
         [Guid("421147B1-D8EC-4244-9EFE-F6066C6A3229")]
-        public ActionResult Update(AccountUpdateInput requestModel)
+        public ActionResult Update(AccountUpdateInput input)
         {
             if (!this.ModelState.IsValid)
             {
                 return this.ModelState.ToJsonResult();
             }
-            AcDomain.UpdateAccount(requestModel);
+            AcDomain.Handle(input.ToCommand());
 
-            return this.JsonResult(new ResponseData { success = true, id = requestModel.Id });
+            return this.JsonResult(new ResponseData { success = true, id = input.Id });
         }
 
         [By("xuexs")]
@@ -411,7 +411,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                     {
                         if (!isAssigned)
                         {
-                            AcDomain.RemovePrivilege(id);
+                            AcDomain.Handle(new RemovePrivilegeCommand(id));
                         }
                         else
                         {
@@ -474,7 +474,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                     {
                         if (!isAssigned)
                         {
-                            AcDomain.RemovePrivilege(id);
+                            AcDomain.Handle(new RemovePrivilegeCommand(id));
                         }
                     }
                     else if (isAssigned)
@@ -498,15 +498,15 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
         [By("xuexs")]
         [Description("根据组织结构ID分页获取数据集管理员")]
         [Guid("B4183494-8E10-484D-A536-0905A3EB37BE")]
-        public ActionResult GetPlistAccountOrganizationPrivileges(GetPlistAccountOrganizationPrivileges requestData)
+        public ActionResult GetPlistAccountOrganizationPrivileges(GetPlistAccountOrganizationPrivileges input)
         {
             if (!ModelState.IsValid)
             {
                 return ModelState.ToJsonResult();
             }
-            requestData.IncludeDescendants = requestData.IncludeDescendants ?? false;
+            input.IncludeDescendants = input.IncludeDescendants ?? false;
             List<DicReader> data;
-            if (string.IsNullOrEmpty(requestData.OrganizationCode))
+            if (string.IsNullOrEmpty(input.OrganizationCode))
             {
                 if (!UserSession.IsDeveloper())
                 {
@@ -514,33 +514,33 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 }
                 else
                 {
-                    data = GetRequiredService<IPrivilegeQuery>().GetPlistOrganizationAccountTrs(requestData.Key.SafeTrim(),
-                    requestData.OrganizationCode, requestData.IncludeDescendants.Value, requestData);
+                    data = GetRequiredService<IPrivilegeQuery>().GetPlistOrganizationAccountTrs(input.Key.SafeTrim(),
+                    input.OrganizationCode, input.IncludeDescendants.Value, input);
                 }
             }
             else
             {
-                data = GetRequiredService<IPrivilegeQuery>().GetPlistOrganizationAccountTrs(requestData.Key.SafeTrim(),
-                    requestData.OrganizationCode, requestData.IncludeDescendants.Value, requestData);
+                data = GetRequiredService<IPrivilegeQuery>().GetPlistOrganizationAccountTrs(input.Key.SafeTrim(),
+                    input.OrganizationCode, input.IncludeDescendants.Value, input);
             }
 
-            Debug.Assert(requestData.Total != null, "requestData.total != null");
-            return this.JsonResult(new MiniGrid<Dictionary<string, object>> { total = requestData.Total.Value, data = data });
+            Debug.Assert(input.Total != null, "requestData.total != null");
+            return this.JsonResult(new MiniGrid<Dictionary<string, object>> { total = input.Total.Value, data = data });
         }
 
         [By("xuexs")]
         [Description("分页获取包工头")]
         [Guid("5602D2C4-BFDA-4698-A6F4-A54E5953BBF3")]
-        public ActionResult GetPlistContractors(GetPlistContractors requestData)
+        public ActionResult GetPlistContractors(GetPlistContractors input)
         {
             if (!ModelState.IsValid)
             {
                 return ModelState.ToJsonResult();
             }
-            requestData.IncludeDescendants = requestData.IncludeDescendants ?? false;
+            input.IncludeDescendants = input.IncludeDescendants ?? false;
             List<DicReader> userTrs = null;
             // 如果组织机构为空则需要检测是否是超级管理员，因为只有超级管理员才可以看到全部包工头
-            if (string.IsNullOrEmpty(requestData.OrganizationCode))
+            if (string.IsNullOrEmpty(input.OrganizationCode))
             {
                 if (!UserSession.IsDeveloper())
                 {
@@ -549,17 +549,17 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 else
                 {
                     userTrs = GetRequiredService<IAccountQuery>().GetPlistContractorTrs(
-                        requestData.Filters, requestData.OrganizationCode, requestData.IncludeDescendants.Value, requestData);
+                        input.Filters, input.OrganizationCode, input.IncludeDescendants.Value, input);
                 }
             }
             else
             {
                 userTrs = GetRequiredService<IAccountQuery>().GetPlistContractorTrs(
-                    requestData.Filters, requestData.OrganizationCode, requestData.IncludeDescendants.Value, requestData);
+                    input.Filters, input.OrganizationCode, input.IncludeDescendants.Value, input);
             }
 
-            Debug.Assert(requestData.Total != null, "requestData.total != null");
-            var data = new MiniGrid<Dictionary<string, object>> { total = requestData.Total.Value, data = userTrs };
+            Debug.Assert(input.Total != null, "requestData.total != null");
+            var data = new MiniGrid<Dictionary<string, object>> { total = input.Total.Value, data = userTrs };
 
             return this.JsonResult(data);
         }

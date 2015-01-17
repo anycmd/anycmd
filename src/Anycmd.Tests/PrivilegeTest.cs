@@ -88,7 +88,7 @@ namespace Anycmd.Tests
             var roleId = Guid.NewGuid();
 
             RoleState roleById;
-            host.Handle(new AddRoleCommand(new RoleCreateInput
+            host.Handle(new RoleCreateInput
             {
                 Id = roleId,
                 Name = "测试1",
@@ -97,14 +97,14 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }));
+            }.ToCommand());
             Assert.Equal(1, host.RoleSet.Count());
             Assert.True(host.RoleSet.TryGetRole(roleId, out roleById));
 
             var functionId = Guid.NewGuid();
 
             FunctionState functionById;
-            host.Handle(new AddFunctionCommand(new FunctionCreateInput
+            host.Handle(new FunctionCreateInput
             {
                 Id = functionId,
                 Code = "fun1",
@@ -114,7 +114,7 @@ namespace Anycmd.Tests
                 IsManaged = true,
                 ResourceTypeId = host.ResourceTypeSet.First().Id,
                 SortCode = 10
-            }));
+            }.ToCommand());
             ResourceTypeState resource;
             Assert.True(host.ResourceTypeSet.TryGetResource(host.ResourceTypeSet.First().Id, out resource));
             Assert.Equal(1, host.FunctionSet.Count());

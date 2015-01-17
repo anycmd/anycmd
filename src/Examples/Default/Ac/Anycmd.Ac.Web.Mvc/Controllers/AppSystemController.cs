@@ -89,16 +89,16 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
         [By("xuexs")]
         [Description("分页查询应用系统")]
         [Guid("15CE0807-AB9B-4E9F-B5FA-A805D6822911")]
-        public ActionResult GetPlistAppSystems(GetPlistResult requestModel)
+        public ActionResult GetPlistAppSystems(GetPlistResult input)
         {
             if (!ModelState.IsValid)
             {
                 return ModelState.ToJsonResult();
             }
-            var data = AcDomain.GetPlistAppSystems(requestModel);
+            var data = AcDomain.GetPlistAppSystems(input);
 
-            Debug.Assert(requestModel.Total != null, "requestModel.total != null");
-            return this.JsonResult(new MiniGrid<AppSystemTr> { total = requestModel.Total.Value, data = data });
+            Debug.Assert(input.Total != null, "requestModel.total != null");
+            return this.JsonResult(new MiniGrid<AppSystemTr> { total = input.Total.Value, data = data });
         }
 
         [By("xuexs")]
@@ -106,15 +106,15 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
         [HttpPost]
         [DeveloperFilter(Order = 21)]
         [Guid("BE3BE661-E52C-4A55-8B0C-E9B2F72BCD24")]
-        public ActionResult Create(AppSystemCreateInput requestModel)
+        public ActionResult Create(AppSystemCreateInput input)
         {
             if (!ModelState.IsValid)
             {
                 return ModelState.ToJsonResult();
             }
-            AcDomain.AddAppSystem(requestModel);
+            AcDomain.Handle(input.ToCommand());
 
-            return this.JsonResult(new ResponseData { id = requestModel.Id, success = true });
+            return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
 
         [By("xuexs")]
@@ -122,15 +122,15 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
         [HttpPost]
         [DeveloperFilter(Order = 21)]
         [Guid("04E9EEDD-819F-40E2-B5FD-1DA9033DE294")]
-        public ActionResult Update(AppSystemUpdateInput requestModel)
+        public ActionResult Update(AppSystemUpdateInput input)
         {
             if (!ModelState.IsValid)
             {
                 return ModelState.ToJsonResult();
             }
-            AcDomain.UpdateAppSystem(requestModel);
+            AcDomain.Handle(input.ToCommand());
 
-            return this.JsonResult(new ResponseData { id = requestModel.Id, success = true });
+            return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
 
         [By("xuexs")]

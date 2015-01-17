@@ -3,6 +3,7 @@ namespace Anycmd.Ac.ViewModels.Infra.UIViewViewModels
 {
     using Engine;
     using Engine.Ac.InOuts;
+    using Engine.Ac.Messages.Infra;
     using System;
 
     /// <summary>
@@ -10,6 +11,16 @@ namespace Anycmd.Ac.ViewModels.Infra.UIViewViewModels
     /// </summary>
     public class UiViewButtonCreateInput : EntityCreateInput, IUiViewButtonCreateIo
     {
+        public UiViewButtonCreateInput()
+        {
+            OntologyCode = "UiViewButton";
+            Verb = "Create";
+        }
+
+        public string OntologyCode { get; private set; }
+
+        public string Verb { get; private set; }
+
         /// <summary>
         /// 
         /// </summary>
@@ -26,5 +37,10 @@ namespace Anycmd.Ac.ViewModels.Infra.UIViewViewModels
         /// 
         /// </summary>
         public int IsEnabled { get; set; }
+
+        public AddUiViewButtonCommand ToCommand()
+        {
+            return new AddUiViewButtonCommand(this);
+        }
     }
 }

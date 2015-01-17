@@ -3,6 +3,7 @@ namespace Anycmd.Ac.ViewModels.Infra.AppSystemViewModels
 {
     using Engine;
     using Engine.Ac.InOuts;
+    using Engine.Ac.Messages.Infra;
     using System;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
@@ -12,6 +13,16 @@ namespace Anycmd.Ac.ViewModels.Infra.AppSystemViewModels
     /// </summary>
     public class AppSystemUpdateInput : ManagedPropertyValues, IAppSystemUpdateIo
     {
+        public AppSystemUpdateInput()
+        {
+            OntologyCode = "AppSystem";
+            Verb = "Update";
+        }
+
+        public string OntologyCode { get; private set; }
+
+        public string Verb { get; private set; }
+
         public Guid Id { get; set; }
         /// <summary>
         /// 
@@ -53,5 +64,10 @@ namespace Anycmd.Ac.ViewModels.Infra.AppSystemViewModels
         /// 
         /// </summary>
         public Guid PrincipalId { get; set; }
+
+        public UpdateAppSystemCommand ToCommand()
+        {
+            return new UpdateAppSystemCommand(this);
+        }
     }
 }

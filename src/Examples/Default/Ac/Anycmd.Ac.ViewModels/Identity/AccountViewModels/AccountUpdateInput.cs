@@ -2,6 +2,7 @@
 namespace Anycmd.Ac.ViewModels.Identity.AccountViewModels
 {
     using Engine.Ac.InOuts;
+    using Engine.Ac.Messages.Identity;
     using System;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
@@ -11,6 +12,16 @@ namespace Anycmd.Ac.ViewModels.Identity.AccountViewModels
     /// </summary>
     public class AccountUpdateInput : IAccountUpdateIo
     {
+        public AccountUpdateInput()
+        {
+            OntologyCode = "Account";
+            Verb = "Update";
+        }
+
+        public string OntologyCode { get; private set; }
+
+        public string Verb { get; private set; }
+
         public Guid Id { get; set; }
         /// <summary>
         /// 
@@ -93,5 +104,10 @@ namespace Anycmd.Ac.ViewModels.Identity.AccountViewModels
         /// 
         /// </summary>
         public string QQ { get; set; }
+
+        public UpdateAccountCommand ToCommand()
+        {
+            return new UpdateAccountCommand(this);
+        }
     }
 }

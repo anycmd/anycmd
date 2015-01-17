@@ -2,6 +2,7 @@
 namespace Anycmd.Ac.ViewModels.Infra.OrganizationViewModels
 {
     using Engine.Ac.InOuts;
+    using Engine.Ac.Messages.Infra;
     using System;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
@@ -11,6 +12,16 @@ namespace Anycmd.Ac.ViewModels.Infra.OrganizationViewModels
     /// </summary>
     public class OrganizationUpdateInput : IOrganizationUpdateIo
     {
+        public OrganizationUpdateInput()
+        {
+            OntologyCode = "Organization";
+            Verb = "Update";
+        }
+
+        public string OntologyCode { get; private set; }
+
+        public string Verb { get; private set; }
+
         public Guid Id { get; set; }
         /// <summary>
         /// 
@@ -94,5 +105,10 @@ namespace Anycmd.Ac.ViewModels.Infra.OrganizationViewModels
         /// </summary>
         [Required]
         public int SortCode { get; set; }
+
+        public UpdateOrganizationCommand ToCommand()
+        {
+            return new UpdateOrganizationCommand(this);
+        }
     }
 }

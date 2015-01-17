@@ -13,9 +13,7 @@ namespace Anycmd.Tests
     using Engine.Ac;
     using Engine.Ac.Abstractions;
     using Engine.Ac.Messages;
-    using Engine.Ac.Messages.Identity;
     using Engine.Ac.Messages.Infra;
-    using Engine.Ac.Messages.Rbac;
     using Engine.Host.Ac;
     using Engine.Host.Ac.Identity;
     using Repositories;
@@ -35,7 +33,7 @@ namespace Anycmd.Tests
             UserSessionState.SignOut(host, host.GetUserSession());
             var orgId = Guid.NewGuid();
 
-            host.Handle(new AddOrganizationCommand(new OrganizationCreateInput
+            host.Handle(new OrganizationCreateInput
             {
                 Id = orgId,
                 Code = "100",
@@ -43,15 +41,15 @@ namespace Anycmd.Tests
                 Description = "test",
                 SortCode = 10,
                 Icon = null,
-            }));
+            }.ToCommand());
             Guid dicId = Guid.NewGuid();
-            host.Handle(new AddDicCommand(new DicCreateInput
+            host.Handle(new DicCreateInput
             {
                 Id = dicId,
                 Code = "auditStatus",
                 Name = "auditStatus1"
-            }));
-            host.Handle(new AddDicItemCommand(new DicItemCreateInput
+            }.ToCommand());
+            host.Handle(new DicItemCreateInput
             {
                 Id = dicId,
                 IsEnabled = 1,
@@ -60,9 +58,9 @@ namespace Anycmd.Tests
                 Description = string.Empty,
                 Code = "auditPass",
                 Name = "auditPass"
-            }));
+            }.ToCommand());
             Guid accountId = Guid.NewGuid();
-            host.Handle(new AddAccountCommand(new AccountCreateInput
+            host.Handle(new AccountCreateInput
             {
                 Id = accountId,
                 Code = "test",
@@ -72,7 +70,7 @@ namespace Anycmd.Tests
                 OrganizationCode = "100",
                 IsEnabled = 1,
                 AuditState = "auditPass"
-            }));
+            }.ToCommand());
             Assert.NotNull(host.RetrieveRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
             UserSessionState.SignIn(host, new Dictionary<string, object>
             {
@@ -95,7 +93,7 @@ namespace Anycmd.Tests
             UserSessionState.SignOut(host, host.GetUserSession());
             var orgId = Guid.NewGuid();
 
-            host.Handle(new AddOrganizationCommand(new OrganizationCreateInput
+            host.Handle(new OrganizationCreateInput
             {
                 Id = orgId,
                 Code = "100",
@@ -103,15 +101,15 @@ namespace Anycmd.Tests
                 Description = "test",
                 SortCode = 10,
                 Icon = null,
-            }));
+            }.ToCommand());
             Guid dicId = Guid.NewGuid();
-            host.Handle(new AddDicCommand(new DicCreateInput
+            host.Handle(new DicCreateInput
             {
                 Id = dicId,
                 Code = "auditStatus",
                 Name = "auditStatus1"
-            }));
-            host.Handle(new AddDicItemCommand(new DicItemCreateInput
+            }.ToCommand());
+            host.Handle(new DicItemCreateInput
             {
                 Id = dicId,
                 IsEnabled = 1,
@@ -120,9 +118,9 @@ namespace Anycmd.Tests
                 Description = string.Empty,
                 Code = "auditPass",
                 Name = "auditPass"
-            }));
+            }.ToCommand());
             Guid accountId = Guid.NewGuid();
-            host.Handle(new AddAccountCommand(new AccountCreateInput
+            host.Handle(new AccountCreateInput
             {
                 Id = accountId,
                 Code = "test",
@@ -132,7 +130,7 @@ namespace Anycmd.Tests
                 OrganizationCode = "100",
                 IsEnabled = 1,
                 AuditState = "auditPass"
-            }));
+            }.ToCommand());
             Assert.NotNull(host.RetrieveRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
             UserSessionState.SignIn(host, new Dictionary<string, object>
             {
@@ -143,7 +141,7 @@ namespace Anycmd.Tests
             Assert.True(host.GetUserSession().Identity.IsAuthenticated);
             Assert.Equal(0, host.GetUserSession().AccountPrivilege.Roles.Count);
             Guid roleId = Guid.NewGuid();
-            host.Handle(new AddRoleCommand(new RoleCreateInput
+            host.Handle(new RoleCreateInput
             {
                 Id = roleId,
                 Name = "测试1",
@@ -152,7 +150,7 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }));
+            }.ToCommand());
             Guid entityId = Guid.NewGuid();
             host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
             {
@@ -206,7 +204,7 @@ namespace Anycmd.Tests
             UserSessionState.SignOut(host, host.GetUserSession());
             var orgId = Guid.NewGuid();
 
-            host.Handle(new AddOrganizationCommand(new OrganizationCreateInput
+            host.Handle(new OrganizationCreateInput
             {
                 Id = orgId,
                 Code = "100",
@@ -214,15 +212,15 @@ namespace Anycmd.Tests
                 Description = "test",
                 SortCode = 10,
                 Icon = null,
-            }));
+            }.ToCommand());
             Guid dicId = Guid.NewGuid();
-            host.Handle(new AddDicCommand(new DicCreateInput
+            host.Handle(new DicCreateInput
             {
                 Id = dicId,
                 Code = "auditStatus",
                 Name = "auditStatus1"
-            }));
-            host.Handle(new AddDicItemCommand(new DicItemCreateInput
+            }.ToCommand());
+            host.Handle(new DicItemCreateInput
             {
                 Id = dicId,
                 IsEnabled = 1,
@@ -231,9 +229,9 @@ namespace Anycmd.Tests
                 Description = string.Empty,
                 Code = "auditPass",
                 Name = "auditPass"
-            }));
+            }.ToCommand());
             Guid accountId = Guid.NewGuid();
-            host.Handle(new AddAccountCommand(new AccountCreateInput
+            host.Handle(new AccountCreateInput
             {
                 Id = accountId,
                 Code = "test",
@@ -243,7 +241,7 @@ namespace Anycmd.Tests
                 OrganizationCode = "100",
                 IsEnabled = 1,
                 AuditState = "auditPass"
-            }));
+            }.ToCommand());
             Assert.NotNull(host.RetrieveRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
             UserSessionState.SignIn(host, new Dictionary<string, object>
             {
@@ -254,7 +252,7 @@ namespace Anycmd.Tests
             Assert.True(host.GetUserSession().Identity.IsAuthenticated);
             Assert.Equal(0, host.GetUserSession().AccountPrivilege.Roles.Count);
             Guid functionId = Guid.NewGuid();
-            host.Handle(new AddFunctionCommand(new FunctionCreateInput
+            host.Handle(new FunctionCreateInput
             {
                 Id = functionId,
                 Code = "fun1",
@@ -264,7 +262,7 @@ namespace Anycmd.Tests
                 IsManaged = true,
                 ResourceTypeId = host.ResourceTypeSet.First().Id,
                 SortCode = 10
-            }));
+            }.ToCommand());
             Guid entityId = Guid.NewGuid();
             host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
             {
@@ -313,7 +311,7 @@ namespace Anycmd.Tests
             UserSessionState.SignOut(host, host.GetUserSession());
             var orgId = Guid.NewGuid();
 
-            host.Handle(new AddOrganizationCommand(new OrganizationCreateInput
+            host.Handle(new OrganizationCreateInput
             {
                 Id = orgId,
                 Code = "100",
@@ -321,15 +319,15 @@ namespace Anycmd.Tests
                 Description = "test",
                 SortCode = 10,
                 Icon = null,
-            }));
+            }.ToCommand());
             Guid dicId = Guid.NewGuid();
-            host.Handle(new AddDicCommand(new DicCreateInput
+            host.Handle(new DicCreateInput
             {
                 Id = dicId,
                 Code = "auditStatus",
                 Name = "auditStatus1"
-            }));
-            host.Handle(new AddDicItemCommand(new DicItemCreateInput
+            }.ToCommand());
+            host.Handle(new DicItemCreateInput
             {
                 Id = dicId,
                 IsEnabled = 1,
@@ -338,9 +336,9 @@ namespace Anycmd.Tests
                 Description = string.Empty,
                 Code = "auditPass",
                 Name = "auditPass"
-            }));
+            }.ToCommand());
             Guid accountId = Guid.NewGuid();
-            host.Handle(new AddAccountCommand(new AccountCreateInput
+            host.Handle(new AccountCreateInput
             {
                 Id = accountId,
                 Code = "test",
@@ -350,7 +348,7 @@ namespace Anycmd.Tests
                 OrganizationCode = "100",
                 IsEnabled = 1,
                 AuditState = "auditPass"
-            }));
+            }.ToCommand());
             Assert.NotNull(host.RetrieveRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
             UserSessionState.SignIn(host, new Dictionary<string, object>
             {
@@ -361,7 +359,7 @@ namespace Anycmd.Tests
             Assert.True(host.GetUserSession().Identity.IsAuthenticated);
             Assert.Equal(0, host.GetUserSession().AccountPrivilege.Roles.Count);
             Guid organizationId = Guid.NewGuid();
-            host.Handle(new AddOrganizationCommand(new OrganizationCreateInput
+            host.Handle(new OrganizationCreateInput
             {
                 Id = organizationId,
                 Code = "110",
@@ -369,7 +367,7 @@ namespace Anycmd.Tests
                 Description = "test",
                 SortCode = 10,
                 Icon = null,
-            }));
+            }.ToCommand());
             Guid entityId = Guid.NewGuid();
             host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
             {
@@ -418,7 +416,7 @@ namespace Anycmd.Tests
             UserSessionState.SignOut(host, host.GetUserSession());
             var orgId = Guid.NewGuid();
 
-            host.Handle(new AddOrganizationCommand(new OrganizationCreateInput
+            host.Handle(new OrganizationCreateInput
             {
                 Id = orgId,
                 Code = "100",
@@ -426,15 +424,15 @@ namespace Anycmd.Tests
                 Description = "test",
                 SortCode = 10,
                 Icon = null,
-            }));
+            }.ToCommand());
             Guid dicId = Guid.NewGuid();
-            host.Handle(new AddDicCommand(new DicCreateInput
+            host.Handle(new DicCreateInput
             {
                 Id = dicId,
                 Code = "auditStatus",
                 Name = "auditStatus1"
-            }));
-            host.Handle(new AddDicItemCommand(new DicItemCreateInput
+            }.ToCommand());
+            host.Handle(new DicItemCreateInput
             {
                 Id = dicId,
                 IsEnabled = 1,
@@ -443,9 +441,9 @@ namespace Anycmd.Tests
                 Description = string.Empty,
                 Code = "auditPass",
                 Name = "auditPass"
-            }));
+            }.ToCommand());
             Guid accountId = Guid.NewGuid();
-            host.Handle(new AddAccountCommand(new AccountCreateInput
+            host.Handle(new AccountCreateInput
             {
                 Id = accountId,
                 Code = "test",
@@ -455,7 +453,7 @@ namespace Anycmd.Tests
                 OrganizationCode = "100",
                 IsEnabled = 1,
                 AuditState = "auditPass"
-            }));
+            }.ToCommand());
             Assert.NotNull(host.RetrieveRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
             UserSessionState.SignIn(host, new Dictionary<string, object>
             {
@@ -525,7 +523,7 @@ namespace Anycmd.Tests
             UserSessionState.SignOut(host, host.GetUserSession());
             var orgId = Guid.NewGuid();
 
-            host.Handle(new AddOrganizationCommand(new OrganizationCreateInput
+            host.Handle(new OrganizationCreateInput
             {
                 Id = orgId,
                 Code = "100",
@@ -533,15 +531,15 @@ namespace Anycmd.Tests
                 Description = "test",
                 SortCode = 10,
                 Icon = null,
-            }));
+            }.ToCommand());
             Guid dicId = Guid.NewGuid();
-            host.Handle(new AddDicCommand(new DicCreateInput
+            host.Handle(new DicCreateInput
             {
                 Id = dicId,
                 Code = "auditStatus",
                 Name = "auditStatus1"
-            }));
-            host.Handle(new AddDicItemCommand(new DicItemCreateInput
+            }.ToCommand());
+            host.Handle(new DicItemCreateInput
             {
                 Id = dicId,
                 IsEnabled = 1,
@@ -550,9 +548,9 @@ namespace Anycmd.Tests
                 Description = string.Empty,
                 Code = "auditPass",
                 Name = "auditPass"
-            }));
+            }.ToCommand());
             Guid accountId = Guid.NewGuid();
-            host.Handle(new AddAccountCommand(new AccountCreateInput
+            host.Handle(new AccountCreateInput
             {
                 Id = accountId,
                 Code = "test",
@@ -562,7 +560,7 @@ namespace Anycmd.Tests
                 OrganizationCode = "100",
                 IsEnabled = 1,
                 AuditState = "auditPass"
-            }));
+            }.ToCommand());
             Assert.NotNull(host.RetrieveRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
             UserSessionState.SignIn(host, new Dictionary<string, object>
             {
@@ -573,7 +571,7 @@ namespace Anycmd.Tests
             Assert.True(host.GetUserSession().Identity.IsAuthenticated);
             Assert.Equal(0, host.GetUserSession().AccountPrivilege.Roles.Count);
             Guid menuId = Guid.NewGuid();
-            host.Handle(new AddMenuCommand(new MenuCreateInput
+            host.Handle(new MenuCreateInput
             {
                 Id = menuId,
                 Name = "测试1",
@@ -583,7 +581,7 @@ namespace Anycmd.Tests
                 Icon = null,
                 ParentId = null,
                 Url = string.Empty
-            }));
+            }.ToCommand());
             Guid entityId = Guid.NewGuid();
             host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
             {
@@ -632,7 +630,7 @@ namespace Anycmd.Tests
             UserSessionState.SignOut(host, host.GetUserSession());
             var orgId = Guid.NewGuid();
 
-            host.Handle(new AddOrganizationCommand(new OrganizationCreateInput
+            host.Handle(new OrganizationCreateInput
             {
                 Id = orgId,
                 Code = "100",
@@ -640,15 +638,15 @@ namespace Anycmd.Tests
                 Description = "test",
                 SortCode = 10,
                 Icon = null,
-            }));
+            }.ToCommand());
             Guid dicId = Guid.NewGuid();
-            host.Handle(new AddDicCommand(new DicCreateInput
+            host.Handle(new DicCreateInput
             {
                 Id = dicId,
                 Code = "auditStatus",
                 Name = "auditStatus1"
-            }));
-            host.Handle(new AddDicItemCommand(new DicItemCreateInput
+            }.ToCommand());
+            host.Handle(new DicItemCreateInput
             {
                 Id = dicId,
                 IsEnabled = 1,
@@ -657,9 +655,9 @@ namespace Anycmd.Tests
                 Description = string.Empty,
                 Code = "auditPass",
                 Name = "auditPass"
-            }));
+            }.ToCommand());
             Guid accountId = Guid.NewGuid();
-            host.Handle(new AddAccountCommand(new AccountCreateInput
+            host.Handle(new AccountCreateInput
             {
                 Id = accountId,
                 Code = "test",
@@ -669,7 +667,7 @@ namespace Anycmd.Tests
                 OrganizationCode = "100",
                 IsEnabled = 1,
                 AuditState = "auditPass"
-            }));
+            }.ToCommand());
             Assert.NotNull(host.RetrieveRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
             UserSessionState.SignIn(host, new Dictionary<string, object>
             {
@@ -680,13 +678,13 @@ namespace Anycmd.Tests
             Assert.True(host.GetUserSession().Identity.IsAuthenticated);
             Assert.Equal(0, host.GetUserSession().AccountPrivilege.Roles.Count);
             Guid appSystemId = Guid.NewGuid();
-            host.Handle(new AddAppSystemCommand(new AppSystemCreateInput
+            host.Handle(new AppSystemCreateInput
             {
                 Id = appSystemId,
                 Code = "app1",
                 Name = "测试1",
                 PrincipalId = host.SysUserSet.GetDevAccounts().First().Id
-            }));
+            }.ToCommand());
             Guid entityId = Guid.NewGuid();
             host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
             {
@@ -735,7 +733,7 @@ namespace Anycmd.Tests
             UserSessionState.SignOut(host, host.GetUserSession());
             var orgId = Guid.NewGuid();
 
-            host.Handle(new AddOrganizationCommand(new OrganizationCreateInput
+            host.Handle(new OrganizationCreateInput
             {
                 Id = orgId,
                 Code = "100",
@@ -743,15 +741,15 @@ namespace Anycmd.Tests
                 Description = "test",
                 SortCode = 10,
                 Icon = null,
-            }));
+            }.ToCommand());
             Guid dicId = Guid.NewGuid();
-            host.Handle(new AddDicCommand(new DicCreateInput
+            host.Handle(new DicCreateInput
             {
                 Id = dicId,
                 Code = "auditStatus",
                 Name = "auditStatus1"
-            }));
-            host.Handle(new AddDicItemCommand(new DicItemCreateInput
+            }.ToCommand());
+            host.Handle(new DicItemCreateInput
             {
                 Id = dicId,
                 IsEnabled = 1,
@@ -760,9 +758,9 @@ namespace Anycmd.Tests
                 Description = string.Empty,
                 Code = "auditPass",
                 Name = "auditPass"
-            }));
+            }.ToCommand());
             Guid accountId = Guid.NewGuid();
-            host.Handle(new AddAccountCommand(new AccountCreateInput
+            host.Handle(new AccountCreateInput
             {
                 Id = accountId,
                 Code = "test",
@@ -772,7 +770,7 @@ namespace Anycmd.Tests
                 OrganizationCode = "100",
                 IsEnabled = 1,
                 AuditState = "auditPass"
-            }));
+            }.ToCommand());
             Assert.NotNull(host.RetrieveRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
             UserSessionState.SignIn(host, new Dictionary<string, object>
             {
@@ -783,7 +781,7 @@ namespace Anycmd.Tests
             Assert.True(host.GetUserSession().Identity.IsAuthenticated);
             Assert.Equal(0, host.GetUserSession().AccountPrivilege.Roles.Count);
             Guid roleId = Guid.NewGuid();
-            host.Handle(new AddRoleCommand(new RoleCreateInput
+            host.Handle(new RoleCreateInput
             {
                 Id = roleId,
                 Name = "测试1",
@@ -792,7 +790,7 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }));
+            }.ToCommand());
             Guid entityId = Guid.NewGuid();
             // 授予账户角色
             host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
@@ -806,7 +804,7 @@ namespace Anycmd.Tests
                 ObjectType = AcElementType.Role.ToString()
             }));
             Guid organizationId = Guid.NewGuid();
-            host.Handle(new AddOrganizationCommand(new OrganizationCreateInput
+            host.Handle(new OrganizationCreateInput
             {
                 Id = organizationId,
                 Code = "110",
@@ -814,7 +812,7 @@ namespace Anycmd.Tests
                 Description = "test",
                 SortCode = 10,
                 Icon = null,
-            }));
+            }.ToCommand());
             entityId = Guid.NewGuid();
             // 授予账户组织结构
             host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
@@ -886,7 +884,7 @@ namespace Anycmd.Tests
             Assert.Equal(1, host.GetUserSession().AccountPrivilege.AuthorizedRoles.Count);
             roleId = Guid.NewGuid();
             // 添加一个新角色并将该角色授予上面创建的组织结构
-            host.Handle(new AddRoleCommand(new RoleCreateInput
+            host.Handle(new RoleCreateInput
             {
                 Id = roleId,
                 Name = "测试2",
@@ -895,7 +893,7 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }));
+            }.ToCommand());
             entityId = Guid.NewGuid();
             host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
             {
@@ -938,7 +936,7 @@ namespace Anycmd.Tests
             Assert.Equal(2, host.GetUserSession().AccountPrivilege.AuthorizedRoles.Count);
             roleId = Guid.NewGuid();
             // 添加一个新角色并将该角色授予上面创建的工作组
-            host.Handle(new AddRoleCommand(new RoleCreateInput
+            host.Handle(new RoleCreateInput
             {
                 Id = roleId,
                 Name = "测试3",
@@ -947,7 +945,7 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }));
+            }.ToCommand());
             entityId = Guid.NewGuid();
             host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
             {
@@ -980,7 +978,7 @@ namespace Anycmd.Tests
             UserSessionState.SignOut(host, host.GetUserSession());
             var orgId = Guid.NewGuid();
 
-            host.Handle(new AddOrganizationCommand(new OrganizationCreateInput
+            host.Handle(new OrganizationCreateInput
             {
                 Id = orgId,
                 Code = "100",
@@ -988,15 +986,15 @@ namespace Anycmd.Tests
                 Description = "test",
                 SortCode = 10,
                 Icon = null,
-            }));
+            }.ToCommand());
             Guid dicId = Guid.NewGuid();
-            host.Handle(new AddDicCommand(new DicCreateInput
+            host.Handle(new DicCreateInput
             {
                 Id = dicId,
                 Code = "auditStatus",
                 Name = "auditStatus1"
-            }));
-            host.Handle(new AddDicItemCommand(new DicItemCreateInput
+            }.ToCommand());
+            host.Handle(new DicItemCreateInput
             {
                 Id = dicId,
                 IsEnabled = 1,
@@ -1005,9 +1003,9 @@ namespace Anycmd.Tests
                 Description = string.Empty,
                 Code = "auditPass",
                 Name = "auditPass"
-            }));
+            }.ToCommand());
             Guid accountId = Guid.NewGuid();
-            host.Handle(new AddAccountCommand(new AccountCreateInput
+            host.Handle(new AccountCreateInput
             {
                 Id = accountId,
                 Code = "test",
@@ -1017,10 +1015,10 @@ namespace Anycmd.Tests
                 OrganizationCode = "100",
                 IsEnabled = 1,
                 AuditState = "auditPass"
-            }));
+            }.ToCommand());
             Assert.NotNull(host.RetrieveRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
             Guid roleId = Guid.NewGuid();
-            host.Handle(new AddRoleCommand(new RoleCreateInput
+            host.Handle(new RoleCreateInput
             {
                 Id = roleId,
                 Name = "测试1",
@@ -1029,9 +1027,9 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }));
+            }.ToCommand());
             var functionId = Guid.NewGuid();
-            host.Handle(new AddFunctionCommand(new FunctionCreateInput
+            host.Handle(new FunctionCreateInput
             {
                 Id = functionId,
                 Code = "fun1",
@@ -1041,7 +1039,7 @@ namespace Anycmd.Tests
                 IsManaged = true,
                 ResourceTypeId = host.ResourceTypeSet.First().Id,
                 SortCode = 10
-            }));
+            }.ToCommand());
             Guid entityId = Guid.NewGuid();
             // 授予角色功能
             host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
@@ -1068,7 +1066,7 @@ namespace Anycmd.Tests
             }));
             entityId = Guid.NewGuid();
             functionId = Guid.NewGuid();
-            host.Handle(new AddFunctionCommand(new FunctionCreateInput
+            host.Handle(new FunctionCreateInput
             {
                 Id = functionId,
                 Code = "fun2",
@@ -1078,7 +1076,7 @@ namespace Anycmd.Tests
                 IsManaged = true,
                 ResourceTypeId = host.ResourceTypeSet.First().Id,
                 SortCode = 10
-            }));
+            }.ToCommand());
             host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
             {
                 Id = entityId,
@@ -1108,7 +1106,7 @@ namespace Anycmd.Tests
             UserSessionState.SignOut(host, host.GetUserSession());
             var orgId = Guid.NewGuid();
 
-            host.Handle(new AddOrganizationCommand(new OrganizationCreateInput
+            host.Handle(new OrganizationCreateInput
             {
                 Id = orgId,
                 Code = "100",
@@ -1116,15 +1114,15 @@ namespace Anycmd.Tests
                 Description = "test",
                 SortCode = 10,
                 Icon = null,
-            }));
+            }.ToCommand());
             Guid dicId = Guid.NewGuid();
-            host.Handle(new AddDicCommand(new DicCreateInput
+            host.Handle(new DicCreateInput
             {
                 Id = dicId,
                 Code = "auditStatus",
                 Name = "auditStatus1"
-            }));
-            host.Handle(new AddDicItemCommand(new DicItemCreateInput
+            }.ToCommand());
+            host.Handle(new DicItemCreateInput
             {
                 Id = dicId,
                 IsEnabled = 1,
@@ -1133,9 +1131,9 @@ namespace Anycmd.Tests
                 Description = string.Empty,
                 Code = "auditPass",
                 Name = "auditPass"
-            }));
+            }.ToCommand());
             Guid accountId = Guid.NewGuid();
-            host.Handle(new AddAccountCommand(new AccountCreateInput
+            host.Handle(new AccountCreateInput
             {
                 Id = accountId,
                 Code = "test",
@@ -1145,10 +1143,10 @@ namespace Anycmd.Tests
                 OrganizationCode = "100",
                 IsEnabled = 1,
                 AuditState = "auditPass"
-            }));
+            }.ToCommand());
             Assert.NotNull(host.RetrieveRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
             Guid roleId = Guid.NewGuid();
-            host.Handle(new AddRoleCommand(new RoleCreateInput
+            host.Handle(new RoleCreateInput
             {
                 Id = roleId,
                 Name = "测试1",
@@ -1157,9 +1155,9 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }));
+            }.ToCommand());
             var menuId = Guid.NewGuid();
-            host.Handle(new AddMenuCommand(new MenuCreateInput
+            host.Handle(new MenuCreateInput
             {
                 Id = menuId,
                 Name = "测试1",
@@ -1169,7 +1167,7 @@ namespace Anycmd.Tests
                 Icon = null,
                 ParentId = null,
                 Url = string.Empty
-            }));
+            }.ToCommand());
             Guid entityId = Guid.NewGuid();
             // 授予角色菜单
             host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
@@ -1196,7 +1194,7 @@ namespace Anycmd.Tests
             }));
             entityId = Guid.NewGuid();
             menuId = Guid.NewGuid();
-            host.Handle(new AddMenuCommand(new MenuCreateInput
+            host.Handle(new MenuCreateInput
             {
                 Id = menuId,
                 Name = "测试2",
@@ -1206,7 +1204,7 @@ namespace Anycmd.Tests
                 Icon = null,
                 ParentId = null,
                 Url = string.Empty
-            }));
+            }.ToCommand());
             host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
             {
                 Id = entityId,

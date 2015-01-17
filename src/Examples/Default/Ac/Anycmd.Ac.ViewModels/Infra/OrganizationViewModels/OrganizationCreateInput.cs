@@ -3,6 +3,7 @@ namespace Anycmd.Ac.ViewModels.Infra.OrganizationViewModels
 {
     using Engine;
     using Engine.Ac.InOuts;
+    using Engine.Ac.Messages.Infra;
     using System;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
@@ -12,6 +13,16 @@ namespace Anycmd.Ac.ViewModels.Infra.OrganizationViewModels
     /// </summary>
     public class OrganizationCreateInput : EntityCreateInput, IOrganizationCreateIo
     {
+        public OrganizationCreateInput()
+        {
+            OntologyCode = "Organization";
+            Verb = "Create";
+        }
+
+        public string OntologyCode { get; private set; }
+
+        public string Verb { get; private set; }
+
         /// <summary>
         /// 
         /// </summary>
@@ -93,5 +104,10 @@ namespace Anycmd.Ac.ViewModels.Infra.OrganizationViewModels
         /// </summary>
         [Required]
         public int SortCode { get; set; }
+
+        public AddOrganizationCommand ToCommand()
+        {
+            return new AddOrganizationCommand(this);
+        }
     }
 }

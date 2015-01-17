@@ -122,7 +122,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 if (Request.HttpMethod == "POST")
                 {
                     var entity = GetRequiredService<IRepository<Property>>().GetByKey(propertyId.Value);
-                    AcDomain.Handle(new UpdatePropertyCommand(new PropertyUpdateInput
+                    AcDomain.Handle(new PropertyUpdateInput
                     {
                         Code = entity.Code,
                         Description = entity.Description,
@@ -138,7 +138,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                         MaxLength = entity.MaxLength,
                         Name = entity.Name,
                         SortCode = entity.SortCode
-                    }));
+                    }.ToCommand());
                     return this.JsonResult(new ResponseData { success = true });
                 }
                 else
@@ -178,7 +178,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            AcDomain.Handle(new AddPropertyCommand(input));
+            AcDomain.Handle(input.ToCommand());
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -210,7 +210,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            AcDomain.Handle(new UpdatePropertyCommand(input));
+            AcDomain.Handle(input.ToCommand());
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }

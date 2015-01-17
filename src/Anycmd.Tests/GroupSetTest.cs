@@ -157,7 +157,7 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             Assert.Equal(0, host.GroupSet.Count());
-            host.Handle(new AddOrganizationCommand(new OrganizationCreateInput
+            host.Handle(new OrganizationCreateInput
             {
                 Id = Guid.NewGuid(),
                 Code = "100",
@@ -165,7 +165,7 @@ namespace Anycmd.Tests
                 Description = "test",
                 SortCode = 10,
                 Icon = null,
-            }));
+            }.ToCommand());
             var entityId = Guid.NewGuid();
 
             GroupState groupById;

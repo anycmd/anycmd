@@ -29,7 +29,7 @@ namespace Anycmd.Tests
 
             EntityTypeState entityTypeById;
             EntityTypeState entityTypeByCode;
-            host.Handle(new AddEntityTypeCommand(new EntityTypeCreateInput
+            host.Handle(new EntityTypeCreateInput
             {
                 Id = entityTypeId,
                 Code = "EntityType1",
@@ -44,14 +44,14 @@ namespace Anycmd.Tests
                 SchemaName = string.Empty,
                 SortCode = 10,
                 TableName = string.Empty
-            }));
+            }.ToCommand());
             Assert.Equal(1, host.EntityTypeSet.Count());
             Assert.True(host.EntityTypeSet.TryGetEntityType(entityTypeId, out entityTypeById));
             Assert.True(host.EntityTypeSet.TryGetEntityType(new Coder(codespace, "EntityType1"), out entityTypeByCode));
             Assert.Equal(entityTypeByCode, entityTypeById);
             Assert.True(ReferenceEquals(entityTypeById, entityTypeByCode));
 
-            host.Handle(new UpdateEntityTypeCommand(new EntityTypeUpdateInput
+            host.Handle(new EntityTypeUpdateInput
             {
                 Id = entityTypeId,
                 Name = "test2",
@@ -66,7 +66,7 @@ namespace Anycmd.Tests
                 SchemaName = string.Empty,
                 SortCode = 100,
                 TableName = string.Empty
-            }));
+            }.ToCommand());
             Assert.Equal(1, host.EntityTypeSet.Count());
             Assert.True(host.EntityTypeSet.TryGetEntityType(entityTypeId, out entityTypeById));
             Assert.True(host.EntityTypeSet.TryGetEntityType(new Coder(codespace, "EntityType2"), out entityTypeByCode));
@@ -81,7 +81,7 @@ namespace Anycmd.Tests
             Assert.Equal(0, host.EntityTypeSet.Count());
 
             // 开始测试Property
-            host.Handle(new AddEntityTypeCommand(new EntityTypeCreateInput
+            host.Handle(new EntityTypeCreateInput
             {
                 Id = entityTypeId,
                 Code = "EntityType1",
@@ -96,12 +96,12 @@ namespace Anycmd.Tests
                 SchemaName = string.Empty,
                 SortCode = 10,
                 TableName = string.Empty
-            }));
+            }.ToCommand());
             Assert.Equal(1, host.EntityTypeSet.Count());
             Assert.True(host.EntityTypeSet.TryGetEntityType(entityTypeId, out entityTypeById));
             PropertyState propertyById;
             PropertyState propertyByCode;
-            host.Handle(new AddPropertyCommand(new PropertyCreateInput
+            host.Handle(new PropertyCreateInput
             {
                 Id = propertyId,
                 DicId = null,
@@ -119,19 +119,19 @@ namespace Anycmd.Tests
                 Description = string.Empty,
                 Code = "Property1",
                 Name = "测试1"
-            }));
+            }.ToCommand());
             Assert.Equal(1, host.EntityTypeSet.GetProperties(entityTypeById).Count());
             Assert.True(host.EntityTypeSet.TryGetProperty(propertyId, out propertyById));
             Assert.True(host.EntityTypeSet.TryGetProperty(entityTypeById, "Property1", out propertyByCode));
             Assert.Equal(propertyByCode, propertyById);
             Assert.True(ReferenceEquals(propertyById, propertyByCode));
 
-            host.Handle(new UpdatePropertyCommand(new PropertyUpdateInput
+            host.Handle(new PropertyUpdateInput
             {
                 Id = propertyId,
                 Name = "test2",
                 Code = "Property2"
-            }));
+            }.ToCommand());
             Assert.Equal(1, host.EntityTypeSet.GetProperties(entityTypeById).Count);
             Assert.True(host.EntityTypeSet.TryGetProperty(propertyId, out propertyById));
             Assert.True(host.EntityTypeSet.TryGetProperty(entityTypeById, "Property2", out propertyByCode));
@@ -156,7 +156,7 @@ namespace Anycmd.Tests
 
             var entityTypeId = Guid.NewGuid();
 
-            host.Handle(new AddEntityTypeCommand(new EntityTypeCreateInput
+            host.Handle(new EntityTypeCreateInput
             {
                 Id = entityTypeId,
                 Code = "EntityType1",
@@ -171,10 +171,10 @@ namespace Anycmd.Tests
                 SchemaName = string.Empty,
                 SortCode = 10,
                 TableName = string.Empty
-            }));
+            }.ToCommand());
             Assert.Equal(1, host.EntityTypeSet.Count());
 
-            host.Handle(new AddPropertyCommand(new PropertyCreateInput
+            host.Handle(new PropertyCreateInput
             {
                 Id = Guid.NewGuid(),
                 DicId = null,
@@ -192,7 +192,7 @@ namespace Anycmd.Tests
                 Description = string.Empty,
                 Code = "Property1",
                 Name = "测试1"
-            }));
+            }.ToCommand());
 
             bool catched = false;
             try
@@ -264,7 +264,7 @@ namespace Anycmd.Tests
             bool catched = false;
             try
             {
-                host.Handle(new AddEntityTypeCommand(new EntityTypeCreateInput
+                host.Handle(new EntityTypeCreateInput
                 {
                     Id = entityId1,
                     Code = "EntityType1",
@@ -279,7 +279,7 @@ namespace Anycmd.Tests
                     SchemaName = string.Empty,
                     SortCode = 10,
                     TableName = string.Empty
-                }));
+                }.ToCommand());
             }
             catch (Exception e)
             {
@@ -293,7 +293,7 @@ namespace Anycmd.Tests
                 Assert.Equal(0, host.EntityTypeSet.Count());
             }
 
-            host.Handle(new AddEntityTypeCommand(new EntityTypeCreateInput
+            host.Handle(new EntityTypeCreateInput
             {
                 Id = entityId2,
                 Code = "EntityType2",
@@ -308,13 +308,13 @@ namespace Anycmd.Tests
                 SchemaName = string.Empty,
                 SortCode = 10,
                 TableName = string.Empty
-            }));
+            }.ToCommand());
             Assert.Equal(1, host.EntityTypeSet.Count());
 
             catched = false;
             try
             {
-                host.Handle(new UpdateEntityTypeCommand(new EntityTypeUpdateInput
+                host.Handle(new EntityTypeUpdateInput
                 {
                     Id = entityId2,
                     Name = "test2",
@@ -329,7 +329,7 @@ namespace Anycmd.Tests
                     SchemaName = string.Empty,
                     SortCode = 100,
                     TableName = string.Empty
-                }));
+                }.ToCommand());
             }
             catch (Exception e)
             {

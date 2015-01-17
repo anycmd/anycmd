@@ -135,11 +135,11 @@
     <Compile Include="SsdViewModels\SsdSetUpdateIo.cs" />
     <Compile Include="ViewModelHelper.cs" />
     <Compile Include="RdbViewModels\DatabaseInfo.cs" />
-    <Compile Include="RdbViewModels\DatabaseInput.cs" />
-    <Compile Include="RdbViewModels\DbTableColumnInput.cs" />
-    <Compile Include="RdbViewModels\DbTableInput.cs" />
-    <Compile Include="RdbViewModels\DbViewColumnInput.cs" />
-    <Compile Include="RdbViewModels\DbViewInput.cs" />
+    <Compile Include="RdbViewModels\DatabaseUpdateInput.cs" />
+    <Compile Include="RdbViewModels\DbTableColumnUpdateInput.cs" />
+    <Compile Include="RdbViewModels\DbTableUpdateInput.cs" />
+    <Compile Include="RdbViewModels\DbViewColumnUpdateInput.cs" />
+    <Compile Include="RdbViewModels\DbViewUpdateInput.cs" />
     <Compile Include="RdbViewModels\GetPlistTableColumns.cs" />
     <Compile Include="RdbViewModels\GetPlistTables.cs" />
     <Compile Include="RdbViewModels\GetPlistViewColumns.cs" />

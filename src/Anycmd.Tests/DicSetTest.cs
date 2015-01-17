@@ -26,24 +26,24 @@ namespace Anycmd.Tests
 
             DicState dicById;
             DicState dicByCode;
-            host.Handle(new AddDicCommand(new DicCreateInput
+            host.Handle(new DicCreateInput
             {
                 Id = dicId,
                 Code = "dic1",
                 Name = "测试1"
-            }));
+            }.ToCommand());
             Assert.Equal(1, host.DicSet.Count());
             Assert.True(host.DicSet.TryGetDic(dicId, out dicById));
             Assert.True(host.DicSet.TryGetDic("dic1", out dicByCode));
             Assert.Equal(dicByCode, dicById);
             Assert.True(ReferenceEquals(dicById, dicByCode));
 
-            host.Handle(new UpdateDicCommand(new DicUpdateInput
+            host.Handle(new DicUpdateInput
             {
                 Id = dicId,
                 Name = "test2",
                 Code = "dic2"
-            }));
+            }.ToCommand());
             Assert.Equal(1, host.DicSet.Count());
             Assert.True(host.DicSet.TryGetDic(dicId, out dicById));
             Assert.True(host.DicSet.TryGetDic("dic2", out dicByCode));
@@ -58,17 +58,17 @@ namespace Anycmd.Tests
             Assert.Equal(0, host.DicSet.Count());
 
             // 开始测试DicItem
-            host.Handle(new AddDicCommand(new DicCreateInput
+            host.Handle(new DicCreateInput
             {
                 Id = dicId,
                 Code = "dic1",
                 Name = "测试1"
-            }));
+            }.ToCommand());
             Assert.Equal(1, host.DicSet.Count());
             Assert.True(host.DicSet.TryGetDic(dicId, out dicById));
             DicItemState dicItemById;
             DicItemState dicItemByCode;
-            host.Handle(new AddDicItemCommand(new DicItemCreateInput
+            host.Handle(new DicItemCreateInput
             {
                 Id = dicItemId,
                 IsEnabled = 1,
@@ -77,19 +77,19 @@ namespace Anycmd.Tests
                 Description = string.Empty,
                 Code = "dicItem1",
                 Name = "测试1"
-            }));
+            }.ToCommand());
             Assert.Equal(1, host.DicSet.GetDicItems(dicById).Count());
             Assert.True(host.DicSet.TryGetDicItem(dicItemId, out dicItemById));
             Assert.True(host.DicSet.TryGetDicItem(dicById, "dicItem1", out dicItemByCode));
             Assert.Equal(dicItemByCode, dicItemById);
             Assert.True(ReferenceEquals(dicItemById, dicItemByCode));
 
-            host.Handle(new UpdateDicItemCommand(new DicItemUpdateInput
+            host.Handle(new DicItemUpdateInput
             {
                 Id = dicItemId,
                 Name = "test2",
                 Code = "dicItem2"
-            }));
+            }.ToCommand());
             Assert.Equal(1, host.DicSet.GetDicItems(dicById).Count);
             Assert.True(host.DicSet.TryGetDicItem(dicItemId, out dicItemById));
             Assert.True(host.DicSet.TryGetDicItem(dicById, "dicItem2", out dicItemByCode));
@@ -114,15 +114,15 @@ namespace Anycmd.Tests
 
             var dicId = Guid.NewGuid();
 
-            host.Handle(new AddDicCommand(new DicCreateInput
+            host.Handle(new DicCreateInput
             {
                 Id = dicId,
                 Code = "dic1",
                 Name = "测试1"
-            }));
+            }.ToCommand());
             Assert.Equal(1, host.DicSet.Count());
 
-            host.Handle(new AddDicItemCommand(new DicItemCreateInput
+            host.Handle(new DicItemCreateInput
             {
                 Id = Guid.NewGuid(),
                 DicId = dicId,
@@ -131,7 +131,7 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Description = string.Empty,
-            }));
+            }.ToCommand());
 
             bool catched = false;
             try
@@ -175,12 +175,12 @@ namespace Anycmd.Tests
             bool catched = false;
             try
             {
-                host.Handle(new AddDicCommand(new DicCreateInput
+                host.Handle(new DicCreateInput
                 {
                     Id = entityId1,
                     Code = code,
                     Name = name
-                }));
+                }.ToCommand());
             }
             catch (Exception e)
             {
@@ -194,23 +194,23 @@ namespace Anycmd.Tests
                 Assert.Equal(0, host.DicSet.Count());
             }
 
-            host.Handle(new AddDicCommand(new DicCreateInput
+            host.Handle(new DicCreateInput
             {
                 Id = entityId2,
                 Code = code,
                 Name = name
-            }));
+            }.ToCommand());
             Assert.Equal(1, host.DicSet.Count());
 
             catched = false;
             try
             {
-                host.Handle(new UpdateDicCommand(new DicUpdateInput
+                host.Handle(new DicUpdateInput
                 {
                     Id = entityId2,
                     Name = "test2",
                     Code = "dic2"
-                }));
+                }.ToCommand());
             }
             catch (Exception e)
             {

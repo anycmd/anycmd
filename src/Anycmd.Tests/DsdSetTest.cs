@@ -10,8 +10,6 @@ namespace Anycmd.Tests
     using Engine.Ac;
     using Engine.Ac.Abstractions;
     using Engine.Ac.Messages;
-    using Engine.Ac.Messages.Identity;
-    using Engine.Ac.Messages.Infra;
     using Engine.Ac.Messages.Rbac;
     using Engine.Host.Ac.Identity;
     using Repositories;
@@ -82,7 +80,7 @@ namespace Anycmd.Tests
             Assert.Equal(0, host.DsdSetSet.GetDsdRoles(dsdSetById).Count);
             RoleState roleById;
             var roleId = Guid.NewGuid();
-            host.Handle(new AddRoleCommand(new RoleCreateInput
+            host.Handle(new RoleCreateInput
             {
                 Id = roleId,
                 Name = "测试1",
@@ -91,7 +89,7 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }));
+            }.ToCommand());
             Assert.Equal(1, host.RoleSet.Count());
             Assert.True(host.RoleSet.TryGetRole(roleId, out roleById));
             var entityId = Guid.NewGuid();
@@ -128,7 +126,7 @@ namespace Anycmd.Tests
 
             Assert.Equal(0, host.DsdSetSet.GetDsdRoles(ssdSetById).Count);
             var roleId1 = Guid.NewGuid();
-            host.Handle(new AddRoleCommand(new RoleCreateInput
+            host.Handle(new RoleCreateInput
             {
                 Id = roleId1,
                 Name = "测试1",
@@ -137,7 +135,7 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }));
+            }.ToCommand());
             var entityId = Guid.NewGuid();
             host.Handle(new AddDsdRoleCommand(new DsdRoleCreateIo
             {
@@ -146,7 +144,7 @@ namespace Anycmd.Tests
                 DsdSetId = ssdSetId
             }));
             var roleId2 = Guid.NewGuid();
-            host.Handle(new AddRoleCommand(new RoleCreateInput
+            host.Handle(new RoleCreateInput
             {
                 Id = roleId2,
                 Name = "测试2",
@@ -155,7 +153,7 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }));
+            }.ToCommand());
             entityId = Guid.NewGuid();
             host.Handle(new AddDsdRoleCommand(new DsdRoleCreateIo
             {
@@ -164,7 +162,7 @@ namespace Anycmd.Tests
                 DsdSetId = ssdSetId
             }));
             var roleId3 = Guid.NewGuid();
-            host.Handle(new AddRoleCommand(new RoleCreateInput
+            host.Handle(new RoleCreateInput
             {
                 Id = roleId3,
                 Name = "测试3",
@@ -173,7 +171,7 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }));
+            }.ToCommand());
             entityId = Guid.NewGuid();
             host.Handle(new AddDsdRoleCommand(new DsdRoleCreateIo
             {
@@ -185,7 +183,7 @@ namespace Anycmd.Tests
             Assert.Equal(3, host.DsdSetSet.GetDsdRoles(ssdSetById).Count);
             var orgId = Guid.NewGuid();
 
-            host.Handle(new AddOrganizationCommand(new OrganizationCreateInput
+            host.Handle(new OrganizationCreateInput
             {
                 Id = orgId,
                 Code = "100",
@@ -193,15 +191,15 @@ namespace Anycmd.Tests
                 Description = "test",
                 SortCode = 10,
                 Icon = null,
-            }));
+            }.ToCommand());
             Guid dicId = Guid.NewGuid();
-            host.Handle(new AddDicCommand(new DicCreateInput
+            host.Handle(new DicCreateInput
             {
                 Id = dicId,
                 Code = "auditStatus",
                 Name = "auditStatus1"
-            }));
-            host.Handle(new AddDicItemCommand(new DicItemCreateInput
+            }.ToCommand());
+            host.Handle(new DicItemCreateInput
             {
                 Id = dicId,
                 IsEnabled = 1,
@@ -210,9 +208,9 @@ namespace Anycmd.Tests
                 Description = string.Empty,
                 Code = "auditPass",
                 Name = "auditPass"
-            }));
+            }.ToCommand());
             var accountId = Guid.NewGuid();
-            host.Handle(new AddAccountCommand(new AccountCreateInput
+            host.Handle(new AccountCreateInput
             {
                 Id = accountId,
                 Code = "test",
@@ -222,7 +220,7 @@ namespace Anycmd.Tests
                 OrganizationCode = "100",
                 IsEnabled = 1,
                 AuditState = "auditPass"
-            }));
+            }.ToCommand());
             Assert.NotNull(host.RetrieveRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
             UserSessionState.SignIn(host, new Dictionary<string, object>
             {

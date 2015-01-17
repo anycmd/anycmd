@@ -2,6 +2,7 @@
 namespace Anycmd.Ac.ViewModels.Infra.EntityTypeViewModels
 {
     using Engine.Ac.InOuts;
+    using Engine.Ac.Messages.Infra;
     using System;
     using System.ComponentModel.DataAnnotations;
 
@@ -10,6 +11,16 @@ namespace Anycmd.Ac.ViewModels.Infra.EntityTypeViewModels
     /// </summary>
     public class PropertyUpdateInput : IPropertyUpdateIo
     {
+        public PropertyUpdateInput()
+        {
+            OntologyCode = "Property";
+            Verb = "Update";
+        }
+
+        public string OntologyCode { get; private set; }
+
+        public string Verb { get; private set; }
+
         public Guid Id { get; set; }
         /// <summary>
         /// 
@@ -70,5 +81,10 @@ namespace Anycmd.Ac.ViewModels.Infra.EntityTypeViewModels
         /// 
         /// </summary>
         public bool IsTotalLine { get; set; }
+
+        public UpdatePropertyCommand ToCommand()
+        {
+            return new UpdatePropertyCommand(this);
+        }
     }
 }

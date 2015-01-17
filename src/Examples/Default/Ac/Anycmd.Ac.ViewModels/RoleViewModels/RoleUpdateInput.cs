@@ -2,6 +2,7 @@
 namespace Anycmd.Ac.ViewModels.RoleViewModels
 {
     using Engine.Ac.InOuts;
+    using Engine.Ac.Messages.Rbac;
     using System;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
@@ -11,6 +12,16 @@ namespace Anycmd.Ac.ViewModels.RoleViewModels
     /// </summary>
     public class RoleUpdateInput : IRoleUpdateIo
     {
+        public RoleUpdateInput()
+        {
+            OntologyCode = "Role";
+            Verb = "Update";
+        }
+
+        public string OntologyCode { get; private set; }
+
+        public string Verb { get; private set; }
+
         public Guid Id { get; set; }
         /// <summary>
         /// 
@@ -42,5 +53,10 @@ namespace Anycmd.Ac.ViewModels.RoleViewModels
         /// 
         /// </summary>
         public string Icon { get; set; }
+
+        public UpdateRoleCommand ToCommand()
+        {
+            return new UpdateRoleCommand(this);
+        }
     }
 }

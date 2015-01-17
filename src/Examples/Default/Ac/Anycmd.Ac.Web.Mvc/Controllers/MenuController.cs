@@ -249,7 +249,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 input.ParentId = null;
             }
-            AcDomain.Handle(new AddMenuCommand(input));
+            AcDomain.Handle(input.ToCommand());
 
             return this.JsonResult(new ResponseData { success = true, id = input.Id });
         }
@@ -264,7 +264,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return this.ModelState.ToJsonResult();
             }
-            AcDomain.Handle(new UpdateMenuCommand(input));
+            AcDomain.Handle(input.ToCommand());
 
             return this.JsonResult(new ResponseData { success = true, id = input.Id });
         }

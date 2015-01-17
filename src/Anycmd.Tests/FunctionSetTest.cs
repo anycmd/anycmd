@@ -24,7 +24,7 @@ namespace Anycmd.Tests
             var entityId = Guid.NewGuid();
 
             FunctionState functionById;
-            host.Handle(new AddFunctionCommand(new FunctionCreateInput
+            host.Handle(new FunctionCreateInput
             {
                 Id = entityId,
                 Code = "fun1",
@@ -34,13 +34,13 @@ namespace Anycmd.Tests
                 IsManaged = true,
                 ResourceTypeId = host.ResourceTypeSet.First().Id,
                 SortCode = 10
-            }));
+            }.ToCommand());
             ResourceTypeState resource;
             Assert.True(host.ResourceTypeSet.TryGetResource(host.ResourceTypeSet.First().Id, out resource));
             Assert.Equal(1, host.FunctionSet.Count());
             Assert.True(host.FunctionSet.TryGetFunction(entityId, out functionById));
 
-            host.Handle(new UpdateFunctionCommand(new FunctionUpdateInput
+            host.Handle(new FunctionUpdateInput
             {
                 Id = entityId,
                 Description = "test2",
@@ -49,7 +49,7 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 IsManaged = false,
                 SortCode = 10
-            }));
+            }.ToCommand());
             Assert.Equal(1, host.FunctionSet.Count());
             Assert.True(host.FunctionSet.TryGetFunction(entityId, out functionById));
             Assert.Equal("test2", functionById.Description);
@@ -70,7 +70,7 @@ namespace Anycmd.Tests
             var entityId = Guid.NewGuid();
 
             FunctionState functionById;
-            host.Handle(new AddFunctionCommand(new FunctionCreateInput
+            host.Handle(new FunctionCreateInput
             {
                 Id = entityId,
                 Code = "fun1",
@@ -80,7 +80,7 @@ namespace Anycmd.Tests
                 IsManaged = true,
                 ResourceTypeId = host.ResourceTypeSet.First().Id,
                 SortCode = 10
-            }));
+            }.ToCommand());
             ResourceTypeState resource;
             Assert.True(host.ResourceTypeSet.TryGetResource(host.ResourceTypeSet.First().Id, out resource));
             Assert.Equal(1, host.FunctionSet.Count());
@@ -88,7 +88,7 @@ namespace Anycmd.Tests
             bool catched = false;
             try
             {
-                host.Handle(new AddFunctionCommand(new FunctionCreateInput
+                host.Handle(new FunctionCreateInput
                 {
                     Id = entityId,
                     Code = "fun1",
@@ -98,7 +98,7 @@ namespace Anycmd.Tests
                     IsManaged = true,
                     ResourceTypeId = host.ResourceTypeSet.First().Id,
                     SortCode = 10
-                }));
+                }.ToCommand());
             }
             catch (Exception)
             {
@@ -139,18 +139,18 @@ namespace Anycmd.Tests
             });
             host.AddService(typeof(IRepository<Function>), moFunctionRepository.Object);
 
-            host.Handle(new AddAppSystemCommand(new AppSystemCreateInput
+            host.Handle(new AppSystemCreateInput
             {
                 Id = appsystemId,
                 Code = "app1",
                 Name = "测试1",
                 PrincipalId = host.SysUserSet.GetDevAccounts().First().Id
-            }));
+            }.ToCommand());
 
             bool catched = false;
             try
             {
-                host.Handle(new AddFunctionCommand(new FunctionCreateInput
+                host.Handle(new FunctionCreateInput
                 {
                     Id = entityId1,
                     Code = "fun1",
@@ -160,7 +160,7 @@ namespace Anycmd.Tests
                     IsManaged = true,
                     ResourceTypeId = host.ResourceTypeSet.First().Id,
                     SortCode = 10
-                }));
+                }.ToCommand());
             }
             catch (Exception e)
             {
@@ -174,7 +174,7 @@ namespace Anycmd.Tests
                 Assert.Equal(0, host.FunctionSet.Count());
             }
 
-            host.Handle(new AddFunctionCommand(new FunctionCreateInput
+            host.Handle(new FunctionCreateInput
             {
                 Id = entityId2,
                 Code = "fun2",
@@ -184,13 +184,13 @@ namespace Anycmd.Tests
                 IsManaged = true,
                 ResourceTypeId = host.ResourceTypeSet.First().Id,
                 SortCode = 10
-            }));
+            }.ToCommand());
             Assert.Equal(1, host.FunctionSet.Count());
 
             catched = false;
             try
             {
-                host.Handle(new UpdateFunctionCommand(new FunctionUpdateInput
+                host.Handle(new FunctionUpdateInput
                 {
                     Id = entityId2,
                     Description = "test2",
@@ -199,7 +199,7 @@ namespace Anycmd.Tests
                     IsEnabled = 1,
                     IsManaged = false,
                     SortCode = 10
-                }));
+                }.ToCommand());
             }
             catch (Exception e)
             {

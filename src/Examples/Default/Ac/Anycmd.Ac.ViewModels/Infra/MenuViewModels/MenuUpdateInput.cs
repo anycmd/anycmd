@@ -2,6 +2,7 @@
 namespace Anycmd.Ac.ViewModels.Infra.MenuViewModels
 {
     using Engine.Ac.InOuts;
+    using Engine.Ac.Messages.Infra;
     using System;
     using System.ComponentModel.DataAnnotations;
 
@@ -10,6 +11,16 @@ namespace Anycmd.Ac.ViewModels.Infra.MenuViewModels
     /// </summary>
     public class MenuUpdateInput : IMenuUpdateIo
     {
+        public MenuUpdateInput()
+        {
+            OntologyCode = "Menu";
+            Verb = "Update";
+        }
+
+        public string OntologyCode { get; private set; }
+
+        public string Verb { get; private set; }
+
         public Guid Id { get; set; }
         /// <summary>
         /// 
@@ -38,5 +49,10 @@ namespace Anycmd.Ac.ViewModels.Infra.MenuViewModels
         /// </summary>
         [Required]
         public int SortCode { get; set; }
+
+        public UpdateMenuCommand ToCommand()
+        {
+            return new UpdateMenuCommand(this);
+        }
     }
 }

@@ -7,7 +7,7 @@ namespace Anycmd.Ac.ViewModels.RdbViewModels
     /// <summary>
     /// 关系数据库列输入模型
     /// </summary>
-    public sealed class DbTableColumnInput
+    public sealed class DbTableColumnUpdateInput
     {
         /// <summary>
         /// 

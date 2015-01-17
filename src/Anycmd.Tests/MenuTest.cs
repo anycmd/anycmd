@@ -23,7 +23,7 @@ namespace Anycmd.Tests
             var entityId = Guid.NewGuid();
 
             MenuState menuById;
-            host.Handle(new AddMenuCommand(new MenuCreateInput
+            host.Handle(new MenuCreateInput
             {
                 Id = entityId,
                 Name = "测试1",
@@ -33,11 +33,11 @@ namespace Anycmd.Tests
                 Icon = null,
                 ParentId = null,
                 Url = string.Empty
-            }));
+            }.ToCommand());
             Assert.Equal(1, host.MenuSet.Count());
             Assert.True(host.MenuSet.TryGetMenu(entityId, out menuById));
 
-            host.Handle(new UpdateMenuCommand(new MenuUpdateInput
+            host.Handle(new MenuUpdateInput
             {
                 Id = entityId,
                 Name = "test2",
@@ -46,7 +46,7 @@ namespace Anycmd.Tests
                 AppSystemId = host.AppSystemSet.First().Id,
                 Icon = null,
                 Url = string.Empty
-            }));
+            }.ToCommand());
             Assert.Equal(1, host.MenuSet.Count());
             Assert.True(host.MenuSet.TryGetMenu(entityId, out menuById));
             Assert.Equal("test2", menuById.Name);
@@ -67,7 +67,7 @@ namespace Anycmd.Tests
             var entityId2 = Guid.NewGuid();
 
             MenuState menuById;
-            host.Handle(new AddMenuCommand(new MenuCreateInput
+            host.Handle(new MenuCreateInput
             {
                 Id = entityId,
                 Name = "测试1",
@@ -77,8 +77,8 @@ namespace Anycmd.Tests
                 Icon = null,
                 ParentId = null,
                 Url = string.Empty
-            }));
-            host.Handle(new AddMenuCommand(new MenuCreateInput
+            }.ToCommand());
+            host.Handle(new MenuCreateInput
             {
                 Id = entityId2,
                 Name = "测试2",
@@ -88,7 +88,7 @@ namespace Anycmd.Tests
                 Icon = null,
                 ParentId = entityId,
                 Url = string.Empty
-            }));
+            }.ToCommand());
             Assert.Equal(2, host.MenuSet.Count());
             Assert.NotNull(host.RetrieveRequiredService<IRepository<Menu>>().GetByKey(entityId));
             Assert.NotNull(host.RetrieveRequiredService<IRepository<Menu>>().GetByKey(entityId2));
@@ -132,12 +132,12 @@ namespace Anycmd.Tests
             bool catched = false;
             try
             {
-                host.Handle(new AddMenuCommand(new MenuCreateInput
+                host.Handle(new MenuCreateInput
                 {
                     Id = entityId1,
                     AppSystemId = host.AppSystemSet.First().Id,
                     Name = name
-                }));
+                }.ToCommand());
             }
             catch (Exception e)
             {
@@ -151,23 +151,23 @@ namespace Anycmd.Tests
                 Assert.Equal(0, host.MenuSet.Count());
             }
 
-            host.Handle(new AddMenuCommand(new MenuCreateInput
+            host.Handle(new MenuCreateInput
             {
                 Id = entityId2,
                 AppSystemId = host.AppSystemSet.First().Id,
                 Name = name
-            }));
+            }.ToCommand());
             Assert.Equal(1, host.MenuSet.Count());
 
             catched = false;
             try
             {
-                host.Handle(new UpdateMenuCommand(new MenuUpdateInput
+                host.Handle(new MenuUpdateInput
                 {
                     Id = entityId2,
                     AppSystemId = host.AppSystemSet.First().Id,
                     Name = "test2"
-                }));
+                }.ToCommand());
             }
             catch (Exception e)
             {

@@ -24,7 +24,7 @@ namespace Anycmd.Tests
             var entityId = Guid.NewGuid();
 
             OrganizationState organizationById;
-            host.Handle(new AddOrganizationCommand(new OrganizationCreateInput
+            host.Handle(new OrganizationCreateInput
             {
                 Id = entityId,
                 Code = "100",
@@ -32,11 +32,11 @@ namespace Anycmd.Tests
                 Description = "test",
                 SortCode = 10,
                 Icon = null,
-            }));
+            }.ToCommand());
             Assert.Equal(2, host.OrganizationSet.Count());
             Assert.True(host.OrganizationSet.TryGetOrganization(entityId, out organizationById));
 
-            host.Handle(new UpdateOrganizationCommand(new OrganizationUpdateInput
+            host.Handle(new OrganizationUpdateInput
             {
                 Id = entityId,
                 Code = "110",
@@ -44,7 +44,7 @@ namespace Anycmd.Tests
                 Description = "test",
                 SortCode = 10,
                 Icon = null,
-            }));
+            }.ToCommand());
             Assert.Equal(2, host.OrganizationSet.Count());
             Assert.True(host.OrganizationSet.TryGetOrganization(entityId, out organizationById));
             Assert.Equal("test2", organizationById.Name);
@@ -65,7 +65,7 @@ namespace Anycmd.Tests
             var entityId2 = Guid.NewGuid();
 
             OrganizationState organizationById;
-            host.Handle(new AddOrganizationCommand(new OrganizationCreateInput
+            host.Handle(new OrganizationCreateInput
             {
                 Id = entityId,
                 Code = "100",
@@ -73,13 +73,13 @@ namespace Anycmd.Tests
                 Description = "test",
                 SortCode = 10,
                 Icon = null,
-            }));
+            }.ToCommand());
             Assert.Equal(2, host.OrganizationSet.Count());
             Assert.True(host.OrganizationSet.TryGetOrganization(entityId, out organizationById));
             bool catched = false;
             try
             {
-                host.Handle(new AddOrganizationCommand(new OrganizationCreateInput
+                host.Handle(new OrganizationCreateInput
                 {
                     Id = entityId2,
                     ParentCode = null,
@@ -88,8 +88,8 @@ namespace Anycmd.Tests
                     Description = "test",
                     SortCode = 10,
                     Icon = null,
-                }));
-                host.Handle(new AddOrganizationCommand(new OrganizationCreateInput
+                }.ToCommand());
+                host.Handle(new OrganizationCreateInput
                 {
                     Id = entityId2,
                     ParentCode = "100",
@@ -98,7 +98,7 @@ namespace Anycmd.Tests
                     Description = "test",
                     SortCode = 10,
                     Icon = null,
-                }));
+                }.ToCommand());
             }
             catch (Exception)
             {
@@ -121,7 +121,7 @@ namespace Anycmd.Tests
             var entityId2 = Guid.NewGuid();
 
             OrganizationState organizationById;
-            host.Handle(new AddOrganizationCommand(new OrganizationCreateInput
+            host.Handle(new OrganizationCreateInput
             {
                 Id = entityId,
                 Code = "100",
@@ -129,8 +129,8 @@ namespace Anycmd.Tests
                 Description = "test",
                 SortCode = 10,
                 Icon = null,
-            }));
-            host.Handle(new AddOrganizationCommand(new OrganizationCreateInput
+            }.ToCommand());
+            host.Handle(new OrganizationCreateInput
             {
                 Id = entityId2,
                 ParentCode = "100",
@@ -139,7 +139,7 @@ namespace Anycmd.Tests
                 Description = "test",
                 SortCode = 10,
                 Icon = null,
-            }));
+            }.ToCommand());
             Assert.Equal(3, host.OrganizationSet.Count());
             Assert.True(host.OrganizationSet.TryGetOrganization(entityId, out organizationById));
             bool catched = false;
@@ -181,7 +181,7 @@ namespace Anycmd.Tests
             bool catched = false;
             try
             {
-                host.Handle(new AddOrganizationCommand(new OrganizationCreateInput
+                host.Handle(new OrganizationCreateInput
                 {
                     Id = entityId1,
                     Code = "100",
@@ -189,7 +189,7 @@ namespace Anycmd.Tests
                     SortCode = 10,
                     Icon = null,
                     Name = name
-                }));
+                }.ToCommand());
             }
             catch (Exception e)
             {
@@ -203,7 +203,7 @@ namespace Anycmd.Tests
                 Assert.Equal(1, host.OrganizationSet.Count());
             }
 
-            host.Handle(new AddOrganizationCommand(new OrganizationCreateInput
+            host.Handle(new OrganizationCreateInput
             {
                 Id = entityId2,
                 Code = "100",
@@ -211,13 +211,13 @@ namespace Anycmd.Tests
                 SortCode = 10,
                 Icon = null,
                 Name = name
-            }));
+            }.ToCommand());
             Assert.Equal(2, host.OrganizationSet.Count());
 
             catched = false;
             try
             {
-                host.Handle(new UpdateOrganizationCommand(new OrganizationUpdateInput
+                host.Handle(new OrganizationUpdateInput
                 {
                     Id = entityId2,
                     Code = "100",
@@ -225,7 +225,7 @@ namespace Anycmd.Tests
                     SortCode = 10,
                     Icon = null,
                     Name = "test2"
-                }));
+                }.ToCommand());
             }
             catch (Exception e)
             {

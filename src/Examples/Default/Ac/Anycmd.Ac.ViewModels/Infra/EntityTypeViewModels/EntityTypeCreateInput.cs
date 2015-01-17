@@ -3,6 +3,7 @@ namespace Anycmd.Ac.ViewModels.Infra.EntityTypeViewModels
 {
     using Engine;
     using Engine.Ac.InOuts;
+    using Engine.Ac.Messages.Infra;
     using System;
     using System.ComponentModel.DataAnnotations;
 
@@ -11,6 +12,16 @@ namespace Anycmd.Ac.ViewModels.Infra.EntityTypeViewModels
     /// </summary>
     public class EntityTypeCreateInput : EntityCreateInput, IEntityTypeCreateIo
     {
+        public EntityTypeCreateInput()
+        {
+            OntologyCode = "EntityType";
+            Verb = "Create";
+        }
+
+        public string OntologyCode { get; private set; }
+
+        public string Verb { get; private set; }
+
         /// <summary>
         /// 
         /// </summary>
@@ -63,5 +74,10 @@ namespace Anycmd.Ac.ViewModels.Infra.EntityTypeViewModels
         /// </summary>
         [Required]
         public Guid DeveloperId { get; set; }
+
+        public AddEntityTypeCommand ToCommand()
+        {
+            return new AddEntityTypeCommand(this);
+        }
     }
 }

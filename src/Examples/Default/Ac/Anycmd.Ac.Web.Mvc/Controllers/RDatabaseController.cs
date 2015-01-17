@@ -352,7 +352,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
         [HttpPost]
         [DeveloperFilter(Order = 21)]
         [Guid("3A2958B0-D34C-4B51-9F41-2FA1749B55D4")]
-        public ActionResult Update(DatabaseInput input)
+        public ActionResult Update(DatabaseUpdateInput input)
         {
             var responseResult = new ResponseData { success = true, id = input.Id };
             if (ModelState.IsValid)
@@ -375,7 +375,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
         [HttpPost]
         [DeveloperFilter(Order = 21)]
         [Guid("4D6BC2D8-493C-4DC6-BC19-F1BA71A64D6F")]
-        public ActionResult UpdateTable(DbTableInput input)
+        public ActionResult UpdateTable(DbTableUpdateInput input)
         {
             var responseResult = new ResponseData { success = true, id = input.Id };
             if (ModelState.IsValid)
@@ -403,7 +403,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
         [HttpPost]
         [DeveloperFilter(Order = 21)]
         [Guid("A26B595A-4EF3-43A4-B12C-26E1CC3983AD")]
-        public ActionResult UpdateView(DbViewInput input)
+        public ActionResult UpdateView(DbViewUpdateInput input)
         {
             var responseResult = new ResponseData { success = true, id = input.Id };
             if (ModelState.IsValid)
@@ -431,7 +431,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
         [HttpPost]
         [DeveloperFilter(Order = 21)]
         [Guid("2933D6C1-9D10-476F-8D92-E2A0994F6D81")]
-        public ActionResult UpdateTableColumn(DbTableColumnInput input)
+        public ActionResult UpdateTableColumn(DbTableColumnUpdateInput input)
         {
             var responseResult = new ResponseData { success = true, id = input.Id };
             if (ModelState.IsValid)
@@ -459,7 +459,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
         [HttpPost]
         [DeveloperFilter(Order = 21)]
         [Guid("09C89C21-D36D-49C5-80C8-AB14A93C7D0B")]
-        public ActionResult UpdateViewColumn(DbViewColumnInput input)
+        public ActionResult UpdateViewColumn(DbViewColumnUpdateInput input)
         {
             var responseResult = new ResponseData { success = true, id = input.Id };
             if (ModelState.IsValid)

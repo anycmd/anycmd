@@ -13,7 +13,6 @@ namespace Anycmd.Tests
     using Engine.Ac;
     using Engine.Ac.Abstractions;
     using Engine.Ac.Messages;
-    using Engine.Ac.Messages.Identity;
     using Engine.Ac.Messages.Infra;
     using Engine.Ac.Messages.Rbac;
     using Engine.Host.Ac;
@@ -34,7 +33,7 @@ namespace Anycmd.Tests
             var host = TestHelper.GetAcDomain();
             var rbacService = host.RetrieveRequiredService<IRbacService>();
             var accountRepository = host.RetrieveRequiredService<IRepository<Account>>();
-            host.Handle(new AddOrganizationCommand(new OrganizationCreateInput
+            host.Handle(new OrganizationCreateInput
             {
                 Id = Guid.NewGuid(),
                 Code = "100",
@@ -42,7 +41,7 @@ namespace Anycmd.Tests
                 Description = "test",
                 SortCode = 10,
                 Icon = null,
-            }));
+            }.ToCommand());
             var accountId = Guid.NewGuid();
             rbacService.AddUser(new AccountCreateInput
             {
@@ -65,7 +64,7 @@ namespace Anycmd.Tests
             var host = TestHelper.GetAcDomain();
             var rbacService = host.RetrieveRequiredService<IRbacService>();
             var accountRepository = host.RetrieveRequiredService<IRepository<Account>>();
-            host.Handle(new AddOrganizationCommand(new OrganizationCreateInput
+            host.Handle(new OrganizationCreateInput
             {
                 Id = Guid.NewGuid(),
                 Code = "100",
@@ -73,7 +72,7 @@ namespace Anycmd.Tests
                 Description = "test",
                 SortCode = 10,
                 Icon = null,
-            }));
+            }.ToCommand());
             var accountId = Guid.NewGuid();
             rbacService.AddUser(new AccountCreateInput
             {
@@ -159,7 +158,7 @@ namespace Anycmd.Tests
                 SortCode = 10,
                 Icon = null
             });
-            host.Handle(new AddOrganizationCommand(new OrganizationCreateInput
+            host.Handle(new OrganizationCreateInput
             {
                 Id = Guid.NewGuid(),
                 Code = "100",
@@ -167,7 +166,7 @@ namespace Anycmd.Tests
                 Description = "test",
                 SortCode = 10,
                 Icon = null,
-            }));
+            }.ToCommand());
             var accountId = Guid.NewGuid();
             rbacService.AddUser(new AccountCreateInput
             {
@@ -202,7 +201,7 @@ namespace Anycmd.Tests
                 SortCode = 10,
                 Icon = null
             });
-            host.Handle(new AddOrganizationCommand(new OrganizationCreateInput
+            host.Handle(new OrganizationCreateInput
             {
                 Id = Guid.NewGuid(),
                 Code = "100",
@@ -210,7 +209,7 @@ namespace Anycmd.Tests
                 Description = "test",
                 SortCode = 10,
                 Icon = null,
-            }));
+            }.ToCommand());
             var accountId = Guid.NewGuid();
             rbacService.AddUser(new AccountCreateInput
             {
@@ -249,7 +248,7 @@ namespace Anycmd.Tests
                 Icon = null
             });
             var functionId = Guid.NewGuid();
-            host.Handle(new AddFunctionCommand(new FunctionCreateInput
+            host.Handle(new FunctionCreateInput
             {
                 Id = functionId,
                 Code = "fun1",
@@ -259,7 +258,7 @@ namespace Anycmd.Tests
                 IsManaged = true,
                 ResourceTypeId = host.ResourceTypeSet.First().Id,
                 SortCode = 10
-            }));
+            }.ToCommand());
             rbacService.GrantPermission(functionId, roleId);
             var entity = privilegeBigramRepository.AsQueryable().FirstOrDefault(a => a.SubjectInstanceId == roleId && a.ObjectInstanceId == functionId);
             Assert.NotNull(entity);
@@ -286,7 +285,7 @@ namespace Anycmd.Tests
                 Icon = null
             });
             var functionId = Guid.NewGuid();
-            host.Handle(new AddFunctionCommand(new FunctionCreateInput
+            host.Handle(new FunctionCreateInput
             {
                 Id = functionId,
                 Code = "fun1",
@@ -296,7 +295,7 @@ namespace Anycmd.Tests
                 IsManaged = true,
                 ResourceTypeId = host.ResourceTypeSet.First().Id,
                 SortCode = 10
-            }));
+            }.ToCommand());
             rbacService.GrantPermission(functionId, roleId);
             var entity = privilegeBigramRepository.AsQueryable().FirstOrDefault(a => a.SubjectInstanceId == roleId && a.ObjectInstanceId == functionId);
             Assert.NotNull(entity);
@@ -316,7 +315,7 @@ namespace Anycmd.Tests
             var rbacService = host.RetrieveRequiredService<IRbacService>();
             var accountRepository = host.RetrieveRequiredService<IRepository<Account>>();
             var sessionRepository = host.RetrieveRequiredService<IRepository<UserSession>>();
-            host.Handle(new AddOrganizationCommand(new OrganizationCreateInput
+            host.Handle(new OrganizationCreateInput
             {
                 Id = Guid.NewGuid(),
                 Code = "100",
@@ -324,7 +323,7 @@ namespace Anycmd.Tests
                 Description = "test",
                 SortCode = 10,
                 Icon = null,
-            }));
+            }.ToCommand());
             var accountId = Guid.NewGuid();
             rbacService.AddUser(new AccountCreateInput
             {
@@ -352,7 +351,7 @@ namespace Anycmd.Tests
             var rbacService = host.RetrieveRequiredService<IRbacService>();
             var accountRepository = host.RetrieveRequiredService<IRepository<Account>>();
             var sessionRepository = host.RetrieveRequiredService<IRepository<UserSession>>();
-            host.Handle(new AddOrganizationCommand(new OrganizationCreateInput
+            host.Handle(new OrganizationCreateInput
             {
                 Id = Guid.NewGuid(),
                 Code = "100",
@@ -360,7 +359,7 @@ namespace Anycmd.Tests
                 Description = "test",
                 SortCode = 10,
                 Icon = null,
-            }));
+            }.ToCommand());
             var accountId = Guid.NewGuid();
             rbacService.AddUser(new AccountCreateInput
             {
@@ -393,7 +392,7 @@ namespace Anycmd.Tests
             var sessionRepository = host.RetrieveRequiredService<IRepository<UserSession>>();
             var orgId = Guid.NewGuid();
 
-            host.Handle(new AddOrganizationCommand(new OrganizationCreateInput
+            host.Handle(new OrganizationCreateInput
             {
                 Id = orgId,
                 Code = "100",
@@ -401,15 +400,15 @@ namespace Anycmd.Tests
                 Description = "test",
                 SortCode = 10,
                 Icon = null,
-            }));
+            }.ToCommand());
             Guid dicId = Guid.NewGuid();
-            host.Handle(new AddDicCommand(new DicCreateInput
+            host.Handle(new DicCreateInput
             {
                 Id = dicId,
                 Code = "auditStatus",
                 Name = "auditStatus1"
-            }));
-            host.Handle(new AddDicItemCommand(new DicItemCreateInput
+            }.ToCommand());
+            host.Handle(new DicItemCreateInput
             {
                 Id = dicId,
                 IsEnabled = 1,
@@ -418,9 +417,9 @@ namespace Anycmd.Tests
                 Description = string.Empty,
                 Code = "auditPass",
                 Name = "auditPass"
-            }));
+            }.ToCommand());
             Guid accountId = Guid.NewGuid();
-            host.Handle(new AddAccountCommand(new AccountCreateInput
+            host.Handle(new AccountCreateInput
             {
                 Id = accountId,
                 Code = "test",
@@ -430,9 +429,9 @@ namespace Anycmd.Tests
                 OrganizationCode = "100",
                 IsEnabled = 1,
                 AuditState = "auditPass"
-            }));
+            }.ToCommand());
             Guid roleId = Guid.NewGuid();
-            host.Handle(new AddRoleCommand(new RoleCreateInput
+            host.Handle(new RoleCreateInput
             {
                 Id = roleId,
                 Name = "测试1",
@@ -441,7 +440,7 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }));
+            }.ToCommand());
             Guid entityId = Guid.NewGuid();
             // 授予账户角色
             host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
@@ -455,7 +454,7 @@ namespace Anycmd.Tests
                 ObjectType = AcElementType.Role.ToString()
             }));
             Guid organizationId = Guid.NewGuid();
-            host.Handle(new AddOrganizationCommand(new OrganizationCreateInput
+            host.Handle(new OrganizationCreateInput
             {
                 Id = organizationId,
                 Code = "110",
@@ -463,7 +462,7 @@ namespace Anycmd.Tests
                 Description = "test",
                 SortCode = 10,
                 Icon = null,
-            }));
+            }.ToCommand());
             entityId = Guid.NewGuid();
             // 授予账户组织结构
             host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
@@ -526,7 +525,7 @@ namespace Anycmd.Tests
             }));
             roleId = Guid.NewGuid();
             // 添加一个新角色并将该角色授予上面创建的组织结构
-            host.Handle(new AddRoleCommand(new RoleCreateInput
+            host.Handle(new RoleCreateInput
             {
                 Id = roleId,
                 Name = "测试2",
@@ -535,7 +534,7 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }));
+            }.ToCommand());
             entityId = Guid.NewGuid();
             host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
             {
@@ -560,7 +559,7 @@ namespace Anycmd.Tests
             }));
             roleId = Guid.NewGuid();
             // 添加一个新角色并将该角色授予上面创建的工作组
-            host.Handle(new AddRoleCommand(new RoleCreateInput
+            host.Handle(new RoleCreateInput
             {
                 Id = roleId,
                 Name = "测试3",
@@ -569,7 +568,7 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }));
+            }.ToCommand());
             entityId = Guid.NewGuid();
             host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
             {
@@ -602,7 +601,7 @@ namespace Anycmd.Tests
             var sessionRepository = host.RetrieveRequiredService<IRepository<UserSession>>();
             var orgId = Guid.NewGuid();
 
-            host.Handle(new AddOrganizationCommand(new OrganizationCreateInput
+            host.Handle(new OrganizationCreateInput
             {
                 Id = orgId,
                 Code = "100",
@@ -610,15 +609,15 @@ namespace Anycmd.Tests
                 Description = "test",
                 SortCode = 10,
                 Icon = null,
-            }));
+            }.ToCommand());
             Guid dicId = Guid.NewGuid();
-            host.Handle(new AddDicCommand(new DicCreateInput
+            host.Handle(new DicCreateInput
             {
                 Id = dicId,
                 Code = "auditStatus",
                 Name = "auditStatus1"
-            }));
-            host.Handle(new AddDicItemCommand(new DicItemCreateInput
+            }.ToCommand());
+            host.Handle(new DicItemCreateInput
             {
                 Id = dicId,
                 IsEnabled = 1,
@@ -627,9 +626,9 @@ namespace Anycmd.Tests
                 Description = string.Empty,
                 Code = "auditPass",
                 Name = "auditPass"
-            }));
+            }.ToCommand());
             Guid accountId = Guid.NewGuid();
-            host.Handle(new AddAccountCommand(new AccountCreateInput
+            host.Handle(new AccountCreateInput
             {
                 Id = accountId,
                 Code = "test",
@@ -639,10 +638,10 @@ namespace Anycmd.Tests
                 OrganizationCode = "100",
                 IsEnabled = 1,
                 AuditState = "auditPass"
-            }));
+            }.ToCommand());
             Assert.NotNull(host.RetrieveRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
             Guid roleId = Guid.NewGuid();
-            host.Handle(new AddRoleCommand(new RoleCreateInput
+            host.Handle(new RoleCreateInput
             {
                 Id = roleId,
                 Name = "测试1",
@@ -651,9 +650,9 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }));
+            }.ToCommand());
             var functionId = Guid.NewGuid();
-            host.Handle(new AddFunctionCommand(new FunctionCreateInput
+            host.Handle(new FunctionCreateInput
             {
                 Id = functionId,
                 Code = "fun1",
@@ -663,7 +662,7 @@ namespace Anycmd.Tests
                 IsManaged = true,
                 ResourceTypeId = host.ResourceTypeSet.First().Id,
                 SortCode = 10
-            }));
+            }.ToCommand());
             Guid entityId = Guid.NewGuid();
             // 授予角色功能
             host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
@@ -690,7 +689,7 @@ namespace Anycmd.Tests
             }));
             entityId = Guid.NewGuid();
             functionId = Guid.NewGuid();
-            host.Handle(new AddFunctionCommand(new FunctionCreateInput
+            host.Handle(new FunctionCreateInput
             {
                 Id = functionId,
                 Code = "fun2",
@@ -700,7 +699,7 @@ namespace Anycmd.Tests
                 IsManaged = true,
                 ResourceTypeId = host.ResourceTypeSet.First().Id,
                 SortCode = 10
-            }));
+            }.ToCommand());
             host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
             {
                 Id = entityId,
@@ -753,11 +752,9 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             var rbacService = host.RetrieveRequiredService<IRbacService>();
-            var accountRepository = host.RetrieveRequiredService<IRepository<Account>>();
-            var sessionRepository = host.RetrieveRequiredService<IRepository<UserSession>>();
             var orgId = Guid.NewGuid();
 
-            host.Handle(new AddOrganizationCommand(new OrganizationCreateInput
+            host.Handle(new OrganizationCreateInput
             {
                 Id = orgId,
                 Code = "100",
@@ -765,15 +762,15 @@ namespace Anycmd.Tests
                 Description = "test",
                 SortCode = 10,
                 Icon = null,
-            }));
+            }.ToCommand());
             Guid dicId = Guid.NewGuid();
-            host.Handle(new AddDicCommand(new DicCreateInput
+            host.Handle(new DicCreateInput
             {
                 Id = dicId,
                 Code = "auditStatus",
                 Name = "auditStatus1"
-            }));
-            host.Handle(new AddDicItemCommand(new DicItemCreateInput
+            }.ToCommand());
+            host.Handle(new DicItemCreateInput
             {
                 Id = dicId,
                 IsEnabled = 1,
@@ -782,9 +779,9 @@ namespace Anycmd.Tests
                 Description = string.Empty,
                 Code = "auditPass",
                 Name = "auditPass"
-            }));
+            }.ToCommand());
             Guid accountId = Guid.NewGuid();
-            host.Handle(new AddAccountCommand(new AccountCreateInput
+            host.Handle(new AccountCreateInput
             {
                 Id = accountId,
                 Code = "test",
@@ -794,9 +791,9 @@ namespace Anycmd.Tests
                 OrganizationCode = "100",
                 IsEnabled = 1,
                 AuditState = "auditPass"
-            }));
+            }.ToCommand());
             Guid roleId = Guid.NewGuid();
-            host.Handle(new AddRoleCommand(new RoleCreateInput
+            host.Handle(new RoleCreateInput
             {
                 Id = roleId,
                 Name = "测试1",
@@ -805,7 +802,7 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }));
+            }.ToCommand());
             Guid entityId = Guid.NewGuid();
             // 授予账户角色
             host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
@@ -819,7 +816,7 @@ namespace Anycmd.Tests
                 ObjectType = AcElementType.Role.ToString()
             }));
             Guid organizationId = Guid.NewGuid();
-            host.Handle(new AddOrganizationCommand(new OrganizationCreateInput
+            host.Handle(new OrganizationCreateInput
             {
                 Id = organizationId,
                 Code = "110",
@@ -827,7 +824,7 @@ namespace Anycmd.Tests
                 Description = "test",
                 SortCode = 10,
                 Icon = null,
-            }));
+            }.ToCommand());
             entityId = Guid.NewGuid();
             // 授予账户组织结构
             host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
@@ -890,7 +887,7 @@ namespace Anycmd.Tests
             }));
             roleId = Guid.NewGuid();
             // 添加一个新角色并将该角色授予上面创建的组织结构
-            host.Handle(new AddRoleCommand(new RoleCreateInput
+            host.Handle(new RoleCreateInput
             {
                 Id = roleId,
                 Name = "测试2",
@@ -899,7 +896,7 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }));
+            }.ToCommand());
             entityId = Guid.NewGuid();
             host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
             {
@@ -924,7 +921,7 @@ namespace Anycmd.Tests
             }));
             roleId = Guid.NewGuid();
             // 添加一个新角色并将该角色授予上面创建的工作组
-            host.Handle(new AddRoleCommand(new RoleCreateInput
+            host.Handle(new RoleCreateInput
             {
                 Id = roleId,
                 Name = "测试3",
@@ -933,7 +930,7 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }));
+            }.ToCommand());
             entityId = Guid.NewGuid();
             host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
             {
@@ -986,7 +983,7 @@ namespace Anycmd.Tests
                 Icon = null
             });
             var functionId = Guid.NewGuid();
-            host.Handle(new AddFunctionCommand(new FunctionCreateInput
+            host.Handle(new FunctionCreateInput
             {
                 Id = functionId,
                 Code = "fun1",
@@ -996,7 +993,7 @@ namespace Anycmd.Tests
                 IsManaged = true,
                 ResourceTypeId = host.ResourceTypeSet.First().Id,
                 SortCode = 10
-            }));
+            }.ToCommand());
             rbacService.GrantPermission(functionId, roleId);
             var entity = privilegeBigramRepository.AsQueryable().FirstOrDefault(a => a.SubjectInstanceId == roleId && a.ObjectInstanceId == functionId);
             Assert.NotNull(entity);
@@ -1014,7 +1011,7 @@ namespace Anycmd.Tests
             Assert.Equal(0, host.RoleSet.Count());
 
             var roleId1 = Guid.NewGuid();
-            host.Handle(new AddRoleCommand(new RoleCreateInput
+            host.Handle(new RoleCreateInput
             {
                 Id = roleId1,
                 Name = "role1",
@@ -1023,10 +1020,10 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }));
+            }.ToCommand());
 
             var roleId2 = Guid.NewGuid();
-            host.Handle(new AddRoleCommand(new RoleCreateInput
+            host.Handle(new RoleCreateInput
             {
                 Id = roleId2,
                 Name = "role2",
@@ -1035,7 +1032,7 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }));
+            }.ToCommand());
             rbacService.AddInheritance(roleId1, roleId2);
             Assert.Equal(2, host.RoleSet.Count());
             RoleState role1;
@@ -1058,7 +1055,7 @@ namespace Anycmd.Tests
             Assert.Equal(0, host.RoleSet.Count());
 
             var roleId1 = Guid.NewGuid();
-            host.Handle(new AddRoleCommand(new RoleCreateInput
+            host.Handle(new RoleCreateInput
             {
                 Id = roleId1,
                 Name = "role1",
@@ -1067,7 +1064,7 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }));
+            }.ToCommand());
 
             var roleId2 = Guid.NewGuid();
             rbacService.AddAscendant(roleId1, new RoleCreateInput
@@ -1102,7 +1099,7 @@ namespace Anycmd.Tests
 
             var roleId1 = Guid.NewGuid();
             var roleId2 = Guid.NewGuid();
-            host.Handle(new AddRoleCommand(new RoleCreateInput
+            host.Handle(new RoleCreateInput
             {
                 Id = roleId2,
                 Name = "role2",
@@ -1111,7 +1108,7 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }));
+            }.ToCommand());
             rbacService.AddDescendant(roleId2, new RoleCreateInput
             {
                 Id = roleId1,
@@ -1210,7 +1207,7 @@ namespace Anycmd.Tests
             Assert.Equal(0, host.SsdSetSet.GetSsdRoles(ssdSetById).Count);
             RoleState roleById;
             var roleId = Guid.NewGuid();
-            host.Handle(new AddRoleCommand(new RoleCreateInput
+            host.Handle(new RoleCreateInput
             {
                 Id = roleId,
                 Name = "测试1",
@@ -1219,7 +1216,7 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }));
+            }.ToCommand());
             Assert.Equal(1, host.RoleSet.Count());
             Assert.True(host.RoleSet.TryGetRole(roleId, out roleById));
             rbacService.AddSsdRoleMember(ssdSetId, roleId);
@@ -1252,7 +1249,7 @@ namespace Anycmd.Tests
             Assert.Equal(0, host.SsdSetSet.GetSsdRoles(ssdSetById).Count);
             RoleState roleById;
             var roleId = Guid.NewGuid();
-            host.Handle(new AddRoleCommand(new RoleCreateInput
+            host.Handle(new RoleCreateInput
             {
                 Id = roleId,
                 Name = "测试1",
@@ -1261,7 +1258,7 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }));
+            }.ToCommand());
             Assert.Equal(1, host.RoleSet.Count());
             Assert.True(host.RoleSet.TryGetRole(roleId, out roleById));
             rbacService.AddSsdRoleMember(ssdSetId, roleId);
@@ -1375,7 +1372,7 @@ namespace Anycmd.Tests
             Assert.Equal(0, host.DsdSetSet.GetDsdRoles(dsdSetById).Count);
             RoleState roleById;
             var roleId = Guid.NewGuid();
-            host.Handle(new AddRoleCommand(new RoleCreateInput
+            host.Handle(new RoleCreateInput
             {
                 Id = roleId,
                 Name = "测试1",
@@ -1384,7 +1381,7 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }));
+            }.ToCommand());
             Assert.Equal(1, host.RoleSet.Count());
             Assert.True(host.RoleSet.TryGetRole(roleId, out roleById));
             rbacService.AddDsdRoleMember(dsdSetId, roleId);
@@ -1417,7 +1414,7 @@ namespace Anycmd.Tests
             Assert.Equal(0, host.DsdSetSet.GetDsdRoles(dsdSetById).Count);
             RoleState roleById;
             var roleId = Guid.NewGuid();
-            host.Handle(new AddRoleCommand(new RoleCreateInput
+            host.Handle(new RoleCreateInput
             {
                 Id = roleId,
                 Name = "测试1",
@@ -1426,7 +1423,7 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }));
+            }.ToCommand());
             Assert.Equal(1, host.RoleSet.Count());
             Assert.True(host.RoleSet.TryGetRole(roleId, out roleById));
             rbacService.AddDsdRoleMember(dsdSetId, roleId);

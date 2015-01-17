@@ -2,6 +2,7 @@
 namespace Anycmd.Ac.ViewModels.Infra.ResourceViewModels
 {
     using Engine.Ac.InOuts;
+    using Engine.Ac.Messages.Infra;
     using System;
     using System.ComponentModel.DataAnnotations;
 
@@ -10,6 +11,16 @@ namespace Anycmd.Ac.ViewModels.Infra.ResourceViewModels
     /// </summary>
     public class ResourceTypeUpdateInput : IResourceTypeUpdateIo
     {
+        public ResourceTypeUpdateInput()
+        {
+            OntologyCode = "ResourceType";
+            Verb = "Update";
+        }
+
+        public string OntologyCode { get; private set; }
+
+        public string Verb { get; private set; }
+
         public Guid Id { get; set; }
         /// <summary>
         /// 
@@ -34,5 +45,10 @@ namespace Anycmd.Ac.ViewModels.Infra.ResourceViewModels
         /// </summary>
         [Required]
         public int SortCode { get; set; }
+
+        public UpdateResourceCommand ToCommand()
+        {
+            return new UpdateResourceCommand(this);
+        }
     }
 }

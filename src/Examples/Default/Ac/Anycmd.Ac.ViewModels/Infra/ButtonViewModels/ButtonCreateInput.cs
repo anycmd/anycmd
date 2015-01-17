@@ -3,6 +3,7 @@ namespace Anycmd.Ac.ViewModels.Infra.ButtonViewModels
 {
     using Engine;
     using Engine.Ac.InOuts;
+    using Engine.Ac.Messages.Infra;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
 
@@ -11,6 +12,16 @@ namespace Anycmd.Ac.ViewModels.Infra.ButtonViewModels
     /// </summary>
     public class ButtonCreateInput : EntityCreateInput, IButtonCreateIo
     {
+        public ButtonCreateInput()
+        {
+            OntologyCode = "Button";
+            Verb = "Create";
+        }
+
+        public string OntologyCode { get; private set; }
+
+        public string Verb { get; private set; }
+
         /// <summary>
         /// 
         /// </summary>
@@ -44,5 +55,10 @@ namespace Anycmd.Ac.ViewModels.Infra.ButtonViewModels
         /// </summary>
         [DefaultValue(1)]
         public int IsEnabled { get; set; }
+
+        public AddButtonCommand ToCommand()
+        {
+            return new AddButtonCommand(this);
+        }
     }
 }

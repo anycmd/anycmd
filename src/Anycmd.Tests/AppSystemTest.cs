@@ -26,25 +26,25 @@ namespace Anycmd.Tests
 
             AppSystemState appSystemById;
             AppSystemState appSystemByCode;
-            host.Handle(new AddAppSystemCommand(new AppSystemCreateInput
+            host.Handle(new AppSystemCreateInput
             {
                 Id = entityId,
                 Code = "app1",
                 Name = "测试1",
                 PrincipalId = host.SysUserSet.GetDevAccounts().First().Id
-            }));
+            }.ToCommand());
             Assert.Equal(2, host.AppSystemSet.Count());
             Assert.True(host.AppSystemSet.TryGetAppSystem(entityId, out appSystemById));
             Assert.True(host.AppSystemSet.TryGetAppSystem("app1", out appSystemByCode));
             Assert.Equal(appSystemByCode, appSystemById);
             Assert.True(ReferenceEquals(appSystemById, appSystemByCode));
-            host.Handle(new UpdateAppSystemCommand(new AppSystemUpdateInput
+            host.Handle(new AppSystemUpdateInput
             {
                 Id = entityId,
                 Name = "test2",
                 Code = "app2",
                 PrincipalId = host.SysUserSet.GetDevAccounts().First().Id
-            }));
+            }.ToCommand());
             AppSystemState appSystemById1;
             AppSystemState appSystemByCode1;
             Assert.Equal(2, host.AppSystemSet.Count());
@@ -75,16 +75,16 @@ namespace Anycmd.Tests
 
             var entityId = Guid.NewGuid();
 
-            host.Handle(new AddAppSystemCommand(new AppSystemCreateInput
+            host.Handle(new AppSystemCreateInput
             {
                 Id = entityId,
                 Code = "app1",
                 Name = "测试1",
                 PrincipalId = host.SysUserSet.GetDevAccounts().First().Id
-            }));
+            }.ToCommand());
             Assert.Equal(2, host.AppSystemSet.Count());
 
-            host.Handle(new AddMenuCommand(new MenuCreateInput
+            host.Handle(new MenuCreateInput
             {
                 Id = Guid.NewGuid(),
                 AppSystemId = entityId,
@@ -94,7 +94,7 @@ namespace Anycmd.Tests
                 Description = string.Empty,
                 Icon = string.Empty,
                 ParentId = null
-            }));
+            }.ToCommand());
 
             bool catched = false;
             try
@@ -137,13 +137,13 @@ namespace Anycmd.Tests
             bool catched = false;
             try
             {
-                host.Handle(new AddAppSystemCommand(new AppSystemCreateInput
+                host.Handle(new AppSystemCreateInput
                 {
                     Id = entityId1,
                     Code = code,
                     Name = name,
                     PrincipalId = host.SysUserSet.GetDevAccounts().First().Id
-                }));
+                }.ToCommand());
             }
             catch (Exception e)
             {
@@ -157,25 +157,25 @@ namespace Anycmd.Tests
                 Assert.Equal(1, host.AppSystemSet.Count());
             }
 
-            host.Handle(new AddAppSystemCommand(new AppSystemCreateInput
+            host.Handle(new AppSystemCreateInput
             {
                 Id = entityId2,
                 Code = code,
                 Name = name,
                 PrincipalId = host.SysUserSet.GetDevAccounts().First().Id
-            }));
+            }.ToCommand());
             Assert.Equal(2, host.AppSystemSet.Count());
 
             catched = false;
             try
             {
-                host.Handle(new UpdateAppSystemCommand(new AppSystemUpdateInput
+                host.Handle(new AppSystemUpdateInput
                 {
                     Id = entityId2,
                     Name = "test2",
                     Code = "app2",
                     PrincipalId = host.SysUserSet.GetDevAccounts().First().Id
-                }));
+                }.ToCommand());
             }
             catch (Exception e)
             {
