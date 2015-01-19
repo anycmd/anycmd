@@ -15,13 +15,9 @@ namespace Anycmd.Ac.ViewModels.Identity.AccountViewModels
     {
         public AccountCreateInput()
         {
-            OntologyCode = "Account";
-            Verb = "Create";
+            HecpOntology = "Account";
+            HecpVerb = "Create";
         }
-
-        public string OntologyCode { get; private set; }
-
-        public string Verb { get; private set; }
 
         /// <summary>
         /// 

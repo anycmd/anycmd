@@ -636,13 +636,13 @@ namespace Anycmd.Engine.Host.Impl
         {
             public PrivilegeUpdateIo()
             {
-                OntologyCode = "Privilege";
-                Verb = "Update";
+                HecpOntology = "Privilege";
+                HecpVerb = "Update";
             }
 
-            public string OntologyCode { get; private set; }
+            public string HecpOntology { get; private set; }
 
-            public string Verb { get; private set; }
+            public string HecpVerb { get; private set; }
 
             public Guid Id { get; set; }
             /// <summary>
@@ -688,13 +688,13 @@ namespace Anycmd.Engine.Host.Impl
         {
             public DsdSetUpdateIo()
             {
-                OntologyCode = "DsdSet";
-                Verb = "Update";
+                HecpOntology = "DsdSet";
+                HecpVerb = "Update";
             }
 
-            public string OntologyCode { get; private set; }
+            public string HecpOntology { get; private set; }
 
-            public string Verb { get; private set; }
+            public string HecpVerb { get; private set; }
 
             public Guid Id { get; set; }
 
@@ -744,13 +744,13 @@ namespace Anycmd.Engine.Host.Impl
         {
             public SsdSetUpdateIo()
             {
-                OntologyCode = "SsdSet";
-                Verb = "Update";
+                HecpOntology = "SsdSet";
+                HecpVerb = "Update";
             }
 
-            public string OntologyCode { get; private set; }
+            public string HecpOntology { get; private set; }
 
-            public string Verb { get; private set; }
+            public string HecpVerb { get; private set; }
 
             public string Name { get; set; }
 

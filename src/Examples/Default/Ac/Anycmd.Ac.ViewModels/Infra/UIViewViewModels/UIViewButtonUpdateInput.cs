@@ -12,13 +12,13 @@ namespace Anycmd.Ac.ViewModels.Infra.UIViewViewModels
     {
         public UiViewButtonUpdateInput()
         {
-            OntologyCode = "UiViewButton";
-            Verb = "Update";
+            HecpOntology = "UiViewButton";
+            HecpVerb = "Update";
         }
 
-        public string OntologyCode { get; private set; }
+        public string HecpOntology { get; private set; }
 
-        public string Verb { get; private set; }
+        public string HecpVerb { get; private set; }
 
         public Guid Id { get; set; }
         /// <summary>

@@ -13,13 +13,9 @@ namespace Anycmd.Ac.ViewModels.SsdViewModels
     {
         public SsdRoleCreateIo()
         {
-            OntologyCode = "SsdRole";
-            Verb = "Create";
+            HecpOntology = "SsdRole";
+            HecpVerb = "Create";
         }
-
-        public string OntologyCode { get; private set; }
-
-        public string Verb { get; private set; }
 
         public Guid SsdSetId { get; set; }
 

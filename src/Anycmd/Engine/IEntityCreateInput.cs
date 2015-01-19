@@ -15,8 +15,8 @@ namespace Anycmd.Engine
         /// </summary>
         Guid? Id { get; }
 
-        string OntologyCode { get; }
+        string HecpOntology { get; }
 
-        string Verb { get; }
+        string HecpVerb { get; }
     }
 }

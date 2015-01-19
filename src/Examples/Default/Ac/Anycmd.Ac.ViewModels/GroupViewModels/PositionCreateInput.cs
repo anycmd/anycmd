@@ -11,13 +11,9 @@ namespace Anycmd.Ac.ViewModels.GroupViewModels
     {
         public PositionCreateInput()
         {
-            OntologyCode = "Position";
-            Verb = "Create";
+            HecpOntology = "Position";
+            HecpVerb = "Create";
         }
-
-        public string OntologyCode { get; private set; }
-
-        public string Verb { get; private set; }
 
         [Required]
         public string OrganizationCode { get; set; }

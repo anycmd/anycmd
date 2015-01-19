@@ -12,13 +12,13 @@ namespace Anycmd.Ac.ViewModels.SsdViewModels
     {
         public SsdSetUpdateIo()
         {
-            OntologyCode = "SsdSet";
-            Verb = "Update";
+            HecpOntology = "SsdSet";
+            HecpVerb = "Update";
         }
 
-        public string OntologyCode { get; private set; }
+        public string HecpOntology { get; private set; }
 
-        public string Verb { get; private set; }
+        public string HecpVerb { get; private set; }
 
         public string Name { get; set; }
 

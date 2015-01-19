@@ -13,13 +13,13 @@ namespace Anycmd.Ac.ViewModels.Infra.ResourceViewModels
     {
         public ResourceTypeUpdateInput()
         {
-            OntologyCode = "ResourceType";
-            Verb = "Update";
+            HecpOntology = "ResourceType";
+            HecpVerb = "Update";
         }
 
-        public string OntologyCode { get; private set; }
+        public string HecpOntology { get; private set; }
 
-        public string Verb { get; private set; }
+        public string HecpVerb { get; private set; }
 
         public Guid Id { get; set; }
         /// <summary>

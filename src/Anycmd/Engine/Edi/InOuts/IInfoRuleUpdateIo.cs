@@ -3,9 +3,9 @@ namespace Anycmd.Engine.Edi.InOuts
 {
     public interface IInfoRuleUpdateIo : IEntityUpdateInput
     {
-        string OntologyCode { get; }
+        string HecpOntology { get; }
 
-        string Verb { get; }
+        string HecpVerb { get; }
 
         int IsEnabled { get; }
     }

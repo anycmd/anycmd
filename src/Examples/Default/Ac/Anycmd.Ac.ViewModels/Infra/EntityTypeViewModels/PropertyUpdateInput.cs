@@ -13,13 +13,13 @@ namespace Anycmd.Ac.ViewModels.Infra.EntityTypeViewModels
     {
         public PropertyUpdateInput()
         {
-            OntologyCode = "Property";
-            Verb = "Update";
+            HecpOntology = "Property";
+            HecpVerb = "Update";
         }
 
-        public string OntologyCode { get; private set; }
+        public string HecpOntology { get; private set; }
 
-        public string Verb { get; private set; }
+        public string HecpVerb { get; private set; }
 
         public Guid Id { get; set; }
         /// <summary>

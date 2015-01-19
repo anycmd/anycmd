@@ -14,13 +14,9 @@ namespace Anycmd.Ac.ViewModels.Infra.MenuViewModels
     {
         public MenuCreateInput()
         {
-            OntologyCode = "Menu";
-            Verb = "Create";
+            HecpOntology = "Menu";
+            HecpVerb = "Create";
         }
-
-        public string OntologyCode { get; private set; }
-
-        public string Verb { get; private set; }
 
         /// <summary>
         /// 

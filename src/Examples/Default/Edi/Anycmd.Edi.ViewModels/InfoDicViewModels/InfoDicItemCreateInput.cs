@@ -15,8 +15,8 @@ namespace Anycmd.Edi.ViewModels.InfoDicViewModels
     {
         public InfoDicItemCreateInput()
         {
-            OntologyCode = "InfoDicItem";
-            Verb = "Create";
+            HecpOntology = "InfoDicItem";
+            HecpVerb = "Create";
         }
 
         /// <summary>

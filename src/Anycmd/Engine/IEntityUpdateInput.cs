@@ -10,8 +10,8 @@ namespace Anycmd.Engine
     {
         Guid Id { get; }
 
-        string OntologyCode { get; }
+        string HecpOntology { get; }
 
-        string Verb { get; }
+        string HecpVerb { get; }
     }
 }

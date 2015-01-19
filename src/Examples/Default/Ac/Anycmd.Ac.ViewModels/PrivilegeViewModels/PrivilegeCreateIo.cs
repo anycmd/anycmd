@@ -13,13 +13,9 @@ namespace Anycmd.Ac.ViewModels.PrivilegeViewModels
     {
         public PrivilegeCreateIo()
         {
-            OntologyCode = "Privilege";
-            Verb = "Create";
+            HecpOntology = "Privilege";
+            HecpVerb = "Create";
         }
-
-        public string OntologyCode { get; private set; }
-
-        public string Verb { get; private set; }
 
         public string SubjectType { get; set; }
 

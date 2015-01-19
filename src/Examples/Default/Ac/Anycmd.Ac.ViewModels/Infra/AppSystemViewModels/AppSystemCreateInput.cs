@@ -15,13 +15,9 @@ namespace Anycmd.Ac.ViewModels.Infra.AppSystemViewModels
     {
         public AppSystemCreateInput()
         {
-            OntologyCode = "AppSystem";
-            Verb = "Create";
+            HecpOntology = "AppSystem";
+            HecpVerb = "Create";
         }
-
-        public string OntologyCode { get; private set; }
-
-        public string Verb { get; private set; }
 
         /// <summary>
         /// 

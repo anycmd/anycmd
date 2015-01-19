@@ -1265,7 +1265,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 {
                     var host = _set._host;
                     var ontologyRepository = host.RetrieveRequiredService<IRepository<Ontology>>();
-                    if (string.IsNullOrEmpty(message.Input.Verb))
+                    if (string.IsNullOrEmpty(message.Input.HecpVerb))
                     {
                         throw new ValidationException("编码不能为空");
                     }
@@ -1282,7 +1282,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     {
                         throw new ValidationException("非法的本体标识");
                     }
-                    if (ontology.Actions.ContainsKey(new Verb(message.Input.Verb)))
+                    if (ontology.Actions.ContainsKey(new Verb(message.Input.HecpVerb)))
                     {
                         throw new ValidationException("重复的动词");
                     }
@@ -1315,7 +1315,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 {
                     var host = _set._host;
                     var ontologyRepository = host.RetrieveRequiredService<IRepository<Ontology>>();
-                    if (string.IsNullOrEmpty(message.Output.Verb))
+                    if (string.IsNullOrEmpty(message.Output.HecpVerb))
                     {
                         throw new ValidationException("编码不能为空");
                     }
@@ -1334,7 +1334,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     {
                         throw new NotExistException();
                     }
-                    var verb = new Verb(message.Output.Verb);
+                    var verb = new Verb(message.Output.HecpVerb);
                     if (ontology.Actions.ContainsKey(verb) && ontology.Actions[verb].Id != message.Output.Id)
                     {
                         throw new ValidationException("重复的编码");

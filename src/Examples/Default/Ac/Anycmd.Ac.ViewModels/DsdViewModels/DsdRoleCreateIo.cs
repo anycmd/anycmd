@@ -13,8 +13,8 @@ namespace Anycmd.Ac.ViewModels.DsdViewModels
     {
         public DsdRoleCreateIo()
         {
-            OntologyCode = "DsdRole";
-            Verb = "Create";
+            HecpOntology = "DsdRole";
+            HecpVerb = "Create";
         }
 
         public Guid DsdSetId { get; set; }

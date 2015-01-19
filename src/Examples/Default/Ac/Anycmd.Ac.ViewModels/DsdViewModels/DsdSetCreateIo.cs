@@ -12,13 +12,9 @@ namespace Anycmd.Ac.ViewModels.DsdViewModels
     {
         public DsdSetCreateIo()
         {
-            OntologyCode = "DsdSet";
-            Verb = "Create";
+            HecpOntology = "DsdSet";
+            HecpVerb = "Create";
         }
-
-        public string OntologyCode { get; private set; }
-
-        public string Verb { get; private set; }
 
         public string Name { get; set; }
 

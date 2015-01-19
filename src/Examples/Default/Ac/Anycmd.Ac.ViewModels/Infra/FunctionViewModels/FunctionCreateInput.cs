@@ -11,13 +11,9 @@ namespace Anycmd.Ac.ViewModels.Infra.FunctionViewModels
     {
         public FunctionCreateInput()
         {
-            OntologyCode = "Function";
-            Verb = "Create";
+            HecpOntology = "Function";
+            HecpVerb = "Create";
         }
-
-        public string OntologyCode { get; private set; }
-
-        public string Verb { get; private set; }
 
         /// <summary>
         /// 

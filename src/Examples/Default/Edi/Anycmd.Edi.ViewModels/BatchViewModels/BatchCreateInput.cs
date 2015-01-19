@@ -14,8 +14,8 @@ namespace Anycmd.Edi.ViewModels.BatchViewModels
     {
         public BatchCreateInput()
         {
-            OntologyCode = "Batch";
-            Verb = "Create";
+            HecpOntology = "Batch";
+            HecpVerb = "Create";
         }
 
         /// <summary>

@@ -12,13 +12,9 @@ namespace Anycmd.Ac.ViewModels.Infra.DicViewModels
     {
         public DicItemCreateInput()
         {
-            OntologyCode = "DicItem";
-            Verb = "Create";
+            HecpOntology = "DicItem";
+            HecpVerb = "Create";
         }
-
-        public string OntologyCode { get; private set; }
-
-        public string Verb { get; private set; }
 
         /// <summary>
         /// 

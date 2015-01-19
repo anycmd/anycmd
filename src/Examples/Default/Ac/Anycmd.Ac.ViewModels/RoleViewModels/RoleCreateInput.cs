@@ -14,13 +14,9 @@ namespace Anycmd.Ac.ViewModels.RoleViewModels
     {
         public RoleCreateInput()
         {
-            OntologyCode = "Role";
-            Verb = "Create";
+            HecpOntology = "Role";
+            HecpVerb = "Create";
         }
-
-        public string OntologyCode { get; private set; }
-
-        public string Verb { get; private set; }
 
         /// <summary>
         /// 

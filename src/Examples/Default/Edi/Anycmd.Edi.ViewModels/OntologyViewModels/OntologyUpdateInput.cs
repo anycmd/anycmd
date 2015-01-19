@@ -11,13 +11,13 @@ namespace Anycmd.Edi.ViewModels.OntologyViewModels
     {
         public OntologyUpdateInput()
         {
-            OntologyCode = "Ontology";
-            Verb = "Update";
+            HecpOntology = "Ontology";
+            HecpVerb = "Update";
         }
 
-        public string OntologyCode { get; private set; }
+        public string HecpOntology { get; private set; }
 
-        public string Verb { get; private set; }
+        public string HecpVerb { get; private set; }
 
         /// <summary>
         /// 

@@ -12,8 +12,8 @@ namespace Anycmd.Edi.ViewModels.ElementViewModels
     {
         public ElementCreateInput()
         {
-            OntologyCode = "Element";
-            Verb = "Create";
+            HecpOntology = "Element";
+            HecpVerb = "Create";
         }
 
         /// <summary>

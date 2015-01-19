@@ -14,13 +14,9 @@ namespace Anycmd.Ac.ViewModels.Infra.EntityTypeViewModels
     {
         public EntityTypeCreateInput()
         {
-            OntologyCode = "EntityType";
-            Verb = "Create";
+            HecpOntology = "EntityType";
+            HecpVerb = "Create";
         }
-
-        public string OntologyCode { get; private set; }
-
-        public string Verb { get; private set; }
 
         /// <summary>
         /// 

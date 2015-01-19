@@ -15,13 +15,13 @@ namespace Anycmd.Ac.ViewModels.Infra.AppSystemViewModels
     {
         public AppSystemUpdateInput()
         {
-            OntologyCode = "AppSystem";
-            Verb = "Update";
+            HecpOntology = "AppSystem";
+            HecpVerb = "Update";
         }
 
-        public string OntologyCode { get; private set; }
+        public string HecpOntology { get; private set; }
 
-        public string Verb { get; private set; }
+        public string HecpVerb { get; private set; }
 
         public Guid Id { get; set; }
         /// <summary>

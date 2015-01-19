@@ -15,8 +15,8 @@ namespace Anycmd.Edi.ViewModels.ArchiveViewModels
     {
         public ArchiveCreateInput()
         {
-            OntologyCode = "Archive";
-            Verb = "Create";
+            HecpOntology = "Archive";
+            HecpVerb = "Create";
         }
 
         /// <summary>

@@ -10,13 +10,13 @@ namespace Anycmd.Edi.ViewModels.OntologyViewModels
     {
         public InfoGroupUpdateInput()
         {
-            OntologyCode = "InfoGroup";
-            Verb = "Update";
+            HecpOntology = "InfoGroup";
+            HecpVerb = "Update";
         }
 
-        public string OntologyCode { get; private set; }
+        public string HecpOntology { get; private set; }
 
-        public string Verb { get; private set; }
+        public string HecpVerb { get; private set; }
 
         /// <summary>
         /// 

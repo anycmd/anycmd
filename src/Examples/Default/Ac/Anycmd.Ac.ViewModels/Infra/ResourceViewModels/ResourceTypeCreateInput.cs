@@ -14,13 +14,9 @@ namespace Anycmd.Ac.ViewModels.Infra.ResourceViewModels
     {
         public ResourceTypeCreateInput()
         {
-            OntologyCode = "ResourceType";
-            Verb = "Create";
+            HecpOntology = "ResourceType";
+            HecpVerb = "Create";
         }
-
-        public string OntologyCode { get; private set; }
-
-        public string Verb { get; private set; }
 
         public Guid AppSystemId { get; set; }
         /// <summary>

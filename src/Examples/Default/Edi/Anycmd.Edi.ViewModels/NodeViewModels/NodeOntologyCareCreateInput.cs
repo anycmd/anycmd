@@ -15,13 +15,13 @@ namespace Anycmd.Edi.ViewModels.NodeViewModels
 
         public NodeOntologyCareCreateInput()
         {
-            this.OntologyCode = "NodeOntologyCare";
-            this.Verb = "Create";
+            this.HecpOntology = "NodeOntologyCare";
+            this.HecpVerb = "Create";
         }
 
-        public string OntologyCode { get; private set; }
+        public string HecpOntology { get; private set; }
 
-        public string Verb { get; private set; }
+        public string HecpVerb { get; private set; }
 
         public Guid? Id
         {

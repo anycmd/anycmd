@@ -15,13 +15,9 @@ namespace Anycmd.Ac.ViewModels.Infra.OrganizationViewModels
     {
         public OrganizationCreateInput()
         {
-            OntologyCode = "Organization";
-            Verb = "Create";
+            HecpOntology = "Organization";
+            HecpVerb = "Create";
         }
-
-        public string OntologyCode { get; private set; }
-
-        public string Verb { get; private set; }
 
         /// <summary>
         /// 

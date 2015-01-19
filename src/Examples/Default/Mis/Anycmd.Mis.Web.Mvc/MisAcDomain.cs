@@ -155,13 +155,13 @@ namespace Anycmd.Mis.Web.Mvc
             {
                 public MenuCreateInput()
                 {
-                    this.OntologyCode = "Menu";
-                    this.Verb = "Create";
+                    this.HecpOntology = "Menu";
+                    this.HecpVerb = "Create";
                 }
 
-                public string OntologyCode { get; private set; }
+                public string HecpOntology { get; private set; }
 
-                public string Verb { get; private set; }
+                public string HecpVerb { get; private set; }
 
                 public Guid? Id { get; set; }
 
@@ -184,13 +184,13 @@ namespace Anycmd.Mis.Web.Mvc
             {
                 public MenuUpdateInput()
                 {
-                    OntologyCode = "Menu";
-                    Verb = "Update";
+                    HecpOntology = "Menu";
+                    HecpVerb = "Update";
                 }
 
-                public string OntologyCode { get; private set; }
+                public string HecpOntology { get; private set; }
 
-                public string Verb { get; private set; }
+                public string HecpVerb { get; private set; }
 
                 public Guid Id { get; set; }
 

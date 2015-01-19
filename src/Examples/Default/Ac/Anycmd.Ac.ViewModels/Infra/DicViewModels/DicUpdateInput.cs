@@ -10,13 +10,13 @@ namespace Anycmd.Ac.ViewModels.Infra.DicViewModels
     {
         public DicUpdateInput()
         {
-            OntologyCode = "Dic";
-            Verb = "Update";
+            HecpOntology = "Dic";
+            HecpVerb = "Update";
         }
 
-        public string OntologyCode { get; private set; }
+        public string HecpOntology { get; private set; }
 
-        public string Verb { get; private set; }
+        public string HecpVerb { get; private set; }
 
         public Guid Id { get; set; }
         /// <summary>

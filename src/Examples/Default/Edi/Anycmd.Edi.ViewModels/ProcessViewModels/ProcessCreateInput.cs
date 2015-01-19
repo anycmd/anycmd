@@ -15,8 +15,8 @@ namespace Anycmd.Edi.ViewModels.ProcessViewModels
     {
         public ProcessCreateInput()
         {
-            OntologyCode = "Process";
-            Verb = "Create";
+            HecpOntology = "Process";
+            HecpVerb = "Create";
         }
 
         /// <summary>

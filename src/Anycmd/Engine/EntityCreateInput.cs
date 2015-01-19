@@ -12,8 +12,8 @@ namespace Anycmd.Engine
             get { return _id ?? (_id = Guid.NewGuid()); }
             set { _id = value; }
         }
-        public string OntologyCode { get; protected set; }
+        public string HecpOntology { get; protected set; }
 
-        public string Verb { get; protected set; }
+        public string HecpVerb { get; protected set; }
     }
 }

@@ -14,13 +14,13 @@ namespace Anycmd.Edi.ViewModels.InfoDicViewModels
     {
         public InfoDicUpdateInput()
         {
-            OntologyCode = "InfoDic";
-            Verb = "Update";
+            HecpOntology = "InfoDic";
+            HecpVerb = "Update";
         }
 
-        public string OntologyCode { get; private set; }
+        public string HecpOntology { get; private set; }
 
-        public string Verb { get; private set; }
+        public string HecpVerb { get; private set; }
 
         public Guid Id { get; set; }
         /// <summary>

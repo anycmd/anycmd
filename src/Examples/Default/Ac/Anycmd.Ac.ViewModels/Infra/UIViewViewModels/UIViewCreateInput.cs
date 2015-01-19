@@ -12,13 +12,9 @@ namespace Anycmd.Ac.ViewModels.Infra.UIViewViewModels
     {
         public UiViewCreateInput()
         {
-            OntologyCode = "UiView";
-            Verb = "Create";
+            HecpOntology = "UiView";
+            HecpVerb = "Create";
         }
-
-        public string OntologyCode { get; private set; }
-
-        public string Verb { get; private set; }
 
         /// <summary>
         /// 

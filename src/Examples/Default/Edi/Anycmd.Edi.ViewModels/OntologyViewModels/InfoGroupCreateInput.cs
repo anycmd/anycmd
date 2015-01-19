@@ -11,8 +11,8 @@ namespace Anycmd.Edi.ViewModels.OntologyViewModels
     {
         public InfoGroupCreateInput()
         {
-            OntologyCode = "InfoGroup";
-            Verb = "Create";
+            HecpOntology = "InfoGroup";
+            HecpVerb = "Create";
         }
 
         /// <summary>

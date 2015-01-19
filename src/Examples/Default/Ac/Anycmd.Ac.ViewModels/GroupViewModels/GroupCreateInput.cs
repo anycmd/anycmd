@@ -14,13 +14,9 @@ namespace Anycmd.Ac.ViewModels.GroupViewModels
     {
         public GroupCreateInput()
         {
-            OntologyCode = "Group";
-            Verb = "Create";
+            HecpOntology = "Group";
+            HecpVerb = "Create";
         }
-
-        public string OntologyCode { get; private set; }
-
-        public string Verb { get; private set; }
 
         /// <summary>
         /// 
