@@ -2,12 +2,23 @@
 namespace Anycmd.Edi.ViewModels.NodeViewModels
 {
     using Engine.Edi.InOuts;
+    using Engine.Edi.Messages;
     using System;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
 
     public class NodeUpdateInput : INodeUpdateIo
     {
+        public NodeUpdateInput()
+        {
+            OntologyCode = "Node";
+            Verb = "Update";
+        }
+
+        public string OntologyCode { get; private set; }
+
+        public string Verb { get; private set; }
+
         /// <summary>
         /// 
         /// </summary>
@@ -104,5 +115,10 @@ namespace Anycmd.Edi.ViewModels.NodeViewModels
         /// 
         /// </summary>
         public string Icon { get; set; }
+
+        public UpdateNodeCommand ToCommand(IUserSession userSession)
+        {
+            return new UpdateNodeCommand(userSession, this);
+        }
     }
 }

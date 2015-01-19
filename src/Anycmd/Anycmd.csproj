@@ -90,6 +90,9 @@
     <Compile Include="Engine\Ac\Abstractions\IMenuSet.cs" />
     <Compile Include="Engine\Ac\InOuts\IFieldCreateIo.cs" />
     <Compile Include="Engine\Ac\InOuts\IFieldUpdateIo.cs" />
+    <Compile Include="Engine\Edi\InOuts\IInfoRuleUpdateIo.cs" />
+    <Compile Include="Engine\Edi\Messages\InfoRuleUpdatedEvent.cs" />
+    <Compile Include="Engine\Edi\Messages\UpdateInfoRuleCommand.cs" />
     <Compile Include="Engine\Host\Ac\Infra\Field.cs" />
     <Compile Include="Engine\Host\Ac\MemorySets\AppSystemSet.cs" />
     <Compile Include="Engine\Host\Ac\MemorySets\ButtonSet.cs" />
@@ -114,6 +117,7 @@
     <Compile Include="Engine\Ac\Abstractions\ISysUserSet.cs" />
     <Compile Include="Engine\Ac\Abstractions\IUiViewSet.cs" />
     <Compile Include="Engine\Host\AnycmdServiceContainer.cs" />
+    <Compile Include="Engine\Host\Edi\MessageHandlers\UpdateInfoRuleCommandHandler.cs" />
     <Compile Include="Engine\Host\IMemorySet.cs" />
     <Compile Include="Engine\Host\MemorySetInitializedEvent.cs" />
     <Compile Include="Engine\Host\MemorySetInitingEvent.cs" />

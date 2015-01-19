@@ -13,6 +13,16 @@ namespace Anycmd.Edi.ViewModels.NodeViewModels
     {
         private Guid? _id = null;
 
+        public NodeOntologyCareCreateInput()
+        {
+            this.OntologyCode = "NodeOntologyCare";
+            this.Verb = "Create";
+        }
+
+        public string OntologyCode { get; private set; }
+
+        public string Verb { get; private set; }
+
         public Guid? Id
         {
             get

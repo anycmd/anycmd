@@ -3,6 +3,7 @@ namespace Anycmd.Edi.ViewModels.BatchViewModels
 {
     using Engine;
     using Engine.Edi.InOuts;
+    using Engine.Edi.Messages;
     using System;
     using System.ComponentModel.DataAnnotations;
 
@@ -11,6 +12,12 @@ namespace Anycmd.Edi.ViewModels.BatchViewModels
     /// </summary>
     public class BatchCreateInput : EntityCreateInput, IBatchCreateIo
     {
+        public BatchCreateInput()
+        {
+            OntologyCode = "Batch";
+            Verb = "Create";
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -43,5 +50,10 @@ namespace Anycmd.Edi.ViewModels.BatchViewModels
         /// 
         /// </summary>
         public string Description { get; set; }
+
+        public AddBatchCommand ToCommand(IUserSession userSession)
+        {
+            return new AddBatchCommand(userSession, this);
+        }
     }
 }

@@ -2,11 +2,20 @@
 namespace Anycmd.Edi.ViewModels.OntologyViewModels
 {
     using Engine.Edi.InOuts;
+    using Engine.Edi.Messages;
     using System;
     using System.ComponentModel.DataAnnotations;
 
     public class ActionUpdateInput : IActionUpdateIo
     {
+        public ActionUpdateInput()
+        {
+            OntologyCode = "Action";
+            Verb = "Update";
+        }
+
+        public string OntologyCode { get; private set; }
+
         /// <summary>
         /// 
         /// </summary>
@@ -44,5 +53,10 @@ namespace Anycmd.Edi.ViewModels.OntologyViewModels
         /// 
         /// </summary>
         public string Description { get; set; }
+
+        public UpdateActionCommand ToCommand(IUserSession userSession)
+        {
+            return new UpdateActionCommand(userSession, this);
+        }
     }
 }

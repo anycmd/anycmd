@@ -13,7 +13,6 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
     using System.ComponentModel;
     using System.Linq;
     using System.Web.Mvc;
-    using Transactions;
     using Util;
     using ViewModel;
     using ViewModels.InfoConstraintViewModels;
@@ -206,31 +205,21 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
         /// <summary>
         /// 更新信息项验证器
         /// </summary>
-        /// <param name="requestModel"></param>
+        /// <param name="input"></param>
         /// <returns></returns>
         [By("xuexs")]
         [Description("更新信息项验证器")]
         [HttpPost]
         [Guid("23EB29EB-DD1D-4130-914D-EE3CC5BA6D64")]
-        public ActionResult Update(InfoRuleInput requestModel)
+        public ActionResult Update(InfoRuleUpdateInput input)
         {
             if (!this.ModelState.IsValid)
             {
                 return this.ModelState.ToJsonResult();
             }
-            var responseResult = new ResponseData { success = false };
-            using (var coordinator = TransactionCoordinatorFactory.Create(GetRequiredService<IRepository<InfoRule>>().Context))
-            {
-                var entity = GetRequiredService<IRepository<InfoRule>>().GetByKey(requestModel.Id);
-                entity.IsEnabled = requestModel.IsEnabled;
-                GetRequiredService<IRepository<InfoRule>>().Update(entity);
-                responseResult.id = entity.Id.ToString();
-                responseResult.success = true;
+            AcDomain.Handle(input.ToCommand(UserSession));
 
-                coordinator.Commit();
-            }
-
-            return this.JsonResult(responseResult);
+            return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
     }
 }

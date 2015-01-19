@@ -153,6 +153,16 @@ namespace Anycmd.Mis.Web.Mvc
 
             private class MenuCreateInput : IMenuCreateIo
             {
+                public MenuCreateInput()
+                {
+                    this.OntologyCode = "Menu";
+                    this.Verb = "Create";
+                }
+
+                public string OntologyCode { get; private set; }
+
+                public string Verb { get; private set; }
+
                 public Guid? Id { get; set; }
 
                 public Guid AppSystemId { get; set; }
@@ -172,6 +182,16 @@ namespace Anycmd.Mis.Web.Mvc
 
             private class MenuUpdateInput : IMenuUpdateIo
             {
+                public MenuUpdateInput()
+                {
+                    OntologyCode = "Menu";
+                    Verb = "Update";
+                }
+
+                public string OntologyCode { get; private set; }
+
+                public string Verb { get; private set; }
+
                 public Guid Id { get; set; }
 
                 public Guid AppSystemId { get; set; }

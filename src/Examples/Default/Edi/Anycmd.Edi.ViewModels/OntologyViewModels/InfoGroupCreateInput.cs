@@ -3,11 +3,18 @@ namespace Anycmd.Edi.ViewModels.OntologyViewModels
 {
     using Engine;
     using Engine.Edi.InOuts;
+    using Engine.Edi.Messages;
     using System;
     using System.ComponentModel.DataAnnotations;
 
     public class InfoGroupCreateInput : EntityCreateInput, IInfoGroupCreateIo
     {
+        public InfoGroupCreateInput()
+        {
+            OntologyCode = "InfoGroup";
+            Verb = "Create";
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -32,5 +39,10 @@ namespace Anycmd.Edi.ViewModels.OntologyViewModels
         /// 
         /// </summary>
         public string Description { get; set; }
+
+        public AddInfoGroupCommand ToCommand(IUserSession userSession)
+        {
+            return new AddInfoGroupCommand(userSession, this);
+        }
     }
 }

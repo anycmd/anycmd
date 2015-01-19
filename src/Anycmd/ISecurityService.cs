@@ -16,11 +16,11 @@ namespace Anycmd
         /// 该接口是anycmd权限引擎的唯一用户接口。通常情况下应用系统唯一面向该接口编程就可以了。
         /// </remarks>
         /// </summary>
-        /// <param name="user">给定的主体</param>
+        /// <param name="subject">给定的主体</param>
         /// <param name="function">给定的功能。function = action = resourceType + verb。
         /// 功能是绑定了资源类型的，给定了功能即给定了被操作资源的资源类型。</param>
         /// <param name="obj">可为null，表示不验证实体级权限</param>
         /// <returns></returns>
-        bool Permit(IUserSession user, FunctionState function, IManagedObject obj);
+        bool Permit(IUserSession subject, FunctionState function, IManagedObject obj);
     }
 }

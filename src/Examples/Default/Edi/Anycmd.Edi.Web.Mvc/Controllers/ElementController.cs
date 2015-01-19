@@ -123,7 +123,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                     var entity = AcDomain.NodeHost.Ontologies.GetElement(elementId.Value).Element;
                     if (entity != null)
                     {
-                        AcDomain.UpdateElement(UserSession,
+                        AcDomain.Handle(
                             new ElementUpdateInput
                             {
                                 AllowFilter = entity.AllowFilter,
@@ -154,7 +154,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                                 SortCode = entity.SortCode,
                                 Width = entity.Width,
                                 Tooltip = tooltip
-                            });
+                            }.ToCommand(UserSession));
                     }
                     return this.JsonResult(new ResponseData { success = true });
                 }
@@ -390,7 +390,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            AcDomain.AddElement(UserSession, input);
+            AcDomain.Handle(input.ToCommand(UserSession));
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -410,7 +410,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            AcDomain.UpdateElement(UserSession, input);
+            AcDomain.Handle(input.ToCommand(UserSession));
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }

@@ -10,6 +10,16 @@ namespace Anycmd.Edi.ViewModels.StateCodeViewModels
     /// </summary>
     public class StateCodeUpdateInput : ManagedPropertyValues
     {
+        public StateCodeUpdateInput()
+        {
+            OntologyCode = "StateCode";
+            Verb = "Update";
+        }
+
+        public string OntologyCode { get; private set; }
+
+        public string Verb { get; private set; }
+
         /// <summary>
         /// 
         /// </summary>

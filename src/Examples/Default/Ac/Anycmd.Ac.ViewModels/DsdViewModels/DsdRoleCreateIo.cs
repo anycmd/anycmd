@@ -17,10 +17,6 @@ namespace Anycmd.Ac.ViewModels.DsdViewModels
             Verb = "Create";
         }
 
-        public string OntologyCode { get; private set; }
-
-        public string Verb { get; private set; }
-
         public Guid DsdSetId { get; set; }
 
         public Guid RoleId { get; set; }

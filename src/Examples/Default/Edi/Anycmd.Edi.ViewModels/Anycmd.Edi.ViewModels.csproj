@@ -92,7 +92,7 @@
     <Compile Include="InfoConstraintViewModels\GetPlistElementInfoRules.cs" />
     <Compile Include="ElementViewModels\GetPlistElements.cs" />
     <Compile Include="InfoConstraintViewModels\GetPlistInfoRules.cs" />
-    <Compile Include="InfoConstraintViewModels\InfoRuleInput.cs" />
+    <Compile Include="InfoConstraintViewModels\InfoRuleUpdateInput.cs" />
     <Compile Include="InfoConstraintViewModels\IConstraintInfo.cs" />
     <Compile Include="InfoConstraintViewModels\IConstraintTr.cs" />
     <Compile Include="NodeViewModels\NodeCreateInput.cs" />
@@ -130,7 +130,6 @@
     <Compile Include="ProcessViewModels\ProcessTr.cs" />
     <Compile Include="ProcessViewModels\ProcessUpdateInput.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StateCodeViewModels\StateCodetInput.cs" />
     <Compile Include="StateCodeViewModels\GetPlistStateCodes.cs" />
     <Compile Include="StateCodeViewModels\IStateCodeQuery.cs" />
     <Compile Include="StateCodeViewModels\StateCodeInfo.cs" />

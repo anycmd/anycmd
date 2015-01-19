@@ -3,12 +3,19 @@ namespace Anycmd.Edi.ViewModels.ElementViewModels
 {
     using Engine;
     using Engine.Edi.InOuts;
+    using Engine.Edi.Messages;
     using System;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
 
     public class ElementCreateInput : EntityCreateInput, IElementCreateIo
     {
+        public ElementCreateInput()
+        {
+            OntologyCode = "Element";
+            Verb = "Create";
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -150,5 +157,10 @@ namespace Anycmd.Edi.ViewModels.ElementViewModels
         public Guid? ForeignElementId { get; set; }
 
         public string Tooltip { get; set; }
+
+        public AddElementCommand ToCommand(IUserSession userSession)
+        {
+            return new AddElementCommand(userSession, this);
+        }
     }
 }

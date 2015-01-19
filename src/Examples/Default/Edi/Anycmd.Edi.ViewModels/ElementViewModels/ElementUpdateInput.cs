@@ -2,12 +2,23 @@
 namespace Anycmd.Edi.ViewModels.ElementViewModels
 {
     using Engine.Edi.InOuts;
+    using Engine.Edi.Messages;
     using System;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
 
     public class ElementUpdateInput : IElementUpdateIo
     {
+        public ElementUpdateInput()
+        {
+            OntologyCode = "Element";
+            Verb = "Update";
+        }
+
+        public string OntologyCode { get; private set; }
+
+        public string Verb { get; private set; }
+
         /// <summary>
         /// 
         /// </summary>
@@ -138,5 +149,10 @@ namespace Anycmd.Edi.ViewModels.ElementViewModels
         public bool AllowFilter { get; set; }
         public string Tooltip { get; set; }
         #endregion
+
+        public UpdateElementCommand ToCommand(IUserSession userSession)
+        {
+            return new UpdateElementCommand(userSession, this);
+        }
     }
 }

@@ -2,12 +2,23 @@
 namespace Anycmd.Edi.ViewModels.OntologyViewModels
 {
     using Engine.Edi.InOuts;
+    using Engine.Edi.Messages;
     using System;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
 
     public class OntologyUpdateInput : IOntologyUpdateIo
     {
+        public OntologyUpdateInput()
+        {
+            OntologyCode = "Ontology";
+            Verb = "Update";
+        }
+
+        public string OntologyCode { get; private set; }
+
+        public string Verb { get; private set; }
+
         /// <summary>
         /// 
         /// </summary>
@@ -83,5 +94,10 @@ namespace Anycmd.Edi.ViewModels.OntologyViewModels
         /// 
         /// </summary>
         public string Icon { get; set; }
+
+        public UpdateOntologyCommand ToCommand(IUserSession userSession)
+        {
+            return new UpdateOntologyCommand(userSession, this);
+        }
     }
 }

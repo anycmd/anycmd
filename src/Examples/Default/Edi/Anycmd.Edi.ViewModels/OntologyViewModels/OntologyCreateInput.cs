@@ -3,12 +3,19 @@ namespace Anycmd.Edi.ViewModels.OntologyViewModels
 {
     using Engine;
     using Engine.Edi.InOuts;
+    using Engine.Edi.Messages;
     using System;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
 
     public class OntologyCreateInput : EntityCreateInput, IOntologyCreateIo
     {
+        public OntologyCreateInput()
+        {
+            OntologyCode = "Ontology";
+            Verb = "Create";
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -80,5 +87,10 @@ namespace Anycmd.Edi.ViewModels.OntologyViewModels
         /// 
         /// </summary>
         public string Icon { get; set; }
+
+        public AddOntologyCommand ToCommand(IUserSession userSession)
+        {
+            return new AddOntologyCommand(userSession, this);
+        }
     }
 }

@@ -9,5 +9,9 @@ namespace Anycmd.Engine
     public interface IEntityUpdateInput : IInputModel
     {
         Guid Id { get; }
+
+        string OntologyCode { get; }
+
+        string Verb { get; }
     }
 }

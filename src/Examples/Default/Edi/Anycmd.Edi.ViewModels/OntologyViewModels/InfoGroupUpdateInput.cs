@@ -2,11 +2,22 @@
 namespace Anycmd.Edi.ViewModels.OntologyViewModels
 {
     using Engine.Edi.InOuts;
+    using Engine.Edi.Messages;
     using System;
     using System.ComponentModel.DataAnnotations;
 
     public class InfoGroupUpdateInput : IInfoGroupUpdateIo
     {
+        public InfoGroupUpdateInput()
+        {
+            OntologyCode = "InfoGroup";
+            Verb = "Update";
+        }
+
+        public string OntologyCode { get; private set; }
+
+        public string Verb { get; private set; }
+
         /// <summary>
         /// 
         /// </summary>
@@ -30,5 +41,10 @@ namespace Anycmd.Edi.ViewModels.OntologyViewModels
         /// 
         /// </summary>
         public string Description { get; set; }
+
+        public UpdateInfoGroupCommand ToCommand(IUserSession userSession)
+        {
+            return new UpdateInfoGroupCommand(userSession, this);
+        }
     }
 }

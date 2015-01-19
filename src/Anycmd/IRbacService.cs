@@ -31,9 +31,9 @@ namespace Anycmd
         /// 【核心Rbac管理函数】该命令创建一个新用户。当要待创建用户尚不存在于Account集合（Account表）中时，该命令可用。
         /// 命令执行后，Account集合（Account表）被更新，新创建的用户不拥有任何的会话。
         /// </summary>
-        /// <param name="userSession"></param>
+        /// <param name="subject"></param>
         /// <param name="input"></param>
-        void AddUser(IUserSession userSession, IAccountCreateIo input);
+        void AddUser(IUserSession subject, IAccountCreateIo input);
 
         /// <summary>
         /// 【核心Rbac管理函数】该命令从Rbac数据库中删除一个已经存在的用户。该命令可用当且仅当被删除的用户是Account数据集（Account表）
@@ -41,25 +41,25 @@ namespace Anycmd
         /// Privilege集合中主体为当前被删除的账户的成员将被删除。如果一个正处在会话中的用户被删除，anycmd
         /// 的实现会等待该会话结束后删除，但账户管理员是可以看到被删除的账户是否正在会话的且有权的管理员是可以强行终止给定的账户的会话的。
         /// </summary>
-        /// <param name="userSession"></param>
+        /// <param name="subject"></param>
         /// <param name="accountId"></param>
-        void DeleteUser(IUserSession userSession, Guid accountId);
+        void DeleteUser(IUserSession subject, Guid accountId);
 
         /// <summary>
         /// 【核心Rbac管理函数】该命令创建一个新的角色。该命令可用当且仅当要创建的角色尚且不存在于RoleSet数据集中。RoleSet数据集
         /// 将被更新。初始时，新创建的角色没有分配任何用户和权限。
         /// </summary>
-        /// <param name="userSession"></param>
+        /// <param name="subject"></param>
         /// <param name="input"></param>
-        void AddRole(IUserSession userSession, IRoleCreateIo input);
+        void AddRole(IUserSession subject, IRoleCreateIo input);
 
         /// <summary>
         /// 【核心Rbac管理函数】该命令从Rbac数uk中删除一个角色。该命令可用当且仅当被删除的角色是RoleSet数据集的成员。如果被删除的角色
         /// 在某些会话中尚且是激活的，则Anycmd会从会话中删除这个角色然后允许会话继续执行。
         /// </summary>
-        /// <param name="userSession"></param>
+        /// <param name="subject"></param>
         /// <param name="roleId"></param>
-        void DeleteRole(IUserSession userSession, Guid roleId);
+        void DeleteRole(IUserSession subject, Guid roleId);
 
         /// <summary>
         /// 【核心Rbac、通用角色层次、静态职责分离管理函数】该命令给用户分配角色。该命令可用当且仅当该用户是Account数据集（Account表）的成员（记录），该角色是RoleSet
@@ -70,36 +70,36 @@ namespace Anycmd
         /// 4 所有Ssd约束在执行完命令后仍然被满足。
         /// </summary>
         /// <param name="roleId"></param>
-        /// <param name="userSession"></param>
+        /// <param name="subject"></param>
         /// <param name="accountId"></param>
-        void AssignUser(IUserSession userSession, Guid accountId, Guid roleId);
+        void AssignUser(IUserSession subject, Guid accountId, Guid roleId);
 
         /// <summary>
         /// 【核心Rbac管理函数】该命令删除一个角色role到用户account的分配。该命令可用当且仅当account是Account数据集的成员，role
         /// 是RoleSet数据集的成员，并且角色role已经分配给了用户account。
         /// </summary>
-        /// <param name="userSession"></param>
+        /// <param name="subject"></param>
         /// <param name="accountId"></param>
         /// <param name="roleId"></param>
-        void DeassignUser(IUserSession userSession, Guid accountId, Guid roleId);
+        void DeassignUser(IUserSession subject, Guid accountId, Guid roleId);
 
         /// <summary>
         /// 【核心Rbac管理函数】该命令给一个角色分配对一个对象执行某个操作的权限。该命令可用当且仅当给定的（操作，对象）代表了
         /// 一项权限并且该角色是RoleSet数据集的成员。
         /// </summary>
-        /// <param name="userSession"></param>
+        /// <param name="subject"></param>
         /// <param name="functionId"></param>
         /// <param name="roleId"></param>
-        void GrantPermission(IUserSession userSession, Guid functionId, Guid roleId);
+        void GrantPermission(IUserSession subject, Guid functionId, Guid roleId);
 
         /// <summary>
         /// 【核心Rbac管理函数】该命令从分配给角色的权限集中撤销对某个对象执行某个操作的权限。该命令可用当且仅当（操作、对象）
         /// 代表一项权限，并且该权限已经分配给了该角色。
         /// </summary>
-        /// <param name="userSession"></param>
+        /// <param name="subject"></param>
         /// <param name="functionId"></param>
         /// <param name="roleId"></param>
-        void RevokePermission(IUserSession userSession, Guid functionId, Guid roleId);
+        void RevokePermission(IUserSession subject, Guid functionId, Guid roleId);
 
         /// <summary>
         /// 【核心Rbac、通用角色层次支持系统函数】该函数创建一个新的会话，以指定的用户作为会话拥有者，以指定的角色集作为激活角色集。该函数可用
@@ -108,18 +108,18 @@ namespace Anycmd
         /// 2 该会话的激活角色集是该用户分配的角色集的子集。
         /// 3 该会话的激活角色集满足所有的Dsd约束。
         /// </summary>
-        /// <param name="userSession"></param>
+        /// <param name="subject"></param>
         /// <param name="sessionId"></param>
         /// <param name="account"></param>
         /// <returns></returns>
-        IUserSession CreateSession(IUserSession userSession, Guid sessionId, AccountState account);
+        IUserSession CreateSession(IUserSession subject, Guid sessionId, AccountState account);
 
         /// <summary>
         /// 【核心Rbac支持系统函数】该函数删除一个会话。该函数可用当且仅当会话标识符是UserSession数据集（表）的成员（记录）。
         /// </summary>
-        /// <param name="userSession"></param>
+        /// <param name="subject"></param>
         /// <param name="sessionId"></param>
-        void DeleteSession(IUserSession userSession, Guid sessionId);
+        void DeleteSession(IUserSession subject, Guid sessionId);
 
         /// <summary>
         /// 【核心Rbac、通用角色层次支持系统函数】该函数为给定的用户会话增加一个激活角色。该函数可用当且仅当：
@@ -131,94 +131,94 @@ namespace Anycmd
         /// 6 在给该会话增加新的激活角色后，所有的Dsd约束都被满足。
         /// </summary>
         /// <param name="roleId"></param>
-        /// <param name="userSession"></param>
+        /// <param name="subject"></param>
         /// <param name="targetSession"></param>
-        void AddActiveRole(IUserSession userSession, IUserSession targetSession, Guid roleId);
+        void AddActiveRole(IUserSession subject, IUserSession targetSession, Guid roleId);
 
         /// <summary>
         /// 【核心Rbac支持系统函数】该函数从给定用户会话中删除一个激活角色。该函数可用当且仅当该用户是Account数据集（表）的成员（记录），
         /// 会话标识是UserSession数据集（表）的成员（记录），该用户是该会话的拥有者并且该角色是该会话的一个激活角色。
         /// </summary>
-        /// <param name="userSession"></param>
+        /// <param name="subject"></param>
         /// <param name="targetSession"></param>
         /// <param name="roleId"></param>
-        void DropActiveRole(IUserSession userSession, IUserSession targetSession, Guid roleId);
+        void DropActiveRole(IUserSession subject, IUserSession targetSession, Guid roleId);
 
         /// <summary>
         /// 【核心Rbac支持系统函数】该函数决定一个给定的会话的主体是否允许对给定的对象执行某个给定的操作并返回一个布尔值。该函数可用当且仅当
         /// 会话标识符是UserSession数据集（表）的成员（记录），该对象是它对应类型的对象的数据集的成员，该操作是FunctionSet
         /// 数据集的成员。会话的主体可以对该对象执行该操作当且仅当会话的某个激活角色拥有对应的权限。
         /// </summary>
-        /// <param name="userSession"></param>
+        /// <param name="subject"></param>
         /// <param name="targetSession"></param>
         /// <param name="functionId"></param>
         /// <param name="obj"></param>
         /// <returns></returns>
-        bool CheckAccess(IUserSession userSession, IUserSession targetSession, Guid functionId, IManagedObject obj);
+        bool CheckAccess(IUserSession subject, IUserSession targetSession, Guid functionId, IManagedObject obj);
 
         /// <summary>
         /// 【核心Rbac查看函数】该函数返回被分配给了某个指定角色的用户。该函数可用当且仅当该角色是RoleSet数据集的成员。
         /// </summary>
-        /// <param name="userSession"></param>
+        /// <param name="subject"></param>
         /// <param name="roleId"></param>
         /// <returns></returns>
-        IReadOnlyCollection<AccountState> AssignedUsers(IUserSession userSession, Guid roleId);
+        IReadOnlyCollection<AccountState> AssignedUsers(IUserSession subject, Guid roleId);
 
         /// <summary>
         /// 【核心Rbac查看函数】该函数返回分配给了一个给定用户的角色。该函数可用当且仅当该用户是Account数据集（表）的成员（记录）。
         /// </summary>
-        /// <param name="userSession"></param>
+        /// <param name="subject"></param>
         /// <param name="accountId"></param>
         /// <returns></returns>
-        IReadOnlyCollection<RoleState> AssignedRoles(IUserSession userSession, Guid accountId);
+        IReadOnlyCollection<RoleState> AssignedRoles(IUserSession subject, Guid accountId);
 
         /// <summary>
         /// 【核心Rbac高级查看函数】该函数返回给定会话的激活角色。该函数可用当且仅当该会话标识符是UserSession数据集（表）的成员（记录）。
         /// </summary>
         /// <returns></returns>
-        IReadOnlyCollection<RoleState> SessionRoles(IUserSession userSession, IUserSession targetSession);
+        IReadOnlyCollection<RoleState> SessionRoles(IUserSession subject, IUserSession targetSession);
 
         /// <summary>
         /// 【核心Rbac高级查看函数】该函数返回给定会话的权限，即该会话的激活角色拥有的权限。该函数可用当且仅当会话标识符是
         /// UserSession数据集（表）的成员（记录）。
         /// </summary>
         /// <returns></returns>
-        IReadOnlyCollection<FunctionState> SessionPermissions(IUserSession userSession, IUserSession targetSession);
+        IReadOnlyCollection<FunctionState> SessionPermissions(IUserSession subject, IUserSession targetSession);
 
         /// <summary>
         /// 【核心Rbac高级查看函数】该函数返回分配给一个给定角色的权限。该函数可用当且仅当该角色是RoleSet数据集的成员。
         /// </summary>
-        /// <param name="userSession"></param>
+        /// <param name="subject"></param>
         /// <param name="roleId"></param>
         /// <returns></returns>
-        IReadOnlyCollection<FunctionState> RolePermissions(IUserSession userSession, Guid roleId);
+        IReadOnlyCollection<FunctionState> RolePermissions(IUserSession subject, Guid roleId);
 
         /// <summary>
         /// 【核心Rbac高级查看函数】该函数返回一个给定用户的权限。该函数可用当且仅当该用户是Account数据集（表）的成员（记录）。
         /// </summary>
         /// <returns></returns>
-        IReadOnlyCollection<FunctionState> UserPermissions(IUserSession userSession, IUserSession targetSession);
+        IReadOnlyCollection<FunctionState> UserPermissions(IUserSession subject, IUserSession targetSession);
 
         /// <summary>
         /// 【核心Rbac高级查看函数】该函数返回一个给定角色被允许的对给定对象执行的操作。该函数可用当且仅当该角色是RoleSet数据集的成员，
         /// 该对象是obj对应类型数据集的成员。
         /// </summary>
-        /// <param name="userSession"></param>
+        /// <param name="subject"></param>
         /// <param name="targetSession"></param>
         /// <param name="roleId"></param>
         /// <param name="obj"></param>
         /// <returns></returns>
-        IReadOnlyCollection<FunctionState> RoleOperationsOnObject(IUserSession userSession, IUserSession targetSession, Guid roleId, IManagedObject obj);
+        IReadOnlyCollection<FunctionState> RoleOperationsOnObject(IUserSession subject, IUserSession targetSession, Guid roleId, IManagedObject obj);
 
         /// <summary>
         /// 【核心Rbac高级查看函数】该函数返回给定用户被允许的针对给定角色执行的操作。该函数可用当且仅当该用户是Account数据集（表）
         /// 的成员（记录），该对象是obj对应类型数据集的成员。
         /// </summary>
-        /// <param name="userSession"></param>
+        /// <param name="subject"></param>
         /// <param name="targetSession"></param>
         /// <param name="obj"></param>
         /// <returns></returns>
-        IReadOnlyCollection<FunctionState> UserOperationsOnObject(IUserSession userSession, IUserSession targetSession, IManagedObject obj);
+        IReadOnlyCollection<FunctionState> UserOperationsOnObject(IUserSession subject, IUserSession targetSession, IManagedObject obj);
 
         /// <summary>
         /// 【通用角色层次、静态职责分离管理函数】该命令在两个已经存在的角色r_asc/客体和r_desc/主体之间建立直接继承关系。r_asc>>r_desc。该命令可用
@@ -228,53 +228,53 @@ namespace Anycmd
         /// 3 r_desc/主体不继承r_asc/客体（不免产生回路）。
         /// 4 Ssd约束在该命令执行后扔是满足的。
         /// </summary>
-        /// <param name="userSession"></param>
+        /// <param name="subject"></param>
         /// <param name="subjectRoleId">r_desc/主体</param>
         /// <param name="objectRoleId">r_asc/客体</param>
-        void AddInheritance(IUserSession userSession, Guid subjectRoleId, Guid objectRoleId);
+        void AddInheritance(IUserSession subject, Guid subjectRoleId, Guid objectRoleId);
 
         /// <summary>
         /// 【通用角色层次管理函数】该命令删除已经存在的直接继承关系r_asc>>r_desc。该命令可用当且仅当r_asc/客体和r_desc/主体都是
         /// RoleSet数据集的成员，r_asc/客体是r_desc/主体的直接祖先。在执行完该命令以后，新的继承关系是新的
         /// 直接继承关系的自反传递包。
         /// </summary>
-        /// <param name="userSession"></param>
+        /// <param name="subject"></param>
         /// <param name="subjectRoleId">r_desc/主体</param>
         /// <param name="objectRoleId">r_asc/客体</param>
-        void DeleteInheritance(IUserSession userSession, Guid subjectRoleId, Guid objectRoleId);
+        void DeleteInheritance(IUserSession subject, Guid subjectRoleId, Guid objectRoleId);
 
         /// <summary>
         /// 【通用角色层次管理函数】该命令创建一个新角色r_asc/客体/父角色，并作为现存角色r_desc/主体/子角色 的直接祖先插入到角色层次中去。该命令可用
         /// 当且仅当r_asc/客体/父角色 不是RoleSet数据集的成员，r_desc/子角色 是RoleSet数据集的成员。
         /// </summary>
-        /// <param name="userSession"></param>
+        /// <param name="subject"></param>
         /// <param name="childRoleId">r_desc/主体</param>
         /// <param name="parentRoleCreateInput">r_asc/客体</param>
-        void AddAscendant(IUserSession userSession, Guid childRoleId, IRoleCreateIo parentRoleCreateInput);
+        void AddAscendant(IUserSession subject, Guid childRoleId, IRoleCreateIo parentRoleCreateInput);
 
         /// <summary>
         /// 【通用角色层次管理函数】该命令创建一个新的角色作为现存角色 r_asc/客体/父角色 的直接后代插入到角色层次中。该命令可用当且仅当r_desc/主体
         /// 不是RoleSet数据集的成员，r_asc/客体/父角色 是RoleSet数据集的成员。
         /// </summary>
-        /// <param name="userSession"></param>
+        /// <param name="subject"></param>
         /// <param name="parentRoleId"></param>
         /// <param name="childRoleCreateInput"></param>
-        void AddDescendant(IUserSession userSession, Guid parentRoleId, IRoleCreateIo childRoleCreateInput);
+        void AddDescendant(IUserSession subject, Guid parentRoleId, IRoleCreateIo childRoleCreateInput);
 
         /// <summary>
         /// 【通用角色层次查看函数】该函数返回拥有给定角色的授权用户。该函数可用当且仅当给定角色是RoleSet的成员。
         /// </summary>
-        /// <param name="userSession"></param>
+        /// <param name="subject"></param>
         /// <param name="targetSession"></param>
         /// <param name="roleId"></param>
         /// <returns></returns>
-        IReadOnlyCollection<AccountState> AuthorizedUsers(IUserSession userSession, IUserSession targetSession, Guid roleId);
+        IReadOnlyCollection<AccountState> AuthorizedUsers(IUserSession subject, IUserSession targetSession, Guid roleId);
 
         /// <summary>
         /// 【通用角色层次查看函数】该函数返回给定用户的授权角色。该函数可用当且仅当该用户是Account数据集（表）的成员（记录）。
         /// </summary>
         /// <returns></returns>
-        IReadOnlyCollection<RoleState> AuthorizedRoles(IUserSession userSession, IUserSession targetSession);
+        IReadOnlyCollection<RoleState> AuthorizedRoles(IUserSession subject, IUserSession targetSession);
 
         /// <summary>
         /// 【通用角色层次、Ssd关系管理函数】该命令创建一个命名的Ssd角色集合，并设定相应的阀值。该命令可用当且仅当：
@@ -283,16 +283,16 @@ namespace Anycmd
         /// 3 SsdCard是一个大于或等于2的自然数，同事还要小于或等于Ssd角色集的基数（基数：有限集的元素个数）；
         /// 4 新的Ssd角色集的约束当前是被满足的。
         /// </summary>
-        /// <param name="userSession"></param>
+        /// <param name="subject"></param>
         /// <param name="input"></param>
-        void CreateSsdSet(IUserSession userSession, ISsdSetCreateIo input);
+        void CreateSsdSet(IUserSession subject, ISsdSetCreateIo input);
 
         /// <summary>
         /// 【Ssd关系管理函数】该命令删除一个Ssd角色集。该命令可用当且仅当该Ssd角色集存在。
         /// </summary>
-        /// <param name="userSession"></param>
+        /// <param name="subject"></param>
         /// <param name="ssdSetId"></param>
-        void DeleteSsdSet(IUserSession userSession, Guid ssdSetId);
+        void DeleteSsdSet(IUserSession subject, Guid ssdSetId);
 
         /// <summary>
         /// 【通用角色层次、Ssd关系管理函数】该命令为Ssd角色集增加一个角色，该Ssd角色集关联的阀值不发生改变。
@@ -301,10 +301,10 @@ namespace Anycmd
         /// 2 该角色是RoleSet数据集的成员，并且尚不属于该Ssd角色集；
         /// 3 该命令执行之后，Ssd约束仍然是满足的。
         /// </summary>
-        /// <param name="userSession"></param>
+        /// <param name="subject"></param>
         /// <param name="ssdSetId"></param>
         /// <param name="roleId"></param>
-        void AddSsdRoleMember(IUserSession userSession, Guid ssdSetId, Guid roleId);
+        void AddSsdRoleMember(IUserSession subject, Guid ssdSetId, Guid roleId);
 
         /// <summary>
         /// 【Ssd关系管理函数】该命令从Ssd角色集中删除一个角色，其关联的阀值不发生改变。该命令有效当且仅当：
@@ -315,17 +315,17 @@ namespace Anycmd
         /// 注意：修改后的Ssd约束当前应该是被满足的。
         /// </remarks>
         /// </summary>
-        /// <param name="userSession"></param>
+        /// <param name="subject"></param>
         /// <param name="ssdRoleId"></param>
-        void DeleteSsdRoleMember(IUserSession userSession, Guid ssdRoleId);
+        void DeleteSsdRoleMember(IUserSession subject, Guid ssdRoleId);
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="userSession"></param>
+        /// <param name="subject"></param>
         /// <param name="ssdSetId"></param>
         /// <param name="roleId"></param>
-        void DeleteSsdRoleMember(IUserSession userSession, Guid ssdSetId, Guid roleId);
+        void DeleteSsdRoleMember(IUserSession subject, Guid ssdSetId, Guid roleId);
 
         /// <summary>
         /// 【通用角色层次、Ssd关系管理函数】该命令设定与给定的Ssd角色集关联的阀值。该命令可用当且仅当：
@@ -333,32 +333,32 @@ namespace Anycmd
         /// 2 新的阀值是一个大于或等于2的自然数，它要小于或等于Ssd角色集的基（基：有限集元素的个数）；
         /// 3 新的Ssd约束当前应该是被满足的。
         /// </summary>
-        /// <param name="userSession"></param>
+        /// <param name="subject"></param>
         /// <param name="ssdSetId"></param>
         /// <param name="cardinality"></param>
-        void SetSsdCardinality(IUserSession userSession, Guid ssdSetId, int cardinality);
+        void SetSsdCardinality(IUserSession subject, Guid ssdSetId, int cardinality);
 
         /// <summary>
         /// 【静态职责分离查看函数】该函数返回所有的Ssd角色集。
         /// </summary>
         /// <returns></returns>
-        IReadOnlyCollection<SsdRoleState> SsdRoleSets(IUserSession userSession);
+        IReadOnlyCollection<SsdRoleState> SsdRoleSets(IUserSession subject);
 
         /// <summary>
         /// 【静态职责分离查看函数】该函数返回与一个指定Ssd角色集合相关联的角色的集合
         /// </summary>
-        /// <param name="userSession"></param>
+        /// <param name="subject"></param>
         /// <param name="ssdSetId"></param>
         /// <returns></returns>
-        IReadOnlyCollection<RoleState> SsdRoleSetRoles(IUserSession userSession, Guid ssdSetId);
+        IReadOnlyCollection<RoleState> SsdRoleSetRoles(IUserSession subject, Guid ssdSetId);
 
         /// <summary>
         /// 【静态职责分离查看函数】该函数返回与给定Ssd角色集关联的阀值。该函数可用当且仅当该角色集存在。
         /// </summary>
-        /// <param name="userSession"></param>
+        /// <param name="subject"></param>
         /// <param name="ssdSetId"></param>
         /// <returns></returns>
-        int SsdRoleSetCardinality(IUserSession userSession, Guid ssdSetId);
+        int SsdRoleSetCardinality(IUserSession subject, Guid ssdSetId);
 
         /// <summary>
         /// 创建一个动态责任分离角色集并设定相应的阀值。该Dsd约束要求Dsd角色集中
@@ -369,16 +369,16 @@ namespace Anycmd
         /// 3 SsdCard是一个大于或等于2的自然数；
         /// 4 新的Dsd角色集的约束当前是被满足的。
         /// </summary>
-        /// <param name="userSession"></param>
+        /// <param name="subject"></param>
         /// <param name="input"></param>
-        void CreateDsdSet(IUserSession userSession, IDsdSetCreateIo input);
+        void CreateDsdSet(IUserSession subject, IDsdSetCreateIo input);
 
         /// <summary>
         /// 该命令删除一个Dsd角色集。该命令可用当且仅当该Dsd角色集存在。
         /// </summary>
-        /// <param name="userSession"></param>
+        /// <param name="subject"></param>
         /// <param name="dsdSetId"></param>
-        void DeleteDsdSet(IUserSession userSession, Guid dsdSetId);
+        void DeleteDsdSet(IUserSession subject, Guid dsdSetId);
 
         /// <summary>
         /// 该命令为一个给定的Dsd角色集增加一个角色，Dsd角色集关联的阀值不发生改变。该命令有效当且仅当：
@@ -389,10 +389,10 @@ namespace Anycmd
         /// SsdCard要小于或等于Dsd角色集的基（基：有限集元素的个数）
         /// </remarks>
         /// </summary>
-        /// <param name="userSession"></param>
+        /// <param name="subject"></param>
         /// <param name="dsdSetId"></param>
         /// <param name="roleId"></param>
-        void AddDsdRoleMember(IUserSession userSession, Guid dsdSetId, Guid roleId);
+        void AddDsdRoleMember(IUserSession subject, Guid dsdSetId, Guid roleId);
 
         /// <summary>
         /// 该命令从Dsd角色集中删除一个角色，其关联的阀值不发生改变。该命令有效当且仅当：
@@ -403,17 +403,17 @@ namespace Anycmd
         /// 注意：修改后的Dsd约束当前应该是被满足的。
         /// </remarks>
         /// </summary>
-        /// <param name="userSession"></param>
+        /// <param name="subject"></param>
         /// <param name="dsdRoleId"></param>
-        void DeleteDsdRoleMember(IUserSession userSession, Guid dsdRoleId);
+        void DeleteDsdRoleMember(IUserSession subject, Guid dsdRoleId);
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="userSession"></param>
+        /// <param name="subject"></param>
         /// <param name="dsdRoleId"></param>
         /// <param name="roleId"></param>
-        void DeleteDsdRoleMember(IUserSession userSession, Guid dsdRoleId, Guid roleId);
+        void DeleteDsdRoleMember(IUserSession subject, Guid dsdRoleId, Guid roleId);
 
         /// <summary>
         /// 该命令设定与给定的Dsd角色集关联的阀值。该命令可用当且仅当：
@@ -421,31 +421,31 @@ namespace Anycmd
         /// 2 新的阀值是一个大于或等于2的自然数，它要小于或等于Dsd角色集的基（基：有限集元素的个数）；
         /// 3 新的Dsd约束当前应该是被满足的。
         /// </summary>
-        /// <param name="userSession"></param>
+        /// <param name="subject"></param>
         /// <param name="dsdSetId"></param>
         /// <param name="cardinality"></param>
-        void SetDsdCardinality(IUserSession userSession, Guid dsdSetId, int cardinality);
+        void SetDsdCardinality(IUserSession subject, Guid dsdSetId, int cardinality);
 
         /// <summary>
         /// 该函数返回所有的Dsd角色集。
         /// </summary>
         /// <returns></returns>
-        IReadOnlyCollection<DsdRoleState> DsdRoleSets(IUserSession userSession);
+        IReadOnlyCollection<DsdRoleState> DsdRoleSets(IUserSession subject);
 
         /// <summary>
         /// 该函数返回给定的Dsd角色集中的角色。该函数可用当且仅当该角色集存在。
         /// </summary>
-        /// <param name="userSession"></param>
+        /// <param name="subject"></param>
         /// <param name="dsdSetId"></param>
         /// <returns></returns>
-        IReadOnlyCollection<RoleState> DsdRoleSetRoles(IUserSession userSession, Guid dsdSetId);
+        IReadOnlyCollection<RoleState> DsdRoleSetRoles(IUserSession subject, Guid dsdSetId);
 
         /// <summary>
         /// 该函数返回与给定Dsd角色集关联的阀值。该函数可用当且仅当该角色集存在。
         /// </summary>
-        /// <param name="userSession"></param>
+        /// <param name="subject"></param>
         /// <param name="dsdSetId"></param>
         /// <returns></returns>
-        int DsdRoleSetCardinality(IUserSession userSession, Guid dsdSetId);
+        int DsdRoleSetCardinality(IUserSession subject, Guid dsdSetId);
     }
 }

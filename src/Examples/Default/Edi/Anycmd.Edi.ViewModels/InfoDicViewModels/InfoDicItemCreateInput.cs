@@ -3,6 +3,7 @@ namespace Anycmd.Edi.ViewModels.InfoDicViewModels
 {
     using Engine;
     using Engine.Edi.InOuts;
+    using Engine.Edi.Messages;
     using System;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
@@ -12,6 +13,12 @@ namespace Anycmd.Edi.ViewModels.InfoDicViewModels
     /// </summary>
     public class InfoDicItemCreateInput : EntityCreateInput, IInfoDicItemCreateIo
     {
+        public InfoDicItemCreateInput()
+        {
+            OntologyCode = "InfoDicItem";
+            Verb = "Create";
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -45,5 +52,10 @@ namespace Anycmd.Edi.ViewModels.InfoDicViewModels
         /// </summary>
         [DefaultValue(1)]
         public int IsEnabled { get; set; }
+
+        public AddInfoDicItemCommand ToCommand(IUserSession userSession)
+        {
+            return new AddInfoDicItemCommand(userSession, this);
+        }
     }
 }

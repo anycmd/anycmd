@@ -19,10 +19,6 @@ namespace Anycmd.Edi.ViewModels.ArchiveViewModels
             Verb = "Create";
         }
 
-        public string OntologyCode { get; private set; }
-
-        public string Verb { get; private set; }
-
         /// <summary>
         /// 
         /// </summary>

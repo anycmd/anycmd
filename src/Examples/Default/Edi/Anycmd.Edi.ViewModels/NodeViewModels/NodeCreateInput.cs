@@ -3,12 +3,19 @@ namespace Anycmd.Edi.ViewModels.NodeViewModels
 {
     using Engine;
     using Engine.Edi.InOuts;
+    using Engine.Edi.Messages;
     using System;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
 
     public class NodeCreateInput : EntityCreateInput, INodeCreateIo
     {
+        public NodeCreateInput()
+        {
+            OntologyCode = "Node";
+            Verb = "Create";
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -101,5 +108,10 @@ namespace Anycmd.Edi.ViewModels.NodeViewModels
         /// 
         /// </summary>
         public string Icon { get; set; }
+
+        public AddNodeCommand ToCommand(IUserSession userSession)
+        {
+            return new AddNodeCommand(userSession, this);
+        }
     }
 }

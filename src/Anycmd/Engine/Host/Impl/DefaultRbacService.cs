@@ -29,29 +29,29 @@ namespace Anycmd.Engine.Host.Impl
             this._host = host;
         }
 
-        public void AddUser(IUserSession userSession, IAccountCreateIo input)
+        public void AddUser(IUserSession subject, IAccountCreateIo input)
         {
-            _host.Handle(new AddAccountCommand(userSession, input));
+            _host.Handle(new AddAccountCommand(subject, input));
         }
 
-        public void DeleteUser(IUserSession userSession, Guid accountId)
+        public void DeleteUser(IUserSession subject, Guid accountId)
         {
-            _host.Handle(new RemoveAccountCommand(userSession, accountId));
+            _host.Handle(new RemoveAccountCommand(subject, accountId));
         }
 
-        public void AddRole(IUserSession userSession, IRoleCreateIo input)
+        public void AddRole(IUserSession subject, IRoleCreateIo input)
         {
-            _host.Handle(new AddRoleCommand(userSession, input));
+            _host.Handle(new AddRoleCommand(subject, input));
         }
 
-        public void DeleteRole(IUserSession userSession, Guid roleId)
+        public void DeleteRole(IUserSession subject, Guid roleId)
         {
-            _host.Handle(new RemoveRoleCommand(userSession, roleId));
+            _host.Handle(new RemoveRoleCommand(subject, roleId));
         }
 
-        public void AssignUser(IUserSession userSession, Guid accountId, Guid roleId)
+        public void AssignUser(IUserSession subject, Guid accountId, Guid roleId)
         {
-            _host.Handle(new AddPrivilegeCommand(userSession, new PrivilegeCreateIo
+            _host.Handle(new AddPrivilegeCommand(subject, new PrivilegeCreateIo
             {
                 Id = Guid.NewGuid(),
                 SubjectType = UserAcSubjectType.Account.ToName(),
@@ -63,24 +63,24 @@ namespace Anycmd.Engine.Host.Impl
             }));
         }
 
-        public void DeassignUser(IUserSession userSession, Guid accountId, Guid roleId)
+        public void DeassignUser(IUserSession subject, Guid accountId, Guid roleId)
         {
             var repository = _host.RetrieveRequiredService<IRepository<Privilege>>();
             var subjectType = UserAcSubjectType.Account.ToName();
             var objectType = AcElementType.Role.ToName();
-            var entity = repository.AsQueryable().FirstOrDefault(a => 
-                a.SubjectType == subjectType && a.SubjectInstanceId == accountId 
+            var entity = repository.AsQueryable().FirstOrDefault(a =>
+                a.SubjectType == subjectType && a.SubjectInstanceId == accountId
                 && a.ObjectType == objectType && a.ObjectInstanceId == roleId);
             if (entity == null)
             {
                 return;
             }
-            _host.Handle(new RemovePrivilegeCommand(userSession, entity.Id));
+            _host.Handle(new RemovePrivilegeCommand(subject, entity.Id));
         }
 
-        public void GrantPermission(IUserSession userSession, Guid functionId, Guid roleId)
+        public void GrantPermission(IUserSession subject, Guid functionId, Guid roleId)
         {
-            _host.Handle(new AddPrivilegeCommand(userSession, new PrivilegeCreateIo
+            _host.Handle(new AddPrivilegeCommand(subject, new PrivilegeCreateIo
             {
                 Id = Guid.NewGuid(),
                 SubjectType = UserAcSubjectType.Role.ToName(),
@@ -92,34 +92,34 @@ namespace Anycmd.Engine.Host.Impl
             }));
         }
 
-        public void RevokePermission(IUserSession userSession, Guid functionId, Guid roleId)
+        public void RevokePermission(IUserSession subject, Guid functionId, Guid roleId)
         {
             var repository = _host.RetrieveRequiredService<IRepository<Privilege>>();
             var subjectType = UserAcSubjectType.Role.ToName();
             var objectType = AcElementType.Function.ToName();
-            var entity = repository.AsQueryable().FirstOrDefault(a => 
-                a.SubjectType == subjectType && a.SubjectInstanceId == roleId 
+            var entity = repository.AsQueryable().FirstOrDefault(a =>
+                a.SubjectType == subjectType && a.SubjectInstanceId == roleId
                 && a.ObjectType == objectType && a.ObjectInstanceId == functionId);
             if (entity == null)
             {
                 return;
             }
-            _host.Handle(new RemovePrivilegeCommand(userSession, entity.Id));
+            _host.Handle(new RemovePrivilegeCommand(subject, entity.Id));
         }
 
-        public IUserSession CreateSession(IUserSession userSession, Guid sessionId, AccountState account)
+        public IUserSession CreateSession(IUserSession subject, Guid sessionId, AccountState account)
         {
             var sessionService = _host.RetrieveRequiredService<IUserSessionService>();
             return sessionService.CreateSession(_host, sessionId, account);
         }
 
-        public void DeleteSession(IUserSession userSession, Guid sessionId)
+        public void DeleteSession(IUserSession subject, Guid sessionId)
         {
             var sessionService = _host.RetrieveRequiredService<IUserSessionService>();
             sessionService.DeleteSession(_host, sessionId);
         }
 
-        public IReadOnlyCollection<RoleState> SessionRoles(IUserSession userSession, IUserSession targetSession)
+        public IReadOnlyCollection<RoleState> SessionRoles(IUserSession subject, IUserSession targetSession)
         {
             var result = new List<RoleState>();
             result.AddRange(targetSession.AccountPrivilege.AuthorizedRoles);
@@ -127,7 +127,7 @@ namespace Anycmd.Engine.Host.Impl
             return result;
         }
 
-        public IReadOnlyCollection<FunctionState> SessionPermissions(IUserSession userSession, IUserSession targetSession)
+        public IReadOnlyCollection<FunctionState> SessionPermissions(IUserSession subject, IUserSession targetSession)
         {
             var result = new List<FunctionState>();
             result.AddRange(targetSession.AccountPrivilege.AuthorizedFunctions);
@@ -135,7 +135,7 @@ namespace Anycmd.Engine.Host.Impl
             return result;
         }
 
-        public void AddActiveRole(IUserSession userSession, IUserSession targetSession, Guid roleId)
+        public void AddActiveRole(IUserSession subject, IUserSession targetSession, Guid roleId)
         {
             RoleState role;
             if (!_host.RoleSet.TryGetRole(roleId, out role))
@@ -150,7 +150,7 @@ namespace Anycmd.Engine.Host.Impl
             session.AccountPrivilege.AddActiveRole(role);
         }
 
-        public void DropActiveRole(IUserSession userSession, IUserSession targetSession, Guid roleId)
+        public void DropActiveRole(IUserSession subject, IUserSession targetSession, Guid roleId)
         {
             RoleState role;
             if (!_host.RoleSet.TryGetRole(roleId, out role))
@@ -165,7 +165,7 @@ namespace Anycmd.Engine.Host.Impl
             session.AccountPrivilege.DropActiveRole(role);
         }
 
-        public bool CheckAccess(IUserSession userSession, IUserSession targetSession, Guid functionId, IManagedObject obj)
+        public bool CheckAccess(IUserSession subject, IUserSession targetSession, Guid functionId, IManagedObject obj)
         {
             var securityService = _host.RetrieveRequiredService<ISecurityService>();
             FunctionState function;
@@ -181,7 +181,7 @@ namespace Anycmd.Engine.Host.Impl
             return securityService.Permit(session, function, obj);
         }
 
-        public virtual IReadOnlyCollection<AccountState> AssignedUsers(IUserSession userSession, Guid roleId)
+        public virtual IReadOnlyCollection<AccountState> AssignedUsers(IUserSession subject, Guid roleId)
         {
             // TODO:移除数据访问代码
             var sql =
@@ -219,7 +219,7 @@ namespace Anycmd.Engine.Host.Impl
             }
         }
 
-        public IReadOnlyCollection<RoleState> AssignedRoles(IUserSession userSession, Guid accountId)
+        public IReadOnlyCollection<RoleState> AssignedRoles(IUserSession subject, Guid accountId)
         {
             var repository = _host.RetrieveRequiredService<IRepository<Privilege>>();
             var subjectType = UserAcSubjectType.Account.ToName();
@@ -237,7 +237,7 @@ namespace Anycmd.Engine.Host.Impl
             return list;
         }
 
-        public virtual IReadOnlyCollection<AccountState> AuthorizedUsers(IUserSession userSession, IUserSession targetSession, Guid roleId)
+        public virtual IReadOnlyCollection<AccountState> AuthorizedUsers(IUserSession subject, IUserSession targetSession, Guid roleId)
         {
             RoleState role;
             if (!_host.RoleSet.TryGetRole(roleId, out role))
@@ -294,13 +294,13 @@ namespace Anycmd.Engine.Host.Impl
             }
         }
 
-        public IReadOnlyCollection<RoleState> AuthorizedRoles(IUserSession userSession, IUserSession targetSession)
+        public IReadOnlyCollection<RoleState> AuthorizedRoles(IUserSession subject, IUserSession targetSession)
         {
             AccountPrivilege accountPrivilege = targetSession.AccountPrivilege;
             return accountPrivilege.AuthorizedRoles;
         }
 
-        public IReadOnlyCollection<FunctionState> RolePermissions(IUserSession userSession, Guid roleId)
+        public IReadOnlyCollection<FunctionState> RolePermissions(IUserSession subject, Guid roleId)
         {
             RoleState role;
             if (!_host.RoleSet.TryGetRole(roleId, out role))
@@ -318,10 +318,10 @@ namespace Anycmd.Engine.Host.Impl
                 }
             }
             foreach (var privilege in _host.RoleSet.GetDescendantRoles(role)
-                .SelectMany(item => 
+                .SelectMany(item =>
                     _host.PrivilegeSet.Where(a =>
-                        a.SubjectType == AcElementType.Role 
-                        && a.SubjectInstanceId == item.Id 
+                        a.SubjectType == AcElementType.Role
+                        && a.SubjectInstanceId == item.Id
                         && a.ObjectType == AcElementType.Function)))
             {
                 FunctionState f;
@@ -333,13 +333,13 @@ namespace Anycmd.Engine.Host.Impl
             return functions.ToList();
         }
 
-        public IReadOnlyCollection<FunctionState> UserPermissions(IUserSession userSession, IUserSession targetSession)
+        public IReadOnlyCollection<FunctionState> UserPermissions(IUserSession subject, IUserSession targetSession)
         {
             AccountPrivilege accountPrivilege = targetSession.AccountPrivilege;
             return accountPrivilege.AuthorizedFunctions;
         }
 
-        public IReadOnlyCollection<FunctionState> RoleOperationsOnObject(IUserSession userSession, IUserSession targetSession, Guid roleId, IManagedObject obj)
+        public IReadOnlyCollection<FunctionState> RoleOperationsOnObject(IUserSession subject, IUserSession targetSession, Guid roleId, IManagedObject obj)
         {
             RoleState role;
             if (!_host.RoleSet.TryGetRole(roleId, out role))
@@ -363,7 +363,7 @@ namespace Anycmd.Engine.Host.Impl
             return functions.ToList();
         }
 
-        public IReadOnlyCollection<FunctionState> UserOperationsOnObject(IUserSession userSession, IUserSession targetSession, IManagedObject obj)
+        public IReadOnlyCollection<FunctionState> UserOperationsOnObject(IUserSession subject, IUserSession targetSession, IManagedObject obj)
         {
             AccountPrivilege accountPrivilege = targetSession.AccountPrivilege;
             var functions = new HashSet<FunctionState>();
@@ -375,9 +375,9 @@ namespace Anycmd.Engine.Host.Impl
             return functions.ToList();
         }
 
-        public void AddInheritance(IUserSession userSession, Guid subjectRoleId, Guid objectRoleId)
+        public void AddInheritance(IUserSession subject, Guid subjectRoleId, Guid objectRoleId)
         {
-            _host.Handle(new AddPrivilegeCommand(userSession, new PrivilegeCreateIo
+            _host.Handle(new AddPrivilegeCommand(subject, new PrivilegeCreateIo
             {
                 Id = Guid.NewGuid(),
                 SubjectType = UserAcSubjectType.Role.ToName(),
@@ -389,26 +389,26 @@ namespace Anycmd.Engine.Host.Impl
             }));
         }
 
-        public void DeleteInheritance(IUserSession userSession, Guid subjectRoleId, Guid objectRoleId)
+        public void DeleteInheritance(IUserSession subject, Guid subjectRoleId, Guid objectRoleId)
         {
             var repository = _host.RetrieveRequiredService<IRepository<Privilege>>();
             var subjectType = UserAcSubjectType.Role.ToName();
             var objectType = AcElementType.Role.ToName();
-            var entity = repository.AsQueryable().FirstOrDefault(a => 
-                a.SubjectType == subjectType && a.SubjectInstanceId == subjectRoleId 
+            var entity = repository.AsQueryable().FirstOrDefault(a =>
+                a.SubjectType == subjectType && a.SubjectInstanceId == subjectRoleId
                 && a.ObjectType == objectType && a.ObjectInstanceId == objectRoleId);
             if (entity == null)
             {
                 return;
             }
-            _host.Handle(new RemovePrivilegeCommand(userSession, entity.Id));
+            _host.Handle(new RemovePrivilegeCommand(subject, entity.Id));
         }
 
-        public void AddAscendant(IUserSession userSession, Guid childRoleId, IRoleCreateIo parentRoleCreateInput)
+        public void AddAscendant(IUserSession subject, Guid childRoleId, IRoleCreateIo parentRoleCreateInput)
         {
-            _host.Handle(new AddRoleCommand(userSession, parentRoleCreateInput));
+            _host.Handle(new AddRoleCommand(subject, parentRoleCreateInput));
             Debug.Assert(parentRoleCreateInput.Id != null, "parentRoleCreateInput.Id != null");
-            _host.Handle(new AddPrivilegeCommand(userSession, new PrivilegeCreateIo
+            _host.Handle(new AddPrivilegeCommand(subject, new PrivilegeCreateIo
             {
                 Id = Guid.NewGuid(),
                 SubjectType = UserAcSubjectType.Role.ToName(),
@@ -420,11 +420,11 @@ namespace Anycmd.Engine.Host.Impl
             }));
         }
 
-        public void AddDescendant(IUserSession userSession, Guid parentRoleId, IRoleCreateIo childRoleCreateInput)
+        public void AddDescendant(IUserSession subject, Guid parentRoleId, IRoleCreateIo childRoleCreateInput)
         {
-            _host.Handle(new AddRoleCommand(userSession, childRoleCreateInput));
+            _host.Handle(new AddRoleCommand(subject, childRoleCreateInput));
             Debug.Assert(childRoleCreateInput.Id != null, "childRoleCreateInput.Id != null");
-            _host.Handle(new AddPrivilegeCommand(userSession, new PrivilegeCreateIo
+            _host.Handle(new AddPrivilegeCommand(subject, new PrivilegeCreateIo
             {
                 Id = Guid.NewGuid(),
                 SubjectType = UserAcSubjectType.Role.ToName(),
@@ -436,19 +436,19 @@ namespace Anycmd.Engine.Host.Impl
             }));
         }
 
-        public void CreateSsdSet(IUserSession userSession, ISsdSetCreateIo input)
+        public void CreateSsdSet(IUserSession subject, ISsdSetCreateIo input)
         {
-            _host.Handle(new AddSsdSetCommand(userSession, input));
+            _host.Handle(new AddSsdSetCommand(subject, input));
         }
 
-        public void DeleteSsdSet(IUserSession userSession, Guid ssdSetId)
+        public void DeleteSsdSet(IUserSession subject, Guid ssdSetId)
         {
-            _host.Handle(new RemoveSsdSetCommand(userSession, ssdSetId));
+            _host.Handle(new RemoveSsdSetCommand(subject, ssdSetId));
         }
 
-        public void AddSsdRoleMember(IUserSession userSession, Guid ssdSetId, Guid roleId)
+        public void AddSsdRoleMember(IUserSession subject, Guid ssdSetId, Guid roleId)
         {
-            _host.Handle(new AddSsdRoleCommand(userSession, new SsdRoleCreateIo
+            _host.Handle(new AddSsdRoleCommand(subject, new SsdRoleCreateIo
             {
                 Id = Guid.NewGuid(),
                 RoleId = roleId,
@@ -456,12 +456,12 @@ namespace Anycmd.Engine.Host.Impl
             }));
         }
 
-        public void DeleteSsdRoleMember(IUserSession userSession, Guid ssdRoleId)
+        public void DeleteSsdRoleMember(IUserSession subject, Guid ssdRoleId)
         {
-            _host.Handle(new RemoveSsdRoleCommand(userSession, ssdRoleId));
+            _host.Handle(new RemoveSsdRoleCommand(subject, ssdRoleId));
         }
 
-        public void DeleteSsdRoleMember(IUserSession userSession, Guid ssdSetId, Guid roleId)
+        public void DeleteSsdRoleMember(IUserSession subject, Guid ssdSetId, Guid roleId)
         {
             var ssdRoleRepository = _host.RetrieveRequiredService<IRepository<SsdRole>>();
             var entity = ssdRoleRepository.AsQueryable().FirstOrDefault(a => a.SsdSetId == ssdSetId && a.RoleId == roleId);
@@ -469,17 +469,17 @@ namespace Anycmd.Engine.Host.Impl
             {
                 return;
             }
-            _host.Handle(new RemoveSsdRoleCommand(userSession, entity.Id));
+            _host.Handle(new RemoveSsdRoleCommand(subject, entity.Id));
         }
 
-        public void SetSsdCardinality(IUserSession userSession, Guid ssdSetId, int cardinality)
+        public void SetSsdCardinality(IUserSession subject, Guid ssdSetId, int cardinality)
         {
             SsdSetState state;
             if (!_host.SsdSetSet.TryGetSsdSet(ssdSetId, out state))
             {
                 throw new ValidationException("意外的静态责任分离角色集标识" + ssdSetId);
             }
-            _host.Handle(new UpdateSsdSetCommand(userSession, new SsdSetUpdateIo
+            _host.Handle(new UpdateSsdSetCommand(subject, new SsdSetUpdateIo
             {
                 Id = state.Id,
                 Description = state.Description,
@@ -489,12 +489,12 @@ namespace Anycmd.Engine.Host.Impl
             }));
         }
 
-        public IReadOnlyCollection<SsdRoleState> SsdRoleSets(IUserSession userSession)
+        public IReadOnlyCollection<SsdRoleState> SsdRoleSets(IUserSession subject)
         {
             return _host.SsdSetSet.GetSsdRoles();
         }
 
-        public IReadOnlyCollection<RoleState> SsdRoleSetRoles(IUserSession userSession, Guid ssdSetId)
+        public IReadOnlyCollection<RoleState> SsdRoleSetRoles(IUserSession subject, Guid ssdSetId)
         {
             SsdSetState ssdSet;
             if (!_host.SsdSetSet.TryGetSsdSet(ssdSetId, out ssdSet))
@@ -514,7 +514,7 @@ namespace Anycmd.Engine.Host.Impl
             return result;
         }
 
-        public int SsdRoleSetCardinality(IUserSession userSession, Guid ssdSetId)
+        public int SsdRoleSetCardinality(IUserSession subject, Guid ssdSetId)
         {
             SsdSetState ssdSet;
             if (!_host.SsdSetSet.TryGetSsdSet(ssdSetId, out ssdSet))
@@ -524,19 +524,19 @@ namespace Anycmd.Engine.Host.Impl
             return ssdSet.SsdCard;
         }
 
-        public void CreateDsdSet(IUserSession userSession, IDsdSetCreateIo input)
+        public void CreateDsdSet(IUserSession subject, IDsdSetCreateIo input)
         {
-            _host.Handle(new AddDsdSetCommand(userSession, input));
+            _host.Handle(new AddDsdSetCommand(subject, input));
         }
 
-        public void DeleteDsdSet(IUserSession userSession, Guid dsdSetId)
+        public void DeleteDsdSet(IUserSession subject, Guid dsdSetId)
         {
-            _host.Handle(new RemoveDsdSetCommand(userSession, dsdSetId));
+            _host.Handle(new RemoveDsdSetCommand(subject, dsdSetId));
         }
 
-        public void AddDsdRoleMember(IUserSession userSession, Guid dsdSetId, Guid roleId)
+        public void AddDsdRoleMember(IUserSession subject, Guid dsdSetId, Guid roleId)
         {
-            _host.Handle(new AddDsdRoleCommand(userSession, new DsdRoleCreateIo
+            _host.Handle(new AddDsdRoleCommand(subject, new DsdRoleCreateIo
             {
                 Id = Guid.NewGuid(),
                 RoleId = roleId,
@@ -544,12 +544,12 @@ namespace Anycmd.Engine.Host.Impl
             }));
         }
 
-        public void DeleteDsdRoleMember(IUserSession userSession, Guid dsdRoleId)
+        public void DeleteDsdRoleMember(IUserSession subject, Guid dsdRoleId)
         {
-            _host.Handle(new RemoveDsdRoleCommand(userSession, dsdRoleId));
+            _host.Handle(new RemoveDsdRoleCommand(subject, dsdRoleId));
         }
 
-        public void DeleteDsdRoleMember(IUserSession userSession, Guid dsdRoleId, Guid roleId)
+        public void DeleteDsdRoleMember(IUserSession subject, Guid dsdRoleId, Guid roleId)
         {
             var dsdRoleRepository = _host.RetrieveRequiredService<IRepository<DsdRole>>();
             var entity = dsdRoleRepository.AsQueryable().FirstOrDefault(a => a.DsdSetId == dsdRoleId && a.RoleId == roleId);
@@ -557,17 +557,17 @@ namespace Anycmd.Engine.Host.Impl
             {
                 return;
             }
-            _host.Handle(new RemoveDsdRoleCommand(userSession, entity.Id));
+            _host.Handle(new RemoveDsdRoleCommand(subject, entity.Id));
         }
 
-        public void SetDsdCardinality(IUserSession userSession, Guid dsdSetId, int cardinality)
+        public void SetDsdCardinality(IUserSession subject, Guid dsdSetId, int cardinality)
         {
             DsdSetState state;
             if (!_host.DsdSetSet.TryGetDsdSet(dsdSetId, out state))
             {
                 throw new ValidationException("意外的动态责任分离角色集标识" + dsdSetId);
             }
-            _host.Handle(new UpdateDsdSetCommand(userSession, new DsdSetUpdateIo
+            _host.Handle(new UpdateDsdSetCommand(subject, new DsdSetUpdateIo
             {
                 Id = state.Id,
                 Description = state.Description,
@@ -577,12 +577,12 @@ namespace Anycmd.Engine.Host.Impl
             }));
         }
 
-        public IReadOnlyCollection<DsdRoleState> DsdRoleSets(IUserSession userSession)
+        public IReadOnlyCollection<DsdRoleState> DsdRoleSets(IUserSession subject)
         {
             return _host.DsdSetSet.GetDsdRoles();
         }
 
-        public IReadOnlyCollection<RoleState> DsdRoleSetRoles(IUserSession userSession, Guid dsdSetId)
+        public IReadOnlyCollection<RoleState> DsdRoleSetRoles(IUserSession subject, Guid dsdSetId)
         {
             DsdSetState dsdSet;
             if (!_host.DsdSetSet.TryGetDsdSet(dsdSetId, out dsdSet))
@@ -602,7 +602,7 @@ namespace Anycmd.Engine.Host.Impl
             return result;
         }
 
-        public int DsdRoleSetCardinality(IUserSession userSession, Guid dsdSetId)
+        public int DsdRoleSetCardinality(IUserSession subject, Guid dsdSetId)
         {
             DsdSetState dsdSet;
             if (!_host.DsdSetSet.TryGetDsdSet(dsdSetId, out dsdSet))
@@ -626,23 +626,33 @@ namespace Anycmd.Engine.Host.Impl
 
             public string AcContentType { get; set; }
 
-            public AddPrivilegeCommand ToCommand(IUserSession userSession)
+            public AddPrivilegeCommand ToCommand(IUserSession subject)
             {
-                return new AddPrivilegeCommand(userSession, this);
+                return new AddPrivilegeCommand(subject, this);
             }
         }
 
         public class PrivilegeUpdateIo : IPrivilegeUpdateIo
         {
+            public PrivilegeUpdateIo()
+            {
+                OntologyCode = "Privilege";
+                Verb = "Update";
+            }
+
+            public string OntologyCode { get; private set; }
+
+            public string Verb { get; private set; }
+
             public Guid Id { get; set; }
             /// <summary>
             /// 
             /// </summary>
             public string AcContent { get; set; }
 
-            public UpdatePrivilegeCommand ToCommand(IUserSession userSession)
+            public UpdatePrivilegeCommand ToCommand(IUserSession subject)
             {
-                return new UpdatePrivilegeCommand(userSession, this);
+                return new UpdatePrivilegeCommand(subject, this);
             }
         }
 
@@ -652,9 +662,9 @@ namespace Anycmd.Engine.Host.Impl
 
             public Guid RoleId { get; set; }
 
-            public AddDsdRoleCommand ToCommand(IUserSession userSession)
+            public AddDsdRoleCommand ToCommand(IUserSession subject)
             {
-                return new AddDsdRoleCommand(userSession, this);
+                return new AddDsdRoleCommand(subject, this);
             }
         }
 
@@ -668,14 +678,24 @@ namespace Anycmd.Engine.Host.Impl
 
             public string Description { get; set; }
 
-            public AddDsdSetCommand ToCommand(IUserSession userSession)
+            public AddDsdSetCommand ToCommand(IUserSession subject)
             {
-                return new AddDsdSetCommand(userSession, this);
+                return new AddDsdSetCommand(subject, this);
             }
         }
 
         public class DsdSetUpdateIo : IDsdSetUpdateIo
         {
+            public DsdSetUpdateIo()
+            {
+                OntologyCode = "DsdSet";
+                Verb = "Update";
+            }
+
+            public string OntologyCode { get; private set; }
+
+            public string Verb { get; private set; }
+
             public Guid Id { get; set; }
 
             public string Name { get; set; }
@@ -686,9 +706,9 @@ namespace Anycmd.Engine.Host.Impl
 
             public string Description { get; set; }
 
-            public UpdateDsdSetCommand ToCommand(IUserSession userSession)
+            public UpdateDsdSetCommand ToCommand(IUserSession subject)
             {
-                return new UpdateDsdSetCommand(userSession, this);
+                return new UpdateDsdSetCommand(subject, this);
             }
         }
 
@@ -698,9 +718,9 @@ namespace Anycmd.Engine.Host.Impl
 
             public Guid RoleId { get; set; }
 
-            public AddSsdRoleCommand ToCommand(IUserSession userSession)
+            public AddSsdRoleCommand ToCommand(IUserSession subject)
             {
-                return new AddSsdRoleCommand(userSession, this);
+                return new AddSsdRoleCommand(subject, this);
             }
         }
 
@@ -714,14 +734,24 @@ namespace Anycmd.Engine.Host.Impl
 
             public string Description { get; set; }
 
-            public AddSsdSetCommand ToCommand(IUserSession userSession)
+            public AddSsdSetCommand ToCommand(IUserSession subject)
             {
-                return new AddSsdSetCommand(userSession, this);
+                return new AddSsdSetCommand(subject, this);
             }
         }
 
         public class SsdSetUpdateIo : ISsdSetUpdateIo
         {
+            public SsdSetUpdateIo()
+            {
+                OntologyCode = "SsdSet";
+                Verb = "Update";
+            }
+
+            public string OntologyCode { get; private set; }
+
+            public string Verb { get; private set; }
+
             public string Name { get; set; }
 
             public int SsdCard { get; set; }
@@ -732,9 +762,9 @@ namespace Anycmd.Engine.Host.Impl
 
             public Guid Id { get; set; }
 
-            public UpdateSsdSetCommand ToCommand(IUserSession userSession)
+            public UpdateSsdSetCommand ToCommand(IUserSession subject)
             {
-                return new UpdateSsdSetCommand(userSession, this);
+                return new UpdateSsdSetCommand(subject, this);
             }
         }
     }

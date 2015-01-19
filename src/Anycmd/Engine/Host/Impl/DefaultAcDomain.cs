@@ -94,6 +94,7 @@ namespace Anycmd.Engine.Host.Impl
             this.AddService(typeof(INodeHostBootstrap), new FastNodeHostBootstrap(this));
             this.MessageDispatcher.Register(new AddBatchCommandHandler(this));
             this.MessageDispatcher.Register(new UpdateBatchCommandHandler(this));
+            this.MessageDispatcher.Register(new UpdateInfoRuleCommandHandler(this));
             this.MessageDispatcher.Register(new RemoveBatchCommandHandler(this));
 
             this.Map(EntityTypeMap.Create<Edi.Entities.Action>("Edi"));

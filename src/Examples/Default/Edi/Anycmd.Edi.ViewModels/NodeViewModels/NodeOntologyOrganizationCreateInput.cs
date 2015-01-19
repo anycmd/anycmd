@@ -6,6 +6,16 @@ namespace Anycmd.Edi.ViewModels.NodeViewModels
 
     public class NodeOntologyOrganizationCreateInput : INodeOntologyOrganizationCreateIo
     {
+        public NodeOntologyOrganizationCreateInput()
+        {
+            this.OntologyCode = "NodeOntologyOrganization";
+            this.Verb = "Create";
+        }
+
+        public string OntologyCode { get; private set; }
+
+        public string Verb { get; private set; }
+
         public Guid NodeId { get; set; }
 
         public Guid OntologyId { get; set; }

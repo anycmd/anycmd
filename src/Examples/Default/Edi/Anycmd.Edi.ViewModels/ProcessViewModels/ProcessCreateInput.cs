@@ -3,6 +3,7 @@ namespace Anycmd.Edi.ViewModels.ProcessViewModels
 {
     using Engine;
     using Engine.Edi.InOuts;
+    using Engine.Edi.Messages;
     using System;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
@@ -12,6 +13,12 @@ namespace Anycmd.Edi.ViewModels.ProcessViewModels
     /// </summary>
     public class ProcessCreateInput : EntityCreateInput, IProcessCreateIo
     {
+        public ProcessCreateInput()
+        {
+            OntologyCode = "Process";
+            Verb = "Create";
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -40,5 +47,10 @@ namespace Anycmd.Edi.ViewModels.ProcessViewModels
         public int NetPort { get; set; }
 
         public string OrganizationCode { get; set; }
+
+        public AddProcessCommand ToCommand(IUserSession userSession)
+        {
+            return new AddProcessCommand(userSession, this);
+        }
     }
 }
