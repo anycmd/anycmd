@@ -2,6 +2,7 @@
 namespace Anycmd.Edi.ViewModels.ArchiveViewModels
 {
     using Engine.Edi.InOuts;
+    using Engine.Edi.Messages;
     using System;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
@@ -11,6 +12,16 @@ namespace Anycmd.Edi.ViewModels.ArchiveViewModels
     /// </summary>
     public class ArchiveUpdateInput : IArchiveUpdateIo
     {
+        public ArchiveUpdateInput()
+        {
+            OntologyCode = "Archive";
+            Verb = "Update";
+        }
+
+        public string OntologyCode { get; private set; }
+
+        public string Verb { get; private set; }
+
         public Guid Id { get; set; }
         /// <summary>
         /// 
@@ -25,5 +36,10 @@ namespace Anycmd.Edi.ViewModels.ArchiveViewModels
         [StringLength(50)]
         [DisplayName(@"备注")]
         public string Description { get; set; }
+
+        public UpdateArchiveCommand ToCommand(IUserSession userSession)
+        {
+            return new UpdateArchiveCommand(userSession, this);
+        }
     }
 }
