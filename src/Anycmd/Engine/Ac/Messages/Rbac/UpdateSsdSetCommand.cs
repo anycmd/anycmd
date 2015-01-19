@@ -5,8 +5,8 @@ namespace Anycmd.Engine.Ac.Messages.Rbac
 
     public class UpdateSsdSetCommand: UpdateEntityCommand<ISsdSetUpdateIo>, IAnycmdCommand
     {
-        public UpdateSsdSetCommand(ISsdSetUpdateIo input)
-            : base(input)
+        public UpdateSsdSetCommand(IUserSession userSession, ISsdSetUpdateIo input)
+            : base(userSession, input)
         {
 
         }

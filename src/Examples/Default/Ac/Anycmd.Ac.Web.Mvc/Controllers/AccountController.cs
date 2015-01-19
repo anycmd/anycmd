@@ -171,7 +171,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            AcDomain.Handle(input.ToCommand(UserSession));
+            AcDomain.Handle(input.ToCommand(UserSession, UserSession));
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -191,7 +191,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 LoginName = UserSession.Identity.Name,
                 OldPassword = oldPassword,
                 NewPassword = password
-            }.ToCommand(UserSession));
+            }.ToCommand(UserSession, UserSession));
 
             return this.JsonResult(new ResponseData { success = true });
         }
@@ -316,7 +316,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            AcDomain.Handle(input.ToCommand());
+            AcDomain.Handle(input.ToCommand(UserSession));
 
             return this.JsonResult(new ResponseData { success = true, id = input.Id });
         }
@@ -331,7 +331,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return this.ModelState.ToJsonResult();
             }
-            AcDomain.Handle(input.ToCommand());
+            AcDomain.Handle(input.ToCommand(UserSession));
 
             return this.JsonResult(new ResponseData { success = true, id = input.Id });
         }
@@ -384,7 +384,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
         [Guid("AF3793B3-9CBB-4F53-9307-1910F9473058")]
         public ActionResult Delete(string id)
         {
-            return this.HandleSeparateGuidString(AcDomain.RemoveAccount, id, ',');
+            return this.HandleSeparateGuidString(AcDomain.RemoveAccount, UserSession, id, ',');
         }
 
         #region GrantOrDenyRoles
@@ -411,7 +411,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                     {
                         if (!isAssigned)
                         {
-                            AcDomain.Handle(new RemovePrivilegeCommand(id));
+                            AcDomain.Handle(new RemovePrivilegeCommand(UserSession, id));
                         }
                         else
                         {
@@ -421,7 +421,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                                 {
                                     Id = id,
                                     AcContent = row["AcContent"].ToString()
-                                }.ToCommand());
+                                }.ToCommand(UserSession));
                             }
                         }
                     }
@@ -441,7 +441,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                         {
                             createInput.AcContent = row["AcContent"].ToString();
                         }
-                        AcDomain.Handle(createInput.ToCommand());
+                        AcDomain.Handle(createInput.ToCommand(UserSession));
                     }
                 }
             }
@@ -474,7 +474,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                     {
                         if (!isAssigned)
                         {
-                            AcDomain.Handle(new RemovePrivilegeCommand(id));
+                            AcDomain.Handle(new RemovePrivilegeCommand(UserSession, id));
                         }
                     }
                     else if (isAssigned)
@@ -486,7 +486,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                             ObjectInstanceId = new Guid(row["GroupId"].ToString()),
                             SubjectInstanceId = new Guid(row["AccountId"].ToString()),
                             SubjectType = UserAcSubjectType.Account.ToName()
-                        }.ToCommand());
+                        }.ToCommand(UserSession));
                     }
                 }
             }

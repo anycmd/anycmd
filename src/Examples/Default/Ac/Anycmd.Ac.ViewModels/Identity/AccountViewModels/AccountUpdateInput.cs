@@ -105,9 +105,9 @@ namespace Anycmd.Ac.ViewModels.Identity.AccountViewModels
         /// </summary>
         public string QQ { get; set; }
 
-        public UpdateAccountCommand ToCommand()
+        public UpdateAccountCommand ToCommand(IUserSession userSession)
         {
-            return new UpdateAccountCommand(this);
+            return new UpdateAccountCommand(userSession, this);
         }
     }
 }

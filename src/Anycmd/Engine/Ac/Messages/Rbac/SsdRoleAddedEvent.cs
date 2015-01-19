@@ -6,8 +6,8 @@ namespace Anycmd.Engine.Ac.Messages.Rbac
 
     public class SsdRoleAddedEvent : EntityAddedEvent<ISsdRoleCreateIo>
     {
-        public SsdRoleAddedEvent(SsdRoleBase source, ISsdRoleCreateIo output)
-            : base(source, output)
+        public SsdRoleAddedEvent(IUserSession userSession, SsdRoleBase source, ISsdRoleCreateIo output)
+            : base(userSession, source, output)
         {
         }
     }

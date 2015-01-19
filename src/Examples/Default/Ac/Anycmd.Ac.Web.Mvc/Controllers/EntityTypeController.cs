@@ -111,7 +111,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            AcDomain.Handle(input.ToCommand());
+            AcDomain.Handle(input.ToCommand(UserSession));
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -127,7 +127,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            AcDomain.Handle(input.ToCommand());
+            AcDomain.Handle(input.ToCommand(UserSession));
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -139,7 +139,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
         [Guid("B6FAD137-535C-4668-A1BB-C7281455E719")]
         public ActionResult Delete(string id)
         {
-            return this.HandleSeparateGuidString(AcDomain.RemoveEntityType, id, ',');
+            return this.HandleSeparateGuidString(AcDomain.RemoveEntityType, UserSession, id, ',');
         }
     }
 }

@@ -7,21 +7,24 @@ namespace Anycmd.Engine.Ac.Messages.Identity
 
     public class ChangePasswordCommand : Command, IAnycmdCommand
     {
-        public ChangePasswordCommand(IPasswordChangeIo input, IUserSession userSession)
+        public ChangePasswordCommand(IUserSession userSession, IPasswordChangeIo input, IUserSession targetSession)
         {
             if (input == null)
             {
                 throw new ArgumentNullException("input");
             }
-            if (userSession == null)
+            if (targetSession == null)
             {
-                throw new ArgumentNullException("userSession");
+                throw new ArgumentNullException("targetSession");
             }
             this.UserSession = userSession;
+            this.TargetSession = targetSession;
             this.Input = input;
         }
 
         public IPasswordChangeIo Input { get; private set; }
+
+        public IUserSession TargetSession { get; private set; }
 
         public IUserSession UserSession { get; private set; }
     }

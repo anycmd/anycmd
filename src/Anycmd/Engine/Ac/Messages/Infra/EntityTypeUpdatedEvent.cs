@@ -10,8 +10,8 @@ namespace Anycmd.Engine.Ac.Messages.Infra
     /// </summary>
     public class EntityTypeUpdatedEvent : DomainEvent
     {
-        public EntityTypeUpdatedEvent(EntityTypeBase source, IEntityTypeUpdateIo input)
-            : base(source)
+        public EntityTypeUpdatedEvent(IUserSession userSession, EntityTypeBase source, IEntityTypeUpdateIo input)
+            : base(userSession, source)
         {
             if (input == null)
             {

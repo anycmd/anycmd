@@ -16,15 +16,19 @@ namespace Anycmd.Engine
         /// <summary>
         /// 初始化一个 <c>AddEntityCommand</c> 类型的对象。
         /// </summary>
+        /// <param name="userSession"></param>
         /// <param name="input">命令中的输入参数。</param>
-        protected AddEntityCommand(TEntityCreateInput input)
+        protected AddEntityCommand(IUserSession userSession, TEntityCreateInput input)
         {
             if (input == null)
             {
                 throw new ArgumentNullException("input");
             }
+            this.UserSession = userSession;
             this.Input = input;
         }
+
+        public IUserSession UserSession { get; private set; }
 
         /// <summary>
         /// 输入参数。

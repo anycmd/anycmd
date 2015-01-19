@@ -9,6 +9,6 @@ namespace Anycmd.Engine.Edi.Messages
     /// </summary>
     public sealed class ElementAddedEvent : DomainEvent
     {
-        public ElementAddedEvent(ElementBase source) : base(source) { }
+        public ElementAddedEvent(IUserSession userSession, ElementBase source) : base(userSession, source) { }
     }
 }

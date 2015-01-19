@@ -209,7 +209,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                         throw;
                     }
                 }
-                _set._host.PublishEvent(new ProcessAddedEvent(entity));
+                _set._host.PublishEvent(new ProcessAddedEvent(message.UserSession, entity));
                 _set._host.CommitEventBus();
             }
 
@@ -255,7 +255,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
                 if (stateChanged)
                 {
-                    _set._host.PublishEvent(new ProcessUpdatedEvent(entity));
+                    _set._host.PublishEvent(new ProcessUpdatedEvent(message.UserSession, entity));
                     _set._host.CommitEventBus();
                 }
             }

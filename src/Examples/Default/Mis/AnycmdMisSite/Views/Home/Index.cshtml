@@ -15,7 +15,7 @@
 <div id="layout1" class="mini-layout" style="width: 100%; height: 100%;">
     @*头部区域*@
     <div region="north" showsplit="true" showheader="false" class="mini-toolbar"
-        height="34px" style="padding: 0; margin: 0; border-top: 0px;" splitsize="0">
+         height="34px" style="padding: 0; margin: 0; border-top: 0px;" splitsize="0">
         <div>
             <div id="logo" style="float: left;">
                 <a id="btnAbout" tooltip="关于" class="mini-button" plain="true">Anycmd <span style="font-size:14px;">About</span></a>
@@ -23,27 +23,11 @@
             <a href="Ac/Organization/Index" tooltip="组织结构" class="mini-button topMenu" plain="true" style="float: left; margin-top: 2px;">
                 @{
                     ResourceTypeState organization;
-                    if (Html.CurrentHost().ResourceTypeSet.TryGetResource(Html.CurrentHost().AppSystemSet.SelfAppSystem, "Organization", out organization)) {
+                    if (Html.CurrentHost().ResourceTypeSet.TryGetResource(Html.CurrentHost().AppSystemSet.SelfAppSystem, "Organization", out organization))
+                    {
                         <img src="@Url.Content("~/content/icons/16x16/" + organization.Icon)" style="border:0px;" />
                     }
-                    if (this.CurrentUser().IsDeveloper()) {
-                        <span>组织结构</span>
-                    }
-                    int i = 0;
-                    foreach (var org in this.CurrentUser().AccountPrivilege.Organizations) {
-                        if (i != 0) {
-                            <span>,</span>
-                        }
-                        if (i > 1) {
-                            <span>...</span>
-                            break;
-                        }
-                        <span>@org.Name</span>
-                        i++;
-                    }
-                    if (i == 0 && !this.CurrentUser().IsDeveloper()) {
-                        <span style="color: red;">您没有组织结构</span>
-                    }
+                    <span>组织结构</span>
                 }
             </a>
             <a href="http://git.oschina.net/anycmd/anycmd" target="_blank" plain="true" style="float: left; margin-top: 2px; color: red;">源码</a>
@@ -53,16 +37,17 @@
             <div id="userContext" class="buttons" style="float: right; padding-top: 2px;">
                 <div id="logout" style="display: none;">
                     账户：<a id="currentAccount" title="账户" href="@Url.Action("CurrentAccount", "Account", new { area = "Ac", isTooltip = "true" })"
-                              rel="@Url.Action("CurrentAccount", "Account", new { area = "Ac", isTooltip = "true" })"></a>
+                          rel="@Url.Action("CurrentAccount", "Account", new { area = "Ac", isTooltip = "true" })"></a>
                     <a id="Home_Index_Password_btnChangePassword" class="mini-button mini-button-iconLeft"
-                        iconStyle="background: url(/content/icons/32x32/key.png) no-repeat;" tooltip="修改密码" plain="true"></a>
+                       iconstyle="background: url(/content/icons/32x32/key.png) no-repeat;" tooltip="修改密码" plain="true"></a>
                     <a id="btnLogout" tooltip="退出系统" class="mini-button mini-button-iconLeft"
-                        iconStyle="background: url(/content/icons/32x32/door_out.png) no-repeat;" plain="true"></a>
+                       iconstyle="background: url(/content/icons/32x32/door_out.png) no-repeat;" plain="true"></a>
                 </div>
                 <div id="logon" style="display: none;">
                     <a id="btnLogon" class="mini-button mini-button-iconLeft"
-                        iconStyle="background: url(/content/icons/16x16/door_in.png) no-repeat;" plain="true">登录</a>
-                    <span class="mini-toolbar">账户：未登录
+                       iconstyle="background: url(/content/icons/16x16/door_in.png) no-repeat;" plain="true">登录</a>
+                    <span class="mini-toolbar">
+                        账户：未登录
                         用户：未登录
                     </span>&nbsp;
                 </div>
@@ -79,30 +64,30 @@
     </div>
     @*底部区域*@
     <div region="south" class="mini-toolbar" showsplit="false" showheader="false" height="25px"
-        style="text-align: center;" splitsize="0">
+         style="text-align: center;" splitsize="0">
         <a href="/copyright.html" target="_blank">Copyright</a> © Anycmd @DateTime.Now.Year.ToString()（建议使用Chrome或Firefox浏览器）
     </div>
     @*左侧区域*@
     <div title="菜单" width="190" region="west" class="mini-toolbar" splitsize="0">
         <div id="leftTree" class="mini-outlooktree" expandonload="true" textfield="text"
-            idfield="id" parentfield="pid" imgpath="/content/icons/16x16/">
+             idfield="id" parentfield="pid" imgpath="/content/icons/16x16/">
         </div>
     </div>
     @*中心区域*@
     <div region="center">
         <div id="mainTabs" visible="true" class="mini-tabs" activeindex="0" style="width: 100%; height: 100%;"
-            bodystyle="border:0;" plain="false" buttons="#tabsButtons">
-            <div name="first" title="我的桌面" bodystyle="overflow:hidden;" iconStyle="background: url(/content/icons/16x16/house.png) no-repeat;">
+             bodystyle="border:0;" plain="false" buttons="#tabsButtons">
+            <div name="first" title="我的桌面" bodystyle="overflow:hidden;" iconstyle="background: url(/content/icons/16x16/house.png) no-repeat;">
                 <img id="bgimg" style="display: none;" />
                 @{ Html.RenderPartial("Partials/MyPortal");}
             </div>
         </div>
         <div id="tabsButtons">
-            <a id="btnRefresh" tooltip="刷新当前页面" class="mini-button mini-button-iconLeft" iconStyle="background: url(/content/icons/16x16/arrow_refresh.png) no-repeat;" plain="true"></a>
-            <a id="btnBlank" tooltip="新窗口打开" target="_blank" class="mini-button mini-button-iconLeft" iconStyle="background: url(/content/icons/16x16/application_double.png) no-repeat;" plain="true"></a>
-            <a id="btnRemoveAll" tooltip="关闭全部打开的页面" class="mini-button mini-button-iconLeft" iconStyle="background: url(/content/icons/16x16/nonepage.png) no-repeat;" plain="true">全部</a>
-            <a id="btnRemoveOthers" tooltip="关闭除当前活动页面外的页面" class="mini-button mini-button-iconLeft" iconStyle="background: url(/content/icons/16x16/folder_delete.png) no-repeat;" plain="true"></a>
-            <a id="btnRemoveCurrent" tooltip="关闭当前活动的页面" class="mini-button mini-button-iconLeft" iconStyle="background: url(/content/icons/16x16/cross.png) no-repeat;" plain="true"></a>
+            <a id="btnRefresh" tooltip="刷新当前页面" class="mini-button mini-button-iconLeft" iconstyle="background: url(/content/icons/16x16/arrow_refresh.png) no-repeat;" plain="true"></a>
+            <a id="btnBlank" tooltip="新窗口打开" target="_blank" class="mini-button mini-button-iconLeft" iconstyle="background: url(/content/icons/16x16/application_double.png) no-repeat;" plain="true"></a>
+            <a id="btnRemoveAll" tooltip="关闭全部打开的页面" class="mini-button mini-button-iconLeft" iconstyle="background: url(/content/icons/16x16/nonepage.png) no-repeat;" plain="true">全部</a>
+            <a id="btnRemoveOthers" tooltip="关闭除当前活动页面外的页面" class="mini-button mini-button-iconLeft" iconstyle="background: url(/content/icons/16x16/folder_delete.png) no-repeat;" plain="true"></a>
+            <a id="btnRemoveCurrent" tooltip="关闭当前活动的页面" class="mini-button mini-button-iconLeft" iconstyle="background: url(/content/icons/16x16/cross.png) no-repeat;" plain="true"></a>
         </div>
     </div>
 </div>

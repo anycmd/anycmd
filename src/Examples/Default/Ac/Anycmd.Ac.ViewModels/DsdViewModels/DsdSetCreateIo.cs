@@ -28,9 +28,9 @@ namespace Anycmd.Ac.ViewModels.DsdViewModels
 
         public string Description { get; set; }
 
-        public AddDsdSetCommand ToCommand()
+        public AddDsdSetCommand ToCommand(IUserSession userSession)
         {
-            return new AddDsdSetCommand(this);
+            return new AddDsdSetCommand(userSession, this);
         }
     }
 }

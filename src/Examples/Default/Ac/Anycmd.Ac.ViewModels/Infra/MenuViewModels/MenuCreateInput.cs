@@ -54,9 +54,9 @@ namespace Anycmd.Ac.ViewModels.Infra.MenuViewModels
         [Required]
         public int SortCode { get; set; }
 
-        public AddMenuCommand ToCommand()
+        public AddMenuCommand ToCommand(IUserSession userSession)
         {
-            return new AddMenuCommand(this);
+            return new AddMenuCommand(userSession, this);
         }
     }
 }

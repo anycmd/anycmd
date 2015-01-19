@@ -3,10 +3,10 @@ namespace Anycmd.Engine.Ac.Messages.Infra
 {
     using System;
 
-    public class RemoveFunctionCommand : RemoveEntityCommand, IAnycmdCommand
+    public class RemoveFunctionCommand : RemoveEntityCommand
     {
-        public RemoveFunctionCommand(Guid functionId)
-            : base(functionId)
+        public RemoveFunctionCommand(IUserSession userSession, Guid functionId)
+            : base(userSession, functionId)
         {
 
         }

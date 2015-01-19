@@ -6,8 +6,8 @@ namespace Anycmd.Engine.Ac.Messages.Infra
 
     public class UpdateDicCommand : UpdateEntityCommand<IDicUpdateIo>, IAnycmdCommand
     {
-        public UpdateDicCommand(IDicUpdateIo input)
-            : base(input)
+        public UpdateDicCommand(IUserSession userSession, IDicUpdateIo input)
+            : base(userSession, input)
         {
 
         }

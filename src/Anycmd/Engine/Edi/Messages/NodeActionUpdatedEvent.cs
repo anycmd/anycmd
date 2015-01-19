@@ -6,8 +6,8 @@ namespace Anycmd.Engine.Edi.Messages
 
     public class NodeActionUpdatedEvent : DomainEvent
     {
-        public NodeActionUpdatedEvent(NodeAction source)
-            : base(source)
+        public NodeActionUpdatedEvent(IUserSession userSession, NodeAction source)
+            : base(userSession, source)
         {
             this.IsAllowed = source.IsAllowed;
             this.IsAudit = source.IsAudit;

@@ -162,7 +162,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            AcDomain.AddArchive(input);
+            AcDomain.AddArchive(UserSession, input);
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -182,7 +182,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            AcDomain.UpdateArchive(input);
+            AcDomain.UpdateArchive(UserSession, input);
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -198,7 +198,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
         [Guid("E0AEC253-B9E8-4E23-8AC7-F97BFE09DB90")]
         public ActionResult Delete(string id)
         {
-            return this.HandleSeparateGuidString(AcDomain.RemoveArchive, id, ',');
+            return this.HandleSeparateGuidString(AcDomain.RemoveArchive, UserSession, id, ',');
         }
     }
 }

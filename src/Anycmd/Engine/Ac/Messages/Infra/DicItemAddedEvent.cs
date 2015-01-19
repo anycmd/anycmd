@@ -9,8 +9,8 @@ namespace Anycmd.Engine.Ac.Messages.Infra
     /// </summary>
     public class DicItemAddedEvent : EntityAddedEvent<IDicItemCreateIo>
     {
-        public DicItemAddedEvent(DicItemBase source, IDicItemCreateIo input)
-            : base(source, input)
+        public DicItemAddedEvent(IUserSession userSession, DicItemBase source, IDicItemCreateIo input)
+            : base(userSession, source, input)
         {
         }
     }

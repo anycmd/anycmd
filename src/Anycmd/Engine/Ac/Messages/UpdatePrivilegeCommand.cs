@@ -5,8 +5,8 @@ namespace Anycmd.Engine.Ac.Messages
 
     public class UpdatePrivilegeCommand : UpdateEntityCommand<IPrivilegeUpdateIo>, IAnycmdCommand
     {
-        public UpdatePrivilegeCommand(IPrivilegeUpdateIo input)
-            : base(input)
+        public UpdatePrivilegeCommand(IUserSession userSession, IPrivilegeUpdateIo input)
+            : base(userSession, input)
         {
 
         }

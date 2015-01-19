@@ -3,10 +3,10 @@ namespace Anycmd.Engine.Ac.Messages.Identity
 {
     using System;
 
-    public class RemoveAccountCommand : RemoveEntityCommand, IAnycmdCommand
+    public class RemoveAccountCommand : RemoveEntityCommand
     {
-        public RemoveAccountCommand(Guid accountId)
-            : base(accountId)
+        public RemoveAccountCommand(IUserSession userSession, Guid accountId)
+            : base(userSession, accountId)
         {
 
         }

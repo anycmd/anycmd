@@ -7,8 +7,8 @@ namespace Anycmd.Engine.Edi.Messages
 
     public class NodeOntologyOrganizationAddedEvent: DomainEvent
     {
-        public NodeOntologyOrganizationAddedEvent(NodeOntologyOrganizationBase source, INodeOntologyOrganizationCreateIo output)
-            : base(source)
+        public NodeOntologyOrganizationAddedEvent(IUserSession userSession, NodeOntologyOrganizationBase source, INodeOntologyOrganizationCreateIo output)
+            : base(userSession, source)
         {
             if (output == null)
             {

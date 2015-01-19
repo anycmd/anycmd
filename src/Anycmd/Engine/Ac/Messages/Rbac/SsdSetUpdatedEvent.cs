@@ -7,8 +7,8 @@ namespace Anycmd.Engine.Ac.Messages.Rbac
 
     public class SsdSetUpdatedEvent: DomainEvent
     {
-        public SsdSetUpdatedEvent(SsdSetBase source, ISsdSetUpdateIo output)
-            : base(source)
+        public SsdSetUpdatedEvent(IUserSession userSession, SsdSetBase source, ISsdSetUpdateIo output)
+            : base(userSession, source)
         {
             if (output == null)
             {

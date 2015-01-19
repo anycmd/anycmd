@@ -5,8 +5,8 @@ namespace Anycmd.Engine.Ac.Messages.Infra
 
     public class UpdateGroupCommand : UpdateEntityCommand<IGroupUpdateIo>, IAnycmdCommand
     {
-        public UpdateGroupCommand(IGroupUpdateIo input)
-            : base(input)
+        public UpdateGroupCommand(IUserSession userSession, IGroupUpdateIo input)
+            : base(userSession, input)
         {
 
         }

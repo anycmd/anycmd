@@ -231,7 +231,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(AddDicCommand message)
             {
-                Handle(message.Input, isCommand: true);
+                Handle(message.UserSession, message.Input, isCommand: true);
             }
 
             public void Handle(DicAddedEvent message)
@@ -240,10 +240,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                Handle(message.Output, isCommand: false);
+                Handle(message.UserSession, message.Output, isCommand: false);
             }
 
-            private void Handle(IDicCreateIo input, bool isCommand)
+            private void Handle(IUserSession userSession, IDicCreateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var dicById = _set._dicById;
@@ -304,21 +304,21 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateDicAddedEvent(entity, input));
+                    host.MessageDispatcher.DispatchMessage(new PrivateDicAddedEvent(userSession, entity, input));
                 }
             }
 
             private class PrivateDicAddedEvent : DicAddedEvent
             {
-                internal PrivateDicAddedEvent(DicBase source, IDicCreateIo input)
-                    : base(source, input)
+                internal PrivateDicAddedEvent(IUserSession userSession, DicBase source, IDicCreateIo input)
+                    : base(userSession, source, input)
                 {
 
                 }
             }
             public void Handle(UpdateDicCommand message)
             {
-                Handle(message.Output, true);
+                Handle(message.UserSession, message.Output, true);
             }
 
             public void Handle(DicUpdatedEvent message)
@@ -327,10 +327,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                Handle(message.Input, false);
+                Handle(message.UserSession, message.Input, false);
             }
 
-            private void Handle(IDicUpdateIo input, bool isCommand)
+            private void Handle(IUserSession userSession, IDicUpdateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var dicRepository = host.RetrieveRequiredService<IRepository<Dic>>();
@@ -386,7 +386,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateDicUpdatedEvent(entity, input));
+                    host.MessageDispatcher.DispatchMessage(new PrivateDicUpdatedEvent(userSession, entity, input));
                 }
             }
 
@@ -412,15 +412,15 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateDicUpdatedEvent : DicUpdatedEvent
             {
-                internal PrivateDicUpdatedEvent(DicBase source, IDicUpdateIo input)
-                    : base(source, input)
+                internal PrivateDicUpdatedEvent(IUserSession userSession, DicBase source, IDicUpdateIo input)
+                    : base(userSession, source, input)
                 {
 
                 }
             }
             public void Handle(RemoveDicCommand message)
             {
-                Handle(message.EntityId, true);
+                Handle(message.UserSession, message.EntityId, true);
             }
 
             public void Handle(DicRemovedEvent message)
@@ -429,10 +429,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                Handle(message.Source.Id, false);
+                Handle(message.UserSession, message.Source.Id, false);
             }
 
-            private void Handle(Guid dicId, bool isCommand)
+            private void Handle(IUserSession userSession, Guid dicId, bool isCommand)
             {
                 var host = _set._host;
                 var dicById = _set._dicById;
@@ -476,7 +476,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     {
                         if (isCommand)
                         {
-                            host.MessageDispatcher.DispatchMessage(new DicRemovingEvent(entity));
+                            host.MessageDispatcher.DispatchMessage(new DicRemovingEvent(userSession, entity));
                         }
                         dicById.Remove(bkState.Id);
                     }
@@ -508,13 +508,13 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateDicRemovedEvent(entity));
+                    host.MessageDispatcher.DispatchMessage(new PrivateDicRemovedEvent(userSession, entity));
                 }
             }
 
             private class PrivateDicRemovedEvent : DicRemovedEvent
             {
-                internal PrivateDicRemovedEvent(DicBase dic) : base(dic) { }
+                internal PrivateDicRemovedEvent(IUserSession userSession, DicBase dic) : base(userSession, dic) { }
             }
         }
         #endregion
@@ -693,7 +693,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 public void Handle(AddDicItemCommand message)
                 {
-                    Handle(message.Input, true);
+                    Handle(message.UserSession, message.Input, true);
                 }
 
                 public void Handle(DicItemAddedEvent message)
@@ -702,10 +702,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     {
                         return;
                     }
-                    Handle(message.Output, false);
+                    Handle(message.UserSession, message.Output, false);
                 }
 
-                private void Handle(IDicItemCreateIo input, bool isCommand)
+                private void Handle(IUserSession userSession, IDicItemCreateIo input, bool isCommand)
                 {
                     var host = _set._host;
                     var dicItemsByCode = _set._dicItemsByCode;
@@ -776,14 +776,14 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                     if (isCommand)
                     {
-                        host.MessageDispatcher.DispatchMessage(new PrivateDicItemAddedEvent(entity, input));
+                        host.MessageDispatcher.DispatchMessage(new PrivateDicItemAddedEvent(userSession, entity, input));
                     }
                 }
 
                 private class PrivateDicItemAddedEvent : DicItemAddedEvent
                 {
-                    internal PrivateDicItemAddedEvent(DicItemBase source, IDicItemCreateIo input)
-                        : base(source, input)
+                    internal PrivateDicItemAddedEvent(IUserSession userSession, DicItemBase source, IDicItemCreateIo input)
+                        : base(userSession, source, input)
                     {
 
                     }
@@ -791,7 +791,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 public void Handle(UpdateDicItemCommand message)
                 {
-                    Handle(message.Output, true);
+                    Handle(message.UserSession, message.Output, true);
                 }
 
                 public void Handle(DicItemUpdatedEvent message)
@@ -800,10 +800,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     {
                         return;
                     }
-                    Handle(message.Input, false);
+                    Handle(message.UserSession, message.Input, false);
                 }
 
-                private void Handle(IDicItemUpdateIo input, bool isCommand)
+                private void Handle(IUserSession userSession, IDicItemUpdateIo input, bool isCommand)
                 {
                     var host = _set._host;
                     var dicItemRepository = host.RetrieveRequiredService<IRepository<DicItem>>();
@@ -864,7 +864,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                     if (isCommand && stateChanged)
                     {
-                        host.MessageDispatcher.DispatchMessage(new PrivateDicItemUpdatedEvent(entity, input));
+                        host.MessageDispatcher.DispatchMessage(new PrivateDicItemUpdatedEvent(userSession, entity, input));
                     }
                 }
 
@@ -895,8 +895,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 private class PrivateDicItemUpdatedEvent : DicItemUpdatedEvent
                 {
-                    internal PrivateDicItemUpdatedEvent(DicItemBase source, IDicItemUpdateIo input)
-                        : base(source, input)
+                    internal PrivateDicItemUpdatedEvent(IUserSession userSession, DicItemBase source, IDicItemUpdateIo input)
+                        : base(userSession, source, input)
                     {
 
                     }
@@ -904,7 +904,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 public void Handle(RemoveDicItemCommand message)
                 {
-                    Handle(message.EntityId, true);
+                    Handle(message.UserSession, message.EntityId, true);
                 }
 
                 public void Handle(DicItemRemovedEvent message)
@@ -913,10 +913,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     {
                         return;
                     }
-                    Handle(message.Source.Id, false);
+                    Handle(message.UserSession, message.Source.Id, false);
                 }
 
-                private void Handle(Guid dicItemId, bool isCommand)
+                private void Handle(IUserSession userSession, Guid dicItemId, bool isCommand)
                 {
                     var host = _set._host;
                     var dicItemsByCode = _set._dicItemsByCode;
@@ -982,14 +982,14 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                     if (isCommand)
                     {
-                        host.MessageDispatcher.DispatchMessage(new PrivateDicItemRemovedEvent(entity));
+                        host.MessageDispatcher.DispatchMessage(new PrivateDicItemRemovedEvent(userSession, entity));
                     }
                 }
 
                 private class PrivateDicItemRemovedEvent : DicItemRemovedEvent
                 {
-                    internal PrivateDicItemRemovedEvent(DicItemBase source)
-                        : base(source)
+                    internal PrivateDicItemRemovedEvent(IUserSession userSession, DicItemBase source)
+                        : base(userSession, source)
                     {
 
                     }

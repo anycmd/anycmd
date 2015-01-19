@@ -36,6 +36,12 @@ namespace Anycmd.Events
             }
             this.Source = source;
         }
+
+        protected DomainEvent(IUserSession userSession, IEntity source)
+            : this(source)
+        {
+            this.UserSession = userSession;
+        }
         #endregion
 
         #region Public Methods
@@ -70,6 +76,11 @@ namespace Anycmd.Events
             return this.Id == other.Id;
         }
         #endregion
+
+        [XmlIgnore]
+        [SoapIgnore]
+        [IgnoreDataMember]
+        public IUserSession UserSession { get; private set; }
 
         #region IDomainEvent Members
         /// <summary>

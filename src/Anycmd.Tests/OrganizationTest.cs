@@ -8,6 +8,7 @@ namespace Anycmd.Tests
     using Moq;
     using Repositories;
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using Xunit;
 
@@ -20,7 +21,12 @@ namespace Anycmd.Tests
             var host = TestHelper.GetAcDomain();
             Assert.Equal(1, host.OrganizationSet.Count());
             Assert.Equal(OrganizationState.VirtualRoot, host.OrganizationSet.First());
-
+            UserSessionState.SignIn(host, new Dictionary<string, object>
+            {
+                {"loginName", "test"},
+                {"password", "111111"},
+                {"rememberMe", "rememberMe"}
+            });
             var entityId = Guid.NewGuid();
 
             OrganizationState organizationById;
@@ -32,7 +38,7 @@ namespace Anycmd.Tests
                 Description = "test",
                 SortCode = 10,
                 Icon = null,
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
             Assert.Equal(2, host.OrganizationSet.Count());
             Assert.True(host.OrganizationSet.TryGetOrganization(entityId, out organizationById));
 
@@ -44,12 +50,12 @@ namespace Anycmd.Tests
                 Description = "test",
                 SortCode = 10,
                 Icon = null,
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
             Assert.Equal(2, host.OrganizationSet.Count());
             Assert.True(host.OrganizationSet.TryGetOrganization(entityId, out organizationById));
             Assert.Equal("test2", organizationById.Name);
 
-            host.Handle(new RemoveOrganizationCommand(entityId));
+            host.Handle(new RemoveOrganizationCommand(host.GetUserSession(), entityId));
             Assert.False(host.OrganizationSet.TryGetOrganization(entityId, out organizationById));
             Assert.Equal(1, host.OrganizationSet.Count());
         }
@@ -60,7 +66,12 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             Assert.Equal(1, host.OrganizationSet.Count());
-
+            UserSessionState.SignIn(host, new Dictionary<string, object>
+            {
+                {"loginName", "test"},
+                {"password", "111111"},
+                {"rememberMe", "rememberMe"}
+            });
             var entityId = Guid.NewGuid();
             var entityId2 = Guid.NewGuid();
 
@@ -73,7 +84,7 @@ namespace Anycmd.Tests
                 Description = "test",
                 SortCode = 10,
                 Icon = null,
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
             Assert.Equal(2, host.OrganizationSet.Count());
             Assert.True(host.OrganizationSet.TryGetOrganization(entityId, out organizationById));
             bool catched = false;
@@ -88,7 +99,7 @@ namespace Anycmd.Tests
                     Description = "test",
                     SortCode = 10,
                     Icon = null,
-                }.ToCommand());
+                }.ToCommand(host.GetUserSession()));
                 host.Handle(new OrganizationCreateInput
                 {
                     Id = entityId2,
@@ -98,7 +109,7 @@ namespace Anycmd.Tests
                     Description = "test",
                     SortCode = 10,
                     Icon = null,
-                }.ToCommand());
+                }.ToCommand(host.GetUserSession()));
             }
             catch (Exception)
             {
@@ -116,7 +127,12 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             Assert.Equal(1, host.OrganizationSet.Count());
-
+            UserSessionState.SignIn(host, new Dictionary<string, object>
+            {
+                {"loginName", "test"},
+                {"password", "111111"},
+                {"rememberMe", "rememberMe"}
+            });
             var entityId = Guid.NewGuid();
             var entityId2 = Guid.NewGuid();
 
@@ -129,7 +145,7 @@ namespace Anycmd.Tests
                 Description = "test",
                 SortCode = 10,
                 Icon = null,
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
             host.Handle(new OrganizationCreateInput
             {
                 Id = entityId2,
@@ -139,13 +155,13 @@ namespace Anycmd.Tests
                 Description = "test",
                 SortCode = 10,
                 Icon = null,
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
             Assert.Equal(3, host.OrganizationSet.Count());
             Assert.True(host.OrganizationSet.TryGetOrganization(entityId, out organizationById));
             bool catched = false;
             try
             {
-                host.Handle(new RemoveOrganizationCommand(entityId));
+                host.Handle(new RemoveOrganizationCommand(host.GetUserSession(), entityId));
             }
             catch (Exception)
             {
@@ -165,7 +181,12 @@ namespace Anycmd.Tests
             var host = TestHelper.GetAcDomain();
             Assert.Equal(1, host.OrganizationSet.Count());
             Assert.Equal(OrganizationState.VirtualRoot, host.OrganizationSet.First());
-
+            UserSessionState.SignIn(host, new Dictionary<string, object>
+            {
+                {"loginName", "test"},
+                {"password", "111111"},
+                {"rememberMe", "rememberMe"}
+            });
             host.RemoveService(typeof(IRepository<Organization>));
             var moOrganizationRepository = host.GetMoqRepository<Organization, IRepository<Organization>>();
             var entityId1 = Guid.NewGuid();
@@ -189,7 +210,7 @@ namespace Anycmd.Tests
                     SortCode = 10,
                     Icon = null,
                     Name = name
-                }.ToCommand());
+                }.ToCommand(host.GetUserSession()));
             }
             catch (Exception e)
             {
@@ -211,7 +232,7 @@ namespace Anycmd.Tests
                 SortCode = 10,
                 Icon = null,
                 Name = name
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
             Assert.Equal(2, host.OrganizationSet.Count());
 
             catched = false;
@@ -225,7 +246,7 @@ namespace Anycmd.Tests
                     SortCode = 10,
                     Icon = null,
                     Name = "test2"
-                }.ToCommand());
+                }.ToCommand(host.GetUserSession()));
             }
             catch (Exception e)
             {
@@ -245,7 +266,7 @@ namespace Anycmd.Tests
             catched = false;
             try
             {
-                host.Handle(new RemoveOrganizationCommand(entityId2));
+                host.Handle(new RemoveOrganizationCommand(host.GetUserSession(), entityId2));
             }
             catch (Exception e)
             {

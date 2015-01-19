@@ -4,10 +4,10 @@ namespace Anycmd.Engine.Ac.Messages.Infra
     using System;
 
 
-    public class RemovePropertyCommand : RemoveEntityCommand, IAnycmdCommand
+    public class RemovePropertyCommand : RemoveEntityCommand
     {
-        public RemovePropertyCommand(Guid propertyId)
-            : base(propertyId)
+        public RemovePropertyCommand(IUserSession userSession, Guid propertyId)
+            : base(userSession, propertyId)
         {
 
         }

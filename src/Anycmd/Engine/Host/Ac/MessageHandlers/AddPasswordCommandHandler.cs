@@ -11,7 +11,6 @@ namespace Anycmd.Engine.Host.Ac.MessageHandlers
     using System;
     using System.Linq;
 
-
     public class AddPasswordCommandHandler : CommandHandler<AssignPasswordCommand>
     {
         private readonly IAcDomain _host;
@@ -43,11 +42,11 @@ namespace Anycmd.Engine.Host.Ac.MessageHandlers
             }
             bool loginNameChanged = !string.Equals(command.Input.LoginName, entity.LoginName);
             AccountState developer;
-            if (_host.SysUserSet.TryGetDevAccount(command.Input.Id, out developer) && !command.UserSession.IsDeveloper())
+            if (_host.SysUserSet.TryGetDevAccount(command.Input.Id, out developer) && !command.TargetSession.IsDeveloper())
             {
                 throw new ValidationException("对不起，您不能修改开发人员的密码。");
             }
-            if (!command.UserSession.IsDeveloper() && "admin".Equals(entity.LoginName, StringComparison.OrdinalIgnoreCase))
+            if (!command.TargetSession.IsDeveloper() && "admin".Equals(entity.LoginName, StringComparison.OrdinalIgnoreCase))
             {
                 throw new ValidationException("对不起，您无权修改admin账户的密码");
             }
@@ -73,13 +72,13 @@ namespace Anycmd.Engine.Host.Ac.MessageHandlers
             accountRepository.Context.Commit();
             if (loginNameChanged)
             {
-                _host.EventBus.Publish(new LoginNameChangedEvent(entity));
+                _host.EventBus.Publish(new LoginNameChangedEvent(command.UserSession, entity));
                 if (_host.SysUserSet.TryGetDevAccount(entity.Id, out developer))
                 {
-                    _host.MessageDispatcher.DispatchMessage(new DeveloperUpdatedEvent(entity));
+                    _host.MessageDispatcher.DispatchMessage(new DeveloperUpdatedEvent(command.UserSession, entity));
                 }
             }
-            _host.EventBus.Publish(new PasswordUpdatedEvent(entity));
+            _host.EventBus.Publish(new PasswordUpdatedEvent(command.UserSession, entity));
             _host.EventBus.Commit();
         }
     }

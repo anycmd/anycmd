@@ -158,7 +158,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(AddOrganizationCommand message)
             {
-                this.Handle(message.Input, true);
+                this.Handle(message.UserSession, message.Input, true);
             }
 
             public void Handle(OrganizationAddedEvent message)
@@ -167,10 +167,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                this.Handle(message.Output, false);
+                this.Handle(message.UserSession, message.Output, false);
             }
 
-            private void Handle(IOrganizationCreateIo input, bool isCommand)
+            private void Handle(IUserSession userSession, IOrganizationCreateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var dicByCode = _set._dicByCode;
@@ -258,14 +258,14 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateOrganizationAddedEvent(entity, input));
+                    host.MessageDispatcher.DispatchMessage(new PrivateOrganizationAddedEvent(userSession, entity, input));
                 }
             }
 
             private class PrivateOrganizationAddedEvent : OrganizationAddedEvent
             {
-                internal PrivateOrganizationAddedEvent(OrganizationBase source, IOrganizationCreateIo input)
-                    : base(source, input)
+                internal PrivateOrganizationAddedEvent(IUserSession userSession, OrganizationBase source, IOrganizationCreateIo input)
+                    : base(userSession, source, input)
                 {
 
                 }
@@ -273,7 +273,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(UpdateOrganizationCommand message)
             {
-                this.Handle(message.Output, true);
+                this.Handle(message.UserSession, message.Output, true);
             }
 
             public void Handle(OrganizationUpdatedEvent message)
@@ -282,10 +282,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                this.Handle(message.Input, false);
+                this.Handle(message.UserSession, message.Input, false);
             }
 
-            private void Handle(IOrganizationUpdateIo input, bool isCommand)
+            private void Handle(IUserSession userSession, IOrganizationUpdateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var organizationRepository = host.RetrieveRequiredService<IRepository<Organization>>();
@@ -361,9 +361,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateOrganizationUpdatedEvent(entity, input));
+                    host.MessageDispatcher.DispatchMessage(new PrivateOrganizationUpdatedEvent(userSession, entity, input));
                 }
             }
+
             private void Update(OrganizationState state)
             {
                 var dicByCode = _set._dicByCode;
@@ -384,12 +385,12 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateOrganizationUpdatedEvent : OrganizationUpdatedEvent
             {
-                internal PrivateOrganizationUpdatedEvent(OrganizationBase source, IOrganizationUpdateIo input) : base(source, input) { }
+                internal PrivateOrganizationUpdatedEvent(IUserSession userSession, OrganizationBase source, IOrganizationUpdateIo input) : base(userSession, source, input) { }
             }
 
             public void Handle(RemoveOrganizationCommand message)
             {
-                this.Handle(message.EntityId, true);
+                this.Handle(message.UserSession, message.EntityId, true);
             }
 
             public void Handle(OrganizationRemovedEvent message)
@@ -398,10 +399,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                this.Handle(message.Source.Id, false);
+                this.Handle(message.UserSession, message.Source.Id, false);
             }
 
-            private void Handle(Guid organizationId, bool isCommand)
+            private void Handle(IUserSession userSession, Guid organizationId, bool isCommand)
             {
                 var host = _set._host;
                 var dicByCode = _set._dicByCode;
@@ -433,7 +434,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     {
                         if (isCommand)
                         {
-                            host.MessageDispatcher.DispatchMessage(new OrganizationRemovingEvent(entity));
+                            host.MessageDispatcher.DispatchMessage(new OrganizationRemovingEvent(userSession, entity));
                         }
                         dicById.Remove(bkState.Id);
                         dicByCode.Remove(bkState.Code);
@@ -459,14 +460,14 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateOrganizationRemovedEvent(entity));
+                    host.MessageDispatcher.DispatchMessage(new PrivateOrganizationRemovedEvent(userSession, entity));
                 }
             }
 
             private class PrivateOrganizationRemovedEvent : OrganizationRemovedEvent
             {
-                internal PrivateOrganizationRemovedEvent(OrganizationBase source)
-                    : base(source)
+                internal PrivateOrganizationRemovedEvent(IUserSession userSession, OrganizationBase source)
+                    : base(userSession, source)
                 {
 
                 }

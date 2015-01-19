@@ -5,8 +5,8 @@ namespace Anycmd.Engine.Ac.Messages
 
     public class AddPrivilegeCommand : AddEntityCommand<IPrivilegeCreateIo>, IAnycmdCommand
     {
-        public AddPrivilegeCommand(IPrivilegeCreateIo input)
-            : base(input)
+        public AddPrivilegeCommand(IUserSession userSession, IPrivilegeCreateIo input)
+            : base(userSession, input)
         {
 
         }

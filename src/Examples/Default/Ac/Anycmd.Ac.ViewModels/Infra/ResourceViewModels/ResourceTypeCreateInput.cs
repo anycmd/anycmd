@@ -47,9 +47,9 @@ namespace Anycmd.Ac.ViewModels.Infra.ResourceViewModels
         [Required]
         public int SortCode { get; set; }
 
-        public AddResourceCommand ToCommand()
+        public AddResourceCommand ToCommand(IUserSession userSession)
         {
-            return new AddResourceCommand(this);
+            return new AddResourceCommand(userSession, this);
         }
     }
 }

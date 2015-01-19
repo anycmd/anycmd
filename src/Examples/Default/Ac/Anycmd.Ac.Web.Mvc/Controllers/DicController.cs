@@ -108,7 +108,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
         [Guid("BDDE912C-A2BD-40C1-BB7F-97A4A4720982")]
         public ActionResult Delete(string id)
         {
-            return this.HandleSeparateGuidString(AcDomain.RemoveDic, id, ',');
+            return this.HandleSeparateGuidString(AcDomain.RemoveDic, UserSession, id, ',');
         }
     }
 }

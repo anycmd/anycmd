@@ -30,9 +30,9 @@ namespace Anycmd.Ac.ViewModels.Infra.UIViewViewModels
         /// </summary>
         public string Tooltip { get; set; }
 
-        public UpdateUiViewCommand ToCommand()
+        public UpdateUiViewCommand ToCommand(IUserSession userSession)
         {
-            return new UpdateUiViewCommand(this);
+            return new UpdateUiViewCommand(userSession, this);
         }
     }
 }

@@ -30,9 +30,9 @@ namespace Anycmd.Ac.ViewModels.Infra.UIViewViewModels
         /// </summary>
         public int IsEnabled { get; set; }
 
-        public UpdateUiViewButtonCommand ToCommand()
+        public UpdateUiViewButtonCommand ToCommand(IUserSession userSession)
         {
-            return new UpdateUiViewButtonCommand(this);
+            return new UpdateUiViewButtonCommand(userSession, this);
         }
     }
 }

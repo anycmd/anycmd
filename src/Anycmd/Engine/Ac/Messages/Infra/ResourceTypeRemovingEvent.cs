@@ -6,8 +6,8 @@ namespace Anycmd.Engine.Ac.Messages.Infra
 
     public class ResourceTypeRemovingEvent: DomainEvent
     {
-        public ResourceTypeRemovingEvent(ResourceTypeBase source)
-            : base(source)
+        public ResourceTypeRemovingEvent(IUserSession userSession, ResourceTypeBase source)
+            : base(userSession, source)
         {
         }
     }

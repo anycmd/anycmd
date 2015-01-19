@@ -50,9 +50,9 @@ namespace Anycmd.Ac.ViewModels.Infra.FunctionViewModels
         [Required]
         public int SortCode { get; set; }
 
-        public UpdateFunctionCommand ToCommand()
+        public UpdateFunctionCommand ToCommand(IUserSession userSession)
         {
-            return new UpdateFunctionCommand(this);
+            return new UpdateFunctionCommand(userSession, this);
         }
     }
 }

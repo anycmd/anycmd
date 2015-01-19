@@ -5,8 +5,8 @@ namespace Anycmd.Engine.Ac.Messages.Infra
 
     public class UpdatePositionCommand : UpdateEntityCommand<IPositionUpdateIo>, IAnycmdCommand
     {
-        public UpdatePositionCommand(IPositionUpdateIo input)
-            : base(input)
+        public UpdatePositionCommand(IUserSession userSession, IPositionUpdateIo input)
+            : base(userSession, input)
         {
 
         }

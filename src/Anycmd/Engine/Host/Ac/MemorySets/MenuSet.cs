@@ -127,7 +127,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(AddMenuCommand message)
             {
-                this.Handle(message.Input, true);
+                this.Handle(message.UserSession, message.Input, true);
             }
 
             public void Handle(MenuAddedEvent message)
@@ -136,10 +136,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                this.Handle(message.Output, false);
+                this.Handle(message.UserSession, message.Output, false);
             }
 
-            private void Handle(IMenuCreateIo input, bool isCommand)
+            private void Handle(IUserSession userSession, IMenuCreateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var menuById = _set._menuById;
@@ -208,21 +208,21 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateMenuAddedEvent(entity, input));
+                    host.MessageDispatcher.DispatchMessage(new PrivateMenuAddedEvent(userSession, entity, input));
                 }
             }
 
             private class PrivateMenuAddedEvent : MenuAddedEvent
             {
-                internal PrivateMenuAddedEvent(MenuBase source, IMenuCreateIo input)
-                    : base(source, input)
+                internal PrivateMenuAddedEvent(IUserSession userSession, MenuBase source, IMenuCreateIo input)
+                    : base(userSession, source, input)
                 {
 
                 }
             }
             public void Handle(UpdateMenuCommand message)
             {
-                this.Handle(message.Output, true);
+                this.Handle(message.UserSession, message.Output, true);
             }
 
             public void Handle(MenuUpdatedEvent message)
@@ -231,10 +231,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                this.Handle(message.Input, false);
+                this.Handle(message.UserSession, message.Input, false);
             }
 
-            private void Handle(IMenuUpdateIo input, bool isCommand)
+            private void Handle(IUserSession userSession, IMenuUpdateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var menuById = _set._menuById;
@@ -287,14 +287,14 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateMenuUpdatedEvent(entity, input));
+                    host.MessageDispatcher.DispatchMessage(new PrivateMenuUpdatedEvent(userSession, entity, input));
                 }
             }
 
             private class PrivateMenuUpdatedEvent : MenuUpdatedEvent
             {
-                internal PrivateMenuUpdatedEvent(MenuBase source, IMenuUpdateIo input)
-                    : base(source, input)
+                internal PrivateMenuUpdatedEvent(IUserSession userSession, MenuBase source, IMenuUpdateIo input)
+                    : base(userSession, source, input)
                 {
 
                 }
@@ -308,7 +308,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(RemoveMenuCommand message)
             {
-                this.Handle(message.EntityId, true);
+                this.Handle(message.UserSession, message.EntityId, true);
             }
 
             public void Handle(MenuRemovedEvent message)
@@ -317,10 +317,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                this.Handle(message.Source.Id, false);
+                this.Handle(message.UserSession, message.Source.Id, false);
             }
 
-            private void Handle(Guid menuId, bool isCommand)
+            private void Handle(IUserSession userSession, Guid menuId, bool isCommand)
             {
                 var host = _set._host;
                 var menuById = _set._menuById;
@@ -351,7 +351,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     {
                         if (isCommand)
                         {
-                            host.MessageDispatcher.DispatchMessage(new MenuRemovingEvent(entity));
+                            host.MessageDispatcher.DispatchMessage(new MenuRemovingEvent(userSession, entity));
                         }
                         menuById.Remove(bkState.Id);
                     }
@@ -375,14 +375,14 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateMenuRemovedEvent(entity));
+                    host.MessageDispatcher.DispatchMessage(new PrivateMenuRemovedEvent(userSession, entity));
                 }
             }
 
             private class PrivateMenuRemovedEvent : MenuRemovedEvent
             {
-                internal PrivateMenuRemovedEvent(MenuBase source)
-                    : base(source)
+                internal PrivateMenuRemovedEvent(IUserSession userSession, MenuBase source)
+                    : base(userSession, source)
                 {
 
                 }

@@ -6,8 +6,8 @@ namespace Anycmd.Engine.Ac.Messages.Infra
 
     public class PositionAddedEvent : EntityAddedEvent<IPositionCreateIo>
     {
-        public PositionAddedEvent(GroupBase source, IPositionCreateIo output)
-            : base(source, output)
+        public PositionAddedEvent(IUserSession userSession, GroupBase source, IPositionCreateIo output)
+            : base(userSession, source, output)
         {
         }
     }

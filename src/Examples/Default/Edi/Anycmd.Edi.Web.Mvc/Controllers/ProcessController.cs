@@ -157,7 +157,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             {
                 return this.ModelState.ToJsonResult();
             }
-            AcDomain.AddProcess(input);
+            AcDomain.AddProcess(UserSession, input);
 
             return this.JsonResult(new ResponseData { success = true, id = input.Id.Value });
         }
@@ -177,7 +177,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             {
                 return this.ModelState.ToJsonResult();
             }
-            AcDomain.UpdateProcess(input);
+            AcDomain.UpdateProcess(UserSession, input);
 
             return this.JsonResult(new ResponseData { success = true, id = input.Id });
         }

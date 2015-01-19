@@ -50,9 +50,9 @@ namespace Anycmd.Ac.ViewModels.Infra.DicViewModels
         [Required]
         public int SortCode { get; set; }
 
-        public AddDicItemCommand ToCommand()
+        public AddDicItemCommand ToCommand(IUserSession userSession)
         {
-            return new AddDicItemCommand(this);
+            return new AddDicItemCommand(userSession, this);
         }
     }
 }

@@ -5,8 +5,8 @@ namespace Anycmd.Engine.Edi.Messages
 
     public class AddTopicCommand : AddEntityCommand<ITopicCreateIo>, IAnycmdCommand
     {
-        public AddTopicCommand(ITopicCreateIo input)
-            : base(input)
+        public AddTopicCommand(IUserSession userSession, ITopicCreateIo input)
+            : base(userSession, input)
         {
 
         }

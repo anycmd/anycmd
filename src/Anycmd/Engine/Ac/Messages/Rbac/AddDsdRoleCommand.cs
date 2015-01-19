@@ -5,8 +5,8 @@ namespace Anycmd.Engine.Ac.Messages.Rbac
 
     public class AddDsdRoleCommand : AddEntityCommand<IDsdRoleCreateIo>, IAnycmdCommand
     {
-        public AddDsdRoleCommand(IDsdRoleCreateIo input)
-            : base(input)
+        public AddDsdRoleCommand(IUserSession userSession, IDsdRoleCreateIo input)
+            : base(userSession, input)
         {
 
         }

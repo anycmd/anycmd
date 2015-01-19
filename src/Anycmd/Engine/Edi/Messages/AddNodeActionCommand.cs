@@ -5,8 +5,8 @@ namespace Anycmd.Engine.Edi.Messages
 
     public class AddNodeActionCommand : AddEntityCommand<INodeActionCreateIo>, IAnycmdCommand
     {
-        public AddNodeActionCommand(INodeActionCreateIo input)
-            : base(input)
+        public AddNodeActionCommand(IUserSession userSession, INodeActionCreateIo input)
+            : base(userSession, input)
         {
 
         }

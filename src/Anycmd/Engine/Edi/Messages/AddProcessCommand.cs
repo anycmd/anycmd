@@ -5,8 +5,8 @@ namespace Anycmd.Engine.Edi.Messages
 
     public class AddProcessCommand : AddEntityCommand<IProcessCreateIo>, IAnycmdCommand
     {
-        public AddProcessCommand(IProcessCreateIo input)
-            : base(input)
+        public AddProcessCommand(IUserSession userSession, IProcessCreateIo input)
+            : base(userSession, input)
         {
 
         }

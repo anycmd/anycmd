@@ -33,9 +33,9 @@ namespace Anycmd.Ac.ViewModels.PrivilegeViewModels
 
         public string AcContentType { get; set; }
 
-        public AddPrivilegeCommand ToCommand()
+        public AddPrivilegeCommand ToCommand(IUserSession userSession)
         {
-            return new AddPrivilegeCommand(this);
+            return new AddPrivilegeCommand(userSession, this);
         }
     }
 }

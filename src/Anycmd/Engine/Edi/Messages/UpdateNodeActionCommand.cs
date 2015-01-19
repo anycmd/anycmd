@@ -5,8 +5,8 @@ namespace Anycmd.Engine.Edi.Messages
 
     public class UpdateNodeActionCommand : UpdateEntityCommand<INodeActionUpdateIo>, IAnycmdCommand
     {
-        public UpdateNodeActionCommand(INodeActionUpdateIo input)
-            : base(input)
+        public UpdateNodeActionCommand(IUserSession userSession, INodeActionUpdateIo input)
+            : base(userSession, input)
         {
 
         }

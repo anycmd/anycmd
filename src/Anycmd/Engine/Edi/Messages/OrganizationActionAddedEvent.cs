@@ -6,6 +6,6 @@ namespace Anycmd.Engine.Edi.Messages
 
     public class OrganizationActionAddedEvent : DomainEvent
     {
-        public OrganizationActionAddedEvent(OrganizationAction source) : base(source) { }
+        public OrganizationActionAddedEvent(IUserSession userSession, OrganizationAction source) : base(userSession, source) { }
     }
 }

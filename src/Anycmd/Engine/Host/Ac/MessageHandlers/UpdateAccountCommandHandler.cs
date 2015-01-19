@@ -48,9 +48,9 @@ namespace Anycmd.Engine.Host.Ac.MessageHandlers
             AccountState devAccount;
             if (_host.SysUserSet.TryGetDevAccount(entity.Id, out devAccount))
             {
-                _host.EventBus.Publish(new DeveloperUpdatedEvent(entity));
+                _host.EventBus.Publish(new DeveloperUpdatedEvent(command.UserSession, entity));
             }
-            _host.EventBus.Publish(new AccountUpdatedEvent(entity));
+            _host.EventBus.Publish(new AccountUpdatedEvent(command.UserSession, entity));
             _host.EventBus.Commit();
         }
     }

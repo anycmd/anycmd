@@ -6,8 +6,8 @@ namespace Anycmd.Engine.Ac.Messages.Rbac
 
     public class DsdSetAddedEvent : EntityAddedEvent<IDsdSetCreateIo>
     {
-        public DsdSetAddedEvent(DsdSetBase source, IDsdSetCreateIo output)
-            : base(source, output)
+        public DsdSetAddedEvent(IUserSession userSession, DsdSetBase source, IDsdSetCreateIo output)
+            : base(userSession, source, output)
         {
         }
     }

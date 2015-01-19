@@ -6,8 +6,8 @@ namespace Anycmd.Engine.Ac.Messages.Infra
 
     public class FunctionRemovingEvent: DomainEvent
     {
-        public FunctionRemovingEvent(FunctionBase source)
-            : base(source)
+        public FunctionRemovingEvent(IUserSession userSession, FunctionBase source)
+            : base(userSession, source)
         {
         }
     }

@@ -119,9 +119,9 @@ namespace Anycmd.Ac.ViewModels.Identity.AccountViewModels
         /// </summary>
         public string QQ { get; set; }
 
-        public AddAccountCommand ToCommand()
+        public AddAccountCommand ToCommand(IUserSession userSession)
         {
-            return new AddAccountCommand(this);
+            return new AddAccountCommand(userSession, this);
         }
     }
 }

@@ -53,9 +53,9 @@ namespace Anycmd.Ac.ViewModels.GroupViewModels
         [Required]
         public int SortCode { get; set; }
 
-        public UpdatePositionCommand ToCommand()
+        public UpdatePositionCommand ToCommand(IUserSession userSession)
         {
-            return new UpdatePositionCommand(this);
+            return new UpdatePositionCommand(userSession, this);
         }
     }
 }

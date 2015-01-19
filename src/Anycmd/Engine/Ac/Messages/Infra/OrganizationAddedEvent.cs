@@ -9,8 +9,8 @@ namespace Anycmd.Engine.Ac.Messages.Infra
     /// </summary>
     public class OrganizationAddedEvent : EntityAddedEvent<IOrganizationCreateIo>
     {
-        public OrganizationAddedEvent(OrganizationBase source, IOrganizationCreateIo input)
-            : base(source, input)
+        public OrganizationAddedEvent(IUserSession userSession, OrganizationBase source, IOrganizationCreateIo input)
+            : base(userSession, source, input)
         {
         }
     }

@@ -9,8 +9,8 @@ namespace Anycmd.Engine.Edi.Messages
         /// <summary>
         /// 
         /// </summary>
-        public ActionUpdatedEvent(ActionBase source)
-            : base(source)
+        public ActionUpdatedEvent(IUserSession userSession, ActionBase source)
+            : base(userSession, source)
         {
             this.Verb = source.Verb;
             this.Name = source.Name;

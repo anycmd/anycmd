@@ -5,8 +5,8 @@ namespace Anycmd.Engine.Edi.Messages
 
     public class UpdateBatchCommand : UpdateEntityCommand<IBatchUpdateIo>, IAnycmdCommand
     {
-        public UpdateBatchCommand(IBatchUpdateIo input)
-            : base(input)
+        public UpdateBatchCommand(IUserSession userSession, IBatchUpdateIo input)
+            : base(userSession, input)
         {
 
         }

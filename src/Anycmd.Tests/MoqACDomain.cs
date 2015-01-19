@@ -31,13 +31,33 @@ namespace Anycmd.Tests
             this.RegisterRepository(typeof(AcDomain).Assembly);
             AddService(typeof(ILoggingService), new Log4NetLoggingService(this));
             AddService(typeof(IUserSessionStorage), new SimpleUserSessionStorage());
+            Guid dicId = Guid.NewGuid();
+            this.GetRequiredService<IRepository<Dic>>().Add(new Dic()
+            {
+                Id = dicId,
+                Code = "auditStatus",
+                Name = "auditStatus1"
+            });
+            this.GetRequiredService<IRepository<Dic>>().Context.Commit();
+            this.GetRequiredService<IRepository<DicItem>>().Add(new DicItem()
+            {
+                Id = dicId,
+                IsEnabled = 1,
+                DicId = dicId,
+                SortCode = 0,
+                Description = string.Empty,
+                Code = "auditPass",
+                Name = "auditPass"
+            });
+            this.GetRequiredService<IRepository<DicItem>>().Context.Commit();
             var accountId = Guid.NewGuid();
+            var passwordEncryptionService = this.RetrieveRequiredService<IPasswordEncryptionService>();
             this.GetRequiredService<IRepository<Account>>().Add(new Account
             {
                 Id = accountId,
-                LoginName = "LoginName1",
-                Password = "111111",
-                AuditState = string.Empty,
+                LoginName = "test",
+                Password = passwordEncryptionService.Encrypt("111111"),
+                AuditState = "auditPass",
                 BackColor = string.Empty,
                 AllowEndTime = null,
                 AllowStartTime = null,

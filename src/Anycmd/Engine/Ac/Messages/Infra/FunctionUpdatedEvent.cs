@@ -10,8 +10,8 @@ namespace Anycmd.Engine.Ac.Messages.Infra
     /// </summary>
     public class FunctionUpdatedEvent : DomainEvent
     {
-        public FunctionUpdatedEvent(FunctionBase source, IFunctionUpdateIo input)
-            : base(source)
+        public FunctionUpdatedEvent(IUserSession userSession, FunctionBase source, IFunctionUpdateIo input)
+            : base(userSession, source)
         {
             if (input == null)
             {

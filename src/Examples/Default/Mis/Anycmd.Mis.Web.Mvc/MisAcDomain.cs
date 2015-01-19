@@ -97,12 +97,12 @@ namespace Anycmd.Mis.Web.Mvc
                 MenuState parentMenu;
                 if (!_host.MenuSet.TryGetMenu(entityMenuId, out parentMenu))
                 {
-                    _host.Handle(new AddMenuCommand(entityMenu));
+                    _host.Handle(new AddMenuCommand(message.UserSession, entityMenu));
                 }
                 OntologyDescriptor ontology;
                 if (_host.NodeHost.Ontologies.TryGetOntology(message.Source.Id, out ontology))
                 {
-                    _host.Handle(new AddMenuCommand(new MenuCreateInput
+                    _host.Handle(new AddMenuCommand(message.UserSession, new MenuCreateInput
                     {
                         Id = ontology.Ontology.Id,// 约定
                         ParentId = entityMenu.Id,
@@ -124,7 +124,7 @@ namespace Anycmd.Mis.Web.Mvc
                     MenuState menu;
                     if (_host.MenuSet.TryGetMenu(ontology.Ontology.Id, out menu))
                     {
-                        _host.Handle(new UpdateMenuCommand(new MenuUpdateInput
+                        _host.Handle(new UpdateMenuCommand(message.UserSession, new MenuUpdateInput
                         {
                             Id = ontology.Ontology.Id,
                             AppSystemId = menu.AppSystemId,
@@ -146,7 +146,7 @@ namespace Anycmd.Mis.Web.Mvc
                     MenuState menu;
                     if (_host.MenuSet.TryGetMenu(ontology.Ontology.Id, out menu))
                     {
-                        _host.Handle(new RemoveMenuCommand(ontology.Ontology.Id));
+                        _host.Handle(new RemoveMenuCommand(message.UserSession, ontology.Ontology.Id));
                     }
                 }
             }

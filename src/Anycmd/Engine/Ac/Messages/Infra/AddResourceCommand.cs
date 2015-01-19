@@ -5,8 +5,8 @@ namespace Anycmd.Engine.Ac.Messages.Infra
 
     public class AddResourceCommand : AddEntityCommand<IResourceTypeCreateIo>, IAnycmdCommand
     {
-        public AddResourceCommand(IResourceTypeCreateIo input)
-            : base(input)
+        public AddResourceCommand(IUserSession userSession, IResourceTypeCreateIo input)
+            : base(userSession, input)
         {
 
         }

@@ -30,9 +30,9 @@ namespace Anycmd.Ac.ViewModels.SsdViewModels
 
         public Guid Id { get; set; }
 
-        public UpdateSsdSetCommand ToCommand()
+        public UpdateSsdSetCommand ToCommand(IUserSession userSession)
         {
-            return new UpdateSsdSetCommand(this);
+            return new UpdateSsdSetCommand(userSession, this);
         }
     }
 }

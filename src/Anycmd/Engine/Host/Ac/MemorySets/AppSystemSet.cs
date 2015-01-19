@@ -199,7 +199,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(AddAppSystemCommand message)
             {
-                Handle(message.Input, true);
+                Handle(message.UserSession, message.Input, true);
             }
 
             public void Handle(AppSystemAddedEvent message)
@@ -208,10 +208,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                Handle(message.Input, false);
+                Handle(message.UserSession, message.Input, false);
             }
 
-            private void Handle(IAppSystemCreateIo input, bool isCommand)
+            private void Handle(IUserSession userSession, IAppSystemCreateIo input, bool isCommand)
             {
                 var dicByCode = _set._dicByCode;
                 var dicById = _set._dicById;
@@ -275,20 +275,20 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 // 如果是命令则分发事件
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateAppSystemAddedEvent(entity, input));
+                    host.MessageDispatcher.DispatchMessage(new PrivateAppSystemAddedEvent(userSession, entity, input));
                 }
             }
 
             private class PrivateAppSystemAddedEvent : AppSystemAddedEvent
             {
-                internal PrivateAppSystemAddedEvent(AppSystemBase source, IAppSystemCreateIo input)
-                    : base(source, input)
+                internal PrivateAppSystemAddedEvent(IUserSession userSession, AppSystemBase source, IAppSystemCreateIo input)
+                    : base(userSession, source, input)
                 {
                 }
             }
             public void Handle(UpdateAppSystemCommand message)
             {
-                Handle(message.Output, true);
+                Handle(message.UserSession, message.Output, true);
             }
 
             public void Handle(AppSystemUpdatedEvent message)
@@ -297,10 +297,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                Handle(message.Input, false);
+                Handle(message.UserSession, message.Input, false);
             }
 
-            private void Handle(IAppSystemUpdateIo input, bool isCommand)
+            private void Handle(IUserSession userSession, IAppSystemUpdateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var repository = host.RetrieveRequiredService<IRepository<AppSystem>>();
@@ -361,7 +361,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateAppSystemUpdatedEvent(entity, input));
+                    host.MessageDispatcher.DispatchMessage(new PrivateAppSystemUpdatedEvent(userSession, entity, input));
                 }
             }
 
@@ -387,15 +387,15 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateAppSystemUpdatedEvent : AppSystemUpdatedEvent
             {
-                internal PrivateAppSystemUpdatedEvent(AppSystemBase source, IAppSystemUpdateIo input)
-                    : base(source, input)
+                internal PrivateAppSystemUpdatedEvent(IUserSession userSession, AppSystemBase source, IAppSystemUpdateIo input)
+                    : base(userSession, source, input)
                 {
 
                 }
             }
             public void Handle(RemoveAppSystemCommand message)
             {
-                Handle(message.EntityId, true);
+                Handle(message.UserSession, message.EntityId, true);
             }
 
             public void Handle(AppSystemRemovedEvent message)
@@ -404,10 +404,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                Handle(message.Source.Id, false);
+                Handle(message.UserSession, message.Source.Id, false);
             }
 
-            private void Handle(Guid appSystemId, bool isCommand)
+            private void Handle(IUserSession userSession, Guid appSystemId, bool isCommand)
             {
                 var dicByCode = _set._dicByCode;
                 var dicById = _set._dicById;
@@ -443,7 +443,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     {
                         if (isCommand)
                         {
-                            host.MessageDispatcher.DispatchMessage(new AppSystemRemovingEvent(entity));
+                            host.MessageDispatcher.DispatchMessage(new AppSystemRemovingEvent(userSession, entity));
                         }
                         if (dicByCode.ContainsKey(bkState.Code))
                         {
@@ -475,13 +475,13 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateAppSystemRemovedEvent(entity));
+                    host.MessageDispatcher.DispatchMessage(new PrivateAppSystemRemovedEvent(userSession, entity));
                 }
             }
 
             private class PrivateAppSystemRemovedEvent : AppSystemRemovedEvent
             {
-                internal PrivateAppSystemRemovedEvent(AppSystemBase source) : base(source) { }
+                internal PrivateAppSystemRemovedEvent(IUserSession userSession, AppSystemBase source) : base(userSession, source) { }
             }
         }
         #endregion

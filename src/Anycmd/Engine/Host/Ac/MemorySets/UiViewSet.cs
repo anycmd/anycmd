@@ -201,7 +201,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 var viewDicById = _set._viewDicById;
                 if (viewDicById.ContainsKey(message.Source.Id))
                 {
-                    host.Handle(new RemoveUiViewCommand(message.Source.Id));
+                    host.Handle(new RemoveUiViewCommand(message.UserSession, message.Source.Id));
                 }
             }
 
@@ -217,7 +217,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(AddUiViewCommand message)
             {
-                this.Handle(message.Input, true);
+                this.Handle(message.UserSession, message.Input, true);
             }
 
             public void Handle(UiViewAddedEvent message)
@@ -226,10 +226,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                this.Handle(message.Output, false);
+                this.Handle(message.UserSession, message.Output, false);
             }
 
-            private void Handle(IUiViewCreateIo input, bool isCommand)
+            private void Handle(IUserSession userSession, IUiViewCreateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var viewDicByFunction = _set._viewDicByFunction;
@@ -288,21 +288,22 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateUiViewAddedEvent(entity, input));
+                    host.MessageDispatcher.DispatchMessage(new PrivateUiViewAddedEvent(userSession, entity, input));
                 }
             }
 
             private class PrivateUiViewAddedEvent : UiViewAddedEvent
             {
-                internal PrivateUiViewAddedEvent(UiViewBase source, IUiViewCreateIo input)
-                    : base(source, input)
+                internal PrivateUiViewAddedEvent(IUserSession userSession, UiViewBase source, IUiViewCreateIo input)
+                    : base(userSession, source, input)
                 {
 
                 }
             }
+
             public void Handle(UpdateUiViewCommand message)
             {
-                this.Handle(message.Output, true);
+                this.Handle(message.UserSession, message.Output, true);
             }
 
             public void Handle(UiViewUpdatedEvent message)
@@ -311,10 +312,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                this.Handle(message.Input, false);
+                this.Handle(message.UserSession, message.Input, false);
             }
 
-            private void Handle(IUiViewUpdateIo input, bool isCommand)
+            private void Handle(IUserSession userSession, IUiViewUpdateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var viewRepository = host.RetrieveRequiredService<IRepository<UiView>>();
@@ -366,7 +367,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateUiViewUpdatedEvent(entity, input));
+                    host.MessageDispatcher.DispatchMessage(new PrivateUiViewUpdatedEvent(userSession, entity, input));
                 }
             }
 
@@ -383,15 +384,16 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateUiViewUpdatedEvent : UiViewUpdatedEvent
             {
-                internal PrivateUiViewUpdatedEvent(UiViewBase source, IUiViewUpdateIo input)
-                    : base(source, input)
+                internal PrivateUiViewUpdatedEvent(IUserSession userSession, UiViewBase source, IUiViewUpdateIo input)
+                    : base(userSession, source, input)
                 {
 
                 }
             }
+
             public void Handle(RemoveUiViewCommand message)
             {
-                this.Handle(message.EntityId, true);
+                this.Handle(message.UserSession, message.EntityId, true);
             }
 
             public void Handle(UiViewRemovedEvent message)
@@ -400,10 +402,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                this.Handle(message.Source.Id, false);
+                this.Handle(message.UserSession, message.Source.Id, false);
             }
 
-            private void Handle(Guid viewId, bool isCommand)
+            private void Handle(IUserSession userSession, Guid viewId, bool isCommand)
             {
                 var host = _set._host;
                 var viewDicByFunction = _set._viewDicByFunction;
@@ -441,7 +443,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     {
                         if (isCommand)
                         {
-                            host.MessageDispatcher.DispatchMessage(new UiViewRemovingEvent(entity));
+                            host.MessageDispatcher.DispatchMessage(new UiViewRemovingEvent(userSession, entity));
                         }
                         viewDicById.Remove(bkState.Id);
                     }
@@ -475,14 +477,14 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateUiViewRemovedEvent(entity));
+                    host.MessageDispatcher.DispatchMessage(new PrivateUiViewRemovedEvent(userSession, entity));
                 }
             }
 
             private class PrivateUiViewRemovedEvent : UiViewRemovedEvent
             {
-                internal PrivateUiViewRemovedEvent(UiViewBase source)
-                    : base(source)
+                internal PrivateUiViewRemovedEvent(IUserSession userSession, UiViewBase source)
+                    : base(userSession, source)
                 {
 
                 }
@@ -648,7 +650,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                         }
                         foreach (var viewButtonId in viewButtonIds)
                         {
-                            host.Handle(new RemoveUiViewButtonCommand(viewButtonId));
+                            host.Handle(new RemoveUiViewButtonCommand(message.UserSession, viewButtonId));
                         }
                         viewButtonsByUiView.Remove(key);
                     }
@@ -678,13 +680,13 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                     foreach (var viewButtonId in viewButtonIds)
                     {
-                        host.Handle(new RemoveUiViewButtonCommand(viewButtonId));
+                        host.Handle(new RemoveUiViewButtonCommand(message.UserSession, viewButtonId));
                     }
                 }
 
                 public void Handle(AddUiViewButtonCommand message)
                 {
-                    this.Handle(message.Input, true);
+                    this.Handle(message.UserSession, message.Input, true);
                 }
 
                 public void Handle(UiViewButtonAddedEvent message)
@@ -693,10 +695,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     {
                         return;
                     }
-                    this.Handle(message.Output, false);
+                    this.Handle(message.UserSession, message.Output, false);
                 }
 
-                private void Handle(IUiViewButtonCreateIo input, bool isCommand)
+                private void Handle(IUserSession userSession, IUiViewButtonCreateIo input, bool isCommand)
                 {
                     var host = _set._host;
                     var viewButtonsByUiView = _set._viewButtonsByUiView;
@@ -775,17 +777,18 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                     if (isCommand)
                     {
-                        host.MessageDispatcher.DispatchMessage(new PrivateUiViewButtonAddedEvent(entity, input));
+                        host.MessageDispatcher.DispatchMessage(new PrivateUiViewButtonAddedEvent(userSession, entity, input));
                     }
                 }
 
                 private class PrivateUiViewButtonAddedEvent : UiViewButtonAddedEvent
                 {
-                    internal PrivateUiViewButtonAddedEvent(UiViewButtonBase source, IUiViewButtonCreateIo input) : base(source, input) { }
+                    internal PrivateUiViewButtonAddedEvent(IUserSession userSession, UiViewButtonBase source, IUiViewButtonCreateIo input) : base(userSession, source, input) { }
                 }
+
                 public void Handle(UpdateUiViewButtonCommand message)
                 {
-                    this.Handle(message.Output, true);
+                    this.Handle(message.UserSession, message.Output, true);
                 }
 
                 public void Handle(UiViewButtonUpdatedEvent message)
@@ -794,12 +797,11 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     {
                         return;
                     }
-                    this.Handle(message.Input, false);
+                    this.Handle(message.UserSession, message.Input, false);
                 }
 
                 private void Update(UiViewButtonState state)
                 {
-                    var host = _set._host;
                     var viewButtonsByUiView = _set._viewButtonsByUiView;
                     var viewButtonDicById = _set._viewButtonDicById;
                     var oldState = viewButtonDicById[state.Id];
@@ -814,7 +816,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                 }
 
-                private void Handle(IUiViewButtonUpdateIo input, bool isCommand)
+                private void Handle(IUserSession userSession, IUiViewButtonUpdateIo input, bool isCommand)
                 {
                     var host = _set._host;
                     var viewButtonRepository = host.RetrieveRequiredService<IRepository<UiViewButton>>();
@@ -873,21 +875,22 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                     if (isCommand && stateChanged)
                     {
-                        host.MessageDispatcher.DispatchMessage(new PrivateUiViewButtonUpdatedEvent(entity, input));
+                        host.MessageDispatcher.DispatchMessage(new PrivateUiViewButtonUpdatedEvent(userSession, entity, input));
                     }
                 }
 
                 private class PrivateUiViewButtonUpdatedEvent : UiViewButtonUpdatedEvent
                 {
-                    internal PrivateUiViewButtonUpdatedEvent(UiViewButtonBase source, IUiViewButtonUpdateIo input)
-                        : base(source, input)
+                    internal PrivateUiViewButtonUpdatedEvent(IUserSession userSession, UiViewButtonBase source, IUiViewButtonUpdateIo input)
+                        : base(userSession, source, input)
                     {
 
                     }
                 }
+
                 public void Handle(RemoveUiViewButtonCommand message)
                 {
-                    this.Handle(message.EntityId, true);
+                    this.Handle(message.UserSession, message.EntityId, true);
                 }
 
                 public void Handle(UiViewButtonRemovedEvent message)
@@ -896,10 +899,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     {
                         return;
                     }
-                    this.Handle(message.Source.Id, false);
+                    this.Handle(message.UserSession, message.Source.Id, false);
                 }
 
-                private void Handle(Guid viewButtonId, bool isCommand)
+                private void Handle(IUserSession userSession, Guid viewButtonId, bool isCommand)
                 {
                     var host = _set._host;
                     var viewButtonsByUiView = _set._viewButtonsByUiView;
@@ -959,14 +962,14 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                     if (isCommand)
                     {
-                        host.MessageDispatcher.DispatchMessage(new PrivateUiViewButtonRemovedEvent(entity));
+                        host.MessageDispatcher.DispatchMessage(new PrivateUiViewButtonRemovedEvent(userSession, entity));
                     }
                 }
 
                 private class PrivateUiViewButtonRemovedEvent : UiViewButtonRemovedEvent
                 {
-                    internal PrivateUiViewButtonRemovedEvent(UiViewButtonBase source)
-                        : base(source)
+                    internal PrivateUiViewButtonRemovedEvent(IUserSession userSession, UiViewButtonBase source)
+                        : base(userSession, source)
                     {
 
                     }

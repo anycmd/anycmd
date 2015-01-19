@@ -9,8 +9,8 @@ namespace Anycmd.Engine.Edi.Messages
     /// </summary>
     public sealed class ArchiveUpdatedEvent : DomainEvent
     {
-        public ArchiveUpdatedEvent(ArchiveBase source)
-            : base(source)
+        public ArchiveUpdatedEvent(IUserSession userSession, ArchiveBase source)
+            : base(userSession, source)
         {
             this.DataSource = source.DataSource;
             this.FilePath = source.FilePath;

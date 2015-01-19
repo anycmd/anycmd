@@ -5,8 +5,8 @@ namespace Anycmd.Engine.Edi.Messages
 
     public class UpdateTopicCommand : UpdateEntityCommand<ITopicUpdateIo>, IAnycmdCommand
     {
-        public UpdateTopicCommand(ITopicUpdateIo input)
-            : base(input)
+        public UpdateTopicCommand(IUserSession userSession, ITopicUpdateIo input)
+            : base(userSession, input)
         {
 
         }

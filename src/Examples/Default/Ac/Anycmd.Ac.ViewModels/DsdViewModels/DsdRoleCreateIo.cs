@@ -25,9 +25,9 @@ namespace Anycmd.Ac.ViewModels.DsdViewModels
 
         public Guid RoleId { get; set; }
 
-        public AddDsdRoleCommand ToCommand()
+        public AddDsdRoleCommand ToCommand(IUserSession userSession)
         {
-            return new AddDsdRoleCommand(this);
+            return new AddDsdRoleCommand(userSession, this);
         }
     }
 }

@@ -4,12 +4,13 @@ namespace Anycmd.Tests
     using Ac.ViewModels.Infra.AppSystemViewModels;
     using Ac.ViewModels.Infra.MenuViewModels;
     using Engine.Ac;
-    using Engine.Host.Ac.Infra;
     using Engine.Ac.Messages.Infra;
+    using Engine.Host.Ac.Infra;
     using Exceptions;
     using Moq;
     using Repositories;
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using Xunit;
 
@@ -21,7 +22,12 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             Assert.Equal(1, host.AppSystemSet.Count());
-
+            UserSessionState.SignIn(host, new Dictionary<string, object>
+            {
+                {"loginName", "test"},
+                {"password", "111111"},
+                {"rememberMe", "rememberMe"}
+            });
             var entityId = Guid.NewGuid();
 
             AppSystemState appSystemById;
@@ -32,7 +38,7 @@ namespace Anycmd.Tests
                 Code = "app1",
                 Name = "测试1",
                 PrincipalId = host.SysUserSet.GetDevAccounts().First().Id
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
             Assert.Equal(2, host.AppSystemSet.Count());
             Assert.True(host.AppSystemSet.TryGetAppSystem(entityId, out appSystemById));
             Assert.True(host.AppSystemSet.TryGetAppSystem("app1", out appSystemByCode));
@@ -44,7 +50,7 @@ namespace Anycmd.Tests
                 Name = "test2",
                 Code = "app2",
                 PrincipalId = host.SysUserSet.GetDevAccounts().First().Id
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
             AppSystemState appSystemById1;
             AppSystemState appSystemByCode1;
             Assert.Equal(2, host.AppSystemSet.Count());
@@ -59,7 +65,7 @@ namespace Anycmd.Tests
             Assert.Equal("app2", appSystemById1.Code);
 
             Assert.NotNull(host.RetrieveRequiredService<IRepository<AppSystem>>().GetByKey(entityId));
-            host.Handle(new RemoveAppSystemCommand(entityId));
+            host.Handle(new RemoveAppSystemCommand(host.GetUserSession(), entityId));
             Assert.False(host.AppSystemSet.TryGetAppSystem(entityId, out appSystemById1));
             Assert.False(host.AppSystemSet.TryGetAppSystem("app2", out appSystemByCode1));
             Assert.Equal(1, host.AppSystemSet.Count());
@@ -72,7 +78,12 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             Assert.Equal(1, host.AppSystemSet.Count());
-
+            UserSessionState.SignIn(host, new Dictionary<string, object>
+            {
+                {"loginName", "test"},
+                {"password", "111111"},
+                {"rememberMe", "rememberMe"}
+            });
             var entityId = Guid.NewGuid();
 
             host.Handle(new AppSystemCreateInput
@@ -81,7 +92,7 @@ namespace Anycmd.Tests
                 Code = "app1",
                 Name = "测试1",
                 PrincipalId = host.SysUserSet.GetDevAccounts().First().Id
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
             Assert.Equal(2, host.AppSystemSet.Count());
 
             host.Handle(new MenuCreateInput
@@ -94,12 +105,12 @@ namespace Anycmd.Tests
                 Description = string.Empty,
                 Icon = string.Empty,
                 ParentId = null
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
 
             bool catched = false;
             try
             {
-                host.Handle(new RemoveAppSystemCommand(entityId));
+                host.Handle(new RemoveAppSystemCommand(host.GetUserSession(), entityId));
             }
             catch (ValidationException)
             {
@@ -120,7 +131,12 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             Assert.Equal(1, host.AppSystemSet.Count());
-
+            UserSessionState.SignIn(host, new Dictionary<string, object>
+            {
+                {"loginName", "test"},
+                {"password", "111111"},
+                {"rememberMe", "rememberMe"}
+            });
             var moAppSystemRepository = host.GetMoqRepository<AppSystem, IRepository<AppSystem>>();
             var entityId1 = Guid.NewGuid();
             var entityId2 = Guid.NewGuid();
@@ -143,7 +159,7 @@ namespace Anycmd.Tests
                     Code = code,
                     Name = name,
                     PrincipalId = host.SysUserSet.GetDevAccounts().First().Id
-                }.ToCommand());
+                }.ToCommand(host.GetUserSession()));
             }
             catch (Exception e)
             {
@@ -163,7 +179,7 @@ namespace Anycmd.Tests
                 Code = code,
                 Name = name,
                 PrincipalId = host.SysUserSet.GetDevAccounts().First().Id
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
             Assert.Equal(2, host.AppSystemSet.Count());
 
             catched = false;
@@ -175,7 +191,7 @@ namespace Anycmd.Tests
                     Name = "test2",
                     Code = "app2",
                     PrincipalId = host.SysUserSet.GetDevAccounts().First().Id
-                }.ToCommand());
+                }.ToCommand(host.GetUserSession()));
             }
             catch (Exception e)
             {
@@ -195,7 +211,7 @@ namespace Anycmd.Tests
             catched = false;
             try
             {
-                host.Handle(new RemoveAppSystemCommand(entityId2));
+                host.Handle(new RemoveAppSystemCommand(host.GetUserSession(), entityId2));
             }
             catch (Exception e)
             {

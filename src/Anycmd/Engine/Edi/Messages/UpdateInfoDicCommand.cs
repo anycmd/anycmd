@@ -5,8 +5,8 @@ namespace Anycmd.Engine.Edi.Messages
 
     public class UpdateInfoDicCommand : UpdateEntityCommand<IInfoDicUpdateIo>, IAnycmdCommand
     {
-        public UpdateInfoDicCommand(IInfoDicUpdateIo input)
-            : base(input)
+        public UpdateInfoDicCommand(IUserSession userSession, IInfoDicUpdateIo input)
+            : base(userSession, input)
         {
 
         }

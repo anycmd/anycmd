@@ -59,7 +59,7 @@ namespace Anycmd.Web.Mvc
             return entityTypeEntityType;
         }
         
-        protected ActionResult HandleSeparateGuidString(Action<Guid> action, string id, params char[] separator)
+        protected ActionResult HandleSeparateGuidString(Action<IUserSession, Guid> action, IUserSession userSession, string id, params char[] separator)
         {
             if (action == null)
             {
@@ -85,7 +85,7 @@ namespace Anycmd.Web.Mvc
             }
             foreach (var item in idArray)
             {
-                action(item);
+                action(userSession, item);
             }
             return this.JsonResult(new ResponseData { id = id, success = true });
         }

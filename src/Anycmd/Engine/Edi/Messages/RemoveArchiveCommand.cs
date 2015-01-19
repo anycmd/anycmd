@@ -3,10 +3,10 @@ namespace Anycmd.Engine.Edi.Messages
 {
     using System;
 
-    public class RemoveArchiveCommand : RemoveEntityCommand, IAnycmdCommand
+    public class RemoveArchiveCommand : RemoveEntityCommand
     {
-        public RemoveArchiveCommand(Guid archiveId)
-            : base(archiveId)
+        public RemoveArchiveCommand(IUserSession userSession, Guid archiveId)
+            : base(userSession, archiveId)
         {
 
         }

@@ -83,7 +83,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             }
             else
             {
-                GetRequiredService<IFunctionListImport>().Import(AcDomain, AcDomain.Config.SelfAppSystemCode);
+                GetRequiredService<IFunctionListImport>().Import(AcDomain, UserSession, AcDomain.Config.SelfAppSystemCode);
             }
 
             return this.JsonResult(result);
@@ -138,7 +138,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            AcDomain.Handle(input.ToCommand());
+            AcDomain.Handle(input.ToCommand(UserSession));
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -153,7 +153,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            AcDomain.Handle(input.ToCommand());
+            AcDomain.Handle(input.ToCommand(UserSession));
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -180,7 +180,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             }
             foreach (var item in idArray)
             {
-                AcDomain.Handle(new RemoveFunctionCommand(item));
+                AcDomain.Handle(new RemoveFunctionCommand(UserSession, item));
             }
 
             return this.JsonResult(new ResponseData { id = id, success = true });
@@ -219,7 +219,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                     SortCode = entity.SortCode
                 };
                 input.IsManaged = true;
-                AcDomain.Handle(input.ToCommand());
+                AcDomain.Handle(input.ToCommand(UserSession));
             }
             return this.JsonResult(new ResponseData { id = id, success = true });
         }
@@ -257,7 +257,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                     Description = entity.Description
                 };
                 input.IsManaged = false;
-                AcDomain.Handle(input.ToCommand());
+                AcDomain.Handle(input.ToCommand(UserSession));
             }
             return this.JsonResult(new ResponseData { id = id, success = true });
         }
@@ -332,7 +332,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                             Id = entity.Id
                         };
                         input.IsManaged = isManaged;
-                        AcDomain.Handle(input.ToCommand());
+                        AcDomain.Handle(input.ToCommand(UserSession));
                     }
                 }
             }

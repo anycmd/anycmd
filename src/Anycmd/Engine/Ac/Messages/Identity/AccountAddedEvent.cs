@@ -6,6 +6,6 @@ namespace Anycmd.Engine.Ac.Messages.Identity
 
     public class AccountAddedEvent : DomainEvent
     {
-        public AccountAddedEvent(AccountBase source) : base(source) { }
+        public AccountAddedEvent(IUserSession userSession, AccountBase source) : base(userSession, source) { }
     }
 }

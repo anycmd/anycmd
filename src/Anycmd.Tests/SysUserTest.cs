@@ -8,6 +8,7 @@ namespace Anycmd.Tests
     using Moq;
     using Repositories;
     using System;
+    using System.Collections.Generic;
     using Xunit;
 
     public class SysUserTest
@@ -17,6 +18,12 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             Assert.True(host.SysUserSet.GetDevAccounts().Count == 1);
+            UserSessionState.SignIn(host, new Dictionary<string, object>
+            {
+                {"loginName", "test"},
+                {"password", "111111"},
+                {"rememberMe", "rememberMe"}
+            });
             Guid accountId = Guid.NewGuid();
             host.RetrieveRequiredService<IRepository<Account>>().Add(new Account
             {
@@ -27,13 +34,13 @@ namespace Anycmd.Tests
             });
             host.RetrieveRequiredService<IRepository<Account>>().Context.Commit();
             Assert.True(host.SysUserSet.GetDevAccounts().Count == 1);
-            host.Handle(new AddDeveloperCommand(accountId));
+            host.Handle(new AddDeveloperCommand(host.GetUserSession(), accountId));
             AccountState developer;
             Assert.True(host.SysUserSet.GetDevAccounts().Count == 2);
             Assert.True(host.SysUserSet.TryGetDevAccount(accountId, out developer));
             Assert.True(host.SysUserSet.TryGetDevAccount("anycmd", out developer));
 
-            host.Handle(new RemoveDeveloperCommand(accountId));
+            host.Handle(new RemoveDeveloperCommand(host.GetUserSession(), accountId));
             Assert.True(host.SysUserSet.GetDevAccounts().Count == 1);
             Assert.False(host.SysUserSet.TryGetDevAccount(accountId, out developer));
             Assert.False(host.SysUserSet.TryGetDevAccount("anycmd", out developer));
@@ -41,7 +48,7 @@ namespace Anycmd.Tests
             bool catched = false;
             try
             {
-                host.Handle(new AddDeveloperCommand(Guid.NewGuid()));// 将不存在的账户设为开发人员时应引发异常
+                host.Handle(new AddDeveloperCommand(host.GetUserSession(), Guid.NewGuid()));// 将不存在的账户设为开发人员时应引发异常
             }
             catch (Exception)
             {
@@ -59,7 +66,12 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             Assert.Equal(1, host.SysUserSet.GetDevAccounts().Count);
-
+            UserSessionState.SignIn(host, new Dictionary<string, object>
+            {
+                {"loginName", "test"},
+                {"password", "111111"},
+                {"rememberMe", "rememberMe"}
+            });
             host.RemoveService(typeof(IRepository<Account>));
             host.RemoveService(typeof(IRepository<DeveloperId>));
             var moAccountRepository = host.GetMoqRepository<Account, IRepository<Account>>();
@@ -97,7 +109,7 @@ namespace Anycmd.Tests
             bool catched = false;
             try
             {
-                host.Handle(new AddDeveloperCommand(entityId1));
+                host.Handle(new AddDeveloperCommand(host.GetUserSession(), entityId1));
             }
             catch (Exception e)
             {
@@ -111,21 +123,21 @@ namespace Anycmd.Tests
                 Assert.Equal(1, host.SysUserSet.GetDevAccounts().Count);
             }
 
-            host.Handle(new AddDeveloperCommand(entityId2));
+            host.Handle(new AddDeveloperCommand(host.GetUserSession(), entityId2));
             Assert.Equal(2, host.SysUserSet.GetDevAccounts().Count);
 
             host.Handle(new AccountUpdateInput
             {
                 Id = entityId2,
                 Name = "test2"
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
             Assert.True(catched);
             Assert.Equal(2, host.SysUserSet.GetDevAccounts().Count);
 
             catched = false;
             try
             {
-                host.Handle(new RemoveDeveloperCommand(entityId2));
+                host.Handle(new RemoveDeveloperCommand(host.GetUserSession(), entityId2));
             }
             catch (Exception e)
             {

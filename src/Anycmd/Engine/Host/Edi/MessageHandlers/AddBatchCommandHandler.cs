@@ -168,7 +168,7 @@ namespace Anycmd.Engine.Host.Edi.MessageHandlers
             batchRepository.Add(entity);
             batchRepository.Context.Commit();
 
-            _host.PublishEvent(new BatchAddedEvent(entity));
+            _host.PublishEvent(new BatchAddedEvent(command.UserSession, entity));
             _host.CommitEventBus();
         }
 

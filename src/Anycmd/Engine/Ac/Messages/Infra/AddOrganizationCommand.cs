@@ -6,8 +6,8 @@ namespace Anycmd.Engine.Ac.Messages.Infra
 
     public class AddOrganizationCommand : AddEntityCommand<IOrganizationCreateIo>, IAnycmdCommand
     {
-        public AddOrganizationCommand(IOrganizationCreateIo input)
-            : base(input)
+        public AddOrganizationCommand(IUserSession userSession, IOrganizationCreateIo input)
+            : base(userSession, input)
         {
 
         }

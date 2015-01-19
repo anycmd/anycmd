@@ -9,8 +9,8 @@ namespace Anycmd.Engine.Ac.Messages.Infra
     /// </summary>
     public class UiViewRemovedEvent : DomainEvent
     {
-        public UiViewRemovedEvent(UiViewBase source)
-            : base(source)
+        public UiViewRemovedEvent(IUserSession userSession, UiViewBase source)
+            : base(userSession, source)
         {
         }
     }

@@ -129,7 +129,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                     {
                         if (!isAssigned)
                         {
-                            AcDomain.Handle(new RemoveDsdRoleCommand(id));
+                            AcDomain.Handle(new RemoveDsdRoleCommand(UserSession, id));
                         }
                     }
                     else if (isAssigned)
@@ -140,7 +140,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                             RoleId = new Guid(row["RoleId"].ToString()),
                             DsdSetId = new Guid(row["DsdSetId"].ToString())
                         };
-                        AcDomain.Handle(createInput.ToCommand());
+                        AcDomain.Handle(createInput.ToCommand(UserSession));
                     }
                 }
             }
@@ -159,7 +159,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return this.ModelState.ToJsonResult();
             }
-            AcDomain.Handle(input.ToCommand());
+            AcDomain.Handle(input.ToCommand(UserSession));
 
             return this.JsonResult(new ResponseData { success = true, id = input.Id });
         }
@@ -174,7 +174,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return this.ModelState.ToJsonResult();
             }
-            AcDomain.Handle(input.ToCommand());
+            AcDomain.Handle(input.ToCommand(UserSession));
 
             return this.JsonResult(new ResponseData { success = true, id = input.Id });
         }
@@ -201,7 +201,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             }
             foreach (var item in idArray)
             {
-                AcDomain.Handle(new RemoveDsdSetCommand(item));
+                AcDomain.Handle(new RemoveDsdSetCommand(UserSession, item));
             }
 
             return this.JsonResult(new ResponseData { id = id, success = true });

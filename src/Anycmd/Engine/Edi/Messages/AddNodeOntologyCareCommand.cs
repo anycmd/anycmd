@@ -5,8 +5,8 @@ namespace Anycmd.Engine.Edi.Messages
 
     public class AddNodeOntologyCareCommand: AddEntityCommand<INodeOntologyCareCreateIo>, IAnycmdCommand
     {
-        public AddNodeOntologyCareCommand(INodeOntologyCareCreateIo input)
-            : base(input)
+        public AddNodeOntologyCareCommand(IUserSession userSession, INodeOntologyCareCreateIo input)
+            : base(userSession, input)
         {
 
         }

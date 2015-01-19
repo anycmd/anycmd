@@ -5,8 +5,8 @@ namespace Anycmd.Engine.Edi.Messages
 
     public class UpdateElementCommand : UpdateEntityCommand<IElementUpdateIo>, IAnycmdCommand
     {
-        public UpdateElementCommand(IElementUpdateIo input)
-            : base(input)
+        public UpdateElementCommand(IUserSession userSession, IElementUpdateIo input)
+            : base(userSession, input)
         {
 
         }

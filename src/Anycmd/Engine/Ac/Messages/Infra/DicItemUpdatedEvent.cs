@@ -10,8 +10,8 @@ namespace Anycmd.Engine.Ac.Messages.Infra
     /// </summary>
     public class DicItemUpdatedEvent : DomainEvent
     {
-        public DicItemUpdatedEvent(DicItemBase source, IDicItemUpdateIo input)
-            : base(source)
+        public DicItemUpdatedEvent(IUserSession userSession, DicItemBase source, IDicItemUpdateIo input)
+            : base(userSession, source)
         {
             if (input == null)
             {

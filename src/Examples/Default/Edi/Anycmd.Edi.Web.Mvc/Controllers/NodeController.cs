@@ -499,7 +499,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                 if (!string.IsNullOrEmpty(item))
                 {
                     var organizationId = new Guid(item);
-                    AcDomain.Handle(new AddNodeOntologyOrganizationCommand(new NodeOntologyOrganizationCreateInput
+                    AcDomain.Handle(new AddNodeOntologyOrganizationCommand(UserSession, new NodeOntologyOrganizationCreateInput
                     {
                         Id = Guid.NewGuid(),
                         NodeId = nodeId,
@@ -513,7 +513,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                 if (!string.IsNullOrEmpty(item))
                 {
                     var organizationId = new Guid(item);
-                    AcDomain.Handle(new RemoveNodeOntologyOrganizationCommand(nodeId, ontologyId, organizationId));
+                    AcDomain.Handle(new RemoveNodeOntologyOrganizationCommand(UserSession, nodeId, ontologyId, organizationId));
                 }
             }
             GetRequiredService<IRepository<NodeOntologyOrganization>>().Context.Commit();
@@ -536,7 +536,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            AcDomain.AddNode(input);
+            AcDomain.AddNode(UserSession, input);
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -555,7 +555,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            AcDomain.UpdateNode(input);
+            AcDomain.UpdateNode(UserSession, input);
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -592,7 +592,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                         entity.IsProduceEnabled = isProduceEnabled;
                         entity.IsReceiveEnabled = isReceiveEnabled;
                         entity.IsDistributeEnabled = isTransferEnabled;
-                        AcDomain.Handle(new UpdateNodeCommand(new NodeUpdateInput
+                        AcDomain.Handle(new UpdateNodeCommand(UserSession, new NodeUpdateInput
                         {
                             Abstract = entity.Abstract,
                             AnycmdApiAddress = entity.AnycmdApiAddress,
@@ -653,12 +653,12 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                     {
                         if (!isAssigned)
                         {
-                            AcDomain.RemoveNodeOntologyCare(id);
+                            AcDomain.RemoveNodeOntologyCare(UserSession, id);
                         }
                     }
                     else if (isAssigned)
                     {
-                        AcDomain.AddNodeOntologyCare(new NodeOntologyCareCreateInput
+                        AcDomain.AddNodeOntologyCare(UserSession, new NodeOntologyCareCreateInput
                         {
                             Id = id,
                             NodeId = new Guid(row["NodeId"].ToString()),
@@ -698,7 +698,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                     {
                         if (!isAssigned)
                         {
-                            AcDomain.RemoveNodeElementCare(id);
+                            AcDomain.RemoveNodeElementCare(UserSession, id);
                         }
                         else
                         {
@@ -707,7 +707,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                     }
                     else if (isAssigned)
                     {
-                        AcDomain.AddNodeElementCare(new NodeElementCareCreateInput
+                        AcDomain.AddNodeElementCare(UserSession, new NodeElementCareCreateInput
                         {
                             Id = id,
                             NodeId = new Guid(row["NodeId"].ToString()),
@@ -768,17 +768,19 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                             IsAudit = inputModel.IsAudit,
                             NodeId = inputModel.NodeId
                         };
-                        AcDomain.PublishEvent(new NodeActionUpdatedEvent(entity));
+                        AcDomain.PublishEvent(new NodeActionUpdatedEvent(UserSession, entity));
                     }
                     else
                     {
-                        entity = new NodeAction();
-                        entity.Id = inputModel.Id;
-                        entity.NodeId = inputModel.NodeId;
-                        entity.ActionId = inputModel.ActionId;
-                        entity.IsAudit = inputModel.IsAudit;
-                        entity.IsAllowed = inputModel.IsAllowed;
-                        AcDomain.PublishEvent(new NodeActionAddedEvent(entity));
+                        entity = new NodeAction
+                        {
+                            Id = inputModel.Id,
+                            NodeId = inputModel.NodeId,
+                            ActionId = inputModel.ActionId,
+                            IsAudit = inputModel.IsAudit,
+                            IsAllowed = inputModel.IsAllowed
+                        };
+                        AcDomain.PublishEvent(new NodeActionAddedEvent(UserSession, entity));
                     }
                     AcDomain.CommitEventBus();
                 }
@@ -864,7 +866,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
         [Guid("462C7447-5C3F-4363-9604-2407CBE22EDB")]
         public ActionResult Delete(string id)
         {
-            return this.HandleSeparateGuidString(AcDomain.RemoveNode, id, ',');
+            return this.HandleSeparateGuidString(AcDomain.RemoveNode, UserSession, id, ',');
         }
     }
 }

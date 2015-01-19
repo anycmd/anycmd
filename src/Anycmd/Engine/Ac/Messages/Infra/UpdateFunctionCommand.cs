@@ -6,8 +6,8 @@ namespace Anycmd.Engine.Ac.Messages.Infra
 
     public class UpdateFunctionCommand : UpdateEntityCommand<IFunctionUpdateIo>, IAnycmdCommand
     {
-        public UpdateFunctionCommand(IFunctionUpdateIo input)
-            : base(input)
+        public UpdateFunctionCommand(IUserSession userSession, IFunctionUpdateIo input)
+            : base(userSession, input)
         {
 
         }

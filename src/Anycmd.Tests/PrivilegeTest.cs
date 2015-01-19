@@ -9,11 +9,11 @@ namespace Anycmd.Tests
     using Engine.Ac.Abstractions;
     using Engine.Ac.Messages;
     using Engine.Ac.Messages.Infra;
-    using Engine.Ac.Messages.Rbac;
     using Engine.Host.Ac;
     using Engine.Host.Ac.Identity;
     using Repositories;
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using Xunit;
 
@@ -25,9 +25,14 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             Assert.Equal(0, host.PrivilegeSet.Count());
-
+            UserSessionState.SignIn(host, new Dictionary<string, object>
+            {
+                {"loginName", "test"},
+                {"password", "111111"},
+                {"rememberMe", "rememberMe"}
+            });
             Guid groupId = Guid.NewGuid();
-            host.Handle(new AddGroupCommand(new GroupCreateInput
+            host.Handle(new AddGroupCommand(host.GetUserSession(), new GroupCreateInput
             {
                 Id = groupId,
                 Name = "测试1",
@@ -49,7 +54,7 @@ namespace Anycmd.Tests
             host.RetrieveRequiredService<IRepository<Account>>().Context.Commit();
             var entityId = Guid.NewGuid();
 
-            host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
+            host.Handle(new AddPrivilegeCommand(host.GetUserSession(), new PrivilegeCreateIo
             {
                 Id = entityId,
                 SubjectInstanceId = accountId,
@@ -65,7 +70,7 @@ namespace Anycmd.Tests
             Assert.Equal(accountId, privilegeBigram.SubjectInstanceId);
             Assert.Equal(groupId, privilegeBigram.ObjectInstanceId);
 
-            host.Handle(new UpdatePrivilegeCommand(new PrivilegeUpdateIo
+            host.Handle(new UpdatePrivilegeCommand(host.GetUserSession(), new PrivilegeUpdateIo
             {
                 Id = entityId,
                 AcContent = "this is a test"
@@ -76,7 +81,7 @@ namespace Anycmd.Tests
                 firstOrDefault != null)
                 Assert.Equal("this is a test", firstOrDefault.AcContent);
 
-            host.Handle(new RemovePrivilegeCommand(entityId));
+            host.Handle(new RemovePrivilegeCommand(host.GetUserSession(), entityId));
             Assert.Null(host.RetrieveRequiredService<IRepository<Privilege>>().AsQueryable().FirstOrDefault(a => a.Id == entityId));
         }
         #endregion
@@ -86,7 +91,12 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             var roleId = Guid.NewGuid();
-
+            UserSessionState.SignIn(host, new Dictionary<string, object>
+            {
+                {"loginName", "test"},
+                {"password", "111111"},
+                {"rememberMe", "rememberMe"}
+            });
             RoleState roleById;
             host.Handle(new RoleCreateInput
             {
@@ -97,7 +107,7 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
             Assert.Equal(1, host.RoleSet.Count());
             Assert.True(host.RoleSet.TryGetRole(roleId, out roleById));
 
@@ -114,14 +124,14 @@ namespace Anycmd.Tests
                 IsManaged = true,
                 ResourceTypeId = host.ResourceTypeSet.First().Id,
                 SortCode = 10
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
             ResourceTypeState resource;
             Assert.True(host.ResourceTypeSet.TryGetResource(host.ResourceTypeSet.First().Id, out resource));
             Assert.Equal(1, host.FunctionSet.Count());
             Assert.True(host.FunctionSet.TryGetFunction(functionId, out functionById));
             var entityId = Guid.NewGuid();
 
-            host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
+            host.Handle(new AddPrivilegeCommand(host.GetUserSession(), new PrivilegeCreateIo
             {
                 Id = entityId,
                 SubjectInstanceId = roleId,
@@ -137,14 +147,14 @@ namespace Anycmd.Tests
             Assert.Equal(roleId, privilegeBigram.SubjectInstanceId);
             Assert.Equal(functionId, privilegeBigram.ObjectInstanceId);
 
-            host.Handle(new UpdatePrivilegeCommand(new PrivilegeUpdateIo
+            host.Handle(new UpdatePrivilegeCommand(host.GetUserSession(), new PrivilegeUpdateIo
             {
                 Id = entityId,
                 AcContent = "this is a test"
             }));
             Assert.Equal("this is a test", host.PrivilegeSet.Single(a => a.Id == entityId).AcContent);
 
-            host.Handle(new RemovePrivilegeCommand(entityId));
+            host.Handle(new RemovePrivilegeCommand(host.GetUserSession(), entityId));
             Assert.Null(host.PrivilegeSet.FirstOrDefault(a => a.Id == entityId));
         }
 
@@ -159,11 +169,16 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             Assert.Equal(0, host.PrivilegeSet.Count());
-
+            UserSessionState.SignIn(host, new Dictionary<string, object>
+            {
+                {"loginName", "test"},
+                {"password", "111111"},
+                {"rememberMe", "rememberMe"}
+            });
             bool catched = false;
             try
             {
-                host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
+                host.Handle(new AddPrivilegeCommand(host.GetUserSession(), new PrivilegeCreateIo
                 {
                     Id = Guid.NewGuid(),
                     SubjectInstanceId = Guid.NewGuid(),
@@ -186,7 +201,7 @@ namespace Anycmd.Tests
             catched = false;
             try
             {
-                host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
+                host.Handle(new AddPrivilegeCommand(host.GetUserSession(), new PrivilegeCreateIo
                 {
                     Id = Guid.NewGuid(),
                     SubjectInstanceId = Guid.NewGuid(),
@@ -209,7 +224,7 @@ namespace Anycmd.Tests
             catched = false;
             try
             {
-                host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
+                host.Handle(new AddPrivilegeCommand(host.GetUserSession(), new PrivilegeCreateIo
                 {
                     Id = Guid.NewGuid(),
                     SubjectInstanceId = Guid.NewGuid(),// 标识为它的账户不存在，应报错
@@ -231,7 +246,7 @@ namespace Anycmd.Tests
             }
 
             Guid groupId = Guid.NewGuid();
-            host.Handle(new AddGroupCommand(new GroupCreateInput
+            host.Handle(new AddGroupCommand(host.GetUserSession(), new GroupCreateInput
             {
                 Id = groupId,
                 Name = "测试1",
@@ -254,7 +269,7 @@ namespace Anycmd.Tests
             catched = false;
             try
             {
-                host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
+                host.Handle(new AddPrivilegeCommand(host.GetUserSession(), new PrivilegeCreateIo
                 {
                     Id = Guid.NewGuid(),
                     SubjectInstanceId = accountId,

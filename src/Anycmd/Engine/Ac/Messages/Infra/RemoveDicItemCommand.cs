@@ -3,10 +3,10 @@ namespace Anycmd.Engine.Ac.Messages.Infra
 {
     using System;
 
-    public class RemoveDicItemCommand : RemoveEntityCommand, IAnycmdCommand
+    public class RemoveDicItemCommand : RemoveEntityCommand
     {
-        public RemoveDicItemCommand(Guid dicItemId)
-            : base(dicItemId)
+        public RemoveDicItemCommand(IUserSession userSession, Guid dicItemId)
+            : base(userSession, dicItemId)
         {
 
         }

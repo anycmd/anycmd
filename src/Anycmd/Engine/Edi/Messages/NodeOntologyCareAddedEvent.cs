@@ -10,8 +10,8 @@ namespace Anycmd.Engine.Edi.Messages
     /// </summary>
     public class NodeOntologyCareAddedEvent : DomainEvent
     {
-        public NodeOntologyCareAddedEvent(NodeOntologyCareBase source, INodeOntologyCareCreateIo output)
-            : base(source)
+        public NodeOntologyCareAddedEvent(IUserSession userSession, NodeOntologyCareBase source, INodeOntologyCareCreateIo output)
+            : base(userSession, source)
         {
             if (output == null)
             {

@@ -9,6 +9,6 @@ namespace Anycmd.Engine.Ac.Messages.Identity
     /// </summary>
     public class DeveloperAddedEvent : DomainEvent
     {
-        public DeveloperAddedEvent(DeveloperId source) : base(source) { }
+        public DeveloperAddedEvent(IUserSession userSession, DeveloperId source) : base(userSession, source) { }
     }
 }

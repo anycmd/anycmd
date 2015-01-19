@@ -10,8 +10,8 @@ namespace Anycmd.Engine.Ac.Messages.Infra
     /// </summary>
     public class ResourceTypeUpdatedEvent : DomainEvent
     {
-        public ResourceTypeUpdatedEvent(ResourceTypeBase source, IResourceTypeUpdateIo input)
-            : base(source)
+        public ResourceTypeUpdatedEvent(IUserSession userSession, ResourceTypeBase source, IResourceTypeUpdateIo input)
+            : base(userSession, source)
         {
             if (input == null)
             {

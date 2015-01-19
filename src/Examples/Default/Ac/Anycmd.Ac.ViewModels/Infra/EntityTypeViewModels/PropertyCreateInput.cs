@@ -92,9 +92,9 @@ namespace Anycmd.Ac.ViewModels.Infra.EntityTypeViewModels
 
         public string Tooltip { get; set; }
 
-        public AddPropertyCommand ToCommand()
+        public AddPropertyCommand ToCommand(IUserSession userSession)
         {
-            return new AddPropertyCommand(this);
+            return new AddPropertyCommand(userSession, this);
         }
     }
 }

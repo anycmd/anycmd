@@ -6,10 +6,12 @@ namespace Anycmd.Engine.Ac.Messages.Identity
 
     public class AddVisitingLogCommand : Command, IAnycmdCommand
     {
-        public AddVisitingLogCommand()
+        public AddVisitingLogCommand(IUserSession userSession)
         {
-
+            this.UserSession = userSession;
         }
+
+        public IUserSession UserSession { get; private set; }
 
         /// <summary>
         /// 账户表示

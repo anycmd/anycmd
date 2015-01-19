@@ -9,6 +9,6 @@ namespace Anycmd.Engine.Edi.Messages
     /// </summary>
     public class InfoDicRemovedEvent : DomainEvent
     {
-        public InfoDicRemovedEvent(InfoDicBase source) : base(source) { }
+        public InfoDicRemovedEvent(IUserSession userSession, InfoDicBase source) : base(userSession, source) { }
     }
 }

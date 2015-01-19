@@ -3,10 +3,10 @@ namespace Anycmd.Engine.Ac.Messages
 {
     using System;
 
-    public class RemovePrivilegeCommand : RemoveEntityCommand, IAnycmdCommand
+    public class RemovePrivilegeCommand : RemoveEntityCommand
     {
-        public RemovePrivilegeCommand(Guid privilegeBigramId)
-            : base(privilegeBigramId)
+        public RemovePrivilegeCommand(IUserSession userSession, Guid privilegeBigramId)
+            : base(userSession, privilegeBigramId)
         {
 
         }

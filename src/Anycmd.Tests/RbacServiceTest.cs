@@ -33,6 +33,12 @@ namespace Anycmd.Tests
             var host = TestHelper.GetAcDomain();
             var rbacService = host.RetrieveRequiredService<IRbacService>();
             var accountRepository = host.RetrieveRequiredService<IRepository<Account>>();
+            UserSessionState.SignIn(host, new Dictionary<string, object>
+            {
+                {"loginName", "test"},
+                {"password", "111111"},
+                {"rememberMe", "rememberMe"}
+            });
             host.Handle(new OrganizationCreateInput
             {
                 Id = Guid.NewGuid(),
@@ -41,13 +47,13 @@ namespace Anycmd.Tests
                 Description = "test",
                 SortCode = 10,
                 Icon = null,
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
             var accountId = Guid.NewGuid();
-            rbacService.AddUser(new AccountCreateInput
+            rbacService.AddUser(host.GetUserSession(), new AccountCreateInput
             {
                 Id = accountId,
-                LoginName = "test",
-                Code = "test",
+                LoginName = "test1",
+                Code = "test1",
                 Name = "test",
                 Password = "111111",
                 OrganizationCode = "100"
@@ -64,6 +70,12 @@ namespace Anycmd.Tests
             var host = TestHelper.GetAcDomain();
             var rbacService = host.RetrieveRequiredService<IRbacService>();
             var accountRepository = host.RetrieveRequiredService<IRepository<Account>>();
+            UserSessionState.SignIn(host, new Dictionary<string, object>
+            {
+                {"loginName", "test"},
+                {"password", "111111"},
+                {"rememberMe", "rememberMe"}
+            });
             host.Handle(new OrganizationCreateInput
             {
                 Id = Guid.NewGuid(),
@@ -72,18 +84,18 @@ namespace Anycmd.Tests
                 Description = "test",
                 SortCode = 10,
                 Icon = null,
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
             var accountId = Guid.NewGuid();
-            rbacService.AddUser(new AccountCreateInput
+            rbacService.AddUser(host.GetUserSession(), new AccountCreateInput
             {
                 Id = accountId,
-                LoginName = "test",
-                Code = "test",
-                Name = "test",
+                LoginName = "test1",
+                Code = "test1",
+                Name = "test1",
                 Password = "111111",
                 OrganizationCode = "100"
             });
-            rbacService.DeleteUser(accountId);
+            rbacService.DeleteUser(host.GetUserSession(), accountId);
             var entity = accountRepository.GetByKey(accountId);
             Assert.Null(entity);
         }
@@ -95,10 +107,16 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             var rbacService = host.RetrieveRequiredService<IRbacService>();
+            UserSessionState.SignIn(host, new Dictionary<string, object>
+            {
+                {"loginName", "test"},
+                {"password", "111111"},
+                {"rememberMe", "rememberMe"}
+            });
             var entityId = Guid.NewGuid();
 
             RoleState roleById;
-            rbacService.AddRole(new RoleCreateInput
+            rbacService.AddRole(host.GetUserSession(), new RoleCreateInput
             {
                 Id = entityId,
                 Name = "测试1",
@@ -119,10 +137,16 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             var rbacService = host.RetrieveRequiredService<IRbacService>();
+            UserSessionState.SignIn(host, new Dictionary<string, object>
+            {
+                {"loginName", "test"},
+                {"password", "111111"},
+                {"rememberMe", "rememberMe"}
+            });
             var entityId = Guid.NewGuid();
 
             RoleState roleById;
-            rbacService.AddRole(new RoleCreateInput
+            rbacService.AddRole(host.GetUserSession(), new RoleCreateInput
             {
                 Id = entityId,
                 Name = "测试1",
@@ -134,7 +158,7 @@ namespace Anycmd.Tests
             });
             Assert.Equal(1, host.RoleSet.Count());
             Assert.True(host.RoleSet.TryGetRole(entityId, out roleById));
-            rbacService.DeleteRole(entityId);
+            rbacService.DeleteRole(host.GetUserSession(), entityId);
             Assert.Equal(0, host.RoleSet.Count());
             Assert.False(host.RoleSet.TryGetRole(entityId, out roleById));
         }
@@ -147,8 +171,14 @@ namespace Anycmd.Tests
             var host = TestHelper.GetAcDomain();
             var rbacService = host.RetrieveRequiredService<IRbacService>();
             var privilegeBigramRepository = host.RetrieveRequiredService<IRepository<Privilege>>();
+            UserSessionState.SignIn(host, new Dictionary<string, object>
+            {
+                {"loginName", "test"},
+                {"password", "111111"},
+                {"rememberMe", "rememberMe"}
+            });
             var roleId = Guid.NewGuid();
-            rbacService.AddRole(new RoleCreateInput
+            rbacService.AddRole(host.GetUserSession(), new RoleCreateInput
             {
                 Id = roleId,
                 Name = "测试1",
@@ -166,18 +196,18 @@ namespace Anycmd.Tests
                 Description = "test",
                 SortCode = 10,
                 Icon = null,
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
             var accountId = Guid.NewGuid();
-            rbacService.AddUser(new AccountCreateInput
+            rbacService.AddUser(host.GetUserSession(), new AccountCreateInput
             {
                 Id = accountId,
-                LoginName = "test",
-                Code = "test",
-                Name = "test",
+                LoginName = "test1",
+                Code = "test1",
+                Name = "test1",
                 Password = "111111",
                 OrganizationCode = "100"
             });
-            rbacService.AssignUser(accountId, roleId);
+            rbacService.AssignUser(host.GetUserSession(), accountId, roleId);
             var entity = privilegeBigramRepository.AsQueryable().FirstOrDefault(a => a.SubjectInstanceId == accountId && a.ObjectInstanceId == roleId);
             Assert.NotNull(entity);
         }
@@ -190,8 +220,14 @@ namespace Anycmd.Tests
             var host = TestHelper.GetAcDomain();
             var rbacService = host.RetrieveRequiredService<IRbacService>();
             var privilegeBigramRepository = host.RetrieveRequiredService<IRepository<Privilege>>();
+            UserSessionState.SignIn(host, new Dictionary<string, object>
+            {
+                {"loginName", "test"},
+                {"password", "111111"},
+                {"rememberMe", "rememberMe"}
+            });
             var roleId = Guid.NewGuid();
-            rbacService.AddRole(new RoleCreateInput
+            rbacService.AddRole(host.GetUserSession(), new RoleCreateInput
             {
                 Id = roleId,
                 Name = "测试1",
@@ -209,21 +245,21 @@ namespace Anycmd.Tests
                 Description = "test",
                 SortCode = 10,
                 Icon = null,
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
             var accountId = Guid.NewGuid();
-            rbacService.AddUser(new AccountCreateInput
+            rbacService.AddUser(host.GetUserSession(), new AccountCreateInput
             {
                 Id = accountId,
-                LoginName = "test",
-                Code = "test",
-                Name = "test",
+                LoginName = "test1",
+                Code = "test1",
+                Name = "test1",
                 Password = "111111",
                 OrganizationCode = "100"
             });
-            rbacService.AssignUser(accountId, roleId);
+            rbacService.AssignUser(host.GetUserSession(), accountId, roleId);
             var entity = privilegeBigramRepository.AsQueryable().FirstOrDefault(a => a.SubjectInstanceId == accountId && a.ObjectInstanceId == roleId);
             Assert.NotNull(entity);
-            rbacService.DeassignUser(accountId, roleId);
+            rbacService.DeassignUser(host.GetUserSession(), accountId, roleId);
             entity = privilegeBigramRepository.AsQueryable().FirstOrDefault(a => a.SubjectInstanceId == accountId && a.ObjectInstanceId == roleId);
             Assert.Null(entity);
         }
@@ -236,8 +272,14 @@ namespace Anycmd.Tests
             var host = TestHelper.GetAcDomain();
             var rbacService = host.RetrieveRequiredService<IRbacService>();
             var privilegeBigramRepository = host.RetrieveRequiredService<IRepository<Privilege>>();
+            UserSessionState.SignIn(host, new Dictionary<string, object>
+            {
+                {"loginName", "test"},
+                {"password", "111111"},
+                {"rememberMe", "rememberMe"}
+            });
             var roleId = Guid.NewGuid();
-            rbacService.AddRole(new RoleCreateInput
+            rbacService.AddRole(host.GetUserSession(), new RoleCreateInput
             {
                 Id = roleId,
                 Name = "测试1",
@@ -258,8 +300,8 @@ namespace Anycmd.Tests
                 IsManaged = true,
                 ResourceTypeId = host.ResourceTypeSet.First().Id,
                 SortCode = 10
-            }.ToCommand());
-            rbacService.GrantPermission(functionId, roleId);
+            }.ToCommand(host.GetUserSession()));
+            rbacService.GrantPermission(host.GetUserSession(), functionId, roleId);
             var entity = privilegeBigramRepository.AsQueryable().FirstOrDefault(a => a.SubjectInstanceId == roleId && a.ObjectInstanceId == functionId);
             Assert.NotNull(entity);
             Assert.NotNull(host.PrivilegeSet.FirstOrDefault(a => a.SubjectInstanceId == roleId && a.ObjectInstanceId == functionId));
@@ -273,8 +315,14 @@ namespace Anycmd.Tests
             var host = TestHelper.GetAcDomain();
             var rbacService = host.RetrieveRequiredService<IRbacService>();
             var privilegeBigramRepository = host.RetrieveRequiredService<IRepository<Privilege>>();
+            UserSessionState.SignIn(host, new Dictionary<string, object>
+            {
+                {"loginName", "test"},
+                {"password", "111111"},
+                {"rememberMe", "rememberMe"}
+            });
             var roleId = Guid.NewGuid();
-            rbacService.AddRole(new RoleCreateInput
+            rbacService.AddRole(host.GetUserSession(), new RoleCreateInput
             {
                 Id = roleId,
                 Name = "测试1",
@@ -295,12 +343,12 @@ namespace Anycmd.Tests
                 IsManaged = true,
                 ResourceTypeId = host.ResourceTypeSet.First().Id,
                 SortCode = 10
-            }.ToCommand());
-            rbacService.GrantPermission(functionId, roleId);
+            }.ToCommand(host.GetUserSession()));
+            rbacService.GrantPermission(host.GetUserSession(), functionId, roleId);
             var entity = privilegeBigramRepository.AsQueryable().FirstOrDefault(a => a.SubjectInstanceId == roleId && a.ObjectInstanceId == functionId);
             Assert.NotNull(entity);
             Assert.NotNull(host.PrivilegeSet.FirstOrDefault(a => a.SubjectInstanceId == roleId && a.ObjectInstanceId == functionId));
-            rbacService.RevokePermission(functionId, roleId);
+            rbacService.RevokePermission(host.GetUserSession(), functionId, roleId);
             entity = privilegeBigramRepository.AsQueryable().FirstOrDefault(a => a.SubjectInstanceId == roleId && a.ObjectInstanceId == functionId);
             Assert.Null(entity);
             Assert.Null(host.PrivilegeSet.FirstOrDefault(a => a.SubjectInstanceId == roleId && a.ObjectInstanceId == functionId));
@@ -315,6 +363,12 @@ namespace Anycmd.Tests
             var rbacService = host.RetrieveRequiredService<IRbacService>();
             var accountRepository = host.RetrieveRequiredService<IRepository<Account>>();
             var sessionRepository = host.RetrieveRequiredService<IRepository<UserSession>>();
+            UserSessionState.SignIn(host, new Dictionary<string, object>
+            {
+                {"loginName", "test"},
+                {"password", "111111"},
+                {"rememberMe", "rememberMe"}
+            });
             host.Handle(new OrganizationCreateInput
             {
                 Id = Guid.NewGuid(),
@@ -323,20 +377,20 @@ namespace Anycmd.Tests
                 Description = "test",
                 SortCode = 10,
                 Icon = null,
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
             var accountId = Guid.NewGuid();
-            rbacService.AddUser(new AccountCreateInput
+            rbacService.AddUser(host.GetUserSession(), new AccountCreateInput
             {
                 Id = accountId,
-                LoginName = "test",
-                Code = "test",
-                Name = "test",
+                LoginName = "test1",
+                Code = "test1",
+                Name = "test1",
                 Password = "111111",
                 OrganizationCode = "100"
             });
             var account = accountRepository.GetByKey(accountId);
             var sessionId = Guid.NewGuid();
-            var userSession = rbacService.CreateSession(sessionId, AccountState.Create(account));
+            var userSession = rbacService.CreateSession(host.GetUserSession(), sessionId, AccountState.Create(account));
             Assert.NotNull(userSession);
             var sessionEntity = sessionRepository.GetByKey(sessionId);
             Assert.NotNull(sessionEntity);
@@ -351,6 +405,12 @@ namespace Anycmd.Tests
             var rbacService = host.RetrieveRequiredService<IRbacService>();
             var accountRepository = host.RetrieveRequiredService<IRepository<Account>>();
             var sessionRepository = host.RetrieveRequiredService<IRepository<UserSession>>();
+            UserSessionState.SignIn(host, new Dictionary<string, object>
+            {
+                {"loginName", "test"},
+                {"password", "111111"},
+                {"rememberMe", "rememberMe"}
+            });
             host.Handle(new OrganizationCreateInput
             {
                 Id = Guid.NewGuid(),
@@ -359,24 +419,24 @@ namespace Anycmd.Tests
                 Description = "test",
                 SortCode = 10,
                 Icon = null,
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
             var accountId = Guid.NewGuid();
-            rbacService.AddUser(new AccountCreateInput
+            rbacService.AddUser(host.GetUserSession(), new AccountCreateInput
             {
                 Id = accountId,
-                LoginName = "test",
-                Code = "test",
-                Name = "test",
+                LoginName = "test1",
+                Code = "test1",
+                Name = "test1",
                 Password = "111111",
                 OrganizationCode = "100"
             });
             var account = accountRepository.GetByKey(accountId);
             var sessionId = Guid.NewGuid();
-            var userSession = rbacService.CreateSession(sessionId, AccountState.Create(account));
+            var userSession = rbacService.CreateSession(host.GetUserSession(), sessionId, AccountState.Create(account));
             Assert.NotNull(userSession);
             var sessionEntity = sessionRepository.GetByKey(sessionId);
             Assert.NotNull(sessionEntity);
-            rbacService.DeleteSession(sessionId);
+            rbacService.DeleteSession(host.GetUserSession(), sessionId);
             sessionEntity = sessionRepository.GetByKey(sessionId);
             Assert.Null(sessionEntity);
         }
@@ -390,6 +450,12 @@ namespace Anycmd.Tests
             var rbacService = host.RetrieveRequiredService<IRbacService>();
             var accountRepository = host.RetrieveRequiredService<IRepository<Account>>();
             var sessionRepository = host.RetrieveRequiredService<IRepository<UserSession>>();
+            UserSessionState.SignIn(host, new Dictionary<string, object>
+            {
+                {"loginName", "test"},
+                {"password", "111111"},
+                {"rememberMe", "rememberMe"}
+            });
             var orgId = Guid.NewGuid();
 
             host.Handle(new OrganizationCreateInput
@@ -400,36 +466,19 @@ namespace Anycmd.Tests
                 Description = "test",
                 SortCode = 10,
                 Icon = null,
-            }.ToCommand());
-            Guid dicId = Guid.NewGuid();
-            host.Handle(new DicCreateInput
-            {
-                Id = dicId,
-                Code = "auditStatus",
-                Name = "auditStatus1"
-            }.ToCommand());
-            host.Handle(new DicItemCreateInput
-            {
-                Id = dicId,
-                IsEnabled = 1,
-                DicId = dicId,
-                SortCode = 0,
-                Description = string.Empty,
-                Code = "auditPass",
-                Name = "auditPass"
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
             Guid accountId = Guid.NewGuid();
             host.Handle(new AccountCreateInput
             {
                 Id = accountId,
-                Code = "test",
-                Name = "test",
-                LoginName = "test",
+                Code = "test1",
+                Name = "test1",
+                LoginName = "test1",
                 Password = "111111",
                 OrganizationCode = "100",
                 IsEnabled = 1,
                 AuditState = "auditPass"
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
             Guid roleId = Guid.NewGuid();
             host.Handle(new RoleCreateInput
             {
@@ -440,10 +489,10 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
             Guid entityId = Guid.NewGuid();
             // 授予账户角色
-            host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
+            host.Handle(new AddPrivilegeCommand(host.GetUserSession(), new PrivilegeCreateIo
             {
                 Id = entityId,
                 SubjectInstanceId = accountId,
@@ -462,10 +511,10 @@ namespace Anycmd.Tests
                 Description = "test",
                 SortCode = 10,
                 Icon = null,
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
             entityId = Guid.NewGuid();
             // 授予账户组织结构
-            host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
+            host.Handle(new AddPrivilegeCommand(host.GetUserSession(), new PrivilegeCreateIo
             {
                 Id = entityId,
                 SubjectInstanceId = accountId,
@@ -477,7 +526,7 @@ namespace Anycmd.Tests
             }));
             // 授予组织结构角色
             entityId = Guid.NewGuid();
-            host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
+            host.Handle(new AddPrivilegeCommand(host.GetUserSession(), new PrivilegeCreateIo
             {
                 Id = entityId,
                 SubjectInstanceId = organizationId,
@@ -488,7 +537,7 @@ namespace Anycmd.Tests
                 ObjectType = AcElementType.Role.ToString()
             }));
             Guid groupId = Guid.NewGuid();
-            host.Handle(new AddGroupCommand(new GroupCreateInput
+            host.Handle(new AddGroupCommand(host.GetUserSession(), new GroupCreateInput
             {
                 Id = groupId,
                 Name = "测试1",
@@ -501,7 +550,7 @@ namespace Anycmd.Tests
             }));
             entityId = Guid.NewGuid();
             // 授予账户工作组
-            host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
+            host.Handle(new AddPrivilegeCommand(host.GetUserSession(), new PrivilegeCreateIo
             {
                 Id = entityId,
                 SubjectInstanceId = accountId,
@@ -513,7 +562,7 @@ namespace Anycmd.Tests
             }));
             // 授予工作组角色
             entityId = Guid.NewGuid();
-            host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
+            host.Handle(new AddPrivilegeCommand(host.GetUserSession(), new PrivilegeCreateIo
             {
                 Id = entityId,
                 SubjectInstanceId = roleId,
@@ -534,9 +583,9 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
             entityId = Guid.NewGuid();
-            host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
+            host.Handle(new AddPrivilegeCommand(host.GetUserSession(), new PrivilegeCreateIo
             {
                 Id = entityId,
                 SubjectInstanceId = organizationId,
@@ -547,7 +596,7 @@ namespace Anycmd.Tests
                 ObjectType = AcElementType.Role.ToString()
             }));
             entityId = Guid.NewGuid();
-            host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
+            host.Handle(new AddPrivilegeCommand(host.GetUserSession(), new PrivilegeCreateIo
             {
                 Id = entityId,
                 SubjectInstanceId = roleId,
@@ -568,9 +617,9 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
             entityId = Guid.NewGuid();
-            host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
+            host.Handle(new AddPrivilegeCommand(host.GetUserSession(), new PrivilegeCreateIo
             {
                 Id = entityId,
                 SubjectInstanceId = roleId,
@@ -582,7 +631,7 @@ namespace Anycmd.Tests
             }));
             var account = accountRepository.GetByKey(accountId);
             var sessionId = Guid.NewGuid();
-            var userSession = rbacService.CreateSession(sessionId, AccountState.Create(account));
+            var userSession = rbacService.CreateSession(host.GetUserSession(), sessionId, AccountState.Create(account));
             Assert.NotNull(userSession);
             var sessionEntity = sessionRepository.GetByKey(sessionId);
             Assert.NotNull(sessionEntity);
@@ -599,6 +648,12 @@ namespace Anycmd.Tests
             var rbacService = host.RetrieveRequiredService<IRbacService>();
             var accountRepository = host.RetrieveRequiredService<IRepository<Account>>();
             var sessionRepository = host.RetrieveRequiredService<IRepository<UserSession>>();
+            UserSessionState.SignIn(host, new Dictionary<string, object>
+            {
+                {"loginName", "test"},
+                {"password", "111111"},
+                {"rememberMe", "rememberMe"}
+            });
             var orgId = Guid.NewGuid();
 
             host.Handle(new OrganizationCreateInput
@@ -609,36 +664,19 @@ namespace Anycmd.Tests
                 Description = "test",
                 SortCode = 10,
                 Icon = null,
-            }.ToCommand());
-            Guid dicId = Guid.NewGuid();
-            host.Handle(new DicCreateInput
-            {
-                Id = dicId,
-                Code = "auditStatus",
-                Name = "auditStatus1"
-            }.ToCommand());
-            host.Handle(new DicItemCreateInput
-            {
-                Id = dicId,
-                IsEnabled = 1,
-                DicId = dicId,
-                SortCode = 0,
-                Description = string.Empty,
-                Code = "auditPass",
-                Name = "auditPass"
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
             Guid accountId = Guid.NewGuid();
             host.Handle(new AccountCreateInput
             {
                 Id = accountId,
-                Code = "test",
-                Name = "test",
-                LoginName = "test",
+                Code = "test1",
+                Name = "test1",
+                LoginName = "test1",
                 Password = "111111",
                 OrganizationCode = "100",
                 IsEnabled = 1,
                 AuditState = "auditPass"
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
             Assert.NotNull(host.RetrieveRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
             Guid roleId = Guid.NewGuid();
             host.Handle(new RoleCreateInput
@@ -650,7 +688,7 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
             var functionId = Guid.NewGuid();
             host.Handle(new FunctionCreateInput
             {
@@ -662,10 +700,10 @@ namespace Anycmd.Tests
                 IsManaged = true,
                 ResourceTypeId = host.ResourceTypeSet.First().Id,
                 SortCode = 10
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
             Guid entityId = Guid.NewGuid();
             // 授予角色功能
-            host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
+            host.Handle(new AddPrivilegeCommand(host.GetUserSession(), new PrivilegeCreateIo
             {
                 Id = entityId,
                 SubjectInstanceId = roleId,
@@ -677,7 +715,7 @@ namespace Anycmd.Tests
             }));
             // 授予账户角色
             entityId = Guid.NewGuid();
-            host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
+            host.Handle(new AddPrivilegeCommand(host.GetUserSession(), new PrivilegeCreateIo
             {
                 Id = entityId,
                 SubjectInstanceId = accountId,
@@ -699,8 +737,8 @@ namespace Anycmd.Tests
                 IsManaged = true,
                 ResourceTypeId = host.ResourceTypeSet.First().Id,
                 SortCode = 10
-            }.ToCommand());
-            host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
+            }.ToCommand(host.GetUserSession()));
+            host.Handle(new AddPrivilegeCommand(host.GetUserSession(), new PrivilegeCreateIo
             {
                 Id = entityId,
                 SubjectInstanceId = accountId,
@@ -712,13 +750,13 @@ namespace Anycmd.Tests
             }));
             var account = accountRepository.GetByKey(accountId);
             var sessionId = Guid.NewGuid();
-            var userSession = rbacService.CreateSession(sessionId, AccountState.Create(account));
+            var userSession = rbacService.CreateSession(host.GetUserSession(), sessionId, AccountState.Create(account));
             Assert.NotNull(userSession);
             var sessionEntity = sessionRepository.GetByKey(sessionId);
             Assert.NotNull(sessionEntity);
             Assert.Equal(1, userSession.AccountPrivilege.Functions.Count);
             Assert.Equal(2, userSession.AccountPrivilege.AuthorizedFunctions.Count);
-            Assert.Equal(2, rbacService.UserPermissions(userSession).Count);
+            Assert.Equal(2, rbacService.UserPermissions(host.GetUserSession(), userSession).Count);
         }
         #endregion
 
@@ -752,6 +790,12 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             var rbacService = host.RetrieveRequiredService<IRbacService>();
+            UserSessionState.SignIn(host, new Dictionary<string, object>
+            {
+                {"loginName", "test"},
+                {"password", "111111"},
+                {"rememberMe", "rememberMe"}
+            });
             var orgId = Guid.NewGuid();
 
             host.Handle(new OrganizationCreateInput
@@ -762,36 +806,19 @@ namespace Anycmd.Tests
                 Description = "test",
                 SortCode = 10,
                 Icon = null,
-            }.ToCommand());
-            Guid dicId = Guid.NewGuid();
-            host.Handle(new DicCreateInput
-            {
-                Id = dicId,
-                Code = "auditStatus",
-                Name = "auditStatus1"
-            }.ToCommand());
-            host.Handle(new DicItemCreateInput
-            {
-                Id = dicId,
-                IsEnabled = 1,
-                DicId = dicId,
-                SortCode = 0,
-                Description = string.Empty,
-                Code = "auditPass",
-                Name = "auditPass"
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
             Guid accountId = Guid.NewGuid();
             host.Handle(new AccountCreateInput
             {
                 Id = accountId,
-                Code = "test",
-                Name = "test",
-                LoginName = "test",
+                Code = "test1",
+                Name = "test1",
+                LoginName = "test1",
                 Password = "111111",
                 OrganizationCode = "100",
                 IsEnabled = 1,
                 AuditState = "auditPass"
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
             Guid roleId = Guid.NewGuid();
             host.Handle(new RoleCreateInput
             {
@@ -802,10 +829,10 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
             Guid entityId = Guid.NewGuid();
             // 授予账户角色
-            host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
+            host.Handle(new AddPrivilegeCommand(host.GetUserSession(), new PrivilegeCreateIo
             {
                 Id = entityId,
                 SubjectInstanceId = accountId,
@@ -824,10 +851,10 @@ namespace Anycmd.Tests
                 Description = "test",
                 SortCode = 10,
                 Icon = null,
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
             entityId = Guid.NewGuid();
             // 授予账户组织结构
-            host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
+            host.Handle(new AddPrivilegeCommand(host.GetUserSession(), new PrivilegeCreateIo
             {
                 Id = entityId,
                 SubjectInstanceId = accountId,
@@ -839,7 +866,7 @@ namespace Anycmd.Tests
             }));
             // 授予组织结构角色
             entityId = Guid.NewGuid();
-            host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
+            host.Handle(new AddPrivilegeCommand(host.GetUserSession(), new PrivilegeCreateIo
             {
                 Id = entityId,
                 SubjectInstanceId = organizationId,
@@ -850,7 +877,7 @@ namespace Anycmd.Tests
                 ObjectType = AcElementType.Role.ToString()
             }));
             Guid groupId = Guid.NewGuid();
-            host.Handle(new AddGroupCommand(new GroupCreateInput
+            host.Handle(new AddGroupCommand(host.GetUserSession(), new GroupCreateInput
             {
                 Id = groupId,
                 Name = "测试1",
@@ -863,7 +890,7 @@ namespace Anycmd.Tests
             }));
             entityId = Guid.NewGuid();
             // 授予账户工作组
-            host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
+            host.Handle(new AddPrivilegeCommand(host.GetUserSession(), new PrivilegeCreateIo
             {
                 Id = entityId,
                 SubjectInstanceId = accountId,
@@ -875,7 +902,7 @@ namespace Anycmd.Tests
             }));
             // 授予工作组角色
             entityId = Guid.NewGuid();
-            host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
+            host.Handle(new AddPrivilegeCommand(host.GetUserSession(), new PrivilegeCreateIo
             {
                 Id = entityId,
                 SubjectInstanceId = roleId,
@@ -896,9 +923,9 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
             entityId = Guid.NewGuid();
-            host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
+            host.Handle(new AddPrivilegeCommand(host.GetUserSession(), new PrivilegeCreateIo
             {
                 Id = entityId,
                 SubjectInstanceId = organizationId,
@@ -909,7 +936,7 @@ namespace Anycmd.Tests
                 ObjectType = AcElementType.Role.ToString()
             }));
             entityId = Guid.NewGuid();
-            host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
+            host.Handle(new AddPrivilegeCommand(host.GetUserSession(), new PrivilegeCreateIo
             {
                 Id = entityId,
                 SubjectInstanceId = roleId,
@@ -930,9 +957,9 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
             entityId = Guid.NewGuid();
-            host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
+            host.Handle(new AddPrivilegeCommand(host.GetUserSession(), new PrivilegeCreateIo
             {
                 Id = entityId,
                 SubjectInstanceId = roleId,
@@ -943,15 +970,16 @@ namespace Anycmd.Tests
                 ObjectType = AcElementType.Group.ToString()
             }));
 
-            var roles = rbacService.AssignedRoles(accountId);
+            var roles = rbacService.AssignedRoles(host.GetUserSession(), accountId);
             Assert.Equal(1, roles.Count);
+            UserSessionState.SignOut(host, host.GetUserSession());
             UserSessionState.SignIn(host, new Dictionary<string, object>
             {
-                {"loginName", "test"},
+                {"loginName", "test1"},
                 {"password", "111111"},
                 {"rememberMe", "rememberMe"}
             });
-            roles = rbacService.AuthorizedRoles(host.GetUserSession());
+            roles = rbacService.AuthorizedRoles(host.GetUserSession(), host.GetUserSession());
             Assert.Equal(3, roles.Count);// 用户的全部角色来自直接角色、组织结构角色、工作组角色三者的并集所以是三个角色。
         }
         #endregion
@@ -971,8 +999,14 @@ namespace Anycmd.Tests
             var host = TestHelper.GetAcDomain();
             var rbacService = host.RetrieveRequiredService<IRbacService>();
             var privilegeBigramRepository = host.RetrieveRequiredService<IRepository<Privilege>>();
+            UserSessionState.SignIn(host, new Dictionary<string, object>
+            {
+                {"loginName", "test"},
+                {"password", "111111"},
+                {"rememberMe", "rememberMe"}
+            });
             var roleId = Guid.NewGuid();
-            rbacService.AddRole(new RoleCreateInput
+            rbacService.AddRole(host.GetUserSession(), new RoleCreateInput
             {
                 Id = roleId,
                 Name = "测试1",
@@ -993,12 +1027,12 @@ namespace Anycmd.Tests
                 IsManaged = true,
                 ResourceTypeId = host.ResourceTypeSet.First().Id,
                 SortCode = 10
-            }.ToCommand());
-            rbacService.GrantPermission(functionId, roleId);
+            }.ToCommand(host.GetUserSession()));
+            rbacService.GrantPermission(host.GetUserSession(), functionId, roleId);
             var entity = privilegeBigramRepository.AsQueryable().FirstOrDefault(a => a.SubjectInstanceId == roleId && a.ObjectInstanceId == functionId);
             Assert.NotNull(entity);
             Assert.NotNull(host.PrivilegeSet.FirstOrDefault(a => a.SubjectInstanceId == roleId && a.ObjectInstanceId == functionId));
-            Assert.Equal(1, rbacService.RolePermissions(roleId).Count);
+            Assert.Equal(1, rbacService.RolePermissions(host.GetUserSession(), roleId).Count);
         }
         #endregion
 
@@ -1009,7 +1043,12 @@ namespace Anycmd.Tests
             var host = TestHelper.GetAcDomain();
             var rbacService = host.RetrieveRequiredService<IRbacService>();
             Assert.Equal(0, host.RoleSet.Count());
-
+            UserSessionState.SignIn(host, new Dictionary<string, object>
+            {
+                {"loginName", "test"},
+                {"password", "111111"},
+                {"rememberMe", "rememberMe"}
+            });
             var roleId1 = Guid.NewGuid();
             host.Handle(new RoleCreateInput
             {
@@ -1020,7 +1059,7 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
 
             var roleId2 = Guid.NewGuid();
             host.Handle(new RoleCreateInput
@@ -1032,8 +1071,8 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }.ToCommand());
-            rbacService.AddInheritance(roleId1, roleId2);
+            }.ToCommand(host.GetUserSession()));
+            rbacService.AddInheritance(host.GetUserSession(), roleId1, roleId2);
             Assert.Equal(2, host.RoleSet.Count());
             RoleState role1;
             RoleState role2;
@@ -1041,7 +1080,7 @@ namespace Anycmd.Tests
             Assert.True(host.RoleSet.TryGetRole(roleId2, out role2));
             Assert.Equal(1, host.RoleSet.GetDescendantRoles(role1).Count);
             Assert.Equal(0, host.RoleSet.GetDescendantRoles(role2).Count);
-            rbacService.DeleteInheritance(roleId1, roleId2);
+            rbacService.DeleteInheritance(host.GetUserSession(), roleId1, roleId2);
             Assert.Equal(0, host.RoleSet.GetDescendantRoles(role1).Count);
         }
         #endregion
@@ -1053,7 +1092,12 @@ namespace Anycmd.Tests
             var host = TestHelper.GetAcDomain();
             var rbacService = host.RetrieveRequiredService<IRbacService>();
             Assert.Equal(0, host.RoleSet.Count());
-
+            UserSessionState.SignIn(host, new Dictionary<string, object>
+            {
+                {"loginName", "test"},
+                {"password", "111111"},
+                {"rememberMe", "rememberMe"}
+            });
             var roleId1 = Guid.NewGuid();
             host.Handle(new RoleCreateInput
             {
@@ -1064,10 +1108,10 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
 
             var roleId2 = Guid.NewGuid();
-            rbacService.AddAscendant(roleId1, new RoleCreateInput
+            rbacService.AddAscendant(host.GetUserSession(), roleId1, new RoleCreateInput
             {
                 Id = roleId2,
                 Name = "role2",
@@ -1084,7 +1128,7 @@ namespace Anycmd.Tests
             Assert.True(host.RoleSet.TryGetRole(roleId2, out role2));
             Assert.Equal(1, host.RoleSet.GetDescendantRoles(role1).Count);
             Assert.Equal(0, host.RoleSet.GetDescendantRoles(role2).Count);
-            rbacService.DeleteInheritance(roleId1, roleId2);
+            rbacService.DeleteInheritance(host.GetUserSession(), roleId1, roleId2);
             Assert.Equal(0, host.RoleSet.GetDescendantRoles(role1).Count);
         }
         #endregion
@@ -1096,7 +1140,12 @@ namespace Anycmd.Tests
             var host = TestHelper.GetAcDomain();
             var rbacService = host.RetrieveRequiredService<IRbacService>();
             Assert.Equal(0, host.RoleSet.Count());
-
+            UserSessionState.SignIn(host, new Dictionary<string, object>
+            {
+                {"loginName", "test"},
+                {"password", "111111"},
+                {"rememberMe", "rememberMe"}
+            });
             var roleId1 = Guid.NewGuid();
             var roleId2 = Guid.NewGuid();
             host.Handle(new RoleCreateInput
@@ -1108,8 +1157,8 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }.ToCommand());
-            rbacService.AddDescendant(roleId2, new RoleCreateInput
+            }.ToCommand(host.GetUserSession()));
+            rbacService.AddDescendant(host.GetUserSession(), roleId2, new RoleCreateInput
             {
                 Id = roleId1,
                 Name = "role1",
@@ -1126,7 +1175,7 @@ namespace Anycmd.Tests
             Assert.True(host.RoleSet.TryGetRole(roleId2, out role2));
             Assert.Equal(1, host.RoleSet.GetDescendantRoles(role1).Count);
             Assert.Equal(0, host.RoleSet.GetDescendantRoles(role2).Count);
-            rbacService.DeleteInheritance(roleId1, roleId2);
+            rbacService.DeleteInheritance(host.GetUserSession(), roleId1, roleId2);
             Assert.Equal(0, host.RoleSet.GetDescendantRoles(role1).Count);
         }
         #endregion
@@ -1138,11 +1187,16 @@ namespace Anycmd.Tests
             var host = TestHelper.GetAcDomain();
             var rbacService = host.RetrieveRequiredService<IRbacService>();
             Assert.Equal(0, host.SsdSetSet.Count());
-
+            UserSessionState.SignIn(host, new Dictionary<string, object>
+            {
+                {"loginName", "test"},
+                {"password", "111111"},
+                {"rememberMe", "rememberMe"}
+            });
             var entityId = Guid.NewGuid();
 
             SsdSetState ssdSetById;
-            rbacService.CreateSsdSet(new SsdSetCreateIo
+            rbacService.CreateSsdSet(host.GetUserSession(), new SsdSetCreateIo
             {
                 Id = entityId,
                 Name = "测试1",
@@ -1162,11 +1216,16 @@ namespace Anycmd.Tests
             var host = TestHelper.GetAcDomain();
             var rbacService = host.RetrieveRequiredService<IRbacService>();
             Assert.Equal(0, host.SsdSetSet.Count());
-
+            UserSessionState.SignIn(host, new Dictionary<string, object>
+            {
+                {"loginName", "test"},
+                {"password", "111111"},
+                {"rememberMe", "rememberMe"}
+            });
             var entityId = Guid.NewGuid();
 
             SsdSetState ssdSetById;
-            rbacService.CreateSsdSet(new SsdSetCreateIo
+            rbacService.CreateSsdSet(host.GetUserSession(), new SsdSetCreateIo
             {
                 Id = entityId,
                 Name = "测试1",
@@ -1176,7 +1235,7 @@ namespace Anycmd.Tests
             });
             Assert.Equal(1, host.SsdSetSet.Count());
             Assert.True(host.SsdSetSet.TryGetSsdSet(entityId, out ssdSetById));
-            rbacService.DeleteSsdSet(entityId);
+            rbacService.DeleteSsdSet(host.GetUserSession(), entityId);
             Assert.Equal(0, host.SsdSetSet.Count());
             Assert.False(host.SsdSetSet.TryGetSsdSet(entityId, out ssdSetById));
         }
@@ -1189,11 +1248,16 @@ namespace Anycmd.Tests
             var host = TestHelper.GetAcDomain();
             var rbacService = host.RetrieveRequiredService<IRbacService>();
             Assert.Equal(0, host.SsdSetSet.Count());
-
+            UserSessionState.SignIn(host, new Dictionary<string, object>
+            {
+                {"loginName", "test"},
+                {"password", "111111"},
+                {"rememberMe", "rememberMe"}
+            });
             var ssdSetId = Guid.NewGuid();
 
             SsdSetState ssdSetById;
-            host.Handle(new AddSsdSetCommand(new SsdSetCreateIo
+            host.Handle(new AddSsdSetCommand(host.GetUserSession(), new SsdSetCreateIo
             {
                 Id = ssdSetId,
                 Name = "测试1",
@@ -1216,10 +1280,10 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
             Assert.Equal(1, host.RoleSet.Count());
             Assert.True(host.RoleSet.TryGetRole(roleId, out roleById));
-            rbacService.AddSsdRoleMember(ssdSetId, roleId);
+            rbacService.AddSsdRoleMember(host.GetUserSession(), ssdSetId, roleId);
             Assert.Equal(1, host.SsdSetSet.GetSsdRoles(ssdSetById).Count);
         }
         #endregion
@@ -1231,11 +1295,16 @@ namespace Anycmd.Tests
             var host = TestHelper.GetAcDomain();
             var rbacService = host.RetrieveRequiredService<IRbacService>();
             Assert.Equal(0, host.SsdSetSet.Count());
-
+            UserSessionState.SignIn(host, new Dictionary<string, object>
+            {
+                {"loginName", "test"},
+                {"password", "111111"},
+                {"rememberMe", "rememberMe"}
+            });
             var ssdSetId = Guid.NewGuid();
 
             SsdSetState ssdSetById;
-            host.Handle(new AddSsdSetCommand(new SsdSetCreateIo
+            host.Handle(new AddSsdSetCommand(host.GetUserSession(), new SsdSetCreateIo
             {
                 Id = ssdSetId,
                 Name = "测试1",
@@ -1258,12 +1327,12 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
             Assert.Equal(1, host.RoleSet.Count());
             Assert.True(host.RoleSet.TryGetRole(roleId, out roleById));
-            rbacService.AddSsdRoleMember(ssdSetId, roleId);
+            rbacService.AddSsdRoleMember(host.GetUserSession(), ssdSetId, roleId);
             Assert.Equal(1, host.SsdSetSet.GetSsdRoles(ssdSetById).Count);
-            rbacService.DeleteSsdRoleMember(ssdSetId, roleId);
+            rbacService.DeleteSsdRoleMember(host.GetUserSession(), ssdSetId, roleId);
             Assert.Equal(0, host.SsdSetSet.GetSsdRoles(ssdSetById).Count);
         }
         #endregion
@@ -1275,11 +1344,16 @@ namespace Anycmd.Tests
             var host = TestHelper.GetAcDomain();
             var rbacService = host.RetrieveRequiredService<IRbacService>();
             Assert.Equal(0, host.SsdSetSet.Count());
-
+            UserSessionState.SignIn(host, new Dictionary<string, object>
+            {
+                {"loginName", "test"},
+                {"password", "111111"},
+                {"rememberMe", "rememberMe"}
+            });
             var ssdSetId = Guid.NewGuid();
 
             SsdSetState ssdSetById;
-            host.Handle(new AddSsdSetCommand(new SsdSetCreateIo
+            host.Handle(new AddSsdSetCommand(host.GetUserSession(), new SsdSetCreateIo
             {
                 Id = ssdSetId,
                 Name = "测试1",
@@ -1290,7 +1364,7 @@ namespace Anycmd.Tests
             Assert.Equal(1, host.SsdSetSet.Count());
             Assert.True(host.SsdSetSet.TryGetSsdSet(ssdSetId, out ssdSetById));
             Assert.Equal(2, ssdSetById.SsdCard);
-            rbacService.SetSsdCardinality(ssdSetId, 3);
+            rbacService.SetSsdCardinality(host.GetUserSession(), ssdSetId, 3);
             Assert.True(host.SsdSetSet.TryGetSsdSet(ssdSetId, out ssdSetById));
             Assert.Equal(3, ssdSetById.SsdCard);
         }
@@ -1303,11 +1377,16 @@ namespace Anycmd.Tests
             var host = TestHelper.GetAcDomain();
             var rbacService = host.RetrieveRequiredService<IRbacService>();
             Assert.Equal(0, host.DsdSetSet.Count());
-
+            UserSessionState.SignIn(host, new Dictionary<string, object>
+            {
+                {"loginName", "test"},
+                {"password", "111111"},
+                {"rememberMe", "rememberMe"}
+            });
             var entityId = Guid.NewGuid();
 
             DsdSetState dsdSetById;
-            rbacService.CreateDsdSet(new DsdSetCreateIo
+            rbacService.CreateDsdSet(host.GetUserSession(), new DsdSetCreateIo
             {
                 Id = entityId,
                 Name = "测试1",
@@ -1327,11 +1406,16 @@ namespace Anycmd.Tests
             var host = TestHelper.GetAcDomain();
             var rbacService = host.RetrieveRequiredService<IRbacService>();
             Assert.Equal(0, host.DsdSetSet.Count());
-
+            UserSessionState.SignIn(host, new Dictionary<string, object>
+            {
+                {"loginName", "test"},
+                {"password", "111111"},
+                {"rememberMe", "rememberMe"}
+            });
             var entityId = Guid.NewGuid();
 
             DsdSetState dsdSetById;
-            rbacService.CreateDsdSet(new DsdSetCreateIo
+            rbacService.CreateDsdSet(host.GetUserSession(), new DsdSetCreateIo
             {
                 Id = entityId,
                 Name = "测试1",
@@ -1341,7 +1425,7 @@ namespace Anycmd.Tests
             });
             Assert.Equal(1, host.DsdSetSet.Count());
             Assert.True(host.DsdSetSet.TryGetDsdSet(entityId, out dsdSetById));
-            rbacService.DeleteDsdSet(entityId);
+            rbacService.DeleteDsdSet(host.GetUserSession(), entityId);
             Assert.Equal(0, host.DsdSetSet.Count());
             Assert.False(host.DsdSetSet.TryGetDsdSet(entityId, out dsdSetById));
         }
@@ -1354,11 +1438,16 @@ namespace Anycmd.Tests
             var host = TestHelper.GetAcDomain();
             var rbacService = host.RetrieveRequiredService<IRbacService>();
             Assert.Equal(0, host.DsdSetSet.Count());
-
+            UserSessionState.SignIn(host, new Dictionary<string, object>
+            {
+                {"loginName", "test"},
+                {"password", "111111"},
+                {"rememberMe", "rememberMe"}
+            });
             var dsdSetId = Guid.NewGuid();
 
             DsdSetState dsdSetById;
-            host.Handle(new AddDsdSetCommand(new DsdSetCreateIo
+            host.Handle(new AddDsdSetCommand(host.GetUserSession(), new DsdSetCreateIo
             {
                 Id = dsdSetId,
                 Name = "测试1",
@@ -1381,10 +1470,10 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
             Assert.Equal(1, host.RoleSet.Count());
             Assert.True(host.RoleSet.TryGetRole(roleId, out roleById));
-            rbacService.AddDsdRoleMember(dsdSetId, roleId);
+            rbacService.AddDsdRoleMember(host.GetUserSession(), dsdSetId, roleId);
             Assert.Equal(1, host.DsdSetSet.GetDsdRoles(dsdSetById).Count);
         }
         #endregion
@@ -1396,11 +1485,16 @@ namespace Anycmd.Tests
             var host = TestHelper.GetAcDomain();
             var rbacService = host.RetrieveRequiredService<IRbacService>();
             Assert.Equal(0, host.DsdSetSet.Count());
-
+            UserSessionState.SignIn(host, new Dictionary<string, object>
+            {
+                {"loginName", "test"},
+                {"password", "111111"},
+                {"rememberMe", "rememberMe"}
+            });
             var dsdSetId = Guid.NewGuid();
 
             DsdSetState dsdSetById;
-            host.Handle(new AddDsdSetCommand(new DsdSetCreateIo
+            host.Handle(new AddDsdSetCommand(host.GetUserSession(), new DsdSetCreateIo
             {
                 Id = dsdSetId,
                 Name = "测试1",
@@ -1423,12 +1517,12 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
             Assert.Equal(1, host.RoleSet.Count());
             Assert.True(host.RoleSet.TryGetRole(roleId, out roleById));
-            rbacService.AddDsdRoleMember(dsdSetId, roleId);
+            rbacService.AddDsdRoleMember(host.GetUserSession(), dsdSetId, roleId);
             Assert.Equal(1, host.DsdSetSet.GetDsdRoles(dsdSetById).Count);
-            rbacService.DeleteDsdRoleMember(dsdSetId, roleId);
+            rbacService.DeleteDsdRoleMember(host.GetUserSession(), dsdSetId, roleId);
             Assert.Equal(0, host.DsdSetSet.GetDsdRoles(dsdSetById).Count);
         }
         #endregion
@@ -1440,11 +1534,16 @@ namespace Anycmd.Tests
             var host = TestHelper.GetAcDomain();
             var rbacService = host.RetrieveRequiredService<IRbacService>();
             Assert.Equal(0, host.DsdSetSet.Count());
-
+            UserSessionState.SignIn(host, new Dictionary<string, object>
+            {
+                {"loginName", "test"},
+                {"password", "111111"},
+                {"rememberMe", "rememberMe"}
+            });
             var ssdSetId = Guid.NewGuid();
 
             DsdSetState ssdSetById;
-            host.Handle(new AddDsdSetCommand(new DsdSetCreateIo
+            host.Handle(new AddDsdSetCommand(host.GetUserSession(), new DsdSetCreateIo
             {
                 Id = ssdSetId,
                 Name = "测试1",
@@ -1455,7 +1554,7 @@ namespace Anycmd.Tests
             Assert.Equal(1, host.DsdSetSet.Count());
             Assert.True(host.DsdSetSet.TryGetDsdSet(ssdSetId, out ssdSetById));
             Assert.Equal(2, ssdSetById.DsdCard);
-            rbacService.SetDsdCardinality(ssdSetId, 3);
+            rbacService.SetDsdCardinality(host.GetUserSession(), ssdSetId, 3);
             Assert.True(host.DsdSetSet.TryGetDsdSet(ssdSetId, out ssdSetById));
             Assert.Equal(3, ssdSetById.DsdCard);
         }

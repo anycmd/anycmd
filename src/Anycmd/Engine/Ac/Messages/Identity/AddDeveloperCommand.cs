@@ -6,11 +6,13 @@ namespace Anycmd.Engine.Ac.Messages.Identity
 
     public class AddDeveloperCommand : Command, IAnycmdCommand
     {
-        public AddDeveloperCommand(Guid accountId)
+        public AddDeveloperCommand(IUserSession userSession, Guid accountId)
         {
+            this.UserSession = userSession;
             this.AccountId = accountId;
         }
 
+        public IUserSession UserSession { get; private set; }
         public Guid AccountId { get; private set; }
     }
 }

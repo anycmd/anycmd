@@ -6,6 +6,6 @@ namespace Anycmd.Engine.Ac.Messages.Identity
 
     public class DeveloperUpdatedEvent : DomainEvent
     {
-        public DeveloperUpdatedEvent(AccountBase source) : base(source) { }
+        public DeveloperUpdatedEvent(IUserSession userSession, AccountBase source) : base(userSession, source) { }
     }
 }

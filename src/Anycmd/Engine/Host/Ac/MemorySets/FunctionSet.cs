@@ -199,7 +199,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(AddFunctionCommand message)
             {
-                this.Handle(message.Input, true);
+                this.Handle(message.UserSession, message.Input, true);
             }
 
             public void Handle(FunctionAddedEvent message)
@@ -208,10 +208,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                this.Handle(message.Output, false);
+                this.Handle(message.UserSession, message.Output, false);
             }
 
-            private void Handle(IFunctionCreateIo input, bool isCommand)
+            private void Handle(IUserSession userSession, IFunctionCreateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var dicByCode = _set._dicByCode;
@@ -281,18 +281,18 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateFunctionAddedEvent(entity, input));
+                    host.MessageDispatcher.DispatchMessage(new PrivateFunctionAddedEvent(userSession, entity, input));
                 }
             }
 
             private class PrivateFunctionAddedEvent : FunctionAddedEvent
             {
-                public PrivateFunctionAddedEvent(FunctionBase source, IFunctionCreateIo input) : base(source, input) { }
+                public PrivateFunctionAddedEvent(IUserSession userSession, FunctionBase source, IFunctionCreateIo input) : base(userSession, source, input) { }
             }
 
             public void Handle(UpdateFunctionCommand message)
             {
-                this.Handle(message.Output, true);
+                this.Handle(message.UserSession, message.Output, true);
             }
 
             public void Handle(FunctionUpdatedEvent message)
@@ -301,10 +301,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                this.Handle(message.Input, false);
+                this.Handle(message.UserSession, message.Input, false);
             }
 
-            private void Handle(IFunctionUpdateIo input, bool isCommand)
+            private void Handle(IUserSession userSession, IFunctionUpdateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var functionRepository = host.RetrieveRequiredService<IRepository<Function>>();
@@ -370,7 +370,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateFunctionUpdatedEvent(entity, input));
+                    host.MessageDispatcher.DispatchMessage(new PrivateFunctionUpdatedEvent(userSession, entity, input));
                 }
             }
 
@@ -401,15 +401,15 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateFunctionUpdatedEvent : FunctionUpdatedEvent
             {
-                internal PrivateFunctionUpdatedEvent(FunctionBase source, IFunctionUpdateIo input)
-                    : base(source, input)
+                internal PrivateFunctionUpdatedEvent(IUserSession userSession, FunctionBase source, IFunctionUpdateIo input)
+                    : base(userSession, source, input)
                 {
 
                 }
             }
             public void Handle(RemoveFunctionCommand message)
             {
-                this.Handle(message.EntityId, true);
+                this.Handle(message.UserSession, message.EntityId, true);
             }
 
             public void Handle(FunctionRemovedEvent message)
@@ -418,10 +418,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                this.Handle(message.Source.Id, false);
+                this.Handle(message.UserSession, message.Source.Id, false);
             }
 
-            private void Handle(Guid functionId, bool isCommand)
+            private void Handle(IUserSession userSession, Guid functionId, bool isCommand)
             {
                 var host = _set._host;
                 var dicByCode = _set._dicByCode;
@@ -451,7 +451,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     {
                         if (isCommand)
                         {
-                            host.MessageDispatcher.DispatchMessage(new FunctionRemovingEvent(entity));
+                            host.MessageDispatcher.DispatchMessage(new FunctionRemovingEvent(userSession, entity));
                         }
                         if (dicByCode.ContainsKey(bkState.Resource)
                             && dicByCode[bkState.Resource].ContainsKey(bkState.Code))
@@ -496,14 +496,14 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateFunctionRemovedEvent(entity));
+                    host.MessageDispatcher.DispatchMessage(new PrivateFunctionRemovedEvent(userSession, entity));
                 }
             }
 
             private class PrivateFunctionRemovedEvent : FunctionRemovedEvent
             {
-                internal PrivateFunctionRemovedEvent(FunctionBase function)
-                    : base(function)
+                internal PrivateFunctionRemovedEvent(IUserSession userSession, FunctionBase function)
+                    : base(userSession, function)
                 {
 
                 }

@@ -53,9 +53,9 @@ namespace Anycmd.Ac.ViewModels.RoleViewModels
         /// </summary>
         public string Icon { get; set; }
 
-        public AddRoleCommand ToCommand()
+        public AddRoleCommand ToCommand(IUserSession userSession)
         {
-            return new AddRoleCommand(this);
+            return new AddRoleCommand(userSession, this);
         }
     }
 }

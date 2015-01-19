@@ -10,8 +10,8 @@ namespace Anycmd.Engine.Ac.Messages.Infra
     /// </summary>
     public class UiViewButtonUpdatedEvent : DomainEvent
     {
-        public UiViewButtonUpdatedEvent(UiViewButtonBase source, IUiViewButtonUpdateIo input)
-            : base(source)
+        public UiViewButtonUpdatedEvent(IUserSession userSession, UiViewButtonBase source, IUiViewButtonUpdateIo input)
+            : base(userSession, source)
         {
             if (input == null)
             {

@@ -6,8 +6,8 @@ namespace Anycmd.Engine.Ac.Messages.Rbac
 
     public class RoleAddedEvent : EntityAddedEvent<IRoleCreateIo>
     {
-        public RoleAddedEvent(RoleBase source, IRoleCreateIo output)
-            : base(source, output)
+        public RoleAddedEvent(IUserSession userSession, RoleBase source, IRoleCreateIo output)
+            : base(userSession, source, output)
         {
         }
     }

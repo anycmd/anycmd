@@ -6,6 +6,6 @@ namespace Anycmd.Engine.Edi.Messages
 
     public class ElementInfoRuleUpdatedEvent : DomainEvent
     {
-        public ElementInfoRuleUpdatedEvent(ElementInfoRule source) : base(source) { }
+        public ElementInfoRuleUpdatedEvent(IUserSession userSession, ElementInfoRule source) : base(userSession, source) { }
     }
 }

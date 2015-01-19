@@ -12,6 +12,7 @@ namespace Anycmd.Tests
     using Moq;
     using Repositories;
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using Xunit;
 
@@ -23,7 +24,12 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             Assert.Equal(0, host.RoleSet.Count());
-
+            UserSessionState.SignIn(host, new Dictionary<string, object>
+            {
+                {"loginName", "test"},
+                {"password", "111111"},
+                {"rememberMe", "rememberMe"}
+            });
             var entityId = Guid.NewGuid();
 
             RoleState roleById;
@@ -36,7 +42,7 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
             Assert.Equal(1, host.RoleSet.Count());
             Assert.True(host.RoleSet.TryGetRole(entityId, out roleById));
 
@@ -49,12 +55,12 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
             Assert.Equal(1, host.RoleSet.Count());
             Assert.True(host.RoleSet.TryGetRole(entityId, out roleById));
             Assert.Equal("test2", roleById.Name);
 
-            host.Handle(new RemoveRoleCommand(entityId));
+            host.Handle(new RemoveRoleCommand(host.GetUserSession(), entityId));
             Assert.False(host.RoleSet.TryGetRole(entityId, out roleById));
             Assert.Equal(0, host.RoleSet.Count());
         }
@@ -66,7 +72,12 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             Assert.Equal(0, host.RoleSet.Count());
-
+            UserSessionState.SignIn(host, new Dictionary<string, object>
+            {
+                {"loginName", "test"},
+                {"password", "111111"},
+                {"rememberMe", "rememberMe"}
+            });
             host.RemoveService(typeof(IRepository<Role>));
             var moRoleRepository = host.GetMoqRepository<Role, IRepository<Role>>();
             var entityId1 = Guid.NewGuid();
@@ -86,7 +97,7 @@ namespace Anycmd.Tests
                 {
                     Id = entityId1,
                     Name = name
-                }.ToCommand());
+                }.ToCommand(host.GetUserSession()));
             }
             catch (Exception e)
             {
@@ -104,7 +115,7 @@ namespace Anycmd.Tests
             {
                 Id = entityId2,
                 Name = name
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
             Assert.Equal(1, host.RoleSet.Count());
 
             catched = false;
@@ -114,7 +125,7 @@ namespace Anycmd.Tests
                 {
                     Id = entityId2,
                     Name = "test2"
-                }.ToCommand());
+                }.ToCommand(host.GetUserSession()));
             }
             catch (Exception e)
             {
@@ -134,7 +145,7 @@ namespace Anycmd.Tests
             catched = false;
             try
             {
-                host.Handle(new RemoveRoleCommand(entityId2));
+                host.Handle(new RemoveRoleCommand(host.GetUserSession(), entityId2));
             }
             catch (Exception e)
             {
@@ -157,7 +168,12 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             Assert.Equal(0, host.RoleSet.Count());
-
+            UserSessionState.SignIn(host, new Dictionary<string, object>
+            {
+                {"loginName", "test"},
+                {"password", "111111"},
+                {"rememberMe", "rememberMe"}
+            });
             var roleId1 = Guid.NewGuid();
             // 创建一个角色
             host.Handle(new RoleCreateInput
@@ -169,7 +185,7 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
 
             var roleId2 = Guid.NewGuid();
             // 再创建一个角色
@@ -182,11 +198,11 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
 
             var privilegeId = Guid.NewGuid();
             // 使role1继承role2
-            host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
+            host.Handle(new AddPrivilegeCommand(host.GetUserSession(), new PrivilegeCreateIo
             {
                 Id = privilegeId,
                 SubjectInstanceId = roleId1,
@@ -211,10 +227,10 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
             privilegeId = Guid.NewGuid();
             // 使role2继承role3
-            host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
+            host.Handle(new AddPrivilegeCommand(host.GetUserSession(), new PrivilegeCreateIo
             {
                 Id = privilegeId,
                 SubjectInstanceId = roleId2,
@@ -236,9 +252,9 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
             privilegeId = Guid.NewGuid();
-            host.Handle(new AddPrivilegeCommand(new PrivilegeCreateIo
+            host.Handle(new AddPrivilegeCommand(host.GetUserSession(), new PrivilegeCreateIo
             {
                 Id = privilegeId,
                 SubjectInstanceId = roleId3,

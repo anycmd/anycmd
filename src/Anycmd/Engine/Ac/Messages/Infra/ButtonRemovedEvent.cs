@@ -9,8 +9,8 @@ namespace Anycmd.Engine.Ac.Messages.Infra
     /// </summary>
     public class ButtonRemovedEvent : DomainEvent
     {
-        public ButtonRemovedEvent(ButtonBase source)
-            : base(source)
+        public ButtonRemovedEvent(IUserSession userSession, ButtonBase source)
+            : base(userSession, source)
         {
         }
     }

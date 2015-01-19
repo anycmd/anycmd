@@ -203,7 +203,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(AddRoleCommand message)
             {
-                this.Handle(message.Input, true);
+                this.Handle(message.UserSession, message.Input, true);
             }
 
             public void Handle(RoleAddedEvent message)
@@ -212,10 +212,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                this.Handle(message.Output, false);
+                this.Handle(message.UserSession, message.Output, false);
             }
 
-            private void Handle(IRoleCreateIo input, bool isCommand)
+            private void Handle(IUserSession userSession, IRoleCreateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var roleDic = _set._roleDic;
@@ -264,21 +264,21 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateRoleAddedEvent(entity, input));
+                    host.MessageDispatcher.DispatchMessage(new PrivateRoleAddedEvent(userSession, entity, input));
                 }
             }
 
             private class PrivateRoleAddedEvent : RoleAddedEvent
             {
-                internal PrivateRoleAddedEvent(RoleBase source, IRoleCreateIo input)
-                    : base(source, input)
+                internal PrivateRoleAddedEvent(IUserSession userSession, RoleBase source, IRoleCreateIo input)
+                    : base(userSession, source, input)
                 {
 
                 }
             }
             public void Handle(UpdateRoleCommand message)
             {
-                this.Handle(message.Output, true);
+                this.Handle(message.UserSession, message.Output, true);
             }
 
             public void Handle(RoleUpdatedEvent message)
@@ -287,10 +287,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                this.Handle(message.Output, false);
+                this.Handle(message.UserSession, message.Output, false);
             }
 
-            private void Handle(IRoleUpdateIo input, bool isCommand)
+            private void Handle(IUserSession userSession, IRoleUpdateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var roleDic = _set._roleDic;
@@ -347,7 +347,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateRoleUpdatedEvent(entity, input));
+                    host.MessageDispatcher.DispatchMessage(new PrivateRoleUpdatedEvent(userSession, entity, input));
                 }
             }
 
@@ -359,15 +359,15 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateRoleUpdatedEvent : RoleUpdatedEvent
             {
-                internal PrivateRoleUpdatedEvent(RoleBase source, IRoleUpdateIo input)
-                    : base(source, input)
+                internal PrivateRoleUpdatedEvent(IUserSession userSession, RoleBase source, IRoleUpdateIo input)
+                    : base(userSession, source, input)
                 {
 
                 }
             }
             public void Handle(RemoveRoleCommand message)
             {
-                this.Handle(message.EntityId, true);
+                this.Handle(message.UserSession, message.EntityId, true);
             }
 
             public void Handle(RoleRemovedEvent message)
@@ -376,10 +376,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                this.Handle(message.Source.Id, false);
+                this.Handle(message.UserSession, message.Source.Id, false);
             }
 
-            private void Handle(Guid roleId, bool isCommand)
+            private void Handle(IUserSession userSession, Guid roleId, bool isCommand)
             {
                 var host = _set._host;
                 var roleDic = _set._roleDic;
@@ -406,7 +406,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     {
                         if (isCommand)
                         {
-                            host.MessageDispatcher.DispatchMessage(new RoleRemovingEvent(entity));
+                            host.MessageDispatcher.DispatchMessage(new RoleRemovingEvent(userSession, entity));
                         }
                         roleDic.Remove(bkState.Id);
                     }
@@ -430,14 +430,14 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateRoleRemovedEvent(entity));
+                    host.MessageDispatcher.DispatchMessage(new PrivateRoleRemovedEvent(userSession, entity));
                 }
             }
 
             private class PrivateRoleRemovedEvent : RoleRemovedEvent
             {
-                internal PrivateRoleRemovedEvent(RoleBase source)
-                    : base(source)
+                internal PrivateRoleRemovedEvent(IUserSession userSession, RoleBase source)
+                    : base(userSession, source)
                 {
 
                 }

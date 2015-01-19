@@ -10,8 +10,8 @@ namespace Anycmd.Engine.Ac.Messages.Infra
     /// </summary>
     public class OrganizationUpdatedEvent : DomainEvent
     {
-        public OrganizationUpdatedEvent(OrganizationBase source, IOrganizationUpdateIo input)
-            : base(source)
+        public OrganizationUpdatedEvent(IUserSession userSession, OrganizationBase source, IOrganizationUpdateIo input)
+            : base(userSession, source)
         {
             if (input == null)
             {

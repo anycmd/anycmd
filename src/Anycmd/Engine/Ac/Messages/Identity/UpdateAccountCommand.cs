@@ -5,8 +5,8 @@ namespace Anycmd.Engine.Ac.Messages.Identity
 
     public class UpdateAccountCommand : UpdateEntityCommand<IAccountUpdateIo>, IAnycmdCommand
     {
-        public UpdateAccountCommand(IAccountUpdateIo input)
-            : base(input)
+        public UpdateAccountCommand(IUserSession userSession, IAccountUpdateIo input)
+            : base(userSession, input)
         {
 
         }

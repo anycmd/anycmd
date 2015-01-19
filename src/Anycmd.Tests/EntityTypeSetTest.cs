@@ -1,6 +1,4 @@
 ﻿
-using Anycmd.Util;
-
 namespace Anycmd.Tests
 {
     using Ac.ViewModels.Infra.EntityTypeViewModels;
@@ -11,7 +9,9 @@ namespace Anycmd.Tests
     using Moq;
     using Repositories;
     using System;
+    using System.Collections.Generic;
     using System.Linq;
+    using Util;
     using Xunit;
 
     public class EntityTypeSetTest
@@ -22,7 +22,12 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             Assert.Equal(0, host.EntityTypeSet.Count());
-
+            UserSessionState.SignIn(host, new Dictionary<string, object>
+            {
+                {"loginName", "test"},
+                {"password", "111111"},
+                {"rememberMe", "rememberMe"}
+            });
             const string codespace = "Test";
             var entityTypeId = Guid.NewGuid();
             var propertyId = Guid.NewGuid();
@@ -44,7 +49,7 @@ namespace Anycmd.Tests
                 SchemaName = string.Empty,
                 SortCode = 10,
                 TableName = string.Empty
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
             Assert.Equal(1, host.EntityTypeSet.Count());
             Assert.True(host.EntityTypeSet.TryGetEntityType(entityTypeId, out entityTypeById));
             Assert.True(host.EntityTypeSet.TryGetEntityType(new Coder(codespace, "EntityType1"), out entityTypeByCode));
@@ -66,7 +71,7 @@ namespace Anycmd.Tests
                 SchemaName = string.Empty,
                 SortCode = 100,
                 TableName = string.Empty
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
             Assert.Equal(1, host.EntityTypeSet.Count());
             Assert.True(host.EntityTypeSet.TryGetEntityType(entityTypeId, out entityTypeById));
             Assert.True(host.EntityTypeSet.TryGetEntityType(new Coder(codespace, "EntityType2"), out entityTypeByCode));
@@ -75,7 +80,7 @@ namespace Anycmd.Tests
             Assert.Equal("test2", entityTypeById.Name);
             Assert.Equal("EntityType2", entityTypeById.Code);
 
-            host.Handle(new RemoveEntityTypeCommand(entityTypeId));
+            host.Handle(new RemoveEntityTypeCommand(host.GetUserSession(), entityTypeId));
             Assert.False(host.EntityTypeSet.TryGetEntityType(entityTypeId, out entityTypeById));
             Assert.False(host.EntityTypeSet.TryGetEntityType(new Coder(codespace, "EntityType2"), out entityTypeByCode));
             Assert.Equal(0, host.EntityTypeSet.Count());
@@ -96,7 +101,7 @@ namespace Anycmd.Tests
                 SchemaName = string.Empty,
                 SortCode = 10,
                 TableName = string.Empty
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
             Assert.Equal(1, host.EntityTypeSet.Count());
             Assert.True(host.EntityTypeSet.TryGetEntityType(entityTypeId, out entityTypeById));
             PropertyState propertyById;
@@ -119,7 +124,7 @@ namespace Anycmd.Tests
                 Description = string.Empty,
                 Code = "Property1",
                 Name = "测试1"
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
             Assert.Equal(1, host.EntityTypeSet.GetProperties(entityTypeById).Count());
             Assert.True(host.EntityTypeSet.TryGetProperty(propertyId, out propertyById));
             Assert.True(host.EntityTypeSet.TryGetProperty(entityTypeById, "Property1", out propertyByCode));
@@ -131,7 +136,7 @@ namespace Anycmd.Tests
                 Id = propertyId,
                 Name = "test2",
                 Code = "Property2"
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
             Assert.Equal(1, host.EntityTypeSet.GetProperties(entityTypeById).Count);
             Assert.True(host.EntityTypeSet.TryGetProperty(propertyId, out propertyById));
             Assert.True(host.EntityTypeSet.TryGetProperty(entityTypeById, "Property2", out propertyByCode));
@@ -140,7 +145,7 @@ namespace Anycmd.Tests
             Assert.Equal("test2", propertyById.Name);
             Assert.Equal("Property2", propertyById.Code);
 
-            host.Handle(new RemovePropertyCommand(propertyId));
+            host.Handle(new RemovePropertyCommand(host.GetUserSession(), propertyId));
             Assert.False(host.EntityTypeSet.TryGetProperty(propertyId, out propertyById));
             Assert.False(host.EntityTypeSet.TryGetProperty(entityTypeById, "Property2", out propertyByCode));
             Assert.Equal(0, host.EntityTypeSet.GetProperties(entityTypeById).Count);
@@ -153,7 +158,12 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             Assert.Equal(0, host.EntityTypeSet.Count());
-
+            UserSessionState.SignIn(host, new Dictionary<string, object>
+            {
+                {"loginName", "test"},
+                {"password", "111111"},
+                {"rememberMe", "rememberMe"}
+            });
             var entityTypeId = Guid.NewGuid();
 
             host.Handle(new EntityTypeCreateInput
@@ -171,7 +181,7 @@ namespace Anycmd.Tests
                 SchemaName = string.Empty,
                 SortCode = 10,
                 TableName = string.Empty
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
             Assert.Equal(1, host.EntityTypeSet.Count());
 
             host.Handle(new PropertyCreateInput
@@ -192,12 +202,12 @@ namespace Anycmd.Tests
                 Description = string.Empty,
                 Code = "Property1",
                 Name = "测试1"
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
 
             bool catched = false;
             try
             {
-                host.Handle(new RemoveEntityTypeCommand(entityTypeId));
+                host.Handle(new RemoveEntityTypeCommand(host.GetUserSession(), entityTypeId));
             }
             catch (ValidationException)
             {
@@ -218,7 +228,12 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             Assert.Equal(0, host.EntityTypeSet.Count());
-
+            UserSessionState.SignIn(host, new Dictionary<string, object>
+            {
+                {"loginName", "test"},
+                {"password", "111111"},
+                {"rememberMe", "rememberMe"}
+            });
             host.RemoveService(typeof(IRepository<EntityType>));
             var moEntityTypeRepository = host.GetMoqRepository<EntityType, IRepository<EntityType>>();
             var entityId1 = Guid.NewGuid();
@@ -279,7 +294,7 @@ namespace Anycmd.Tests
                     SchemaName = string.Empty,
                     SortCode = 10,
                     TableName = string.Empty
-                }.ToCommand());
+                }.ToCommand(host.GetUserSession()));
             }
             catch (Exception e)
             {
@@ -308,7 +323,7 @@ namespace Anycmd.Tests
                 SchemaName = string.Empty,
                 SortCode = 10,
                 TableName = string.Empty
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
             Assert.Equal(1, host.EntityTypeSet.Count());
 
             catched = false;
@@ -329,7 +344,7 @@ namespace Anycmd.Tests
                     SchemaName = string.Empty,
                     SortCode = 100,
                     TableName = string.Empty
-                }.ToCommand());
+                }.ToCommand(host.GetUserSession()));
             }
             catch (Exception e)
             {
@@ -349,7 +364,7 @@ namespace Anycmd.Tests
             catched = false;
             try
             {
-                host.Handle(new RemoveEntityTypeCommand(entityId2));
+                host.Handle(new RemoveEntityTypeCommand(host.GetUserSession(), entityId2));
             }
             catch (Exception e)
             {

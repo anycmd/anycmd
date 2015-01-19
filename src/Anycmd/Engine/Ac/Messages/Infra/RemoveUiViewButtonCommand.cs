@@ -3,10 +3,10 @@ namespace Anycmd.Engine.Ac.Messages.Infra
 {
     using System;
 
-    public class RemoveUiViewButtonCommand : RemoveEntityCommand, IAnycmdCommand
+    public class RemoveUiViewButtonCommand : RemoveEntityCommand
     {
-        public RemoveUiViewButtonCommand(Guid viewButtonId)
-            : base(viewButtonId)
+        public RemoveUiViewButtonCommand(IUserSession userSession, Guid viewButtonId)
+            : base(userSession, viewButtonId)
         {
 
         }

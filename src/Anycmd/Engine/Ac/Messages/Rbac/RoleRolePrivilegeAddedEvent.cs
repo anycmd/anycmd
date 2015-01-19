@@ -6,8 +6,8 @@ namespace Anycmd.Engine.Ac.Messages.Rbac
 
     public class RoleRolePrivilegeAddedEvent : DomainEvent
     {
-        public RoleRolePrivilegeAddedEvent(PrivilegeBase source)
-            : base(source)
+        public RoleRolePrivilegeAddedEvent(IUserSession userSession, PrivilegeBase source)
+            : base(userSession, source)
         {
         }
     }

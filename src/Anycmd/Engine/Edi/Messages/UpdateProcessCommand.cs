@@ -5,8 +5,8 @@ namespace Anycmd.Engine.Edi.Messages
 
     public class UpdateProcessCommand : UpdateEntityCommand<IProcessUpdateIo>, IAnycmdCommand
     {
-        public UpdateProcessCommand(IProcessUpdateIo input)
-            : base(input)
+        public UpdateProcessCommand(IUserSession userSession, IProcessUpdateIo input)
+            : base(userSession, input)
         {
 
         }

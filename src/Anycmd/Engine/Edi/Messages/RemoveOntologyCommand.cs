@@ -3,10 +3,10 @@ namespace Anycmd.Engine.Edi.Messages
 {
     using System;
 
-    public class RemoveOntologyCommand : RemoveEntityCommand, IAnycmdCommand
+    public class RemoveOntologyCommand : RemoveEntityCommand
     {
-        public RemoveOntologyCommand(Guid ontologyId)
-            : base(ontologyId)
+        public RemoveOntologyCommand(IUserSession userSession, Guid ontologyId)
+            : base(userSession, ontologyId)
         {
 
         }

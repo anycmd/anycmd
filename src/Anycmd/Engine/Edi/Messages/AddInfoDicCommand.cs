@@ -5,8 +5,8 @@ namespace Anycmd.Engine.Edi.Messages
 
     public class AddInfoDicCommand : AddEntityCommand<IInfoDicCreateIo>, IAnycmdCommand
     {
-        public AddInfoDicCommand(IInfoDicCreateIo input)
-            : base(input)
+        public AddInfoDicCommand(IUserSession userSession, IInfoDicCreateIo input)
+            : base(userSession, input)
         {
 
         }

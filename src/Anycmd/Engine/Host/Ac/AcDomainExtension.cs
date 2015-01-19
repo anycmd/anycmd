@@ -7,34 +7,34 @@ namespace Anycmd.Engine.Host.Ac
 
     public static class AcDomainExtension
     {
-        public static void RemoveAppSystem(this IAcDomain host, Guid appSystemId)
+        public static void RemoveAppSystem(this IAcDomain host, IUserSession userSession, Guid appSystemId)
         {
-            host.Handle(new RemoveAppSystemCommand(appSystemId));
+            host.Handle(new RemoveAppSystemCommand(userSession, appSystemId));
         }
 
-        public static void RemoveAccount(this IAcDomain host, Guid accountId)
+        public static void RemoveAccount(this IAcDomain host, IUserSession userSession, Guid accountId)
         {
-            host.Handle(new RemoveAccountCommand(accountId));
+            host.Handle(new RemoveAccountCommand(userSession, accountId));
         }
 
-        public static void RemoveButton(this IAcDomain host, Guid buttonId)
+        public static void RemoveButton(this IAcDomain host, IUserSession userSession, Guid buttonId)
         {
-            host.Handle(new RemoveButtonCommand(buttonId));
+            host.Handle(new RemoveButtonCommand(userSession, buttonId));
         }
 
-        public static void RemoveDic(this IAcDomain host, Guid dicId)
+        public static void RemoveDic(this IAcDomain host, IUserSession userSession, Guid dicId)
         {
-            host.Handle(new RemoveDicCommand(dicId));
+            host.Handle(new RemoveDicCommand(userSession, dicId));
         }
 
-        public static void RemoveDicItem(this IAcDomain host, Guid dicItemId)
+        public static void RemoveDicItem(this IAcDomain host, IUserSession userSession, Guid dicItemId)
         {
-            host.Handle(new RemoveDicItemCommand(dicItemId));
+            host.Handle(new RemoveDicItemCommand(userSession, dicItemId));
         }
 
-        public static void RemoveEntityType(this IAcDomain host, Guid entityTypeId)
+        public static void RemoveEntityType(this IAcDomain host, IUserSession userSession, Guid entityTypeId)
         {
-            host.Handle(new RemoveEntityTypeCommand(entityTypeId));
+            host.Handle(new RemoveEntityTypeCommand(userSession, entityTypeId));
         }
     }
 }

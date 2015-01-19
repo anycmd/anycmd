@@ -10,8 +10,8 @@ namespace Anycmd.Engine.Ac.Messages.Infra
     /// </summary>
     public class OrganizationRemovedEvent : DomainEvent
     {
-        public OrganizationRemovedEvent(OrganizationBase source)
-            : base(source)
+        public OrganizationRemovedEvent(IUserSession userSession, OrganizationBase source)
+            : base(userSession, source)
         {
             if (source == null)
             {

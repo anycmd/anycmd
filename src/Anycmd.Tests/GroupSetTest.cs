@@ -9,6 +9,7 @@ namespace Anycmd.Tests
     using Moq;
     using Repositories;
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using Xunit;
 
@@ -20,11 +21,16 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             Assert.Equal(0, host.GroupSet.Count());
-
+            UserSessionState.SignIn(host, new Dictionary<string, object>
+            {
+                {"loginName", "test"},
+                {"password", "111111"},
+                {"rememberMe", "rememberMe"}
+            });
             var entityId = Guid.NewGuid();
 
             GroupState groupById;
-            host.Handle(new AddGroupCommand(new GroupCreateInput
+            host.Handle(new AddGroupCommand(host.GetUserSession(), new GroupCreateInput
             {
                 Id = entityId,
                 Name = "测试1",
@@ -38,7 +44,7 @@ namespace Anycmd.Tests
             Assert.Equal(1, host.GroupSet.Count());
             Assert.True(host.GroupSet.TryGetGroup(entityId, out groupById));
 
-            host.Handle(new UpdateGroupCommand(new GroupUpdateInput
+            host.Handle(new UpdateGroupCommand(host.GetUserSession(), new GroupUpdateInput
             {
                 Id = entityId,
                 Name = "test2",
@@ -52,7 +58,7 @@ namespace Anycmd.Tests
             Assert.True(host.GroupSet.TryGetGroup(entityId, out groupById));
             Assert.Equal("test2", groupById.Name);
 
-            host.Handle(new RemoveGroupCommand(entityId));
+            host.Handle(new RemoveGroupCommand(host.GetUserSession(), entityId));
             Assert.False(host.GroupSet.TryGetGroup(entityId, out groupById));
             Assert.Equal(0, host.GroupSet.Count());
         }
@@ -64,7 +70,12 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             Assert.Equal(0, host.GroupSet.Count());
-
+            UserSessionState.SignIn(host, new Dictionary<string, object>
+            {
+                {"loginName", "test"},
+                {"password", "111111"},
+                {"rememberMe", "rememberMe"}
+            });
             host.RemoveService(typeof(IRepository<Group>));
             var moGroupRepository = host.GetMoqRepository<Group, IRepository<Group>>();
             var entityId1 = Guid.NewGuid();
@@ -80,7 +91,7 @@ namespace Anycmd.Tests
             bool catched = false;
             try
             {
-                host.Handle(new AddGroupCommand(new GroupCreateInput
+                host.Handle(new AddGroupCommand(host.GetUserSession(), new GroupCreateInput
                 {
                     Id = entityId1,
                     Name = name,
@@ -99,7 +110,7 @@ namespace Anycmd.Tests
                 Assert.Equal(0, host.GroupSet.Count());
             }
 
-            host.Handle(new AddGroupCommand(new GroupCreateInput
+            host.Handle(new AddGroupCommand(host.GetUserSession(), new GroupCreateInput
             {
                 Id = entityId2,
                 Name = name,
@@ -110,7 +121,7 @@ namespace Anycmd.Tests
             catched = false;
             try
             {
-                host.Handle(new UpdateGroupCommand(new GroupUpdateInput
+                host.Handle(new UpdateGroupCommand(host.GetUserSession(), new GroupUpdateInput
                 {
                     Id = entityId2,
                     Name = "test2"
@@ -134,7 +145,7 @@ namespace Anycmd.Tests
             catched = false;
             try
             {
-                host.Handle(new RemoveGroupCommand(entityId2));
+                host.Handle(new RemoveGroupCommand(host.GetUserSession(), entityId2));
             }
             catch (Exception e)
             {
@@ -157,6 +168,12 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             Assert.Equal(0, host.GroupSet.Count());
+            UserSessionState.SignIn(host, new Dictionary<string, object>
+            {
+                {"loginName", "test"},
+                {"password", "111111"},
+                {"rememberMe", "rememberMe"}
+            });
             host.Handle(new OrganizationCreateInput
             {
                 Id = Guid.NewGuid(),
@@ -165,7 +182,7 @@ namespace Anycmd.Tests
                 Description = "test",
                 SortCode = 10,
                 Icon = null,
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
             var entityId = Guid.NewGuid();
 
             GroupState groupById;
@@ -179,10 +196,10 @@ namespace Anycmd.Tests
                 ShortName = "",
                 SortCode = 10,
                 OrganizationCode = "100"
-            }.ToCommand());
+            }.ToCommand(host.GetUserSession()));
             Assert.Equal(1, host.GroupSet.Count());
             Assert.True(host.GroupSet.TryGetGroup(entityId, out groupById));
-            host.Handle(new RemovePositionCommand(entityId));
+            host.Handle(new RemovePositionCommand(host.GetUserSession(), entityId));
             Assert.Equal(0, host.GroupSet.Count());
         }
     }

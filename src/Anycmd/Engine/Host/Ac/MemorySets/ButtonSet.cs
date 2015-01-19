@@ -171,7 +171,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(AddButtonCommand message)
             {
-                Handle(message.Input, isCommand: true);
+                Handle(message.UserSession, message.Input, isCommand: true);
             }
 
             public void Handle(ButtonAddedEvent message)
@@ -180,10 +180,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                Handle(message.Output, isCommand: false);
+                Handle(message.UserSession, message.Output, isCommand: false);
             }
 
-            private void Handle(IButtonCreateIo input, bool isCommand)
+            private void Handle(IUserSession userSession, IButtonCreateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var dicById = _set._dicById;
@@ -240,21 +240,21 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateButtonAddedEvent(entity, input));
+                    host.MessageDispatcher.DispatchMessage(new PrivateButtonAddedEvent(userSession, entity, input));
                 }
             }
 
             private class PrivateButtonAddedEvent : ButtonAddedEvent
             {
-                internal PrivateButtonAddedEvent(ButtonBase source, IButtonCreateIo input)
-                    : base(source, input)
+                internal PrivateButtonAddedEvent(IUserSession userSession, ButtonBase source, IButtonCreateIo input)
+                    : base(userSession, source, input)
                 {
 
                 }
             }
             public void Handle(UpdateButtonCommand message)
             {
-                Handle(message.Output, isCommand: true);
+                Handle(message.UserSession, message.Output, isCommand: true);
             }
 
             public void Handle(ButtonUpdatedEvent message)
@@ -263,10 +263,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                Handle(message.Input, isCommand: false);
+                Handle(message.UserSession, message.Input, isCommand: false);
             }
 
-            private void Handle(IButtonUpdateIo input, bool isCommand)
+            private void Handle(IUserSession userSession, IButtonUpdateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var buttonRepository = host.RetrieveRequiredService<IRepository<Button>>();
@@ -327,7 +327,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateButtonUpdatedEvent(entity, input));
+                    host.MessageDispatcher.DispatchMessage(new PrivateButtonUpdatedEvent(userSession, entity, input));
                 }
             }
 
@@ -352,15 +352,15 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateButtonUpdatedEvent : ButtonUpdatedEvent
             {
-                internal PrivateButtonUpdatedEvent(ButtonBase source, IButtonUpdateIo input)
-                    : base(source, input)
+                internal PrivateButtonUpdatedEvent(IUserSession userSession, ButtonBase source, IButtonUpdateIo input)
+                    : base(userSession, source, input)
                 {
 
                 }
             }
             public void Handle(RemoveButtonCommand message)
             {
-                Handle(message.EntityId, isCommand: true);
+                Handle(message.UserSession, message.EntityId, isCommand: true);
             }
 
             public void Handle(ButtonRemovedEvent message)
@@ -369,10 +369,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                Handle(message.Source.Id, isCommand: false);
+                Handle(message.UserSession, message.Source.Id, isCommand: false);
             }
 
-            private void Handle(Guid buttonId, bool isCommand)
+            private void Handle(IUserSession userSession, Guid buttonId, bool isCommand)
             {
                 var host = _set._host;
                 var dicById = _set._dicById;
@@ -404,7 +404,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     {
                         if (isCommand)
                         {
-                            host.MessageDispatcher.DispatchMessage(new ButtonRemovingEvent(entity));
+                            host.MessageDispatcher.DispatchMessage(new ButtonRemovingEvent(userSession, entity));
                         }
                         dicById.Remove(bkState.Id);
                         if (dicByCode.ContainsKey(bkState.Code))
@@ -435,14 +435,14 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateButtonRemovedEvent(entity));
+                    host.MessageDispatcher.DispatchMessage(new PrivateButtonRemovedEvent(userSession, entity));
                 }
             }
 
             private class PrivateButtonRemovedEvent : ButtonRemovedEvent
             {
-                internal PrivateButtonRemovedEvent(ButtonBase source)
-                    : base(source)
+                internal PrivateButtonRemovedEvent(IUserSession userSession, ButtonBase source)
+                    : base(userSession, source)
                 {
 
                 }

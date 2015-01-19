@@ -5,8 +5,8 @@ namespace Anycmd.Engine.Edi.Messages
 
     public class AddElementCommand : AddEntityCommand<IElementCreateIo>, IAnycmdCommand
     {
-        public AddElementCommand(IElementCreateIo input)
-            : base(input)
+        public AddElementCommand(IUserSession userSession, IElementCreateIo input)
+            : base(userSession, input)
         {
 
         }

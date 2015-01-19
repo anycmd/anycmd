@@ -3,10 +3,10 @@ namespace Anycmd.Engine.Edi.Messages
 {
     using System;
 
-    public class RemoveTopicCommand : RemoveEntityCommand, IAnycmdCommand
+    public class RemoveTopicCommand : RemoveEntityCommand
     {
-        public RemoveTopicCommand(Guid eventTopicId)
-            : base(eventTopicId)
+        public RemoveTopicCommand(IUserSession userSession, Guid eventTopicId)
+            : base(userSession, eventTopicId)
         {
 
         }

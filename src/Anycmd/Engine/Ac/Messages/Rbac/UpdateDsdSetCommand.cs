@@ -5,8 +5,8 @@ namespace Anycmd.Engine.Ac.Messages.Rbac
 
     public class UpdateDsdSetCommand : UpdateEntityCommand<IDsdSetUpdateIo>, IAnycmdCommand
     {
-        public UpdateDsdSetCommand(IDsdSetUpdateIo input)
-            : base(input)
+        public UpdateDsdSetCommand(IUserSession userSession, IDsdSetUpdateIo input)
+            : base(userSession, input)
         {
 
         }

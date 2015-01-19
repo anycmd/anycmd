@@ -5,8 +5,8 @@ namespace Anycmd.Engine.Edi.Messages
 
     public class UpdateInfoGroupCommand : UpdateEntityCommand<IInfoGroupUpdateIo>, IAnycmdCommand
     {
-        public UpdateInfoGroupCommand(IInfoGroupUpdateIo input)
-            : base(input)
+        public UpdateInfoGroupCommand(IUserSession userSession, IInfoGroupUpdateIo input)
+            : base(userSession, input)
         {
 
         }

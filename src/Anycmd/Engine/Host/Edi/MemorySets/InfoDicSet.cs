@@ -248,7 +248,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
             public void Handle(AddInfoDicCommand message)
             {
-                this.Handle(message.Input, true);
+                this.Handle(message.UserSession, message.Input, true);
             }
 
             public void Handle(InfoDicAddedEvent message)
@@ -257,10 +257,10 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 {
                     return;
                 }
-                this.Handle(message.Output, false);
+                this.Handle(message.UserSession, message.Output, false);
             }
 
-            private void Handle(IInfoDicCreateIo input, bool isCommand)
+            private void Handle(IUserSession userSession, IInfoDicCreateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var locker = _set._locker;
@@ -324,21 +324,21 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateInfoDicAddedEvent(entity, input));
+                    host.MessageDispatcher.DispatchMessage(new PrivateInfoDicAddedEvent(userSession, entity, input));
                 }
             }
 
             private class PrivateInfoDicAddedEvent : InfoDicAddedEvent
             {
-                public PrivateInfoDicAddedEvent(InfoDicBase source, IInfoDicCreateIo input)
-                    : base(source, input)
+                public PrivateInfoDicAddedEvent(IUserSession userSession, InfoDicBase source, IInfoDicCreateIo input)
+                    : base(userSession, source, input)
                 {
 
                 }
             }
             public void Handle(UpdateInfoDicCommand message)
             {
-                this.Handle(message.Output, true);
+                this.Handle(message.UserSession, message.Output, true);
             }
 
             public void Handle(InfoDicUpdatedEvent message)
@@ -347,10 +347,10 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 {
                     return;
                 }
-                this.Handle(message.Output, false);
+                this.Handle(message.UserSession, message.Output, false);
             }
 
-            private void Handle(IInfoDicUpdateIo input, bool isCommand)
+            private void Handle(IUserSession userSession, IInfoDicUpdateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var locker = _set._locker;
@@ -405,7 +405,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateInfoDicUpdatedEvent(entity, input));
+                    host.MessageDispatcher.DispatchMessage(new PrivateInfoDicUpdatedEvent(userSession, entity, input));
                 }
             }
 
@@ -429,15 +429,15 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
             private class PrivateInfoDicUpdatedEvent : InfoDicUpdatedEvent
             {
-                public PrivateInfoDicUpdatedEvent(InfoDicBase source, IInfoDicUpdateIo input)
-                    : base(source, input)
+                public PrivateInfoDicUpdatedEvent(IUserSession userSession, InfoDicBase source, IInfoDicUpdateIo input)
+                    : base(userSession, source, input)
                 {
 
                 }
             }
             public void Handle(RemoveInfoDicCommand message)
             {
-                this.Handle(message.EntityId, true);
+                this.Handle(message.UserSession, message.EntityId, true);
             }
 
             public void Handle(InfoDicRemovedEvent message)
@@ -446,10 +446,10 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 {
                     return;
                 }
-                this.Handle(message.Source.Id, false);
+                this.Handle(message.UserSession, message.Source.Id, false);
             }
 
-            private void Handle(Guid infoDicId, bool isCommand)
+            private void Handle(IUserSession userSession, Guid infoDicId, bool isCommand)
             {
                 var host = _set._host;
                 var locker = _set._locker;
@@ -506,21 +506,21 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateInfoDicRemovedEvent(entity));
+                    host.MessageDispatcher.DispatchMessage(new PrivateInfoDicRemovedEvent(userSession, entity));
                 }
             }
 
             private class PrivateInfoDicRemovedEvent : InfoDicRemovedEvent
             {
-                internal PrivateInfoDicRemovedEvent(InfoDicBase source)
-                    : base(source)
+                internal PrivateInfoDicRemovedEvent(IUserSession userSession, InfoDicBase source)
+                    : base(userSession, source)
                 {
 
                 }
             }
             public void Handle(AddInfoDicItemCommand message)
             {
-                this.Handle(message.Input, true);
+                this.Handle(message.UserSession, message.Input, true);
             }
 
             public void Handle(InfoDicItemAddedEvent message)
@@ -529,10 +529,10 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 {
                     return;
                 }
-                this.Handle(message.Output, false);
+                this.Handle(message.UserSession, message.Output, false);
             }
 
-            private void Handle(IInfoDicItemCreateIo input, bool isCommand)
+            private void Handle(IUserSession userSession, IInfoDicItemCreateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var locker = _set._locker;
@@ -603,21 +603,21 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateInfoDicItemAddedEvent(entity, input));
+                    host.MessageDispatcher.DispatchMessage(new PrivateInfoDicItemAddedEvent(userSession, entity, input));
                 }
             }
 
             private class PrivateInfoDicItemAddedEvent : InfoDicItemAddedEvent
             {
-                internal PrivateInfoDicItemAddedEvent(InfoDicItemBase source, IInfoDicItemCreateIo input)
-                    : base(source, input)
+                internal PrivateInfoDicItemAddedEvent(IUserSession userSession, InfoDicItemBase source, IInfoDicItemCreateIo input)
+                    : base(userSession, source, input)
                 {
 
                 }
             }
             public void Handle(UpdateInfoDicItemCommand message)
             {
-                this.Handle(message.Output, true);
+                this.Handle(message.UserSession, message.Output, true);
             }
 
             public void Handle(InfoDicItemUpdatedEvent message)
@@ -626,10 +626,10 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 {
                     return;
                 }
-                this.Handle(message.Output, false);
+                this.Handle(message.UserSession, message.Output, false);
             }
 
-            private void Handle(IInfoDicItemUpdateIo input, bool isCommand)
+            private void Handle(IUserSession userSession, IInfoDicItemUpdateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var locker = _set._locker;
@@ -689,7 +689,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateInfoDicItemUpdatedEvent(entity, input));
+                    host.MessageDispatcher.DispatchMessage(new PrivateInfoDicItemUpdatedEvent(userSession, entity, input));
                 }
             }
 
@@ -720,15 +720,16 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
             private class PrivateInfoDicItemUpdatedEvent : InfoDicItemUpdatedEvent
             {
-                internal PrivateInfoDicItemUpdatedEvent(InfoDicItemBase source, IInfoDicItemUpdateIo input)
-                    : base(source, input)
+                internal PrivateInfoDicItemUpdatedEvent(IUserSession userSession, InfoDicItemBase source, IInfoDicItemUpdateIo input)
+                    : base(userSession, source, input)
                 {
 
                 }
             }
+
             public void Handle(RemoveInfoDicItemCommand message)
             {
-                this.HandleItem(message.EntityId, true);
+                this.HandleItem(message.UserSession, message.EntityId, true);
             }
 
             public void Handle(InfoDicItemRemovedEvent message)
@@ -737,10 +738,10 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 {
                     return;
                 }
-                this.HandleItem(message.Source.Id, false);
+                this.HandleItem(message.UserSession, message.Source.Id, false);
             }
 
-            private void HandleItem(Guid infoDicItemId, bool isCommand)
+            private void HandleItem(IUserSession userSession, Guid infoDicItemId, bool isCommand)
             {
                 var host = _set._host;
                 var locker = _set._locker;
@@ -801,14 +802,14 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateInfoDicItemRemovedEvent(entity));
+                    host.MessageDispatcher.DispatchMessage(new PrivateInfoDicItemRemovedEvent(userSession, entity));
                 }
             }
 
             private class PrivateInfoDicItemRemovedEvent : InfoDicItemRemovedEvent
             {
-                internal PrivateInfoDicItemRemovedEvent(InfoDicItemBase source)
-                    : base(source)
+                internal PrivateInfoDicItemRemovedEvent(IUserSession userSession, InfoDicItemBase source)
+                    : base(userSession, source)
                 {
 
                 }

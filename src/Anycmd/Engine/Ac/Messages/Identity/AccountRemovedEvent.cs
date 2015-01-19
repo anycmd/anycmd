@@ -6,6 +6,6 @@ namespace Anycmd.Engine.Ac.Messages.Identity
 
     public class AccountRemovedEvent : DomainEvent
     {
-        public AccountRemovedEvent(AccountBase source) : base(source) { }
+        public AccountRemovedEvent(IUserSession userSession, AccountBase source) : base(userSession, source) { }
     }
 }

@@ -5,8 +5,8 @@ namespace Anycmd.Engine.Edi.Messages
 
     public class AddOntologyOrganizationCommand: AddEntityCommand<IOntologyOrganizationCreateIo>, IAnycmdCommand
     {
-        public AddOntologyOrganizationCommand(IOntologyOrganizationCreateIo input)
-            : base(input)
+        public AddOntologyOrganizationCommand(IUserSession userSession, IOntologyOrganizationCreateIo input)
+            : base(userSession, input)
         {
 
         }

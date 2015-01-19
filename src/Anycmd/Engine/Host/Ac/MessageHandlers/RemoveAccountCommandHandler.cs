@@ -32,7 +32,7 @@ namespace Anycmd.Engine.Host.Ac.MessageHandlers
             }
             accountRepository.Remove(entity);
             accountRepository.Context.Commit();
-            _host.EventBus.Publish(new AccountRemovedEvent(entity));
+            _host.EventBus.Publish(new AccountRemovedEvent(command.UserSession, entity));
             _host.EventBus.Commit();
         }
     }

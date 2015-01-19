@@ -138,7 +138,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                         MaxLength = entity.MaxLength,
                         Name = entity.Name,
                         SortCode = entity.SortCode
-                    }.ToCommand());
+                    }.ToCommand(UserSession));
                     return this.JsonResult(new ResponseData { success = true });
                 }
                 else
@@ -178,7 +178,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            AcDomain.Handle(input.ToCommand());
+            AcDomain.Handle(input.ToCommand(UserSession));
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -194,7 +194,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 throw new ValidationException("实体类型标识是必须的");
             }
-            AcDomain.Handle(new AddCommonPropertiesCommand(entityTypeId.Value));
+            AcDomain.Handle(new AddCommonPropertiesCommand(UserSession, entityTypeId.Value));
 
             return this.JsonResult(new ResponseData { id = null, success = true });
         }
@@ -210,7 +210,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            AcDomain.Handle(input.ToCommand());
+            AcDomain.Handle(input.ToCommand(UserSession));
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -238,7 +238,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             }
             foreach (var item in idArray)
             {
-                AcDomain.Handle(new RemovePropertyCommand(item));
+                AcDomain.Handle(new RemovePropertyCommand(UserSession, item));
             }
 
             return this.JsonResult(new ResponseData { id = id, success = true });

@@ -6,11 +6,14 @@ namespace Anycmd.Engine.Edi.Messages
 
     public class ChangeProcessOrganizationCommand : Command, IAnycmdCommand
     {
-        public ChangeProcessOrganizationCommand(Guid processId, string organizationCode)
+        public ChangeProcessOrganizationCommand(IUserSession userSession, Guid processId, string organizationCode)
         {
+            this.UserSession = userSession;
             this.ProcessId = processId;
             this.OrganizationCode = organizationCode;
         }
+
+        public IUserSession UserSession { get; private set; }
 
         public Guid ProcessId { get; private set; }
         public string OrganizationCode { get; private set; }

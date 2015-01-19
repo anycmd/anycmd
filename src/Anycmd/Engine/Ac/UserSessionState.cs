@@ -207,7 +207,7 @@ namespace Anycmd.Engine.Ac
             {
                 throw new ValidationException("用户名和密码不能为空");
             }
-            var addVisitingLogCommand = new AddVisitingLogCommand
+            var addVisitingLogCommand = new AddVisitingLogCommand(Empty)
             {
                 IpAddress = IpHelper.GetClientIp(),
                 LoginName = loginName,
@@ -335,7 +335,7 @@ namespace Anycmd.Engine.Ac
             userSession.SetData(acDomain.Config.CurrentUserSessionCacheKey, userSession);
 
             userSessionRepository.Context.Commit();
-            acDomain.EventBus.Publish(new AccountLoginedEvent(account));
+            acDomain.EventBus.Publish(new AccountLoginedEvent(userSession, account));
             acDomain.EventBus.Commit();
             addVisitingLogCommand.StateCode = (int)VisitState.Logged;
             addVisitingLogCommand.ReasonPhrase = VisitState.Logged.ToName();
@@ -374,7 +374,7 @@ namespace Anycmd.Engine.Ac
             var entity = GetAccountById(acDomain, userSession.Account.Id);
             if (entity != null)
             {
-                acDomain.EventBus.Publish(new AccountLogoutedEvent(entity, userSession));
+                acDomain.EventBus.Publish(new AccountLogoutedEvent(userSession, entity));
                 acDomain.EventBus.Commit();
             }
         }

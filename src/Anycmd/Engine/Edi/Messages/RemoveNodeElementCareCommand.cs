@@ -3,10 +3,10 @@ namespace Anycmd.Engine.Edi.Messages
 {
     using System;
 
-    public class RemoveNodeElementCareCommand : RemoveEntityCommand, IAnycmdCommand
+    public class RemoveNodeElementCareCommand : RemoveEntityCommand
     {
-        public RemoveNodeElementCareCommand(Guid nodeElementCareId)
-            : base(nodeElementCareId)
+        public RemoveNodeElementCareCommand(IUserSession userSession, Guid nodeElementCareId)
+            : base(userSession, nodeElementCareId)
         {
 
         }

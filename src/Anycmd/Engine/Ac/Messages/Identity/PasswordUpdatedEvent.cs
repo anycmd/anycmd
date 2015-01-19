@@ -9,8 +9,8 @@ namespace Anycmd.Engine.Ac.Messages.Identity
     /// </summary>
     public class PasswordUpdatedEvent : DomainEvent
     {
-        public PasswordUpdatedEvent(AccountBase source)
-            : base(source)
+        public PasswordUpdatedEvent(IUserSession userSession, AccountBase source)
+            : base(userSession, source)
         {
             this.Password = source.Password;
         }
