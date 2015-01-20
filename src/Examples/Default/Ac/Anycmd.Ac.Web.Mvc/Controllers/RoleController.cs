@@ -659,23 +659,23 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
         {
             string[] addIDs = addMenuIDs.Split(',');
             string[] removeIDs = removeMenuIDs.Split(',');
-            var subjectType = UserAcSubjectType.Role.ToName();
-            var acObjectType = AcElementType.Menu.ToName();
+            const AcElementType subjectType = AcElementType.Role;
+            const AcElementType acObjectType = AcElementType.Menu;
             foreach (var item in addIDs)
             {
-                if (!string.IsNullOrEmpty(item))
+                if (!string.IsNullOrEmpty(item) && removeIDs.All(a => a != item))
                 {
                     var mId = new Guid(item);
-                    var entity = GetRequiredService<IRepository<Privilege>>().AsQueryable().FirstOrDefault(a => a.SubjectType == subjectType && a.SubjectInstanceId == roleId && a.ObjectType == acObjectType && a.ObjectInstanceId == mId);
+                    var entity = AcDomain.PrivilegeSet.FirstOrDefault(a => a.SubjectType == subjectType && a.SubjectInstanceId == roleId && a.ObjectType == acObjectType && a.ObjectInstanceId == mId);
                     if (entity == null)
                     {
                         var createInput = new PrivilegeCreateIo
                         {
                             Id = Guid.NewGuid(),
-                            SubjectType = subjectType,
+                            SubjectType = subjectType.ToName(),
                             SubjectInstanceId = roleId,
                             ObjectInstanceId = mId,
-                            ObjectType = acObjectType,
+                            ObjectType = acObjectType.ToName(),
                             AcContentType = null,
                             AcContent = null
                         };
@@ -688,7 +688,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 if (!string.IsNullOrEmpty(item))
                 {
                     var mId = new Guid(item);
-                    var entity = GetRequiredService<IRepository<Privilege>>().AsQueryable().FirstOrDefault(a => a.SubjectType == subjectType && a.SubjectInstanceId == roleId && a.ObjectType == acObjectType && a.ObjectInstanceId == mId);
+                    var entity = AcDomain.PrivilegeSet.FirstOrDefault(a => a.SubjectType == subjectType && a.SubjectInstanceId == roleId && a.ObjectType == acObjectType && a.ObjectInstanceId == mId);
                     if (entity != null)
                     {
                         AcDomain.Handle(new RemovePrivilegeCommand(UserSession, entity.Id));

@@ -611,7 +611,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 this.Handle(message.UserSession, message.Source.Id, false);
             }
 
-            private void Handle(IUserSession userSession, Guid rolePrivilegeId, bool isCommand)
+            private void Handle(IUserSession userSession, Guid privilegeId, bool isCommand)
             {
                 var host = _set._host;
                 var privilegeList = _set._privilegeList;
@@ -621,8 +621,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 AcElementType acObjectType;
                 lock (this)
                 {
-                    var bkState = host.PrivilegeSet.FirstOrDefault(a => a.Id == rolePrivilegeId);
-                    entity = privilegeRepository.GetByKey(rolePrivilegeId);
+                    var bkState = host.PrivilegeSet.FirstOrDefault(a => a.Id == privilegeId);
+                    entity = privilegeRepository.GetByKey(privilegeId);
                     bool isAccountSubjectType = bkState == null;
                     if (entity == null)
                     {
