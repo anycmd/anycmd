@@ -318,7 +318,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             }
             public void Handle(UpdateDicCommand message)
             {
-                Handle(message.UserSession, message.Output, true);
+                Handle(message.UserSession, message.Input, true);
             }
 
             public void Handle(DicUpdatedEvent message)
@@ -791,7 +791,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 public void Handle(UpdateDicItemCommand message)
                 {
-                    Handle(message.UserSession, message.Output, true);
+                    Handle(message.UserSession, message.Input, true);
                 }
 
                 public void Handle(DicItemUpdatedEvent message)

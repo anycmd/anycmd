@@ -526,7 +526,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             }
             public void Handle(UpdatePrivilegeCommand message)
             {
-                this.Handle(message.UserSession, message.Output, true);
+                this.Handle(message.UserSession, message.Input, true);
             }
 
             public void Handle(PrivilegeUpdatedEvent message)

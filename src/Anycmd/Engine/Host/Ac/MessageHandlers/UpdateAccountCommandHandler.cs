@@ -21,28 +21,28 @@ namespace Anycmd.Engine.Host.Ac.MessageHandlers
         public override void Handle(UpdateAccountCommand command)
         {
             var accountRepository = _host.RetrieveRequiredService<IRepository<Account>>();
-            if (accountRepository.AsQueryable().Any(a => a.Code == command.Output.Code && a.Id != command.Output.Id))
+            if (accountRepository.AsQueryable().Any(a => a.Code == command.Input.Code && a.Id != command.Input.Id))
             {
                 throw new ValidationException("用户编码重复");
             }
-            var entity = accountRepository.GetByKey(command.Output.Id);
+            var entity = accountRepository.GetByKey(command.Input.Id);
             if (entity == null)
             {
                 throw new NotExistException();
             }
-            if (command.Output.OrganizationCode != entity.OrganizationCode)
+            if (command.Input.OrganizationCode != entity.OrganizationCode)
             {
-                if (string.IsNullOrEmpty(command.Output.OrganizationCode))
+                if (string.IsNullOrEmpty(command.Input.OrganizationCode))
                 {
                     throw new AnycmdException("用户必须属于一个组织结构");
                 }
                 OrganizationState organization;
-                if (!_host.OrganizationSet.TryGetOrganization(command.Output.OrganizationCode, out organization))
+                if (!_host.OrganizationSet.TryGetOrganization(command.Input.OrganizationCode, out organization))
                 {
-                    throw new AnycmdException("意外的组织结构码" + command.Output.OrganizationCode);
+                    throw new AnycmdException("意外的组织结构码" + command.Input.OrganizationCode);
                 }
             }
-            entity.Update(command.Output);
+            entity.Update(command.Input);
             accountRepository.Update(entity);
             accountRepository.Context.Commit();
             AccountState devAccount;

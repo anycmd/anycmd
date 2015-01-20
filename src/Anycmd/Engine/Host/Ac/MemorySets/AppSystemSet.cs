@@ -288,7 +288,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             }
             public void Handle(UpdateAppSystemCommand message)
             {
-                Handle(message.UserSession, message.Output, true);
+                Handle(message.UserSession, message.Input, true);
             }
 
             public void Handle(AppSystemUpdatedEvent message)

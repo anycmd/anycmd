@@ -338,7 +338,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             }
             public void Handle(UpdateInfoDicCommand message)
             {
-                this.Handle(message.UserSession, message.Output, true);
+                this.Handle(message.UserSession, message.Input, true);
             }
 
             public void Handle(InfoDicUpdatedEvent message)
@@ -617,7 +617,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             }
             public void Handle(UpdateInfoDicItemCommand message)
             {
-                this.Handle(message.UserSession, message.Output, true);
+                this.Handle(message.UserSession, message.Input, true);
             }
 
             public void Handle(InfoDicItemUpdatedEvent message)

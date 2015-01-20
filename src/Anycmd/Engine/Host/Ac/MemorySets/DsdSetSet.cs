@@ -281,7 +281,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(UpdateDsdSetCommand message)
             {
-                Handle(message.UserSession, message.Output, true);
+                Handle(message.UserSession, message.Input, true);
             }
 
             public void Handle(DsdSetUpdatedEvent message)

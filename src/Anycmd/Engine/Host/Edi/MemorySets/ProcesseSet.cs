@@ -217,18 +217,18 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             {
                 var host = _set._host;
                 var processRepository = _set._host.RetrieveRequiredService<IRepository<Process>>();
-                if (!host.NodeHost.Processs.ContainsProcess(message.Output.Id))
+                if (!host.NodeHost.Processs.ContainsProcess(message.Input.Id))
                 {
                     throw new NotExistException();
                 }
-                var entity = processRepository.GetByKey(message.Output.Id);
+                var entity = processRepository.GetByKey(message.Input.Id);
                 if (entity == null)
                 {
                     throw new NotExistException();
                 }
                 var bkState = _set._dic[entity.Id];
 
-                entity.Update(message.Output);
+                entity.Update(message.Input);
 
                 var newState = new ProcessDescriptor(host, ProcessState.Create(entity), entity.Id);
                 bool stateChanged = newState != bkState;

@@ -254,7 +254,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             }
             public void Handle(UpdateButtonCommand message)
             {
-                Handle(message.UserSession, message.Output, isCommand: true);
+                Handle(message.UserSession, message.Input, isCommand: true);
             }
 
             public void Handle(ButtonUpdatedEvent message)

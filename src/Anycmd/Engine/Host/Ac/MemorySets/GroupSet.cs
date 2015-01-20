@@ -312,7 +312,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(UpdateGroupCommand message)
             {
-                this.Handle(message.UserSession, message.Output, true);
+                this.Handle(message.UserSession, message.Input, true);
             }
 
             public void Handle(GroupUpdatedEvent message)
@@ -326,7 +326,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(UpdatePositionCommand message)
             {
-                this.Handle(message.UserSession, message.Output, true);
+                this.Handle(message.UserSession, message.Input, true);
             }
 
             public void Handle(PositionUpdatedEvent message)

@@ -476,7 +476,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
             public void Handle(UpdateOntologyCommand message)
             {
-                this.Handle(message.UserSession, message.Output, true);
+                this.Handle(message.UserSession, message.Input, true);
             }
 
             public void Handle(OntologyUpdatedEvent message)
@@ -1025,27 +1025,27 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 {
                     var host = _set._host;
                     var elementRepository = host.RetrieveRequiredService<IRepository<Element>>();
-                    if (string.IsNullOrEmpty(message.Output.Code))
+                    if (string.IsNullOrEmpty(message.Input.Code))
                     {
                         throw new ValidationException("编码不能为空");
                     }
                     ElementDescriptor element;
-                    if (!host.NodeHost.Ontologies.TryGetElement(message.Output.Id, out element))
+                    if (!host.NodeHost.Ontologies.TryGetElement(message.Input.Id, out element))
                     {
                         throw new NotExistException();
                     }
-                    if (element.Ontology.Elements.ContainsKey(message.Output.Code) && element.Ontology.Elements[message.Output.Code].Element.Id != message.Output.Id)
+                    if (element.Ontology.Elements.ContainsKey(message.Input.Code) && element.Ontology.Elements[message.Input.Code].Element.Id != message.Input.Id)
                     {
                         throw new ValidationException("重复的编码");
                     }
-                    var entity = elementRepository.GetByKey(message.Output.Id);
+                    var entity = elementRepository.GetByKey(message.Input.Id);
                     if (entity == null)
                     {
                         throw new NotExistException();
                     }
                     var bkState = _set._elementDicById[entity.Id];
 
-                    entity.Update(message.Output);
+                    entity.Update(message.Input);
 
                     var newState = new ElementDescriptor(host, ElementState.Create(host, entity), entity.Id);
                     bool stateChanged = newState != bkState;
@@ -1315,7 +1315,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 {
                     var host = _set._host;
                     var ontologyRepository = host.RetrieveRequiredService<IRepository<Ontology>>();
-                    if (string.IsNullOrEmpty(message.Output.HecpVerb))
+                    if (string.IsNullOrEmpty(message.Input.HecpVerb))
                     {
                         throw new ValidationException("编码不能为空");
                     }
@@ -1323,7 +1323,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     OntologyDescriptor ontology = null;
                     foreach (var item in host.NodeHost.Ontologies)
                     {
-                        if (item.Actions.Values.Any(a => a.Id == message.Output.Id))
+                        if (item.Actions.Values.Any(a => a.Id == message.Input.Id))
                         {
                             exist = true;
                             ontology = item;
@@ -1334,19 +1334,19 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     {
                         throw new NotExistException();
                     }
-                    var verb = new Verb(message.Output.HecpVerb);
-                    if (ontology.Actions.ContainsKey(verb) && ontology.Actions[verb].Id != message.Output.Id)
+                    var verb = new Verb(message.Input.HecpVerb);
+                    if (ontology.Actions.ContainsKey(verb) && ontology.Actions[verb].Id != message.Input.Id)
                     {
                         throw new ValidationException("重复的编码");
                     }
-                    var entity = ontologyRepository.Context.Query<Action>().FirstOrDefault(a => a.Id == message.Output.Id);
+                    var entity = ontologyRepository.Context.Query<Action>().FirstOrDefault(a => a.Id == message.Input.Id);
                     if (entity == null)
                     {
                         throw new NotExistException();
                     }
                     var bkState = ActionState.Create(entity);
 
-                    entity.Update(message.Output);
+                    entity.Update(message.Input);
 
                     var newState = ActionState.Create(entity);
                     bool stateChanged = newState != bkState;
@@ -1611,7 +1611,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 {
                     var host = _set._host;
                     var ontologyRepository = host.RetrieveRequiredService<IRepository<Ontology>>();
-                    if (string.IsNullOrEmpty(message.Output.Code))
+                    if (string.IsNullOrEmpty(message.Input.Code))
                     {
                         throw new ValidationException("编码不能为空");
                     }
@@ -1619,7 +1619,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     bool stateChanged = false;
                     lock (_set._locker)
                     {
-                        entity = ontologyRepository.Context.Query<InfoGroup>().FirstOrDefault(a => a.Id == message.Output.Id);
+                        entity = ontologyRepository.Context.Query<InfoGroup>().FirstOrDefault(a => a.Id == message.Input.Id);
                         if (entity == null)
                         {
                             throw new NotExistException();
@@ -1629,14 +1629,14 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                         {
                             throw new ValidationException("非法的本体标识" + entity.OntologyId);
                         }
-                        if (ontology.InfoGroups.Any(a => string.Equals(a.Code, message.Output.Code, StringComparison.OrdinalIgnoreCase) && a.Id != entity.OntologyId))
+                        if (ontology.InfoGroups.Any(a => string.Equals(a.Code, message.Input.Code, StringComparison.OrdinalIgnoreCase) && a.Id != entity.OntologyId))
                         {
                             throw new ValidationException("重复的编码");
                         }
 
                         var bkState = InfoGroupState.Create(entity);
 
-                        entity.Update(message.Output);
+                        entity.Update(message.Input);
 
                         var newState = InfoGroupState.Create(entity);
                         stateChanged = newState != bkState;
@@ -2187,7 +2187,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 {
                     var host = _set._host;
                     var ontologyRepository = host.RetrieveRequiredService<IRepository<Ontology>>();
-                    if (string.IsNullOrEmpty(message.Output.Code))
+                    if (string.IsNullOrEmpty(message.Input.Code))
                     {
                         throw new ValidationException("编码不能为空");
                     }
@@ -2197,7 +2197,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     {
                         foreach (var t in item.Value.Values)
                         {
-                            if (t.Id == message.Output.Id)
+                            if (t.Id == message.Input.Id)
                             {
                                 topic = t;
                                 ontology = item.Key;
@@ -2209,17 +2209,17 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     {
                         throw new NotExistException();
                     }
-                    if (ontology.Topics.ContainsKey(message.Output.Code) && message.Output.Id != ontology.Topics[message.Output.Code].Id)
+                    if (ontology.Topics.ContainsKey(message.Input.Code) && message.Input.Id != ontology.Topics[message.Input.Code].Id)
                     {
                         throw new ValidationException("重复的编码");
                     }
-                    var entity = ontologyRepository.Context.Query<Topic>().FirstOrDefault(a => a.Id == message.Output.Id);
+                    var entity = ontologyRepository.Context.Query<Topic>().FirstOrDefault(a => a.Id == message.Input.Id);
                     if (entity == null)
                     {
                         throw new NotExistException();
                     }
                     var bkState = TopicState.Create(host, entity);
-                    entity.Update(message.Output);
+                    entity.Update(message.Input);
                     var newState = TopicState.Create(host, entity);
                     bool stateChanged = newState != bkState;
                     lock (_set._locker)
@@ -2511,18 +2511,18 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     var host = _set._host;
                     var archiveRepository = host.RetrieveRequiredService<IRepository<Archive>>();
                     ArchiveState archive;
-                    if (!host.NodeHost.Ontologies.TryGetArchive(message.Output.Id, out archive))
+                    if (!host.NodeHost.Ontologies.TryGetArchive(message.Input.Id, out archive))
                     {
                         throw new NotExistException();
                     }
-                    var entity = archiveRepository.GetByKey(message.Output.Id);
+                    var entity = archiveRepository.GetByKey(message.Input.Id);
                     if (entity == null)
                     {
                         throw new NotExistException();
                     }
                     var bkState = ArchiveState.Create(host, entity);
 
-                    entity.Update(message.Output);
+                    entity.Update(message.Input);
 
                     var newState = ArchiveState.Create(host, entity);
                     bool stateChanged = newState != bkState;
