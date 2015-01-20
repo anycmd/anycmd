@@ -75,7 +75,7 @@ namespace Anycmd.Engine.Host
 
         public IObjectSerializer JsonSerializer
         {
-            get { return _objectJsonSerializer ?? (_objectJsonSerializer = new ServiceStackJsonSerializer()); }
+            get { return _objectJsonSerializer ?? (_objectJsonSerializer = new ObjectJsonSerializer()); }
         }
 
         public IUserSession CreateSession(Guid sessionId, AccountState account)

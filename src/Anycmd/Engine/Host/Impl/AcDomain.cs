@@ -124,7 +124,7 @@ namespace Anycmd.Engine.Host.Impl
 
         public IObjectSerializer JsonSerializer
         {
-            get { return _objectJsonSerializer ?? (_objectJsonSerializer = new ServiceStackJsonSerializer()); }
+            get { return _objectJsonSerializer ?? (_objectJsonSerializer = new ObjectJsonSerializer()); }
         }
 
         public INodeHost NodeHost { get; protected set; }
@@ -255,17 +255,6 @@ namespace Anycmd.Engine.Host.Impl
             _pluginsLoaded = true;
 
             ReadyAt = DateTime.UtcNow;
-        }
-
-        public T DeserializeFromString<T>(string value)
-        {
-            // TODO:移除对ServiceStack.Text的依赖
-            return ServiceStack.Text.JsonSerializer.DeserializeFromString<T>(value);
-        }
-
-        public string SerializeToString<T>(T value)
-        {
-            return ServiceStack.Text.JsonSerializer.SerializeToString<T>(value);
         }
 
         /// <summary>

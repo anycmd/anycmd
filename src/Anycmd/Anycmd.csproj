@@ -37,10 +37,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="ServiceStack.Text, Version=4.0.34.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\ServiceStack.Text.4.0.34\lib\net40\ServiceStack.Text.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Configuration" />
@@ -247,7 +243,6 @@
     <Compile Include="Int32IdAttribute.cs" />
     <Compile Include="IRbacService.cs" />
     <Compile Include="Serialization\ObjectSerializerExtension.cs" />
-    <Compile Include="Serialization\ServiceStackJsonSerializer.cs" />
     <Compile Include="Snapshots\AcDomainExtension.cs" />
     <Compile Include="StringIdAttribute.cs" />
     <Compile Include="Util\Coder.cs" />
@@ -1550,7 +1545,6 @@
   <ItemGroup>
     <None Include="Engine\Ac\Abstractions\Infra\README.md" />
     <None Include="Logging\Logging.cd" />
-    <None Include="packages.config" />
     <None Include="Query\UnifiedQueries\Expressions.cd" />
     <None Include="Specifications\Specifications.cd" />
     <None Include="Rdb\Rdb.cd" />

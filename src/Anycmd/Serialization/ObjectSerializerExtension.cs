@@ -5,7 +5,7 @@ namespace Anycmd.Serialization
 
     public static class ObjectSerializerExtension
     {
-        public static string Serialize<TObject>(this IObjectSerializer serializer, TObject obj)
+        public static string SerializeToString<TObject>(this IObjectSerializer serializer, TObject obj)
         {
             byte[] data = serializer.Serialize(obj);
 
