@@ -1,10 +1,11 @@
-﻿using System.IO;
-using System.Runtime.Serialization.Json;
-
+﻿
 namespace Anycmd.Serialization
 {
+    using System.IO;
+    using System.Runtime.Serialization.Json;
+
     /// <summary>
-    /// Represents the Json serializer.
+    /// 标识Json序列化器。
     /// </summary>
     public class ObjectJsonSerializer : IObjectSerializer
     {
@@ -28,6 +29,7 @@ namespace Anycmd.Serialization
             }
             return ret;
         }
+
         /// <summary>
         /// Deserializes an object from the given byte stream.
         /// </summary>

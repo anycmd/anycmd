@@ -1,8 +1,9 @@
-﻿using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
-
+﻿
 namespace Anycmd.Serialization
 {
+    using System.IO;
+    using System.Runtime.Serialization.Formatters.Binary;
+
     /// <summary>
     /// Represents the binary serializer.
     /// </summary>
@@ -30,6 +31,7 @@ namespace Anycmd.Serialization
             }
             return ret;
         }
+
         /// <summary>
         /// Deserializes an object from the given byte stream.
         /// </summary>

@@ -1,10 +1,11 @@
-﻿using System.IO;
-using NSXmlSerialization = System.Xml.Serialization;
-
+﻿
 namespace Anycmd.Serialization
 {
+    using System.IO;
+    using NSXmlSerialization = System.Xml.Serialization;
+
     /// <summary>
-    /// Represents the Json serializer.
+    /// 表示Xml序列化器。
     /// </summary>
     public class ObjectXmlSerializer : IObjectSerializer
     {
@@ -28,6 +29,7 @@ namespace Anycmd.Serialization
             }
             return ret;
         }
+
         /// <summary>
         /// Deserializes an object from the given byte stream.
         /// </summary>

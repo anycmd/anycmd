@@ -21,17 +21,6 @@ namespace Anycmd
             return EntityTypeMaps;
         }
 
-        public static T DeserializeFromString<T>(this IAcDomain host, string value)
-        {
-            // TODO:移除对ServiceStack.Text的依赖
-            return ServiceStack.Text.JsonSerializer.DeserializeFromString<T>(value);
-        }
-
-        public static string SerializeToString<T>(this IAcDomain host, T value)
-        {
-            return ServiceStack.Text.JsonSerializer.SerializeToString<T>(value);
-        }
-
         /// <summary>
         /// 将给定的事件发布到事件总线
         /// </summary>

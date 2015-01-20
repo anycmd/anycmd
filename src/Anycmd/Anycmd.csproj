@@ -246,6 +246,8 @@
     <Compile Include="IdGenerators\SequentialIdGenerator.cs" />
     <Compile Include="Int32IdAttribute.cs" />
     <Compile Include="IRbacService.cs" />
+    <Compile Include="Serialization\ObjectSerializerExtension.cs" />
+    <Compile Include="Serialization\ServiceStackJsonSerializer.cs" />
     <Compile Include="Snapshots\AcDomainExtension.cs" />
     <Compile Include="StringIdAttribute.cs" />
     <Compile Include="Util\Coder.cs" />

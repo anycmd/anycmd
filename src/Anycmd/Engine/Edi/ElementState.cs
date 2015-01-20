@@ -4,6 +4,7 @@ namespace Anycmd.Engine.Edi
     using Abstractions;
     using Exceptions;
     using Hecp;
+    using Serialization;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -74,7 +75,7 @@ namespace Anycmd.Engine.Edi
             data._elementActionDic = elementActionDic;
             if (data.Actions != null)
             {
-                var elementActions = host.DeserializeFromString<ElementAction[]>(data.Actions);
+                var elementActions = host.JsonSerializer.Deserialize<ElementAction[]>(data.Actions);
                 if (elementActions != null)
                 {
                     foreach (var elementAction in elementActions)
@@ -103,7 +104,7 @@ namespace Anycmd.Engine.Edi
             data._infoRules = infoRules;
             if (data.InfoRules != null)
             {
-                var elementInfoRules = host.DeserializeFromString<ElementInfoRule[]>(data.InfoRules);
+                var elementInfoRules = host.JsonSerializer.Deserialize<ElementInfoRule[]>(data.InfoRules);
                 if (elementInfoRules != null)
                 {
                     foreach (var elementInfoRule in elementInfoRules)

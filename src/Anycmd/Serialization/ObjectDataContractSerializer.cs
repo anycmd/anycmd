@@ -1,8 +1,9 @@
-﻿using System.IO;
-using System.Runtime.Serialization;
-
+﻿
 namespace Anycmd.Serialization
 {
+    using System.IO;
+    using System.Runtime.Serialization;
+
     /// <summary>
     /// Represents the data contract serializer.
     /// </summary>
@@ -28,6 +29,7 @@ namespace Anycmd.Serialization
             }
             return ret;
         }
+
         /// <summary>
         /// Deserializes an object from the given byte stream.
         /// </summary>

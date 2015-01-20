@@ -1,9 +1,9 @@
-﻿using System;
-using System.Runtime.InteropServices;
-
+﻿
 namespace Anycmd.Serialization
 {
     using Exceptions;
+    using System;
+    using System.Runtime.InteropServices;
 
     /// <summary>
     /// Represents errors that occur when serializing/deserializing an object.

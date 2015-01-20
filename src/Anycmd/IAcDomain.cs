@@ -8,6 +8,7 @@ namespace Anycmd
     using IdGenerators;
     using Logging;
     using Rdb;
+    using Serialization;
     using System;
     using System.ComponentModel.Design;
 
@@ -36,6 +37,10 @@ namespace Anycmd
         /// 消息分发器
         /// </summary>
         IMessageDispatcher MessageDispatcher { get; }
+        /// <summary>
+        /// Json序列化器
+        /// </summary>
+        IObjectSerializer JsonSerializer { get; }
         /// <summary>
         /// 命令总线
         /// </summary>

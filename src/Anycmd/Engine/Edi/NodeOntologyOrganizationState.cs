@@ -5,6 +5,7 @@ namespace Anycmd.Engine.Edi
     using Ac;
     using Exceptions;
     using Hecp;
+    using Serialization;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -36,7 +37,7 @@ namespace Anycmd.Engine.Edi
             data._nodeOrgActionDic = nodeOrgActionDic;
             if (data.Actions != null)
             {
-                var nodeOrgActions = host.DeserializeFromString<NodeOrganizationAction[]>(data.Actions);
+                var nodeOrgActions = host.JsonSerializer.Deserialize<NodeOrganizationAction[]>(data.Actions);
                 if (nodeOrgActions != null)
                 {
                     foreach (var orgAction in nodeOrgActions)

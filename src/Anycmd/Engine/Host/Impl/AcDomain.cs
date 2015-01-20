@@ -1,4 +1,5 @@
 ﻿
+
 namespace Anycmd.Engine.Host.Impl
 {
     using Anycmd.Rdb;
@@ -8,6 +9,7 @@ namespace Anycmd.Engine.Host.Impl
     using Events;
     using IdGenerators;
     using Logging;
+    using Serialization;
     using System;
 
     /// <summary>
@@ -117,6 +119,13 @@ namespace Anycmd.Engine.Host.Impl
         /// 序列标识生成器
         /// </summary>
         public ISequenceIdGenerator SequenceIdGenerator { get; protected set; }
+
+        private IObjectSerializer _objectJsonSerializer = null;
+
+        public IObjectSerializer JsonSerializer
+        {
+            get { return _objectJsonSerializer ?? (_objectJsonSerializer = new ServiceStackJsonSerializer()); }
+        }
 
         public INodeHost NodeHost { get; protected set; }
 

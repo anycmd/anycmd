@@ -13,6 +13,7 @@ namespace Anycmd.Engine.Host
     using Hecp;
     using IdGenerators;
     using Logging;
+    using Serialization;
     using System;
     using System.Collections.Generic;
 
@@ -68,6 +69,13 @@ namespace Anycmd.Engine.Host
         public ISequenceIdGenerator SequenceIdGenerator
         {
             get { return EmptySequenceIdGenerator.Empty; }
+        }
+
+        private IObjectSerializer _objectJsonSerializer = null;
+
+        public IObjectSerializer JsonSerializer
+        {
+            get { return _objectJsonSerializer ?? (_objectJsonSerializer = new ServiceStackJsonSerializer()); }
         }
 
         public IUserSession CreateSession(Guid sessionId, AccountState account)
