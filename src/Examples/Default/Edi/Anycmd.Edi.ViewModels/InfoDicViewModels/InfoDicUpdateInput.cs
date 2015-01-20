@@ -1,6 +1,7 @@
 ﻿
 namespace Anycmd.Edi.ViewModels.InfoDicViewModels
 {
+    using Engine;
     using Engine.Edi.InOuts;
     using Engine.Edi.Messages;
     using System;
@@ -47,7 +48,7 @@ namespace Anycmd.Edi.ViewModels.InfoDicViewModels
         [DefaultValue(1)]
         public int IsEnabled { get; set; }
 
-        public UpdateInfoDicCommand ToCommand(IUserSession userSession)
+        public IAnycmdCommand ToCommand(IUserSession userSession)
         {
             return new UpdateInfoDicCommand(userSession, this);
         }

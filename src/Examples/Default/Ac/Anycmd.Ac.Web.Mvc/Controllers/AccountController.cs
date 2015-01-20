@@ -171,7 +171,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            AcDomain.Handle(input.ToCommand(UserSession, UserSession));
+            AcDomain.Handle(input.ToCommand(UserSession));
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -191,7 +191,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 LoginName = UserSession.Identity.Name,
                 OldPassword = oldPassword,
                 NewPassword = password
-            }.ToCommand(UserSession, UserSession));
+            }.ToCommand(UserSession));
 
             return this.JsonResult(new ResponseData { success = true });
         }

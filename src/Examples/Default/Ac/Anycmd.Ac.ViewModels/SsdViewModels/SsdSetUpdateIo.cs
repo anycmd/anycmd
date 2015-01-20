@@ -1,6 +1,7 @@
 ﻿
 namespace Anycmd.Ac.ViewModels.SsdViewModels
 {
+    using Engine;
     using Engine.Ac.InOuts;
     using Engine.Ac.Messages.Rbac;
     using System;
@@ -30,7 +31,7 @@ namespace Anycmd.Ac.ViewModels.SsdViewModels
 
         public Guid Id { get; set; }
 
-        public UpdateSsdSetCommand ToCommand(IUserSession userSession)
+        public IAnycmdCommand ToCommand(IUserSession userSession)
         {
             return new UpdateSsdSetCommand(userSession, this);
         }

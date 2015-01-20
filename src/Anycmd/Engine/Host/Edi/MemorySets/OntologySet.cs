@@ -1018,6 +1018,11 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     public Guid? ForeignElementId { get; set; }
 
                     public string Tooltip { get; set; }
+
+                    public override IAnycmdCommand ToCommand(IUserSession userSession)
+                    {
+                        return new AddElementCommand(userSession, this);
+                    }
                 }
                 #endregion
 

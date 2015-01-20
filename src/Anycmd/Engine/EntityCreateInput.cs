@@ -3,7 +3,7 @@ namespace Anycmd.Engine
 {
     using System;
 
-    public class EntityCreateInput : ManagedPropertyValues, IEntityCreateInput
+    public abstract class EntityCreateInput : ManagedPropertyValues, IEntityCreateInput
     {
         private Guid? _id = null;
 
@@ -15,5 +15,7 @@ namespace Anycmd.Engine
         public string HecpOntology { get; protected set; }
 
         public string HecpVerb { get; protected set; }
+
+        public abstract IAnycmdCommand ToCommand(IUserSession userSession);
     }
 }

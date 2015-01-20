@@ -6,7 +6,7 @@ namespace Anycmd.Engine
     /// <summary>
     /// 表示该接口的实现类是创建实体时的数据输入模型。
     /// </summary>
-    public interface IEntityCreateInput : IInputModel
+    public interface IEntityCreateInput : IAnycmdInput
     {
         /// <summary>
         /// <remarks>
@@ -14,9 +14,5 @@ namespace Anycmd.Engine
         /// </remarks>
         /// </summary>
         Guid? Id { get; }
-
-        string HecpOntology { get; }
-
-        string HecpVerb { get; }
     }
 }

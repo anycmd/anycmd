@@ -1,6 +1,7 @@
 ﻿
 namespace Anycmd.Ac.ViewModels.Infra.OrganizationViewModels
 {
+    using Engine;
     using Engine.Ac.InOuts;
     using Engine.Ac.Messages.Infra;
     using System;
@@ -106,7 +107,7 @@ namespace Anycmd.Ac.ViewModels.Infra.OrganizationViewModels
         [Required]
         public int SortCode { get; set; }
 
-        public UpdateOrganizationCommand ToCommand(IUserSession userSession)
+        public IAnycmdCommand ToCommand(IUserSession userSession)
         {
             return new UpdateOrganizationCommand(userSession, this);
         }

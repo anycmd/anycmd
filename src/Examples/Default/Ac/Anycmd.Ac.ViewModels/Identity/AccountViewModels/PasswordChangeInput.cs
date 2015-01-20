@@ -1,6 +1,7 @@
 ﻿
 namespace Anycmd.Ac.ViewModels.Identity.AccountViewModels
 {
+    using Engine;
     using Engine.Ac.InOuts;
     using Engine.Ac.Messages.Identity;
 
@@ -8,13 +9,13 @@ namespace Anycmd.Ac.ViewModels.Identity.AccountViewModels
     {
         public PasswordChangeInput()
         {
-            OntologyCode = "Account";
-            Verb = "ChangePassword";
+            HecpOntology = "Account";
+            HecpVerb = "ChangePassword";
         }
 
-        public string OntologyCode { get; private set; }
+        public string HecpOntology { get; private set; }
 
-        public string Verb { get; private set; }
+        public string HecpVerb { get; private set; }
 
         public string LoginName { get; set; }
 
@@ -22,9 +23,9 @@ namespace Anycmd.Ac.ViewModels.Identity.AccountViewModels
 
         public string NewPassword { get; set; }
 
-        public ChangePasswordCommand ToCommand(IUserSession userSession, IUserSession targetSession)
+        public IAnycmdCommand ToCommand(IUserSession userSession)
         {
-            return new ChangePasswordCommand(userSession, this, targetSession);
+            return new ChangePasswordCommand(userSession, this);
         }
     }
 }

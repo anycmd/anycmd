@@ -52,7 +52,7 @@ namespace Anycmd.Ac.ViewModels.Infra.ButtonViewModels
         [DefaultValue(1)]
         public int IsEnabled { get; set; }
 
-        public AddButtonCommand ToCommand(IUserSession userSession)
+        public override IAnycmdCommand ToCommand(IUserSession userSession)
         {
             return new AddButtonCommand(userSession, this);
         }

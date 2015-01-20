@@ -46,7 +46,7 @@ namespace Anycmd.Ac.ViewModels.Infra.DicViewModels
         [Required]
         public int SortCode { get; set; }
 
-        public AddDicItemCommand ToCommand(IUserSession userSession)
+        public override IAnycmdCommand ToCommand(IUserSession userSession)
         {
             return new AddDicItemCommand(userSession, this);
         }

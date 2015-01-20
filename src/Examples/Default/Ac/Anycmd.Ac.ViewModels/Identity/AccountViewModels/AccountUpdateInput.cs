@@ -1,6 +1,7 @@
 ﻿
 namespace Anycmd.Ac.ViewModels.Identity.AccountViewModels
 {
+    using Engine;
     using Engine.Ac.InOuts;
     using Engine.Ac.Messages.Identity;
     using System;
@@ -105,7 +106,7 @@ namespace Anycmd.Ac.ViewModels.Identity.AccountViewModels
         /// </summary>
         public string QQ { get; set; }
 
-        public UpdateAccountCommand ToCommand(IUserSession userSession)
+        public IAnycmdCommand ToCommand(IUserSession userSession)
         {
             return new UpdateAccountCommand(userSession, this);
         }

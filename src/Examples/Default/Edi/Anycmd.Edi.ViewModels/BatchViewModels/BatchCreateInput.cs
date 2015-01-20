@@ -51,7 +51,7 @@ namespace Anycmd.Edi.ViewModels.BatchViewModels
         /// </summary>
         public string Description { get; set; }
 
-        public AddBatchCommand ToCommand(IUserSession userSession)
+        public override IAnycmdCommand ToCommand(IUserSession userSession)
         {
             return new AddBatchCommand(userSession, this);
         }

@@ -30,7 +30,7 @@ namespace Anycmd.Edi.ViewModels.InfoConstraintViewModels
         [DefaultValue(1)]
         public int IsEnabled { get; set; }
 
-        public UpdateInfoRuleCommand ToCommand(IUserSession userSession)
+        public IAnycmdCommand ToCommand(IUserSession userSession)
         {
             return new UpdateInfoRuleCommand(userSession, this);
         }

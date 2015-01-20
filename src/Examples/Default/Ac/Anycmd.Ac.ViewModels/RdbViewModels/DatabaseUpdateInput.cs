@@ -36,5 +36,7 @@ namespace Anycmd.Ac.ViewModels.RdbViewModels
         /// 
         /// </summary>
         public string Description { get; set; }
+
+        // TODO:走CommandBus
     }
 }

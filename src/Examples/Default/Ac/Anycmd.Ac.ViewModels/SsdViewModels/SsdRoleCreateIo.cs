@@ -21,7 +21,7 @@ namespace Anycmd.Ac.ViewModels.SsdViewModels
 
         public Guid RoleId { get; set; }
 
-        public AddSsdRoleCommand ToCommand(IUserSession userSession)
+        public override IAnycmdCommand ToCommand(IUserSession userSession)
         {
             return new AddSsdRoleCommand(userSession, this);
         }

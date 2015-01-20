@@ -50,7 +50,7 @@ namespace Anycmd.Ac.ViewModels.GroupViewModels
         [Required]
         public int SortCode { get; set; }
 
-        public AddPositionCommand ToCommand(IUserSession userSession)
+        public override IAnycmdCommand ToCommand(IUserSession userSession)
         {
             return new AddPositionCommand(userSession, this);
         }

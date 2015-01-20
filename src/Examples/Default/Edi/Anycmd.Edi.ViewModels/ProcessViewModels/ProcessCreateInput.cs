@@ -48,7 +48,7 @@ namespace Anycmd.Edi.ViewModels.ProcessViewModels
 
         public string OrganizationCode { get; set; }
 
-        public AddProcessCommand ToCommand(IUserSession userSession)
+        public override IAnycmdCommand ToCommand(IUserSession userSession)
         {
             return new AddProcessCommand(userSession, this);
         }

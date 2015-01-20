@@ -1,6 +1,7 @@
 ﻿
 namespace Anycmd.Ac.ViewModels.Infra.MenuViewModels
 {
+    using Engine;
     using Engine.Ac.InOuts;
     using Engine.Ac.Messages.Infra;
     using System;
@@ -50,7 +51,7 @@ namespace Anycmd.Ac.ViewModels.Infra.MenuViewModels
         [Required]
         public int SortCode { get; set; }
 
-        public UpdateMenuCommand ToCommand(IUserSession userSession)
+        public IAnycmdCommand ToCommand(IUserSession userSession)
         {
             return new UpdateMenuCommand(userSession, this);
         }

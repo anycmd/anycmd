@@ -49,7 +49,7 @@ namespace Anycmd.Ac.ViewModels.RoleViewModels
         /// </summary>
         public string Icon { get; set; }
 
-        public AddRoleCommand ToCommand(IUserSession userSession)
+        public override IAnycmdCommand ToCommand(IUserSession userSession)
         {
             return new AddRoleCommand(userSession, this);
         }

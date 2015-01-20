@@ -1,6 +1,7 @@
 ﻿
 namespace Anycmd.Edi.ViewModels.ProcessViewModels
 {
+    using Engine;
     using Engine.Edi.InOuts;
     using Engine.Edi.Messages;
     using System;
@@ -39,7 +40,7 @@ namespace Anycmd.Edi.ViewModels.ProcessViewModels
         [DefaultValue(1)]
         public int IsEnabled { get; set; }
 
-        public UpdateProcessCommand ToCommand(IUserSession userSession)
+        public IAnycmdCommand ToCommand(IUserSession userSession)
         {
             return new UpdateProcessCommand(userSession, this);
         }

@@ -121,6 +121,7 @@
     <Compile Include="Engine\Host\IMemorySet.cs" />
     <Compile Include="Engine\Host\MemorySetInitializedEvent.cs" />
     <Compile Include="Engine\Host\MemorySetInitingEvent.cs" />
+    <Compile Include="Engine\IAnycmdInput.cs" />
     <Compile Include="Engine\InvalidEntityTypeCodeException.cs" />
     <Compile Include="Engine\InvalidResourceTypeCodeException.cs" />
     <Compile Include="Engine\ServiceNotFoundException.cs" />

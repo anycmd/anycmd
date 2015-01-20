@@ -1,7 +1,9 @@
 ﻿
 namespace Anycmd.Edi.ViewModels.NodeViewModels
 {
+    using Engine;
     using Engine.Edi.InOuts;
+    using Engine.Edi.Messages;
     using System;
 
     public class NodeOntologyOrganizationCreateInput : INodeOntologyOrganizationCreateIo
@@ -23,5 +25,10 @@ namespace Anycmd.Edi.ViewModels.NodeViewModels
         public Guid OrganizationId { get; set; }
 
         public Guid? Id { get; set; }
+
+        public IAnycmdCommand ToCommand(IUserSession userSession)
+        {
+            return new AddNodeOntologyOrganizationCommand(userSession, this);
+        }
     }
 }

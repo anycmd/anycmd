@@ -1,6 +1,7 @@
 ﻿
 namespace Anycmd.Ac.ViewModels.Infra.FunctionViewModels
 {
+    using Engine;
     using Engine.Ac.InOuts;
     using Engine.Ac.Messages.Infra;
     using System;
@@ -50,7 +51,7 @@ namespace Anycmd.Ac.ViewModels.Infra.FunctionViewModels
         [Required]
         public int SortCode { get; set; }
 
-        public UpdateFunctionCommand ToCommand(IUserSession userSession)
+        public IAnycmdCommand ToCommand(IUserSession userSession)
         {
             return new UpdateFunctionCommand(userSession, this);
         }

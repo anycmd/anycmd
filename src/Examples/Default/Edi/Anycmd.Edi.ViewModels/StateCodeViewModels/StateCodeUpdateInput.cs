@@ -33,5 +33,7 @@ namespace Anycmd.Edi.ViewModels.StateCodeViewModels
         /// 
         /// </summary>
         public string Description { get; set; }
+
+        // TODO:走CommandBus
     }
 }

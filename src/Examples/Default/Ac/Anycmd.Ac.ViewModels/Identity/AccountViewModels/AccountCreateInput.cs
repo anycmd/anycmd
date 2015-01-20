@@ -115,7 +115,7 @@ namespace Anycmd.Ac.ViewModels.Identity.AccountViewModels
         /// </summary>
         public string QQ { get; set; }
 
-        public AddAccountCommand ToCommand(IUserSession userSession)
+        public override IAnycmdCommand ToCommand(IUserSession userSession)
         {
             return new AddAccountCommand(userSession, this);
         }

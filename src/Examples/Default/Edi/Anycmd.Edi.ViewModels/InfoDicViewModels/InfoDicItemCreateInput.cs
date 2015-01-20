@@ -53,7 +53,7 @@ namespace Anycmd.Edi.ViewModels.InfoDicViewModels
         [DefaultValue(1)]
         public int IsEnabled { get; set; }
 
-        public AddInfoDicItemCommand ToCommand(IUserSession userSession)
+        public override IAnycmdCommand ToCommand(IUserSession userSession)
         {
             return new AddInfoDicItemCommand(userSession, this);
         }

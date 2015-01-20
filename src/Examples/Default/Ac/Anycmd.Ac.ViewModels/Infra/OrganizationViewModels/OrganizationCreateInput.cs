@@ -101,7 +101,7 @@ namespace Anycmd.Ac.ViewModels.Infra.OrganizationViewModels
         [Required]
         public int SortCode { get; set; }
 
-        public AddOrganizationCommand ToCommand(IUserSession userSession)
+        public override IAnycmdCommand ToCommand(IUserSession userSession)
         {
             return new AddOrganizationCommand(userSession, this);
         }

@@ -1,6 +1,7 @@
 ﻿
 namespace Anycmd.Edi.ViewModels.NodeViewModels
 {
+    using Engine;
     using Engine.Edi.InOuts;
     using Engine.Edi.Messages;
     using System;
@@ -116,7 +117,7 @@ namespace Anycmd.Edi.ViewModels.NodeViewModels
         /// </summary>
         public string Icon { get; set; }
 
-        public UpdateNodeCommand ToCommand(IUserSession userSession)
+        public IAnycmdCommand ToCommand(IUserSession userSession)
         {
             return new UpdateNodeCommand(userSession, this);
         }

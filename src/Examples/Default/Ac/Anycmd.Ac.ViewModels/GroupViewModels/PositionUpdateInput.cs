@@ -1,6 +1,7 @@
 ﻿
 namespace Anycmd.Ac.ViewModels.GroupViewModels
 {
+    using Engine;
     using Engine.Ac.InOuts;
     using Engine.Ac.Messages.Infra;
     using System;
@@ -53,7 +54,7 @@ namespace Anycmd.Ac.ViewModels.GroupViewModels
         [Required]
         public int SortCode { get; set; }
 
-        public UpdatePositionCommand ToCommand(IUserSession userSession)
+        public IAnycmdCommand ToCommand(IUserSession userSession)
         {
             return new UpdatePositionCommand(userSession, this);
         }

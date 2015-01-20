@@ -1,6 +1,7 @@
 ﻿
 namespace Anycmd.Edi.ViewModels.ElementViewModels
 {
+    using Engine;
     using Engine.Edi.InOuts;
     using Engine.Edi.Messages;
     using System;
@@ -150,7 +151,7 @@ namespace Anycmd.Edi.ViewModels.ElementViewModels
         public string Tooltip { get; set; }
         #endregion
 
-        public UpdateElementCommand ToCommand(IUserSession userSession)
+        public IAnycmdCommand ToCommand(IUserSession userSession)
         {
             return new UpdateElementCommand(userSession, this);
         }

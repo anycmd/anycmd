@@ -25,7 +25,7 @@ namespace Anycmd.Ac.ViewModels.Infra.UIViewViewModels
         /// </summary>
         public string Tooltip { get; set; }
 
-        public AddUiViewCommand ToCommand(IUserSession userSession)
+        public override IAnycmdCommand ToCommand(IUserSession userSession)
         {
             return new AddUiViewCommand(userSession, this);
         }

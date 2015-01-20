@@ -1,6 +1,7 @@
 ﻿
 namespace Anycmd.Edi.ViewModels.ArchiveViewModels
 {
+    using Engine;
     using Engine.Edi.InOuts;
     using Engine.Edi.Messages;
     using System;
@@ -37,7 +38,7 @@ namespace Anycmd.Edi.ViewModels.ArchiveViewModels
         [DisplayName(@"备注")]
         public string Description { get; set; }
 
-        public UpdateArchiveCommand ToCommand(IUserSession userSession)
+        public IAnycmdCommand ToCommand(IUserSession userSession)
         {
             return new UpdateArchiveCommand(userSession, this);
         }

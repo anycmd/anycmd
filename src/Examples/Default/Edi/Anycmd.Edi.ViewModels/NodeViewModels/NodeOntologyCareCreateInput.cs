@@ -3,6 +3,7 @@ namespace Anycmd.Edi.ViewModels.NodeViewModels
 {
     using Engine;
     using Engine.Edi.InOuts;
+    using Engine.Edi.Messages;
     using System;
     using System.ComponentModel.DataAnnotations;
 
@@ -46,5 +47,10 @@ namespace Anycmd.Edi.ViewModels.NodeViewModels
         /// </summary>
         [Required]
         public Guid OntologyId { get; set; }
+
+        public IAnycmdCommand ToCommand(IUserSession userSession)
+        {
+            return new AddNodeOntologyCareCommand(userSession, this);
+        }
     }
 }

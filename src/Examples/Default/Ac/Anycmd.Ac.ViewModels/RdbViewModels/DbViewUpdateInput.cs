@@ -10,6 +10,16 @@ namespace Anycmd.Ac.ViewModels.RdbViewModels
     /// </summary>
     public sealed class DbViewUpdateInput : IInputModel
     {
+        public DbViewUpdateInput()
+        {
+            OntologyCode = "DbView";
+            Verb = "Update";
+        }
+
+        public string OntologyCode { get; private set; }
+
+        public string Verb { get; private set; }
+
         /// <summary>
         /// 
         /// </summary>
@@ -24,5 +34,7 @@ namespace Anycmd.Ac.ViewModels.RdbViewModels
         /// 
         /// </summary>
         public string Description { get; set; }
+
+        // TODO:走CommandBus
     }
 }

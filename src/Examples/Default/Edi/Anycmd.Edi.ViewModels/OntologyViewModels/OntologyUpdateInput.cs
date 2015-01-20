@@ -1,6 +1,7 @@
 ﻿
 namespace Anycmd.Edi.ViewModels.OntologyViewModels
 {
+    using Engine;
     using Engine.Edi.InOuts;
     using Engine.Edi.Messages;
     using System;
@@ -95,7 +96,7 @@ namespace Anycmd.Edi.ViewModels.OntologyViewModels
         /// </summary>
         public string Icon { get; set; }
 
-        public UpdateOntologyCommand ToCommand(IUserSession userSession)
+        public IAnycmdCommand ToCommand(IUserSession userSession)
         {
             return new UpdateOntologyCommand(userSession, this);
         }

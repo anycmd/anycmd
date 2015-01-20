@@ -1,6 +1,7 @@
 ﻿
 namespace Anycmd.Ac.ViewModels.DsdViewModels
 {
+    using Engine;
     using Engine.Ac.InOuts;
     using Engine.Ac.Messages.Rbac;
     using System;
@@ -30,7 +31,7 @@ namespace Anycmd.Ac.ViewModels.DsdViewModels
 
         public string Description { get; set; }
 
-        public UpdateDsdSetCommand ToCommand(IUserSession userSession)
+        public IAnycmdCommand ToCommand(IUserSession userSession)
         {
             return new UpdateDsdSetCommand(userSession, this);
         }

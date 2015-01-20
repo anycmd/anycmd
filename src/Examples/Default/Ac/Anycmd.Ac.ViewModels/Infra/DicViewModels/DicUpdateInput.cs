@@ -1,6 +1,7 @@
 ﻿
 namespace Anycmd.Ac.ViewModels.Infra.DicViewModels
 {
+    using Engine;
     using Engine.Ac.InOuts;
     using Engine.Ac.Messages.Infra;
     using System;
@@ -42,7 +43,7 @@ namespace Anycmd.Ac.ViewModels.Infra.DicViewModels
         /// </summary>
         public int SortCode { get; set; }
 
-        public UpdateDicCommand ToCommand(IUserSession userSession)
+        public IAnycmdCommand ToCommand(IUserSession userSession)
         {
             return new UpdateDicCommand(userSession, this);
         }

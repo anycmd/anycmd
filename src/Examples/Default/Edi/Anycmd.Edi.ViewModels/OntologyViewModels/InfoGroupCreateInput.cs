@@ -40,7 +40,7 @@ namespace Anycmd.Edi.ViewModels.OntologyViewModels
         /// </summary>
         public string Description { get; set; }
 
-        public AddInfoGroupCommand ToCommand(IUserSession userSession)
+        public override IAnycmdCommand ToCommand(IUserSession userSession)
         {
             return new AddInfoGroupCommand(userSession, this);
         }

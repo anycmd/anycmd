@@ -1,6 +1,7 @@
 ﻿
 namespace Anycmd.Ac.ViewModels.Infra.ResourceViewModels
 {
+    using Engine;
     using Engine.Ac.InOuts;
     using Engine.Ac.Messages.Infra;
     using System;
@@ -46,7 +47,7 @@ namespace Anycmd.Ac.ViewModels.Infra.ResourceViewModels
         [Required]
         public int SortCode { get; set; }
 
-        public UpdateResourceCommand ToCommand(IUserSession userSession)
+        public IAnycmdCommand ToCommand(IUserSession userSession)
         {
             return new UpdateResourceCommand(userSession, this);
         }

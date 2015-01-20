@@ -6,12 +6,8 @@ namespace Anycmd.Engine
     /// <summary>
     /// 表示该接口的实现类是更新实体时的数据输入模型。
     /// </summary>
-    public interface IEntityUpdateInput : IInputModel
+    public interface IEntityUpdateInput : IAnycmdInput
     {
         Guid Id { get; }
-
-        string HecpOntology { get; }
-
-        string HecpVerb { get; }
     }
 }

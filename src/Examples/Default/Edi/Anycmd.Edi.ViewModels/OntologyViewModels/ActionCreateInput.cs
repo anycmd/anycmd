@@ -51,7 +51,7 @@ namespace Anycmd.Edi.ViewModels.OntologyViewModels
         /// </summary>
         public string Description { get; set; }
 
-        public AddActionCommand ToCommand(IUserSession userSession)
+        public override IAnycmdCommand ToCommand(IUserSession userSession)
         {
             return new AddActionCommand(userSession, this);
         }

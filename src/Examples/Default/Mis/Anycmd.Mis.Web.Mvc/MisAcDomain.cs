@@ -8,6 +8,7 @@ namespace Anycmd.Mis.Web.Mvc
     using Edi.MessageServices;
     using Edi.Queries.Ef;
     using Ef;
+    using Engine;
     using Engine.Ac;
     using Engine.Ac.InOuts;
     using Engine.Ac.Messages.Infra;
@@ -178,6 +179,11 @@ namespace Anycmd.Mis.Web.Mvc
                 public int SortCode { get; set; }
 
                 public string Url { get; set; }
+
+                public IAnycmdCommand ToCommand(IUserSession userSession)
+                {
+                    return new AddMenuCommand(userSession, this);
+                }
             }
 
             private class MenuUpdateInput : IMenuUpdateIo
@@ -205,6 +211,11 @@ namespace Anycmd.Mis.Web.Mvc
                 public int SortCode { get; set; }
 
                 public string Url { get; set; }
+
+                public IAnycmdCommand ToCommand(IUserSession userSession)
+                {
+                    return new UpdateMenuCommand(userSession, this);
+                }
             }
         }
     }

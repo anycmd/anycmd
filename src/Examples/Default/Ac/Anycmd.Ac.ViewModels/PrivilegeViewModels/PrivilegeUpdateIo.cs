@@ -1,6 +1,7 @@
 ﻿
 namespace Anycmd.Ac.ViewModels.PrivilegeViewModels
 {
+    using Engine;
     using Engine.Ac.InOuts;
     using Engine.Ac.Messages;
     using System;
@@ -26,7 +27,7 @@ namespace Anycmd.Ac.ViewModels.PrivilegeViewModels
         /// </summary>
         public string AcContent { get; set; }
 
-        public UpdatePrivilegeCommand ToCommand(IUserSession userSession)
+        public IAnycmdCommand ToCommand(IUserSession userSession)
         {
             return new UpdatePrivilegeCommand(userSession, this);
         }

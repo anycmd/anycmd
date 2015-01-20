@@ -1,6 +1,7 @@
 ﻿
 namespace Anycmd.Ac.ViewModels.Infra.EntityTypeViewModels
 {
+    using Engine;
     using Engine.Ac.InOuts;
     using Engine.Ac.Messages.Infra;
     using System;
@@ -75,7 +76,7 @@ namespace Anycmd.Ac.ViewModels.Infra.EntityTypeViewModels
         [Required]
         public Guid DeveloperId { get; set; }
 
-        public UpdateEntityTypeCommand ToCommand(IUserSession userSession)
+        public IAnycmdCommand ToCommand(IUserSession userSession)
         {
             return new UpdateEntityTypeCommand(userSession, this);
         }

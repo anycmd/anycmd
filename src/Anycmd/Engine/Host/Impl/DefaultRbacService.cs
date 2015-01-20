@@ -626,7 +626,7 @@ namespace Anycmd.Engine.Host.Impl
 
             public string AcContentType { get; set; }
 
-            public AddPrivilegeCommand ToCommand(IUserSession subject)
+            public override IAnycmdCommand ToCommand(IUserSession subject)
             {
                 return new AddPrivilegeCommand(subject, this);
             }
@@ -650,7 +650,7 @@ namespace Anycmd.Engine.Host.Impl
             /// </summary>
             public string AcContent { get; set; }
 
-            public UpdatePrivilegeCommand ToCommand(IUserSession subject)
+            public IAnycmdCommand ToCommand(IUserSession subject)
             {
                 return new UpdatePrivilegeCommand(subject, this);
             }
@@ -662,7 +662,7 @@ namespace Anycmd.Engine.Host.Impl
 
             public Guid RoleId { get; set; }
 
-            public AddDsdRoleCommand ToCommand(IUserSession subject)
+            public override IAnycmdCommand ToCommand(IUserSession subject)
             {
                 return new AddDsdRoleCommand(subject, this);
             }
@@ -678,7 +678,7 @@ namespace Anycmd.Engine.Host.Impl
 
             public string Description { get; set; }
 
-            public AddDsdSetCommand ToCommand(IUserSession subject)
+            public override IAnycmdCommand ToCommand(IUserSession subject)
             {
                 return new AddDsdSetCommand(subject, this);
             }
@@ -706,7 +706,7 @@ namespace Anycmd.Engine.Host.Impl
 
             public string Description { get; set; }
 
-            public UpdateDsdSetCommand ToCommand(IUserSession subject)
+            public IAnycmdCommand ToCommand(IUserSession subject)
             {
                 return new UpdateDsdSetCommand(subject, this);
             }
@@ -718,7 +718,7 @@ namespace Anycmd.Engine.Host.Impl
 
             public Guid RoleId { get; set; }
 
-            public AddSsdRoleCommand ToCommand(IUserSession subject)
+            public override IAnycmdCommand ToCommand(IUserSession subject)
             {
                 return new AddSsdRoleCommand(subject, this);
             }
@@ -734,7 +734,7 @@ namespace Anycmd.Engine.Host.Impl
 
             public string Description { get; set; }
 
-            public AddSsdSetCommand ToCommand(IUserSession subject)
+            public override IAnycmdCommand ToCommand(IUserSession subject)
             {
                 return new AddSsdSetCommand(subject, this);
             }
@@ -762,7 +762,7 @@ namespace Anycmd.Engine.Host.Impl
 
             public Guid Id { get; set; }
 
-            public UpdateSsdSetCommand ToCommand(IUserSession subject)
+            public IAnycmdCommand ToCommand(IUserSession subject)
             {
                 return new UpdateSsdSetCommand(subject, this);
             }

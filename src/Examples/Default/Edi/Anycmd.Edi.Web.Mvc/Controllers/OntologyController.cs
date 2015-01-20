@@ -568,12 +568,12 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                 if (!string.IsNullOrEmpty(item))
                 {
                     var organizationId = new Guid(item);
-                    AcDomain.AddOntologyOrganization(UserSession, new OntologyOrganizationCreateInput
+                    AcDomain.Handle(new OntologyOrganizationCreateInput
                     {
                         Id = Guid.NewGuid(),
                         OntologyId = ontologyId,
                         OrganizationId = organizationId
-                    });
+                    }.ToCommand(UserSession));
                 }
             }
             foreach (var item in removeIDs)

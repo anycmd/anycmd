@@ -1,6 +1,7 @@
 ﻿
 namespace Anycmd.Ac.ViewModels.RoleViewModels
 {
+    using Engine;
     using Engine.Ac.InOuts;
     using Engine.Ac.Messages.Rbac;
     using System;
@@ -54,7 +55,7 @@ namespace Anycmd.Ac.ViewModels.RoleViewModels
         /// </summary>
         public string Icon { get; set; }
 
-        public UpdateRoleCommand ToCommand(IUserSession userSession)
+        public IAnycmdCommand ToCommand(IUserSession userSession)
         {
             return new UpdateRoleCommand(userSession, this);
         }

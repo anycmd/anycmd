@@ -499,13 +499,13 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                 if (!string.IsNullOrEmpty(item))
                 {
                     var organizationId = new Guid(item);
-                    AcDomain.Handle(new AddNodeOntologyOrganizationCommand(UserSession, new NodeOntologyOrganizationCreateInput
+                    AcDomain.Handle(new NodeOntologyOrganizationCreateInput
                     {
                         Id = Guid.NewGuid(),
                         NodeId = nodeId,
                         OntologyId = ontologyId,
                         OrganizationId = organizationId
-                    }));
+                    }.ToCommand(UserSession));
                 }
             }
             foreach (var item in removeIDs)
@@ -658,12 +658,12 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                     }
                     else if (isAssigned)
                     {
-                        AcDomain.AddNodeOntologyCare(UserSession, new NodeOntologyCareCreateInput
+                        AcDomain.Handle(new NodeOntologyCareCreateInput
                         {
                             Id = id,
                             NodeId = new Guid(row["NodeId"].ToString()),
                             OntologyId = new Guid(row["OntologyId"].ToString())
-                        });
+                        }.ToCommand(UserSession));
                     }
                 }
             }
@@ -707,13 +707,13 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                     }
                     else if (isAssigned)
                     {
-                        AcDomain.AddNodeElementCare(UserSession, new NodeElementCareCreateInput
+                        AcDomain.Handle(new NodeElementCareCreateInput
                         {
                             Id = id,
                             NodeId = new Guid(row["NodeId"].ToString()),
                             ElementId = new Guid(row["ElementId"].ToString()),
                             IsInfoIdItem = bool.Parse(row["IsInfoIDItem"].ToString())
-                        });
+                        }.ToCommand(UserSession));
                     }
                 }
             }

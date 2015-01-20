@@ -1118,6 +1118,11 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     public propertyCode GroupCode { get; set; }
 
                     public propertyCode Tooltip { get; set; }
+
+                    public override IAnycmdCommand ToCommand(IUserSession userSession)
+                    {
+                        return new AddPropertyCommand(userSession, this);
+                    }
                 }
 
                 public void Handle(UpdatePropertyCommand message)

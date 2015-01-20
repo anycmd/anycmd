@@ -88,7 +88,7 @@ namespace Anycmd.Edi.ViewModels.OntologyViewModels
         /// </summary>
         public string Icon { get; set; }
 
-        public AddOntologyCommand ToCommand(IUserSession userSession)
+        public override IAnycmdCommand ToCommand(IUserSession userSession)
         {
             return new AddOntologyCommand(userSession, this);
         }
