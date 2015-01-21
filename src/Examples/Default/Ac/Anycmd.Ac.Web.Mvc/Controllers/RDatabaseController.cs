@@ -357,7 +357,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             var responseResult = new ResponseData { success = true, id = input.Id };
             if (ModelState.IsValid)
             {
-                GetRequiredService<IRdbMetaDataService>().UpdateDatabase(input.Id, input.DataSource, input.Description);
+                AcDomain.Handle(input.ToCommand(UserSession));
             }
             else
             {
@@ -380,12 +380,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             var responseResult = new ResponseData { success = true, id = input.Id };
             if (ModelState.IsValid)
             {
-                RdbDescriptor db;
-                if (!AcDomain.Rdbs.TryDb(input.DatabaseId, out db))
-                {
-                    throw new ValidationException("意外的数据库Id");
-                }
-                GetRequiredService<IRdbMetaDataService>().CrudDescription(db, RDbMetaDataType.Table, input.Id, input.Description);
+                AcDomain.Handle(input.ToCommand(UserSession));
             }
             else
             {
@@ -408,12 +403,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             var responseResult = new ResponseData { success = true, id = input.Id };
             if (ModelState.IsValid)
             {
-                RdbDescriptor db;
-                if (!AcDomain.Rdbs.TryDb(input.DatabaseId, out db))
-                {
-                    throw new ValidationException("意外的数据库Id");
-                }
-                GetRequiredService<IRdbMetaDataService>().CrudDescription(db, RDbMetaDataType.View, input.Id, input.Description);
+                AcDomain.Handle(input.ToCommand(UserSession));
             }
             else
             {
@@ -436,12 +426,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             var responseResult = new ResponseData { success = true, id = input.Id };
             if (ModelState.IsValid)
             {
-                RdbDescriptor db;
-                if (!AcDomain.Rdbs.TryDb(input.DatabaseId, out db))
-                {
-                    throw new ValidationException("意外的数据库Id");
-                }
-                GetRequiredService<IRdbMetaDataService>().CrudDescription(db, RDbMetaDataType.TableColumn, input.Id, input.Description);
+                AcDomain.Handle(input.ToCommand(UserSession));
             }
             else
             {
@@ -464,12 +449,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             var responseResult = new ResponseData { success = true, id = input.Id };
             if (ModelState.IsValid)
             {
-                RdbDescriptor db;
-                if (!AcDomain.Rdbs.TryDb(input.DatabaseId, out db))
-                {
-                    throw new ValidationException("意外的数据库Id");
-                }
-                GetRequiredService<IRdbMetaDataService>().CrudDescription(db, RDbMetaDataType.ViewColumn, input.Id, input.Description);
+                AcDomain.Handle(input.ToCommand(UserSession));
             }
             else
             {

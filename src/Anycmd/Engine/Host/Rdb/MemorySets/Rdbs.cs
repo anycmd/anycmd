@@ -1,5 +1,5 @@
 ﻿
-namespace Anycmd.Engine.Host.Rdb
+namespace Anycmd.Engine.Host.Rdb.MemorySets
 {
     using Engine.Rdb;
     using System;
@@ -11,7 +11,7 @@ namespace Anycmd.Engine.Host.Rdb
     /// </summary>
     public sealed class Rdbs : IRdbs
     {
-        public static readonly IRdbs Empty = new Rdbs(EmptyAcDomain.SingleInstance, Rdb.DbTables.Empty, Rdb.DbViews.Empty, Rdb.DbTableColumns.Empty, Rdb.DbViewColumns.Empty);
+        public static readonly IRdbs Empty = new Rdbs(EmptyAcDomain.SingleInstance, MemorySets.DbTables.Empty, MemorySets.DbViews.Empty, MemorySets.DbTableColumns.Empty, MemorySets.DbViewColumns.Empty);
 
         private readonly Dictionary<Guid, RdbDescriptor> _dicById = new Dictionary<Guid, RdbDescriptor>();
         private bool _initialized;

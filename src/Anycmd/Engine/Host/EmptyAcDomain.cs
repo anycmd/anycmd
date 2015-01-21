@@ -85,22 +85,22 @@ namespace Anycmd.Engine.Host
 
         public IDbTableColumns DbTableColumns
         {
-            get { return Rdb.DbTableColumns.Empty; }
+            get { return Rdb.MemorySets.DbTableColumns.Empty; }
         }
 
         public IDbTables DbTables
         {
-            get { return Rdb.DbTables.Empty; }
+            get { return Rdb.MemorySets.DbTables.Empty; }
         }
 
         public IDbViewColumns DbViewColumns
         {
-            get { return Rdb.DbViewColumns.Empty; }
+            get { return Rdb.MemorySets.DbViewColumns.Empty; }
         }
 
         public IDbViews DbViews
         {
-            get { return Rdb.DbViews.Empty; }
+            get { return Rdb.MemorySets.DbViews.Empty; }
         }
 
         public void DeleteSession(Guid sessionId)
@@ -170,7 +170,7 @@ namespace Anycmd.Engine.Host
 
         public IRdbs Rdbs
         {
-            get { return Rdb.Rdbs.Empty; }
+            get { return Rdb.MemorySets.Rdbs.Empty; }
         }
 
         public IResourceTypeSet ResourceTypeSet

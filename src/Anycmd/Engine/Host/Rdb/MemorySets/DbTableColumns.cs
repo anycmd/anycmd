@@ -1,5 +1,5 @@
 ﻿
-namespace Anycmd.Engine.Host.Rdb
+namespace Anycmd.Engine.Host.Rdb.MemorySets
 {
     using Engine.Rdb;
     using Exceptions;

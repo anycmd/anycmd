@@ -17,7 +17,8 @@ namespace Anycmd.Engine.Host.Impl
     using IdGenerators;
     using Logging;
     using Query;
-    using Rdb;
+    using Rdb.MemorySets;
+    using Rdb.MessageHandlers;
 
     /// <summary>
     /// 系统实体宿主。
@@ -88,6 +89,11 @@ namespace Anycmd.Engine.Host.Impl
             base.MessageDispatcher.Register(new AddPasswordCommandHandler(this));
             base.MessageDispatcher.Register(new ChangePasswordCommandHandler(this));
             base.MessageDispatcher.Register(new SaveHelpCommandHandler(this));
+            base.MessageDispatcher.Register(new UpdateDatabaseCommandHandler(this));
+            base.MessageDispatcher.Register(new UpdateDbTableColumnCommandHandler(this));
+            base.MessageDispatcher.Register(new UpdateDbTableCommandHandler(this));
+            base.MessageDispatcher.Register(new UpdateDbViewColumnCommandHandler(this));
+            base.MessageDispatcher.Register(new UpdateDbViewCommandHandler(this));
 
             this.MessageDispatcher.Register(new OperatedEventHandler(this));
 
