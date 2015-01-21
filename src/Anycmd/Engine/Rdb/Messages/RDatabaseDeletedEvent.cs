@@ -1,6 +1,6 @@
 ﻿using Anycmd.Events;
 
-namespace Anycmd.Rdb.Events
+namespace Anycmd.Engine.Rdb.Messages
 {
     public class RDatabaseDeletedEvent : DomainEvent
     {

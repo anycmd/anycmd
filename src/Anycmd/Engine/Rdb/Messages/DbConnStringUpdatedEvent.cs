@@ -1,7 +1,7 @@
 ﻿
-namespace Anycmd.Rdb.Events
+namespace Anycmd.Engine.Rdb.Messages
 {
-    using Anycmd.Events;
+    using Events;
 
     /// <summary>
     /// 

@@ -1,30 +1,31 @@
 ﻿
-namespace Anycmd.Rdb
+namespace Anycmd.Engine.Rdb
 {
     using System;
     using System.Data;
     using Util;
 
     /// <summary>
-    /// 视图列
+    /// 表列
     /// </summary>
-    public sealed class DbViewColumn
+    public sealed class DbTableColumn
     {
-        private DbViewColumn() { }
+        private DbTableColumn() { }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="databaseId"></param>
         /// <param name="reader"></param>
-        internal static DbViewColumn Create(Guid databaseId, IDataRecord reader)
+        internal static DbTableColumn Create(Guid databaseId, IDataRecord reader)
         {
-            return new DbViewColumn
+            return new DbTableColumn
             {
                 DatabaseId = databaseId,
                 Id = reader.GetString(reader.GetOrdinal("Id")),
                 CatalogName = reader.GetString(reader.GetOrdinal("CatalogName")),
                 DateTimePrecision = reader.GetNullableInt32("DateTimePrecision"),
+                DefaultValue = reader.GetNullableString("DefaultValue"),
                 Description = reader.GetNullableString("Description"),
                 IsIdentity = reader.GetBoolean(reader.GetOrdinal("IsIdentity")),
                 IsNullable = reader.GetBoolean(reader.GetOrdinal("IsNullable")),
@@ -36,8 +37,8 @@ namespace Anycmd.Rdb
                 Precision = reader.GetNullableInt32("Precision"),
                 Scale = reader.GetNullableInt32("Scale"),
                 SchemaName = reader.GetString(reader.GetOrdinal("SchemaName")),
-                TypeName = reader.GetString(reader.GetOrdinal("TypeName")),
-                ViewName = reader.GetString(reader.GetOrdinal("ViewName"))
+                TableName = reader.GetString(reader.GetOrdinal("TableName")),
+                TypeName = reader.GetString(reader.GetOrdinal("TypeName"))
             };
         }
 
@@ -64,7 +65,7 @@ namespace Anycmd.Rdb
         /// <summary>
         /// 
         /// </summary>
-        public string ViewName { get; private set; }
+        public string TableName { get; private set; }
         /// <summary>
         /// 
         /// </summary>
@@ -108,6 +109,53 @@ namespace Anycmd.Rdb
         /// <summary>
         /// 
         /// </summary>
+        public string DefaultValue { get; private set; }
+        /// <summary>
+        /// 
+        /// </summary>
         public string Description { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public DataColumn ToDataColumn()
+        {
+            var col = new DataColumn(this.Name);
+
+            switch (this.TypeName)
+            {
+                case "uniqueidentifier":
+                    col.DataType = typeof(Guid);
+                    break;
+                case "varchar":
+                case "nvarchar":
+                case "nvarchar(max)":
+                case "varchar(max)":
+                    col.DataType = typeof(string);
+                    if (this.MaxLength.HasValue && this.MaxLength.Value != -1)
+                    {
+                        col.MaxLength = this.MaxLength.Value;
+                    }
+                    else
+                    {
+                        col.MaxLength = int.MaxValue;
+                    }
+                    break;
+                case "datetime":
+                case "date":
+                    col.DataType = typeof(DateTime);
+                    break;
+                case "int":
+                    col.DataType = typeof(int);
+                    break;
+                case "bit":
+                    col.DataType = typeof(Boolean);
+                    break;
+                default:
+                    break;
+            }
+            col.Caption = this.Name;
+            return col;
+        }
     }
 }

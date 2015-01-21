@@ -1,14 +1,14 @@
 ﻿
-namespace Anycmd.Rdb
+namespace Anycmd.Engine.Rdb
 {
     using System;
     using System.Data;
     using Util;
 
     /// <summary>
-    /// 视图
+    /// 数据库表
     /// </summary>
-    public sealed class DbView
+    public sealed class DbTable
     {
         /// <summary>
         /// 
@@ -19,7 +19,7 @@ namespace Anycmd.Rdb
         /// <param name="schemaName"></param>
         /// <param name="name"></param>
         /// <param name="description"></param>
-        internal DbView(Guid databaseId, string id, string catalogName, string schemaName, string name, string description)
+        internal DbTable(Guid databaseId, string id, string catalogName, string schemaName, string name, string description)
         {
             this.DatabaseId = databaseId;
             this.Id = id;
@@ -34,7 +34,7 @@ namespace Anycmd.Rdb
         /// </summary>
         /// <param name="databaseId"></param>
         /// <param name="reader"></param>
-        internal DbView(Guid databaseId, IDataReader reader)
+        internal DbTable(Guid databaseId, IDataRecord reader)
             : this(databaseId, reader.GetString(reader.GetOrdinal("Id")),
                 reader.GetString(reader.GetOrdinal("CatalogName")),
                 reader.GetString(reader.GetOrdinal("SchemaName")),
@@ -44,7 +44,7 @@ namespace Anycmd.Rdb
         }
 
         /// <summary>
-        /// 
+        /// 数据库实体标识
         /// </summary>
         public Guid DatabaseId { get; private set; }
         /// <summary>

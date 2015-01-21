@@ -2,9 +2,9 @@
 namespace Anycmd.Ac.Web.Mvc.Controllers
 {
     using Anycmd.Web.Mvc;
+    using Engine.Rdb;
     using Exceptions;
     using MiniUI;
-    using Rdb;
     using System;
     using System.ComponentModel;
     using System.Diagnostics;
@@ -16,7 +16,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
     using ViewModels.RdbViewModels;
 
     /// <summary>
-    /// 数据库模型视图控制器<see cref="Anycmd.Rdb.RDatabase"/>
+    /// 数据库模型视图控制器<see cref="Engine.Rdb.RDatabase"/>
     /// </summary>
     [Guid("ECFCD327-6E1F-483E-81DE-6D1036B5F9F9")]
     public class RDatabaseController : AnycmdController

@@ -2,23 +2,25 @@
 namespace Anycmd.Ac.ViewModels.RdbViewModels
 {
     using Engine;
+    using Engine.Rdb.InOuts;
+    using Engine.Rdb.Messages;
     using System;
     using System.ComponentModel.DataAnnotations;
 
     /// <summary>
     /// 关系数据库输入模型
     /// </summary>
-    public sealed class DatabaseUpdateInput : IInputModel
+    public sealed class DatabaseUpdateInput : IDatabaseUpdateInput
     {
         public DatabaseUpdateInput()
         {
-            OntologyCode = "Database";
-            Verb = "Update";
+            HecpOntology = "Database";
+            HecpVerb = "Update";
         }
 
-        public string OntologyCode { get; private set; }
+        public string HecpOntology { get; private set; }
 
-        public string Verb { get; private set; }
+        public string HecpVerb { get; private set; }
 
         /// <summary>
         /// 
@@ -37,6 +39,9 @@ namespace Anycmd.Ac.ViewModels.RdbViewModels
         /// </summary>
         public string Description { get; set; }
 
-        // TODO:走CommandBus
+        public IAnycmdCommand ToCommand(IUserSession userSession)
+        {
+            return new UpdateDatabaseCommand(userSession, this);
+        }
     }
 }

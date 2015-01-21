@@ -204,7 +204,7 @@ namespace Anycmd.Engine.Host.Impl
             {
                 throw new AnycmdException("意外的实体类型码Ac.Account");
             }
-            Anycmd.Rdb.RdbDescriptor db;
+            Engine.Rdb.RdbDescriptor db;
             if (!_host.Rdbs.TryDb(entityType.DatabaseId, out db))
             {
                 throw new AnycmdException("意外的账户数据库标识" + entityType.DatabaseId);
@@ -279,7 +279,7 @@ namespace Anycmd.Engine.Host.Impl
             {
                 throw new AnycmdException("意外的实体类型码Ac.Account");
             }
-            Anycmd.Rdb.RdbDescriptor db;
+            Engine.Rdb.RdbDescriptor db;
             if (!_host.Rdbs.TryDb(entityType.DatabaseId, out db))
             {
                 throw new AnycmdException("意外的账户数据库标识" + entityType.DatabaseId);

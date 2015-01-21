@@ -40,7 +40,7 @@ namespace Anycmd.Ef
                 throw new ArgumentNullException(efDbContextName, @"objectContextKey may not be null or empty");
             }
             // alert:这里有个约定
-            Rdb.RdbDescriptor db;
+            Engine.Rdb.RdbDescriptor db;
             string databaseKey = efDbContextName + "DatabaseId";
             Guid databaseId;
             if (!Guid.TryParse(ConfigurationManager.AppSettings[databaseKey], out databaseId))

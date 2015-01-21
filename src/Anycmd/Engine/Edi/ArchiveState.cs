@@ -66,7 +66,7 @@ namespace Anycmd.Engine.Edi
                 {
                     throw new ValidationException("数据库类型不能为空");
                 }
-                Anycmd.Rdb.RdbmsType dbType;
+                Rdb.RdbmsType dbType;
                 if (!value.TryParse(out dbType))
                 {
                     throw new AnycmdException("意外的关系数据库类型" + value);

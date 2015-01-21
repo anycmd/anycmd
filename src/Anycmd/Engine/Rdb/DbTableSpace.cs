@@ -1,5 +1,5 @@
 ﻿
-namespace Anycmd.Rdb
+namespace Anycmd.Engine.Rdb
 {
     using System;
     using System.Data;

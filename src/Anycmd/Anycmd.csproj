@@ -242,6 +242,8 @@
     <Compile Include="IdGenerators\SequentialIdGenerator.cs" />
     <Compile Include="Int32IdAttribute.cs" />
     <Compile Include="IRbacService.cs" />
+    <Compile Include="Engine\Rdb\InOuts\IDatabaseUpdateInput.cs" />
+    <Compile Include="Engine\Rdb\Messages\UpdateDatabaseCommand.cs" />
     <Compile Include="Serialization\ObjectSerializerExtension.cs" />
     <Compile Include="Snapshots\AcDomainExtension.cs" />
     <Compile Include="StringIdAttribute.cs" />
@@ -856,15 +858,15 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Rdb\Events\RDatabaseAddedEvent.cs" />
-    <Compile Include="Rdb\Events\RDatabaseDeletedEvent.cs" />
-    <Compile Include="Rdb\Events\RDatabaseUpdatedEvent.cs" />
-    <Compile Include="Rdb\IDbTableColumns.cs" />
-    <Compile Include="Rdb\IDbTables.cs" />
-    <Compile Include="Rdb\IDbViewColumns.cs" />
-    <Compile Include="Rdb\IDbViews.cs" />
-    <Compile Include="Rdb\IRdbs.cs" />
-    <Compile Include="Rdb\RdbmsType.cs" />
+    <Compile Include="Engine\Rdb\Messages\RDatabaseAddedEvent.cs" />
+    <Compile Include="Engine\Rdb\Messages\RDatabaseDeletedEvent.cs" />
+    <Compile Include="Engine\Rdb\Messages\RDatabaseUpdatedEvent.cs" />
+    <Compile Include="Engine\Rdb\IDbTableColumns.cs" />
+    <Compile Include="Engine\Rdb\IDbTables.cs" />
+    <Compile Include="Engine\Rdb\IDbViewColumns.cs" />
+    <Compile Include="Engine\Rdb\IDbViews.cs" />
+    <Compile Include="Engine\Rdb\IRdbs.cs" />
+    <Compile Include="Engine\Rdb\RdbmsType.cs" />
     <Compile Include="Repositories\DomainRepository.cs" />
     <Compile Include="Repositories\EventPublisherDomainRepository.cs" />
     <Compile Include="Repositories\EventSourcedDomainRepository.cs" />
@@ -979,21 +981,21 @@
     <Compile Include="Logging\VisitingLogBase.cs" />
     <Compile Include="Engine\Ac\Abstractions\Infra\IDic.cs" />
     <Compile Include="Logging\VisitState.cs" />
-    <Compile Include="Rdb\Events\DbConnStringUpdatedEvent.cs" />
-    <Compile Include="Rdb\IRDatabase.cs" />
-    <Compile Include="Rdb\SqlServerMetaDataService.cs" />
-    <Compile Include="Rdb\RDbMetaDataType.cs" />
-    <Compile Include="Rdb\IRdbMetaDataService.cs" />
-    <Compile Include="Rdb\RdbDescriptor.cs" />
-    <Compile Include="Rdb\DbTableColumn.cs" />
+    <Compile Include="Engine\Rdb\Messages\DbConnStringUpdatedEvent.cs" />
+    <Compile Include="Engine\Rdb\IRDatabase.cs" />
+    <Compile Include="Engine\Rdb\SqlServerMetaDataService.cs" />
+    <Compile Include="Engine\Rdb\RDbMetaDataType.cs" />
+    <Compile Include="Engine\Rdb\IRdbMetaDataService.cs" />
+    <Compile Include="Engine\Rdb\RdbDescriptor.cs" />
+    <Compile Include="Engine\Rdb\DbTableColumn.cs" />
     <Compile Include="Logging\ILoggingService.cs" />
-    <Compile Include="Rdb\RDatabase.cs" />
-    <Compile Include="Rdb\DbView.cs" />
+    <Compile Include="Engine\Rdb\RDatabase.cs" />
+    <Compile Include="Engine\Rdb\DbView.cs" />
     <Compile Include="Engine\Ac\Abstractions\Infra\IAppSystem.cs" />
-    <Compile Include="Rdb\DbTable.cs" />
-    <Compile Include="Rdb\DbViewColumn.cs" />
+    <Compile Include="Engine\Rdb\DbTable.cs" />
+    <Compile Include="Engine\Rdb\DbViewColumn.cs" />
     <Compile Include="Engine\Ac\Abstractions\Infra\IFunction.cs" />
-    <Compile Include="Rdb\DbTableSpace.cs" />
+    <Compile Include="Engine\Rdb\DbTableSpace.cs" />
     <Compile Include="Engine\Host\StoppingEventArgs.cs" />
     <Compile Include="Transactions\DistributedTransactionCoordinator.cs" />
     <Compile Include="Transactions\ITransactionCoordinator.cs" />
@@ -1547,7 +1549,6 @@
     <None Include="Logging\Logging.cd" />
     <None Include="Query\UnifiedQueries\Expressions.cd" />
     <None Include="Specifications\Specifications.cd" />
-    <None Include="Rdb\Rdb.cd" />
     <None Include="Repositories\Repositories.cd" />
     <None Include="Storage\StorageMappingSchema.xsd">
       <SubType>Designer</SubType>

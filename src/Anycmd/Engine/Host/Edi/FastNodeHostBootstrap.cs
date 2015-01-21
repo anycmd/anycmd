@@ -2,8 +2,8 @@
 
 namespace Anycmd.Engine.Host.Edi
 {
-    using Anycmd.Rdb;
     using Dapper;
+    using Engine.Rdb;
     using Entities;
     using Exceptions;
     using System.Data;
