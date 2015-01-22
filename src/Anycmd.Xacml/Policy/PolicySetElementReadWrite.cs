@@ -320,7 +320,7 @@ namespace Anycmd.Xacml.Policy
             writer.WriteStartElement(Consts.Schema1.PolicySetElement.PolicySet);
             foreach (DictionaryEntry name in namespaces)
             {
-                writer.WriteAttributeString(Consts.Schema1.Namespaces.XMLNS, name.Key.ToString(), null, name.Value.ToString());
+                writer.WriteAttributeString(Consts.Schema1.Namespaces.Xmlns, name.Key.ToString(), null, name.Value.ToString());
             }
             writer.WriteAttributeString(Consts.Schema1.PolicySetElement.PolicySetId, this._id);
             writer.WriteAttributeString(Consts.Schema1.PolicySetElement.PolicyCombiningAlgorithmId, this._policyCombiningAlgorithm);

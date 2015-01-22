@@ -148,11 +148,11 @@ namespace Anycmd.Xacml.Context
                     {
                         while (vreader.MoveToNextAttribute())
                         {
-                            if (vreader.LocalName == Consts.Schema1.Namespaces.XMLNS)
+                            if (vreader.LocalName == Consts.Schema1.Namespaces.Xmlns)
                             {
                                 _namespaces.Add(vreader.Prefix, vreader.Value);
                             }
-                            else if (vreader.Prefix == Consts.Schema1.Namespaces.XMLNS)
+                            else if (vreader.Prefix == Consts.Schema1.Namespaces.Xmlns)
                             {
                                 _namespaces.Add(vreader.LocalName, vreader.Value);
                             }

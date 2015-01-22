@@ -18,7 +18,7 @@ namespace Anycmd.Xacml.Runtime.Functions
 		/// </summary>
 		public override string Id
 		{
-			get{ return Consts.Schema2.InternalFunctions.IPAddressEqual; }
+			get{ return Consts.Schema2.InternalFunctions.IpAddressEqual; }
 		}
 
 		/// <summary>

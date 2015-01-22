@@ -33,7 +33,7 @@ namespace Anycmd.Xacml
                 /// <summary>The name of the element/attribute in the XSD schema.</summary>
                 public const string SessionStartTime = "urn:oasis:names:tc:xacml:1.0:subject:session-start-time";
                 /// <summary>The name of the element/attribute in the XSD schema.</summary>
-                public const string AuthLocalityIPAddress = "urn:oasis:names:tc:xacml:1.0:subject:authn-locality:ip-address";
+                public const string AuthLocalityIpAddress = "urn:oasis:names:tc:xacml:1.0:subject:authn-locality:ip-address";
                 /// <summary>The name of the element/attribute in the XSD schema.</summary>
                 public const string AuthLocalityDnsName = "urn:oasis:names:tc:xacml:1.0:subject:authn-locality:dns-name";
                 /// <summary>The name of the element/attribute in the XSD schema.</summary>

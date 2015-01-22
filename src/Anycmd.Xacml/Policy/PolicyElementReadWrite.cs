@@ -329,7 +329,7 @@ namespace Anycmd.Xacml.Policy
             writer.WriteStartElement(Consts.Schema1.PolicyElement.Policy);
             foreach (DictionaryEntry name in namespaces)
             {
-                writer.WriteAttributeString(Consts.Schema1.Namespaces.XMLNS, name.Key.ToString(), null, name.Value.ToString());
+                writer.WriteAttributeString(Consts.Schema1.Namespaces.Xmlns, name.Key.ToString(), null, name.Value.ToString());
             }
 
             writer.WriteAttributeString(Consts.Schema1.PolicyElement.PolicyId, this._id);

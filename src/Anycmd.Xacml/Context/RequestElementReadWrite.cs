@@ -152,7 +152,7 @@ namespace Anycmd.Xacml.Context
 
             foreach (DictionaryEntry name in namespaces)
             {
-                writer.WriteAttributeString(Consts.Schema1.Namespaces.XMLNS, name.Key.ToString(), null, name.Value.ToString());
+                writer.WriteAttributeString(Consts.Schema1.Namespaces.Xmlns, name.Key.ToString(), null, name.Value.ToString());
             }
             if (this._subjects != null)
             {

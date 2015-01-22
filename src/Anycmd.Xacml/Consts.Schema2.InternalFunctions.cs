@@ -36,27 +36,27 @@ namespace Anycmd.Xacml
                 public const string DnsNameRegexpMatch = "urn:oasis:names:tc:xacml:2.0:function:dnsName-regexp-match";
 
                 /// <summary>The name of the element/attribute in the XSD schema.</summary>
-                public const string IPAddressEqual = "urn:oasis:names:tc:xacml:2.0:function:ipAddress-equal";
+                public const string IpAddressEqual = "urn:oasis:names:tc:xacml:2.0:function:ipAddress-equal";
                 /// <summary>The name of the element/attribute in the XSD schema.</summary>
-                public const string IPAddressIsIn = "urn:oasis:names:tc:xacml:2.0:function:ipAddress-is-in";
+                public const string IpAddressIsIn = "urn:oasis:names:tc:xacml:2.0:function:ipAddress-is-in";
                 /// <summary>The name of the element/attribute in the XSD schema.</summary>
-                public const string IPAddressSubset = "urn:oasis:names:tc:xacml:2.0:function:ipAddress-subset";
+                public const string IpAddressSubset = "urn:oasis:names:tc:xacml:2.0:function:ipAddress-subset";
                 /// <summary>The name of the element/attribute in the XSD schema.</summary>
-                public const string IPAddressIntersection = "urn:oasis:names:tc:xacml:2.0:function:ipAddress-intersection";
+                public const string IpAddressIntersection = "urn:oasis:names:tc:xacml:2.0:function:ipAddress-intersection";
                 /// <summary>The name of the element/attribute in the XSD schema.</summary>
-                public const string IPAddressAtLeastOneMemberOf = "urn:oasis:names:tc:xacml:2.0:function:ipAddress-at-least-one-member-of";
+                public const string IpAddressAtLeastOneMemberOf = "urn:oasis:names:tc:xacml:2.0:function:ipAddress-at-least-one-member-of";
                 /// <summary>The name of the element/attribute in the XSD schema.</summary>
-                public const string IPAddressUnion = "urn:oasis:names:tc:xacml:2.0:function:ipAddress-union";
+                public const string IpAddressUnion = "urn:oasis:names:tc:xacml:2.0:function:ipAddress-union";
                 /// <summary>The name of the element/attribute in the XSD schema.</summary>
-                public const string IPAddressSetEquals = "urn:oasis:names:tc:xacml:2.0:function:ipAddress-set-equals";
+                public const string IpAddressSetEquals = "urn:oasis:names:tc:xacml:2.0:function:ipAddress-set-equals";
                 /// <summary>The name of the element/attribute in the XSD schema.</summary>
-                public const string IPAddressBag = "urn:oasis:names:tc:xacml:2.0:function:ipAddress-bag";
+                public const string IpAddressBag = "urn:oasis:names:tc:xacml:2.0:function:ipAddress-bag";
                 /// <summary>The name of the element/attribute in the XSD schema.</summary>
-                public const string IPAddressBagSize = "urn:oasis:names:tc:xacml:2.0:function:ipAddress-bag-size";
+                public const string IpAddressBagSize = "urn:oasis:names:tc:xacml:2.0:function:ipAddress-bag-size";
                 /// <summary>The name of the element/attribute in the XSD schema.</summary>
-                public const string IPAddressOneAndOnly = "urn:oasis:names:tc:xacml:2.0:function:ipAddress-one-and-only";
+                public const string IpAddressOneAndOnly = "urn:oasis:names:tc:xacml:2.0:function:ipAddress-one-and-only";
                 /// <summary>The name of the element/attribute in the XSD schema.</summary>
-                public const string IPAddressRegexpMatch = "urn:oasis:names:tc:xacml:2.0:function:ipAddress-regexp-match";
+                public const string IpAddressRegexpMatch = "urn:oasis:names:tc:xacml:2.0:function:ipAddress-regexp-match";
 
                 /// <summary>The name of the element/attribute in the XSD schema.</summary>
                 public const string StringRegexpMatch = "urn:oasis:names:tc:xacml:2.0:function:string-regexp-match";

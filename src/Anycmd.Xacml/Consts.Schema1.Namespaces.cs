@@ -9,7 +9,7 @@ namespace Anycmd.Xacml
             public static class Namespaces
             {
                 /// <summary>The standard namespace preffix</summary>
-                public const string XMLNS = "xmlns";
+                public const string Xmlns = "xmlns";
                 /// <summary>The name of the element/attribute in the XSD schema.</summary>
                 public const string XPath10 = "http://www.w3.org/TR/1999/Rec-xpath-19991116";
                 /// <summary>The name of the element/attribute in the XSD schema.</summary>

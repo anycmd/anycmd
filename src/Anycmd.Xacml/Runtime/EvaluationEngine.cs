@@ -402,7 +402,7 @@ namespace Anycmd.Xacml.Runtime
 								else
 								{
 									scode = new ctx.StatusCodeElement(
-										Consts.ContextSchema.StatusCodes.OK, null, policyDocument.Version);
+										Consts.ContextSchema.StatusCodes.Ok, null, policyDocument.Version);
 								}
 
 								//Stop the iteration if there is not a hierarchical request
@@ -1124,18 +1124,18 @@ namespace Anycmd.Xacml.Runtime
 			_functions.Add(Consts.Schema2.InternalFunctions.DnsNameSubset, new DnsNameSubset());
 			_functions.Add(Consts.Schema2.InternalFunctions.StringConcatenate, new StringConcatenate());
 			_functions.Add(Consts.Schema2.InternalFunctions.UrlStringConcatenate, new UrlStringConcatenate());
-			_functions.Add(Consts.Schema2.InternalFunctions.IPAddressEqual, new IPAddressEqual());
-			_functions.Add(Consts.Schema2.InternalFunctions.IPAddressIsIn, new IPAddressIsIn());
-			_functions.Add(Consts.Schema2.InternalFunctions.IPAddressSubset, new IPAddressSubset());
-			_functions.Add(Consts.Schema2.InternalFunctions.IPAddressIntersection, new IPAddressIntersection());
-			_functions.Add(Consts.Schema2.InternalFunctions.IPAddressAtLeastOneMemberOf, new IPAddressAtLeastOneMemberOf());
-			_functions.Add(Consts.Schema2.InternalFunctions.IPAddressUnion, new IPAddressUnion());
-			_functions.Add(Consts.Schema2.InternalFunctions.IPAddressSetEquals, new IPAddressSetEquals());
-			_functions.Add(Consts.Schema2.InternalFunctions.IPAddressBag, new IPAddressBag());
-			_functions.Add(Consts.Schema2.InternalFunctions.IPAddressBagSize, new IPAddressBagSize());
-			_functions.Add(Consts.Schema2.InternalFunctions.IPAddressOneAndOnly, new IPAddressOneAndOnly());
+			_functions.Add(Consts.Schema2.InternalFunctions.IpAddressEqual, new IPAddressEqual());
+			_functions.Add(Consts.Schema2.InternalFunctions.IpAddressIsIn, new IPAddressIsIn());
+			_functions.Add(Consts.Schema2.InternalFunctions.IpAddressSubset, new IPAddressSubset());
+			_functions.Add(Consts.Schema2.InternalFunctions.IpAddressIntersection, new IPAddressIntersection());
+			_functions.Add(Consts.Schema2.InternalFunctions.IpAddressAtLeastOneMemberOf, new IPAddressAtLeastOneMemberOf());
+			_functions.Add(Consts.Schema2.InternalFunctions.IpAddressUnion, new IPAddressUnion());
+			_functions.Add(Consts.Schema2.InternalFunctions.IpAddressSetEquals, new IPAddressSetEquals());
+			_functions.Add(Consts.Schema2.InternalFunctions.IpAddressBag, new IPAddressBag());
+			_functions.Add(Consts.Schema2.InternalFunctions.IpAddressBagSize, new IPAddressBagSize());
+			_functions.Add(Consts.Schema2.InternalFunctions.IpAddressOneAndOnly, new IPAddressOneAndOnly());
 			_functions.Add(Consts.Schema2.InternalFunctions.StringRegexpMatch, new StringRegexpMatch());
-			_functions.Add(Consts.Schema2.InternalFunctions.IPAddressRegexpMatch, new IPAddressRegexpMatch());
+			_functions.Add(Consts.Schema2.InternalFunctions.IpAddressRegexpMatch, new IPAddressRegexpMatch());
 			_functions.Add(Consts.Schema2.InternalFunctions.DnsNameRegexpMatch, new DnsNameRegexpMatch());
 			_functions.Add(Consts.Schema2.InternalFunctions.AnyUriRegexpMatch, new AnyUriRegexpMatch());
 			_functions.Add(Consts.Schema2.InternalFunctions.Rfc822NameRegexpMatch, new Rfc822NameRegexpMatch());
@@ -1157,7 +1157,7 @@ namespace Anycmd.Xacml.Runtime
 			_dataTypes.Add(Consts.Schema1.InternalDataTypes.XQueryDaytimeDuration, DataTypeDescriptor.DaytimeDuration);
 			_dataTypes.Add(Consts.Schema1.InternalDataTypes.XQueryYearMonthDuration, DataTypeDescriptor.YearMonthDuration);
 			_dataTypes.Add(Consts.Schema2.InternalDataTypes.DnsName, DataTypeDescriptor.DnsName);
-			_dataTypes.Add(Consts.Schema2.InternalDataTypes.IPAddress, DataTypeDescriptor.IPAddress);
+			_dataTypes.Add(Consts.Schema2.InternalDataTypes.IpAddress, DataTypeDescriptor.IPAddress);
 		}
 		#endregion
 	}

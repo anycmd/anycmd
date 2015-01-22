@@ -113,7 +113,7 @@ namespace Anycmd.Xacml.Runtime.DataTypes
 		/// <value>A string with the Uri for the data type.</value>
 		public string DataTypeName
 		{ 
-			get{ return Consts.Schema2.InternalDataTypes.IPAddress; }
+			get{ return Consts.Schema2.InternalDataTypes.IpAddress; }
 		}
 
 		/// <summary>

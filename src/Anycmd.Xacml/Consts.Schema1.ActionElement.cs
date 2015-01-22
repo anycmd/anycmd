@@ -18,7 +18,7 @@ namespace Anycmd.Xacml
                 public const string Action = "Action";
                 /// <summary>The name of the element/attribute in the XSD schema.</summary>
                 public const string ActionId = "urn:oasis:names:tc:xacml:1.0:action:action-id";
-                /// <summary>The name of the element/attribute in the XSD schema.</summary>
+                /// <summary>隐式的。The name of the element/attribute in the XSD schema.</summary>
                 public const string ImpliedAction = "urn:oasis:names:tc:xacml:1.0:action:implied-action";
                 /// <summary>The name of the element/attribute in the XSD schema.</summary>
                 public const string ActionNamespace = "urn:oasis:names:tc:xacml:1.0:action:action-namespace";
