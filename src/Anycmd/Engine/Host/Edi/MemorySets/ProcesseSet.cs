@@ -267,17 +267,17 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
             public void Handle(RemoveProcessCommand message)
             {
-                // TODO:
+                // TODO:处理RemoveProcessCommand命令
             }
 
             public void Handle(ChangeProcessOrganizationCommand message)
             {
-                // TODO:
+                // TODO:处理ChangeProcessOrganizationCommand命令
             }
 
             public void Handle(ChangeProcessNetPortCommand message)
             {
-                // TODO:
+                // TODO:处理ChangeProcessNetPortCommand命令
             }
         }
         #endregion

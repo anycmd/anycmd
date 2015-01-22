@@ -102,8 +102,9 @@ namespace Anycmd.Engine.Host.Impl
             this.MessageDispatcher.Register(new UpdateBatchCommandHandler(this));
             this.MessageDispatcher.Register(new UpdateInfoRuleCommandHandler(this));
             this.MessageDispatcher.Register(new RemoveBatchCommandHandler(this));
+            this.MessageDispatcher.Register(new UpdateStateCodeCommandHandler(this));
 
-            this.Map(EntityTypeMap.Create<Edi.Entities.Action>("Edi"));
+            this.Map(EntityTypeMap.Create<Action>("Edi"));
             this.Map(EntityTypeMap.Create<Archive>("Edi"));
             this.Map(EntityTypeMap.Create<Batch>("Edi"));
             this.Map(EntityTypeMap.Create<Element>("Edi"));

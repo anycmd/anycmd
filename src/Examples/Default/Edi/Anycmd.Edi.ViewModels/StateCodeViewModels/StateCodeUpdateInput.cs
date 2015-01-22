@@ -2,28 +2,30 @@
 namespace Anycmd.Edi.ViewModels.StateCodeViewModels
 {
     using Engine;
+    using Engine.Edi.InOuts;
+    using Engine.Edi.Messages;
     using System;
     using System.ComponentModel.DataAnnotations;
 
     /// <summary>
     /// 
     /// </summary>
-    public class StateCodeUpdateInput : ManagedPropertyValues
+    public class StateCodeUpdateInput : ManagedPropertyValues, IStateCodeUpdateInput
     {
         public StateCodeUpdateInput()
         {
-            OntologyCode = "StateCode";
-            Verb = "Update";
+            HecpOntology = "StateCode";
+            HecpVerb = "Update";
         }
 
-        public string OntologyCode { get; private set; }
+        public string HecpOntology { get; private set; }
 
-        public string Verb { get; private set; }
+        public string HecpVerb { get; private set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public Guid? Id { get; set; }
+        public Guid Id { get; set; }
         /// <summary>
         /// 
         /// </summary>
@@ -34,6 +36,9 @@ namespace Anycmd.Edi.ViewModels.StateCodeViewModels
         /// </summary>
         public string Description { get; set; }
 
-        // TODO:走CommandBus
+        public IAnycmdCommand ToCommand(IUserSession userSession)
+        {
+            return new UpdateStateCodeCommand(userSession, this);
+        }
     }
 }

@@ -161,7 +161,7 @@ namespace Anycmd.Tests
         [Fact]
         public void OrganizationSubjectTypePrivilege()
         {
-            // TODO:
+            // TODO:实现单元测试
         }
 
         [Fact]

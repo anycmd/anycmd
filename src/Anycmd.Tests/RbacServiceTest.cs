@@ -764,7 +764,7 @@ namespace Anycmd.Tests
         [Fact]
         public void TestAddActiveRole()
         {
-            // TODO:
+            // TODO:实现单元测试
         }
         #endregion
 
@@ -772,7 +772,7 @@ namespace Anycmd.Tests
         [Fact]
         public void TestDropActiveRole()
         {
-            // TODO:
+            // TODO:实现单元测试
         }
         #endregion
 
@@ -780,7 +780,7 @@ namespace Anycmd.Tests
         [Fact]
         public void TestAssignedUsers()
         {
-            // TODO:
+            // TODO:实现单元测试
         }
         #endregion
 
@@ -988,7 +988,7 @@ namespace Anycmd.Tests
         [Fact]
         public void TestAuthorizedUsers()
         {
-            // TODO:
+            // TODO:实现单元测试
         }
         #endregion
 

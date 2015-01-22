@@ -2000,32 +2000,32 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 public void Handle(AddOrganizationActionCommand message)
                 {
-                    // TODO:
+                    // TODO:处理AddOrganizationActionCommand命令
                 }
 
                 public void Handle(OrganizationActionAddedEvent message)
                 {
-                    // TODO:
+                    // TODO:处理OrganizationActionAddedEvent事件
                 }
 
                 public void Handle(UpdateOrganizationActionCommand message)
                 {
-                    // TODO:
+                    // TODO:处理UpdateOrganizationActionCommand命令
                 }
 
                 public void Handle(OrganizationActionUpdatedEvent message)
                 {
-                    // TODO:
+                    // TODO:处理OrganizationActionUpdatedEvent事件
                 }
 
                 public void Handle(RemoveOrganizationActionCommand message)
                 {
-                    // TODO:
+                    // TODO:处理RemoveOrganizationActionCommand命令
                 }
 
                 public void Handle(OrganizationActionRemovedEvent message)
                 {
-                    // TODO:
+                    // TODO:处理OrganizationActionRemovedEvent事件
                 }
             }
         }

@@ -71,7 +71,7 @@ namespace Anycmd.JintEngine.Tests
         }
 
         /*
-         * TODO:后缀为State的类的写法有一点调整，因为这些对象后续会通过类似Jint这样的.NET javascript引擎发布出来，
+         * 后缀为State的类的写法有一点调整，因为这些对象后续会通过类似Jint这样的.NET javascript引擎发布出来，
          * 使用javascript面向这些对象书写安全策略。为了防止外部的javascript修改.NET对象的状态，所有属性的set访问器方法需去掉。
          */
         [Fact]

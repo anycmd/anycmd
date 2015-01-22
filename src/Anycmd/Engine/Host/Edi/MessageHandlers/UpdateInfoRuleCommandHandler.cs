@@ -7,7 +7,7 @@ namespace Anycmd.Engine.Host.Edi.MessageHandlers
     using Exceptions;
     using Repositories;
 
-    public class UpdateInfoRuleCommandHandler: CommandHandler<UpdateInfoRuleCommand>
+    public class UpdateInfoRuleCommandHandler : CommandHandler<UpdateInfoRuleCommand>
     {
         private readonly IAcDomain _host;
 

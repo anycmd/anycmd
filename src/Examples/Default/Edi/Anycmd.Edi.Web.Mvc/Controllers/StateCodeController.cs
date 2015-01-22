@@ -10,8 +10,10 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Data.SqlClient;
+    using System.Diagnostics;
     using System.Web.Mvc;
     using Util;
+    using ViewModel;
     using ViewModels.StateCodeViewModels;
 
     /// <summary>
@@ -125,6 +127,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                 }
                 return new SqlFilter(filterString, ps.ToArray());
             }, requestModel);
+            Debug.Assert(requestModel.Total != null, "requestModel.Total != null");
             var data = new MiniGrid<Dictionary<string, object>> { total = requestModel.Total.Value, data = dataDics };
 
             return this.JsonResult(data);
@@ -133,19 +136,21 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
         /// <summary>
         /// 更新状态码
         /// </summary>
-        /// <param name="requestModel"></param>
+        /// <param name="input"></param>
         /// <returns></returns>
         [By("xuexs")]
         [Description("更新状态码")]
         [Guid("160C2446-17DF-43CC-8BBE-44B8B1B64FB5")]
         [HttpPost]
-        public ActionResult Update(StateCodeUpdateInput requestModel)
+        public ActionResult Update(StateCodeUpdateInput input)
         {
             if (!ModelState.IsValid)
             {
                 return ModelState.ToJsonResult();
             }
-            throw new ValidationException("暂不支持修改");
+            AcDomain.Handle(input.ToCommand(UserSession));
+
+            return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
     }
 }
