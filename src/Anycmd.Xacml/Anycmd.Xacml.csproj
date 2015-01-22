@@ -1,0 +1,600 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7CA5698F-7374-4244-B067-EF08187F82BD}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Anycmd.Xacml</RootNamespace>
+    <AssemblyName>Anycmd.Xacml</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\AssemblyVersion.cs">
+      <Link>Properties\AssemblyVersion.cs</Link>
+    </Compile>
+    <Compile Include="..\..\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="Configuration\AttributeRepositoryConfig.cs" />
+    <Compile Include="Configuration\ConfigurationRoot.cs" />
+    <Compile Include="Configuration\DataTypeRepositoryConfig.cs" />
+    <Compile Include="Configuration\FunctionRepositoryConfig.cs" />
+    <Compile Include="Configuration\NameTypeConfig.cs" />
+    <Compile Include="Configuration\PolicyCombiningAlgorithmRepository.cs" />
+    <Compile Include="Configuration\PolicyRepositoryConfig.cs" />
+    <Compile Include="Configuration\RuleCombiningAlgorithmRepository.cs" />
+    <Compile Include="Configuration\SectionHandler.cs" />
+    <Compile Include="Consts.ContextSchema.AttributeElement.cs" />
+    <Compile Include="Consts.ContextSchema.EnvironmentAttributes.cs" />
+    <Compile Include="Consts.ContextSchema.RequestElement.cs" />
+    <Compile Include="Consts.ContextSchema.ResourceElement.cs" />
+    <Compile Include="Consts.ContextSchema.ResourceScope.cs" />
+    <Compile Include="Consts.ContextSchema.ResponseElement.cs" />
+    <Compile Include="Consts.ContextSchema.ResultElement.cs" />
+    <Compile Include="Consts.ContextSchema.StatusCodes.cs" />
+    <Compile Include="Consts.ContextSchema.StatusElement.cs" />
+    <Compile Include="Consts.ContextSchema.SubjectElement.cs" />
+    <Compile Include="Consts.cs" />
+    <Compile Include="Consts.Schema1.ActionAttributeDesignatorElement.cs" />
+    <Compile Include="Consts.Schema1.ActionElement.cs" />
+    <Compile Include="Consts.Schema1.ApplyElement.cs" />
+    <Compile Include="Consts.Schema1.AttributeAssignmentElement.cs" />
+    <Compile Include="Consts.Schema1.AttributeDesignatorElement.cs" />
+    <Compile Include="Consts.Schema1.AttributeSelectorElement.cs" />
+    <Compile Include="Consts.Schema1.AttributeValueElement.cs" />
+    <Compile Include="Consts.Schema1.ConditionElement.cs" />
+    <Compile Include="Consts.Schema1.EnvironmentAttributeDesignatorElement.cs" />
+    <Compile Include="Consts.Schema1.FunctionElement.cs" />
+    <Compile Include="Consts.Schema1.InternalDataTypes.cs" />
+    <Compile Include="Consts.Schema1.InternalFunctions.cs" />
+    <Compile Include="Consts.Schema1.MatchElement.cs" />
+    <Compile Include="Consts.Schema1.Namespaces.cs" />
+    <Compile Include="Consts.Schema1.ObligationElement.cs" />
+    <Compile Include="Consts.Schema1.ObligationsElement.cs" />
+    <Compile Include="Consts.Schema1.PolicyCombiningAlgorithms.cs" />
+    <Compile Include="Consts.Schema1.PolicyDefaultsElement.cs" />
+    <Compile Include="Consts.Schema1.PolicyElement.cs" />
+    <Compile Include="Consts.Schema1.PolicyIdReferenceElement.cs" />
+    <Compile Include="Consts.Schema1.PolicySetDefaultsElement.cs" />
+    <Compile Include="Consts.Schema1.PolicySetElement.cs" />
+    <Compile Include="Consts.Schema1.PolicySetIdReferenceElement.cs" />
+    <Compile Include="Consts.Schema1.ResourceAttributeDesignatorElement.cs" />
+    <Compile Include="Consts.Schema1.ResourceElement.cs" />
+    <Compile Include="Consts.Schema1.RuleCombiningAlgorithms.cs" />
+    <Compile Include="Consts.Schema1.RuleElement.cs" />
+    <Compile Include="Consts.Schema1.SubjectAttributeDesignatorElement.cs" />
+    <Compile Include="Consts.Schema1.SubjectElement.cs" />
+    <Compile Include="Consts.Schema1.TargetElement.cs" />
+    <Compile Include="Consts.Schema1.VariableReferenceElement.cs" />
+    <Compile Include="Consts.Schema2.CombinerParameterElement.cs" />
+    <Compile Include="Consts.Schema2.EnvironmentElement.cs" />
+    <Compile Include="Consts.Schema2.InternalDataTypes.cs" />
+    <Compile Include="Consts.Schema2.InternalFunctions.cs" />
+    <Compile Include="Consts.Schema2.Namespaces.cs" />
+    <Compile Include="Consts.Schema2.PolicyCombinerParameterElement.cs" />
+    <Compile Include="Consts.Schema2.PolicyElement.cs" />
+    <Compile Include="Consts.Schema2.PolicyReferenceElement.cs" />
+    <Compile Include="Consts.Schema2.PolicySetCombinerParameterElement.cs" />
+    <Compile Include="Consts.Schema2.PolicySetElement.cs" />
+    <Compile Include="Consts.Schema2.ResourceElement.cs" />
+    <Compile Include="Consts.Schema2.RuleCombinerParameterElement.cs" />
+    <Compile Include="Consts.Schema2.TargetElement.cs" />
+    <Compile Include="Consts.Schema2.VariableDefinitionElement.cs" />
+    <Compile Include="Consts.Schema2.VariableReferenceElement.cs" />
+    <Compile Include="ContextLoader.cs" />
+    <Compile Include="Context\ActionElement.cs" />
+    <Compile Include="Context\ActionElementReadWrite.cs" />
+    <Compile Include="Context\AttributeCollection.cs" />
+    <Compile Include="Context\AttributeElement.cs" />
+    <Compile Include="Context\AttributeElementReadWrite.cs" />
+    <Compile Include="Context\AttributeReadWriteCollection.cs" />
+    <Compile Include="Context\AttributeValueElement.cs" />
+    <Compile Include="Context\AttributeValueElementCollection.cs" />
+    <Compile Include="Context\AttributeValueElementReadWrite.cs" />
+    <Compile Include="Context\AttributeValueElementReadWriteCollection.cs" />
+    <Compile Include="Context\ContextDocument.cs" />
+    <Compile Include="Context\ContextDocumentReadWrite.cs" />
+    <Compile Include="Context\EnvironmentElement.cs" />
+    <Compile Include="Context\EnvironmentElementReadWrite.cs" />
+    <Compile Include="Context\RequestElement.cs" />
+    <Compile Include="Context\RequestElementReadWrite.cs" />
+    <Compile Include="Context\ResourceCollection.cs" />
+    <Compile Include="Context\ResourceContentElement.cs" />
+    <Compile Include="Context\ResourceContentElementReadWrite.cs" />
+    <Compile Include="Context\ResourceElement.cs" />
+    <Compile Include="Context\ResourceElementReadWrite.cs" />
+    <Compile Include="Context\ResourceReadWriteCollection.cs" />
+    <Compile Include="Context\ResourceScope.cs" />
+    <Compile Include="Context\ResponseElement.cs" />
+    <Compile Include="Context\ResultCollection.cs" />
+    <Compile Include="Context\ResultElement.cs" />
+    <Compile Include="Context\StatusCodeElement.cs" />
+    <Compile Include="Context\StatusElement.cs" />
+    <Compile Include="Context\SubjectCollection.cs" />
+    <Compile Include="Context\SubjectElement.cs" />
+    <Compile Include="Context\SubjectElementReadWrite.cs" />
+    <Compile Include="Context\SubjectReadWriteCollection.cs" />
+    <Compile Include="Context\TargetItemBase.cs" />
+    <Compile Include="DocumentAccess.cs" />
+    <Compile Include="DocumentType.cs" />
+    <Compile Include="EvaluationException.cs" />
+    <Compile Include="Extensions\DefaultAttributeRepository.cs" />
+    <Compile Include="Extensions\DefaultDataTypeRepository.cs" />
+    <Compile Include="Extensions\DefaultFunctionRepository.cs" />
+    <Compile Include="Extensions\DefaultPolicyCombiningAlgorithmRepository.cs" />
+    <Compile Include="Extensions\DefaultPolicyRepository.cs" />
+    <Compile Include="Extensions\DefaultRuleCombiningAlgorithmRepository.cs" />
+    <Compile Include="Interfaces\IAttributeRepository.cs" />
+    <Compile Include="Interfaces\IDataType.cs" />
+    <Compile Include="Interfaces\IDataTypeRepository.cs" />
+    <Compile Include="Interfaces\IExpression.cs" />
+    <Compile Include="Interfaces\IFunction.cs" />
+    <Compile Include="Interfaces\IFunctionParameter.cs" />
+    <Compile Include="Interfaces\IFunctionRepository.cs" />
+    <Compile Include="Interfaces\IHasTarget.cs" />
+    <Compile Include="Interfaces\IPolicyCombiningAlgorithm.cs" />
+    <Compile Include="Interfaces\IPolicyCombiningAlgorithmRepository.cs" />
+    <Compile Include="Interfaces\IPolicyRepository.cs" />
+    <Compile Include="Interfaces\IRuleCombiningAlgorithm.cs" />
+    <Compile Include="Interfaces\IRuleCombiningAlgorithmRepository.cs" />
+    <Compile Include="Interfaces\ITypeSpecificFunction.cs" />
+    <Compile Include="PolicyLoader.cs" />
+    <Compile Include="Policy\ApplyBase.cs" />
+    <Compile Include="Policy\ApplyBaseReadWrite.cs" />
+    <Compile Include="Policy\ApplyElement.cs" />
+    <Compile Include="Policy\AttributeAssignmentCollection.cs" />
+    <Compile Include="Policy\AttributeAssignmentElement.cs" />
+    <Compile Include="Policy\AttributeAssignmentElementReadWrite.cs" />
+    <Compile Include="Policy\AttributeAssignmentReadWriteCollection.cs" />
+    <Compile Include="Policy\AttributeDesignatorBase.cs" />
+    <Compile Include="Policy\AttributeReferenceBase.cs" />
+    <Compile Include="Policy\AttributeSelectorElement.cs" />
+    <Compile Include="Policy\AttributeValueElement.cs" />
+    <Compile Include="Policy\AttributeValueElementReadWrite.cs" />
+    <Compile Include="Policy\CombinerParameterElement.cs" />
+    <Compile Include="Policy\ConditionElement.cs" />
+    <Compile Include="Policy\ConditionElementReadWrite.cs" />
+    <Compile Include="Policy\Effect.cs" />
+    <Compile Include="Policy\FunctionElement.cs" />
+    <Compile Include="Policy\FunctionElementReadWrite.cs" />
+    <Compile Include="Policy\IExpressionCollection.cs" />
+    <Compile Include="Policy\IExpressionReadWriteCollection.cs" />
+    <Compile Include="Policy\ObligationCollection.cs" />
+    <Compile Include="Policy\ObligationElement.cs" />
+    <Compile Include="Policy\ObligationElementReadWrite.cs" />
+    <Compile Include="Policy\ObligationReadWriteCollection.cs" />
+    <Compile Include="Policy\PolicyCombinerParameterElement.cs" />
+    <Compile Include="Policy\PolicyDocument.cs" />
+    <Compile Include="Policy\PolicyDocumentReadWrite.cs" />
+    <Compile Include="Policy\PolicyElement.cs" />
+    <Compile Include="Policy\PolicyElementReadWrite.cs" />
+    <Compile Include="Policy\PolicyIdReferenceElement.cs" />
+    <Compile Include="Policy\PolicyIdReferenceElementReadWrite.cs" />
+    <Compile Include="Policy\PolicySetCombinerParameterElement.cs" />
+    <Compile Include="Policy\PolicySetElement.cs" />
+    <Compile Include="Policy\PolicySetElementReadWrite.cs" />
+    <Compile Include="Policy\PolicySetIdReferenceElement.cs" />
+    <Compile Include="Policy\PolicySetIdReferenceElementReadWrite.cs" />
+    <Compile Include="Policy\RuleCollection.cs" />
+    <Compile Include="Policy\RuleCombinerParameterElement.cs" />
+    <Compile Include="Policy\RuleElement.cs" />
+    <Compile Include="Policy\RuleElementReadWrite.cs" />
+    <Compile Include="Policy\RuleReadWriteCollection.cs" />
+    <Compile Include="Policy\StringValueBase.cs" />
+    <Compile Include="Policy\TargetElement.cs" />
+    <Compile Include="Policy\TargetElementReadWrite.cs" />
+    <Compile Include="Policy\TargetItems\ActionAttributeDesignatorElement.cs" />
+    <Compile Include="Policy\TargetItems\ActionElement.cs" />
+    <Compile Include="Policy\TargetItems\ActionElementReadWrite.cs" />
+    <Compile Include="Policy\TargetItems\ActionMatchElement.cs" />
+    <Compile Include="Policy\TargetItems\ActionMatchElementReadWrite.cs" />
+    <Compile Include="Policy\TargetItems\ActionsElement.cs" />
+    <Compile Include="Policy\TargetItems\ActionsElementReadWrite.cs" />
+    <Compile Include="Policy\TargetItems\EnvironmentAttributeDesignatorElement.cs" />
+    <Compile Include="Policy\TargetItems\EnvironmentElement.cs" />
+    <Compile Include="Policy\TargetItems\EnvironmentElementReadWrite.cs" />
+    <Compile Include="Policy\TargetItems\EnvironmentMatchElement.cs" />
+    <Compile Include="Policy\TargetItems\EnvironmentMatchElementReadWrite.cs" />
+    <Compile Include="Policy\TargetItems\EnvironmentsElement.cs" />
+    <Compile Include="Policy\TargetItems\EnvironmentsElementReadWrite.cs" />
+    <Compile Include="Policy\TargetItems\ResourceAttributeDesignatorElement.cs" />
+    <Compile Include="Policy\TargetItems\ResourceElement.cs" />
+    <Compile Include="Policy\TargetItems\ResourceElementReadWrite.cs" />
+    <Compile Include="Policy\TargetItems\ResourceMatchElement.cs" />
+    <Compile Include="Policy\TargetItems\ResourceMatchElementReadWrite.cs" />
+    <Compile Include="Policy\TargetItems\ResourcesElement.cs" />
+    <Compile Include="Policy\TargetItems\ResourcesElementReadWrite.cs" />
+    <Compile Include="Policy\TargetItems\SubjectAttributeDesignatorElement.cs" />
+    <Compile Include="Policy\TargetItems\SubjectElement.cs" />
+    <Compile Include="Policy\TargetItems\SubjectElementReadWrite.cs" />
+    <Compile Include="Policy\TargetItems\SubjectMatchElement.cs" />
+    <Compile Include="Policy\TargetItems\SubjectMatchElementReadWrite.cs" />
+    <Compile Include="Policy\TargetItems\SubjectsElement.cs" />
+    <Compile Include="Policy\TargetItems\SubjectsElementReadWrite.cs" />
+    <Compile Include="Policy\TargetItems\TargetItemBase.cs" />
+    <Compile Include="Policy\TargetItems\TargetItemBaseReadWrite.cs" />
+    <Compile Include="Policy\TargetItems\TargetItemCollection.cs" />
+    <Compile Include="Policy\TargetItems\TargetItemReadWriteCollection.cs" />
+    <Compile Include="Policy\TargetItems\TargetItemsBase.cs" />
+    <Compile Include="Policy\TargetItems\TargetItemsBaseReadWrite.cs" />
+    <Compile Include="Policy\TargetItems\TargetMatchBase.cs" />
+    <Compile Include="Policy\TargetItems\TargetMatchBaseReadWrite.cs" />
+    <Compile Include="Policy\TargetItems\TargetMatchCollection.cs" />
+    <Compile Include="Policy\TargetItems\TargetMatchReadWriteCollection.cs" />
+    <Compile Include="Policy\VariableDefinitionElement.cs" />
+    <Compile Include="Policy\VariableReferenceElement.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resource.Designer.cs">
+      <DependentUpon>Resource.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Runtime\ActionTargetItems.cs" />
+    <Compile Include="Runtime\Apply.cs" />
+    <Compile Include="Runtime\ApplyBase.cs" />
+    <Compile Include="Runtime\BagValue.cs" />
+    <Compile Include="Runtime\Condition.cs" />
+    <Compile Include="Runtime\Condition2.cs" />
+    <Compile Include="Runtime\DataTypeDescriptor.cs" />
+    <Compile Include="Runtime\DataTypes\AnyUri.cs" />
+    <Compile Include="Runtime\DataTypes\Bag.cs" />
+    <Compile Include="Runtime\DataTypes\Base64Binary.cs" />
+    <Compile Include="Runtime\DataTypes\BooleanDataType.cs" />
+    <Compile Include="Runtime\DataTypes\DateDataType.cs" />
+    <Compile Include="Runtime\DataTypes\DateTime.cs" />
+    <Compile Include="Runtime\DataTypes\DayTimeDuration.cs" />
+    <Compile Include="Runtime\DataTypes\DnsNameDataType.cs" />
+    <Compile Include="Runtime\DataTypes\DoubleDataType.cs" />
+    <Compile Include="Runtime\DataTypes\FunctionDataType.cs" />
+    <Compile Include="Runtime\DataTypes\HexBinary.cs" />
+    <Compile Include="Runtime\DataTypes\IntegerDataType.cs" />
+    <Compile Include="Runtime\DataTypes\IpAddressDataType.cs" />
+    <Compile Include="Runtime\DataTypes\Rfc822Name.cs" />
+    <Compile Include="Runtime\DataTypes\StringDataType.cs" />
+    <Compile Include="Runtime\DataTypes\Time.cs" />
+    <Compile Include="Runtime\DataTypes\X500Name.cs" />
+    <Compile Include="Runtime\DataTypes\YearMonthDuration.cs" />
+    <Compile Include="Runtime\Decission.cs" />
+    <Compile Include="Runtime\EvaluationContext.cs" />
+    <Compile Include="Runtime\EvaluationEngine.cs" />
+    <Compile Include="Runtime\EvaluationValue.cs" />
+    <Compile Include="Runtime\Functions\AllTypes\AllOf.cs" />
+    <Compile Include="Runtime\Functions\AllTypes\AllOfAll.cs" />
+    <Compile Include="Runtime\Functions\AllTypes\AllOfAny.cs" />
+    <Compile Include="Runtime\Functions\AllTypes\AnyOf.cs" />
+    <Compile Include="Runtime\Functions\AllTypes\AnyOfAll.cs" />
+    <Compile Include="Runtime\Functions\AllTypes\AnyOfAny.cs" />
+    <Compile Include="Runtime\Functions\AllTypes\MapFunction.cs" />
+    <Compile Include="Runtime\Functions\AllTypes\NofFunction.cs" />
+    <Compile Include="Runtime\Functions\AnyUri\AnyUriAtLeastOneMemberOf.cs" />
+    <Compile Include="Runtime\Functions\AnyUri\AnyUriBag.cs" />
+    <Compile Include="Runtime\Functions\AnyUri\AnyUriBagSize.cs" />
+    <Compile Include="Runtime\Functions\AnyUri\AnyUriEqual.cs" />
+    <Compile Include="Runtime\Functions\AnyUri\AnyUriIntersection.cs" />
+    <Compile Include="Runtime\Functions\AnyUri\AnyUriIsIn.cs" />
+    <Compile Include="Runtime\Functions\AnyUri\AnyUriOneAndOnly.cs" />
+    <Compile Include="Runtime\Functions\AnyUri\AnyUriRegexpMatch.cs" />
+    <Compile Include="Runtime\Functions\AnyUri\AnyUriSetEquals.cs" />
+    <Compile Include="Runtime\Functions\AnyUri\AnyUriSubset.cs" />
+    <Compile Include="Runtime\Functions\AnyUri\AnyUriUnion.cs" />
+    <Compile Include="Runtime\Functions\AnyUri\UrlStringConcatenate.cs" />
+    <Compile Include="Runtime\Functions\Base64Binary\Base64BinaryAtLeastOneMemberOf.cs" />
+    <Compile Include="Runtime\Functions\Base64Binary\Base64BinaryBag.cs" />
+    <Compile Include="Runtime\Functions\Base64Binary\Base64BinaryBagSize.cs" />
+    <Compile Include="Runtime\Functions\Base64Binary\Base64BinaryEqual.cs" />
+    <Compile Include="Runtime\Functions\Base64Binary\Base64BinaryIntersection.cs" />
+    <Compile Include="Runtime\Functions\Base64Binary\Base64BinaryIsIn.cs" />
+    <Compile Include="Runtime\Functions\Base64Binary\Base64BinaryOneAndOnly.cs" />
+    <Compile Include="Runtime\Functions\Base64Binary\Base64BinarySetEquals.cs" />
+    <Compile Include="Runtime\Functions\Base64Binary\Base64BinarySubset.cs" />
+    <Compile Include="Runtime\Functions\Base64Binary\Base64BinaryUnion.cs" />
+    <Compile Include="Runtime\Functions\BaseAtLeastOneMemberOf.cs" />
+    <Compile Include="Runtime\Functions\BaseBag.cs" />
+    <Compile Include="Runtime\Functions\BaseBagSize.cs" />
+    <Compile Include="Runtime\Functions\BaseEqual.cs" />
+    <Compile Include="Runtime\Functions\BaseIntersection.cs" />
+    <Compile Include="Runtime\Functions\BaseIsIn.cs" />
+    <Compile Include="Runtime\Functions\BaseMathOperation.cs" />
+    <Compile Include="Runtime\Functions\BaseOneAndOnly.cs" />
+    <Compile Include="Runtime\Functions\BaseSetEquals.cs" />
+    <Compile Include="Runtime\Functions\BaseSubset.cs" />
+    <Compile Include="Runtime\Functions\BaseUnion.cs" />
+    <Compile Include="Runtime\Functions\Boolean\AndFunction.cs" />
+    <Compile Include="Runtime\Functions\Boolean\BooleanAtLeastOneMemberOf.cs" />
+    <Compile Include="Runtime\Functions\Boolean\BooleanBag.cs" />
+    <Compile Include="Runtime\Functions\Boolean\BooleanBagSize.cs" />
+    <Compile Include="Runtime\Functions\Boolean\BooleanEqual.cs" />
+    <Compile Include="Runtime\Functions\Boolean\BooleanIntersection.cs" />
+    <Compile Include="Runtime\Functions\Boolean\BooleanIsIn.cs" />
+    <Compile Include="Runtime\Functions\Boolean\BooleanOneAndOnly.cs" />
+    <Compile Include="Runtime\Functions\Boolean\BooleanSetEquals.cs" />
+    <Compile Include="Runtime\Functions\Boolean\BooleanSubset.cs" />
+    <Compile Include="Runtime\Functions\Boolean\BooleanUnion.cs" />
+    <Compile Include="Runtime\Functions\Boolean\NotFunction.cs" />
+    <Compile Include="Runtime\Functions\Boolean\OrFunction.cs" />
+    <Compile Include="Runtime\Functions\DateTime\DateTimeAddDayTimeDuration.cs" />
+    <Compile Include="Runtime\Functions\DateTime\DateTimeAddYearMonthDuration.cs" />
+    <Compile Include="Runtime\Functions\DateTime\DateTimeAtLeastOneMemberOf.cs" />
+    <Compile Include="Runtime\Functions\DateTime\DateTimeBag.cs" />
+    <Compile Include="Runtime\Functions\DateTime\DateTimeBagSize.cs" />
+    <Compile Include="Runtime\Functions\DateTime\DateTimeEqual.cs" />
+    <Compile Include="Runtime\Functions\DateTime\DateTimeGreaterThan.cs" />
+    <Compile Include="Runtime\Functions\DateTime\DateTimeGreaterThanOrEqual.cs" />
+    <Compile Include="Runtime\Functions\DateTime\DateTimeIntersection.cs" />
+    <Compile Include="Runtime\Functions\DateTime\DateTimeIsIn.cs" />
+    <Compile Include="Runtime\Functions\DateTime\DateTimeLessThan.cs" />
+    <Compile Include="Runtime\Functions\DateTime\DateTimeLessThanOrEqual.cs" />
+    <Compile Include="Runtime\Functions\DateTime\DateTimeOneAndOnly.cs" />
+    <Compile Include="Runtime\Functions\DateTime\DateTimeSetEquals.cs" />
+    <Compile Include="Runtime\Functions\DateTime\DateTimeSubset.cs" />
+    <Compile Include="Runtime\Functions\DateTime\DateTimeSubtractTimeDuration.cs" />
+    <Compile Include="Runtime\Functions\DateTime\DateTimeSubtractYearMonthDuration.cs" />
+    <Compile Include="Runtime\Functions\DateTime\DateTimeUnion.cs" />
+    <Compile Include="Runtime\Functions\Date\DateAddYearMonthDuration.cs" />
+    <Compile Include="Runtime\Functions\Date\DateAtLeastOneMemberOf.cs" />
+    <Compile Include="Runtime\Functions\Date\DateBag.cs" />
+    <Compile Include="Runtime\Functions\Date\DateBagSize.cs" />
+    <Compile Include="Runtime\Functions\Date\DateEqual.cs" />
+    <Compile Include="Runtime\Functions\Date\DateGreaterThan.cs" />
+    <Compile Include="Runtime\Functions\Date\DateGreaterThanOrEqual.cs" />
+    <Compile Include="Runtime\Functions\Date\DateIntersection.cs" />
+    <Compile Include="Runtime\Functions\Date\DateIsIn.cs" />
+    <Compile Include="Runtime\Functions\Date\DateLessThan.cs" />
+    <Compile Include="Runtime\Functions\Date\DateLessThanOrEqual.cs" />
+    <Compile Include="Runtime\Functions\Date\DateOneAndOnly.cs" />
+    <Compile Include="Runtime\Functions\Date\DateSetEquals.cs" />
+    <Compile Include="Runtime\Functions\Date\DateSubset.cs" />
+    <Compile Include="Runtime\Functions\Date\DateSubtractYearMonthDuration.cs" />
+    <Compile Include="Runtime\Functions\Date\DateUnion.cs" />
+    <Compile Include="Runtime\Functions\DayTimeDuration\DayTimeDurationAtLeastOneMemberOf.cs" />
+    <Compile Include="Runtime\Functions\DayTimeDuration\DayTimeDurationBag.cs" />
+    <Compile Include="Runtime\Functions\DayTimeDuration\DayTimeDurationBagSize.cs" />
+    <Compile Include="Runtime\Functions\DayTimeDuration\DayTimeDurationEqual.cs" />
+    <Compile Include="Runtime\Functions\DayTimeDuration\DayTimeDurationIntersection.cs" />
+    <Compile Include="Runtime\Functions\DayTimeDuration\DayTimeDurationIsIn.cs" />
+    <Compile Include="Runtime\Functions\DayTimeDuration\DayTimeDurationOneAndOnly.cs" />
+    <Compile Include="Runtime\Functions\DayTimeDuration\DayTimeDurationSetEquals.cs" />
+    <Compile Include="Runtime\Functions\DayTimeDuration\DayTimeDurationSubset.cs" />
+    <Compile Include="Runtime\Functions\DayTimeDuration\DayTimeDurationUnion.cs" />
+    <Compile Include="Runtime\Functions\DnsName\DnsNameAtLeastOneMemberOf.cs" />
+    <Compile Include="Runtime\Functions\DnsName\DnsNameBag.cs" />
+    <Compile Include="Runtime\Functions\DnsName\DnsNameBagSize.cs" />
+    <Compile Include="Runtime\Functions\DnsName\DnsNameEqual.cs" />
+    <Compile Include="Runtime\Functions\DnsName\DnsNameIntersection.cs" />
+    <Compile Include="Runtime\Functions\DnsName\DnsNameIsIn.cs" />
+    <Compile Include="Runtime\Functions\DnsName\DnsNameOneAndOnly.cs" />
+    <Compile Include="Runtime\Functions\DnsName\DnsNameRegexpMatch.cs" />
+    <Compile Include="Runtime\Functions\DnsName\DnsNameSetEquals.cs" />
+    <Compile Include="Runtime\Functions\DnsName\DnsNameSubset.cs" />
+    <Compile Include="Runtime\Functions\DnsName\DnsNameUnion.cs" />
+    <Compile Include="Runtime\Functions\Double\DoubleAbs.cs" />
+    <Compile Include="Runtime\Functions\Double\DoubleAdd.cs" />
+    <Compile Include="Runtime\Functions\Double\DoubleAtLeastOneMemberOf.cs" />
+    <Compile Include="Runtime\Functions\Double\DoubleBag.cs" />
+    <Compile Include="Runtime\Functions\Double\DoubleBagSize.cs" />
+    <Compile Include="Runtime\Functions\Double\DoubleDivide.cs" />
+    <Compile Include="Runtime\Functions\Double\DoubleEqual.cs" />
+    <Compile Include="Runtime\Functions\Double\DoubleGreaterThan.cs" />
+    <Compile Include="Runtime\Functions\Double\DoubleGreaterThanOrEqual.cs" />
+    <Compile Include="Runtime\Functions\Double\DoubleIntersection.cs" />
+    <Compile Include="Runtime\Functions\Double\DoubleIsIn.cs" />
+    <Compile Include="Runtime\Functions\Double\DoubleLessThan.cs" />
+    <Compile Include="Runtime\Functions\Double\DoubleLessThanOrEqual.cs" />
+    <Compile Include="Runtime\Functions\Double\DoubleMultiply.cs" />
+    <Compile Include="Runtime\Functions\Double\DoubleOneAndOnly.cs" />
+    <Compile Include="Runtime\Functions\Double\DoubleSetEquals.cs" />
+    <Compile Include="Runtime\Functions\Double\DoubleSubset.cs" />
+    <Compile Include="Runtime\Functions\Double\DoubleSubtract.cs" />
+    <Compile Include="Runtime\Functions\Double\DoubleToInteger.cs" />
+    <Compile Include="Runtime\Functions\Double\DoubleUnion.cs" />
+    <Compile Include="Runtime\Functions\Double\Floor.cs" />
+    <Compile Include="Runtime\Functions\Double\Round.cs" />
+    <Compile Include="Runtime\Functions\FunctionBase.cs" />
+    <Compile Include="Runtime\Functions\HexBinary\HexBinaryAtLeastOneMemberOf.cs" />
+    <Compile Include="Runtime\Functions\HexBinary\HexBinaryBag.cs" />
+    <Compile Include="Runtime\Functions\HexBinary\HexBinaryBagSize.cs" />
+    <Compile Include="Runtime\Functions\HexBinary\HexBinaryEqual.cs" />
+    <Compile Include="Runtime\Functions\HexBinary\HexBinaryIntersection.cs" />
+    <Compile Include="Runtime\Functions\HexBinary\HexBinaryIsIn.cs" />
+    <Compile Include="Runtime\Functions\HexBinary\HexBinaryOneAndOnly.cs" />
+    <Compile Include="Runtime\Functions\HexBinary\HexBinarySetEquals.cs" />
+    <Compile Include="Runtime\Functions\HexBinary\HexBinarySubset.cs" />
+    <Compile Include="Runtime\Functions\HexBinary\HexBinaryUnion.cs" />
+    <Compile Include="Runtime\Functions\Integer\IntegerAbs.cs" />
+    <Compile Include="Runtime\Functions\Integer\IntegerAdd.cs" />
+    <Compile Include="Runtime\Functions\Integer\IntegerAtLeastOneMemberOf.cs" />
+    <Compile Include="Runtime\Functions\Integer\IntegerBag.cs" />
+    <Compile Include="Runtime\Functions\Integer\IntegerBagSize.cs" />
+    <Compile Include="Runtime\Functions\Integer\IntegerDivide.cs" />
+    <Compile Include="Runtime\Functions\Integer\IntegerEqual.cs" />
+    <Compile Include="Runtime\Functions\Integer\IntegerGreaterThan.cs" />
+    <Compile Include="Runtime\Functions\Integer\IntegerGreaterThanOrEqual.cs" />
+    <Compile Include="Runtime\Functions\Integer\IntegerIntersection.cs" />
+    <Compile Include="Runtime\Functions\Integer\IntegerIsIn.cs" />
+    <Compile Include="Runtime\Functions\Integer\IntegerLessThan.cs" />
+    <Compile Include="Runtime\Functions\Integer\IntegerLessThanOrEqual.cs" />
+    <Compile Include="Runtime\Functions\Integer\IntegerMod.cs" />
+    <Compile Include="Runtime\Functions\Integer\IntegerMultiply.cs" />
+    <Compile Include="Runtime\Functions\Integer\IntegerOneAndOnly.cs" />
+    <Compile Include="Runtime\Functions\Integer\IntegerSetEquals.cs" />
+    <Compile Include="Runtime\Functions\Integer\IntegerSubset.cs" />
+    <Compile Include="Runtime\Functions\Integer\IntegerSubtract.cs" />
+    <Compile Include="Runtime\Functions\Integer\IntegerToDouble.cs" />
+    <Compile Include="Runtime\Functions\Integer\IntegerUnion.cs" />
+    <Compile Include="Runtime\Functions\IpAddress\IpAddressAtLeastOneMemberOf.cs" />
+    <Compile Include="Runtime\Functions\IpAddress\IpAddressBag.cs" />
+    <Compile Include="Runtime\Functions\IpAddress\IpAddressBagSize.cs" />
+    <Compile Include="Runtime\Functions\IpAddress\IpAddressEqual.cs" />
+    <Compile Include="Runtime\Functions\IpAddress\IpAddressIntersection.cs" />
+    <Compile Include="Runtime\Functions\IpAddress\IpAddressIsIn.cs" />
+    <Compile Include="Runtime\Functions\IpAddress\IpAddressOneAndOnly.cs" />
+    <Compile Include="Runtime\Functions\IpAddress\IpAddressRegexpMatch.cs" />
+    <Compile Include="Runtime\Functions\IpAddress\IpAddressSetEquals.cs" />
+    <Compile Include="Runtime\Functions\IpAddress\IpAddressSubset.cs" />
+    <Compile Include="Runtime\Functions\IpAddress\IpAddressUnion.cs" />
+    <Compile Include="Runtime\Functions\RegexpMatchBase.cs" />
+    <Compile Include="Runtime\Functions\Rfc822Name\Rfc822NameAtLeastOneMemberOf.cs" />
+    <Compile Include="Runtime\Functions\Rfc822Name\Rfc822NameBag.cs" />
+    <Compile Include="Runtime\Functions\Rfc822Name\Rfc822NameBagSize.cs" />
+    <Compile Include="Runtime\Functions\Rfc822Name\Rfc822NameEqual.cs" />
+    <Compile Include="Runtime\Functions\Rfc822Name\Rfc822NameIntersection.cs" />
+    <Compile Include="Runtime\Functions\Rfc822Name\Rfc822NameIsIn.cs" />
+    <Compile Include="Runtime\Functions\Rfc822Name\Rfc822NameMatch.cs" />
+    <Compile Include="Runtime\Functions\Rfc822Name\Rfc822NameOneAndOnly.cs" />
+    <Compile Include="Runtime\Functions\Rfc822Name\Rfc822NameRegexpMatch.cs" />
+    <Compile Include="Runtime\Functions\Rfc822Name\Rfc822NameSetEquals.cs" />
+    <Compile Include="Runtime\Functions\Rfc822Name\Rfc822NameSubset.cs" />
+    <Compile Include="Runtime\Functions\Rfc822Name\Rfc822NameUnion.cs" />
+    <Compile Include="Runtime\Functions\String\StringAtLeastOneMemberOf.cs" />
+    <Compile Include="Runtime\Functions\String\StringBag.cs" />
+    <Compile Include="Runtime\Functions\String\StringBagSize.cs" />
+    <Compile Include="Runtime\Functions\String\StringConcatenate.cs" />
+    <Compile Include="Runtime\Functions\String\StringEqual.cs" />
+    <Compile Include="Runtime\Functions\String\StringGreaterThan.cs" />
+    <Compile Include="Runtime\Functions\String\StringGreaterThanOrEqual.cs" />
+    <Compile Include="Runtime\Functions\String\StringIntersection.cs" />
+    <Compile Include="Runtime\Functions\String\StringIsIn.cs" />
+    <Compile Include="Runtime\Functions\String\StringLessThan.cs" />
+    <Compile Include="Runtime\Functions\String\StringLessThanOrEqual.cs" />
+    <Compile Include="Runtime\Functions\String\StringNormalizeSpace.cs" />
+    <Compile Include="Runtime\Functions\String\StringNormalizeToLowerCase.cs" />
+    <Compile Include="Runtime\Functions\String\StringOneAndOnly.cs" />
+    <Compile Include="Runtime\Functions\String\StringRegexpMatch.cs" />
+    <Compile Include="Runtime\Functions\String\StringSetEquals.cs" />
+    <Compile Include="Runtime\Functions\String\StringSubset.cs" />
+    <Compile Include="Runtime\Functions\String\StringUnion.cs" />
+    <Compile Include="Runtime\Functions\Time\TimeAtLeastOneMemberOf.cs" />
+    <Compile Include="Runtime\Functions\Time\TimeBag.cs" />
+    <Compile Include="Runtime\Functions\Time\TimeBagSize.cs" />
+    <Compile Include="Runtime\Functions\Time\TimeEqual.cs" />
+    <Compile Include="Runtime\Functions\Time\TimeGreaterThan.cs" />
+    <Compile Include="Runtime\Functions\Time\TimeGreaterThanOrEqual.cs" />
+    <Compile Include="Runtime\Functions\Time\TimeIntersection.cs" />
+    <Compile Include="Runtime\Functions\Time\TimeIsIn.cs" />
+    <Compile Include="Runtime\Functions\Time\TimeLessThan.cs" />
+    <Compile Include="Runtime\Functions\Time\TimeLessThanOrEqual.cs" />
+    <Compile Include="Runtime\Functions\Time\TimeOneAndOnly.cs" />
+    <Compile Include="Runtime\Functions\Time\TimeSetEquals.cs" />
+    <Compile Include="Runtime\Functions\Time\TimeSubset.cs" />
+    <Compile Include="Runtime\Functions\Time\TimeUnion.cs" />
+    <Compile Include="Runtime\Functions\X500Name\X500NameAtLeastOneMemberOf.cs" />
+    <Compile Include="Runtime\Functions\X500Name\X500NameBag.cs" />
+    <Compile Include="Runtime\Functions\X500Name\X500NameBagSize.cs" />
+    <Compile Include="Runtime\Functions\X500Name\X500NameEqual.cs" />
+    <Compile Include="Runtime\Functions\X500Name\X500NameIntersection.cs" />
+    <Compile Include="Runtime\Functions\X500Name\X500NameIsIn.cs" />
+    <Compile Include="Runtime\Functions\X500Name\X500NameMatch.cs" />
+    <Compile Include="Runtime\Functions\X500Name\X500NameOneAndOnly.cs" />
+    <Compile Include="Runtime\Functions\X500Name\X500NameRegexpMatch.cs" />
+    <Compile Include="Runtime\Functions\X500Name\X500NameSetEquals.cs" />
+    <Compile Include="Runtime\Functions\X500Name\X500NameSubset.cs" />
+    <Compile Include="Runtime\Functions\X500Name\X500NameUnion.cs" />
+    <Compile Include="Runtime\Functions\XPath\XPathNodeCount.cs" />
+    <Compile Include="Runtime\Functions\XPath\XPathNodeEqual.cs" />
+    <Compile Include="Runtime\Functions\XPath\XPathNodeMatch.cs" />
+    <Compile Include="Runtime\Functions\YearMonthDuration\YearMonthDurationAtLeastOneMemberOf.cs" />
+    <Compile Include="Runtime\Functions\YearMonthDuration\YearMonthDurationBag.cs" />
+    <Compile Include="Runtime\Functions\YearMonthDuration\YearMonthDurationBagSize.cs" />
+    <Compile Include="Runtime\Functions\YearMonthDuration\YearMonthDurationEqual.cs" />
+    <Compile Include="Runtime\Functions\YearMonthDuration\YearMonthDurationIntersection.cs" />
+    <Compile Include="Runtime\Functions\YearMonthDuration\YearMonthDurationIsIn.cs" />
+    <Compile Include="Runtime\Functions\YearMonthDuration\YearMonthDurationOneAndOnly.cs" />
+    <Compile Include="Runtime\Functions\YearMonthDuration\YearMonthDurationSetEquals.cs" />
+    <Compile Include="Runtime\Functions\YearMonthDuration\YearMonthDurationSubset.cs" />
+    <Compile Include="Runtime\Functions\YearMonthDuration\YearMonthDurationUnion.cs" />
+    <Compile Include="Runtime\IEvaluable.cs" />
+    <Compile Include="Runtime\IFunctionParameterCollection.cs" />
+    <Compile Include="Runtime\IMatchEvaluable.cs" />
+    <Compile Include="Runtime\IMatchEvaluableCollection.cs" />
+    <Compile Include="Runtime\IObligationsContainer.cs" />
+    <Compile Include="Runtime\Policy.cs" />
+    <Compile Include="Runtime\PolicyCombiningAlgorithmDenyOverrides.cs" />
+    <Compile Include="Runtime\PolicyCombiningAlgorithmFirstApplicable.cs" />
+    <Compile Include="Runtime\PolicyCombiningAlgorithmOnlyOneApplicable.cs" />
+    <Compile Include="Runtime\PolicyCombiningAlgorithmOrderedDenyOverrides.cs" />
+    <Compile Include="Runtime\PolicyCombiningAlgorithmOrderedPermitOverrides.cs" />
+    <Compile Include="Runtime\PolicyCombiningAlgorithmPermitOverrides.cs" />
+    <Compile Include="Runtime\PolicySet.cs" />
+    <Compile Include="Runtime\ResourceTargetItems.cs" />
+    <Compile Include="Runtime\Rule.cs" />
+    <Compile Include="Runtime\RuleCollection.cs" />
+    <Compile Include="Runtime\RuleCombiningAlgorithmDenyOverrides.cs" />
+    <Compile Include="Runtime\RuleCombiningAlgorithmFirstApplicable.cs" />
+    <Compile Include="Runtime\RuleCombiningAlgorithmOrderedDenyOverrides.cs" />
+    <Compile Include="Runtime\RuleCombiningAlgorithmOrderedPermitOverrides.cs" />
+    <Compile Include="Runtime\RuleCombiningAlgorithmPermitOverrides.cs" />
+    <Compile Include="Runtime\SubjectTargetItems.cs" />
+    <Compile Include="Runtime\Target.cs" />
+    <Compile Include="Runtime\TargetEvaluationValue.cs" />
+    <Compile Include="Runtime\TargetItems.cs" />
+    <Compile Include="Runtime\VariableDefinition.cs" />
+    <Compile Include="XacmlElement.cs" />
+    <Compile Include="XacmlSchema.cs" />
+    <Compile Include="XacmlVersion.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Configuration\Configuration.cd" />
+    <None Include="Context\Context.cd" />
+    <None Include="Extensions\Extensions.cd" />
+    <None Include="Interfaces\Interfaces.cd" />
+    <None Include="Policy\Policy.cd" />
+    <None Include="Policy\TargetItems\TargetItems.cd" />
+    <None Include="Runtime\DataTypes\DataTypes.cd" />
+    <None Include="Runtime\Runtime.cd" />
+    <EmbeddedResource Include="Schemas\access_control-xacml-2.0-context-schema-os.xsd">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Schemas\access_control-xacml-2.0-policy-schema-os.xsd">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Schemas\cs-xacml-schema-context-01.xsd">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Schemas\cs-xacml-schema-policy-01.xsd">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <None Include="Xacml.cd" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

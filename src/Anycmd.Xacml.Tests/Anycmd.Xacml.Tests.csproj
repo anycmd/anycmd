@@ -2417,9 +2417,9 @@
     <Content Include="xml\2.IIIG006Response.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Anycmd\Anycmd.csproj">
-      <Project>{a5ee9ffc-35f4-4cab-9ab0-c9c98e97c8b5}</Project>
-      <Name>Anycmd</Name>
+    <ProjectReference Include="..\Anycmd.Xacml\Anycmd.Xacml.csproj">
+      <Project>{7ca5698f-7374-4244-b067-ef08187f82bd}</Project>
+      <Name>Anycmd.Xacml</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -65,8 +65,7 @@ namespace Anycmd.DataContracts
             {
                 throw new ArgumentNullException("orignalString");
             }
-            var hmacsha1 = new HMACSHA1();
-            hmacsha1.Key = Encoding.ASCII.GetBytes(secretKey);
+            var hmacsha1 = new HMACSHA1 {Key = Encoding.ASCII.GetBytes(secretKey)};
             byte[] hashBytes = hmacsha1.ComputeHash(Encoding.ASCII.GetBytes(orignalString));
 
             return Convert.ToBase64String(hashBytes); // 编码为Base64
