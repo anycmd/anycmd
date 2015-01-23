@@ -12,13 +12,11 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{C1B2E81A-5BD1-43F9-9219-69E1C5595EBC}"
 	ProjectSection(SolutionItems) = preProject
 		docs\AnycmdMisSite.jpg = docs\AnycmdMisSite.jpg
-		docs\Anycmd开源通用权限数据库设计说明.docx = docs\Anycmd开源通用权限数据库设计说明.docx
 		docs\Anycmd知识目录.docx = docs\Anycmd知识目录.docx
 		docs\IRbacService.docx = docs\IRbacService.docx
 		docs\MBAPI模型——向统一标准化的努力.docx = docs\MBAPI模型——向统一标准化的努力.docx
 		README.md = README.md
 		docs\包工头模式.docx = docs\包工头模式.docx
-		docs\开源第一篇.docx = docs\开源第一篇.docx
 		docs\数据交换协议指南.docx = docs\数据交换协议指南.docx
 		docs\数据交换接口文档-WebApi.docx = docs\数据交换接口文档-WebApi.docx
 		docs\有意思的妄人语录.docx = docs\有意思的妄人语录.docx
@@ -409,8 +407,8 @@ Global
 		{7CA5698F-7374-4244-B067-EF08187F82BD} = {A281D1F5-E27C-454A-A51C-2EB1CBDA87D3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35;packages\Unity.Interception.2.1.505.2\lib\NET35;packages\EnterpriseLibrary.Common.5.0.505.0\lib\NET35;packages\EnterpriseLibrary.Data.5.0.505.0\lib\NET35;packages\EnterpriseLibrary.Logging.5.0.505.1\lib\NET35;packages\EnterpriseLibrary.ExceptionHandling.5.0.505.0\lib\NET35
 		VisualSVNWorkingCopyRoot = .
+		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35;packages\Unity.Interception.2.1.505.2\lib\NET35;packages\EnterpriseLibrary.Common.5.0.505.0\lib\NET35;packages\EnterpriseLibrary.Data.5.0.505.0\lib\NET35;packages\EnterpriseLibrary.Logging.5.0.505.1\lib\NET35;packages\EnterpriseLibrary.ExceptionHandling.5.0.505.0\lib\NET35
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = src\Anycmd.AccessControl\Anycmd.AccessControl.csproj
