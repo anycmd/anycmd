@@ -107,8 +107,8 @@
 				</td>
 				<td>
 					<input name="AuditState" class="mini-combobox" style="width: 125px;"
-						textfield="name" valuefield="code" required="true"
-						data="@Html.DicItemJsonArray(Html.GetProperty("AuditState"))" shownullitem="false" />
+						   textfield="name" valuefield="code" required="true"
+						   data="@Html.DicItemJsonArray(Html.GetProperty("AuditState"))" shownullitem="false" />
 					@Html.Qtip("AuditState", entityTypeCode, codespace)
 				</td>
 				<td>
@@ -116,9 +116,24 @@
 				</td>
 				<td>
 					<input name="IsEnabled" class="mini-combobox" style="width: 125px;" required="true"
-						textfield="name" valuefield="code" 
-						data="@Html.DicItemJsonArray(Html.GetProperty("IsEnabled"))" shownullitem="false" />
+						   textfield="name" valuefield="code" 
+						   data="@Html.DicItemJsonArray(Html.GetProperty("IsEnabled"))" shownullitem="false" />
 					@Html.Qtip("IsEnabled", entityTypeCode, codespace)
+				</td>
+			</tr>
+			<tr>
+				<td>
+					@Html.IconLabel("Nickname", entityTypeCode)
+				</td>
+				<td>
+					<input name="Nickname" class="mini-textbox"
+						   text="@Html.GetProperty("Nickname", entityTypeCode).Name" required="false" />
+				</td>
+				<td>
+					@Html.IconLabel("BlogUrl", entityTypeCode)
+				</td>
+				<td>
+					<input name="BlogUrl" class="mini-textbox" required="false" />
 				</td>
 			</tr>
 			<tr>

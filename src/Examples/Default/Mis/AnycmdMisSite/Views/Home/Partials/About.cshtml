@@ -1,46 +1,48 @@
 ﻿@using Anycmd.Util
-@{
-    long totalMemory = GC.GetTotalMemory(true);
-    var mb = totalMemory / (1024 * 1024);
-}
-<p>
-    <b>Anycmd是一个.net平台的完全开源的，完整支持rbac的，将会支持xacml、javascript的通用的权限框架、引擎、中间件、解决方案。</b><br/>
-    <ol style="color:red;">
-        <li>xuexs是开发人员帐号，开发人员帐号是权限不受限制的root帐号。</li>
-        <li>admin帐号是具有很多角色、权限的帐号，admin的权限来自于root帐号给它的授权。</li>
-        <li>root帐号只负责为admin授权，所有普通帐号由admin负责授权。</li>
-        <li>转到【用户】模块查看现有账户，所有现有账户密码都是111111（六个1）。</li>
-    </ol>
-</p>
-<b>内存消耗：</b><span>@totalMemory = @mb M</span>
-<table>
-    <tr>
-        <td valign="top"><b>开发者:</b></td>
-        <td>
-            <table class="table" style="border-collapse:collapse;">
-                <thead>
-                    <tr style="text-align:center; font-weight:bold;"><td>登录名</td><td>姓名</td><td>QQ</td><td>Email</td></tr>
-                </thead>
-                <tbody>
-                    @foreach (var account in Html.CurrentHost().SysUserSet.GetDevAccounts())
-                    {
-                        <tr><td>@account.LoginName</td><td>@account.Name</td><td>@account.Qq</td><td>@account.Email</td></tr>
-                    }
-                </tbody>
-            </table>
-        </td>
-    </tr>
-</table>
-<table class="table" style="border-collapse:collapse; float:left;">
-    <thead>
-        <tr style="text-align:center; font-weight:bold;"><td>Assembly</td><td>JitMode</td><td>Version</td><td>CLR Version</td></tr>
-    </thead>
-    <tbody>
-        @foreach (var item in AppDomain.CurrentDomain.GetAssemblies().Where(a => a.FullName.StartsWith("Anycmd", StringComparison.OrdinalIgnoreCase)).OrderBy(a => a.FullName))
-        {
-            var name = item.GetName();
-            <tr><td>@name.Name</td><td>@item.GetJitMode().ToName()</td><td>@name.Version</td><td>@item.ImageRuntimeVersion</td></tr>
-        }
-    </tbody>
-</table>
-<script src="@Url.Content("~/Scripts/Views/Home/About.cshtml.js")" type="text/javascript"></script>
+@using System.Linq
+    @{
+        long totalMemory = GC.GetTotalMemory(true);
+        var mb = totalMemory / (1024 * 1024);
+    }
+    <p>
+        <b>Anycmd是一个.net平台的完全开源的，完整支持rbac的，将会支持xacml、javascript的通用的权限框架、引擎、中间件、解决方案。</b><br />
+        <ol style="color:red;">
+            <li>xuexs是开发人员帐号，开发人员帐号是权限不受限制的root帐号。</li>
+            <li>admin帐号是具有很多角色、权限的帐号，admin的权限来自于root帐号给它的授权。</li>
+            <li>root帐号只负责为admin授权，所有普通帐号由admin负责授权。</li>
+            <li>转到【用户】模块查看现有账户，所有现有账户密码都是111111（六个1）。</li>
+        </ol>
+    </p>
+    <b>内存消耗：</b><span>@totalMemory = @mb M</span>
+    <table>
+        <tr>
+            <td valign="top"><b>开发者列表:</b></td>
+            <td>
+                <table class="table" style="border-collapse:collapse; background-color: #dfe8f6;">
+                    <thead>
+                        <tr style="text-align:center; font-weight:bold;"><td>LoginName</td><td>Name</td><td>Nickname</td><td>QQ</td><td>Email</td><td>BlogUrl</td></tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var account in Html.CurrentHost().SysUserSet.GetDevAccounts().OrderBy(a => a.CreateOn))
+                        {
+                            <tr><td>@account.LoginName</td><td>@account.Name</td><td>@account.Nickname</td><td>@account.Qq</td><td>@account.Email</td><td><a href="@account.BlogUrl" target="_blank">@account.BlogUrl</a></td></tr>
+                        }
+                    </tbody>
+                </table>
+                <br/>
+                <table class="table" style="border-collapse:collapse; float:left;">
+                    <thead>
+                        <tr style="text-align:center; font-weight:bold;"><td>Assembly</td><td>JitMode</td><td>Version</td><td>CLR Version</td></tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in AppDomain.CurrentDomain.GetAssemblies().Where(a => a.FullName.StartsWith("Anycmd", StringComparison.OrdinalIgnoreCase)).OrderBy(a => a.FullName))
+                        {
+                            var name = item.GetName();
+                            <tr><td>@name.Name</td><td>@item.GetJitMode().ToName()</td><td>@name.Version</td><td>@item.ImageRuntimeVersion</td></tr>
+                        }
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <script src="@Url.Content("~/Scripts/Views/Home/About.cshtml.js")" type="text/javascript"></script>

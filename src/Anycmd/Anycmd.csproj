@@ -744,7 +744,7 @@
     <Compile Include="Util\DataTableExtension.cs" />
     <Compile Include="Engine\Host\Ac\MessageHandlers\ChangePasswordCommandHandler.cs" />
     <Compile Include="Engine\Host\Ac\MessageHandlers\AddAccountCommandHandler.cs" />
-    <Compile Include="Engine\Host\Ac\MessageHandlers\AddPasswordCommandHandler.cs" />
+    <Compile Include="Engine\Host\Ac\MessageHandlers\AssignPasswordCommandHandler.cs" />
     <Compile Include="Engine\Host\Ac\MessageHandlers\RemoveAccountCommandHandler.cs" />
     <Compile Include="Engine\Host\Ac\MessageHandlers\UpdateAccountCommandHandler.cs" />
     <Compile Include="Engine\Host\Ac\MessageHandlers\SaveHelpCommandHandler.cs" />

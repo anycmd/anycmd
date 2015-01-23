@@ -180,25 +180,17 @@ namespace Anycmd.Engine.Ac.Abstractions.Identity
         /// </summary>
         public string Name { get; set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
+        public string Nickname { get; set; }
+
         public string Email { get; set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
         public string Mobile { get; set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
         public string Telephone { get; set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
         public string Qq { get; set; }
+
+        public string BlogUrl { get; set; }
 
         /// <summary>
         /// 

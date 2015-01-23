@@ -1,10 +1,10 @@
-﻿// T4 code generation is enabled for model 'E:\anycmd\src\Examples\Default\Infrastructure\Anycmd.Ef\IdentityEntities.edmx'. 
-// To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
-// property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
-// is open in the designer.
+﻿// 为模型“E:\anycmd\src\Examples\Default\Infrastructure\Anycmd.Ef\IdentityEntities.edmx”启用了 T4 代码生成。
+// 要启用旧代码生成功能，请将“代码生成策略”设计器属性的值
+// 更改为“旧的 ObjectContext”。当在设计器中打开该模型时，此属性会出现在
+// “属性”窗口中。
 
-// If no context and entity classes have been generated, it may be because you created an empty model but
-// have not yet chosen which version of Entity Framework to use. To generate a context class and entity
-// classes for your model, open the model in the designer, right-click on the designer surface, and
-// select 'Update Model from Database...', 'Generate Database from Model...', or 'Add Code Generation
-// Item...'.
+// 如果没有生成任何上下文和实体类，可能是因为您创建了空模型但是
+// 尚未选择要使用的实体框架版本。要为您的模型生成一个上下文类和实体
+// 类，请在设计器中打开该模型，右键单击设计器图面，然后
+// 选择“从数据库更新模型...”、“从模型生成数据库...”或“添加代码生成
+// 项...”。

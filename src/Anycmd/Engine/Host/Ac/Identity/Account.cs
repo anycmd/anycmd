@@ -33,14 +33,16 @@ namespace Anycmd.Engine.Host.Ac.Identity
                 Email = input.Email,
                 Mobile = input.Mobile,
                 Name = input.Name,
+                Nickname = input.Nickname,
                 OrganizationCode = input.OrganizationCode,
-                Qq = input.QQ,
+                Qq = input.Qq,
                 QuickQuery = input.QuickQuery,
                 QuickQuery1 = input.QuickQuery1,
                 QuickQuery2 = input.QuickQuery2,
                 Telephone = input.Telephone,
                 Question = input.QuickQuery,
-                Password=input.Password
+                Password=input.Password,
+                BlogUrl = input.BlogUrl
             };
         }
 
@@ -57,12 +59,14 @@ namespace Anycmd.Engine.Host.Ac.Identity
             this.Email = input.Email;
             this.Mobile = input.Mobile;
             this.Name = input.Name;
+            this.Nickname = input.Nickname;
             this.OrganizationCode = input.OrganizationCode;
-            this.Qq = input.QQ;
+            this.Qq = input.Qq;
             this.QuickQuery = input.QuickQuery;
             this.QuickQuery1 = input.QuickQuery1;
             this.QuickQuery2 = input.QuickQuery2;
             this.Telephone = input.Telephone;
+            this.BlogUrl = input.BlogUrl;
         }
     }
 }

@@ -11,11 +11,11 @@ namespace Anycmd.Engine.Host.Ac.MessageHandlers
     using System;
     using System.Linq;
 
-    public class AddPasswordCommandHandler : CommandHandler<AssignPasswordCommand>
+    public class AssignPasswordCommandHandler : CommandHandler<AssignPasswordCommand>
     {
         private readonly IAcDomain _host;
 
-        public AddPasswordCommandHandler(IAcDomain host)
+        public AssignPasswordCommandHandler(IAcDomain host)
         {
             this._host = host;
         }
@@ -42,9 +42,16 @@ namespace Anycmd.Engine.Host.Ac.MessageHandlers
             }
             bool loginNameChanged = !string.Equals(command.Input.LoginName, entity.LoginName);
             AccountState developer;
-            if (_host.SysUserSet.TryGetDevAccount(command.Input.Id, out developer) && !command.UserSession.IsDeveloper())
+            if (_host.SysUserSet.TryGetDevAccount(command.Input.Id, out developer))
             {
-                throw new ValidationException("对不起，您不能修改开发人员的密码。");
+                if (!command.UserSession.IsDeveloper())
+                {
+                    throw new ValidationException("对不起，您不能修改开发人员的密码。");    
+                }
+                else if (command.UserSession.Account.Id != command.Input.Id)
+                {
+                    throw new ValidationException("对不起，您不能修改别的开发者的密码。");
+                }
             }
             if (!command.UserSession.IsDeveloper() && "admin".Equals(entity.LoginName, StringComparison.OrdinalIgnoreCase))
             {

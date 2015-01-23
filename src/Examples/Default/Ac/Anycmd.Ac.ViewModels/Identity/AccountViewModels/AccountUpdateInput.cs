@@ -66,6 +66,7 @@ namespace Anycmd.Ac.ViewModels.Identity.AccountViewModels
         [StringLength(50)]
         [DisplayName(@"姓名")]
         public string Name { get; set; }
+        public string Nickname { get; set; }
         /// <summary>
         /// 
         /// </summary>
@@ -104,7 +105,8 @@ namespace Anycmd.Ac.ViewModels.Identity.AccountViewModels
         /// <summary>
         /// 
         /// </summary>
-        public string QQ { get; set; }
+        public string Qq { get; set; }
+        public string BlogUrl { get; set; }
 
         public IAnycmdCommand ToCommand(IUserSession userSession)
         {

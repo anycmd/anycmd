@@ -19,6 +19,8 @@ namespace Anycmd.Engine.Ac
         private string _email;
         private string _mobile;
         private string _qq;
+        private string _nickname;
+        private string _blogUrl;
 
         /// <summary>
         /// 空账户
@@ -32,7 +34,9 @@ namespace Anycmd.Engine.Ac
             _email = string.Empty,
             _mobile = string.Empty,
             _name = string.Empty,
-            _qq = string.Empty
+            _nickname = string.Empty,
+            _qq = string.Empty,
+            _blogUrl = string.Empty
         };
 
         private AccountState(Guid id) : base(id) { }
@@ -52,7 +56,9 @@ namespace Anycmd.Engine.Ac
                 _email = account.Email,
                 _mobile = account.Mobile,
                 _name = account.Name,
-                _qq = account.Qq
+                _nickname = account.Nickname,
+                _qq = account.Qq,
+                _blogUrl = account.BlogUrl
             };
         }
 
@@ -76,6 +82,11 @@ namespace Anycmd.Engine.Ac
             get { return _name; }
         }
 
+        public string Nickname
+        {
+            get { return _nickname; }
+        }
+
         public string Code
         {
             get { return _code; }
@@ -96,6 +107,11 @@ namespace Anycmd.Engine.Ac
             get { return _mobile; }
         }
 
+        public string BlogUrl
+        {
+            get { return _blogUrl; }
+        }
+
         public DateTime? CreateOn
         {
             get { return _createOn; }
@@ -109,12 +125,14 @@ namespace Anycmd.Engine.Ac
     NumberId:'{1}',
     LoginName:'{2}',
     Name:'{3}',
-    Code:'{4}',
-    Email:'{5}',
-    Qq:'{6}',
-    Mobile:'{7}',
-    CreateOn:'{8}'
-}}", Id, NumberId, LoginName, Name, Code, Email, Qq, Mobile, CreateOn);
+    Nickname:'{4}',
+    Code:'{5}',
+    Email:'{6}',
+    Qq:'{7}',
+    Mobile:'{8}',
+    BlogUrl:'{9}',
+    CreateOn:'{10}'
+}}", Id, NumberId, LoginName, Name, Nickname, Code, Email, Qq, Mobile, BlogUrl, CreateOn);
         }
 
         protected override bool DoEquals(AccountState other)
@@ -123,10 +141,12 @@ namespace Anycmd.Engine.Ac
                 LoginName == other.LoginName &&
                 NumberId == other.NumberId &&
                 Name == other.Name &&
+                Nickname == other.Nickname &&
                 Code == other.Code &&
                 Email == other.Email &&
                 Qq == other.Qq &&
-                Mobile == other.Mobile;
+                Mobile == other.Mobile &&
+                BlogUrl == other.BlogUrl;
         }
     }
 }

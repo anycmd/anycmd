@@ -27,23 +27,21 @@ namespace Anycmd.Engine.Ac.Abstractions.Identity
         string Name { get; }
 
         /// <summary>
+        /// 网名
+        /// </summary>
+        string Nickname { get; }
+
+        /// <summary>
         /// 编码
         /// </summary>
         string Code { get; }
 
-        /// <summary>
-        /// 
-        /// </summary>
         string Email { get; }
 
-        /// <summary>
-        /// 
-        /// </summary>
         string Qq { get; }
 
-        /// <summary>
-        /// 
-        /// </summary>
         string Mobile { get; }
+
+        string BlogUrl { get; }
     }
 }

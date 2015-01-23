@@ -86,7 +86,7 @@ namespace Anycmd.Engine.Host.Impl
             base.MessageDispatcher.Register(new AddAccountCommandHandler(this));
             base.MessageDispatcher.Register(new UpdateAccountCommandHandler(this));
             base.MessageDispatcher.Register(new RemoveAccountCommandHandler(this));
-            base.MessageDispatcher.Register(new AddPasswordCommandHandler(this));
+            base.MessageDispatcher.Register(new AssignPasswordCommandHandler(this));
             base.MessageDispatcher.Register(new ChangePasswordCommandHandler(this));
             base.MessageDispatcher.Register(new SaveHelpCommandHandler(this));
             base.MessageDispatcher.Register(new UpdateDatabaseCommandHandler(this));
