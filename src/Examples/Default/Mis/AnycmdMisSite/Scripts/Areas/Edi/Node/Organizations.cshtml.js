@@ -23,7 +23,7 @@
         var record = dgOntology.getSelected();
         currentOntology = record;
         if (!record.IsOrganizationalEntity) {
-            mini.alert("选中的本体不是组织结构型本体");
+            mini.alert("选中的本体不是目录型本体");
         }
         else {
             loadOrganizationTreeNode(record.Id, data.nodeId);

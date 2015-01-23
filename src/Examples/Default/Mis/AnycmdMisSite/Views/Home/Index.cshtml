@@ -20,14 +20,14 @@
             <div id="logo" style="float: left;">
                 <a id="btnAbout" tooltip="关于" class="mini-button" plain="true">Anycmd <span style="font-size:14px;">About</span></a>
             </div>
-            <a href="Ac/Organization/Index" tooltip="组织结构" class="mini-button topMenu" plain="true" style="float: left; margin-top: 2px;">
+            <a href="Ac/Organization/Index" tooltip="目录" class="mini-button topMenu" plain="true" style="float: left; margin-top: 2px;">
                 @{
                     ResourceTypeState organization;
                     if (Html.CurrentHost().ResourceTypeSet.TryGetResource(Html.CurrentHost().AppSystemSet.SelfAppSystem, "Organization", out organization))
                     {
                         <img src="@Url.Content("~/content/icons/16x16/" + organization.Icon)" style="border:0px;" />
                     }
-                    <span>组织结构</span>
+                    <span>目录</span>
                 }
             </a>
             <a href="http://git.oschina.net/anycmd/anycmd" target="_blank" plain="true" style="float: left; margin-top: 2px; color: red;">源码</a>

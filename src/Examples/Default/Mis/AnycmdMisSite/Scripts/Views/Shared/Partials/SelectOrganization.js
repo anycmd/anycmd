@@ -85,7 +85,7 @@
             return true;
         }
         else {
-            mini.alert("没有选中组织结构");
+            mini.alert("没有选中目录");
             return false;
         }
     }

@@ -29,7 +29,7 @@
     self.add = function () {
         var newRow = grid.getRow(0);
         if (treeOrganization && !currentNode) {
-            mini.alert("请选择要添加到的组织结构");
+            mini.alert("请选择要添加到的目录");
             return;
         }
         if (!newRow || !newRow.isNewRow) {
@@ -353,7 +353,7 @@
         currentNode = node;
         var text = "";
         if (node.Code) {
-            text = "组织结构码：" + node.Code;
+            text = "目录码：" + node.Code;
         }
         $("#" + self.prifix + "spanOrgCode").text(text);
         filterData.pageIndex = 0;
