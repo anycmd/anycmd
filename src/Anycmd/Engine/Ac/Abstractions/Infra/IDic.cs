@@ -6,7 +6,7 @@ namespace Anycmd.Engine.Ac.Abstractions.Infra
     /// <summary>
     /// 表示该接口的实现类是系统字典
     /// <remarks>
-    /// 字典是没有层级的，有层级的只有组织结构。
+    /// 字典是没有层级的，有层级的只有目录。
     /// </remarks>
     /// </summary>
     public interface IDic

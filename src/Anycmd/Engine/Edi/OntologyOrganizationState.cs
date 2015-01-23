@@ -45,7 +45,7 @@ namespace Anycmd.Engine.Edi
                         var action = host.NodeHost.Ontologies.GetAction(orgAction.ActionId);
                         if (action == null)
                         {
-                            throw new AnycmdException("意外的组织结构动作标识" + orgAction.ActionId);
+                            throw new AnycmdException("意外的目录动作标识" + orgAction.ActionId);
                         }
                         OntologyDescriptor ontology;
                         if (!host.NodeHost.Ontologies.TryGetOntology(action.OntologyId, out ontology))
@@ -55,7 +55,7 @@ namespace Anycmd.Engine.Edi
                         OrganizationState org;
                         if (!host.OrganizationSet.TryGetOrganization(orgAction.OrganizationId, out org))
                         {
-                            throw new AnycmdException("意外的组织结构动作组织结构标识" + orgAction.OrganizationId);
+                            throw new AnycmdException("意外的目录动作目录标识" + orgAction.OrganizationId);
                         }
                         var actionDic = host.NodeHost.Ontologies.GetActons(ontology);
                         var verb = actionDic.Where(a => a.Value.Id == orgAction.ActionId).Select(a => a.Key).FirstOrDefault();

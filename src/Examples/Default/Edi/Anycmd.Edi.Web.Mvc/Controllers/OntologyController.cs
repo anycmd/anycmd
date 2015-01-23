@@ -124,11 +124,11 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
         }
 
         /// <summary>
-        /// 组织结构
+        /// 目录
         /// </summary>
         /// <returns></returns>
         [By("xuexs")]
-        [Description("组织结构")]
+        [Description("目录")]
         [Guid("6A8FE076-F94D-407E-AAA4-571427A7EE27")]
         public ViewResultBase Organizations()
         {
@@ -436,11 +436,11 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
         }
 
         /// <summary>
-        /// 获取给定本体的组织结构
+        /// 获取给定本体的目录
         /// </summary>
         /// <returns></returns>
         [By("xuexs")]
-        [Description("获取给定本体的组织结构")]
+        [Description("获取给定本体的目录")]
         [Guid("EE184C94-6575-453E-AC29-84FA805D15B4")]
         public ActionResult GetOrganizationNodesByParentId(Guid? ontologyId, Guid? parentId)
         {
@@ -459,7 +459,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                 OrganizationState org;
                 if (!AcDomain.OrganizationSet.TryGetOrganization(parentId.Value, out org))
                 {
-                    throw new ValidationException("意外的组织结构标识" + parentId);
+                    throw new ValidationException("意外的目录标识" + parentId);
                 }
                 parentCode = org.Code;
             }
@@ -480,11 +480,11 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
         }
 
         /// <summary>
-        /// 获取给定本体组织结构的动作
+        /// 获取给定本体目录的动作
         /// </summary>
         /// <returns></returns>
         [By("xuexs")]
-        [Description("获取给定本体组织结构的动作")]
+        [Description("获取给定本体目录的动作")]
         [Guid("7E684D68-3E95-4668-BB19-8BDB508AD986")]
         public ActionResult GetPlistOrganizationActions(GetPlistOntologyOrganizationActions input)
         {
@@ -500,7 +500,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             OrganizationState organization;
             if (!AcDomain.OrganizationSet.TryGetOrganization(input.OrganizationId, out organization))
             {
-                throw new ValidationException("意外的组织结构标识" + input.OrganizationId);
+                throw new ValidationException("意外的目录标识" + input.OrganizationId);
             }
             var data = new List<OrganizationAssignActionTr>();
             OntologyOrganizationState ontologyOrg;
@@ -552,11 +552,11 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 
         #region AddOrRemoveOrganizations
         /// <summary>
-        /// 添加或移除本体组织结构
+        /// 添加或移除本体目录
         /// </summary>
         /// <returns></returns>
         [By("xuexs")]
-        [Description("添加或移除本体组织结构")]
+        [Description("添加或移除本体目录")]
         [HttpPost]
         [Guid("407FCC10-8A8E-4EA2-9465-3F321AD9E82A")]
         public ActionResult AddOrRemoveOrganizations(Guid ontologyId, string addOrganizationIDs, string removeOrganizationIDs)
@@ -592,11 +592,11 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
         // TODO:逻辑移动到应用服务层
         #region AddOrUpdateOrganizationActions
         /// <summary>
-        /// 添加或更新本体组织结构级动作权限
+        /// 添加或更新本体目录级动作权限
         /// </summary>
         /// <returns></returns>
         [By("xuexs")]
-        [Description("添加或更新本体组织结构级动作权限")]
+        [Description("添加或更新本体目录级动作权限")]
         [HttpPost]
         [Guid("AEB99E3C-049A-45F0-8996-056255CCBE29")]
         public ActionResult AddOrUpdateOrganizationActions()
@@ -631,7 +631,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                     OrganizationState organization;
                     if (!AcDomain.OrganizationSet.TryGetOrganization(inputModel.OrganizationId, out organization))
                     {
-                        throw new ValidationException("意外的组织结构标识");
+                        throw new ValidationException("意外的目录标识");
                     }
                     var ontologyOrgDic = AcDomain.NodeHost.Ontologies.GetOntologyOrganizations(ontology);
                     OrganizationAction entity = null;

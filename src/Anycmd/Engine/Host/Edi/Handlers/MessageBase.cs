@@ -92,7 +92,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers
         public string LocalEntityId { get; protected internal set; }
 
         /// <summary>
-        /// 本地组织结构码
+        /// 本地目录码
         /// </summary>
         public string OrganizationCode { get; protected internal set; }
 

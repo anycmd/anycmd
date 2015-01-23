@@ -16,7 +16,7 @@ namespace Anycmd.Edi.ViewModels.MessageViewModels
         [Required]
         public string CommandType { get; set; }
         /// <summary>
-        /// 组织结构码
+        /// 目录码
         /// </summary>
         public string OrganizationCode { get; set; }
         /// <summary>

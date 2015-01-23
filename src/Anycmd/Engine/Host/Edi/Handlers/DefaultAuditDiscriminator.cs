@@ -125,17 +125,17 @@ namespace Anycmd.Engine.Host.Edi.Handlers
             #endregion
             if (context.Ontology.Ontology.IsOrganizationalEntity)
             {
-                // Level5OrganizationAction 如果是组织结构型本体且当前实体所属的组织结构的这个本体动作不需要审核则不审核
+                // Level5OrganizationAction 如果是目录型本体且当前实体所属的目录的这个本体动作不需要审核则不审核
                 #region Level5OrganizationAction
                 OrganizationState org;
                 if (!context.Host.OrganizationSet.TryGetOrganization(context.OrganizationCode, out org))
                 {
-                    throw new AnycmdException("非法的组织结构码" + context.OrganizationCode);
+                    throw new AnycmdException("非法的目录码" + context.OrganizationCode);
                 }
                 OntologyOrganizationState ontologyOrg;
                 if (!context.Ontology.Organizations.TryGetValue(org, out ontologyOrg))
                 {
-                    context.Exception = new AnycmdException("非法的组织结构码。非法的组织结构码的命令应该未验证通过，不应该走到这一步");
+                    context.Exception = new AnycmdException("非法的目录码。非法的目录码的命令应该未验证通过，不应该走到这一步");
                     throw context.Exception;
                 }
                 var orgActions = ontologyOrg.OrganizationActions;

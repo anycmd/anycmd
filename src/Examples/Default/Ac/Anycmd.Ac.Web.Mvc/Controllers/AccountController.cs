@@ -81,7 +81,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
         }
 
         [By("xuexs")]
-        [Description("账户所在的组织结构")]
+        [Description("账户所在的目录")]
         [Guid("50F16224-B924-4FFD-9B1A-8D5CFBE28665")]
         public ViewResultBase Organizations()
         {
@@ -245,7 +245,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             }
             input.IncludeDescendants = input.IncludeDescendants ?? false;
             List<DicReader> userAccountTrs = null;
-            // 如果组织机构为空则需要检测是否是开发人员，因为只有开发人员才可以看到全部用户。组织结构为空表示查询全部组织结构。
+            // 如果组织机构为空则需要检测是否是开发人员，因为只有开发人员才可以看到全部用户。目录为空表示查询全部目录。
             if (string.IsNullOrEmpty(input.OrganizationCode))
             {
                 if (!UserSession.IsDeveloper())
@@ -496,7 +496,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
         #endregion
 
         [By("xuexs")]
-        [Description("根据组织结构ID分页获取数据集管理员")]
+        [Description("根据目录ID分页获取数据集管理员")]
         [Guid("B4183494-8E10-484D-A536-0905A3EB37BE")]
         public ActionResult GetPlistAccountOrganizationPrivileges(GetPlistAccountOrganizationPrivileges input)
         {

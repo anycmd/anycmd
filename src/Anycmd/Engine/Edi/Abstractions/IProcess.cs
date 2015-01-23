@@ -37,7 +37,7 @@ namespace Anycmd.Engine.Edi.Abstractions {
         /// </summary>
         Guid OntologyId { get; }
         /// <summary>
-        /// 组织结构码
+        /// 目录码
         /// </summary>
         string OrganizationCode { get; }
 

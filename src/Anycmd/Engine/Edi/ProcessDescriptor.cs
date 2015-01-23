@@ -42,7 +42,7 @@ namespace Anycmd.Engine.Edi
                 OrganizationState org;
                 if (!Host.OrganizationSet.TryGetOrganization(process.OrganizationCode, out org))
                 {
-                    throw new AnycmdException("意外的组织结构码" + process.OrganizationCode);
+                    throw new AnycmdException("意外的目录码" + process.OrganizationCode);
                 }
             }
         }

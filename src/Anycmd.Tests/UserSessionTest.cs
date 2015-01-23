@@ -727,7 +727,7 @@ namespace Anycmd.Tests
                 Icon = null,
             }.ToCommand(host.GetUserSession()));
             entityId = Guid.NewGuid();
-            // 授予账户组织结构
+            // 授予账户目录
             host.Handle(new AddPrivilegeCommand(host.GetUserSession(), new PrivilegeCreateIo
             {
                 Id = entityId,
@@ -738,7 +738,7 @@ namespace Anycmd.Tests
                 ObjectInstanceId = organizationId,
                 ObjectType = AcElementType.Organization.ToString()
             }));
-            // 授予组织结构角色
+            // 授予目录角色
             entityId = Guid.NewGuid();
             host.Handle(new AddPrivilegeCommand(host.GetUserSession(), new PrivilegeCreateIo
             {
@@ -796,7 +796,7 @@ namespace Anycmd.Tests
             Assert.Equal(1, host.GetUserSession().AccountPrivilege.Roles.Count);
             Assert.Equal(1, host.GetUserSession().AccountPrivilege.AuthorizedRoles.Count);
             roleId = Guid.NewGuid();
-            // 添加一个新角色并将该角色授予上面创建的组织结构
+            // 添加一个新角色并将该角色授予上面创建的目录
             host.Handle(new RoleCreateInput
             {
                 Id = roleId,
@@ -879,7 +879,7 @@ namespace Anycmd.Tests
                 {"rememberMe", "rememberMe"}
             });
             Assert.Equal(1, host.GetUserSession().AccountPrivilege.Roles.Count);
-            Assert.Equal(3, host.GetUserSession().AccountPrivilege.AuthorizedRoles.Count);// 用户的全部角色来自直接角色、组织结构角色、工作组角色三者的并集所以是三个角色。
+            Assert.Equal(3, host.GetUserSession().AccountPrivilege.AuthorizedRoles.Count);// 用户的全部角色来自直接角色、目录角色、工作组角色三者的并集所以是三个角色。
         }
         #endregion
 

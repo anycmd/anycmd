@@ -8,7 +8,7 @@ namespace Anycmd.Engine.Ac
     using Util;
 
     /// <summary>
-    /// 表示组织结构业务实体。
+    /// 表示目录业务实体。
     /// </summary>
     public sealed class OrganizationState : StateObject<OrganizationState>, IOrganization, IAcElement
     {
@@ -102,7 +102,7 @@ namespace Anycmd.Engine.Ac
             {
                 if (this.Equals(Empty))
                 {
-                    throw new InvalidOperationException("不能访问Null组织结构的父级");
+                    throw new InvalidOperationException("不能访问Null目录的父级");
                 }
                 if (this.Equals(VirtualRoot))
                 {

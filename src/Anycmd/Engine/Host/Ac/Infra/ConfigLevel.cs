@@ -28,7 +28,7 @@ namespace Anycmd.Engine.Host.Ac.Infra
         /// </summary>
         Level4ClientElementAction = 4,
         /// <summary>
-        /// 组织结构级。
+        /// 目录级。
         /// </summary>
         Level5OrganizationAction = 5,
         /// <summary>

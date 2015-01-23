@@ -122,11 +122,11 @@ namespace Anycmd.Engine.Host.Edi.Handlers
         #region GetPlist
 
         /// <summary>
-        /// 按照组织结构分页获取指定节点、本体的数据
+        /// 按照目录分页获取指定节点、本体的数据
         /// <remarks>
         /// 1，如果传入的node是本节点自己则查询的是全部实体集。
         /// 如果传入的node不是本节点则就是应用节点，对于应用节点则查询的是与该节点相关的实体集。
-        /// 2，如果传入的组织结构为空则表示获取全部组织结构的数据。
+        /// 2，如果传入的目录为空则表示获取全部目录的数据。
         /// </remarks>
         /// </summary>
         /// <param name="filters">过滤器列表</param>
@@ -137,11 +137,11 @@ namespace Anycmd.Engine.Host.Edi.Handlers
         DataTuple GetPlist(OntologyDescriptor ontology, OrderedElementSet selectElements, List<FilterData> filters, PagingInput pagingData);
 
         /// <summary>
-        /// 按照组织结构分页获取指定节点、归档的数据
+        /// 按照目录分页获取指定节点、归档的数据
         /// <remarks>
         /// 1，如果传入的node是本节点自己则查询的是全部实体集。
         /// 如果传入的node不是本节点则就是应用节点，对于应用节点则查询的是与该节点相关的实体集。
-        /// 2，如果传入的组织结构为空则表示获取全部组织结构的数据。
+        /// 2，如果传入的目录为空则表示获取全部目录的数据。
         /// </remarks>
         /// </summary>
         /// <param name="archive"></param>

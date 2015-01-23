@@ -7,7 +7,7 @@ namespace Anycmd.Engine.Edi.Abstractions
     /// <summary>
     /// 批。
     /// 主要用在初始化数据的场景。目前的批模块实现的是为符合给定条件的实体批量生成指定类型的命令。
-    /// 比如：给定条件“本体是教师”、“某某组织结构的教师”、“包括或不包括组织结构的下级组织结构的教师”、
+    /// 比如：给定条件“本体是教师”、“某某目录的教师”、“包括或不包括目录的下级目录的教师”、
     /// “最后修改时间范围”等可以筛选出来一批教师，指定“批类型”是“BuildCreateCommand”则批量生成Create型命令，
     /// 生成的命令放入分发队列则“命令分发器”自动分发。
     /// 什么是“批”？基础库从两个角度解释“批”：
@@ -34,11 +34,11 @@ namespace Anycmd.Engine.Edi.Abstractions
         /// </summary>
         string Title { get; }
         /// <summary>
-        /// 组织结构码
+        /// 目录码
         /// </summary>
         string OrganizationCode { get; }
         /// <summary>
-        /// 是否包括子孙级组织结构下的实体
+        /// 是否包括子孙级目录下的实体
         /// </summary>
         bool? IncludeDescendants { get; }
         /// <summary>

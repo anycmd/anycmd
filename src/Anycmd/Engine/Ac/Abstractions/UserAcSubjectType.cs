@@ -16,7 +16,7 @@ namespace Anycmd.Engine.Ac.Abstractions
         /// </summary>
         Account = 0x0001,
         /// <summary>
-        /// 组织结构客体类型。
+        /// 目录客体类型。
         /// </summary>
         Organization = 0x0002,
         /// <summary>

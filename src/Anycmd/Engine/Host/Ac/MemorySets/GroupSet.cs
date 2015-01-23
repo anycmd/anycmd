@@ -244,12 +244,12 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (string.IsNullOrEmpty(input.OrganizationCode))
                 {
-                    throw new ValidationException("组织结构码不能为空");
+                    throw new ValidationException("目录码不能为空");
                 }
                 OrganizationState org;
                 if (!host.OrganizationSet.TryGetOrganization(input.OrganizationCode, out org))
                 {
-                    throw new ValidationException("非法的组织结构码" + input.OrganizationCode);
+                    throw new ValidationException("非法的目录码" + input.OrganizationCode);
                 }
 
                 var entity = Group.Create(input);
@@ -409,7 +409,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (string.IsNullOrEmpty(bkState.OrganizationCode))
                 {
-                    throw new AnycmdException("组织结构码为空");
+                    throw new AnycmdException("目录码为空");
                 }
                 Group entity;
                 var stateChanged = false;

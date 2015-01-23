@@ -216,9 +216,9 @@ namespace Anycmd.Engine.Host.Edi
         [Description("非法的本体元素码。")]
         InvalidElement = 409,
         /// <summary>
-        /// 非法的组织结构码
+        /// 非法的目录码
         /// </summary>
-        [Description("非法的组织结构码。")]
+        [Description("非法的目录码。")]
         InvalidOrganization = 410,
         /// <summary>
         /// 非法的字典值

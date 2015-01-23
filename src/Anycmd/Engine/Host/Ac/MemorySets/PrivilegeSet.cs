@@ -300,7 +300,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                             OrganizationState org;
                             if (!host.OrganizationSet.TryGetOrganization(input.SubjectInstanceId, out org))
                             {
-                                throw new ValidationException("意外的组织结构标识" + input.SubjectInstanceId);
+                                throw new ValidationException("意外的目录标识" + input.SubjectInstanceId);
                             }
                             break;
                         case AcElementType.Privilege:
@@ -316,7 +316,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                             OrganizationState organization;
                             if (!host.OrganizationSet.TryGetOrganization(input.ObjectInstanceId, out organization))
                             {
-                                throw new ValidationException("意外的组织结构标识" + input.ObjectInstanceId);
+                                throw new ValidationException("意外的目录标识" + input.ObjectInstanceId);
                             }
                             break;
                         case AcElementType.Role:

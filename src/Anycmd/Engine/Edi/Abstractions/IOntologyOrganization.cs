@@ -3,7 +3,7 @@ namespace Anycmd.Engine.Edi.Abstractions {
     using System;
 
     /// <summary>
-    /// 本体组织结构级配置模型
+    /// 本体目录级配置模型
     /// </summary>
     public interface IOntologyOrganization {
         /// <summary>

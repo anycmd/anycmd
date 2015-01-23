@@ -6,7 +6,7 @@ namespace Anycmd.Engine.Edi
 	using Hecp;
 	using Host.Ac.Infra;
 	using Host.Edi;
-    using System;
+	using System;
 	using System.Collections.Generic;
 	using System.Data;
 	using Util;
@@ -251,12 +251,12 @@ namespace Anycmd.Engine.Edi
 				return value;
 			}
 			// 是否能成功翻译，如果不能成功翻译则会返回原始值。
-			// 翻译组织结构码为组织结构名
+			// 翻译目录码为目录名
 			if (this.Ontology.Ontology.IsOrganizationalEntity
 				&& this.Element.Code.Equals("ZZJGM", StringComparison.OrdinalIgnoreCase))
 			{
 				OrganizationState org;
-				return Host.OrganizationSet.TryGetOrganization(value, out org) ? org.Name : "非法的无法翻译的组织结构码";
+				return Host.OrganizationSet.TryGetOrganization(value, out org) ? org.Name : "非法的无法翻译的目录码";
 			}
 			// 翻译节点标识为节点名
 			else if (this == this.Ontology.CreateNodeIdElement)

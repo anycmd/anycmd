@@ -165,7 +165,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers
         /// <summary>
         /// 查看该命令是否合法。
         /// <remarks>
-        /// 首先验证输入，接着验证前四级权限，再验证实体的存在性，接着验证组织结构和实体级权限。
+        /// 首先验证输入，接着验证前四级权限，再验证实体的存在性，接着验证目录和实体级权限。
         /// 注意：Level5OrganizationAction级和后续级别的验证是以实体的存在性为前提的。
         /// </remarks>
         /// </summary>
@@ -246,11 +246,11 @@ namespace Anycmd.Engine.Host.Edi.Handlers
                     return false;
                 }
                 // Level5OrganizationAction
-                #region Level5OrganizationAction 验证组织结构级动作权限
+                #region Level5OrganizationAction 验证目录级动作权限
                 OntologyOrganizationState ontologyOrg;
                 if (!this.Ontology.Organizations.TryGetValue(org, out ontologyOrg))
                 {
-                    this.Result.UpdateStatus(Status.InvalidOrganization, "组织结构" + org.Name + "/" + org.Code + "对于" + this.Ontology.Ontology.Name + "来说是非法的");
+                    this.Result.UpdateStatus(Status.InvalidOrganization, "目录" + org.Name + "/" + org.Code + "对于" + this.Ontology.Ontology.Name + "来说是非法的");
                     this._isValid = false;
                     return false;
                 }
@@ -454,10 +454,10 @@ namespace Anycmd.Engine.Host.Edi.Handlers
 
         #region OrganizationCode
         /// <summary>
-        /// 查看本地组织结构码。
+        /// 查看本地目录码。
         /// <remarks>
-        /// 首先，如果当前命令所属的本体不是组织结构型的本体则返回的是null。
-        /// 然后，如果是创建型命令则返回的是客户端输入提供的组织结构码。
+        /// 首先，如果当前命令所属的本体不是目录型的本体则返回的是null。
+        /// 然后，如果是创建型命令则返回的是客户端输入提供的目录码。
         /// </remarks>
         /// </summary>
         internal string OrganizationCode
@@ -609,16 +609,16 @@ namespace Anycmd.Engine.Host.Edi.Handlers
             if (string.IsNullOrEmpty(this.OrganizationCode))
             {
                 org = OrganizationState.Empty;
-                return new ProcessResult(false, Status.InvalidOrganization, "组织结构码为空");
+                return new ProcessResult(false, Status.InvalidOrganization, "目录码为空");
             }
             if (!_host.OrganizationSet.TryGetOrganization(this.OrganizationCode, out org))
             {
-                return new ProcessResult(false, Status.InvalidOrganization, string.Format("非法的组织结构码{0}", this.OrganizationCode));
+                return new ProcessResult(false, Status.InvalidOrganization, string.Format("非法的目录码{0}", this.OrganizationCode));
             }
             OntologyOrganizationState oorg;
             if (!this.Ontology.Organizations.TryGetValue(org, out oorg))
             {
-                return new ProcessResult(false, Status.InvalidOrganization, string.Format("对于{0}来说{1}是非法的组织结构码", this.Ontology.Ontology.Name, org.Code));
+                return new ProcessResult(false, Status.InvalidOrganization, string.Format("对于{0}来说{1}是非法的目录码", this.Ontology.Ontology.Name, org.Code));
             }
             var orgCode = org.Code;
             return _host.OrganizationSet.Any(o => orgCode.Equals(o.ParentCode, StringComparison.OrdinalIgnoreCase)) ? new ProcessResult(false, Status.InvalidOrganization, string.Format("{0}不是叶节点，不能容纳" + this.Ontology.Ontology.Name, org.Name)) : ProcessResult.Ok;

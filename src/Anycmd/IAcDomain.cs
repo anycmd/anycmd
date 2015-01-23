@@ -92,7 +92,7 @@ namespace Anycmd
         /// </summary>
         IMenuSet MenuSet { get; }
         /// <summary>
-        /// 组织结构数据集
+        /// 目录数据集
         /// </summary>
         IOrganizationSet OrganizationSet { get; }
         /// <summary>

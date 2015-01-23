@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Host.Edi.Entities
     using Model;
 
     /// <summary>
-    /// 将本体与组织结构的关系视作实体
+    /// 将本体与目录的关系视作实体
     /// </summary>
     public class OntologyOrganization : OntologyOrganizationBase, IAggregateRoot
     {

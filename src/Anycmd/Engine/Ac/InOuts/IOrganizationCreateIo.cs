@@ -4,7 +4,7 @@ namespace Anycmd.Engine.Ac.InOuts
     using System;
 
     /// <summary>
-    /// 表示该接口的实现类是创建组织结构时的输入或输出参数类型。
+    /// 表示该接口的实现类是创建目录时的输入或输出参数类型。
     /// </summary>
     public interface IOrganizationCreateIo : IEntityCreateInput
     {

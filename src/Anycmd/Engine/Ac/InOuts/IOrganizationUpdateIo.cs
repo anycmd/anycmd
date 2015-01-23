@@ -4,7 +4,7 @@ namespace Anycmd.Engine.Ac.InOuts
     using System;
 
     /// <summary>
-    /// 表示该接口的实现类是更新组织结构时的输入或输出参数类型。
+    /// 表示该接口的实现类是更新目录时的输入或输出参数类型。
     /// </summary>
     public interface IOrganizationUpdateIo : IEntityUpdateInput
     {

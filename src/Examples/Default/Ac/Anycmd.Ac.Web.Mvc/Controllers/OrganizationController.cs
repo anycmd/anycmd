@@ -22,14 +22,14 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
     using ViewModels.PrivilegeViewModels;
 
     /// <summary>
-    /// 组织结构模型视图控制器
+    /// 目录模型视图控制器
     /// </summary>
     [Guid("9EC361D7-0D7B-4295-BB79-21D800298157")]
     public class OrganizationController : AnycmdController
     {
         #region 视图
         [By("xuexs")]
-        [Description("组织结构管理")]
+        [Description("目录管理")]
         [Guid("3A593EA4-9159-4B12-92FD-9F5D3DD5EB68")]
         public ViewResultBase Index()
         {
@@ -37,7 +37,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
         }
 
         [By("xuexs")]
-        [Description("组织结构详细信息")]
+        [Description("目录详细信息")]
         [Guid("870D7CFB-D5BB-45EE-B8B5-CDFC362A59FE")]
         public ViewResultBase Details()
         {
@@ -73,7 +73,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
         }
 
         [By("xuexs")]
-        [Description("下级组织结构列表")]
+        [Description("下级目录列表")]
         [Guid("5FA956FA-CFE6-4265-8019-D7123A01E988")]
         public ViewResultBase Children()
         {
@@ -81,7 +81,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
         }
 
         [By("xuexs")]
-        [Description("组织结构账户")]
+        [Description("目录账户")]
         [Guid("AA7FFFD5-21EC-43CF-BA2F-E6A6D07B8C3F")]
         public ViewResultBase Accounts()
         {
@@ -91,7 +91,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
         #endregion
 
         [By("xuexs")]
-        [Description("根据ID获取组织结构")]
+        [Description("根据ID获取目录")]
         [Guid("530AD37E-E162-4BA5-BAE8-C21D34311CB3")]
         public ActionResult Get(Guid? id)
         {
@@ -103,7 +103,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
         }
 
         [By("xuexs")]
-        [Description("根据ID获取组织结构详细信息")]
+        [Description("根据ID获取目录详细信息")]
         [Guid("347E1C8E-66D9-4CC1-B4F5-6B76F2B4131F")]
         public ActionResult GetInfo(Guid? id)
         {
@@ -199,7 +199,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 OrganizationState parentOrg;
                 if (!AcDomain.OrganizationSet.TryGetOrganization(pid, out parentOrg))
                 {
-                    throw new ValidationException("意外的组织结构标识" + pid);
+                    throw new ValidationException("意外的目录标识" + pid);
                 }
                 return this.JsonResult(AcDomain.OrganizationSet.Where(a => parentOrg.Code.Equals(a.ParentCode, StringComparison.OrdinalIgnoreCase)).OrderBy(a => a.SortCode).Select(a => new OrganizationMiniNode
                 {
@@ -217,7 +217,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
         }
 
         [By("xuexs")]
-        [Description("分页获取组织结构")]
+        [Description("分页获取目录")]
         [Guid("088D19ED-0C1E-4C1A-A721-962F5E424964")]
         public ActionResult GetPlistChildren(GetPlistChildren requestModel)
         {
@@ -278,7 +278,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             OrganizationState organization;
             if (!AcDomain.OrganizationSet.TryGetOrganization(organizationId, out organization))
             {
-                throw new ValidationException("意外的组织结构标识" + organizationId);
+                throw new ValidationException("意外的目录标识" + organizationId);
             }
             string[] aIds = accountIDs.Split(',');
             foreach (var item in aIds)
@@ -313,7 +313,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
         }
 
         [By("xuexs")]
-        [Description("添加组织结构")]
+        [Description("添加目录")]
         [HttpPost]
         [Guid("296BDC47-026C-4E67-BFFA-5278D8EC6431")]
         public ActionResult Create(OrganizationCreateInput input)
@@ -328,7 +328,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
         }
 
         [By("xuexs")]
-        [Description("更新组织结构")]
+        [Description("更新目录")]
         [HttpPost]
         [Guid("7A720313-3611-4A72-ADE6-F5369E2F1CFC")]
         public ActionResult Update(OrganizationUpdateInput input)
@@ -343,7 +343,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
         }
 
         [By("xuexs")]
-        [Description("删除组织结构")]
+        [Description("删除目录")]
         [HttpPost]
         [Guid("AE84D20A-D754-4C0B-895B-2478421D99B1")]
         public ActionResult Delete(string id)
@@ -359,7 +359,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 }
                 else
                 {
-                    throw new ValidationException("意外的组织结构标识" + ids[i]);
+                    throw new ValidationException("意外的目录标识" + ids[i]);
                 }
             }
             foreach (var item in idArray)
@@ -372,7 +372,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
 
         #region GrantOrDenyRoles
         [By("xuexs")]
-        [Description("为指定组织结构下的全部账户逻辑授予或收回角色")]
+        [Description("为指定目录下的全部账户逻辑授予或收回角色")]
         [HttpPost]
         [Guid("7EC5DE38-DC10-4264-89B2-94007803C7D2")]
         public ActionResult GrantOrDenyRoles()

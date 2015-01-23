@@ -24,12 +24,12 @@ namespace Anycmd.Engine.Host.Ac.MessageHandlers
             var accountRepository = _host.RetrieveRequiredService<IRepository<Account>>();
             if (string.IsNullOrEmpty(command.Input.OrganizationCode))
             {
-                throw new AnycmdException("用户必须属于一个组织结构");
+                throw new AnycmdException("用户必须属于一个目录");
             }
             OrganizationState organization;
             if (!_host.OrganizationSet.TryGetOrganization(command.Input.OrganizationCode, out organization))
             {
-                throw new AnycmdException("意外的组织结构码" + command.Input.OrganizationCode);
+                throw new AnycmdException("意外的目录码" + command.Input.OrganizationCode);
             }
             if (accountRepository.AsQueryable().Any(a => a.Code == command.Input.Code && a.Id != command.Input.Id))
             {

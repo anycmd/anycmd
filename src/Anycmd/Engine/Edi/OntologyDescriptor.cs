@@ -159,7 +159,7 @@ namespace Anycmd.Engine.Edi
 		}
 
 		/// <summary>
-		/// key为组织结构码
+		/// key为目录码
 		/// </summary>
 		public IReadOnlyDictionary<OrganizationState, OntologyOrganizationState> Organizations
 		{

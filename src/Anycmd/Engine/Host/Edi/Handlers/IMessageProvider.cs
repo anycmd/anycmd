@@ -86,7 +86,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers
         /// <typeparam name="T">命令类型参数</typeparam>
         /// <param name="commandType"></param>
         /// <param name="ontology">本体</param>
-        /// <param name="organizationCode">组织结构码</param>
+        /// <param name="organizationCode">目录码</param>
         /// <param name="actionCode">动作码，空值表示忽略本查询条件</param>
         /// <param name="nodeId">节点标识，空值表示忽略本查询条件</param>
         /// <param name="localEntityId">本地实体标识</param>

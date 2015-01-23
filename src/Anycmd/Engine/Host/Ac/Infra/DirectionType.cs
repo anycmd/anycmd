@@ -3,7 +3,7 @@ namespace Anycmd.Engine.Host.Ac.Infra
 {
 
     /// <summary>
-    /// 在组织结构上的方向类型。
+    /// 在目录上的方向类型。
     /// </summary>
     public enum DirectionType
     {

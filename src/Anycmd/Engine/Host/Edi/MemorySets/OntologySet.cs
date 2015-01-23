@@ -614,7 +614,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
                 if (ontology.Organizations != null && ontology.Organizations.Count > 0)
                 {
-                    throw new ValidationException("本体下有建立的组织结构时不能删除");
+                    throw new ValidationException("本体下有建立的目录时不能删除");
                 }
                 if (ontology.Actions != null && ontology.Actions.Count > 0)
                 {
@@ -638,7 +638,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
                 if (host.NodeHost.Nodes.GetNodeOntologyOrganizations().Any(a => a.OntologyId == entity.Id))
                 {
-                    throw new ValidationException("有节点关心了该本体下的组织结构时不能删除");
+                    throw new ValidationException("有节点关心了该本体下的目录时不能删除");
                 }
                 if (host.RetrieveRequiredService<IRepository<Batch>>().AsQueryable().Any(a => a.OntologyId == entity.Id))
                 {
@@ -1746,7 +1746,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             /// 
             /// </summary>
             /// <param name="ontology"></param>
-            /// <returns>key为组织结构码</returns>
+            /// <returns>key为目录码</returns>
             public Dictionary<OrganizationState, OntologyOrganizationState> this[OntologyDescriptor ontology]
             {
                 get
@@ -1778,7 +1778,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                         OntologyDescriptor ontology;
                         if (!_host.NodeHost.Ontologies.TryGetOntology(ontologyOrg.OntologyId, out ontology))
                         {
-                            throw new AnycmdException("意外的本体组织结构本体标识" + ontologyOrg.OntologyId);
+                            throw new AnycmdException("意外的本体目录本体标识" + ontologyOrg.OntologyId);
                         }
                         if (_host.OrganizationSet.TryGetOrganization(ontologyOrg.OrganizationId, out org))
                         {
@@ -1794,7 +1794,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                         }
                         else
                         {
-                            // TODO:移除废弃的组织结构
+                            // TODO:移除废弃的目录
                         }
                     }
                     _initialized = true;
@@ -1864,7 +1864,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     OrganizationState org;
                     if (!host.OrganizationSet.TryGetOrganization(input.OrganizationId, out org))
                     {
-                        throw new AnycmdException("意外的组织结构标识" + input.OrganizationId);
+                        throw new AnycmdException("意外的目录标识" + input.OrganizationId);
                     }
                     OntologyOrganization entity;
                     lock (this)

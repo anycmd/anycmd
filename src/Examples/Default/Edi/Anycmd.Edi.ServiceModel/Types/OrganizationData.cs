@@ -5,7 +5,7 @@ namespace Anycmd.Edi.ServiceModel.Types
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// 数据传输模型：组织结构
+    /// 数据传输模型：目录
     /// </summary>
     [DataContract]
     public sealed class OrganizationData : IDto

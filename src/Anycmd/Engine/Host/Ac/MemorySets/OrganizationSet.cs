@@ -194,33 +194,33 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     OrganizationState organization;
                     if (host.OrganizationSet.TryGetOrganization(input.Id.Value, out organization))
                     {
-                        throw new ValidationException("给定标识的组织结构已经存在");
+                        throw new ValidationException("给定标识的目录已经存在");
                     }
                     if (host.OrganizationSet.TryGetOrganization(input.Code, out organization))
                     {
-                        throw new ValidationException("重复的组织结构码");
+                        throw new ValidationException("重复的目录码");
                     }
                     if (!string.IsNullOrEmpty(input.ParentCode))
                     {
                         OrganizationState parentOragnization;
                         if (!host.OrganizationSet.TryGetOrganization(input.ParentCode, out parentOragnization))
                         {
-                            throw new NotExistException("标识为" + input.ParentCode + "的父组织结构不存在");
+                            throw new NotExistException("标识为" + input.ParentCode + "的父目录不存在");
                         }
                         if (string.Equals(input.Code, input.ParentCode) || !input.Code.StartsWith(parentOragnization.Code, StringComparison.OrdinalIgnoreCase))
                         {
-                            throw new ValidationException("子级组织结构的编码必须以父级组织结构编码为前缀");
+                            throw new ValidationException("子级目录的编码必须以父级目录编码为前缀");
                         }
                         if (host.OrganizationSet.Any(a => string.Equals(a.ParentCode, input.ParentCode) && string.Equals(a.Name, input.Name, StringComparison.OrdinalIgnoreCase)))
                         {
-                            throw new ValidationException("兄弟组织结构间不能重名");
+                            throw new ValidationException("兄弟目录间不能重名");
                         }
                     }
                     else
                     {
                         if (host.OrganizationSet.Any(a => string.IsNullOrEmpty(a.ParentCode) && string.Equals(a.Name, input.Name, StringComparison.OrdinalIgnoreCase)))
                         {
-                            throw new ValidationException("重复的组织结构名");
+                            throw new ValidationException("重复的目录名");
                         }
                     }
 
@@ -296,7 +296,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 OrganizationState bkState;
                 if (!host.OrganizationSet.TryGetOrganization(input.Id, out bkState))
                 {
-                    throw new ValidationException("给定标识的组织结构不存在" + input.Id);
+                    throw new ValidationException("给定标识的目录不存在" + input.Id);
                 }
                 Organization entity;
                 var stateChanged = false;
@@ -305,26 +305,26 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     OrganizationState oragnization;
                     if (host.OrganizationSet.TryGetOrganization(input.Code, out oragnization) && oragnization.Id != input.Id)
                     {
-                        throw new ValidationException("重复的组织结构码" + input.Code);
+                        throw new ValidationException("重复的目录码" + input.Code);
                     }
                     if (!string.IsNullOrEmpty(input.ParentCode))
                     {
                         OrganizationState parentOragnization;
                         if (!host.OrganizationSet.TryGetOrganization(input.ParentCode, out parentOragnization))
                         {
-                            throw new NotExistException("标识为" + input.ParentCode + "的父组织结构不存在");
+                            throw new NotExistException("标识为" + input.ParentCode + "的父目录不存在");
                         }
                         if (input.ParentCode.Equals(input.Code, StringComparison.OrdinalIgnoreCase))
                         {
-                            throw new AnycmdException("组织结构的父组织结构不能是自己");
+                            throw new AnycmdException("目录的父目录不能是自己");
                         }
                         if (!input.Code.StartsWith(parentOragnization.Code, StringComparison.OrdinalIgnoreCase))
                         {
-                            throw new ValidationException("子级组织结构的编码必须以父级组织结构编码为前缀");
+                            throw new ValidationException("子级目录的编码必须以父级目录编码为前缀");
                         }
                         if (input.ParentCode.StartsWith(input.Code, StringComparison.OrdinalIgnoreCase))
                         {
-                            throw new AnycmdException("组织结构的父组织结构不能是自己的子孙级组织结构");
+                            throw new AnycmdException("目录的父目录不能是自己的子孙级目录");
                         }
                     }
                     entity = organizationRepository.GetByKey(input.Id);
@@ -423,7 +423,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                     if (host.OrganizationSet.Any(a => bkState.Code.Equals(a.ParentCode, StringComparison.OrdinalIgnoreCase)))
                     {
-                        throw new ValidationException("组织结构下有子组织结构时不能删除");
+                        throw new ValidationException("目录下有子目录时不能删除");
                     }
                     entity = organizationRepository.GetByKey(organizationId);
                     if (entity == null)

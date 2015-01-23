@@ -379,9 +379,9 @@ IF EXISTS ( SELECT  1
 		#region GetPlist
 
 		/// <summary>
-		/// 按照组织结构分页获取指定节点、本体的数据
+		/// 按照目录分页获取指定节点、本体的数据
 		/// <remarks>
-		/// 如果传入的组织结构为空则表示获取全部组织结构的数据
+		/// 如果传入的目录为空则表示获取全部目录的数据
 		/// </remarks>
 		/// </summary>
 		/// <param name="ontology"></param>
@@ -494,7 +494,7 @@ IF EXISTS ( SELECT  1
 		#region GetPlistInfoItems
 
 		/// <summary>
-		/// 根据组织结构获取给定节点和本体的数据，如果传入的组织结构为空表示获取本节点的数据
+		/// 根据目录获取给定节点和本体的数据，如果传入的目录为空表示获取本节点的数据
 		/// <remarks>本节点通常是中心节点</remarks>
 		/// </summary>
 		/// <param name="ontology"></param>

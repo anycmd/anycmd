@@ -101,7 +101,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers
         string LocalEntityId { get; }
 
         /// <summary>
-        /// 组织结构码
+        /// 目录码
         /// </summary>
         string OrganizationCode { get; }
 

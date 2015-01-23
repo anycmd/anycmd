@@ -201,7 +201,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers
                         !context.Command.DataTuple.IdItems.Items.Any(a => string.Equals(a.Key, "ZZJGM", StringComparison.OrdinalIgnoreCase)))
                         || !context.Command.DataTuple.IdItems.Items.Any(a => string.Equals(a.Key, "XM", StringComparison.OrdinalIgnoreCase)))
                     {
-                        return new ProcessResult(false, Status.InvalidInfoId, "没有提供姓名或组织结构");
+                        return new ProcessResult(false, Status.InvalidInfoId, "没有提供姓名或目录");
                     }
                 }
             }
@@ -290,7 +290,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers
                 }
             }
             #endregion
-            // 如果是组织结构
+            // 如果是目录
             if (infoItem.Element.Ontology.Ontology.IsOrganizationalEntity && infoItem.Key.Equals("ZZJGM", StringComparison.OrdinalIgnoreCase))
             {
                 OrganizationState org;
@@ -328,13 +328,13 @@ namespace Anycmd.Engine.Host.Edi.Handlers
             }
             if (!ontology.Host.OrganizationSet.TryGetOrganization(organizationCode.Trim(), out org))
             {
-                result = new ProcessResult(false, Status.InvalidOrganization, string.Format("非法的组织结构码{0}", organizationCode));
+                result = new ProcessResult(false, Status.InvalidOrganization, string.Format("非法的目录码{0}", organizationCode));
                 return false;
             }
             OntologyOrganizationState oorg;
             if (!ontology.Organizations.TryGetValue(org, out oorg))
             {
-                result = new ProcessResult(false, Status.InvalidOrganization, string.Format("对于{0}来说{1}是非法的组织结构码", ontology.Ontology.Name, org.Code));
+                result = new ProcessResult(false, Status.InvalidOrganization, string.Format("对于{0}来说{1}是非法的目录码", ontology.Ontology.Name, org.Code));
                 return false;
             }
             var orgCode = org.Code;

@@ -98,11 +98,11 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
         }
 
         /// <summary>
-        /// 节点组织结构
+        /// 节点目录
         /// </summary>
         /// <returns></returns>
         [By("xuexs")]
-        [Description("节点组织结构")]
+        [Description("节点目录")]
         [Guid("F2EA000E-9D4A-4665-BB53-9B7790F897E4")]
         public ViewResultBase Organizations()
         {
@@ -413,11 +413,11 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 
         #region GetOrganizationNodesByParentId
         /// <summary>
-        /// 获取给定本体的组织结构
+        /// 获取给定本体的目录
         /// </summary>
         /// <returns></returns>
         [By("xuexs")]
-        [Description("获取给定本体的组织结构")]
+        [Description("获取给定本体的目录")]
         [Guid("4C357D12-2DCD-44C7-8A82-86C5514E5709")]
         public ActionResult GetOrganizationNodesByParentId(Guid? nodeId, Guid? ontologyId, Guid? parentId)
         {
@@ -444,7 +444,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                 OrganizationState org;
                 if (!AcDomain.OrganizationSet.TryGetOrganization(parentId.Value, out org))
                 {
-                    throw new ValidationException("意外的组织结构标识" + parentId);
+                    throw new ValidationException("意外的目录标识" + parentId);
                 }
                 parentCode = org.Code;
             }
@@ -483,11 +483,11 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 
         #region AddOrRemoveOrganizations
         /// <summary>
-        /// 添加或移除本体组织结构
+        /// 添加或移除本体目录
         /// </summary>
         /// <returns></returns>
         [By("xuexs")]
-        [Description("添加或移除本体组织结构")]
+        [Description("添加或移除本体目录")]
         [Guid("58281438-8B27-49FA-AE53-2C569D51EC63")]
         [HttpPost]
         public ActionResult AddOrRemoveOrganizations(Guid nodeId, Guid ontologyId, string addOrganizationIDs, string removeOrganizationIDs)

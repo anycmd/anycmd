@@ -45,7 +45,7 @@ namespace Anycmd.Engine.Edi.Abstractions
             }
         }
         /// <summary>
-        /// 是否是组织结构型
+        /// 是否是目录型
         /// </summary>
         public bool IsOrganizationalEntity { get; set; }
         /// <summary>

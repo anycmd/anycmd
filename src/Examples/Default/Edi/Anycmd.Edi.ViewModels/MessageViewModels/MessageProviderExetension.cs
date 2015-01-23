@@ -19,7 +19,7 @@ namespace Anycmd.Edi.ViewModels.MessageViewModels
         /// <param name="messageProvider">命令提供程序</param>
         /// <param name="messageTypeKind"></param>
         /// <param name="ontology">本体</param>
-        /// <param name="organizationCode">组织结构码</param>
+        /// <param name="organizationCode">目录码</param>
         /// <param name="actionCode">动作码，空值表示忽略本查询条件</param>
         /// <param name="nodeId">节点标识，空值表示忽略本查询条件</param>
         /// <param name="localEntityId"></param>

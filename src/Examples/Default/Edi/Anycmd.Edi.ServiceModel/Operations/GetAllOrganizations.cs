@@ -9,17 +9,17 @@ namespace Anycmd.Edi.ServiceModel.Operations
     using Types;
 
     /// <summary>
-    /// 数据传输对象：请求获取全部组织结构的请求模型
+    /// 数据传输对象：请求获取全部目录的请求模型
     /// </summary>
     [DataContract]
     [Route("/Organization/GetAll")]
-    [Api("全部组织结构。")]
+    [Api("全部目录。")]
     public sealed class GetAllOrganizations : IReturn<GetOrganizationsResponse>, IDto
     {
     }
 
     /// <summary>
-    /// 数据传输模型：请求获取全部组织结构的响应模型
+    /// 数据传输模型：请求获取全部目录的响应模型
     /// </summary>
     [DataContract]
     public sealed class GetOrganizationsResponse
@@ -31,7 +31,7 @@ namespace Anycmd.Edi.ServiceModel.Operations
         public GetOrganizationsResponse()
         {
             Organizations = new List<OrganizationData>();
-            Description = "组织结构列表";
+            Description = "目录列表";
         }
 
         /// <summary>

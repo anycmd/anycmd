@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Edi.Abstractions
     using System;
 
     /// <summary>
-    /// 本体组织结构动作级配置模型
+    /// 本体目录动作级配置模型
     /// </summary>
     public interface IOrganizationAction
     {
@@ -23,7 +23,7 @@ namespace Anycmd.Engine.Edi.Abstractions
         /// </summary>
         string IsAllowed { get; }
         /// <summary>
-        /// 组织结构码
+        /// 目录码
         /// </summary>
         Guid OrganizationId { get; }
 

@@ -14,7 +14,7 @@ namespace Anycmd.Engine.Ac.Abstractions
     /// 优先实现对用户类别的主体Account、Role、Organization的支持。
     /// <para>Subject是account，Object是role时表示授予账户该角色</para>
     /// <para>Subject是role，Object是function时表示授予该角色该功能权限</para>
-    /// <para>Subject是organization，Object是role时表示授予该组织结构该角色，从而该组织结构下的账户是逻辑地间接得到这些角色的。</para>
+    /// <para>Subject是organization，Object是role时表示授予该目录该角色，从而该目录下的账户是逻辑地间接得到这些角色的。</para>
     /// 
     /// <para>Subject是account，Object是account时表示Object账户委托权限给Subject账户，这时Object账户外出了，被委托的Subject账户临时具有他的权限。</para>
     /// 所有的两两组合都有意义。

@@ -15,7 +15,7 @@ namespace Anycmd.Engine.Ac.Abstractions
         /// </summary>
         AccountAccount = 20,
         /// <summary>
-        /// 主体是账户，客体是组织结构。
+        /// 主体是账户，客体是目录。
         /// </summary>
         AccountOrganization,
         AccountRole,

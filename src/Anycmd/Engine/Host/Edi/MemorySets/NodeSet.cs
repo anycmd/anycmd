@@ -1736,7 +1736,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             /// </summary>
             /// <param name = "node"></param>
             /// <param name="ontology"></param>
-            /// <returns>key为组织结构码</returns>
+            /// <returns>key为目录码</returns>
             public Dictionary<OrganizationState, NodeOntologyOrganizationState> this[NodeDescriptor node, OntologyDescriptor ontology]
             {
                 get
@@ -1814,7 +1814,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                         }
                         else
                         {
-                            // TODO:移除废弃的组织结构
+                            // TODO:移除废弃的目录
                         }
                     }
                     _initialized = true;
@@ -1884,7 +1884,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     OrganizationState organization;
                     if (!host.OrganizationSet.TryGetOrganization(input.OrganizationId, out organization))
                     {
-                        throw new ValidationException("意外的组织结构标识" + input.OrganizationId);
+                        throw new ValidationException("意外的目录标识" + input.OrganizationId);
                     }
                     NodeOntologyOrganization entity;
                     lock (_set._locker)
@@ -1975,7 +1975,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     OrganizationState organization;
                     if (!host.OrganizationSet.TryGetOrganization(organizationId, out organization))
                     {
-                        throw new ValidationException("意外的组织结构标识" + organizationId);
+                        throw new ValidationException("意外的目录标识" + organizationId);
                     }
                     if (!dic.ContainsKey(node) && !dic[node].ContainsKey(ontology) && !dic[node][ontology].ContainsKey(organization))
                     {

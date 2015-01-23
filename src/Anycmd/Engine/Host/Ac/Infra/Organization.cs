@@ -7,7 +7,7 @@ namespace Anycmd.Engine.Host.Ac.Infra
     using System.Diagnostics;
 
     /// <summary>
-    /// 表示组织结构数据访问实体。
+    /// 表示目录数据访问实体。
     /// </summary>
     public class Organization : OrganizationBase, IAggregateRoot
     {

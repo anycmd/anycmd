@@ -140,7 +140,7 @@ namespace Anycmd.Engine.Host.Edi.MessageHandlers
                                         Description = entity.Type,
                                         LocalEntityId = item[idIndex].ToString(),
                                         Ontology = ontology.Ontology.Code,
-                                        OrganizationCode = null,// 如果按照组织结构分片分发命令的话则组织结构为空的分发命令是由专门的分发器分发的
+                                        OrganizationCode = null,// 如果按照目录分片分发命令的话则目录为空的分发命令是由专门的分发器分发的
                                         MessageId = Guid.NewGuid().ToString(),
                                         MessageType = MessageType.Action,
                                         ReasonPhrase = "Ok",
@@ -298,7 +298,7 @@ namespace Anycmd.Engine.Host.Edi.MessageHandlers
             }
 
             /// <summary>
-            /// 本地组织结构码
+            /// 本地目录码
             /// </summary>
             public new string OrganizationCode
             {

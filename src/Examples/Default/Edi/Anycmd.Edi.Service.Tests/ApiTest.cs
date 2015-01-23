@@ -680,7 +680,7 @@ namespace Anycmd.Edi.Service.Tests
         #endregion
 
         #region Organization_Must_IsLeaf
-        // 组织结构必须是叶子节点
+        // 目录必须是叶子节点
         [Fact]
         public void Organization_Must_IsLeaf()
         {

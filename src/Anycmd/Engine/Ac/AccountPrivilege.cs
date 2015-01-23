@@ -180,8 +180,8 @@ namespace Anycmd.Engine.Ac
         /// 这些角色是以下角色集合的并集：
         /// 1，当前账户直接得到的角色；
         /// 2，当前账户所在的工作组的角色；
-        /// 3，当前账户所在的组织结构的角色；
-        /// 4，当前账户所在的组织结构加入的工作组的角色。
+        /// 3，当前账户所在的目录的角色；
+        /// 4，当前账户所在的目录加入的工作组的角色。
         /// </summary>
         /// <returns></returns>
         public HashSet<Guid> AuthorizedRoleIds
@@ -329,7 +329,7 @@ namespace Anycmd.Engine.Ac
                     {
                         _authorizedFunctionIds.Add(privilegeBigram.ObjectInstanceId);
                     }
-                    // 追加账户所在组织结构的直接功能授权
+                    // 追加账户所在目录的直接功能授权
                     foreach (var organization in this.Organizations)
                     {
                         var organization1 = organization;

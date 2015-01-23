@@ -28,7 +28,7 @@ namespace Anycmd.Engine.Edi.Abstractions
                 if (value == _organizationId) return;
                 if (_organizationId != Guid.Empty)
                 {
-                    throw new AnycmdException("不能更改组织结构");
+                    throw new AnycmdException("不能更改目录");
                 }
                 _organizationId = value;
             }

@@ -6,7 +6,7 @@ namespace Anycmd.Engine.Ac.Abstractions.Infra
     using System;
 
     /// <summary>
-    /// 组织结构基类<see cref="IOrganization"/>
+    /// 目录基类<see cref="IOrganization"/>
     /// </summary>
     public abstract class OrganizationBase : EntityBase, IOrganization
     {

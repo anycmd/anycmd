@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Ac.Abstractions
     using System.Collections.Generic;
 
     /// <summary>
-    /// 表示该接口的实现类是组织结构集。
+    /// 表示该接口的实现类是目录集。
     /// </summary>
     public interface IOrganizationSet : IEnumerable<OrganizationState>
     {

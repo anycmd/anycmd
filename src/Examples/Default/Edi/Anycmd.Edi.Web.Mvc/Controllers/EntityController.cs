@@ -275,12 +275,12 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 			{
 				if (string.IsNullOrEmpty(requestModel.OrganizationCode))
 				{
-					throw new ValidationException("没有选中组织结构");
+					throw new ValidationException("没有选中目录");
 				}
 				OrganizationState org;
 				if (!AcDomain.OrganizationSet.TryGetOrganization(requestModel.OrganizationCode, out org))
 				{
-					throw new ValidationException("非法的组织结构码" + requestModel.OrganizationCode);
+					throw new ValidationException("非法的目录码" + requestModel.OrganizationCode);
 				}
 			}
 			var selectElements = new OrderedElementSet();
@@ -1390,12 +1390,12 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 			}
 			if (string.IsNullOrEmpty(requestModel.OrganizationCode))
 			{
-				throw new ValidationException("没有选中组织结构");
+				throw new ValidationException("没有选中目录");
 			}
 			OrganizationState org;
 			if (!AcDomain.OrganizationSet.TryGetOrganization(requestModel.OrganizationCode, out org))
 			{
-				throw new ValidationException("非法的组织结构码" + requestModel.OrganizationCode);
+				throw new ValidationException("非法的目录码" + requestModel.OrganizationCode);
 			}
 			var selectElements = new OrderedElementSet();
 			if (string.IsNullOrEmpty(elements))
@@ -1541,8 +1541,8 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 				rowIndex++;
 			}
 			#endregion
-			#region orgSheet 组织结构字典
-			ISheet orgSheet = hssfworkbook.CreateSheet("组织结构字典"); //创建一个sheet
+			#region orgSheet 目录字典
+			ISheet orgSheet = hssfworkbook.CreateSheet("目录字典"); //创建一个sheet
 			ICellStyle invalidOrgCodeStyle = hssfworkbook.CreateCellStyle();
 			invalidOrgCodeStyle.BorderBottom = NPOI.SS.UserModel.BorderStyle.Thin;
 			invalidOrgCodeStyle.BorderLeft = NPOI.SS.UserModel.BorderStyle.Thin;
@@ -1589,7 +1589,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 							//添加批注
 							IDrawing draw = orgSheet.CreateDrawingPatriarch();
 							IComment comment = draw.CreateCellComment(new HSSFClientAnchor(0, 0, 0, 0, 1, 2, 4, 8));//里面参数应该是指示批注的位置大小吧
-							comment.String = new HSSFRichTextString("警告：该组织结构的上级组织结构不存在。");//添加批注内容
+							comment.String = new HSSFRichTextString("警告：该目录的上级目录不存在。");//添加批注内容
 							comment.Author = AcDomain.NodeHost.Nodes.ThisNode.Name;//添加批注作者
 							codeCell.CellComment = comment;//将之前设置的批注给定某个单元格
 						}
@@ -1599,7 +1599,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 							//添加批注
 							IDrawing draw = orgSheet.CreateDrawingPatriarch();
 							IComment comment = draw.CreateCellComment(new HSSFClientAnchor(0, 0, 0, 0, 1, 2, 4, 8));//里面参数应该是指示批注的位置大小吧
-							comment.String = new HSSFRichTextString("警告：该组织结构的编码没有以上级组织结构编码为前缀，这是错误的，后续是要改正的。");//添加批注内容
+							comment.String = new HSSFRichTextString("警告：该目录的编码没有以上级目录编码为前缀，这是错误的，后续是要改正的。");//添加批注内容
 							comment.Author = AcDomain.NodeHost.Nodes.ThisNode.Name;//添加批注作者
 							codeCell.CellComment = comment;//将之前设置的批注给定某个单元格
 						}
@@ -1643,7 +1643,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 									//添加批注
 									IDrawing draw = orgSheet.CreateDrawingPatriarch();
 									IComment comment = draw.CreateCellComment(new HSSFClientAnchor(0, 0, 0, 0, 1, 2, 4, 8));//里面参数应该是指示批注的位置大小吧
-									comment.String = new HSSFRichTextString("警告：该组织结构的上级组织结构不存在。");//添加批注内容
+									comment.String = new HSSFRichTextString("警告：该目录的上级目录不存在。");//添加批注内容
 									comment.Author = AcDomain.NodeHost.Nodes.ThisNode.Name;//添加批注作者
 									codeCell.CellComment = comment;//将之前设置的批注给定某个单元格
 								}
@@ -1653,7 +1653,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 									//添加批注
 									IDrawing draw = orgSheet.CreateDrawingPatriarch();
 									IComment comment = draw.CreateCellComment(new HSSFClientAnchor(0, 0, 0, 0, 1, 2, 4, 8));//里面参数应该是指示批注的位置大小吧
-									comment.String = new HSSFRichTextString("警告：该组织结构的编码没有以上级组织结构编码为前缀，这是错误的，后续是要改正的。");//添加批注内容
+									comment.String = new HSSFRichTextString("警告：该目录的编码没有以上级目录编码为前缀，这是错误的，后续是要改正的。");//添加批注内容
 									comment.Author = AcDomain.NodeHost.Nodes.ThisNode.Name;//添加批注作者
 									codeCell.CellComment = comment;//将之前设置的批注给定某个单元格
 								}
@@ -1811,7 +1811,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 					response.Warning();
 					if (commandResult.Body.Event.Status == (int)Status.AlreadyExist)
 					{
-						response.msg = "本组织结构下已经存在重名的用户";
+						response.msg = "本目录下已经存在重名的用户";
 					}
 				}
 			}
