@@ -27,6 +27,17 @@ namespace Anycmd.Engine.Host.Impl
     {
         public DefaultAcDomain()
         {
+            Construct();
+        }
+
+        public DefaultAcDomain(IAppConfig config)
+            : base(config)
+        {
+            Construct();
+        }
+
+        private void Construct()
+        {
             base.MessageDispatcher = new MessageDispatcher();
             base.CommandBus = new DirectCommandBus(this.MessageDispatcher);
             this.EventBus = new DirectEventBus(this.MessageDispatcher);
@@ -52,12 +63,6 @@ namespace Anycmd.Engine.Host.Impl
             this.NodeHost = new DefaultNodeHost(this);
             this.MessageDispatcher.Register((IHandler<MemorySetInitingEvent>)this);
             this.MessageDispatcher.Register((IHandler<MemorySetInitializedEvent>)this);
-        }
-
-        public DefaultAcDomain(IAppConfig config)
-            : base(config)
-        {
-
         }
 
         public virtual void Handle(MemorySetInitingEvent message)
