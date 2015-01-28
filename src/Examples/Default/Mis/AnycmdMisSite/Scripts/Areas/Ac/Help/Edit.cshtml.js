@@ -24,7 +24,7 @@
                 form.validate();
                 if (form.isValid() == false) return;
                 var p = getParams();
-                var url = bootPATH + "../Ac/Help/SaveTooltip?uiViewId=" + p.id + "&appSystemCode=" + p.appSystemCode + "&areaCode=" + p.areaCode + "&resourceCode=" + p.resourceCode + "&functionCode=" + p.functionCode;
+                var url = bootPATH + "../Ac/Help/SaveHelp?uiViewId=" + p.id + "&appSystemCode=" + p.appSystemCode + "&resourceCode=" + p.resourceCode + "&functionCode=" + p.functionCode;
                 $.ajax({
                     url: url,
                     type: "post",
@@ -50,7 +50,6 @@
         return {
             id: fragment.id || querystring.id,
             appSystemCode: fragment.appSystemCode || querystring.appSystemCode,
-            areaCode: fragment.areaCode || querystring.areaCode,
             resourceCode: fragment.resourceCode || querystring.resourceCode,
             functionCode: fragment.functionCode || querystring.functionCode
         };
