@@ -46,6 +46,7 @@ namespace Anycmd.Engine.Ac
             SignOuted = OnSignOuted;
             GetAccountById = GetAccount;
             GetAccountByLoginName = GetAccount;
+            GetUserSession = GetUserSessionById;
         }
 
         private UserSessionState()
@@ -76,7 +77,7 @@ namespace Anycmd.Engine.Ac
             _accountId = account.Id;
         }
 
-        public UserSessionState(IAcDomain host, UserSessionBase userSessionEntity)
+        public UserSessionState(IAcDomain host, IUserSessionEntity userSessionEntity)
         {
             if (host == null)
             {
@@ -159,6 +160,8 @@ namespace Anycmd.Engine.Ac
         public static Func<IAcDomain, Guid, Account> GetAccountById { get; set; }
 
         public static Func<IAcDomain, string, Account> GetAccountByLoginName { get; set; }
+
+        public static Func<IAcDomain, Guid, IUserSessionEntity> GetUserSession { get; set; } 
 
         #region 私有方法
         private static RdbDescriptor GetAccountDb(IAcDomain acDomain)
@@ -393,7 +396,21 @@ namespace Anycmd.Engine.Ac
                 {
                     conn.Open();
                 }
-                return conn.Query<Account>("select * from [Account] where Id=@ContractorId", new { ContractorId = accountId }).FirstOrDefault();
+                return conn.Query<Account>("select * from [Account] where Id=@Id", new { Id = accountId }).FirstOrDefault();
+            }
+        }
+
+        private static IUserSessionEntity GetUserSessionById(IAcDomain acDomain, Guid userSessionId)
+        {
+            using (var conn = GetAccountDb(acDomain).GetConnection())
+            {
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+                return
+                    conn.Query<UserSession>("select * from [UserSession] where Id=@Id", new {Id = userSessionId})
+                        .FirstOrDefault();
             }
         }
         #endregion

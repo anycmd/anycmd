@@ -3,9 +3,7 @@ namespace Anycmd.Web.Mvc
 {
     using Engine.Ac;
     using Engine.Host;
-    using Engine.Host.Ac.Rbac;
     using Exceptions;
-    using Repositories;
     using System;
     using System.Web.Mvc;
     using Util;
@@ -42,18 +40,18 @@ namespace Anycmd.Web.Mvc
                 }
                 resourceCode = resourceAttr.ResourceCode;
             }
-            var host = (filterContext.HttpContext.Application[Constants.ApplicationRuntime.AcDomainCacheKey] as IAcDomain);
-            if (host == null)
+            var acDomain = (filterContext.HttpContext.Application[Constants.ApplicationRuntime.AcDomainCacheKey] as IAcDomain);
+            if (acDomain == null)
             {
                 throw new AnycmdException("");
             }
             ResourceTypeState resource;
-            if (!host.ResourceTypeSet.TryGetResource(host.AppSystemSet.SelfAppSystem, resourceCode, out resource))
+            if (!acDomain.ResourceTypeSet.TryGetResource(acDomain.AppSystemSet.SelfAppSystem, resourceCode, out resource))
             {
                 throw new ValidationException("意外的资源码" + resourceCode);
             }
             FunctionState function;
-            if (!host.FunctionSet.TryGetFunction(resource, functionCode, out function))
+            if (!acDomain.FunctionSet.TryGetFunction(resource, functionCode, out function))
             {
                 return;
             }
@@ -102,23 +100,22 @@ namespace Anycmd.Web.Mvc
                 entityTypeCode = modelAttr.EntityTypeCode;
             }
             EntityTypeState entityType;
-            if (!host.EntityTypeSet.TryGetEntityType(new Coder(codespace, entityTypeCode), out entityType))
+            if (!acDomain.EntityTypeSet.TryGetEntityType(new Coder(codespace, entityTypeCode), out entityType))
             {
                 return;
             }
-            var storage = host.GetRequiredService<IUserSessionStorage>();
-            var userSession = storage.GetData(host.Config.CurrentUserSessionCacheKey) as IUserSession;
+            var storage = acDomain.GetRequiredService<IUserSessionStorage>();
+            var userSession = storage.GetData(acDomain.Config.CurrentUserSessionCacheKey) as IUserSession;
             if (userSession == null)
             {
-                var account = UserSessionState.GetAccountByLoginName(host, user.Identity.Name);
+                var account = UserSessionState.GetAccountByLoginName(acDomain, user.Identity.Name);
                 if (account == null)
                 {
                     if (user.Identity.IsAuthenticated) return;
                     ToLogin(filterContext, isAjaxRequest);
                     return;
                 }
-                var userSessionRepository = host.GetRequiredService<IRepository<UserSession>>();
-                var sessionEntity = userSessionRepository.GetByKey(account.Id);
+                var sessionEntity = UserSessionState.GetUserSession(acDomain, account.Id);
                 if (sessionEntity != null)
                 {
                     if (!sessionEntity.IsAuthenticated)
@@ -126,16 +123,16 @@ namespace Anycmd.Web.Mvc
                         ToLogin(filterContext, isAjaxRequest);
                         return;
                     }
-                    userSession = new UserSessionState(host, sessionEntity);
+                    userSession = new UserSessionState(acDomain, sessionEntity);
                 }
                 else
                 {
                     // 使用账户标识作为会话标识会导致一个账户只有一个会话
                     // TODO:支持账户和会话的一对多，为会话级的动态责任分离做准备
-                    var userSessionService = host.GetRequiredService<IUserSessionService>();
-                    userSession = userSessionService.CreateSession(host, account.Id, AccountState.Create(account));
+                    var userSessionService = acDomain.GetRequiredService<IUserSessionService>();
+                    userSession = userSessionService.CreateSession(acDomain, account.Id, AccountState.Create(account));
                 }
-                storage.SetData(host.Config.CurrentUserSessionCacheKey, userSession);
+                storage.SetData(acDomain.Config.CurrentUserSessionCacheKey, userSession);
             }
             if (userSession.Permit(function, null)) return;
             if (isAjaxRequest)

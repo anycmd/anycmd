@@ -60,6 +60,7 @@
     <Compile Include="Engine\Ac\Abstractions\Infra\FieldBase.cs" />
     <Compile Include="Engine\Ac\Abstractions\IAcElement.cs" />
     <Compile Include="Engine\Ac\Abstractions\Infra\IField.cs" />
+    <Compile Include="Engine\Ac\Abstractions\Rbac\IUserSessionEntity.cs" />
     <Compile Include="Engine\Ac\Abstractions\SysAcSubjectType.cs" />
     <Compile Include="Engine\Ac\Abstractions\UserAcSubjectType.cs" />
     <Compile Include="Engine\Ac\Abstractions\Rbac\DsdRoleBase.cs" />
