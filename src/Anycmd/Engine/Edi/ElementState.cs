@@ -27,7 +27,7 @@ namespace Anycmd.Engine.Edi
             }
             var data = new ElementState(element.Id)
             {
-                Host = host,
+                AcDomain = host,
                 Actions = element.Actions,
                 AllowFilter = element.AllowFilter,
                 AllowSort = element.AllowSort,
@@ -126,7 +126,7 @@ namespace Anycmd.Engine.Edi
         }
 
         #region IElement 成员
-        public IAcDomain Host { get; private set; }
+        public IAcDomain AcDomain { get; private set; }
 
         public Guid OntologyId
         {
@@ -134,7 +134,7 @@ namespace Anycmd.Engine.Edi
             private set
             {
                 OntologyDescriptor ontology;
-                if (!Host.NodeHost.Ontologies.TryGetOntology(value, out ontology))
+                if (!AcDomain.NodeHost.Ontologies.TryGetOntology(value, out ontology))
                 {
                     throw new ValidationException("意外的本体标识" + value);
                 }
@@ -197,7 +197,7 @@ namespace Anycmd.Engine.Edi
                 if (value.HasValue)
                 {
                     InfoDicState infoDic;
-                    if (!Host.NodeHost.InfoDics.TryGetInfoDic(value.Value, out infoDic))
+                    if (!AcDomain.NodeHost.InfoDics.TryGetInfoDic(value.Value, out infoDic))
                     {
                         throw new ValidationException("意外的信息字典标识" + value);
                     }

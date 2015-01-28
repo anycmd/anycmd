@@ -16,7 +16,7 @@ namespace Anycmd.Engine.Edi
             }
             return new InfoDicState(infoDic.Id)
             {
-                Host = host,
+                AcDomain = host,
                 Code = infoDic.Code,
                 CreateOn = infoDic.CreateOn,
                 IsEnabled = infoDic.IsEnabled,
@@ -25,7 +25,7 @@ namespace Anycmd.Engine.Edi
             };
         }
 
-        public IAcDomain Host { get; private set; }
+        public IAcDomain AcDomain { get; private set; }
 
         public string Code { get; private set; }
 

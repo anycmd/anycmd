@@ -37,7 +37,7 @@ namespace Anycmd.Engine.Edi
             }
             var data = new ArchiveState(archive.Id)
             {
-                Host = host,
+                AcDomain = host,
                 ArchiveOn = archive.ArchiveOn,
                 CreateBy = archive.CreateBy,
                 CreateOn = archive.CreateOn,
@@ -55,7 +55,7 @@ namespace Anycmd.Engine.Edi
             return data;
         }
 
-        public IAcDomain Host { get; private set; }
+        public IAcDomain AcDomain { get; private set; }
 
         public string RdbmsType
         {
@@ -93,7 +93,7 @@ namespace Anycmd.Engine.Edi
             private set
             {
                 OntologyDescriptor ontology;
-                if (!Host.NodeHost.Ontologies.TryGetOntology(value, out ontology))
+                if (!AcDomain.NodeHost.Ontologies.TryGetOntology(value, out ontology))
                 {
                     throw new ValidationException("意外的本体标识" + value);
                 }
@@ -118,7 +118,7 @@ namespace Anycmd.Engine.Edi
             {
                 if (_ontology == null)
                 {
-                    if (!Host.NodeHost.Ontologies.TryGetOntology(this.OntologyId, out _ontology))
+                    if (!AcDomain.NodeHost.Ontologies.TryGetOntology(this.OntologyId, out _ontology))
                     {
                         throw new AnycmdException("意外的本体Id" + this.OntologyId);
                     }
@@ -134,7 +134,7 @@ namespace Anycmd.Engine.Edi
         public void Archive(int numberId)
         {
             OntologyDescriptor ontology;
-            if (!Host.NodeHost.Ontologies.TryGetOntology(this.OntologyId, out ontology))
+            if (!AcDomain.NodeHost.Ontologies.TryGetOntology(this.OntologyId, out ontology))
             {
                 throw new AnycmdException("非法的本体" + this.OntologyId.ToString());
             }
@@ -144,7 +144,7 @@ namespace Anycmd.Engine.Edi
             }
             this.ArchiveOn = DateTime.Now;
             this.NumberId = numberId;
-            this.FilePath = Host.Config.EntityArchivePath;
+            this.FilePath = AcDomain.Config.EntityArchivePath;
             ontology.EntityProvider.Archive(ontology, this);
         }
 

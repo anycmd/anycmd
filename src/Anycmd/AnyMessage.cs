@@ -60,7 +60,7 @@ namespace Anycmd
             {
                 throw new ArgumentNullException("responseNode");
             }
-            var host = responseNode.Host;
+            var host = responseNode.AcDomain;
             var clientId = string.Empty;
             var credential = request.Credential;
             if (credential == null)
@@ -126,11 +126,11 @@ namespace Anycmd
         /// <returns></returns>
         public IMessageDto Response()
         {
-            if (_responseNode != _responseNode.Host.NodeHost.Nodes.ThisNode)
+            if (_responseNode != _responseNode.AcDomain.NodeHost.Nodes.ThisNode)
             {
                 throw new AnycmdException("当前命令的响应节点不是本节点，不支持调用本方法。该方法设计用于绕过网络通信供服务节点调试使用。");
             }
-            var context = new MessageContext(_responseNode.Host, this);
+            var context = new MessageContext(_responseNode.AcDomain, this);
             MessageHandler.Instance.Response(context);
 
             return context.Result;

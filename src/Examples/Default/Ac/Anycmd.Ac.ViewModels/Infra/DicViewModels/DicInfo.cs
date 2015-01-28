@@ -22,7 +22,7 @@ namespace Anycmd.Ac.ViewModels.Infra.DicViewModels
             }
             if (!data.ContainsKey("IsEnabledName"))
             {
-                data.Add("IsEnabledName", dic.Host.Translate("Ac", "Dic", "IsEnabledName", data["IsEnabled"].ToString()));
+                data.Add("IsEnabledName", dic.AcDomain.Translate("Ac", "Dic", "IsEnabledName", data["IsEnabled"].ToString()));
             }
 
             return data;

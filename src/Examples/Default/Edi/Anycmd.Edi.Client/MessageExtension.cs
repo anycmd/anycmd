@@ -51,7 +51,7 @@ namespace Anycmd.Edi.Client
                         break;
                     case ClientType.Node:
                         NodeDescriptor clientNode;
-                        if (!toNode.Host.NodeHost.Nodes.TryGetNodeByPublicKey(cmdDto.Credential.ClientId, out clientNode))
+                        if (!toNode.AcDomain.NodeHost.Nodes.TryGetNodeByPublicKey(cmdDto.Credential.ClientId, out clientNode))
                         {
                             throw new AnycmdException("意外的客户节点标识" + cmdDto.Credential.ClientId);
                         }
@@ -98,7 +98,7 @@ namespace Anycmd.Edi.Client
             {
                 throw new ArgumentNullException("responseNode");
             }
-            return AnyMessage.Create(HecpRequest.Create(responseNode.Host, cmdDto), responseNode);
+            return AnyMessage.Create(HecpRequest.Create(responseNode.AcDomain, cmdDto), responseNode);
         }
     }
 }

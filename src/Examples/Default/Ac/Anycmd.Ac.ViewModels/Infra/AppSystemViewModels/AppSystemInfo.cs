@@ -14,7 +14,7 @@ namespace Anycmd.Ac.ViewModels.Infra.AppSystemViewModels
             : base(dic)
         {
             AccountState principal;
-            if (!dic.Host.SysUserSet.TryGetDevAccount((Guid)this["PrincipalId"], out principal))
+            if (!dic.AcDomain.SysUserSet.TryGetDevAccount((Guid)this["PrincipalId"], out principal))
             {
                 throw new AnycmdException("意外的开发人员标识" + this["PrincipalId"]);
             }
@@ -24,7 +24,7 @@ namespace Anycmd.Ac.ViewModels.Infra.AppSystemViewModels
             }
             if (!this.ContainsKey("IsEnabledName"))
             {
-                this.Add("IsEnabledName", dic.Host.Translate("Ac", "AppSystem", "IsEnabledName", this["IsEnabled"].ToString()));
+                this.Add("IsEnabledName", dic.AcDomain.Translate("Ac", "AppSystem", "IsEnabledName", this["IsEnabled"].ToString()));
             }
         }
 

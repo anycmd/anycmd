@@ -25,13 +25,13 @@ namespace Anycmd.Ac.ViewModels.Infra.OrganizationViewModels
             }
             if (!data.ContainsKey("CategoryName"))
             {
-                data.Add("CategoryName", dic.Host.Translate("Ac", "Organization", "CategoryName", data["CategoryCode"].ToString()));
+                data.Add("CategoryName", dic.AcDomain.Translate("Ac", "Organization", "CategoryName", data["CategoryCode"].ToString()));
             }
             if (data["ParentCode"] != DBNull.Value)
             {
                 var parentCode = (string)data["ParentCode"];
                 OrganizationState parentOrg;
-                if (!dic.Host.OrganizationSet.TryGetOrganization(parentCode, out parentOrg))
+                if (!dic.AcDomain.OrganizationSet.TryGetOrganization(parentCode, out parentOrg))
                 {
                     throw new AnycmdException("意外的父目录编码" + parentCode);
                 }

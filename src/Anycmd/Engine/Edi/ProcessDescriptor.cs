@@ -2,7 +2,7 @@
 namespace Anycmd.Engine.Edi
 {
     using Abstractions;
-    using Engine.Ac;
+    using Ac;
     using Exceptions;
     using System;
     using System.Net;
@@ -31,7 +31,7 @@ namespace Anycmd.Engine.Edi
             {
                 throw new ArgumentNullException("process");
             }
-            this.Host = host;
+            this.AcDomain = host;
             this.Process = process;
             if (!process.Type.TryParse(out _type))
             {
@@ -40,14 +40,14 @@ namespace Anycmd.Engine.Edi
             if (!string.IsNullOrEmpty(process.OrganizationCode))
             {
                 OrganizationState org;
-                if (!Host.OrganizationSet.TryGetOrganization(process.OrganizationCode, out org))
+                if (!AcDomain.OrganizationSet.TryGetOrganization(process.OrganizationCode, out org))
                 {
                     throw new AnycmdException("意外的目录码" + process.OrganizationCode);
                 }
             }
         }
 
-        public IAcDomain Host { get; private set; }
+        public IAcDomain AcDomain { get; private set; }
 
         /// <summary>
         /// 
@@ -70,7 +70,7 @@ namespace Anycmd.Engine.Edi
         {
             get
             {
-                return Host.NodeHost.Nodes.ThisNode.Node.Name + this.Process.Name + " - " + this.Ontology.Ontology.Name;
+                return AcDomain.NodeHost.Nodes.ThisNode.Node.Name + this.Process.Name + " - " + this.Ontology.Ontology.Name;
             }
         }
 
@@ -82,7 +82,7 @@ namespace Anycmd.Engine.Edi
             get
             {
                 if (_ontology != null) return _ontology;
-                if (!Host.NodeHost.Ontologies.TryGetOntology(this.Process.OntologyId, out _ontology))
+                if (!AcDomain.NodeHost.Ontologies.TryGetOntology(this.Process.OntologyId, out _ontology))
                 {
                     throw new AnycmdException("非法本体标识" + this.Process.OntologyId);
                 }

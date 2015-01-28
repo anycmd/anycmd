@@ -50,7 +50,7 @@ namespace Anycmd.Engine.Hecp
         }
         #endregion
 
-        public IAcDomain Host { get { return _host; } }
+        public IAcDomain AcDomain { get { return _host; } }
 
         /// <summary>
         /// 请求

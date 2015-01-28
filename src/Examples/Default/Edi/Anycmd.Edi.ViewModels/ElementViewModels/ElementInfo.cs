@@ -27,14 +27,14 @@ namespace Anycmd.Edi.ViewModels.ElementViewModels
             {
                 return null;
             }
-            var data = new ElementInfo(dic.Host);
+            var data = new ElementInfo(dic.AcDomain);
             foreach (var item in dic)
             {
                 data.Add(item.Key, item.Value);
             }
             data.Id = (Guid)dic["Id"];
             OntologyDescriptor ontology;
-            if (!dic.Host.NodeHost.Ontologies.TryGetOntology((Guid)data["OntologyId"], out ontology))
+            if (!dic.AcDomain.NodeHost.Ontologies.TryGetOntology((Guid)data["OntologyId"], out ontology))
             {
                 throw new AnycmdException("意外的本体标识" + data["OntologyId"]);
             }
@@ -56,11 +56,11 @@ namespace Anycmd.Edi.ViewModels.ElementViewModels
             }
             if (!data.ContainsKey("DeletionStateName"))
             {
-                data.Add("DeletionStateName", dic.Host.Translate("Edi", "Element", "DeletionStateName", data["DeletionStateCode"].ToString()));
+                data.Add("DeletionStateName", dic.AcDomain.Translate("Edi", "Element", "DeletionStateName", data["DeletionStateCode"].ToString()));
             }
             if (!data.ContainsKey("IsEnabledName"))
             {
-                data.Add("IsEnabledName", dic.Host.Translate("Edi", "Element", "IsEnabledName", data["IsEnabled"].ToString()));
+                data.Add("IsEnabledName", dic.AcDomain.Translate("Edi", "Element", "IsEnabledName", data["IsEnabled"].ToString()));
             }
             if (data["InfoDicId"] == DBNull.Value)
             {
@@ -73,7 +73,7 @@ namespace Anycmd.Edi.ViewModels.ElementViewModels
             if (data.InfoDicId.HasValue && !data.ContainsKey("InfoDicName"))
             {
                 InfoDicState infoDic = null;
-                if (data.InfoDicId != null && !dic.Host.NodeHost.InfoDics.TryGetInfoDic(data.InfoDicId.Value, out infoDic))
+                if (data.InfoDicId != null && !dic.AcDomain.NodeHost.InfoDics.TryGetInfoDic(data.InfoDicId.Value, out infoDic))
                 {
                     throw new AnycmdException("意外的信息字典标识" + data.InfoDicId.Value);
                 }

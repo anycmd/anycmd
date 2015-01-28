@@ -31,7 +31,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers.Distribute
             {
                 throw new ArgumentNullException("responder");
             }
-            this._host = responder.Host;
+            this._host = responder.AcDomain;
             this.Command = command;
             this.Responder = responder;
             #region 如果是head命令类型去掉信息值以减小体积

@@ -28,7 +28,7 @@ namespace Anycmd.Edi.ViewModels.NodeViewModels
             {
                 string transferName = string.Empty;
                 IMessageTransfer transfer;
-                if (dic.Host.NodeHost.Transfers.TryGetTransfer((Guid)this["TransferId"], out transfer))
+                if (dic.AcDomain.NodeHost.Transfers.TryGetTransfer((Guid)this["TransferId"], out transfer))
                 {
                     transferName = transfer.Name; ;
                 }
@@ -36,11 +36,11 @@ namespace Anycmd.Edi.ViewModels.NodeViewModels
             }
             if (!this.ContainsKey("DeletionStateName"))
             {
-                this.Add("DeletionStateName", dic.Host.Translate("Edi", "Node", "DeletionStateName", (int)this["DeletionStateCode"]));
+                this.Add("DeletionStateName", dic.AcDomain.Translate("Edi", "Node", "DeletionStateName", (int)this["DeletionStateCode"]));
             }
             if (!this.ContainsKey("IsEnabledName"))
             {
-                this.Add("IsEnabledName", dic.Host.Translate("Edi", "Node", "IsEnabledName", (int)this["IsEnabled"]));
+                this.Add("IsEnabledName", dic.AcDomain.Translate("Edi", "Node", "IsEnabledName", (int)this["IsEnabled"]));
             }
         }
     }

@@ -69,7 +69,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers.Distribute
             {
                 throw new ArgumentNullException("process");
             }
-            this._host = process.Host;
+            this._host = process.AcDomain;
             this.Process = process;
             this.Ontology = process.Ontology;
         }

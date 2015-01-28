@@ -84,7 +84,7 @@ namespace Anycmd.Engine.Hecp
                     throw new AnycmdException("本Hecp处理程序不支持处理版本号" + context.Request.Version + "的消息");
                 }
                 // ApplyPreRequestFilters
-                ProcessResult result = context.Host.NodeHost.ApplyPreHecpRequestFilters(context);
+                ProcessResult result = context.AcDomain.NodeHost.ApplyPreHecpRequestFilters(context);
                 context.Response.Body.Event.Status = (int)result.StateCode;
                 context.Response.Body.Event.Description = result.Description;
                 if (context.Response.IsClosed)
@@ -92,12 +92,12 @@ namespace Anycmd.Engine.Hecp
                     return;
                 }
                 #region 身份认证
-                var author = context.Host.RetrieveRequiredService<IAuthenticator>();
+                var author = context.AcDomain.RetrieveRequiredService<IAuthenticator>();
                 if (author == null)
                 {
                     throw new AnycmdException("未配置证书验证器，证书验证器是必须的。");
                 }
-                using (var act = new WfAct(context.Host, context, author, "验证身份"))
+                using (var act = new WfAct(context.AcDomain, context, author, "验证身份"))
                 {
                     result = author.Auth(context.Request);
                 }
@@ -109,11 +109,11 @@ namespace Anycmd.Engine.Hecp
                     return;
                 }
                 #endregion
-                var commandContext = MessageContext.Create(context.Host, context);
+                var commandContext = MessageContext.Create(context.AcDomain, context);
                 MessageHandler.Instance.Response(commandContext);
                 context.Response.Fill(commandContext.Result);
                 // ApplyResponseFilters
-                result = context.Host.NodeHost.ApplyHecpResponseFilters(context);
+                result = context.AcDomain.NodeHost.ApplyHecpResponseFilters(context);
                 context.Response.Body.Event.Status = (int)result.StateCode;
                 context.Response.Body.Event.ReasonPhrase = result.StateCode.ToName();
                 context.Response.Body.Event.Description = result.Description;

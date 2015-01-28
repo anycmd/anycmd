@@ -183,7 +183,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers
                     throw new ArgumentNullException("tuple");
                 }
                 #region 演出
-                if (ToNode == ToNode.Host.NodeHost.Nodes.ThisNode)
+                if (ToNode == ToNode.AcDomain.NodeHost.Nodes.ThisNode)
                 {
                     throw new AnycmdException("不能建造分发向自己的命令消息");
                 }
@@ -237,7 +237,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers
                         infoIdItems = tuple.Tuple.Where(e => e.Element.Element.IsInfoIdItem && ToNode.IsInfoIdElement(e.Element)).ToArray();
                     }
                     DataItemsTuple dataTuple = DataItemsTuple.Create(
-                        ToNode.Host,
+                        ToNode.AcDomain,
                         infoIdItems,
                         infoValueCares.ToArray(),
                         tuple.Context.Command.DataTuple.QueryList,
@@ -276,7 +276,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers
                         DataItem[] infoIdItems = tuple.Context.TowInfoTuple.SingleInfoTuple
                             .Where(e => e.Element.Element.IsInfoIdItem)
                             .Select(e => new DataItem(e.Key, e.Value)).ToArray();
-                        DataItemsTuple dataTuple = DataItemsTuple.Create(ToNode.Host, infoIdItems, null, tuple.Context.Command.DataTuple.QueryList, tuple.Context.Command.DataTuple.InfoFormat);
+                        DataItemsTuple dataTuple = DataItemsTuple.Create(ToNode.AcDomain, infoIdItems, null, tuple.Context.Command.DataTuple.QueryList, tuple.Context.Command.DataTuple.InfoFormat);
                         return new MessageEntity(MessageTypeKind.Distribute, Guid.NewGuid(), dataTuple)
                         {
                             ClientId = ToNode.Node.Id.ToString(),

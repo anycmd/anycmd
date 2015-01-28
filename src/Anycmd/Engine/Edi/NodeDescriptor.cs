@@ -35,7 +35,7 @@ namespace Anycmd.Engine.Edi
         #endregion
 
         #region Public Properties
-        public IAcDomain Host
+        public IAcDomain AcDomain
         {
             get { return _host; }
         }
@@ -58,7 +58,7 @@ namespace Anycmd.Engine.Edi
             {
                 if (_transfer == null)
                 {
-                    if (!Host.NodeHost.Transfers.TryGetTransfer(this.Node.TransferId, out _transfer))
+                    if (!AcDomain.NodeHost.Transfers.TryGetTransfer(this.Node.TransferId, out _transfer))
                     {
                         throw new AnycmdException("意外的命令转移器");
                     }
@@ -100,7 +100,7 @@ namespace Anycmd.Engine.Edi
         {
             get
             {
-                int m = this.Host.Config.BeatPeriod;
+                int m = this.AcDomain.Config.BeatPeriod;
                 if (this.Node.BeatPeriod.HasValue)
                 {
                     m = this.Node.BeatPeriod.Value;
@@ -156,7 +156,7 @@ namespace Anycmd.Engine.Edi
         /// <returns></returns>
         public IEnumerable<ElementDescriptor> GetInfoIdElements()
         {
-            return Host.NodeHost.Nodes.GetInfoIdElements(this);
+            return AcDomain.NodeHost.Nodes.GetInfoIdElements(this);
         }
 
         public bool IsInfoIdElement(ElementDescriptor element)
@@ -165,7 +165,7 @@ namespace Anycmd.Engine.Edi
             {
                 throw new ArgumentNullException("element");
             }
-            return Host.NodeHost.Nodes.IsInfoIdElement(this, element);
+            return AcDomain.NodeHost.Nodes.IsInfoIdElement(this, element);
         }
 
         #region IsCareforElement
@@ -181,7 +181,7 @@ namespace Anycmd.Engine.Edi
             {
                 throw new ArgumentNullException("element");
             }
-            return Host.NodeHost.Nodes.IsCareforElement(this, element);
+            return AcDomain.NodeHost.Nodes.IsCareforElement(this, element);
         }
         #endregion
 
@@ -197,7 +197,7 @@ namespace Anycmd.Engine.Edi
             {
                 throw new ArgumentNullException("ontology");
             }
-            return Host.NodeHost.Nodes.IsCareForOntology(this, ontology);
+            return AcDomain.NodeHost.Nodes.IsCareForOntology(this, ontology);
         }
         #endregion
 
@@ -368,7 +368,7 @@ namespace Anycmd.Engine.Edi
                             Res_ReasonPhrase = Status.NodeException.ToName(),
                             Res_StateCode = (int)Status.NodeException
                         };
-                        Host.LoggingService.Log(anyLog);
+                        AcDomain.LoggingService.Log(anyLog);
                     }
                     else
                     {

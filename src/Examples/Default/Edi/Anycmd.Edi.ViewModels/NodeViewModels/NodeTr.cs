@@ -22,7 +22,7 @@ namespace Anycmd.Edi.ViewModels.NodeViewModels
 
         public static NodeTr Create(NodeDescriptor node)
         {
-            return new NodeTr(node.Host)
+            return new NodeTr(node.AcDomain)
             {
                 AnycmdApiAddress = node.Node.AnycmdApiAddress,
                 AnycmdWsAddress = node.Node.AnycmdWsAddress,

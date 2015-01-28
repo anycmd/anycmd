@@ -19,7 +19,7 @@ namespace Anycmd.Edi.ViewModels.ProcessViewModels
 
         public static ProcessTr Create(ProcessDescriptor process)
         {
-            return new ProcessTr(process.Host)
+            return new ProcessTr(process.AcDomain)
             {
                 CreateOn = process.Process.CreateOn,
                 Id = process.Process.Id,

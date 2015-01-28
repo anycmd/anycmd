@@ -113,68 +113,17 @@ namespace Anycmd.Engine.Ac
         {
             get
             {
-                if (_accountPrivileges == null)
+                if (_accountPrivileges != null) return _accountPrivileges;
+                if (_userSession.Account.Id == Guid.Empty)
                 {
-                    if (_userSession.Account.Id == Guid.Empty)
-                    {
-                        return new List<PrivilegeState>();
-                    }
-                    _accountPrivileges = GetAccountPrivileges();
+                    return new List<PrivilegeState>();
                 }
+                _accountPrivileges = GetAccountPrivileges();
                 return _accountPrivileges;
             }
         }
 
-        private List<PrivilegeState> GetAccountPrivileges()
-        {
-            var subjectType = UserAcSubjectType.Account.ToName();
-            var accountPrivileges = _acDomain.RetrieveRequiredService<IRepository<Privilege>>().AsQueryable()
-                .Where(a => a.SubjectType == subjectType && a.SubjectInstanceId == _userSession.Account.Id).ToList().Select(PrivilegeState.Create).ToList();
-            return accountPrivileges;
-        }
-
-        #region AddActiveRole
-        /// <summary>
-        /// 添加激活角色。
-        /// </summary>
-        /// <param name="role"></param>
-        public void AddActiveRole(RoleState role)
-        {
-            if (!_initialized)
-            {
-                Init();
-            }
-            if (this.Roles != null)
-            {
-                this.Roles.Add(role);
-            }
-            if (this._authorizedRoles == null) return;
-            this.AuthorizedRoleIds.Add(role.Id);
-            this._authorizedRoles.Add(role);
-        }
-        #endregion
-
-        #region DropActiveRole
-        /// <summary>
-        /// 删除激活角色。
-        /// </summary>
-        /// <param name="role"></param>
-        public void DropActiveRole(RoleState role)
-        {
-            if (!_initialized)
-            {
-                Init();
-            }
-            if (this.Roles != null)
-            {
-                this.Roles.Remove(role);
-            }
-            if (this._authorizedRoles == null) return;
-            this.AuthorizedRoleIds.Remove(role.Id);
-            this._authorizedRoles.Remove(role);
-        }
-        #endregion
-
+        #region AuthorizedRoleIds
         /// <summary>
         /// 账户的角色授权
         /// 这些角色是以下角色集合的并集：
@@ -247,7 +196,9 @@ namespace Anycmd.Engine.Ac
                 return _authorizedRoleIds;
             }
         }
+        #endregion
 
+        #region AuthorizedRoles
         public IReadOnlyCollection<RoleState> AuthorizedRoles
         {
             get
@@ -269,7 +220,9 @@ namespace Anycmd.Engine.Ac
                 return _authorizedRoles;
             }
         }
+        #endregion
 
+        #region AuthorizedMenus
         public HashSet<MenuState> AuthorizedMenus
         {
             get
@@ -310,7 +263,9 @@ namespace Anycmd.Engine.Ac
                 return _authorizedMenus;
             }
         }
+        #endregion
 
+        #region AuthorizedFunctionIDs
         public HashSet<Guid> AuthorizedFunctionIDs
         {
             get
@@ -350,7 +305,9 @@ namespace Anycmd.Engine.Ac
                 return _authorizedFunctionIds;
             }
         }
+        #endregion
 
+        #region AuthorizedFunctions
         public IReadOnlyCollection<FunctionState> AuthorizedFunctions
         {
             get
@@ -371,6 +328,57 @@ namespace Anycmd.Engine.Ac
                 }
                 return _authorizedFunctions;
             }
+        }
+        #endregion
+
+        #region AddActiveRole
+        /// <summary>
+        /// 添加激活角色。
+        /// </summary>
+        /// <param name="role"></param>
+        public void AddActiveRole(RoleState role)
+        {
+            if (!_initialized)
+            {
+                Init();
+            }
+            if (this.Roles != null)
+            {
+                this.Roles.Add(role);
+            }
+            if (this._authorizedRoles == null) return;
+            this.AuthorizedRoleIds.Add(role.Id);
+            this._authorizedRoles.Add(role);
+        }
+        #endregion
+
+        #region DropActiveRole
+        /// <summary>
+        /// 删除激活角色。
+        /// </summary>
+        /// <param name="role"></param>
+        public void DropActiveRole(RoleState role)
+        {
+            if (!_initialized)
+            {
+                Init();
+            }
+            if (this.Roles != null)
+            {
+                this.Roles.Remove(role);
+            }
+            if (this._authorizedRoles == null) return;
+            this.AuthorizedRoleIds.Remove(role.Id);
+            this._authorizedRoles.Remove(role);
+        }
+        #endregion
+
+        private List<PrivilegeState> GetAccountPrivileges()
+        {
+            var subjectType = UserAcSubjectType.Account.ToName();
+            var accountPrivileges = _acDomain.RetrieveRequiredService<IRepository<Privilege>>().AsQueryable()
+                .Where(a => a.SubjectType == subjectType && a.SubjectInstanceId == _userSession.Account.Id).ToList().Select(PrivilegeState.Create).ToList();
+            return accountPrivileges;
         }
 
         private void Init()

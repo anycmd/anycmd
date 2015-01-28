@@ -20,7 +20,7 @@ namespace Anycmd.Edi.ViewModels.ElementViewModels
 
         public static ElementTr Create(ElementState element)
         {
-            return new ElementTr(element.Host)
+            return new ElementTr(element.AcDomain)
             {
                 Nullable = element.Nullable,
                 Code = element.Code,

@@ -24,12 +24,12 @@ namespace Anycmd.Ac.ViewModels.Infra.FunctionViewModels
                 data.Add(item.Key, item.Value);
             }
             ResourceTypeState resource;
-            if (!dic.Host.ResourceTypeSet.TryGetResource((Guid)data["ResourceTypeId"], out resource))
+            if (!dic.AcDomain.ResourceTypeSet.TryGetResource((Guid)data["ResourceTypeId"], out resource))
             {
                 throw new AnycmdException("意外的资源标识" + data["ResourceTypeId"]);
             }
             AppSystemState appSystem;
-            if (!dic.Host.AppSystemSet.TryGetAppSystem(resource.AppSystemId, out appSystem))
+            if (!dic.AcDomain.AppSystemSet.TryGetAppSystem(resource.AppSystemId, out appSystem))
             {
                 throw new AnycmdException("意外的区域应用系统标识");
             }
@@ -52,21 +52,21 @@ namespace Anycmd.Ac.ViewModels.Infra.FunctionViewModels
             }
             if (!data.ContainsKey("IsManagedName"))
             {
-                data.Add("IsManagedName", dic.Host.Translate("Ac", "DicItem", "IsManagedName", data["IsManaged"].ToString()));
+                data.Add("IsManagedName", dic.AcDomain.Translate("Ac", "DicItem", "IsManagedName", data["IsManaged"].ToString()));
             }
             if (!data.ContainsKey("IsEnabledName"))
             {
-                data.Add("IsEnabledName", dic.Host.Translate("Ac", "DicItem", "IsEnabledName", data["IsEnabled"].ToString()));
+                data.Add("IsEnabledName", dic.AcDomain.Translate("Ac", "DicItem", "IsEnabledName", data["IsEnabled"].ToString()));
             }
             if (!data.ContainsKey("IsUiView"))
             {
                 UiViewState view;
-                data.Add("IsUiView", dic.Host.UiViewSet.TryGetUiView((Guid)data["Id"], out view));
+                data.Add("IsUiView", dic.AcDomain.UiViewSet.TryGetUiView((Guid)data["Id"], out view));
             }
             if (!data.ContainsKey("DeveloperCode"))
             {
                 AccountState developer;
-                if (dic.Host.SysUserSet.TryGetDevAccount((Guid)data["DeveloperId"], out developer))
+                if (dic.AcDomain.SysUserSet.TryGetDevAccount((Guid)data["DeveloperId"], out developer))
                 {
                     data.Add("DeveloperCode", developer.LoginName);
                 }

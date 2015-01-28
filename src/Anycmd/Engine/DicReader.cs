@@ -9,18 +9,18 @@ namespace Anycmd.Engine
     /// </summary>
     public sealed class DicReader : Dictionary<string, object>
     {
-        public DicReader(IAcDomain host)
+        public DicReader(IAcDomain acDomain)
         {
-            if (host == null)
+            if (acDomain == null)
             {
-                throw new ArgumentNullException("host");
+                throw new ArgumentNullException("acDomain");
             }
-            this.Host = host;
+            this.AcDomain = acDomain;
         }
 
         /// <summary>
-        /// 容易对象引用。
+        /// 容器对象引用。
         /// </summary>
-        public IAcDomain Host { get; private set; }
+        public IAcDomain AcDomain { get; private set; }
     }
 }

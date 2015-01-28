@@ -2,7 +2,7 @@
 
 namespace Anycmd.Engine.Edi.Abstractions
 {
-    using Engine.Host.Ac;
+    using Host.Ac;
 
     public interface INodeOrganizationAction {
         /// <summary>

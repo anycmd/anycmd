@@ -20,7 +20,7 @@ namespace Anycmd.Edi.ViewModels.ArchiveViewModels
 
         public static ArchiveTr Create(ArchiveState archive)
         {
-            return new ArchiveTr(archive.Host)
+            return new ArchiveTr(archive.AcDomain)
             {
                 ArchiveOn = archive.ArchiveOn,
                 CreateOn = archive.CreateOn,

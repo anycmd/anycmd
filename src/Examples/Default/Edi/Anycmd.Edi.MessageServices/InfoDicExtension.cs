@@ -22,7 +22,7 @@ namespace Anycmd.Edi.MessageServices
                 Name = infoDic.Name,
                 Code = infoDic.Code
             };
-            foreach (var item in infoDic.Host.NodeHost.InfoDics.GetInfoDicItems(infoDic).OrderBy(a => a.SortCode))
+            foreach (var item in infoDic.AcDomain.NodeHost.InfoDics.GetInfoDicItems(infoDic).OrderBy(a => a.SortCode))
             {
                 infoDicData.InfoDicItems.Add(new InfoDicItemData
                 {

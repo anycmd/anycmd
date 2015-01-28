@@ -29,22 +29,16 @@ namespace Anycmd.Engine.Ac
     {
         public static readonly UserSessionState Empty;
 
-        private IAcDomain _acDomain;
-        private Guid _id;
-        private Guid _accountId;
+        private readonly IAcDomain _acDomain;
+        private readonly Guid _id;
+        private readonly Guid _accountId;
         private AccountState _account;
         private AccountPrivilege _accountPrivilege;
-        private IIdentity _identity;
 
         static UserSessionState()
         {
-            Empty = new UserSessionState
+            Empty = new UserSessionState(EmptyAcDomain.SingleInstance, Guid.Empty, AccountState.Empty)
             {
-                _acDomain = EmptyAcDomain.SingleInstance,
-                _identity = new UnauthenticatedIdentity(),
-                _account = AccountState.Empty,
-                _id = Guid.Empty,
-                _accountId = Guid.Empty,
                 _accountPrivilege = null
             };
             SignIn = DoSignIn;
@@ -68,7 +62,14 @@ namespace Anycmd.Engine.Ac
             {
                 throw new ArgumentNullException("account");
             }
-            _identity = new AnycmdIdentity(account.LoginName);
+            if (account == AccountState.Empty)
+            {
+                Identity = new UnauthenticatedIdentity();
+            }
+            else
+            {
+                Identity = new AnycmdIdentity(account.LoginName);
+            }
             _acDomain = host;
             _id = sessionId;
             _account = account;
@@ -85,7 +86,7 @@ namespace Anycmd.Engine.Ac
             {
                 throw new ArgumentNullException("userSessionEntity");
             }
-            _identity = new AnycmdIdentity(userSessionEntity.LoginName);
+            Identity = new AnycmdIdentity(userSessionEntity.LoginName);
             _acDomain = host;
             _id = userSessionEntity.Id;
             _accountId = userSessionEntity.AccountId;
@@ -130,14 +131,7 @@ namespace Anycmd.Engine.Ac
             }
         }
 
-        public IIdentity Identity
-        {
-            get
-            {
-                return _identity;
-            }
-            private set { _identity = value; }
-        }
+        public IIdentity Identity { get; private set; }
 
         /// <summary>
         /// .NET的IPrincipal接口的IsInRole方法基本是鸡肋。建议不要面向这个接口编程。

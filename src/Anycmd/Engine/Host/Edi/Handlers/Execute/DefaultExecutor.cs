@@ -214,7 +214,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers.Execute
                     {
                         foreach (var item in toExecutes)
                         {
-                            var context = new MessageContext(this.Process.Host, item);
+                            var context = new MessageContext(this.Process.AcDomain, item);
                             var eArgs = new ExecutedEventArgs(context);
                             OnExecuting(eArgs);
                             MessageHandler.Instance.Response(context);
