@@ -129,8 +129,7 @@ namespace Anycmd.Web.Mvc
                 {
                     // 使用账户标识作为会话标识会导致一个账户只有一个会话
                     // TODO:支持账户和会话的一对多，为会话级的动态责任分离做准备
-                    var userSessionService = acDomain.GetRequiredService<IUserSessionService>();
-                    userSession = userSessionService.CreateSession(acDomain, account.Id, AccountState.Create(account));
+                    userSession = UserSessionState.AddUserSession(acDomain, account.Id, AccountState.Create(account));
                 }
                 storage.SetData(acDomain.Config.CurrentUserSessionCacheKey, userSession);
             }

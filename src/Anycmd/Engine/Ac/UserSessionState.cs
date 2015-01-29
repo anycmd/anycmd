@@ -47,6 +47,8 @@ namespace Anycmd.Engine.Ac
             GetAccountById = GetAccount;
             GetAccountByLoginName = GetAccount;
             GetUserSession = GetUserSessionById;
+            AddUserSession = DoAddUserSession;
+            DeleteUserSession = DoDeleteSession;
         }
 
         private UserSessionState()
@@ -161,7 +163,11 @@ namespace Anycmd.Engine.Ac
 
         public static Func<IAcDomain, string, Account> GetAccountByLoginName { get; set; }
 
-        public static Func<IAcDomain, Guid, IUserSessionEntity> GetUserSession { get; set; } 
+        public static Func<IAcDomain, Guid, IUserSessionEntity> GetUserSession { get; set; }
+
+        public static Func<IAcDomain, Guid, AccountState, IUserSession> AddUserSession { get; set; }
+
+        public static Action<IAcDomain, Guid> DeleteUserSession { get; set; }
 
         #region 私有方法
         private static RdbDescriptor GetAccountDb(IAcDomain acDomain)
@@ -199,7 +205,6 @@ namespace Anycmd.Engine.Ac
             var rememberMe = args.ContainsKey("rememberMe") ? (args["rememberMe"] ?? string.Empty).ToString() : string.Empty;
             var passwordEncryptionService = acDomain.GetRequiredService<IPasswordEncryptionService>();
             var userSessionRepository = acDomain.GetRequiredService<IRepository<UserSession>>();
-            var userSessionService = acDomain.GetRequiredService<IUserSessionService>();
             if (string.IsNullOrEmpty(loginName) || string.IsNullOrEmpty(password))
             {
                 throw new ValidationException("用户名和密码不能为空");
@@ -312,7 +317,7 @@ namespace Anycmd.Engine.Ac
             }
             else
             {
-                userSession = userSessionService.CreateSession(acDomain, account.Id, AccountState.Create(account));
+                userSession = AddUserSession(acDomain, account.Id, AccountState.Create(account));
             }
             userSession.SetData("CurrentUser_Wallpaper", account.Wallpaper);
             userSession.SetData("CurrentUser_BackColor", account.BackColor);
@@ -343,16 +348,15 @@ namespace Anycmd.Engine.Ac
         private static void DoSignOut(IAcDomain acDomain, IUserSession userSession)
         {
             var userSessionStorage = acDomain.GetRequiredService<IUserSessionStorage>();
-            var userSessionService = acDomain.GetRequiredService<IUserSessionService>();
             if (!userSession.Identity.IsAuthenticated)
             {
-                userSessionService.DeleteSession(acDomain, userSession.Account.Id);
+                DeleteUserSession(acDomain, userSession.Account.Id);
                 return;
             }
             if (userSession.Account.Id == Guid.Empty)
             {
                 Thread.CurrentPrincipal = userSession;
-                userSessionService.DeleteSession(acDomain, userSession.Account.Id);
+                DeleteUserSession(acDomain, userSession.Account.Id);
                 return;
             }
             if (HttpContext.Current != null)
@@ -412,6 +416,50 @@ namespace Anycmd.Engine.Ac
                     conn.Query<UserSession>("select * from [UserSession] where Id=@Id", new {Id = userSessionId})
                         .FirstOrDefault();
             }
+        }
+
+        /// <summary>
+        /// 创建Ac会话
+        /// </summary>
+        /// <param name="account"></param>
+        /// <param name="acDomain"></param>
+        /// <param name="sessionId">会话标识。会话级的权限依赖于会话的持久跟踪</param>
+        /// <returns></returns>
+        private static IUserSession DoAddUserSession(IAcDomain acDomain, Guid sessionId, AccountState account)
+        {
+            var userSessionRepository = acDomain.RetrieveRequiredService<IRepository<UserSession>>();
+            var identity = new AnycmdIdentity(account.LoginName);
+            IUserSession user = new UserSessionState(acDomain, sessionId, account);
+            var userSessionEntity = new UserSession
+            {
+                Id = sessionId,
+                AccountId = account.Id,
+                AuthenticationType = identity.AuthenticationType,
+                Description = null,
+                IsAuthenticated = identity.IsAuthenticated,
+                IsEnabled = 1,
+                LoginName = account.LoginName
+            };
+            userSessionRepository.Add(userSessionEntity);
+            userSessionRepository.Context.Commit();
+            return user;
+        }
+
+        /// <summary>
+        /// 删除会话
+        /// <remarks>
+        /// 会话不应该经常删除，会话级的权限依赖于会话的持久跟踪。用户退出系统只需要清空该用户的内存会话记录和更新数据库中的会话记录为IsAuthenticated为false而不需要删除持久的UserSession。
+        /// </remarks>
+        /// </summary>
+        /// <param name="acDomain"></param>
+        /// <param name="sessionId"></param>
+        private static void DoDeleteSession(IAcDomain acDomain, Guid sessionId)
+        {
+            var userSessionRepository = acDomain.RetrieveRequiredService<IRepository<UserSession>>();
+            var userSessionEntity = userSessionRepository.GetByKey(sessionId);
+            if (userSessionEntity == null) return;
+            userSessionRepository.Remove(userSessionEntity);
+            userSessionRepository.Context.Commit();
         }
         #endregion
         #endregion

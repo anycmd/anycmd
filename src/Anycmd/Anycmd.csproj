@@ -199,9 +199,7 @@
     <Compile Include="Engine\Edi\InOuts\INodeActionUpdateIo.cs" />
     <Compile Include="Engine\Edi\InOuts\INodeOntologyOrganizationCreateIo.cs" />
     <Compile Include="Engine\Ac\FunctionIoState.cs" />
-    <Compile Include="Engine\Host\Impl\DefaultUserSessionService.cs" />
     <Compile Include="Engine\Host\Impl\HostConvention.cs" />
-    <Compile Include="Engine\Host\IUserSessionService.cs" />
     <Compile Include="Engine\Ac\Messages\Infra\AddPositionCommand.cs" />
     <Compile Include="Engine\Ac\Messages\Rbac\AddDsdRoleCommand.cs" />
     <Compile Include="Engine\Ac\Messages\Rbac\AddDsdSetCommand.cs" />

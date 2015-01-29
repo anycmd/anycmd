@@ -82,7 +82,6 @@ namespace Anycmd.Engine.Host.Impl
             this.AddDefaultService<ISqlFilterStringBuilder>(new SqlFilterStringBuilder());
             this.AddDefaultService<ISecurityService>(new DefaultSecurityService());
             this.AddDefaultService<IPasswordEncryptionService>(new PasswordEncryptionService(this));
-            this.AddDefaultService<IUserSessionService>(new DefaultUserSessionService());
             this.AddDefaultService<IRbacService>(new DefaultRbacService(this));
 
             base.MessageDispatcher.Register(new AccountLoginedEventHandler(this));

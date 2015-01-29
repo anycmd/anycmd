@@ -109,14 +109,12 @@ namespace Anycmd.Engine.Host.Impl
 
         public IUserSession CreateSession(IUserSession subject, Guid sessionId, AccountState account)
         {
-            var sessionService = _host.RetrieveRequiredService<IUserSessionService>();
-            return sessionService.CreateSession(_host, sessionId, account);
+            return UserSessionState.AddUserSession(_host, sessionId, account);
         }
 
         public void DeleteSession(IUserSession subject, Guid sessionId)
         {
-            var sessionService = _host.RetrieveRequiredService<IUserSessionService>();
-            sessionService.DeleteSession(_host, sessionId);
+            UserSessionState.DeleteUserSession(_host, sessionId);
         }
 
         public IReadOnlyCollection<RoleState> SessionRoles(IUserSession subject, IUserSession targetSession)
