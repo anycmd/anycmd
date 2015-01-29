@@ -7,7 +7,7 @@ namespace Anycmd.Engine.Ac.Abstractions.Rbac
     public interface IUserSessionEntity : IEntityBase
     {
         string AuthenticationType { get; }
-        bool IsAuthenticated { get; }
+        bool IsAuthenticated { get; set; }
         string LoginName { get; }
         Guid AccountId { get; }
         int IsEnabled { get; }

@@ -11,7 +11,6 @@ namespace Anycmd.Engine.Ac
     using Logging;
     using Messages.Identity;
     using Rdb;
-    using Repositories;
     using System;
     using System.Collections.Generic;
     using System.Data;
@@ -128,8 +127,7 @@ namespace Anycmd.Engine.Ac
             get
             {
                 if (_account != null) return _account;
-                var accountRepository = AcDomain.RetrieveRequiredService<IRepository<Account>>();
-                _account = AccountState.Create(accountRepository.GetByKey(this._accountId));
+                _account = AccountState.Create(GetAccountById(_acDomain, this._accountId));
                 return _account;
             }
         }
@@ -204,7 +202,6 @@ namespace Anycmd.Engine.Ac
             var password = args.ContainsKey("password") ? (args["password"] ?? string.Empty).ToString() : string.Empty;
             var rememberMe = args.ContainsKey("rememberMe") ? (args["rememberMe"] ?? string.Empty).ToString() : string.Empty;
             var passwordEncryptionService = acDomain.GetRequiredService<IPasswordEncryptionService>();
-            var userSessionRepository = acDomain.GetRequiredService<IRepository<UserSession>>();
             if (string.IsNullOrEmpty(loginName) || string.IsNullOrEmpty(password))
             {
                 throw new ValidationException("用户名和密码不能为空");
@@ -307,13 +304,20 @@ namespace Anycmd.Engine.Ac
 
             // 使用账户标识作为会话标识会导致一个账户只有一个会话
             // TODO:支持账户和会话的一对多，为会话级的动态责任分离做准备
-            var sessionEntity = userSessionRepository.GetByKey(account.Id);
+            var sessionEntity = UserSessionState.GetUserSessionById(acDomain, account.Id);
             IUserSession userSession;
             if (sessionEntity != null)
             {
                 userSession = new UserSessionState(acDomain, sessionEntity.Id, AccountState.Create(account));
                 sessionEntity.IsAuthenticated = true;
-                userSessionRepository.Update(sessionEntity);
+                using (var conn = GetAccountDb(acDomain).GetConnection())
+                {
+                    if (conn.State != ConnectionState.Open)
+                    {
+                        conn.Open();
+                    }
+                    conn.Execute("update UserSession set IsAuthenticated=@IsAuthenticated where Id=@Id", new { IsAuthenticated = true, Id = sessionEntity.Id });
+                }
             }
             else
             {
@@ -336,7 +340,6 @@ namespace Anycmd.Engine.Ac
             userSession.SetData("UserContext_Current_VisitingLogId", visitingLogId);
             userSession.SetData(acDomain.Config.CurrentUserSessionCacheKey, userSession);
 
-            userSessionRepository.Context.Commit();
             acDomain.EventBus.Publish(new AccountLoginedEvent(userSession, account));
             acDomain.EventBus.Commit();
             addVisitingLogCommand.StateCode = (int)VisitState.Logged;
@@ -427,22 +430,28 @@ namespace Anycmd.Engine.Ac
         /// <returns></returns>
         private static IUserSession DoAddUserSession(IAcDomain acDomain, Guid sessionId, AccountState account)
         {
-            var userSessionRepository = acDomain.RetrieveRequiredService<IRepository<UserSession>>();
-            var identity = new AnycmdIdentity(account.LoginName);
-            IUserSession user = new UserSessionState(acDomain, sessionId, account);
-            var userSessionEntity = new UserSession
+            using (var conn = GetAccountDb(acDomain).GetConnection())
             {
-                Id = sessionId,
-                AccountId = account.Id,
-                AuthenticationType = identity.AuthenticationType,
-                Description = null,
-                IsAuthenticated = identity.IsAuthenticated,
-                IsEnabled = 1,
-                LoginName = account.LoginName
-            };
-            userSessionRepository.Add(userSessionEntity);
-            userSessionRepository.Context.Commit();
-            return user;
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+                var identity = new AnycmdIdentity(account.LoginName);
+                IUserSession user = new UserSessionState(acDomain, sessionId, account);
+                conn.Execute(
+@"insert into UserSession(Id,AccountId,AuthenticationType,Description,IsAuthenticated,IsEnabled,LoginName) 
+    values(@Id,@AccountId,@AuthenticationType,@Description,@IsAuthenticated,@IsEnabled,@LoginName)", new UserSession
+                                                                                                   {
+                                                                                                       Id = sessionId,
+                                                                                                       AccountId = account.Id,
+                                                                                                       AuthenticationType = identity.AuthenticationType,
+                                                                                                       Description = null,
+                                                                                                       IsAuthenticated = identity.IsAuthenticated,
+                                                                                                       IsEnabled = 1,
+                                                                                                       LoginName = account.LoginName
+                                                                                                   });
+                return user;
+            }
         }
 
         /// <summary>
@@ -455,11 +464,14 @@ namespace Anycmd.Engine.Ac
         /// <param name="sessionId"></param>
         private static void DoDeleteSession(IAcDomain acDomain, Guid sessionId)
         {
-            var userSessionRepository = acDomain.RetrieveRequiredService<IRepository<UserSession>>();
-            var userSessionEntity = userSessionRepository.GetByKey(sessionId);
-            if (userSessionEntity == null) return;
-            userSessionRepository.Remove(userSessionEntity);
-            userSessionRepository.Context.Commit();
+            using (var conn = GetAccountDb(acDomain).GetConnection())
+            {
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+                conn.Execute("delete UserSession where Id=@Id", new { Id = sessionId });
+            }
         }
         #endregion
         #endregion
