@@ -304,7 +304,7 @@ namespace Anycmd.Engine.Ac
 
             // 使用账户标识作为会话标识会导致一个账户只有一个会话
             // TODO:支持账户和会话的一对多，为会话级的动态责任分离做准备
-            var sessionEntity = UserSessionState.GetUserSessionById(acDomain, account.Id);
+            var sessionEntity = GetUserSessionById(acDomain, account.Id);
             IUserSession userSession;
             if (sessionEntity != null)
             {
