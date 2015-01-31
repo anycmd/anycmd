@@ -95,7 +95,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers.Distribute
                             Req_UserName = context.Command.UserName,
                             Req_IsDumb = context.Command.IsDumb,
                             LocalEntityId = context.Command.LocalEntityId,
-                            OrganizationCode = context.Command.OrganizationCode,
+                            CatalogCode = context.Command.CatalogCode,
                             Req_ReasonPhrase = context.Command.ReasonPhrase,
                             ReceivedOn = context.Command.ReceivedOn,
                             Req_MessageId = context.Command.MessageId,

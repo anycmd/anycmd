@@ -19,7 +19,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
     using System.Linq;
     using Util;
     using ontologyId = System.Guid;
-    using organizationId = System.Guid;
+    using catalogId = System.Guid;
     using topicCode = System.String;
 
     /// <summary>
@@ -38,7 +38,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
         private readonly ElementSet _elementSet;
         private readonly ActionSet _actionSet;
         private readonly InfoGroupSet _infoGroupSet;
-        private readonly OntologyOrganizationSet _organizationSet;
+        private readonly OntologyCatalogSet _catalogSet;
         private readonly TopicSet _topics;
         private readonly ArchiveSet _archiveSet;
 
@@ -71,7 +71,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             this._elementSet = new ElementSet(host);
             this._actionSet = new ActionSet(host);
             this._infoGroupSet = new InfoGroupSet(host);
-            this._organizationSet = new OntologyOrganizationSet(host);
+            this._catalogSet = new OntologyCatalogSet(host);
             this._topics = new TopicSet(host);
             this._archiveSet = new ArchiveSet(host);
         }
@@ -246,8 +246,8 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
         }
         #endregion
 
-        #region GetOntologyOrganizations
-        public IReadOnlyDictionary<OrganizationState, OntologyOrganizationState> GetOntologyOrganizations(OntologyDescriptor ontology)
+        #region GetOntologyCatalogs
+        public IReadOnlyDictionary<CatalogState, OntologyCatalogState> GetOntologyCatalogs(OntologyDescriptor ontology)
         {
             if (ontology == null)
             {
@@ -257,7 +257,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             {
                 Init();
             }
-            return _organizationSet[ontology];
+            return _catalogSet[ontology];
         }
         #endregion
 
@@ -612,7 +612,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 {
                     throw new ValidationException("本体下有归档记录时不能删除");
                 }
-                if (ontology.Organizations != null && ontology.Organizations.Count > 0)
+                if (ontology.Catalogs != null && ontology.Catalogs.Count > 0)
                 {
                     throw new ValidationException("本体下有建立的目录时不能删除");
                 }
@@ -636,7 +636,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 {
                     throw new ValidationException("有节点关心了该本体时不能删除");
                 }
-                if (host.NodeHost.Nodes.GetNodeOntologyOrganizations().Any(a => a.OntologyId == entity.Id))
+                if (host.NodeHost.Nodes.GetNodeOntologyCatalogs().Any(a => a.OntologyId == entity.Id))
                 {
                     throw new ValidationException("有节点关心了该本体下的目录时不能删除");
                 }
@@ -1142,7 +1142,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
         private sealed class ActionSet
         {
             private readonly Dictionary<OntologyDescriptor, Dictionary<Verb, ActionState>> _actionDicByVerb = new Dictionary<OntologyDescriptor, Dictionary<Verb, ActionState>>();
-            private readonly Dictionary<Guid, ActionState> _actionsById = new Dictionary<organizationId, ActionState>();
+            private readonly Dictionary<Guid, ActionState> _actionsById = new Dictionary<catalogId, ActionState>();
             private bool _initialized = false;
             private readonly object _locker = new object();
             private readonly Guid _id = Guid.NewGuid();
@@ -1713,11 +1713,11 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
         #endregion
 
         // 内部类
-        #region OntologyOrganizationSet
-        private sealed class OntologyOrganizationSet
+        #region OntologyCatalogSet
+        private sealed class OntologyCatalogSet
         {
-            private readonly Dictionary<OntologyDescriptor, Dictionary<OrganizationState, OntologyOrganizationState>>
-                _dic = new Dictionary<OntologyDescriptor, Dictionary<OrganizationState, OntologyOrganizationState>>();
+            private readonly Dictionary<OntologyDescriptor, Dictionary<CatalogState, OntologyCatalogState>>
+                _dic = new Dictionary<OntologyDescriptor, Dictionary<CatalogState, OntologyCatalogState>>();
             private bool _initialized = false;
             private readonly object _locker = new object();
             private readonly Guid _id = Guid.NewGuid();
@@ -1728,7 +1728,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 get { return _id; }
             }
 
-            internal OntologyOrganizationSet(IAcDomain host)
+            internal OntologyCatalogSet(IAcDomain host)
             {
                 if (host == null)
                 {
@@ -1739,7 +1739,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     _initialized = true;
                 }
                 this._host = host;
-                new OntologyOrganizationMessageHandler(this).Register();
+                new OntologyCatalogMessageHandler(this).Register();
             }
 
             /// <summary>
@@ -1747,7 +1747,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             /// </summary>
             /// <param name="ontology"></param>
             /// <returns>key为目录码</returns>
-            public Dictionary<OrganizationState, OntologyOrganizationState> this[OntologyDescriptor ontology]
+            public Dictionary<CatalogState, OntologyCatalogState> this[OntologyDescriptor ontology]
             {
                 get
                 {
@@ -1757,7 +1757,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                     if (!_dic.ContainsKey(ontology))
                     {
-                        return new Dictionary<OrganizationState, OntologyOrganizationState>();
+                        return new Dictionary<CatalogState, OntologyCatalogState>();
                     }
 
                     return _dic[ontology];
@@ -1771,22 +1771,22 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 {
                     if (_initialized) return;
                     _dic.Clear();
-                    var ontologyOrgs = _host.RetrieveRequiredService<INodeHostBootstrap>().GetOntologyOrganizations();
+                    var ontologyOrgs = _host.RetrieveRequiredService<INodeHostBootstrap>().GetOntologyCatalogs();
                     foreach (var ontologyOrg in ontologyOrgs)
                     {
-                        OrganizationState org;
+                        CatalogState org;
                         OntologyDescriptor ontology;
                         if (!_host.NodeHost.Ontologies.TryGetOntology(ontologyOrg.OntologyId, out ontology))
                         {
                             throw new AnycmdException("意外的本体目录本体标识" + ontologyOrg.OntologyId);
                         }
-                        if (_host.OrganizationSet.TryGetOrganization(ontologyOrg.OrganizationId, out org))
+                        if (_host.CatalogSet.TryGetCatalog(ontologyOrg.CatalogId, out org))
                         {
                             if (!_dic.ContainsKey(ontology))
                             {
-                                _dic.Add(ontology, new Dictionary<OrganizationState, OntologyOrganizationState>());
+                                _dic.Add(ontology, new Dictionary<CatalogState, OntologyCatalogState>());
                             }
-                            var ontologyOrgState = OntologyOrganizationState.Create(_host, ontologyOrg);
+                            var ontologyOrgState = OntologyCatalogState.Create(_host, ontologyOrg);
                             if (!_dic[ontology].ContainsKey(org))
                             {
                                 _dic[ontology].Add(org, ontologyOrgState);
@@ -1801,21 +1801,21 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
             }
 
-            private class OntologyOrganizationMessageHandler :
-                IHandler<AddOntologyOrganizationCommand>,
-                IHandler<OntologyOrganizationAddedEvent>,
-                IHandler<RemoveOntologyOrganizationCommand>,
-                IHandler<OntologyOrganizationRemovedEvent>,
-                IHandler<AddOrganizationActionCommand>,
-                IHandler<OrganizationActionAddedEvent>,
-                IHandler<UpdateOrganizationActionCommand>,
-                IHandler<OrganizationActionUpdatedEvent>,
-                IHandler<RemoveOrganizationActionCommand>,
-                IHandler<OrganizationActionRemovedEvent>
+            private class OntologyCatalogMessageHandler :
+                IHandler<AddOntologyCatalogCommand>,
+                IHandler<OntologyCatalogAddedEvent>,
+                IHandler<RemoveOntologyCatalogCommand>,
+                IHandler<OntologyCatalogRemovedEvent>,
+                IHandler<AddCatalogActionCommand>,
+                IHandler<CatalogActionAddedEvent>,
+                IHandler<UpdateCatalogActionCommand>,
+                IHandler<CatalogActionUpdatedEvent>,
+                IHandler<RemoveCatalogActionCommand>,
+                IHandler<CatalogActionRemovedEvent>
             {
-                private readonly OntologyOrganizationSet set;
+                private readonly OntologyCatalogSet set;
 
-                public OntologyOrganizationMessageHandler(OntologyOrganizationSet set)
+                public OntologyCatalogMessageHandler(OntologyCatalogSet set)
                 {
                     this.set = set;
                 }
@@ -1827,63 +1827,63 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     {
                         throw new ArgumentNullException("messageDispatcher has not be set of host:{0}".Fmt(set._host.Name));
                     }
-                    messageDispatcher.Register((IHandler<AddOntologyOrganizationCommand>)this);
-                    messageDispatcher.Register((IHandler<OntologyOrganizationAddedEvent>)this);
-                    messageDispatcher.Register((IHandler<RemoveOntologyOrganizationCommand>)this);
-                    messageDispatcher.Register((IHandler<OntologyOrganizationRemovedEvent>)this);
-                    messageDispatcher.Register((IHandler<AddOrganizationActionCommand>)this);
-                    messageDispatcher.Register((IHandler<OrganizationActionAddedEvent>)this);
-                    messageDispatcher.Register((IHandler<RemoveOrganizationActionCommand>)this);
-                    messageDispatcher.Register((IHandler<OrganizationActionRemovedEvent>)this);
+                    messageDispatcher.Register((IHandler<AddOntologyCatalogCommand>)this);
+                    messageDispatcher.Register((IHandler<OntologyCatalogAddedEvent>)this);
+                    messageDispatcher.Register((IHandler<RemoveOntologyCatalogCommand>)this);
+                    messageDispatcher.Register((IHandler<OntologyCatalogRemovedEvent>)this);
+                    messageDispatcher.Register((IHandler<AddCatalogActionCommand>)this);
+                    messageDispatcher.Register((IHandler<CatalogActionAddedEvent>)this);
+                    messageDispatcher.Register((IHandler<RemoveCatalogActionCommand>)this);
+                    messageDispatcher.Register((IHandler<CatalogActionRemovedEvent>)this);
                 }
 
-                public void Handle(AddOntologyOrganizationCommand message)
+                public void Handle(AddOntologyCatalogCommand message)
                 {
                     this.Handle(message.UserSession, message.Input, true);
                 }
 
-                public void Handle(OntologyOrganizationAddedEvent message)
+                public void Handle(OntologyCatalogAddedEvent message)
                 {
-                    if (message.GetType() == typeof(PrivateOntologyOrganizationAddedEvent))
+                    if (message.GetType() == typeof(PrivateOntologyCatalogAddedEvent))
                     {
                         return;
                     }
                     this.Handle(message.UserSession, message.Output, false);
                 }
 
-                private void Handle(IUserSession userSession, IOntologyOrganizationCreateIo input, bool isCommand)
+                private void Handle(IUserSession userSession, IOntologyCatalogCreateIo input, bool isCommand)
                 {
                     var _dic = set._dic;
                     var host = set._host;
-                    var repository = host.RetrieveRequiredService<IRepository<OntologyOrganization>>();
+                    var repository = host.RetrieveRequiredService<IRepository<OntologyCatalog>>();
                     OntologyDescriptor ontology;
                     if (!host.NodeHost.Ontologies.TryGetOntology(input.OntologyId, out ontology))
                     {
                         throw new AnycmdException("意外的本体标识" + input.OntologyId);
                     }
-                    OrganizationState org;
-                    if (!host.OrganizationSet.TryGetOrganization(input.OrganizationId, out org))
+                    CatalogState org;
+                    if (!host.CatalogSet.TryGetCatalog(input.CatalogId, out org))
                     {
-                        throw new AnycmdException("意外的目录标识" + input.OrganizationId);
+                        throw new AnycmdException("意外的目录标识" + input.CatalogId);
                     }
-                    OntologyOrganization entity;
+                    OntologyCatalog entity;
                     lock (this)
                     {
                         if (_dic.ContainsKey(ontology) && _dic[ontology].ContainsKey(org))
                         {
                             return;
                         }
-                        entity = new OntologyOrganization
+                        entity = new OntologyCatalog
                         {
                             Id = input.Id.Value,
                             OntologyId = input.OntologyId,
-                            OrganizationId = input.OrganizationId,
+                            CatalogId = input.CatalogId,
                             Actions = null
                         };
-                        var ontologyOrgState = OntologyOrganizationState.Create(host, entity);
+                        var ontologyOrgState = OntologyCatalogState.Create(host, entity);
                         if (!_dic.ContainsKey(ontology))
                         {
-                            _dic.Add(ontology, new Dictionary<OrganizationState, OntologyOrganizationState>());
+                            _dic.Add(ontology, new Dictionary<CatalogState, OntologyCatalogState>());
                         }
                         _dic[ontology].Add(org, ontologyOrgState);
                         if (isCommand)
@@ -1903,54 +1903,54 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                     if (isCommand)
                     {
-                        host.MessageDispatcher.DispatchMessage(new PrivateOntologyOrganizationAddedEvent(userSession, entity, input));
+                        host.MessageDispatcher.DispatchMessage(new PrivateOntologyCatalogAddedEvent(userSession, entity, input));
                     }
                 }
 
-                private class PrivateOntologyOrganizationAddedEvent : OntologyOrganizationAddedEvent
+                private class PrivateOntologyCatalogAddedEvent : OntologyCatalogAddedEvent
                 {
-                    public PrivateOntologyOrganizationAddedEvent(IUserSession userSession, OntologyOrganizationBase source, IOntologyOrganizationCreateIo input)
+                    public PrivateOntologyCatalogAddedEvent(IUserSession userSession, OntologyCatalogBase source, IOntologyCatalogCreateIo input)
                         : base(userSession, source, input)
                     {
 
                     }
                 }
 
-                public void Handle(RemoveOntologyOrganizationCommand message)
+                public void Handle(RemoveOntologyCatalogCommand message)
                 {
-                    this.Handle(message.UserSession, message.OntologyId, message.OrganizationId, true);
+                    this.Handle(message.UserSession, message.OntologyId, message.CatalogId, true);
                 }
 
-                public void Handle(OntologyOrganizationRemovedEvent message)
+                public void Handle(OntologyCatalogRemovedEvent message)
                 {
-                    if (message.GetType() == typeof(PrivateOntologyOrganizationRemovedEvent))
+                    if (message.GetType() == typeof(PrivateOntologyCatalogRemovedEvent))
                     {
                         return;
                     }
-                    var entity = message.Source as OntologyOrganizationBase;
-                    this.Handle(message.UserSession, entity.OntologyId, entity.OrganizationId, false);
+                    var entity = message.Source as OntologyCatalogBase;
+                    this.Handle(message.UserSession, entity.OntologyId, entity.CatalogId, false);
                 }
 
-                private void Handle(IUserSession userSession, Guid ontologyId, Guid organizationId, bool isCommand)
+                private void Handle(IUserSession userSession, Guid ontologyId, Guid catalogId, bool isCommand)
                 {
                     var dic = set._dic;
                     var host = set._host;
-                    var repository = host.RetrieveRequiredService<IRepository<OntologyOrganization>>();
+                    var repository = host.RetrieveRequiredService<IRepository<OntologyCatalog>>();
                     OntologyDescriptor ontology;
                     if (!host.NodeHost.Ontologies.TryGetOntology(ontologyId, out ontology))
                     {
                         throw new ValidationException("意外的本体标识" + ontologyId);
                     }
-                    OntologyOrganization entity;
+                    OntologyCatalog entity;
                     lock (this)
                     {
-                        OrganizationState org = null;
-                        OntologyOrganizationState bkState = null;
+                        CatalogState org = null;
+                        OntologyCatalogState bkState = null;
                         foreach (var item in dic)
                         {
                             foreach (var item1 in item.Value)
                             {
-                                if (item1.Value.OrganizationId == organizationId)
+                                if (item1.Value.CatalogId == catalogId)
                                 {
                                     bkState = item1.Value;
                                     org = item1.Key;
@@ -1989,43 +1989,43 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                     if (isCommand)
                     {
-                        host.MessageDispatcher.DispatchMessage(new PrivateOntologyOrganizationRemovedEvent(userSession, entity));
+                        host.MessageDispatcher.DispatchMessage(new PrivateOntologyCatalogRemovedEvent(userSession, entity));
                     }
                 }
 
-                private class PrivateOntologyOrganizationRemovedEvent : OntologyOrganizationRemovedEvent
+                private class PrivateOntologyCatalogRemovedEvent : OntologyCatalogRemovedEvent
                 {
-                    public PrivateOntologyOrganizationRemovedEvent(IUserSession userSession, OntologyOrganizationBase source) : base(userSession, source) { }
+                    public PrivateOntologyCatalogRemovedEvent(IUserSession userSession, OntologyCatalogBase source) : base(userSession, source) { }
                 }
 
-                public void Handle(AddOrganizationActionCommand message)
+                public void Handle(AddCatalogActionCommand message)
                 {
-                    // TODO:处理AddOrganizationActionCommand命令
+                    // TODO:处理AddCatalogActionCommand命令
                 }
 
-                public void Handle(OrganizationActionAddedEvent message)
+                public void Handle(CatalogActionAddedEvent message)
                 {
-                    // TODO:处理OrganizationActionAddedEvent事件
+                    // TODO:处理CatalogActionAddedEvent事件
                 }
 
-                public void Handle(UpdateOrganizationActionCommand message)
+                public void Handle(UpdateCatalogActionCommand message)
                 {
-                    // TODO:处理UpdateOrganizationActionCommand命令
+                    // TODO:处理UpdateCatalogActionCommand命令
                 }
 
-                public void Handle(OrganizationActionUpdatedEvent message)
+                public void Handle(CatalogActionUpdatedEvent message)
                 {
-                    // TODO:处理OrganizationActionUpdatedEvent事件
+                    // TODO:处理CatalogActionUpdatedEvent事件
                 }
 
-                public void Handle(RemoveOrganizationActionCommand message)
+                public void Handle(RemoveCatalogActionCommand message)
                 {
-                    // TODO:处理RemoveOrganizationActionCommand命令
+                    // TODO:处理RemoveCatalogActionCommand命令
                 }
 
-                public void Handle(OrganizationActionRemovedEvent message)
+                public void Handle(CatalogActionRemovedEvent message)
                 {
-                    // TODO:处理OrganizationActionRemovedEvent事件
+                    // TODO:处理CatalogActionRemovedEvent事件
                 }
             }
         }

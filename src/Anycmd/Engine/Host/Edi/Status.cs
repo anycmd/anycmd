@@ -219,7 +219,7 @@ namespace Anycmd.Engine.Host.Edi
         /// 非法的目录码
         /// </summary>
         [Description("非法的目录码。")]
-        InvalidOrganization = 410,
+        InvalidCatalog = 410,
         /// <summary>
         /// 非法的字典值
         /// </summary>

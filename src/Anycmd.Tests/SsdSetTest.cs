@@ -3,7 +3,7 @@ namespace Anycmd.Tests
 {
     using Ac.ViewModels.Identity.AccountViewModels;
     using Ac.ViewModels.Infra.DicViewModels;
-    using Ac.ViewModels.Infra.OrganizationViewModels;
+    using Ac.ViewModels.Infra.CatalogViewModels;
     using Ac.ViewModels.PrivilegeViewModels;
     using Ac.ViewModels.RoleViewModels;
     using Ac.ViewModels.SsdViewModels;
@@ -198,7 +198,7 @@ namespace Anycmd.Tests
             Assert.Equal(3, host.SsdSetSet.GetSsdRoles(ssdSetById).Count);
             var orgId = Guid.NewGuid();
 
-            host.Handle(new OrganizationCreateInput
+            host.Handle(new CatalogCreateInput
             {
                 Id = orgId,
                 Code = "100",
@@ -215,7 +215,7 @@ namespace Anycmd.Tests
                 Name = "test1",
                 LoginName = "test1",
                 Password = "111111",
-                OrganizationCode = "100",
+                CatalogCode = "100",
                 IsEnabled = 1,
                 AuditState = "auditPass"
             }.ToCommand(host.GetUserSession()));

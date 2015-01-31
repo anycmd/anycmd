@@ -45,7 +45,7 @@ namespace Anycmd.Tests
                 DeveloperId = host.SysUserSet.GetDevAccounts().First().Id,
                 EditHeight = 100,
                 EditWidth = 100,
-                IsOrganizational = false,
+                IsCatalogued = false,
                 SchemaName = string.Empty,
                 SortCode = 10,
                 TableName = string.Empty
@@ -67,7 +67,7 @@ namespace Anycmd.Tests
                 DeveloperId = host.SysUserSet.GetDevAccounts().First().Id,
                 EditWidth = 100,
                 EditHeight = 100,
-                IsOrganizational = false,
+                IsCatalogued = false,
                 SchemaName = string.Empty,
                 SortCode = 100,
                 TableName = string.Empty
@@ -97,7 +97,7 @@ namespace Anycmd.Tests
                 DeveloperId = host.SysUserSet.GetDevAccounts().First().Id,
                 EditHeight = 100,
                 EditWidth = 100,
-                IsOrganizational = false,
+                IsCatalogued = false,
                 SchemaName = string.Empty,
                 SortCode = 10,
                 TableName = string.Empty
@@ -177,7 +177,7 @@ namespace Anycmd.Tests
                 DeveloperId = host.SysUserSet.GetDevAccounts().First().Id,
                 EditHeight = 100,
                 EditWidth = 100,
-                IsOrganizational = false,
+                IsCatalogued = false,
                 SchemaName = string.Empty,
                 SortCode = 10,
                 TableName = string.Empty
@@ -252,7 +252,7 @@ namespace Anycmd.Tests
                 DeveloperId = host.SysUserSet.GetDevAccounts().First().Id,
                 EditWidth = 100,
                 EditHeight = 100,
-                IsOrganizational = false,
+                IsCatalogued = false,
                 SchemaName = string.Empty,
                 SortCode = 100,
                 TableName = string.Empty
@@ -268,7 +268,7 @@ namespace Anycmd.Tests
                 DeveloperId = host.SysUserSet.GetDevAccounts().First().Id,
                 EditWidth = 100,
                 EditHeight = 100,
-                IsOrganizational = false,
+                IsCatalogued = false,
                 SchemaName = string.Empty,
                 SortCode = 100,
                 TableName = string.Empty
@@ -290,7 +290,7 @@ namespace Anycmd.Tests
                     DeveloperId = host.SysUserSet.GetDevAccounts().First().Id,
                     EditHeight = 100,
                     EditWidth = 100,
-                    IsOrganizational = false,
+                    IsCatalogued = false,
                     SchemaName = string.Empty,
                     SortCode = 10,
                     TableName = string.Empty
@@ -319,7 +319,7 @@ namespace Anycmd.Tests
                 DeveloperId = host.SysUserSet.GetDevAccounts().First().Id,
                 EditHeight = 100,
                 EditWidth = 100,
-                IsOrganizational = false,
+                IsCatalogued = false,
                 SchemaName = string.Empty,
                 SortCode = 10,
                 TableName = string.Empty
@@ -340,7 +340,7 @@ namespace Anycmd.Tests
                     DeveloperId = host.SysUserSet.GetDevAccounts().First().Id,
                     EditWidth = 100,
                     EditHeight = 100,
-                    IsOrganizational = false,
+                    IsCatalogued = false,
                     SchemaName = string.Empty,
                     SortCode = 100,
                     TableName = string.Empty

@@ -105,7 +105,7 @@
           <Property Name="Codespace" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Code" Type="varchar" MaxLength="36" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="36" Nullable="false" />
-          <Property Name="IsOrganizational" Type="bit" Nullable="false" />
+          <Property Name="IsCatalogued" Type="bit" Nullable="false" />
           <Property Name="SchemaName" Type="varchar" MaxLength="50" />
           <Property Name="TableName" Type="varchar" MaxLength="36" />
           <Property Name="SortCode" Type="int" Nullable="false" />
@@ -198,7 +198,7 @@
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="CategoryCode" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="TypeCode" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="OrganizationCode" Type="varchar" MaxLength="50" />
+          <Property Name="CatalogCode" Type="varchar" MaxLength="50" />
           <Property Name="ShortName" Type="nvarchar" MaxLength="50" />
           <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="IsEnabled" Type="int" Nullable="false" />
@@ -256,7 +256,7 @@
           <Property Name="RowGuid" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Etag" Type="timestamp" StoreGeneratedPattern="Computed" />
         </EntityType>
-        <EntityType Name="Organization">
+        <EntityType Name="Catalog">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -575,7 +575,7 @@
           <EntitySet Name="Group" EntityType="Self.Group" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Menu" EntityType="Self.Menu" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OperationHelp" EntityType="Self.OperationHelp" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Organization" EntityType="Self.Organization" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Catalog" EntityType="Self.Catalog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Property" EntityType="Self.Property" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ResourceType" EntityType="Self.ResourceType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UiView" EntityType="Self.UiView" Schema="dbo" store:Type="Tables" />
@@ -745,7 +745,7 @@
           <Property Name="Codespace" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Code" Type="String" MaxLength="36" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="36" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="IsOrganizational" Type="Boolean" Nullable="false" />
+          <Property Name="IsCatalogued" Type="Boolean" Nullable="false" />
           <Property Name="SchemaName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="true" />
           <Property Name="TableName" Type="String" MaxLength="36" FixedLength="false" Unicode="false" Nullable="true" />
           <Property Name="SortCode" Type="Int32" Nullable="false" />
@@ -829,7 +829,7 @@
           <Property Name="AcContentType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="AcContent" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="Organization">
+        <EntityType Name="Catalog">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -1075,7 +1075,7 @@
           <EntitySet Name="Functions" EntityType="Self.Function" />
           <EntitySet Name="Menus" EntityType="Self.Menu" />
           <EntitySet Name="OperationHelps" EntityType="Self.OperationHelp" />
-          <EntitySet Name="Organizations" EntityType="Self.Organization" />
+          <EntitySet Name="Catalogs" EntityType="Self.Catalog" />
           <EntitySet Name="UiViews" EntityType="Self.UiView" />
           <EntitySet Name="UiViewButtons" EntityType="Self.UiViewButton" />
           <EntitySet Name="Properties" EntityType="Self.Property" />
@@ -1264,7 +1264,7 @@
           <Property Name="Id" Type="Guid" Nullable="false" />
           <Property Name="CategoryCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TypeCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="OrganizationCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CatalogCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ShortName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="IsEnabled" Type="Int32" Nullable="false" />
@@ -1393,7 +1393,7 @@
                 <ScalarProperty Name="Codespace" ColumnName="Codespace" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="IsOrganizational" ColumnName="IsOrganizational" />
+                <ScalarProperty Name="IsCatalogued" ColumnName="IsCatalogued" />
                 <ScalarProperty Name="SchemaName" ColumnName="SchemaName" />
                 <ScalarProperty Name="TableName" ColumnName="TableName" />
                 <ScalarProperty Name="SortCode" ColumnName="SortCode" />
@@ -1479,9 +1479,9 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Organizations">
-            <EntityTypeMapping TypeName="AnycmdModel.Organization">
-              <MappingFragment StoreEntitySet="Organization">
+          <EntitySetMapping Name="Catalogs">
+            <EntityTypeMapping TypeName="AnycmdModel.Catalog">
+              <MappingFragment StoreEntitySet="Catalog">
                 <ScalarProperty Name="AcContent" ColumnName="AcContent" />
                 <ScalarProperty Name="AcContentType" ColumnName="AcContentType" />
                 <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
@@ -1674,7 +1674,7 @@
                 <ScalarProperty Name="IsEnabled" ColumnName="IsEnabled" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ShortName" ColumnName="ShortName" />
-                <ScalarProperty Name="OrganizationCode" ColumnName="OrganizationCode" />
+                <ScalarProperty Name="CatalogCode" ColumnName="CatalogCode" />
                 <ScalarProperty Name="TypeCode" ColumnName="TypeCode" />
                 <ScalarProperty Name="CategoryCode" ColumnName="CategoryCode" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -1712,7 +1712,7 @@
         <EntityTypeShape EntityType="AnycmdModel.Function" Width="1.625" PointX="5.625" PointY="6.125" IsExpanded="true" />
         <EntityTypeShape EntityType="AnycmdModel.Menu" Width="1.625" PointX="3.25" PointY="20.125" IsExpanded="true" />
         <EntityTypeShape EntityType="AnycmdModel.OperationHelp" Width="1.625" PointX="8" PointY="2.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="AnycmdModel.Organization" Width="1.875" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AnycmdModel.Catalog" Width="1.875" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="AnycmdModel.UiView" Width="1.625" PointX="8" PointY="6.375" IsExpanded="true" />
         <EntityTypeShape EntityType="AnycmdModel.UiViewButton" Width="1.625" PointX="10.375" PointY="6.375" IsExpanded="true" />
         <EntityTypeShape EntityType="AnycmdModel.Property" Width="1.75" PointX="16.125" PointY="14.875" IsExpanded="true" />

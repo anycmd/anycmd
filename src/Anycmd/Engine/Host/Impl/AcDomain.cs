@@ -174,7 +174,7 @@ namespace Anycmd.Engine.Host.Impl
         /// <summary>
         /// 系统目录
         /// </summary>
-        public IOrganizationSet OrganizationSet { get; protected set; }
+        public ICatalogSet CatalogSet { get; protected set; }
 
         /// <summary>
         /// 系统界面视图

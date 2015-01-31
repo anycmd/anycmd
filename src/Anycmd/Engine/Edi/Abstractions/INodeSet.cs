@@ -114,12 +114,12 @@ namespace Anycmd.Engine.Edi.Abstractions
         /// <param name="node"></param>
         /// <param name="ontology"></param>
         /// <returns></returns>
-        IReadOnlyDictionary<OrganizationState, NodeOntologyOrganizationState> GetNodeOntologyOrganizations(NodeDescriptor node, OntologyDescriptor ontology);
+        IReadOnlyDictionary<CatalogState, NodeOntologyCatalogState> GetNodeOntologyCatalogs(NodeDescriptor node, OntologyDescriptor ontology);
 
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
-        IEnumerable<NodeOntologyOrganizationState> GetNodeOntologyOrganizations();
+        IEnumerable<NodeOntologyCatalogState> GetNodeOntologyCatalogs();
     }
 }

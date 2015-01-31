@@ -271,16 +271,16 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 			{
 				throw new ValidationException("非法的本体码");
 			}
-			if (ontology.Ontology.IsOrganizationalEntity)
+			if (ontology.Ontology.IsCataloguedEntity)
 			{
-				if (string.IsNullOrEmpty(requestModel.OrganizationCode))
+				if (string.IsNullOrEmpty(requestModel.CatalogCode))
 				{
 					throw new ValidationException("没有选中目录");
 				}
-				OrganizationState org;
-				if (!AcDomain.OrganizationSet.TryGetOrganization(requestModel.OrganizationCode, out org))
+				CatalogState org;
+				if (!AcDomain.CatalogSet.TryGetCatalog(requestModel.CatalogCode, out org))
 				{
-					throw new ValidationException("非法的目录码" + requestModel.OrganizationCode);
+					throw new ValidationException("非法的目录码" + requestModel.CatalogCode);
 				}
 			}
 			var selectElements = new OrderedElementSet();
@@ -1388,14 +1388,14 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 			{
 				throw new ValidationException("非法的本体码");
 			}
-			if (string.IsNullOrEmpty(requestModel.OrganizationCode))
+			if (string.IsNullOrEmpty(requestModel.CatalogCode))
 			{
 				throw new ValidationException("没有选中目录");
 			}
-			OrganizationState org;
-			if (!AcDomain.OrganizationSet.TryGetOrganization(requestModel.OrganizationCode, out org))
+			CatalogState org;
+			if (!AcDomain.CatalogSet.TryGetCatalog(requestModel.CatalogCode, out org))
 			{
-				throw new ValidationException("非法的目录码" + requestModel.OrganizationCode);
+				throw new ValidationException("非法的目录码" + requestModel.CatalogCode);
 			}
 			var selectElements = new OrderedElementSet();
 			if (string.IsNullOrEmpty(elements))
@@ -1573,7 +1573,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 			}
 			if (UserSession.IsDeveloper())
 			{
-				foreach (var item in AcDomain.OrganizationSet)
+				foreach (var item in AcDomain.CatalogSet)
 				{
 					var parentOrg = item.Parent;
 					var row = orgSheet.CreateRow(rowIndex);
@@ -1581,9 +1581,9 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 					row.CreateCell(1, CellType.String).SetCellValue(parentOrg.Code);
 					row.CreateCell(2, CellType.String).SetCellValue(item.Name);
 					ICell codeCell = row.CreateCell(3, CellType.String);
-					if (item != OrganizationState.VirtualRoot)
+					if (item != CatalogState.VirtualRoot)
 					{
-						if (parentOrg == OrganizationState.Empty)
+						if (parentOrg == CatalogState.Empty)
 						{
 							codeCell.CellStyle = invalidParentOrgStyle;
 							//添加批注
@@ -1593,7 +1593,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 							comment.Author = AcDomain.NodeHost.Nodes.ThisNode.Name;//添加批注作者
 							codeCell.CellComment = comment;//将之前设置的批注给定某个单元格
 						}
-						else if (parentOrg != OrganizationState.VirtualRoot && !item.Code.StartsWith(parentOrg.Code))
+						else if (parentOrg != CatalogState.VirtualRoot && !item.Code.StartsWith(parentOrg.Code))
 						{
 							codeCell.CellStyle = invalidOrgCodeStyle;
 							//添加批注
@@ -1623,9 +1623,9 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 			}
 			else
 			{
-				foreach (var myOrg in UserSession.AccountPrivilege.Organizations)
+				foreach (var myOrg in UserSession.AccountPrivilege.Catalogs)
 				{
-					foreach (var item in AcDomain.OrganizationSet)
+					foreach (var item in AcDomain.CatalogSet)
 					{
 						if (item.Code.StartsWith(myOrg.Code, StringComparison.OrdinalIgnoreCase))
 						{
@@ -1635,9 +1635,9 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 							row.CreateCell(1, CellType.String).SetCellValue(parentOrg.Code);
 							row.CreateCell(2, CellType.String).SetCellValue(item.Name);
 							ICell codeCell = row.CreateCell(3, CellType.String);
-							if (item != OrganizationState.VirtualRoot)
+							if (item != CatalogState.VirtualRoot)
 							{
-								if (parentOrg == OrganizationState.Empty)
+								if (parentOrg == CatalogState.Empty)
 								{
 									codeCell.CellStyle = invalidParentOrgStyle;
 									//添加批注
@@ -1647,7 +1647,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 									comment.Author = AcDomain.NodeHost.Nodes.ThisNode.Name;//添加批注作者
 									codeCell.CellComment = comment;//将之前设置的批注给定某个单元格
 								}
-								else if (parentOrg != OrganizationState.VirtualRoot && !item.Code.StartsWith(parentOrg.Code, StringComparison.OrdinalIgnoreCase))
+								else if (parentOrg != CatalogState.VirtualRoot && !item.Code.StartsWith(parentOrg.Code, StringComparison.OrdinalIgnoreCase))
 								{
 									codeCell.CellStyle = invalidOrgCodeStyle;
 									//添加批注
@@ -1883,21 +1883,21 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 			}
 			requestModel.Includedescendants = requestModel.Includedescendants ?? false;
 			IDataTuples infoValues = null;
-			if (string.IsNullOrEmpty(requestModel.OrganizationCode) && !UserSession.IsDeveloper())
+			if (string.IsNullOrEmpty(requestModel.CatalogCode) && !UserSession.IsDeveloper())
 			{
 				throw new ValidationException("对不起，您没有查看全部数据的权限");
 			}
 			else
 			{
-				if (ontology.Ontology.IsOrganizationalEntity && !string.IsNullOrEmpty(requestModel.OrganizationCode))
+				if (ontology.Ontology.IsCataloguedEntity && !string.IsNullOrEmpty(requestModel.CatalogCode))
 				{
 					if (requestModel.Includedescendants.HasValue && requestModel.Includedescendants.Value)
 					{
-						requestModel.Filters.Add(FilterData.Like("ZZJGM", requestModel.OrganizationCode + "%"));
+						requestModel.Filters.Add(FilterData.Like("ZZJGM", requestModel.CatalogCode + "%"));
 					}
 					else
 					{
-						requestModel.Filters.Add(FilterData.EQ("ZZJGM", requestModel.OrganizationCode));
+						requestModel.Filters.Add(FilterData.EQ("ZZJGM", requestModel.CatalogCode));
 					}
 				}
 				infoValues = ontology.EntityProvider.GetPlist(
@@ -1930,21 +1930,21 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 					selectElements.Add(element);
 				}
 			}
-			if (string.IsNullOrEmpty(requestModel.OrganizationCode) && !UserSession.IsDeveloper())
+			if (string.IsNullOrEmpty(requestModel.CatalogCode) && !UserSession.IsDeveloper())
 			{
 				throw new ValidationException("对不起，您没有查看全部数据的权限");
 			}
 			else
 			{
-				if (ontology.Ontology.IsOrganizationalEntity && !string.IsNullOrEmpty(requestModel.OrganizationCode))
+				if (ontology.Ontology.IsCataloguedEntity && !string.IsNullOrEmpty(requestModel.CatalogCode))
 				{
 					if (requestModel.Includedescendants.HasValue && requestModel.Includedescendants.Value)
 					{
-						requestModel.Filters.Add(FilterData.Like("ZZJGM", requestModel.OrganizationCode + "%"));
+						requestModel.Filters.Add(FilterData.Like("ZZJGM", requestModel.CatalogCode + "%"));
 					}
 					else
 					{
-						requestModel.Filters.Add(FilterData.EQ("ZZJGM", requestModel.OrganizationCode));
+						requestModel.Filters.Add(FilterData.EQ("ZZJGM", requestModel.CatalogCode));
 					}
 				}
 				infoValues = ontology.EntityProvider.GetPlist(

@@ -110,7 +110,7 @@ namespace Anycmd.Engine.Edi.Abstractions
         /// </summary>
         /// <param name="ontology"></param>
         /// <returns></returns>
-        IReadOnlyDictionary<OrganizationState, OntologyOrganizationState> GetOntologyOrganizations(OntologyDescriptor ontology);
+        IReadOnlyDictionary<CatalogState, OntologyCatalogState> GetOntologyCatalogs(OntologyDescriptor ontology);
 
         /// <summary>
         /// 

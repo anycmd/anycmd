@@ -153,9 +153,9 @@ namespace Anycmd.Engine.Host
             get { return "EmptyAcDomain"; }
         }
 
-        public IOrganizationSet OrganizationSet
+        public ICatalogSet CatalogSet
         {
-            get { return Ac.MemorySets.OrganizationSet.Empty; }
+            get { return Ac.MemorySets.CatalogSet.Empty; }
         }
 
         public IUiViewSet UiViewSet

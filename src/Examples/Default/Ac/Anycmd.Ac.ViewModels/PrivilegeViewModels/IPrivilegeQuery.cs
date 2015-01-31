@@ -15,10 +15,10 @@ namespace Anycmd.Ac.ViewModels.PrivilegeViewModels
         /// 
         /// </summary>
         /// <param name="key"></param>
-        /// <param name="organizationCode"></param>
+        /// <param name="catalogCode"></param>
         /// <param name="includeDescendants"></param>
         /// <param name="paging"></param>
         /// <returns></returns>
-        List<DicReader> GetPlistOrganizationAccountTrs(string key, string organizationCode, bool includeDescendants, PagingInput paging);
+        List<DicReader> GetPlistCatalogAccountTrs(string key, string catalogCode, bool includeDescendants, PagingInput paging);
     }
 }

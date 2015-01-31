@@ -28,16 +28,16 @@
     }
     self.add = function () {
         var newRow = grid.getRow(0);
-        if (treeOrganization && !currentNode) {
+        if (treeCatalog && !currentNode) {
             mini.alert("请选择要添加到的目录");
             return;
         }
         if (!newRow || !newRow.isNewRow) {
             grid.deselectAll();
             newRow = { isNewRow: true, Id: "-1" };
-            if (treeOrganization) {
+            if (treeCatalog) {
                 newRow.ZZJGM = currentNode.Name;
-                newRow.OrganizationCode = currentNode.Code;
+                newRow.CatalogCode = currentNode.Code;
             }
             grid.addRow(newRow, 0);
             grid.select(newRow);
@@ -111,7 +111,7 @@
         },
         editTab: {
             url: bootPATH + "../Edi/Entity/Edit?ontologyCode=" + ontologyCode,
-            params: [{ "pName": 'id', "pValue": "Id" }, { "pName": 'organizationCode', "pValue": "OrganizationCode" }],
+            params: [{ "pName": 'id', "pValue": "Id" }, { "pName": 'catalogCode', "pValue": "CatalogCode" }],
             namespace: "Entity.Edit"
         },
         nodeTab: {
@@ -221,22 +221,22 @@
         exportExcel();
     });
     var limit = mini.get(self.prifix + "limit");
-    var btnSearchOrganization = mini.get(self.prifix + "btnSearchOrganization");
-    if (btnSearchOrganization) {
-        btnSearchOrganization.on("click", searchOrganization);
+    var btnSearchCatalog = mini.get(self.prifix + "btnSearchCatalog");
+    if (btnSearchCatalog) {
+        btnSearchCatalog.on("click", searchCatalog);
     }
     var btnSearchClear = mini.get(self.prifix + "btnSearchClear");
     if (btnSearchClear) {
         btnSearchClear.on("click", clearSearch);
     }
-    var keyOrganization = mini.get(self.prifix + "keyOrganization");
-    if (keyOrganization) {
-        keyOrganization.on("enter", searchOrganization);
+    var keyCatalog = mini.get(self.prifix + "keyCatalog");
+    if (keyCatalog) {
+        keyCatalog.on("enter", searchCatalog);
     }
-    var treeOrganization = mini.get(self.prifix + "treeOrganization");
-    if (treeOrganization) {
-        treeOrganization.on("nodeselect", onOrganizationNodeSelect);
-        treeOrganization.on("beforeload", onOrganizationTreeBeforeload);
+    var treeCatalog = mini.get(self.prifix + "treeCatalog");
+    if (treeCatalog) {
+        treeCatalog.on("nodeselect", onCatalogNodeSelect);
+        treeCatalog.on("beforeload", onCatalogTreeBeforeload);
     }
     var chkbIncludedescendants = mini.get(self.prifix + "chkbIncludedescendants");
     if (chkbIncludedescendants) {
@@ -276,13 +276,13 @@
             archiveId = getParams().archiveId;
             search();
         }
-        else if (treeOrganization) {
-            currentNode = treeOrganization.getRootNode();
+        else if (treeCatalog) {
+            currentNode = treeCatalog.getRootNode();
             if (!currentNode.Id) {
-                currentNode = treeOrganization.getChildNodes(currentNode)[0];
+                currentNode = treeCatalog.getChildNodes(currentNode)[0];
             }
             if (currentNode.Id) {
-                treeOrganization.selectNode(currentNode);
+                treeCatalog.selectNode(currentNode);
             }
         }
         else {
@@ -305,15 +305,15 @@
         return data;
     }
 
-    function searchOrganization() {
-        var k = keyOrganization.getValue().trim();
+    function searchCatalog() {
+        var k = keyCatalog.getValue().trim();
         if (k == "") {
-            treeOrganization.clearFilter();
+            treeCatalog.clearFilter();
             $("#" + self.prifix + "msg").hide()
         } else {
             k = k.toLowerCase();
             var anyIsTrue = false;
-            treeOrganization.filter(function (node) {
+            treeCatalog.filter(function (node) {
                 var name = node.Name ? node.Name.toLowerCase() : "";
                 if (!node.expanded && !node.isLeaf && !node.IsCategory) {
                     return false;
@@ -330,7 +330,7 @@
                 $("#" + self.prifix + "msg").show();
             }
         }
-        treeOrganization.expandAll();
+        treeCatalog.expandAll();
     }
 
     function onCheckedChanged(e) {
@@ -346,7 +346,7 @@
         self);
     helper.index.tabInOne(grid, entityTabs1, entityTabConfigs, self);
 
-    function onOrganizationNodeSelect(e) {
+    function onCatalogNodeSelect(e) {
         var tree = e.sender;
         var node = e.node;
         var isLeaf = e.isLeaf;
@@ -360,7 +360,7 @@
         loadTabData("refresh", tabs1.getTab(tabs1.activeIndex));
     }
 
-    function onOrganizationTreeBeforeload(e) {
+    function onCatalogTreeBeforeload(e) {
         var tree = e.sender;
         var node = e.node;
         var params = e.params;
@@ -384,7 +384,7 @@
     }
 
     function search() {
-        if (treeOrganization && !currentNode.Id) {
+        if (treeCatalog && !currentNode.Id) {
             return;
         }
         var data = { translate: true };
@@ -399,8 +399,8 @@
         }
         data.filters = JSON.stringify(filterArray);
         if (currentNode) {
-            data["organizationId"] = currentNode.Id;
-            data["organizationCode"] = currentNode.Code;
+            data["catalogId"] = currentNode.Id;
+            data["catalogCode"] = currentNode.Code;
             if (chkbIncludedescendants.getValue() == "1") {
                 if (currentNode) {
                     if (currentNode.isLeaf) {
@@ -443,9 +443,9 @@
             mini.alert("意外的tabName:" + tabName);
         }
         if (tabName == "entityTab") {
-            if (treeOrganization) {
-                if (tab.organizationCode != currentNode.Code) {
-                    tab.organizationCode = currentNode.Code;
+            if (treeCatalog) {
+                if (tab.catalogCode != currentNode.Code) {
+                    tab.catalogCode = currentNode.Code;
                     search();
                 }
                 return;
@@ -456,7 +456,7 @@
             var isInner = tabBody.hasClass("inner");
             var params = {};
             if (currentNode) {
-                params.organizationCode = currentNode.Code;
+                params.catalogCode = currentNode.Code;
             }
             if (isInner) {
                 mini.namespace(tabConfig.namespace);

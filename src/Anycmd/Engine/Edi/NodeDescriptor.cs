@@ -354,7 +354,7 @@ namespace Anycmd.Engine.Edi
                             Req_UserName = string.Empty,
                             Req_IsDumb = false,
                             LocalEntityId = string.Empty,
-                            OrganizationCode = string.Empty,
+                            CatalogCode = string.Empty,
                             Req_ReasonPhrase = Status.NodeException.ToName(),
                             ReceivedOn = DateTime.Now,
                             Req_MessageId = string.Empty,

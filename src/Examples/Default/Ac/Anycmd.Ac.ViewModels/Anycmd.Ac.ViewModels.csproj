@@ -106,11 +106,11 @@
     <Compile Include="Infra\MenuViewModels\MenuMiniNode.cs" />
     <Compile Include="Infra\MenuViewModels\MenuTr.cs" />
     <Compile Include="Infra\MenuViewModels\MenuUpdateInput.cs" />
-    <Compile Include="Infra\OrganizationViewModels\GetPlistChildren.cs" />
-    <Compile Include="Infra\OrganizationViewModels\OrganizationCreateInput.cs" />
-    <Compile Include="Infra\OrganizationViewModels\OrganizationInfo.cs" />
-    <Compile Include="Infra\OrganizationViewModels\OrganizationTr.cs" />
-    <Compile Include="Infra\OrganizationViewModels\OrganizationUpdateInput.cs" />
+    <Compile Include="Infra\CatalogViewModels\GetPlistChildren.cs" />
+    <Compile Include="Infra\CatalogViewModels\CatalogCreateInput.cs" />
+    <Compile Include="Infra\CatalogViewModels\CatalogInfo.cs" />
+    <Compile Include="Infra\CatalogViewModels\CatalogTr.cs" />
+    <Compile Include="Infra\CatalogViewModels\CatalogUpdateInput.cs" />
     <Compile Include="Infra\UiViewViewModels\UiViewButtonCreateInput.cs" />
     <Compile Include="Infra\UiViewViewModels\UiViewButtonUpdateInput.cs" />
     <Compile Include="Infra\UiViewViewModels\UiViewCreateInput.cs" />
@@ -123,7 +123,7 @@
     <Compile Include="GroupViewModels\GroupCreateInput.cs" />
     <Compile Include="GroupViewModels\GroupUpdateInput.cs" />
     <Compile Include="ModelExtension.cs" />
-    <Compile Include="PrivilegeViewModels\GetPlistAccountOrganizationPrivileges.cs" />
+    <Compile Include="PrivilegeViewModels\GetPlistAccountCatalogPrivileges.cs" />
     <Compile Include="PrivilegeViewModels\GetPlistFunctionByRoleId.cs" />
     <Compile Include="PrivilegeViewModels\IPrivilegeQuery.cs" />
     <Compile Include="PrivilegeViewModels\PrivilegeCreateIo.cs" />

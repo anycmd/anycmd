@@ -110,7 +110,7 @@
         var record = e.record;
         if (field) {
             switch (field) {
-                case "IsOrganizational":
+                case "IsCatalogued":
                     if (value == "正常" || value == "1" || value == "是" || value == "true" || value == true) {
                         e.cellHtml = "<span class='icon-enabled width16px'></span>";
                     } else if (value == "禁用" || value == "0" || value == "否" || value == "false" || value == false) {

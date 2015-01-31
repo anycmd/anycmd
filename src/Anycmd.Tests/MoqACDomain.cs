@@ -146,7 +146,7 @@ namespace Anycmd.Tests
                 QuickQuery2 = string.Empty,
                 SignedPassword = string.Empty,
                 Telephone = string.Empty,
-                OrganizationCode = string.Empty
+                CatalogCode = string.Empty
             });
             this.GetRequiredService<IRepository<Account>>().Context.Commit();
             var appSystemId = Guid.NewGuid();
@@ -191,7 +191,7 @@ namespace Anycmd.Tests
             moAcDomainBootstrap.Setup<IList<DbTable>>(a => a.GetDbTables(It.IsAny<RdbDescriptor>())).Returns(new List<DbTable>());
             moAcDomainBootstrap.Setup<IList<DbViewColumn>>(a => a.GetViewColumns(It.IsAny<RdbDescriptor>())).Returns(new List<DbViewColumn>());
             moAcDomainBootstrap.Setup<IList<DbView>>(a => a.GetDbViews(It.IsAny<RdbDescriptor>())).Returns(new List<DbView>());
-            moAcDomainBootstrap.Setup<IList<Organization>>(a => a.GetOrganizations()).Returns(this.GetRequiredService<IRepository<Organization>>().AsQueryable().ToList());
+            moAcDomainBootstrap.Setup<IList<Catalog>>(a => a.GetCatalogs()).Returns(this.GetRequiredService<IRepository<Catalog>>().AsQueryable().ToList());
             moAcDomainBootstrap.Setup<IList<AppSystem>>(a => a.GetAllAppSystems()).Returns(this.GetRequiredService<IRepository<AppSystem>>().AsQueryable().ToList());
             moAcDomainBootstrap.Setup<IList<Button>>(a => a.GetAllButtons()).Returns(this.GetRequiredService<IRepository<Button>>().AsQueryable().ToList());
             moAcDomainBootstrap.Setup<IList<Dic>>(a => a.GetAllDics()).Returns(this.GetRequiredService<IRepository<Dic>>().AsQueryable().ToList());

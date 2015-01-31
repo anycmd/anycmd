@@ -77,9 +77,9 @@ namespace Anycmd.Engine.Host.Edi
             }
         }
 
-        public NodeOntologyOrganization[] GetNodeOntologyOrganizations()
+        public NodeOntologyCatalog[] GetNodeOntologyCatalogs()
         {
-            var repository = _host.RetrieveRequiredService<IRepository<NodeOntologyOrganization>>();
+            var repository = _host.RetrieveRequiredService<IRepository<NodeOntologyCatalog>>();
             using (var context = repository.Context)
             {
                 return repository.AsQueryable().ToArray();
@@ -131,9 +131,9 @@ namespace Anycmd.Engine.Host.Edi
             }
         }
 
-        public OntologyOrganization[] GetOntologyOrganizations()
+        public OntologyCatalog[] GetOntologyCatalogs()
         {
-            var repository = _host.RetrieveRequiredService<IRepository<OntologyOrganization>>();
+            var repository = _host.RetrieveRequiredService<IRepository<OntologyCatalog>>();
             using (var context = repository.Context)
             {
                 return repository.AsQueryable().ToArray();

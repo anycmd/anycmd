@@ -16,7 +16,7 @@
             type: 'numeric',
             comparison: 'eq'
         },
-        OrganizationName: {
+        CatalogName: {
             type: 'string',
             comparison: 'like'
         }
@@ -47,9 +47,9 @@
     btnSearchClear.on("click", function () {
         helper.index.clearSearch(filters, search);
     });
-    var treeOrganization = mini.get("treeOrganization");
-    treeOrganization.on("nodeselect", onOrganizationNodeSelect);
-    treeOrganization.on("beforenodeselect", function (e) {
+    var treeCatalog = mini.get("treeCatalog");
+    treeCatalog.on("nodeselect", onCatalogNodeSelect);
+    treeCatalog.on("beforenodeselect", function (e) {
         var tree = e.sender;
         var node = e.node;
         if (node.IsCategory) {
@@ -62,14 +62,14 @@
             }
         }
     });
-    treeOrganization.on("beforeload", onOrganizationTreeBeforeload);
+    treeCatalog.on("beforeload", onCatalogTreeBeforeload);
     var chkbIncludedescendants = mini.get("chkbIncludedescendants");
     chkbIncludedescendants.on("checkedchanged", onCheckedChanged);
     var grid = mini.get("dgSelectUser");
     grid.on("drawcell", helper.ondrawcell(window));
     grid.on("load", helper.onGridLoad);
 
-    function onOrganizationNodeSelect(e) {
+    function onCatalogNodeSelect(e) {
         var tree = e.sender;
         var node = e.node;
         var isLeaf = e.isLeaf;
@@ -77,7 +77,7 @@
         search();
     }
 
-    function onOrganizationTreeBeforeload(e) {
+    function onCatalogTreeBeforeload(e) {
         var tree = e.sender;
         var node = e.node;
         var params = e.params;
@@ -117,8 +117,8 @@
     function search() {
         var data = { };
         if (currentNode && currentNode.Id) {
-            data.organizationId = currentNode.Id;
-            data.organizationCode = currentNode.Code;
+            data.catalogId = currentNode.Id;
+            data.catalogCode = currentNode.Code;
         }
         if (chkbIncludedescendants.getValue() == "1") {
             data.includedescendants = true;

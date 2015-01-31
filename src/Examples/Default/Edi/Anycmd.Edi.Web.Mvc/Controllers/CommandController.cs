@@ -541,7 +541,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                 case MessageTypeKind.LocalEvent:
                 case MessageTypeKind.ClientEvent:
                     list = ontology.MessageProvider.GetPlistCommandTrs(
-                        commandTypeEnum, ontology, requestModel.OrganizationCode,
+                        commandTypeEnum, ontology, requestModel.CatalogCode,
                         requestModel.ActionCode, requestModel.NodeId, requestModel.EntityId,
                         requestModel.PageIndex, requestModel.PageSize,
                         requestModel.SortField, requestModel.SortOrder, out total);

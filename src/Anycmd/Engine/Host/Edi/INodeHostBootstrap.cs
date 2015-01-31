@@ -48,7 +48,7 @@ namespace Anycmd.Engine.Host.Edi
         /// 
         /// </summary>
         /// <returns></returns>
-        NodeOntologyOrganization[] GetNodeOntologyOrganizations();
+        NodeOntologyCatalog[] GetNodeOntologyCatalogs();
         /// <summary>
         /// 
         /// </summary>
@@ -81,7 +81,7 @@ namespace Anycmd.Engine.Host.Edi
         /// 
         /// </summary>
         /// <returns></returns>
-        OntologyOrganization[] GetOntologyOrganizations();
+        OntologyCatalog[] GetOntologyCatalogs();
         /// <summary>
         /// 
         /// </summary>

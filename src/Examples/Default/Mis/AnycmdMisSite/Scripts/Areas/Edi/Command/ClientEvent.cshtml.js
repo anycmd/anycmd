@@ -53,7 +53,7 @@
         var data = {
             ontologyCode: ontologyCode,
             actionCode: actionCode.getValue(),
-            organizationCode: getParams().organizationCode
+            catalogCode: getParams().catalogCode
         };
         if (nodeId) {
             data.nodeId = nodeId.getValue();
@@ -71,11 +71,11 @@
     }
 
     function getParams() {
-        if (self.params && self.params.organizationCode) {
+        if (self.params && self.params.catalogCode) {
             return self.params;
         }
         else {
-            return { organizationCode: $.deparam.fragment().organizationCode || $.deparam.querystring().organizationCode }
+            return { catalogCode: $.deparam.fragment().catalogCode || $.deparam.querystring().catalogCode }
         }
     }
 

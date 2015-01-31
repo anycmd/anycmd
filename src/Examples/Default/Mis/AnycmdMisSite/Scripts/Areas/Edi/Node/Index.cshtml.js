@@ -47,10 +47,10 @@
             params: [{ "pName": 'nodeId', "pValue": "Id" }],
             namespace: "Node.Permissions"
         },
-        organizationTab: {
-            url: bootPATH + "../Edi/Node/Organizations",
+        catalogTab: {
+            url: bootPATH + "../Edi/Node/Catalogs",
             params: [{ "pName": 'nodeId', "pValue": "Id" }],
-            namespace: "Node.Organizations"
+            namespace: "Node.Catalogs"
         },
         operationLogTab: {
             url: bootPATH + "../Ac/OperationLog/Index",

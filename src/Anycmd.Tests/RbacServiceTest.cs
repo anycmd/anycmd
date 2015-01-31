@@ -6,7 +6,7 @@ namespace Anycmd.Tests
     using Ac.ViewModels.Identity.AccountViewModels;
     using Ac.ViewModels.Infra.DicViewModels;
     using Ac.ViewModels.Infra.FunctionViewModels;
-    using Ac.ViewModels.Infra.OrganizationViewModels;
+    using Ac.ViewModels.Infra.CatalogViewModels;
     using Ac.ViewModels.PrivilegeViewModels;
     using Ac.ViewModels.RoleViewModels;
     using Ac.ViewModels.SsdViewModels;
@@ -39,7 +39,7 @@ namespace Anycmd.Tests
                 {"password", "111111"},
                 {"rememberMe", "rememberMe"}
             });
-            host.Handle(new OrganizationCreateInput
+            host.Handle(new CatalogCreateInput
             {
                 Id = Guid.NewGuid(),
                 Code = "100",
@@ -56,7 +56,7 @@ namespace Anycmd.Tests
                 Code = "test1",
                 Name = "test",
                 Password = "111111",
-                OrganizationCode = "100"
+                CatalogCode = "100"
             });
             var entity = accountRepository.GetByKey(accountId);
             Assert.NotNull(entity);
@@ -76,7 +76,7 @@ namespace Anycmd.Tests
                 {"password", "111111"},
                 {"rememberMe", "rememberMe"}
             });
-            host.Handle(new OrganizationCreateInput
+            host.Handle(new CatalogCreateInput
             {
                 Id = Guid.NewGuid(),
                 Code = "100",
@@ -93,7 +93,7 @@ namespace Anycmd.Tests
                 Code = "test1",
                 Name = "test1",
                 Password = "111111",
-                OrganizationCode = "100"
+                CatalogCode = "100"
             });
             rbacService.DeleteUser(host.GetUserSession(), accountId);
             var entity = accountRepository.GetByKey(accountId);
@@ -188,7 +188,7 @@ namespace Anycmd.Tests
                 SortCode = 10,
                 Icon = null
             });
-            host.Handle(new OrganizationCreateInput
+            host.Handle(new CatalogCreateInput
             {
                 Id = Guid.NewGuid(),
                 Code = "100",
@@ -205,7 +205,7 @@ namespace Anycmd.Tests
                 Code = "test1",
                 Name = "test1",
                 Password = "111111",
-                OrganizationCode = "100"
+                CatalogCode = "100"
             });
             rbacService.AssignUser(host.GetUserSession(), accountId, roleId);
             var entity = privilegeBigramRepository.AsQueryable().FirstOrDefault(a => a.SubjectInstanceId == accountId && a.ObjectInstanceId == roleId);
@@ -237,7 +237,7 @@ namespace Anycmd.Tests
                 SortCode = 10,
                 Icon = null
             });
-            host.Handle(new OrganizationCreateInput
+            host.Handle(new CatalogCreateInput
             {
                 Id = Guid.NewGuid(),
                 Code = "100",
@@ -254,7 +254,7 @@ namespace Anycmd.Tests
                 Code = "test1",
                 Name = "test1",
                 Password = "111111",
-                OrganizationCode = "100"
+                CatalogCode = "100"
             });
             rbacService.AssignUser(host.GetUserSession(), accountId, roleId);
             var entity = privilegeBigramRepository.AsQueryable().FirstOrDefault(a => a.SubjectInstanceId == accountId && a.ObjectInstanceId == roleId);
@@ -368,7 +368,7 @@ namespace Anycmd.Tests
                 {"password", "111111"},
                 {"rememberMe", "rememberMe"}
             });
-            host.Handle(new OrganizationCreateInput
+            host.Handle(new CatalogCreateInput
             {
                 Id = Guid.NewGuid(),
                 Code = "100",
@@ -385,7 +385,7 @@ namespace Anycmd.Tests
                 Code = "test1",
                 Name = "test1",
                 Password = "111111",
-                OrganizationCode = "100"
+                CatalogCode = "100"
             });
             var account = accountRepository.GetByKey(accountId);
             var sessionId = Guid.NewGuid();
@@ -410,7 +410,7 @@ namespace Anycmd.Tests
                 {"password", "111111"},
                 {"rememberMe", "rememberMe"}
             });
-            host.Handle(new OrganizationCreateInput
+            host.Handle(new CatalogCreateInput
             {
                 Id = Guid.NewGuid(),
                 Code = "100",
@@ -427,7 +427,7 @@ namespace Anycmd.Tests
                 Code = "test1",
                 Name = "test1",
                 Password = "111111",
-                OrganizationCode = "100"
+                CatalogCode = "100"
             });
             var account = accountRepository.GetByKey(accountId);
             var sessionId = Guid.NewGuid();
@@ -457,7 +457,7 @@ namespace Anycmd.Tests
             });
             var orgId = Guid.NewGuid();
 
-            host.Handle(new OrganizationCreateInput
+            host.Handle(new CatalogCreateInput
             {
                 Id = orgId,
                 Code = "100",
@@ -474,7 +474,7 @@ namespace Anycmd.Tests
                 Name = "test1",
                 LoginName = "test1",
                 Password = "111111",
-                OrganizationCode = "100",
+                CatalogCode = "100",
                 IsEnabled = 1,
                 AuditState = "auditPass"
             }.ToCommand(host.GetUserSession()));
@@ -501,10 +501,10 @@ namespace Anycmd.Tests
                 ObjectInstanceId = roleId,
                 ObjectType = AcElementType.Role.ToString()
             }));
-            Guid organizationId = Guid.NewGuid();
-            host.Handle(new OrganizationCreateInput
+            Guid catalogId = Guid.NewGuid();
+            host.Handle(new CatalogCreateInput
             {
-                Id = organizationId,
+                Id = catalogId,
                 Code = "110",
                 Name = "测试110",
                 Description = "test",
@@ -520,16 +520,16 @@ namespace Anycmd.Tests
                 SubjectType = UserAcSubjectType.Account.ToString(),// 主体是账户
                 AcContent = null,
                 AcContentType = null,
-                ObjectInstanceId = organizationId,
-                ObjectType = AcElementType.Organization.ToString()
+                ObjectInstanceId = catalogId,
+                ObjectType = AcElementType.Catalog.ToString()
             }));
             // 授予目录角色
             entityId = Guid.NewGuid();
             host.Handle(new AddPrivilegeCommand(host.GetUserSession(), new PrivilegeCreateIo
             {
                 Id = entityId,
-                SubjectInstanceId = organizationId,
-                SubjectType = UserAcSubjectType.Organization.ToString(),// 主体是账户
+                SubjectInstanceId = catalogId,
+                SubjectType = UserAcSubjectType.Catalog.ToString(),// 主体是账户
                 AcContent = null,
                 AcContentType = null,
                 ObjectInstanceId = roleId,
@@ -587,8 +587,8 @@ namespace Anycmd.Tests
             host.Handle(new AddPrivilegeCommand(host.GetUserSession(), new PrivilegeCreateIo
             {
                 Id = entityId,
-                SubjectInstanceId = organizationId,
-                SubjectType = UserAcSubjectType.Organization.ToString(),// 主体是账户
+                SubjectInstanceId = catalogId,
+                SubjectType = UserAcSubjectType.Catalog.ToString(),// 主体是账户
                 AcContent = null,
                 AcContentType = null,
                 ObjectInstanceId = roleId,
@@ -655,7 +655,7 @@ namespace Anycmd.Tests
             });
             var orgId = Guid.NewGuid();
 
-            host.Handle(new OrganizationCreateInput
+            host.Handle(new CatalogCreateInput
             {
                 Id = orgId,
                 Code = "100",
@@ -672,7 +672,7 @@ namespace Anycmd.Tests
                 Name = "test1",
                 LoginName = "test1",
                 Password = "111111",
-                OrganizationCode = "100",
+                CatalogCode = "100",
                 IsEnabled = 1,
                 AuditState = "auditPass"
             }.ToCommand(host.GetUserSession()));
@@ -797,7 +797,7 @@ namespace Anycmd.Tests
             });
             var orgId = Guid.NewGuid();
 
-            host.Handle(new OrganizationCreateInput
+            host.Handle(new CatalogCreateInput
             {
                 Id = orgId,
                 Code = "100",
@@ -814,7 +814,7 @@ namespace Anycmd.Tests
                 Name = "test1",
                 LoginName = "test1",
                 Password = "111111",
-                OrganizationCode = "100",
+                CatalogCode = "100",
                 IsEnabled = 1,
                 AuditState = "auditPass"
             }.ToCommand(host.GetUserSession()));
@@ -841,10 +841,10 @@ namespace Anycmd.Tests
                 ObjectInstanceId = roleId,
                 ObjectType = AcElementType.Role.ToString()
             }));
-            Guid organizationId = Guid.NewGuid();
-            host.Handle(new OrganizationCreateInput
+            Guid catalogId = Guid.NewGuid();
+            host.Handle(new CatalogCreateInput
             {
-                Id = organizationId,
+                Id = catalogId,
                 Code = "110",
                 Name = "测试110",
                 Description = "test",
@@ -860,16 +860,16 @@ namespace Anycmd.Tests
                 SubjectType = UserAcSubjectType.Account.ToString(),// 主体是账户
                 AcContent = null,
                 AcContentType = null,
-                ObjectInstanceId = organizationId,
-                ObjectType = AcElementType.Organization.ToString()
+                ObjectInstanceId = catalogId,
+                ObjectType = AcElementType.Catalog.ToString()
             }));
             // 授予目录角色
             entityId = Guid.NewGuid();
             host.Handle(new AddPrivilegeCommand(host.GetUserSession(), new PrivilegeCreateIo
             {
                 Id = entityId,
-                SubjectInstanceId = organizationId,
-                SubjectType = UserAcSubjectType.Organization.ToString(),// 主体是账户
+                SubjectInstanceId = catalogId,
+                SubjectType = UserAcSubjectType.Catalog.ToString(),// 主体是账户
                 AcContent = null,
                 AcContentType = null,
                 ObjectInstanceId = roleId,
@@ -927,8 +927,8 @@ namespace Anycmd.Tests
             host.Handle(new AddPrivilegeCommand(host.GetUserSession(), new PrivilegeCreateIo
             {
                 Id = entityId,
-                SubjectInstanceId = organizationId,
-                SubjectType = UserAcSubjectType.Organization.ToString(),// 主体是账户
+                SubjectInstanceId = catalogId,
+                SubjectType = UserAcSubjectType.Catalog.ToString(),// 主体是账户
                 AcContent = null,
                 AcContentType = null,
                 ObjectInstanceId = roleId,

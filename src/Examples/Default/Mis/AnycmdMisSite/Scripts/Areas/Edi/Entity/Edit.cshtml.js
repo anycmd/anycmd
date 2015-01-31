@@ -75,11 +75,11 @@
         var data = {};
         if (self.params && self.params.id) {
             data.id = self.params.id;
-            data.ZZJGM = self.params.organizationCode;
+            data.ZZJGM = self.params.catalogCode;
         }
         else {
             data.id = $.deparam.fragment().id || $.deparam.querystring().id;
-            data.ZZJGM = $.deparam.fragment().organizationCode || $.deparam.querystring().organizationCode;
+            data.ZZJGM = $.deparam.fragment().catalogCode || $.deparam.querystring().catalogCode;
         }
         return data;
     }

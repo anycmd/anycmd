@@ -1,5 +1,6 @@
 ﻿
-namespace Anycmd.Engine.Edi.Abstractions {
+namespace Anycmd.Engine.Edi.Abstractions
+{
     using System;
 
     /// <summary>
@@ -8,7 +9,8 @@ namespace Anycmd.Engine.Edi.Abstractions {
     /// 为什么是接口？使用接口将其约束为不可变模型，从而使插件开发者不能正常修改它。
     /// </remarks>
     /// </summary>
-    public interface IOntology {
+    public interface IOntology
+    {
         /// <summary>
         /// 
         /// </summary>
@@ -52,7 +54,7 @@ namespace Anycmd.Engine.Edi.Abstractions {
         /// <summary>
         /// 
         /// </summary>
-        bool IsOrganizationalEntity { get; }
+        bool IsCataloguedEntity { get; }
         /// <summary>
         /// 
         /// </summary>

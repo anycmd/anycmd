@@ -7,7 +7,7 @@ namespace Anycmd.Tests
     using Ac.ViewModels.Infra.DicViewModels;
     using Ac.ViewModels.Infra.FunctionViewModels;
     using Ac.ViewModels.Infra.MenuViewModels;
-    using Ac.ViewModels.Infra.OrganizationViewModels;
+    using Ac.ViewModels.Infra.CatalogViewModels;
     using Ac.ViewModels.PrivilegeViewModels;
     using Ac.ViewModels.RoleViewModels;
     using Engine.Ac;
@@ -39,7 +39,7 @@ namespace Anycmd.Tests
             });
             var orgId = Guid.NewGuid();
 
-            host.Handle(new OrganizationCreateInput
+            host.Handle(new CatalogCreateInput
             {
                 Id = orgId,
                 Code = "100",
@@ -56,7 +56,7 @@ namespace Anycmd.Tests
                 Name = "test1",
                 LoginName = "test1",
                 Password = "111111",
-                OrganizationCode = "100",
+                CatalogCode = "100",
                 IsEnabled = 1,
                 AuditState = "auditPass"
             }.ToCommand(host.GetUserSession()));
@@ -89,7 +89,7 @@ namespace Anycmd.Tests
             });
             var orgId = Guid.NewGuid();
 
-            host.Handle(new OrganizationCreateInput
+            host.Handle(new CatalogCreateInput
             {
                 Id = orgId,
                 Code = "100",
@@ -106,7 +106,7 @@ namespace Anycmd.Tests
                 Name = "test1",
                 LoginName = "test1",
                 Password = "111111",
-                OrganizationCode = "100",
+                CatalogCode = "100",
                 IsEnabled = 1,
                 AuditState = "auditPass"
             }.ToCommand(host.GetUserSession()));
@@ -189,7 +189,7 @@ namespace Anycmd.Tests
             });
             var orgId = Guid.NewGuid();
 
-            host.Handle(new OrganizationCreateInput
+            host.Handle(new CatalogCreateInput
             {
                 Id = orgId,
                 Code = "100",
@@ -206,7 +206,7 @@ namespace Anycmd.Tests
                 Name = "test1",
                 LoginName = "test1",
                 Password = "111111",
-                OrganizationCode = "100",
+                CatalogCode = "100",
                 IsEnabled = 1,
                 AuditState = "auditPass"
             }.ToCommand(host.GetUserSession()));
@@ -271,9 +271,9 @@ namespace Anycmd.Tests
         }
         #endregion
 
-        #region TestUserOrganizations
+        #region TestUserCatalogs
         [Fact]
-        public void TestUserOrganizations()
+        public void TestUserCatalogs()
         {
             var host = TestHelper.GetAcDomain();
             UserSessionState.SignOut(host, host.GetUserSession());
@@ -285,7 +285,7 @@ namespace Anycmd.Tests
             });
             var orgId = Guid.NewGuid();
 
-            host.Handle(new OrganizationCreateInput
+            host.Handle(new CatalogCreateInput
             {
                 Id = orgId,
                 Code = "100",
@@ -302,7 +302,7 @@ namespace Anycmd.Tests
                 Name = "test1",
                 LoginName = "test1",
                 Password = "111111",
-                OrganizationCode = "100",
+                CatalogCode = "100",
                 IsEnabled = 1,
                 AuditState = "auditPass"
             }.ToCommand(host.GetUserSession()));
@@ -315,10 +315,10 @@ namespace Anycmd.Tests
             });
             Assert.True(host.GetUserSession().Identity.IsAuthenticated);
             Assert.Equal(0, host.GetUserSession().AccountPrivilege.Roles.Count);
-            Guid organizationId = Guid.NewGuid();
-            host.Handle(new OrganizationCreateInput
+            Guid catalogId = Guid.NewGuid();
+            host.Handle(new CatalogCreateInput
             {
-                Id = organizationId,
+                Id = catalogId,
                 Code = "110",
                 Name = "测试110",
                 Description = "test",
@@ -333,17 +333,17 @@ namespace Anycmd.Tests
                 SubjectType = UserAcSubjectType.Account.ToString(),// 主体是账户
                 AcContent = null,
                 AcContentType = null,
-                ObjectInstanceId = organizationId,
-                ObjectType = AcElementType.Organization.ToString()
+                ObjectInstanceId = catalogId,
+                ObjectType = AcElementType.Catalog.ToString()
             }));
             Assert.Equal(0, host.PrivilegeSet.Count()); // 主体为账户的权限记录不驻留在内存中所以为0
-            Assert.Equal(0, host.GetUserSession().AccountPrivilege.Organizations.Count);// 需要重新登录才能激活新添加的用户功能授权所以为0
+            Assert.Equal(0, host.GetUserSession().AccountPrivilege.Catalogs.Count);// 需要重新登录才能激活新添加的用户功能授权所以为0
             var privilegeBigram = host.RetrieveRequiredService<IRepository<Privilege>>().AsQueryable().FirstOrDefault(a => a.Id == entityId);
             Assert.NotNull(privilegeBigram);
             Assert.Equal(accountId, privilegeBigram.SubjectInstanceId);
-            Assert.Equal(organizationId, privilegeBigram.ObjectInstanceId);
+            Assert.Equal(catalogId, privilegeBigram.ObjectInstanceId);
             Assert.Equal(UserAcSubjectType.Account.ToName(), privilegeBigram.SubjectType);
-            Assert.Equal(AcElementType.Organization.ToName(), privilegeBigram.ObjectType);
+            Assert.Equal(AcElementType.Catalog.ToName(), privilegeBigram.ObjectType);
             UserSessionState.SignOut(host, host.GetUserSession());
             UserSessionState.SignIn(host, new Dictionary<string, object>
             {
@@ -351,9 +351,9 @@ namespace Anycmd.Tests
                 {"password", "111111"},
                 {"rememberMe", "rememberMe"}
             });
-            Assert.Equal(1, host.GetUserSession().AccountPrivilege.Organizations.Count);
+            Assert.Equal(1, host.GetUserSession().AccountPrivilege.Catalogs.Count);
             host.Handle(new RemovePrivilegeCommand(host.GetUserSession(), entityId));
-            Assert.Equal(1, host.GetUserSession().AccountPrivilege.Organizations.Count);
+            Assert.Equal(1, host.GetUserSession().AccountPrivilege.Catalogs.Count);
             UserSessionState.SignOut(host, host.GetUserSession());
             UserSessionState.SignIn(host, new Dictionary<string, object>
             {
@@ -361,7 +361,7 @@ namespace Anycmd.Tests
                 {"password", "111111"},
                 {"rememberMe", "rememberMe"}
             });
-            Assert.Equal(0, host.GetUserSession().AccountPrivilege.Organizations.Count);
+            Assert.Equal(0, host.GetUserSession().AccountPrivilege.Catalogs.Count);
         }
         #endregion
 
@@ -379,7 +379,7 @@ namespace Anycmd.Tests
             });
             var orgId = Guid.NewGuid();
 
-            host.Handle(new OrganizationCreateInput
+            host.Handle(new CatalogCreateInput
             {
                 Id = orgId,
                 Code = "100",
@@ -396,7 +396,7 @@ namespace Anycmd.Tests
                 Name = "test1",
                 LoginName = "test1",
                 Password = "111111",
-                OrganizationCode = "100",
+                CatalogCode = "100",
                 IsEnabled = 1,
                 AuditState = "auditPass"
             }.ToCommand(host.GetUserSession()));
@@ -475,7 +475,7 @@ namespace Anycmd.Tests
             });
             var orgId = Guid.NewGuid();
 
-            host.Handle(new OrganizationCreateInput
+            host.Handle(new CatalogCreateInput
             {
                 Id = orgId,
                 Code = "100",
@@ -492,7 +492,7 @@ namespace Anycmd.Tests
                 Name = "test1",
                 LoginName = "test1",
                 Password = "111111",
-                OrganizationCode = "100",
+                CatalogCode = "100",
                 IsEnabled = 1,
                 AuditState = "auditPass"
             }.ToCommand(host.GetUserSession()));
@@ -571,7 +571,7 @@ namespace Anycmd.Tests
             });
             var orgId = Guid.NewGuid();
 
-            host.Handle(new OrganizationCreateInput
+            host.Handle(new CatalogCreateInput
             {
                 Id = orgId,
                 Code = "100",
@@ -588,7 +588,7 @@ namespace Anycmd.Tests
                 Name = "test1",
                 LoginName = "test1",
                 Password = "111111",
-                OrganizationCode = "100",
+                CatalogCode = "100",
                 IsEnabled = 1,
                 AuditState = "auditPass"
             }.ToCommand(host.GetUserSession()));
@@ -663,7 +663,7 @@ namespace Anycmd.Tests
             });
             var orgId = Guid.NewGuid();
 
-            host.Handle(new OrganizationCreateInput
+            host.Handle(new CatalogCreateInput
             {
                 Id = orgId,
                 Code = "100",
@@ -680,7 +680,7 @@ namespace Anycmd.Tests
                 Name = "test1",
                 LoginName = "test1",
                 Password = "111111",
-                OrganizationCode = "100",
+                CatalogCode = "100",
                 IsEnabled = 1,
                 AuditState = "auditPass"
             }.ToCommand(host.GetUserSession()));
@@ -716,10 +716,10 @@ namespace Anycmd.Tests
                 ObjectInstanceId = roleId,
                 ObjectType = AcElementType.Role.ToString()
             }));
-            Guid organizationId = Guid.NewGuid();
-            host.Handle(new OrganizationCreateInput
+            Guid catalogId = Guid.NewGuid();
+            host.Handle(new CatalogCreateInput
             {
-                Id = organizationId,
+                Id = catalogId,
                 Code = "110",
                 Name = "测试110",
                 Description = "test",
@@ -735,16 +735,16 @@ namespace Anycmd.Tests
                 SubjectType = UserAcSubjectType.Account.ToString(),// 主体是账户
                 AcContent = null,
                 AcContentType = null,
-                ObjectInstanceId = organizationId,
-                ObjectType = AcElementType.Organization.ToString()
+                ObjectInstanceId = catalogId,
+                ObjectType = AcElementType.Catalog.ToString()
             }));
             // 授予目录角色
             entityId = Guid.NewGuid();
             host.Handle(new AddPrivilegeCommand(host.GetUserSession(), new PrivilegeCreateIo
             {
                 Id = entityId,
-                SubjectInstanceId = organizationId,
-                SubjectType = UserAcSubjectType.Organization.ToString(),// 主体是账户
+                SubjectInstanceId = catalogId,
+                SubjectType = UserAcSubjectType.Catalog.ToString(),// 主体是账户
                 AcContent = null,
                 AcContentType = null,
                 ObjectInstanceId = roleId,
@@ -811,8 +811,8 @@ namespace Anycmd.Tests
             host.Handle(new AddPrivilegeCommand(host.GetUserSession(), new PrivilegeCreateIo
             {
                 Id = entityId,
-                SubjectInstanceId = organizationId,
-                SubjectType = UserAcSubjectType.Organization.ToString(),// 主体是账户
+                SubjectInstanceId = catalogId,
+                SubjectType = UserAcSubjectType.Catalog.ToString(),// 主体是账户
                 AcContent = null,
                 AcContentType = null,
                 ObjectInstanceId = roleId,
@@ -897,7 +897,7 @@ namespace Anycmd.Tests
             });
             var orgId = Guid.NewGuid();
 
-            host.Handle(new OrganizationCreateInput
+            host.Handle(new CatalogCreateInput
             {
                 Id = orgId,
                 Code = "100",
@@ -914,7 +914,7 @@ namespace Anycmd.Tests
                 Name = "test1",
                 LoginName = "test1",
                 Password = "111111",
-                OrganizationCode = "100",
+                CatalogCode = "100",
                 IsEnabled = 1,
                 AuditState = "auditPass"
             }.ToCommand(host.GetUserSession()));
@@ -1015,7 +1015,7 @@ namespace Anycmd.Tests
             });
             var orgId = Guid.NewGuid();
 
-            host.Handle(new OrganizationCreateInput
+            host.Handle(new CatalogCreateInput
             {
                 Id = orgId,
                 Code = "100",
@@ -1032,7 +1032,7 @@ namespace Anycmd.Tests
                 Name = "test1",
                 LoginName = "test1",
                 Password = "111111",
-                OrganizationCode = "100",
+                CatalogCode = "100",
                 IsEnabled = 1,
                 AuditState = "auditPass"
             }.ToCommand(host.GetUserSession()));

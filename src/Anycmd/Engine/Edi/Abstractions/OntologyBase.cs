@@ -47,7 +47,7 @@ namespace Anycmd.Engine.Edi.Abstractions
         /// <summary>
         /// 是否是目录型
         /// </summary>
-        public bool IsOrganizationalEntity { get; set; }
+        public bool IsCataloguedEntity { get; set; }
         /// <summary>
         /// 是否是逻辑删除型
         /// </summary>

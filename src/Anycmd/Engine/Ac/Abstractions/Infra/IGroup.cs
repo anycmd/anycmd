@@ -26,7 +26,7 @@ namespace Anycmd.Engine.Ac.Abstractions.Infra
         /// 工作组是组中有主体的组。工作组是跨目录的资源组，组中的资源不只来自一个目录。
         /// </remarks>
         /// </summary>
-        string OrganizationCode { get; }
+        string CatalogCode { get; }
         /// <summary>
         /// 
         /// </summary>

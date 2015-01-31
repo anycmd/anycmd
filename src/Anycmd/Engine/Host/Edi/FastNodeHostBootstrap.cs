@@ -119,7 +119,7 @@ namespace Anycmd.Engine.Host.Edi
             }
         }
 
-        public NodeOntologyOrganization[] GetNodeOntologyOrganizations()
+        public NodeOntologyCatalog[] GetNodeOntologyCatalogs()
         {
             using (var conn = Db.GetConnection())
             {
@@ -127,7 +127,7 @@ namespace Anycmd.Engine.Host.Edi
                 {
                     conn.Open();
                 }
-                return conn.Query<NodeOntologyOrganization>("select * from [NodeOntologyOrganization]").ToArray();
+                return conn.Query<NodeOntologyCatalog>("select * from [NodeOntologyCatalog]").ToArray();
             }
         }
 
@@ -191,7 +191,7 @@ namespace Anycmd.Engine.Host.Edi
             }
         }
 
-        public OntologyOrganization[] GetOntologyOrganizations()
+        public OntologyCatalog[] GetOntologyCatalogs()
         {
             using (var conn = Db.GetConnection())
             {
@@ -199,7 +199,7 @@ namespace Anycmd.Engine.Host.Edi
                 {
                     conn.Open();
                 }
-                return conn.Query<OntologyOrganization>("select * from [OntologyOrganization]").ToArray();
+                return conn.Query<OntologyCatalog>("select * from [OntologyCatalog]").ToArray();
             }
         }
 

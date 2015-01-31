@@ -46,7 +46,7 @@ namespace Anycmd.Edi.ViewModels.ProcessViewModels
         [Required]
         public int NetPort { get; set; }
 
-        public string OrganizationCode { get; set; }
+        public string CatalogCode { get; set; }
 
         public override IAnycmdCommand ToCommand(IUserSession userSession)
         {

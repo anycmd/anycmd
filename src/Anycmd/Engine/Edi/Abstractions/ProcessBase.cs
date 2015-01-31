@@ -75,6 +75,6 @@ namespace Anycmd.Engine.Edi.Abstractions
         /// <summary>
         /// 
         /// </summary>
-        public string OrganizationCode { get; set; }
+        public string CatalogCode { get; set; }
     }
 }

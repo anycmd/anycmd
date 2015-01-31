@@ -16,7 +16,7 @@ namespace Anycmd.Ac.ViewModels.GroupViewModels
         }
 
         [Required]
-        public string OrganizationCode { get; set; }
+        public string CatalogCode { get; set; }
         /// <summary>
         /// 
         /// </summary>

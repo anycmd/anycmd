@@ -313,7 +313,7 @@ namespace Anycmd.Edi.MessageProvider.SqlServer2008
         /// </summary>
         /// <typeparam name="T">命令类型参数</typeparam>
         /// <param name="ontology">本体</param>
-        /// <param name="organizationCode">目录码</param>
+        /// <param name="catalogCode">目录码</param>
         /// <param name="actionCode">动作码，空值表示忽略本查询条件</param>
         /// <param name="nodeId">节点标识，空值表示忽略本查询条件</param>
         /// <param name="infoId">信息标识，空值表示忽略本查询条件</param>
@@ -326,7 +326,7 @@ namespace Anycmd.Edi.MessageProvider.SqlServer2008
         /// <param name="total">总记录数</param>
         /// <returns></returns>
         public IList<MessageEntity> GetPlistCommands(MessageTypeKind commandType,
-            OntologyDescriptor ontology, string organizationCode, string actionCode, Guid? nodeId, string localEntityId,
+            OntologyDescriptor ontology, string catalogCode, string actionCode, Guid? nodeId, string localEntityId,
             int pageIndex, int pageSize, string sortField, string sortOrder, out Int64 total)
         {
             var tableName = GetTableName(commandType);
@@ -347,10 +347,10 @@ where a.Ontology=@Ontology {0}";
                 queryString = string.Format(queryString, " and a.LocalEntityID=@LocalEntityId {0}");
                 countQS = string.Format(countQS, " and a.LocalEntityID=@LocalEntityId {0}");
             }
-            if (!string.IsNullOrEmpty(organizationCode))
+            if (!string.IsNullOrEmpty(catalogCode))
             {
-                queryString = string.Format(queryString, " and a.OrganizationCode like @OrganizationCode {0}");
-                countQS = string.Format(countQS, " and a.OrganizationCode like @OrganizationCode {0}");
+                queryString = string.Format(queryString, " and a.CatalogCode like @CatalogCode {0}");
+                countQS = string.Format(countQS, " and a.CatalogCode like @CatalogCode {0}");
             }
             if (nodeId.HasValue)
             {
@@ -377,9 +377,9 @@ where a.Ontology=@Ontology {0}";
             {
                 parms.Add(new SqlParameter("LocalEntityId", localEntityId));
             }
-            if (!string.IsNullOrEmpty(organizationCode))
+            if (!string.IsNullOrEmpty(catalogCode))
             {
-                parms.Add(new SqlParameter("OrganizationCode", organizationCode + "%"));
+                parms.Add(new SqlParameter("CatalogCode", catalogCode + "%"));
             }
 
             var pArray = parms.ToArray();
@@ -512,7 +512,7 @@ where a.Ontology=@Ontology {0}";
                             Verb = new Verb(record.GetString(record.GetOrdinal("Verb"))),
                             Ontology = record.GetString(record.GetOrdinal("Ontology")),
                             LocalEntityId = record.GetNullableString("LocalEntityId"),
-                            OrganizationCode = record.GetNullableString("OrganizationCode"),
+                            CatalogCode = record.GetNullableString("CatalogCode"),
                             ClientId = record.GetString(record.GetOrdinal("ClientId")),
                             TimeStamp = record.GetDateTime(record.GetOrdinal("TimeStamp")),
                             ReceivedOn = record.GetDateTime(record.GetOrdinal("ReceivedOn")),

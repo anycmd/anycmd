@@ -679,10 +679,10 @@ namespace Anycmd.Edi.Service.Tests
         }
         #endregion
 
-        #region Organization_Must_IsLeaf
+        #region Catalog_Must_IsLeaf
         // 目录必须是叶子节点
         [Fact]
-        public void Organization_Must_IsLeaf()
+        public void Catalog_Must_IsLeaf()
         {
             var infoValue = new KeyValueBuilder(new Dictionary<string, string> {
                 {"XM","测试"},
@@ -700,10 +700,10 @@ namespace Anycmd.Edi.Service.Tests
                 TimeStamp = DateTime.UtcNow.Ticks
             }.JspxToken();
             var response = request.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
-            Assert.True((int)Status.InvalidOrganization == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.True((int)Status.InvalidCatalog == response.Body.Event.Status, response.Body.Event.Description);
             request.IsDumb = false;
             response = request.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
-            Assert.True((int)Status.InvalidOrganization == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.True((int)Status.InvalidCatalog == response.Body.Event.Status, response.Body.Event.Description);
         }
         #endregion
 
@@ -1001,7 +1001,7 @@ namespace Anycmd.Edi.Service.Tests
         }
 
         [Fact]
-        public void Permission_Level5OrganizationAction()
+        public void Permission_Level5CatalogAction()
         {
 
         }
@@ -1044,9 +1044,9 @@ namespace Anycmd.Edi.Service.Tests
 
         }
 
-        #region Audit_Level5OrganizationAction
+        #region Audit_Level5CatalogAction
         [Fact]
-        public void Audit_Level5OrganizationAction()
+        public void Audit_Level5CatalogAction()
         {
             var xm = NewXM();
             var infoValue = new KeyValueBuilder(new Dictionary<string, string> {

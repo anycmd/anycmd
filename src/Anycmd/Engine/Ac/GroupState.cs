@@ -11,7 +11,7 @@ namespace Anycmd.Engine.Ac
     public sealed class GroupState : StateObject<GroupState>, IGroup, IAcElement
     {
         private string _name;
-        private string _organizationCode;
+        private string _catalogCode;
         private string _categoryCode;
         private int _sortCode;
         private int _isEnabled;
@@ -28,7 +28,7 @@ namespace Anycmd.Engine.Ac
             return new GroupState(group.Id)
             {
                 _name = group.Name,
-                _organizationCode = group.OrganizationCode,
+                _catalogCode = group.CatalogCode,
                 _categoryCode = group.CategoryCode,
                 _sortCode = group.SortCode,
                 _isEnabled = group.IsEnabled,
@@ -52,9 +52,9 @@ namespace Anycmd.Engine.Ac
         /// 工作组是组中有主体的组。工作组是跨目录的资源组，组中的资源不只来自一个目录。
         /// </remarks>
         /// </summary>
-        public string OrganizationCode
+        public string CatalogCode
         {
-            get { return _organizationCode; }
+            get { return _catalogCode; }
         }
 
         public string CategoryCode
@@ -83,19 +83,19 @@ namespace Anycmd.Engine.Ac
 @"{{
     Id:'{0}',
     Name:'{1}',
-    OrganizationCode:'{2}',
+    CatalogCode:'{2}',
     CategoryCode:'{3}',
     SortCodeP:{4},
     IsEnabled:{5},
     CreateOn:'{6}'
-}}", Id, Name, OrganizationCode, CategoryCode, SortCode, IsEnabled, CreateOn);
+}}", Id, Name, CatalogCode, CategoryCode, SortCode, IsEnabled, CreateOn);
         }
 
         protected override bool DoEquals(GroupState other)
         {
             return Id == other.Id &&
                 Name == other.Name &&
-                OrganizationCode == other.OrganizationCode &&
+                CatalogCode == other.CatalogCode &&
                 CategoryCode == other.CategoryCode &&
                 SortCode == other.SortCode &&
                 IsEnabled == other.IsEnabled;

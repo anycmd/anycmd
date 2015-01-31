@@ -30,9 +30,9 @@ namespace Anycmd.Edi.ViewModels.OntologyViewModels
             {
                 this.Add("IsEnabledName", host.Translate("Edi", "Ontology", "IsEnabledName", (int)this["IsEnabled"]));
             }
-            if (!this.ContainsKey("IsOrganizationalEntityName"))
+            if (!this.ContainsKey("IsCataloguedEntityName"))
             {
-                this.Add("IsOrganizationalEntityName", host.Translate("Edi", "Ontology", "IsOrganizationalEntityName", (bool)this["IsOrganizationalEntity"]));
+                this.Add("IsCataloguedEntityName", host.Translate("Edi", "Ontology", "IsCataloguedEntityName", (bool)this["IsCataloguedEntity"]));
             }
             if (!this.ContainsKey("IsLogicalDeletionEntityName"))
             {

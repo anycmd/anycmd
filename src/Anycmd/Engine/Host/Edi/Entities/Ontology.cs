@@ -67,7 +67,7 @@ namespace Anycmd.Engine.Host.Edi.Entities
                 IsEnabled = input.IsEnabled,
                 ExecutorSleepTimeSpan = 10000,
                 IsLogicalDeletionEntity = false,
-                IsOrganizationalEntity = false,
+                IsCataloguedEntity = false,
                 IsSystem = false,
                 MessageDatabaseId = input.MessageDatabaseId,
                 MessageProviderId = input.MessageProviderId,

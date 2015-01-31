@@ -57,9 +57,9 @@ namespace Anycmd.Engine.Host.Impl
             return _host.RetrieveRequiredService<IRdbMetaDataService>().GetDbViews(db);
         }
 
-        public IList<Organization> GetOrganizations()
+        public IList<Catalog> GetCatalogs()
         {
-            var repository = _host.RetrieveRequiredService<IRepository<Organization>>();
+            var repository = _host.RetrieveRequiredService<IRepository<Catalog>>();
             using (var context = repository.Context)
             {
                 return repository.AsQueryable().ToList();

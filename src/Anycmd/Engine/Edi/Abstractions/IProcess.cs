@@ -1,5 +1,6 @@
 ﻿
-namespace Anycmd.Engine.Edi.Abstractions {
+namespace Anycmd.Engine.Edi.Abstractions
+{
     using System;
 
     /// <summary>
@@ -7,7 +8,8 @@ namespace Anycmd.Engine.Edi.Abstractions {
     /// 如不明确说明，“进程”所处的默认上下文是基础库系统。 “进程”指的是“命令执行器”、“命令分发器”、
     /// “Mis系统”、“Web服务系统”这四类操作系统进程，这里的进程管理不是操作系统层级的系统管理
     /// </summary>
-    public interface IProcess {
+    public interface IProcess
+    {
         /// <summary>
         /// 进程标识
         /// </summary>
@@ -39,7 +41,7 @@ namespace Anycmd.Engine.Edi.Abstractions {
         /// <summary>
         /// 目录码
         /// </summary>
-        string OrganizationCode { get; }
+        string CatalogCode { get; }
 
         DateTime? CreateOn { get; }
     }

@@ -33,7 +33,7 @@
           <Property Name="BackColor" Type="varchar" MaxLength="50" />
           <Property Name="IsEnabled" Type="int" Nullable="false" />
           <Property Name="AuditState" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="OrganizationCode" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CatalogCode" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Nickname" Type="nvarchar" MaxLength="50" />
           <Property Name="Code" Type="varchar" MaxLength="50" />
@@ -175,7 +175,7 @@
           <Property Name="BackColor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="IsEnabled" Type="Int32" Nullable="false" />
           <Property Name="AuditState" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="OrganizationCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CatalogCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Nickname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
@@ -295,7 +295,7 @@
                 <ScalarProperty Name="QuickQuery" ColumnName="QuickQuery" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="OrganizationCode" ColumnName="OrganizationCode" />
+                <ScalarProperty Name="CatalogCode" ColumnName="CatalogCode" />
                 <ScalarProperty Name="AuditState" ColumnName="AuditState" />
                 <ScalarProperty Name="IsEnabled" ColumnName="IsEnabled" />
                 <ScalarProperty Name="BackColor" ColumnName="BackColor" />

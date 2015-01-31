@@ -130,7 +130,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
         [By("xuexs")]
         [Description("目录")]
         [Guid("6A8FE076-F94D-407E-AAA4-571427A7EE27")]
-        public ViewResultBase Organizations()
+        public ViewResultBase Catalogs()
         {
             return ViewResult();
         }
@@ -442,7 +442,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
         [By("xuexs")]
         [Description("获取给定本体的目录")]
         [Guid("EE184C94-6575-453E-AC29-84FA805D15B4")]
-        public ActionResult GetOrganizationNodesByParentId(Guid? ontologyId, Guid? parentId)
+        public ActionResult GetCatalogNodesByParentId(Guid? ontologyId, Guid? parentId)
         {
             if (!ontologyId.HasValue)
             {
@@ -456,25 +456,25 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             string parentCode = null;
             if (parentId.HasValue)
             {
-                OrganizationState org;
-                if (!AcDomain.OrganizationSet.TryGetOrganization(parentId.Value, out org))
+                CatalogState org;
+                if (!AcDomain.CatalogSet.TryGetCatalog(parentId.Value, out org))
                 {
                     throw new ValidationException("意外的目录标识" + parentId);
                 }
                 parentCode = org.Code;
             }
-            var ontologyOrgDic = ontology.Organizations;
-            var orgs = AcDomain.OrganizationSet;
-            return this.JsonResult(AcDomain.OrganizationSet.Where(a => a != OrganizationState.VirtualRoot && string.Equals(a.ParentCode, parentCode, StringComparison.OrdinalIgnoreCase)).OrderBy(a => a.Code)
+            var ontologyOrgDic = ontology.Catalogs;
+            var orgs = AcDomain.CatalogSet;
+            return this.JsonResult(AcDomain.CatalogSet.Where(a => a != CatalogState.VirtualRoot && string.Equals(a.ParentCode, parentCode, StringComparison.OrdinalIgnoreCase)).OrderBy(a => a.Code)
                 .Select(a => new
                 {
                     a.Id,
                     a.Code,
                     a.Name,
                     ParentId = a.ParentCode,
-                    isLeaf = AcDomain.OrganizationSet.All(b => !a.Code.Equals(b.ParentCode, StringComparison.OrdinalIgnoreCase)),
+                    isLeaf = AcDomain.CatalogSet.All(b => !a.Code.Equals(b.ParentCode, StringComparison.OrdinalIgnoreCase)),
                     expanded = false,
-                    @checked = ontologyOrgDic.Values.Any(b => b.OrganizationId == a.Id),
+                    @checked = ontologyOrgDic.Values.Any(b => b.CatalogId == a.Id),
                     OntologyId = ontologyId.Value
                 }).ToList());
         }
@@ -486,7 +486,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
         [By("xuexs")]
         [Description("获取给定本体目录的动作")]
         [Guid("7E684D68-3E95-4668-BB19-8BDB508AD986")]
-        public ActionResult GetPlistOrganizationActions(GetPlistOntologyOrganizationActions input)
+        public ActionResult GetPlistCatalogActions(GetPlistOntologyCatalogActions input)
         {
             if (!ModelState.IsValid)
             {
@@ -497,18 +497,18 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             {
                 throw new ValidationException("意外的本体标识" + input.OntologyId);
             }
-            OrganizationState organization;
-            if (!AcDomain.OrganizationSet.TryGetOrganization(input.OrganizationId, out organization))
+            CatalogState catalog;
+            if (!AcDomain.CatalogSet.TryGetCatalog(input.CatalogId, out catalog))
             {
-                throw new ValidationException("意外的目录标识" + input.OrganizationId);
+                throw new ValidationException("意外的目录标识" + input.CatalogId);
             }
-            var data = new List<OrganizationAssignActionTr>();
-            OntologyOrganizationState ontologyOrg;
-            if (!ontology.Organizations.TryGetValue(organization, out ontologyOrg))
+            var data = new List<CatalogAssignActionTr>();
+            OntologyCatalogState ontologyOrg;
+            if (!ontology.Catalogs.TryGetValue(catalog, out ontologyOrg))
             {
-                return this.JsonResult(new MiniGrid<OrganizationAssignActionTr> { total = 0, data = data });
+                return this.JsonResult(new MiniGrid<CatalogAssignActionTr> { total = 0, data = data });
             }
-            IReadOnlyDictionary<Verb, IOrganizationAction> actions = ontologyOrg.OrganizationActions;
+            IReadOnlyDictionary<Verb, ICatalogAction> actions = ontologyOrg.CatalogActions;
             foreach (var item in AcDomain.NodeHost.Ontologies.GetActons(ontology))
             {
                 var action = item.Value;
@@ -527,7 +527,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                     isAudit = AuditType.NotAudit.ToName();
                     isAllowed = AllowType.ExplicitAllow.ToName();
                 }
-                data.Add(new OrganizationAssignActionTr
+                data.Add(new CatalogAssignActionTr
                 {
                     ActionId = action.Id,
                     ActionIsAllowed = action.AllowType.ToName(),
@@ -537,9 +537,9 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                     IsAllowed = isAllowed,
                     Name = action.Name,
                     OntologyId = action.OntologyId,
-                    OrganizationId = input.OrganizationId,
+                    CatalogId = input.CatalogId,
                     Verb = action.Verb,
-                    OntologyOrganizationId = ontologyOrg.Id
+                    OntologyCatalogId = ontologyOrg.Id
                 });
             }
             int pageIndex = input.PageIndex;
@@ -547,10 +547,10 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             var queryable = data.AsQueryable();
             var list = queryable.OrderBy(input.SortField + " " + input.SortOrder).Skip(pageIndex * pageSize).Take(pageSize);
 
-            return this.JsonResult(new MiniGrid<OrganizationAssignActionTr> { total = queryable.Count(), data = list });
+            return this.JsonResult(new MiniGrid<CatalogAssignActionTr> { total = queryable.Count(), data = list });
         }
 
-        #region AddOrRemoveOrganizations
+        #region AddOrRemoveCatalogs
         /// <summary>
         /// 添加或移除本体目录
         /// </summary>
@@ -559,20 +559,20 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
         [Description("添加或移除本体目录")]
         [HttpPost]
         [Guid("407FCC10-8A8E-4EA2-9465-3F321AD9E82A")]
-        public ActionResult AddOrRemoveOrganizations(Guid ontologyId, string addOrganizationIDs, string removeOrganizationIDs)
+        public ActionResult AddOrRemoveCatalogs(Guid ontologyId, string addCatalogIds, string removeCatalogIds)
         {
-            string[] addIDs = addOrganizationIDs.Split(',');
-            string[] removeIDs = removeOrganizationIDs.Split(',');
+            string[] addIDs = addCatalogIds.Split(',');
+            string[] removeIDs = removeCatalogIds.Split(',');
             foreach (var item in addIDs)
             {
                 if (!string.IsNullOrEmpty(item))
                 {
-                    var organizationId = new Guid(item);
-                    AcDomain.Handle(new OntologyOrganizationCreateInput
+                    var catalogId = new Guid(item);
+                    AcDomain.Handle(new OntologyCatalogCreateInput
                     {
                         Id = Guid.NewGuid(),
                         OntologyId = ontologyId,
-                        OrganizationId = organizationId
+                        CatalogId = catalogId
                     }.ToCommand(UserSession));
                 }
             }
@@ -580,8 +580,8 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             {
                 if (!string.IsNullOrEmpty(item))
                 {
-                    var organizationId = new Guid(item);
-                    AcDomain.RemoveOntologyOrganization(UserSession, ontologyId, organizationId);
+                    var catalogId = new Guid(item);
+                    AcDomain.RemoveOntologyCatalog(UserSession, ontologyId, catalogId);
                 }
             }
 
@@ -590,7 +590,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
         #endregion
 
         // TODO:逻辑移动到应用服务层
-        #region AddOrUpdateOrganizationActions
+        #region AddOrUpdateCatalogActions
         /// <summary>
         /// 添加或更新本体目录级动作权限
         /// </summary>
@@ -599,7 +599,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
         [Description("添加或更新本体目录级动作权限")]
         [HttpPost]
         [Guid("AEB99E3C-049A-45F0-8996-056255CCBE29")]
-        public ActionResult AddOrUpdateOrganizationActions()
+        public ActionResult AddOrUpdateCatalogActions()
         {
             String json = Request["data"];
             var rows = (ArrayList)MiniJSON.Decode(json);
@@ -610,10 +610,10 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 
                 if (state == "modified" || state == "") //更新：_state为空或modified
                 {
-                    var inputModel = new OrganizationAction()
+                    var inputModel = new CatalogAction()
                     {
                         Id = new Guid(row["Id"].ToString()),
-                        OrganizationId = new Guid(row["OrganizationId"].ToString()),
+                        CatalogId = new Guid(row["CatalogId"].ToString()),
                         ActionId = new Guid(row["ActionId"].ToString()),
                         IsAudit = row["IsAudit"].ToString(),
                         IsAllowed = row["IsAllowed"].ToString()
@@ -628,34 +628,34 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                     {
                         throw new ValidationException("意外的动作本体标识" + action.OntologyId);
                     }
-                    OrganizationState organization;
-                    if (!AcDomain.OrganizationSet.TryGetOrganization(inputModel.OrganizationId, out organization))
+                    CatalogState catalog;
+                    if (!AcDomain.CatalogSet.TryGetCatalog(inputModel.CatalogId, out catalog))
                     {
                         throw new ValidationException("意外的目录标识");
                     }
-                    var ontologyOrgDic = AcDomain.NodeHost.Ontologies.GetOntologyOrganizations(ontology);
-                    OrganizationAction entity = null;
-                    if (ontologyOrgDic.ContainsKey(organization))
+                    var ontologyOrgDic = AcDomain.NodeHost.Ontologies.GetOntologyCatalogs(ontology);
+                    CatalogAction entity = null;
+                    if (ontologyOrgDic.ContainsKey(catalog))
                     {
-                        entity = new OrganizationAction
+                        entity = new CatalogAction
                         {
                             ActionId = inputModel.ActionId,
                             IsAllowed = inputModel.IsAllowed,
                             IsAudit = inputModel.IsAudit,
                             Id = inputModel.Id,
-                            OrganizationId = inputModel.OrganizationId
+                            CatalogId = inputModel.CatalogId
                         };
-                        AcDomain.PublishEvent(new OrganizationActionUpdatedEvent(UserSession, entity));
+                        AcDomain.PublishEvent(new CatalogActionUpdatedEvent(UserSession, entity));
                     }
                     else
                     {
-                        entity = new OrganizationAction();
+                        entity = new CatalogAction();
                         entity.Id = inputModel.Id;
-                        entity.OrganizationId = inputModel.OrganizationId;
+                        entity.CatalogId = inputModel.CatalogId;
                         entity.ActionId = inputModel.ActionId;
                         entity.IsAudit = inputModel.IsAudit;
                         entity.IsAllowed = inputModel.IsAllowed;
-                        AcDomain.PublishEvent(new OrganizationActionAddedEvent(UserSession, entity));
+                        AcDomain.PublishEvent(new CatalogActionAddedEvent(UserSession, entity));
                     }
                     AcDomain.CommitEventBus();
                 }
@@ -919,13 +919,13 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                     var inputModel = new Ontology()
                     {
                         Id = new Guid(row["Id"].ToString()),
-                        IsOrganizationalEntity = bool.Parse(row["IsOrganizationalEntity"].ToString()),
+                        IsCataloguedEntity = bool.Parse(row["IsCataloguedEntity"].ToString()),
                         IsLogicalDeletionEntity = bool.Parse(row["IsLogicalDeletionEntity"].ToString())
                     };
                     Ontology entity = GetRequiredService<IRepository<Ontology>>().GetByKey(inputModel.Id);
                     if (entity != null)
                     {
-                        entity.IsOrganizationalEntity = inputModel.IsOrganizationalEntity;
+                        entity.IsCataloguedEntity = inputModel.IsCataloguedEntity;
                         entity.IsLogicalDeletionEntity = inputModel.IsLogicalDeletionEntity;
                         GetRequiredService<IRepository<Ontology>>().Update(entity);
                         GetRequiredService<IRepository<Ontology>>().Context.Commit();

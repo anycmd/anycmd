@@ -42,16 +42,16 @@ namespace Anycmd.Engine.Host.Ac.MessageHandlers
                     throw new ValidationException("对不起，您不能修改别的开发者的信息");
                 }
             }
-            if (command.Input.OrganizationCode != entity.OrganizationCode)
+            if (command.Input.CatalogCode != entity.CatalogCode)
             {
-                if (string.IsNullOrEmpty(command.Input.OrganizationCode))
+                if (string.IsNullOrEmpty(command.Input.CatalogCode))
                 {
                     throw new AnycmdException("用户必须属于一个目录");
                 }
-                OrganizationState organization;
-                if (!_host.OrganizationSet.TryGetOrganization(command.Input.OrganizationCode, out organization))
+                CatalogState catalog;
+                if (!_host.CatalogSet.TryGetCatalog(command.Input.CatalogCode, out catalog))
                 {
-                    throw new AnycmdException("意外的目录码" + command.Input.OrganizationCode);
+                    throw new AnycmdException("意外的目录码" + command.Input.CatalogCode);
                 }
             }
             entity.Update(command.Input);

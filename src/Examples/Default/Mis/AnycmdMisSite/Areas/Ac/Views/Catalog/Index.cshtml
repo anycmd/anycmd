@@ -1,0 +1,46 @@
+﻿@{
+	Layout = "~/Views/Shared/_Index.cshtml";
+	var infoTabView = Html.GetRuntimeUivIew("Details");
+	var managerTabView = Html.GetRuntimeUivIew("Accounts");
+	var childrenTabView = Html.GetRuntimeUivIew("Children");
+	var prifix = "Ac_Catalog_Index_";
+}
+<div id="@(prifix)helperSplitter" class="mini-splitter helperSplitter" style="width: 100%; height: 100%;">
+	<div showcollapsebutton="true">
+		<div class="mini-splitter" style="width: 100%; height: 100%;">
+			<div size="380" class="mini-toolbar" showcollapsebutton="true">
+				<div class="mini-toolbar" style="padding: 2px; border-top: 0; border-left: 0; border-right: 0;">
+					@{Html.RenderPartial("Partials/UiViewButtons");}
+					@if (this.CurrentUser().IsDeveloper()) {
+						<a style="text-decoration:none;" target="_blank" 
+						href="/api/Catalog/GetAll">文档</a>
+					}
+					<input id="@(prifix)keyCatalog" emptytext="在展开过的目录中搜索" class="mini-textbox" style="width: 150px;" />
+					<a id="@(prifix)btnSearchCatalog" tooltip="离线搜索不搜索未展开的目录节点" class="mini-button" iconcls="icon-search" style="width: 60px;">搜索</a>
+				</div>
+				<span id="@(prifix)msg" style="color: red;display:none;">没有匹配项</span>
+				<div class="mini-fit">
+					<ul id="@(prifix)treeCatalog" class="mini-tree" style="height: 100%;"
+						url="@Url.Action("GetNodesByParentId", "Catalog", new { area = "Ac" })"
+						showtreeicon="true" textfield="Name" expandOnLoad="true"
+						idfield="Id" parentfield="ParentId" resultastree="false">
+					</ul>
+				</div>
+			</div>
+			<div showcollapsebutton="true">
+				<div id="@(prifix)tabs1" class="mini-tabs hidden" style="width: 100%; height: 100%;display:none;"
+					activeindex="0" bodystyle="padding:0;border:0;">
+					<div name="infoTab" bodyCls="inner" title="@infoTabView.Title" iconStyle="background:url(/content/icons/16x16/@infoTabView.Icon)">
+					</div>
+					<div name="managerTab" title="@(managerTabView.Title)" iconStyle="background:url(/content/icons/16x16/@managerTabView.Icon)">
+					</div>
+					<div name="childrenTab" title="@(childrenTabView.Title)" iconStyle="background:url(/content/icons/16x16/@childrenTabView.Icon)">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div size="250" showcollapsebutton="true" visible="false" expanded="false">
+		@{Html.RenderPartial("Partials/HelpPane");}
+	</div>
+</div>

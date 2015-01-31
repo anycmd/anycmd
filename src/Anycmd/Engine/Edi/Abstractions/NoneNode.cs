@@ -35,7 +35,7 @@ namespace Anycmd.Engine.Edi.Abstractions
             get { return string.Empty; }
         }
 
-        public string Organization
+        public string Catalog
         {
             get { return string.Empty; }
         }

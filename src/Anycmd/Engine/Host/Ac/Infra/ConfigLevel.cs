@@ -30,7 +30,7 @@ namespace Anycmd.Engine.Host.Ac.Infra
         /// <summary>
         /// 目录级。
         /// </summary>
-        Level5OrganizationAction = 5,
+        Level5CatalogAction = 5,
         /// <summary>
         /// 实体级动
         /// </summary>

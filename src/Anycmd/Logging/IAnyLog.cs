@@ -68,7 +68,7 @@ namespace Anycmd.Logging
         /// <summary>
         /// 目录码
         /// </summary>
-        string OrganizationCode { get; }
+        string CatalogCode { get; }
 
         /// <summary>
         /// 接收时间戳

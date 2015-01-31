@@ -4,7 +4,7 @@ namespace Anycmd.Tests
     using Ac.ViewModels.DsdViewModels;
     using Ac.ViewModels.Identity.AccountViewModels;
     using Ac.ViewModels.Infra.DicViewModels;
-    using Ac.ViewModels.Infra.OrganizationViewModels;
+    using Ac.ViewModels.Infra.CatalogViewModels;
     using Ac.ViewModels.PrivilegeViewModels;
     using Ac.ViewModels.RoleViewModels;
     using Engine.Ac;
@@ -198,7 +198,7 @@ namespace Anycmd.Tests
             Assert.Equal(3, host.DsdSetSet.GetDsdRoles(ssdSetById).Count);
             var orgId = Guid.NewGuid();
 
-            host.Handle(new OrganizationCreateInput
+            host.Handle(new CatalogCreateInput
             {
                 Id = orgId,
                 Code = "100",

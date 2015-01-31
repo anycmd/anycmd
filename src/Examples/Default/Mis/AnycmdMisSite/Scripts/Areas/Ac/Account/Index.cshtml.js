@@ -21,37 +21,37 @@
 
     helper.helperSplitterInOne(self);
 
-    var btnSearchOrganization = mini.get(self.prifix + "btnSearchOrganization");
-    btnSearchOrganization.on("click", searchOrganization);
-    var keyOrganization = mini.get(self.prifix + "keyOrganization");
-    keyOrganization.on("enter", searchOrganization);
-    var treeOrganization = mini.get(self.prifix + "treeOrganization");
-    treeOrganization.on("nodeselect", onOrganizationNodeSelect);
-    treeOrganization.on("beforeload", onOrganizationTreeBeforeload);
+    var btnSearchCatalog = mini.get(self.prifix + "btnSearchCatalog");
+    btnSearchCatalog.on("click", searchCatalog);
+    var keyCatalog = mini.get(self.prifix + "keyCatalog");
+    keyCatalog.on("enter", searchCatalog);
+    var treeCatalog = mini.get(self.prifix + "treeCatalog");
+    treeCatalog.on("nodeselect", onCatalogNodeSelect);
+    treeCatalog.on("beforeload", onCatalogTreeBeforeload);
     var tabs1 = mini.get(self.prifix + "tabs1");
     tabs1.on("activechanged", onactivechanged);
     tabs1.on("tabload", ontabload);
 
-    currentNode = treeOrganization.getSelectedNode();
+    currentNode = treeCatalog.getSelectedNode();
     if (!currentNode) {
-        currentNode = treeOrganization.getRootNode();
+        currentNode = treeCatalog.getRootNode();
         if (!currentNode.Id) {
-            currentNode = treeOrganization.getChildNodes(currentNode)[0];
+            currentNode = treeCatalog.getChildNodes(currentNode)[0];
         }
         if (currentNode.Id) {
-            treeOrganization.selectNode(currentNode);
+            treeCatalog.selectNode(currentNode);
         }
     }
 
-    function searchOrganization() {
-        var k = keyOrganization.getValue().trim();
+    function searchCatalog() {
+        var k = keyCatalog.getValue().trim();
         if (k == "") {
-            treeOrganization.clearFilter();
+            treeCatalog.clearFilter();
             $("#" + self.prifix + "msg").hide()
         } else {
             k = k.toLowerCase();
             var anyIsTrue = false;
-            treeOrganization.filter(function (node) {
+            treeCatalog.filter(function (node) {
                 var name = node.Name ? node.Name.toLowerCase() : "";
                 if (!node.expanded && !node.isLeaf && !node.IsCategory) {
                     return false;
@@ -70,7 +70,7 @@
         }
     }
 
-    function onOrganizationNodeSelect(e) {
+    function onCatalogNodeSelect(e) {
         var tree = e.sender;
         var node = e.node;
         var isLeaf = e.isLeaf;
@@ -80,7 +80,7 @@
         loadTabData("refresh", tab);
     }
 
-    function onOrganizationTreeBeforeload(e) {
+    function onCatalogTreeBeforeload(e) {
         var tree = e.sender;
         var node = e.node;
         var params = e.params;
@@ -101,8 +101,8 @@
                 if (refresh || !dgAccountUserInitialized) {
                     var data = {};
                     if (currentNode && currentNode.Id) {
-                        data.organizationId = currentNode.Id;
-                        data.organizationCode = currentNode.Code;
+                        data.catalogId = currentNode.Id;
+                        data.catalogCode = currentNode.Code;
                         data.isLeaf = currentNode.isLeaf;
                     }
                     else {
@@ -125,8 +125,8 @@
                 if (refresh || !dgUserAccountInitialized) {
                     var data = {};
                     if (currentNode && currentNode.Id) {
-                        data.organizationId = currentNode.Id;
-                        data.organizationCode = currentNode.Code;
+                        data.catalogId = currentNode.Id;
+                        data.catalogCode = currentNode.Code;
                         data.isLeaf = currentNode.isLeaf;
                     }
                     else {

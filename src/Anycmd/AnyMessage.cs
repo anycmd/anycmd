@@ -111,7 +111,7 @@ namespace Anycmd
                 EventSubjectCode = request.EventSubject,
                 LocalEntityId = null,
                 Description = null,
-                OrganizationCode = null,
+                CatalogCode = null,
                 From = request.From,
                 RelatesTo = request.RelatesTo,
                 To = request.To,

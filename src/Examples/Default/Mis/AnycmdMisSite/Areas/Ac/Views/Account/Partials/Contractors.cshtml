@@ -6,7 +6,7 @@
     string editHeight = entityType.EditHeight.ToString() + "px";
     var roleTabView = Html.GetRuntimeUivIew("Roles");
     var groupTabView = Html.GetRuntimeUivIew("Groups");
-    var organizationTabView = Html.GetRuntimeUivIew("Organizations");
+    var catalogTabView = Html.GetRuntimeUivIew("Catalogs");
     var infoTabView = Html.GetRuntimeUivIew("Details");
     var prifix = "Ac_Account_Contractors_";
 }
@@ -45,9 +45,9 @@
                     <div name="action" width="70" headeralign="center" align="center" cellstyle="padding:0;">
                         <a id="@(prifix)btnSearchClear" property="filter" class="mini-button" style="float: right;">条件清空</a>
                     </div>
-                    <div field="OrganizationName" width="120" headeralign="center" allowsort="true">
-                        @Html.IconLabel("OrganizationName", entityTypeCode)
-                        <input id="@(prifix)OrganizationNameFilter" name="OrganizationName" property="filter" class="mini-textbox" style="width: 100%;" />
+                    <div field="CatalogName" width="120" headeralign="center" allowsort="true">
+                        @Html.IconLabel("CatalogName", entityTypeCode)
+                        <input id="@(prifix)CatalogNameFilter" name="CatalogName" property="filter" class="mini-textbox" style="width: 100%;" />
                     </div>
                     <div field="Name" width="120" headeralign="center" allowsort="true">
                         @Html.IconLabel("Name", entityTypeCode)
@@ -124,7 +124,7 @@
             </div>
             <div name="groupTab" bodycls="inner" title="@groupTabView.Title" iconstyle="background:url(/content/icons/16x16/@groupTabView.Icon)">
             </div>
-            <div name="organizationTab" bodycls="inner" title="@organizationTabView.Title" iconstyle="background:url(/content/icons/16x16/@organizationTabView.Icon)">
+            <div name="catalogTab" bodycls="inner" title="@catalogTabView.Title" iconstyle="background:url(/content/icons/16x16/@catalogTabView.Icon)">
             </div>
             @{
                 var operationLogView = this.GetOperationLogEntityType();

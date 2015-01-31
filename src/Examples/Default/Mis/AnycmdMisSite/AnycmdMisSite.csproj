@@ -160,7 +160,7 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\img\offline.png" />
-    <Content Include="Scripts\Areas\Ac\Account\Organizations.cshtml.js" />
+    <Content Include="Scripts\Areas\Ac\Account\Catalogs.cshtml.js" />
     <Content Include="Scripts\Areas\Ac\DsdSet\Index.cshtml.js" />
     <Content Include="Scripts\Areas\Ac\DsdSet\Roles.cshtml.js" />
     <Content Include="Scripts\Areas\Ac\RDatabase\ViewDefinition.cshtml.js" />
@@ -181,10 +181,10 @@
     <Content Include="Scripts\Areas\Edi\InfoRule\ElementInfoRules.cshtml.js" />
     <Content Include="Scripts\Areas\Edi\InfoRule\Index.cshtml.js" />
     <Content Include="Scripts\Areas\Edi\Node\Edit.cshtml.js" />
-    <Content Include="Scripts\Areas\Edi\Node\Organizations.cshtml.js" />
+    <Content Include="Scripts\Areas\Edi\Node\Catalogs.cshtml.js" />
     <Content Include="Scripts\Areas\Edi\Node\NodeStateCodes.cshtml.js" />
     <Content Include="Scripts\Areas\Edi\Ontology\Actions.cshtml.js" />
-    <Content Include="Scripts\Areas\Edi\Ontology\Organizations.cshtml.js" />
+    <Content Include="Scripts\Areas\Edi\Ontology\Catalogs.cshtml.js" />
     <Content Include="Scripts\Areas\Edi\Element\TooltipEdit.cshtml.js" />
     <Content Include="Scripts\Areas\Edi\Ontology\InfoGroups.cshtml.js" />
     <Content Include="Scripts\Areas\Edi\Node\OntologyNodeCares.cshtml.js" />
@@ -199,7 +199,7 @@
     <Content Include="Scripts\Areas\Ac\RDatabase\Views.cshtml.js" />
     <Content Include="Scripts\Areas\Ac\Property\TooltipEdit.cshtml.js" />
     <Content Include="Scripts\Areas\Ac\Help\Edit.cshtml.js" />
-    <Content Include="Scripts\Areas\Ac\Organization\Accounts.cshtml.js" />
+    <Content Include="Scripts\Areas\Ac\Catalog\Accounts.cshtml.js" />
     <Content Include="Scripts\Areas\Ac\UiView\TooltipEdit.cshtml.js" />
     <Content Include="Scripts\Areas\Ac\Role\Index.cshtml.js" />
     <Content Include="Scripts\Areas\Ac\AnyLog\Index.cshtml.js" />
@@ -237,8 +237,8 @@
     <Content Include="Areas\Ac\Views\Function\Partials\Index.cshtml" />
     <Content Include="Areas\Ac\Views\Property\Partials\Index.cshtml" />
     <Content Include="Areas\Edi\Views\InfoDicItem\Partials\Index.cshtml" />
-    <Content Include="Areas\Ac\Views\Account\Organizations.cshtml" />
-    <Content Include="Areas\Ac\Views\Account\Partials\Organizations.cshtml" />
+    <Content Include="Areas\Ac\Views\Account\Catalogs.cshtml" />
+    <Content Include="Areas\Ac\Views\Account\Partials\Catalogs.cshtml" />
     <Content Include="Areas\Ac\Views\DsdSet\Index.cshtml" />
     <Content Include="Areas\Ac\Views\DsdSet\Partials\Edit.cshtml" />
     <Content Include="Areas\Ac\Views\SsdSet\Index.cshtml" />
@@ -1053,12 +1053,12 @@
     <Content Include="Scripts\Views\Home\Index.cshtml.js" />
     <Content Include="Scripts\Areas\Ac\ResourceType\Index.cshtml.js" />
     <Content Include="Scripts\Areas\Ac\Menu\Children.cshtml.js" />
-    <Content Include="Scripts\Areas\Ac\Organization\Children.cshtml.js" />
+    <Content Include="Scripts\Areas\Ac\Catalog\Children.cshtml.js" />
     <Content Include="Scripts\Areas\Ac\Account\Roles.cshtml.js" />
     <Content Include="Scripts\Areas\Ac\Account\Index.cshtml.js" />
     <Content Include="Scripts\Areas\Ac\Account\Contractors.cshtml.js" />
     <Content Include="Scripts\Areas\Ac\Menu\Index.cshtml.js" />
-    <Content Include="Scripts\Areas\Ac\Organization\Index.cshtml.js" />
+    <Content Include="Scripts\Areas\Ac\Catalog\Index.cshtml.js" />
     <Content Include="Scripts\Views\Shared\Partials\SelectAccounts.cshtml.js" />
     <Content Include="Templates\HtmlFormat.html" />
     <Content Include="Templates\IndexOperations.html" />
@@ -1085,8 +1085,8 @@
     <Content Include="Areas\Ac\Views\Role\Index.cshtml" />
     <Content Include="Areas\Ac\Views\Account\Index.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Areas\Ac\Views\Organization\Index.cshtml" />
-    <Content Include="Areas\Ac\Views\Organization\Children.cshtml" />
+    <Content Include="Areas\Ac\Views\Catalog\Index.cshtml" />
+    <Content Include="Areas\Ac\Views\Catalog\Children.cshtml" />
     <Content Include="Areas\Ac\Views\Role\Partials\Edit.cshtml" />
     <Content Include="Areas\Ac\Views\Role\Accounts.cshtml" />
     <Content Include="Areas\Ac\Views\Role\Permissions.cshtml" />
@@ -1311,7 +1311,7 @@
     <Content Include="Areas\Edi\Views\Ontology\Partials\InfoGroupEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Ac\Views\Organization\Partials\Edit.cshtml" />
+    <Content Include="Areas\Ac\Views\Catalog\Partials\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\_Children.cshtml" />
@@ -1396,13 +1396,13 @@
     <Content Include="Areas\Edi\Views\Command\Partials\DistributeMessage.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Ac\Views\Organization\Accounts.cshtml" />
+    <Content Include="Areas\Ac\Views\Catalog\Accounts.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\Partials\SelectOrganization.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Edi\Views\Node\Organizations.cshtml" />
+    <Content Include="Areas\Edi\Views\Node\Catalogs.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Edi\Views\Node\OntologyNodeCares.cshtml" />
@@ -1438,7 +1438,7 @@
     <Content Include="Areas\Edi\Views\Command\ClientEvent.cshtml" />
     <Content Include="Areas\Edi\Views\Command\EntityLocalEvents.cshtml" />
     <Content Include="Areas\Edi\Views\Command\EntityClientEvents.cshtml" />
-    <Content Include="Areas\Edi\Views\Ontology\Organizations.cshtml" />
+    <Content Include="Areas\Edi\Views\Ontology\Catalogs.cshtml" />
     <Content Include="Areas\Ac\Views\RDatabase\TableSpaces.cshtml" />
     <Content Include="Areas\Ac\Views\RDatabase\Partials\TableSpaces.cshtml" />
     <Content Include="Areas\Edi\Views\StateCode\Partials\Edit.cshtml" />

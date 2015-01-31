@@ -1,0 +1,76 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var entityTypeCode = ViewContext.RouteData.Values["Controller"].ToString();
+    string codespace = ViewContext.RouteData.DataTokens["area"].ToString();
+    var prifix = "Edi_Ontology_Catalogs_";
+}
+<div class="mini-splitter" style="width: 100%; height: 100%;">
+    <div showcollapsebutton="true">
+        <div class="mini-toolbar" style="border-left: 0; border-right: 0; border-top: 0px; padding: 2px;">
+            <div style="float: left">
+                @{Html.RenderPartial("Partials/UiViewButtons");}
+            </div>
+            <div style="float: right">
+            </div>
+            <div style="clear: both;">
+            </div>
+        </div>
+        <!--撑满页面-->
+        <div class="mini-fit noGridBorder">
+            <div id="@(prifix)treeCatalog" class="mini-treegrid" showtreeicon="true" textfield="Name"
+                 idfield="Id" autocheckparent="true" url="@Url.Action("GetCatalogNodesByParentId")"
+                 treecolumn="Name" showcheckbox="true" checkrecursive="true" allowcelledit="true">
+                <div property="columns">
+                    <div type="indexcolumn"></div>
+                    <div name="Name" field="Name" width="200">名称</div>
+                    <div field="Code" width="80">本地编码</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div showcollapsebutton="false">
+        <div class="mini-toolbar" style="border-left: 0; border-right: 0; border-top: 0px; padding: 2px;">
+            <div style="float: left">
+                <span style="padding-left: 5px;">元素级权限</span>
+                <a id="@(prifix)btnSaveAction" class="mini-button" @Html.IsEnabled("Ontology", "AddOrUpdateCatalogActions") iconcls="icon-save">保存</a>
+            </div>
+            <div style="float: right">
+            </div>
+            <div style="clear: both;">
+            </div>
+        </div>
+        <!--撑满页面-->
+        <div class="mini-fit noGridBorder">
+            <div id="@(prifix)dgAction" class="mini-datagrid" style="width:100%;height:100%;" allowalternating="true"
+                 url="@Url.Action("GetPlistCatalogActions")" idfield="Id" multiselect="true"
+                 allowcelledit="true" allowcellselect="true" pagesize="10">
+                <div property="columns">
+                    <div type="indexcolumn" width="20"></div>
+                    <div field="IsAllowed" type="comboboxcolumn" autoshowpopup="true" width="60" headeralign="center" align="center" allowsort="false">
+                        允许
+                        <input property="editor" class="mini-combobox" style="width:100%;" textfield="name" valuefield="code" data="@Html.InfoDicItemsJsonArray("allowType")" />
+                    </div>
+                    <div field="IsAudit" type="comboboxcolumn" autoshowpopup="true" width="60" headeralign="center" align="center" allowsort="false">
+                        是否审核
+                        <input property="editor" class="mini-combobox" style="width:100%;" textfield="name" valuefield="code" data="@Html.InfoDicItemsJsonArray("auditType")" />
+                    </div>
+                    <div field="Verb" width="50" headeralign="center" allowsort="false">
+                        动词
+                    </div>
+                    <div field="Name" width="50" headeralign="center" allowsort="false">
+                        名称
+                    </div>
+                    <div field="ActionIsAllowed" width="50" headeralign="center" allowsort="false">
+                        动作级允许
+                    </div>
+                    <div field="ActionIsAudit" width="50" headeralign="center" allowsort="false">
+                        动作级审核
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Foot{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Areas/Edi/Ontology/Catalogs.cshtml.js")"></script>
+}

@@ -99,7 +99,7 @@ namespace Anycmd.Ac.ViewModels.Identity.AccountViewModels
         /// 
         /// </summary>
         [Required]
-        public string OrganizationCode { get; set; }
+        public string CatalogCode { get; set; }
         /// <summary>
         /// 
         /// </summary>

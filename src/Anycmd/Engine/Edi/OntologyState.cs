@@ -32,7 +32,7 @@ namespace Anycmd.Engine.Edi
                 Icon = ontology.Icon,
                 IsEnabled = ontology.IsEnabled,
                 IsLogicalDeletionEntity = ontology.IsLogicalDeletionEntity,
-                IsOrganizationalEntity = ontology.IsOrganizationalEntity,
+                IsCataloguedEntity = ontology.IsCataloguedEntity,
                 IsSystem = ontology.IsSystem,
                 MessageDatabaseId = ontology.MessageDatabaseId,
                 MessageProviderId = ontology.MessageProviderId,
@@ -63,7 +63,7 @@ namespace Anycmd.Engine.Edi
 
         public bool IsSystem { get; private set; }
 
-        public bool IsOrganizationalEntity { get; private set; }
+        public bool IsCataloguedEntity { get; private set; }
 
         public bool IsLogicalDeletionEntity { get; private set; }
 
@@ -109,7 +109,7 @@ namespace Anycmd.Engine.Edi
                 EntityProviderId == other.EntityProviderId &&
                 EntityDatabaseId == other.EntityDatabaseId &&
                 IsSystem == other.IsSystem &&
-                IsOrganizationalEntity == other.IsOrganizationalEntity &&
+                IsCataloguedEntity == other.IsCataloguedEntity &&
                 IsLogicalDeletionEntity == other.IsLogicalDeletionEntity &&
                 MessageDatabaseId == other.MessageDatabaseId &&
                 ReceivedMessageBufferSize == other.ReceivedMessageBufferSize &&

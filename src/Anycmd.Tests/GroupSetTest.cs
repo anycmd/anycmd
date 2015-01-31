@@ -2,7 +2,7 @@
 namespace Anycmd.Tests
 {
     using Ac.ViewModels.GroupViewModels;
-    using Ac.ViewModels.Infra.OrganizationViewModels;
+    using Ac.ViewModels.Infra.CatalogViewModels;
     using Engine.Ac;
     using Engine.Ac.Messages.Infra;
     using Engine.Host.Ac.Infra;
@@ -174,7 +174,7 @@ namespace Anycmd.Tests
                 {"password", "111111"},
                 {"rememberMe", "rememberMe"}
             });
-            host.Handle(new OrganizationCreateInput
+            host.Handle(new CatalogCreateInput
             {
                 Id = Guid.NewGuid(),
                 Code = "100",
@@ -195,7 +195,7 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 ShortName = "",
                 SortCode = 10,
-                OrganizationCode = "100"
+                CatalogCode = "100"
             }.ToCommand(host.GetUserSession()));
             Assert.Equal(1, host.GroupSet.Count());
             Assert.True(host.GroupSet.TryGetGroup(entityId, out groupById));

@@ -6,7 +6,7 @@ namespace Anycmd.Engine.Edi
 	using Exceptions;
 	using Hecp;
 	using Host.Edi.Handlers;
-    using System;
+	using System;
 	using System.Collections.Generic;
 	using System.Linq;
 
@@ -161,11 +161,11 @@ namespace Anycmd.Engine.Edi
 		/// <summary>
 		/// key为目录码
 		/// </summary>
-		public IReadOnlyDictionary<OrganizationState, OntologyOrganizationState> Organizations
+		public IReadOnlyDictionary<CatalogState, OntologyCatalogState> Catalogs
 		{
 			get
 			{
-				return Host.NodeHost.Ontologies.GetOntologyOrganizations(this);
+				return Host.NodeHost.Ontologies.GetOntologyCatalogs(this);
 			}
 		}
 

@@ -10,7 +10,7 @@ namespace Anycmd.Engine.Ac.InOuts
     {
         string Code { get; }
         string Codespace { get; }
-        bool IsOrganizational { get; }
+        bool IsCatalogued { get; }
         Guid DatabaseId { get; }
         string Description { get; }
         Guid DeveloperId { get; }

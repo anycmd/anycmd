@@ -24,7 +24,7 @@ namespace Anycmd.Engine.Ac.Abstractions
         /// <summary>
         /// 目录客体类型。
         /// </summary>
-        Organization = 0x0002,
+        Catalog = 0x0002,
         /// <summary>
         /// 角色客体类型。
         /// </summary>

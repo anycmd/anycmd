@@ -20,10 +20,10 @@ namespace Anycmd.Ac.Queries.Ef.Identity
 		}
 
 		#region GetPlistAccountTrs
-		public List<DicReader> GetPlistAccountTrs(List<FilterData> filters, string organizationCode, bool includeDescendants, PagingInput paging)
+		public List<DicReader> GetPlistAccountTrs(List<FilterData> filters, string catalogCode, bool includeDescendants, PagingInput paging)
 		{
 			paging.Valid();
-			bool byOrgCode = !string.IsNullOrEmpty(organizationCode);
+			bool byOrgCode = !string.IsNullOrEmpty(catalogCode);
 			Func<SqlFilter> filter = () =>
 			{
 				List<SqlParameter> parameters;
@@ -40,10 +40,10 @@ namespace Anycmd.Ac.Queries.Ef.Identity
 				{
 					if (byOrgCode)
 					{
-						if (!string.IsNullOrEmpty(organizationCode))
+						if (!string.IsNullOrEmpty(catalogCode))
 						{
-							parameters.Add(new SqlParameter("OrganizationCode", organizationCode));
-							filterString += "and a.OrganizationCode=@OrganizationCode ";
+							parameters.Add(new SqlParameter("CatalogCode", catalogCode));
+							filterString += "and a.CatalogCode=@CatalogCode ";
 						}
 					}
 				}
@@ -51,10 +51,10 @@ namespace Anycmd.Ac.Queries.Ef.Identity
 				{
 					if (byOrgCode)
 					{
-						if (!string.IsNullOrEmpty(organizationCode))
+						if (!string.IsNullOrEmpty(catalogCode))
 						{
-							parameters.Add(new SqlParameter("OrganizationCode", organizationCode + "%"));
-							filterString += "and a.OrganizationCode like @OrganizationCode ";
+							parameters.Add(new SqlParameter("CatalogCode", catalogCode + "%"));
+							filterString += "and a.CatalogCode like @CatalogCode ";
 						}
 					}
 				}
@@ -100,10 +100,10 @@ namespace Anycmd.Ac.Queries.Ef.Identity
 		}
 		#endregion
 
-		public List<DicReader> GetPlistContractorTrs(List<FilterData> filters, string organizationCode, bool includeOrgChild, PagingInput paging)
+		public List<DicReader> GetPlistContractorTrs(List<FilterData> filters, string catalogCode, bool includeOrgChild, PagingInput paging)
 		{
 			paging.Valid();
-			bool byOrgCode = !string.IsNullOrEmpty(organizationCode);
+			bool byOrgCode = !string.IsNullOrEmpty(catalogCode);
 			Func<SqlFilter> filter = () =>
 			{
 				List<SqlParameter> parameters;
@@ -120,10 +120,10 @@ namespace Anycmd.Ac.Queries.Ef.Identity
 				{
 					if (byOrgCode)
 					{
-						if (!string.IsNullOrEmpty(organizationCode))
+						if (!string.IsNullOrEmpty(catalogCode))
 						{
-							parameters.Add(new SqlParameter("OrganizationCode", organizationCode));
-							filterString += " and a.OrganizationCode=@OrganizationCode";
+							parameters.Add(new SqlParameter("CatalogCode", catalogCode));
+							filterString += " and a.CatalogCode=@CatalogCode";
 						}
 					}
 				}
@@ -131,10 +131,10 @@ namespace Anycmd.Ac.Queries.Ef.Identity
 				{
 					if (byOrgCode)
 					{
-						if (!string.IsNullOrEmpty(organizationCode))
+						if (!string.IsNullOrEmpty(catalogCode))
 						{
-							parameters.Add(new SqlParameter("OrganizationCode", organizationCode + "%"));
-							filterString += " and a.OrganizationCode like @OrganizationCode";
+							parameters.Add(new SqlParameter("CatalogCode", catalogCode + "%"));
+							filterString += " and a.CatalogCode like @CatalogCode";
 						}
 					}
 				}

@@ -54,7 +54,7 @@
     <Compile Include="MiniGrid`1.cs" />
     <Compile Include="MiniJSON.cs" />
     <Compile Include="MiniNode.cs" />
-    <Compile Include="OrganizationMiniNode.cs" />
+    <Compile Include="CatalogMiniNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

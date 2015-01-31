@@ -22,14 +22,14 @@ namespace Anycmd.Engine.Host.Ac.MessageHandlers
         public override void Handle(AddAccountCommand command)
         {
             var accountRepository = _host.RetrieveRequiredService<IRepository<Account>>();
-            if (string.IsNullOrEmpty(command.Input.OrganizationCode))
+            if (string.IsNullOrEmpty(command.Input.CatalogCode))
             {
                 throw new AnycmdException("用户必须属于一个目录");
             }
-            OrganizationState organization;
-            if (!_host.OrganizationSet.TryGetOrganization(command.Input.OrganizationCode, out organization))
+            CatalogState catalog;
+            if (!_host.CatalogSet.TryGetCatalog(command.Input.CatalogCode, out catalog))
             {
-                throw new AnycmdException("意外的目录码" + command.Input.OrganizationCode);
+                throw new AnycmdException("意外的目录码" + command.Input.CatalogCode);
             }
             if (accountRepository.AsQueryable().Any(a => a.Code == command.Input.Code && a.Id != command.Input.Id))
             {

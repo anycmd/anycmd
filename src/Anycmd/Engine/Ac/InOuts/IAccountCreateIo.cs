@@ -22,7 +22,7 @@ namespace Anycmd.Engine.Ac.InOuts
         string Mobile { get; }
         string Name { get; }
         string Nickname { get; }
-        string OrganizationCode { get; }
+        string CatalogCode { get; }
         string Qq { get; }
         string QuickQuery { get; }
         string QuickQuery1 { get; }

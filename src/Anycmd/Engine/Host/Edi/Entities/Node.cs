@@ -37,7 +37,7 @@ namespace Anycmd.Engine.Host.Edi.Entities
                 SecretKey = input.SecretKey,
                 Qq = input.Qq,
                 PublicKey = input.PublicKey,
-                Organization = input.Organization
+                Catalog = input.Catalog
             };
         }
 
@@ -54,7 +54,7 @@ namespace Anycmd.Engine.Host.Edi.Entities
             this.IsEnabled = input.IsEnabled;
             this.Mobile = input.Mobile;
             this.Name = input.Name;
-            this.Organization = input.Organization;
+            this.Catalog = input.Catalog;
             this.PublicKey = input.PublicKey;
             this.Qq = input.Qq;
             this.SecretKey = input.SecretKey;

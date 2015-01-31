@@ -51,7 +51,7 @@ namespace Anycmd.Engine.Host.Impl
             base.DicSet = new DicSet(this);
             base.EntityTypeSet = new EntityTypeSet(this);
             base.FunctionSet = new FunctionSet(this);
-            base.OrganizationSet = new OrganizationSet(this);
+            base.CatalogSet = new CatalogSet(this);
             base.UiViewSet = new UiViewSet(this);
             base.ResourceTypeSet = new ResourceTypeSet(this);
             base.PrivilegeSet = new PrivilegeSet(this);
@@ -121,9 +121,9 @@ namespace Anycmd.Engine.Host.Impl
             this.Map(EntityTypeMap.Create<NodeElementCare>("Edi"));
             this.Map(EntityTypeMap.Create<NodeTopic>("Edi"));
             this.Map(EntityTypeMap.Create<NodeOntologyCare>("Edi"));
-            this.Map(EntityTypeMap.Create<NodeOntologyOrganization>("Edi"));
+            this.Map(EntityTypeMap.Create<NodeOntologyCatalog>("Edi"));
             this.Map(EntityTypeMap.Create<Ontology>("Edi"));
-            this.Map(EntityTypeMap.Create<OntologyOrganization>("Edi"));
+            this.Map(EntityTypeMap.Create<OntologyCatalog>("Edi"));
             this.Map(EntityTypeMap.Create<Plugin>("Edi"));
             this.Map(EntityTypeMap.Create<Process>("Edi"));
             this.Map(EntityTypeMap.Create<StateCode>("Edi"));
@@ -158,7 +158,7 @@ namespace Anycmd.Engine.Host.Impl
             this.Map(EntityTypeMap.Create<Function>("Ac"));
             this.Map(EntityTypeMap.Create<Menu>("Ac"));
             this.Map(EntityTypeMap.Create<OperationHelp>("Ac"));
-            this.Map(EntityTypeMap.Create<Organization>("Ac"));
+            this.Map(EntityTypeMap.Create<Catalog>("Ac"));
             this.Map(EntityTypeMap.Create<UiView>("Ac"));
             this.Map(EntityTypeMap.Create<UiViewButton>("Ac"));
             this.Map(EntityTypeMap.Create<Property>("Ac"));

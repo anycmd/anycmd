@@ -55,7 +55,7 @@ namespace Anycmd.Engine.Host.Ac.Infra
                 ShortName = input.ShortName,
                 SortCode = input.SortCode,
                 TypeCode = "Ac",
-                OrganizationCode = input.OrganizationCode
+                CatalogCode = input.CatalogCode
             };
         }
 

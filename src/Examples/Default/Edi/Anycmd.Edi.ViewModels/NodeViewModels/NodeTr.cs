@@ -39,7 +39,7 @@ namespace Anycmd.Edi.ViewModels.NodeViewModels
                 IsReceiveEnabled = node.Node.IsReceiveEnabled,
                 Mobile = node.Node.Mobile,
                 Name = node.Node.Name,
-                Organization = node.Node.Organization,
+                Catalog = node.Node.Catalog,
                 PublicKey = node.Node.PublicKey,
                 QQ = node.Node.Qq,
                 SortCode = node.Node.SortCode,
@@ -64,7 +64,7 @@ namespace Anycmd.Edi.ViewModels.NodeViewModels
         /// <summary>
         /// 接入单位名称
         /// </summary>
-        public string Organization { get; set; }
+        public string Catalog { get; set; }
         /// <summary>
         /// 专员
         /// </summary>

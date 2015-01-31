@@ -9,7 +9,7 @@ namespace Anycmd.Engine.Edi.InOuts
         bool? IncludeDescendants { get; }
         Guid NodeId { get; }
         Guid OntologyId { get; }
-        string OrganizationCode { get; }
+        string CatalogCode { get; }
         string Title { get; }
         string Type { get; }
     }

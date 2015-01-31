@@ -32,7 +32,7 @@ namespace Anycmd.Edi.MessageProvider.SqlServer2008
             row["Ontology"] = commandEntity.Ontology;
             row["InfoId"] = commandEntity.DataTuple.IdItems.InfoString;
             row["LocalEntityId"] = commandEntity.LocalEntityId;
-            row["OrganizationCode"] = commandEntity.OrganizationCode;
+            row["CatalogCode"] = commandEntity.CatalogCode;
             row["ClientId"] = commandEntity.ClientId;
             row["TimeStamp"] = commandEntity.TimeStamp;
             row["ReceivedOn"] = commandEntity.ReceivedOn;

@@ -16,7 +16,7 @@ namespace Anycmd.Engine.Edi.InOuts
         int IsEnabled { get; }
         string Mobile { get; }
         string Name { get; }
-        string Organization { get; }
+        string Catalog { get; }
         string PublicKey { get; }
         string Qq { get; }
         string SecretKey { get; }

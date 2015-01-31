@@ -75,7 +75,7 @@
     <Compile Include="MenuTest.cs" />
     <Compile Include="MoqAcDomain.cs" />
     <Compile Include="MoqCommonRepository`1.cs" />
-    <Compile Include="OrganizationTest.cs" />
+    <Compile Include="CatalogTest.cs" />
     <Compile Include="PageTest.cs" />
     <Compile Include="PrivilegeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

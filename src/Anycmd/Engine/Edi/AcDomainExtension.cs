@@ -119,14 +119,14 @@ namespace Anycmd.Engine.Edi
             host.Handle(new RemoveOntologyCommand(userSession, ontologyId));
         }
 
-        public static void AddOntologyOrganization(this IAcDomain host, IUserSession userSession, IOntologyOrganizationCreateIo input)
+        public static void AddOntologyCatalog(this IAcDomain host, IUserSession userSession, IOntologyCatalogCreateIo input)
         {
-            host.Handle(new AddOntologyOrganizationCommand(userSession, input));
+            host.Handle(new AddOntologyCatalogCommand(userSession, input));
         }
 
-        public static void RemoveOntologyOrganization(this IAcDomain host, IUserSession userSession, Guid ontologyId, Guid organizationId)
+        public static void RemoveOntologyCatalog(this IAcDomain host, IUserSession userSession, Guid ontologyId, Guid catalogId)
         {
-            host.Handle(new RemoveOntologyOrganizationCommand(userSession, ontologyId, organizationId));
+            host.Handle(new RemoveOntologyCatalogCommand(userSession, ontologyId, catalogId));
         }
 
         public static void AddInfoGroup(this IAcDomain host, IUserSession userSession, IInfoGroupCreateIo input)

@@ -9,7 +9,7 @@ namespace Anycmd.Engine.Ac.InOuts
     public interface IEntityTypeCreateIo : IEntityCreateInput
     {
         string Code { get; }
-        bool IsOrganizational { get; }
+        bool IsCatalogued { get; }
         string Codespace { get; }
         Guid DatabaseId { get; }
         string Description { get; }

@@ -18,9 +18,9 @@
     });
     $("#Select_btnSelectSearch").click(search);
 
-    var treeOrganization = mini.get("Select_treeOrganization");
-    treeOrganization.on("nodeselect", onOrganizationNodeSelect);
-    treeOrganization.on("beforenodeselect", function (e) {
+    var treeCatalog = mini.get("Select_treeCatalog");
+    treeCatalog.on("nodeselect", onCatalogNodeSelect);
+    treeCatalog.on("beforenodeselect", function (e) {
         var tree = e.sender;
         var node = e.node;
         if (node.IsCategory) {
@@ -33,7 +33,7 @@
             }
         }
     });
-    treeOrganization.on("beforeload", onOrganizationTreeBeforeload);
+    treeCatalog.on("beforeload", onCatalogTreeBeforeload);
     var chkbIncludedescendants = mini.get("Select_chkbIncludedescendants");
     chkbIncludedescendants.on("checkedchanged", onCheckedChanged);
     var key = mini.get("Select_selectKey");
@@ -45,7 +45,7 @@
     grid.load(data);
     grid.sortBy("CreateOn", "desc");
 
-    function onOrganizationNodeSelect(e) {
+    function onCatalogNodeSelect(e) {
         var tree = e.sender;
         var node = e.node;
         var isLeaf = e.isLeaf;
@@ -53,7 +53,7 @@
         search();
     }
 
-    function onOrganizationTreeBeforeload(e) {
+    function onCatalogTreeBeforeload(e) {
         var tree = e.sender;
         var node = e.node;
         var params = e.params;
@@ -80,7 +80,7 @@
         }
         if (s) {
             if (window.onSelectOk) {
-                window.onSelectOk({ organizationIDs: s, organizationNames: n });
+                window.onSelectOk({ catalogIDs: s, catalogNames: n });
             }
             return true;
         }
@@ -98,8 +98,8 @@
     function search() {
         var data = { key: key.getValue() };
         if (currentNode && currentNode.Id) {
-            data.organizationID = currentNode.Id;
-            data.organizationCode = currentNode.Code;
+            data.catalogID = currentNode.Id;
+            data.catalogCode = currentNode.Code;
         }
         if (chkbIncludedescendants.getValue() == "1") {
             data.includedescendants = true;

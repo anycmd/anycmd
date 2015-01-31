@@ -34,10 +34,10 @@
             params: [{ "pName": 'accountId', "pValue": "Id" }],
             namespace: "Account.Groups"
         },
-        organizationTab: {
-            url: bootPath + "../Ac/Account/Organizations",
+        catalogTab: {
+            url: bootPath + "../Ac/Account/Catalogs",
             params: [{ "pName": 'accountId', "pValue": "Id" }],
-            namespace: "Account.Organizations"
+            namespace: "Account.Catalogs"
         },
         operationLogTab: {
             url: bootPath + "../Ac/OperationLog/Index",
@@ -74,7 +74,7 @@
             type: 'numeric',
             comparison: 'eq'
         },
-        OrganizationName: {
+        CatalogName: {
             type: 'string',
             comparison: 'like'
         }
@@ -198,8 +198,8 @@
     function search() {
         var data = {};
         var fragment = $.deparam.fragment();
-        if (fragment.organizationCode) {
-            data.organizationCode = fragment.organizationCode;
+        if (fragment.catalogCode) {
+            data.catalogCode = fragment.catalogCode;
         }
         if (chkbIncludedescendants.getValue() == "1") {
             data.includedescendants = true;
@@ -227,8 +227,8 @@
     }
     function SaveData() {
         var fragment = $.deparam.fragment();
-        if (fragment.organizationCode) {
-            $("#" + edit.prifix + "form1 input[name='OrganizationCode']").val(fragment.organizationCode);
+        if (fragment.catalogCode) {
+            $("#" + edit.prifix + "form1 input[name='CatalogCode']").val(fragment.catalogCode);
         }
         var data = $("#" + edit.prifix + "form1").serialize();
         var id = $("#" + edit.prifix + "form1 input[name='Id']").val();

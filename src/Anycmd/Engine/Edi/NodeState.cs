@@ -44,7 +44,7 @@ namespace Anycmd.Engine.Edi
                 IsReceiveEnabled = node.IsReceiveEnabled,
                 Mobile = node.Mobile,
                 Name = node.Name,
-                Organization = node.Organization,
+                Catalog = node.Catalog,
                 PublicKey = node.PublicKey,
                 Qq = node.Qq,
                 SecretKey = node.SecretKey,
@@ -102,7 +102,7 @@ namespace Anycmd.Engine.Edi
 
         public string Abstract { get; private set; }
 
-        public string Organization { get; private set; }
+        public string Catalog { get; private set; }
 
         public string Steward { get; private set; }
 
@@ -148,7 +148,7 @@ namespace Anycmd.Engine.Edi
                 Code == other.Code &&
                 Name == other.Name &&
                 Abstract == other.Abstract &&
-                Organization == other.Organization &&
+                Catalog == other.Catalog &&
                 Steward == other.Steward &&
                 Telephone == other.Telephone &&
                 Email == other.Email &&

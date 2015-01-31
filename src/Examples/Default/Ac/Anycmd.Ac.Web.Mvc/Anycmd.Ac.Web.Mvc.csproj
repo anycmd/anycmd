@@ -101,7 +101,7 @@
     <Compile Include="Controllers\EntityTypeController.cs" />
     <Compile Include="Controllers\FunctionController.cs" />
     <Compile Include="Controllers\OperationLogController.cs" />
-    <Compile Include="Controllers\OrganizationController.cs" />
+    <Compile Include="Controllers\CatalogController.cs" />
     <Compile Include="Controllers\UiViewController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\AnyLogController.cs" />
@@ -137,7 +137,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Controllers\Controllers.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

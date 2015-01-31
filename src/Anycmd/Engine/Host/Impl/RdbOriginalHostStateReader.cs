@@ -60,7 +60,7 @@ namespace Anycmd.Engine.Host.Impl
                         Append(sb, "DicItem", "select * from [DicItem];");
                         Append(sb, "EntityType", "select * from [EntityType];");
                         Append(sb, "Property", "select * from [Property];");
-                        Append(sb, "Organization", "select * from [Organization];");
+                        Append(sb, "Catalog", "select * from [Catalog];");
                         Append(sb, "Menu", "select * from [Menu];");
                         Append(sb, "Button", "select * from [Button];");
                         Append(sb, "Group", "select * from [Group] where TypeCode='Ac';");
@@ -130,12 +130,12 @@ namespace Anycmd.Engine.Host.Impl
             return _host.RetrieveRequiredService<IRdbMetaDataService>().GetDbViews(db);
         }
 
-        public IList<Organization> GetOrganizations()
+        public IList<Catalog> GetCatalogs()
         {
-            var list = new List<Organization>();
-            foreach (DataRow row in this["Organization"].Rows)
+            var list = new List<Catalog>();
+            foreach (DataRow row in this["Catalog"].Rows)
             {
-                var item = new Organization
+                var item = new Catalog
                 {
                     Id = (Guid)row["Id"],
                     ParentCode = row["ParentCode"] == DBNull.Value ? null : row["ParentCode"].ToString(),
@@ -298,7 +298,7 @@ namespace Anycmd.Engine.Host.Impl
                     DeveloperId = (Guid)row["DeveloperId"],
                     Codespace = (string)row["Codespace"],
                     DatabaseId = (Guid)row["DatabaseId"],
-                    IsOrganizational = (bool)row["IsOrganizational"],
+                    IsCatalogued = (bool)row["IsCatalogued"],
                     Name = (string)row["Name"],
                     SchemaName = row["SchemaName"] == DBNull.Value ? null : row["SchemaName"].ToString(),
                     TableName = row["TableName"] == DBNull.Value ? null : row["TableName"].ToString(),
@@ -403,7 +403,7 @@ namespace Anycmd.Engine.Host.Impl
                     Etag = (byte[])row["Etag"],
                     SortCode = (int)row["SortCode"],
                     CategoryCode = row["CategoryCode"] == DBNull.Value ? null : row["CategoryCode"].ToString(),
-                    OrganizationCode = row["OrganizationCode"] == DBNull.Value ? null : row["OrganizationCode"].ToString(),
+                    CatalogCode = row["CatalogCode"] == DBNull.Value ? null : row["CatalogCode"].ToString(),
                     TypeCode = (string)row["TypeCode"]
                 };
                 var entity = item as IEntityBase;

@@ -187,7 +187,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers
             {
                 return new ProcessResult(false, Status.InvalidInfoId, "非法的信息标识");
             }
-            else if (ontology.Ontology.IsOrganizationalEntity)
+            else if (ontology.Ontology.IsCataloguedEntity)
             {
                 if (Verb.Create.Equals(context.Command.Verb)
                     && type != MessageType.Event)
@@ -197,7 +197,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers
                     {
                         return new ProcessResult(false, Status.InvalidInfoId, "非中心节点的create型命令不能提供Id");
                     }
-                    else if ((ontology.Ontology.IsOrganizationalEntity &&
+                    else if ((ontology.Ontology.IsCataloguedEntity &&
                         !context.Command.DataTuple.IdItems.Items.Any(a => string.Equals(a.Key, "ZZJGM", StringComparison.OrdinalIgnoreCase)))
                         || !context.Command.DataTuple.IdItems.Items.Any(a => string.Equals(a.Key, "XM", StringComparison.OrdinalIgnoreCase)))
                     {
@@ -291,10 +291,10 @@ namespace Anycmd.Engine.Host.Edi.Handlers
             }
             #endregion
             // 如果是目录
-            if (infoItem.Element.Ontology.Ontology.IsOrganizationalEntity && infoItem.Key.Equals("ZZJGM", StringComparison.OrdinalIgnoreCase))
+            if (infoItem.Element.Ontology.Ontology.IsCataloguedEntity && infoItem.Key.Equals("ZZJGM", StringComparison.OrdinalIgnoreCase))
             {
-                OrganizationState org;
-                if (!this.ValidOrganizationCode(infoItem.Element.Ontology, infoItem.Value, out org, out result))
+                CatalogState org;
+                if (!this.ValidCatalogCode(infoItem.Element.Ontology, infoItem.Value, out org, out result))
                 {
                     return false;
                 }
@@ -317,30 +317,30 @@ namespace Anycmd.Engine.Host.Edi.Handlers
         }
         #endregion
 
-        #region ValidOrganizationCode
-        private bool ValidOrganizationCode(OntologyDescriptor ontology, string organizationCode, out OrganizationState org, out ProcessResult result)
+        #region ValidCatalogCode
+        private bool ValidCatalogCode(OntologyDescriptor ontology, string catalogCode, out CatalogState org, out ProcessResult result)
         {
-            if (string.IsNullOrEmpty(organizationCode))
+            if (string.IsNullOrEmpty(catalogCode))
             {
-                org = OrganizationState.Empty;
+                org = CatalogState.Empty;
                 result = ProcessResult.Ok;
                 return false;
             }
-            if (!ontology.Host.OrganizationSet.TryGetOrganization(organizationCode.Trim(), out org))
+            if (!ontology.Host.CatalogSet.TryGetCatalog(catalogCode.Trim(), out org))
             {
-                result = new ProcessResult(false, Status.InvalidOrganization, string.Format("非法的目录码{0}", organizationCode));
+                result = new ProcessResult(false, Status.InvalidCatalog, string.Format("非法的目录码{0}", catalogCode));
                 return false;
             }
-            OntologyOrganizationState oorg;
-            if (!ontology.Organizations.TryGetValue(org, out oorg))
+            OntologyCatalogState oorg;
+            if (!ontology.Catalogs.TryGetValue(org, out oorg))
             {
-                result = new ProcessResult(false, Status.InvalidOrganization, string.Format("对于{0}来说{1}是非法的目录码", ontology.Ontology.Name, org.Code));
+                result = new ProcessResult(false, Status.InvalidCatalog, string.Format("对于{0}来说{1}是非法的目录码", ontology.Ontology.Name, org.Code));
                 return false;
             }
             var orgCode = org.Code;
-            if (ontology.Host.OrganizationSet.Any(o => orgCode.Equals(o.ParentCode, StringComparison.OrdinalIgnoreCase)))
+            if (ontology.Host.CatalogSet.Any(o => orgCode.Equals(o.ParentCode, StringComparison.OrdinalIgnoreCase)))
             {
-                result = new ProcessResult(false, Status.InvalidOrganization, string.Format("{0}不是叶节点，不能容纳" + ontology.Ontology.Name, org.Name));
+                result = new ProcessResult(false, Status.InvalidCatalog, string.Format("{0}不是叶节点，不能容纳" + ontology.Ontology.Name, org.Name));
                 return false;
             }
             result = ProcessResult.Ok;

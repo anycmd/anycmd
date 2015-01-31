@@ -43,10 +43,10 @@
             params: [{ "pName": 'ontologyId', "pValue": "Id" }],
             namespace: "Ontology.NodeCares"
         },
-        organizationTab: {
-            url: bootPATH + "../Edi/Ontology/Organizations",
-            params: [{ "pName": 'ontologyId', "pValue": "Id" }, { "pName": "isEntityOrganized", "pValue": "IsOrganizationalEntity" }],
-            namespace: "Ontology.Organizations"
+        catalogTab: {
+            url: bootPATH + "../Edi/Ontology/Catalogs",
+            params: [{ "pName": 'ontologyId', "pValue": "Id" }, { "pName": "isEntityOrganized", "pValue": "IsCataloguedEntity" }],
+            namespace: "Ontology.Catalogs"
         },
         operationLogTab: {
             url: bootPATH + "../Ac/OperationLog/Index",

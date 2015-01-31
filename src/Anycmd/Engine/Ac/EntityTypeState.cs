@@ -18,7 +18,7 @@ namespace Anycmd.Engine.Ac
             _acDomain = EmptyAcDomain.SingleInstance,
             _codespace = string.Empty,
             _code = string.Empty,
-            _isOrganizational = false,
+            _isCatalogued = false,
             _createOn = SystemTime.MinDate,
             _databaseId = Guid.Empty,
             _developerId = Guid.Empty,
@@ -35,7 +35,7 @@ namespace Anycmd.Engine.Ac
         private string _codespace;
         private string _code;
         private string _name;
-        private bool _isOrganizational;
+        private bool _isCatalogued;
         private Guid _databaseId;
         private Guid _developerId;
         private string _schemaName;
@@ -64,7 +64,7 @@ namespace Anycmd.Engine.Ac
                 _map = map,
                 _codespace = entityType.Codespace,
                 _code = entityType.Code,
-                _isOrganizational = entityType.IsOrganizational,
+                _isCatalogued = entityType.IsCatalogued,
                 _createOn = entityType.CreateOn,
                 _databaseId = entityType.DatabaseId,
                 _developerId = entityType.DeveloperId,
@@ -105,9 +105,9 @@ namespace Anycmd.Engine.Ac
             get { return _name; }
         }
 
-        public bool IsOrganizational
+        public bool IsCatalogued
         {
-            get { return _isOrganizational; }
+            get { return _isCatalogued; }
         }
 
         public Guid DatabaseId
@@ -158,7 +158,7 @@ namespace Anycmd.Engine.Ac
     Codespace:'{1}',
     Code:'{2}',
     Name:'{3}',
-    IsOrganizational:{4},
+    IsCatalogued:{4},
     DatabaseId:'{5}',
     DeveloperId:'{6}',
     SchemaName:'{7}',
@@ -167,7 +167,7 @@ namespace Anycmd.Engine.Ac
     EditWidth:{10},
     EditHeight:{11},
     CreateOn:'{12}'
-}}", Id, Codespace, Code, Name, IsOrganizational, DatabaseId, DeveloperId, SchemaName, TableName, SortCode, EditWidth, EditHeight, CreateOn);
+}}", Id, Codespace, Code, Name, IsCatalogued, DatabaseId, DeveloperId, SchemaName, TableName, SortCode, EditWidth, EditHeight, CreateOn);
         }
 
         protected override bool DoEquals(EntityTypeState other)
@@ -176,7 +176,7 @@ namespace Anycmd.Engine.Ac
                 Codespace == other.Codespace &&
                 Code == other.Code &&
                 Name == other.Name &&
-                IsOrganizational == other.IsOrganizational &&
+                IsCatalogued == other.IsCatalogued &&
                 DatabaseId == other.DatabaseId &&
                 SchemaName == other.SchemaName &&
                 TableName == other.TableName &&

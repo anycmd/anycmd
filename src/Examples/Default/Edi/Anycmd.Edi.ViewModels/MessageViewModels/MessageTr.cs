@@ -22,7 +22,7 @@ namespace Anycmd.Edi.ViewModels.MessageViewModels
         private string _ontologyName = null;
         OntologyDescriptor _ontology;
         private string _actionName = null;
-        private string _organizationName = null;
+        private string _catalogName = null;
         private IList<InfoItem> _infoValueItems;
         private static readonly List<InfoItem> EmptyInfoValueItems = new List<InfoItem>();
         private string _commandInfo = null;
@@ -102,7 +102,7 @@ namespace Anycmd.Edi.ViewModels.MessageViewModels
         public string InfoFormat { get; private set; }
         public string InfoValue { get; private set; }
         public string Ontology { get; private set; }
-        public string OrganizationCode { get; private set; }
+        public string CatalogCode { get; private set; }
         public string InfoId { get; private set; }
         public string LocalEntityId { get; private set; }
         public DateTime ReceivedOn { get; set; }
@@ -121,27 +121,27 @@ namespace Anycmd.Edi.ViewModels.MessageViewModels
         public string Principal { get; set; }
         public DateTime CreateOn { get; private set; }
 
-        public string OrganizationName
+        public string CatalogName
         {
             get
             {
-                if (_organizationName == null)
+                if (_catalogName == null)
                 {
-                    OrganizationState org;
-                    if (_host.OrganizationSet.TryGetOrganization(this.OrganizationCode, out org))
+                    CatalogState org;
+                    if (_host.CatalogSet.TryGetCatalog(this.CatalogCode, out org))
                     {
-                        _organizationName = org.Name;
+                        _catalogName = org.Name;
                     }
                     else
                     {
-                        _organizationName = string.Empty;
+                        _catalogName = string.Empty;
                     }
-                    if (_organizationName == null)
+                    if (_catalogName == null)
                     {
-                        _organizationName = string.Empty;
+                        _catalogName = string.Empty;
                     }
                 }
-                return _organizationName;
+                return _catalogName;
             }
         }
 
@@ -259,7 +259,7 @@ namespace Anycmd.Edi.ViewModels.MessageViewModels
             this.InfoFormat = command.DataTuple.InfoFormat;
             this.InfoValue = command.DataTuple.ValueItems.InfoString;
             this.Ontology = command.Ontology;
-            this.OrganizationCode = command.OrganizationCode;
+            this.CatalogCode = command.CatalogCode;
             this.InfoId = command.DataTuple.IdItems.InfoString;
             this.LocalEntityId = command.LocalEntityId;
             this.ClientType = command.ClientType.ToName();

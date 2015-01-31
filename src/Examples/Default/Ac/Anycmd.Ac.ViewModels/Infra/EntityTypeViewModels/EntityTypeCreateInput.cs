@@ -33,7 +33,7 @@ namespace Anycmd.Ac.ViewModels.Infra.EntityTypeViewModels
         [Required]
         public string Name { get; set; }
         [Required]
-        public bool IsOrganizational { get; set; }
+        public bool IsCatalogued { get; set; }
         /// <summary>
         /// 
         /// </summary>

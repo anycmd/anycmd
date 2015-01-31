@@ -20,7 +20,7 @@ namespace Anycmd.Edi.ViewModels
         /// <summary>
         /// 
         /// </summary>
-        public string OrganizationCode { get; set; }
+        public string CatalogCode { get; set; }
         /// <summary>
         /// 
         /// </summary>

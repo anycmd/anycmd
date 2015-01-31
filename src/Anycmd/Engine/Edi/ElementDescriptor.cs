@@ -160,7 +160,7 @@ namespace Anycmd.Engine.Edi
 				{
 					_isCodeValueDetected = true;
 					_isCodeValue = false;
-					if (this.Ontology.Ontology.IsOrganizationalEntity && this.Element.Code.Equals("ZZJGM", StringComparison.OrdinalIgnoreCase))
+					if (this.Ontology.Ontology.IsCataloguedEntity && this.Element.Code.Equals("ZZJGM", StringComparison.OrdinalIgnoreCase))
 					{
 						_isCodeValue = true;
 					}
@@ -252,11 +252,11 @@ namespace Anycmd.Engine.Edi
 			}
 			// 是否能成功翻译，如果不能成功翻译则会返回原始值。
 			// 翻译目录码为目录名
-			if (this.Ontology.Ontology.IsOrganizationalEntity
+			if (this.Ontology.Ontology.IsCataloguedEntity
 				&& this.Element.Code.Equals("ZZJGM", StringComparison.OrdinalIgnoreCase))
 			{
-				OrganizationState org;
-				return Host.OrganizationSet.TryGetOrganization(value, out org) ? org.Name : "非法的无法翻译的目录码";
+				CatalogState org;
+				return Host.CatalogSet.TryGetCatalog(value, out org) ? org.Name : "非法的无法翻译的目录码";
 			}
 			// 翻译节点标识为节点名
 			else if (this == this.Ontology.CreateNodeIdElement)

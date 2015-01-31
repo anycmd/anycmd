@@ -26,7 +26,7 @@ namespace Anycmd.Engine.Edi
                 Name = process.Name,
                 NetPort = process.NetPort,
                 OntologyId = process.OntologyId,
-                OrganizationCode = process.OrganizationCode,
+                CatalogCode = process.CatalogCode,
                 Type = process.Type
             };
         }
@@ -60,7 +60,7 @@ namespace Anycmd.Engine.Edi
 
         public Guid OntologyId { get; private set; }
 
-        public string OrganizationCode { get; private set; }
+        public string CatalogCode { get; private set; }
 
         public string Description { get; private set; }
 
@@ -75,7 +75,7 @@ namespace Anycmd.Engine.Edi
                 NetPort == other.NetPort &&
                 IsEnabled == other.IsEnabled &&
                 OntologyId == other.OntologyId &&
-                OrganizationCode == other.OrganizationCode;
+                CatalogCode == other.CatalogCode;
         }
     }
 }

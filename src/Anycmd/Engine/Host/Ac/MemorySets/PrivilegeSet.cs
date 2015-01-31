@@ -99,7 +99,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             IHandler<PrivilegeUpdatedEvent>,
             IHandler<RemovePrivilegeCommand>,
             IHandler<PrivilegeRemovedEvent>,
-            IHandler<OrganizationRemovingEvent>,
+            IHandler<CatalogRemovingEvent>,
             IHandler<RoleRemovingEvent>,
             IHandler<FunctionRemovingEvent>,
             IHandler<MenuRemovingEvent>,
@@ -127,7 +127,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 messageDispatcher.Register((IHandler<PrivilegeUpdatedEvent>)this);
                 messageDispatcher.Register((IHandler<RemovePrivilegeCommand>)this);
                 messageDispatcher.Register((IHandler<PrivilegeRemovedEvent>)this);
-                messageDispatcher.Register((IHandler<OrganizationRemovingEvent>)this);
+                messageDispatcher.Register((IHandler<CatalogRemovingEvent>)this);
                 messageDispatcher.Register((IHandler<RoleRemovingEvent>)this);
                 messageDispatcher.Register((IHandler<FunctionRemovingEvent>)this);
                 messageDispatcher.Register((IHandler<MenuRemovingEvent>)this);
@@ -136,11 +136,11 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 messageDispatcher.Register((IHandler<ResourceTypeRemovingEvent>)this);
             }
 
-            public void Handle(OrganizationRemovingEvent message)
+            public void Handle(CatalogRemovingEvent message)
             {
                 var host = _set._host;
                 var privilegeList = _set._privilegeList;
-                foreach (var item in privilegeList.Where(a => a.ObjectType == AcElementType.Organization && a.ObjectInstanceId == message.Source.Id))
+                foreach (var item in privilegeList.Where(a => a.ObjectType == AcElementType.Catalog && a.ObjectInstanceId == message.Source.Id))
                 {
                     host.Handle(new RemovePrivilegeCommand(message.UserSession, item.Id));
                 }
@@ -296,9 +296,9 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                                 throw new ValidationException("意外的角色标识" + input.SubjectInstanceId);
                             }
                             break;
-                        case AcElementType.Organization:
-                            OrganizationState org;
-                            if (!host.OrganizationSet.TryGetOrganization(input.SubjectInstanceId, out org))
+                        case AcElementType.Catalog:
+                            CatalogState org;
+                            if (!host.CatalogSet.TryGetCatalog(input.SubjectInstanceId, out org))
                             {
                                 throw new ValidationException("意外的目录标识" + input.SubjectInstanceId);
                             }
@@ -312,9 +312,9 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     {
                         case AcElementType.Undefined:
                             throw new ValidationException("意外的账户权限类型" + input.SubjectType);
-                        case AcElementType.Organization:
-                            OrganizationState organization;
-                            if (!host.OrganizationSet.TryGetOrganization(input.ObjectInstanceId, out organization))
+                        case AcElementType.Catalog:
+                            CatalogState catalog;
+                            if (!host.CatalogSet.TryGetCatalog(input.ObjectInstanceId, out catalog))
                             {
                                 throw new ValidationException("意外的目录标识" + input.ObjectInstanceId);
                             }
@@ -412,8 +412,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                         // TODO:考虑上角色继承
                         /*
                          * 其实就是在当前账户的角色集中元素的数目有增加时执行责任分离验证。
-                         * 这个地方没考虑清楚。可能只考虑（Account, Role）是对的，没有办法去考虑上Organization上的角色、Group上的角色，甚至别的Account委托过来的角色。
-                         * 那些角色是在进入这些场景、边界之后才会并入到当前账户的角色集的，离开那个边界时就会收回。也就是说可能需要在当前活动的账户进入某个Organization、Group、和变身为某人时执行一下职责分离约束规则。
+                         * 这个地方没考虑清楚。可能只考虑（Account, Role）是对的，没有办法去考虑上Catalog上的角色、Group上的角色，甚至别的Account委托过来的角色。
+                         * 那些角色是在进入这些场景、边界之后才会并入到当前账户的角色集的，离开那个边界时就会收回。也就是说可能需要在当前活动的账户进入某个Catalog、Group、和变身为某人时执行一下职责分离约束规则。
                          */
                         string msg;
                         if (!host.SsdSetSet.CheckRoles(roles, out msg))
@@ -421,14 +421,14 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                             throw new ValidationException(msg);
                         }
                     }
-                    if (subjectType == AcElementType.Organization && acObjectType == AcElementType.Organization)
+                    if (subjectType == AcElementType.Catalog && acObjectType == AcElementType.Catalog)
                     {
                         if (input.SubjectInstanceId == input.ObjectInstanceId)
                         {
                             throw new ValidationException("组织机构不能继承自己");
                         }
                         var descendantIds = new HashSet<Guid>();
-                        RecDescendantOrganizations(input.SubjectInstanceId, descendantIds);
+                        RecDescendantCatalogs(input.SubjectInstanceId, descendantIds);
                         if (descendantIds.Contains(input.SubjectInstanceId))
                         {
                             throw new ValidationException("组织机构不能继承自己的子孙");
@@ -488,14 +488,14 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
             }
 
-            private void RecDescendantOrganizations(Guid organizationId, HashSet<Guid> parentIds)
+            private void RecDescendantCatalogs(Guid catalogId, HashSet<Guid> parentIds)
             {
                 if (parentIds == null)
                 {
                     parentIds = new HashSet<Guid>();
                 }
                 var privilegeList = _set._privilegeList;
-                foreach (var item in privilegeList.Where(a => a.SubjectType == AcElementType.Organization && a.SubjectInstanceId == organizationId && a.ObjectType == AcElementType.Organization))
+                foreach (var item in privilegeList.Where(a => a.SubjectType == AcElementType.Catalog && a.SubjectInstanceId == catalogId && a.ObjectType == AcElementType.Catalog))
                 {
                     RecDescendantRoles(item.ObjectInstanceId, parentIds);
                     parentIds.Add(item.ObjectInstanceId);

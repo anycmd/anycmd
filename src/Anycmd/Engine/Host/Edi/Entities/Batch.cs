@@ -26,7 +26,7 @@ namespace Anycmd.Engine.Host.Edi.Entities
                 IncludeDescendants = input.IncludeDescendants,
                 NodeId = input.NodeId,
                 OntologyId = input.OntologyId,
-                OrganizationCode = input.OrganizationCode,
+                CatalogCode = input.CatalogCode,
                 Title = input.Title,
                 Total = 0,
                 Type = input.Type,
@@ -64,7 +64,7 @@ namespace Anycmd.Engine.Host.Edi.Entities
         /// <summary>
         /// 
         /// </summary>
-        public string OrganizationCode { get; set; }
+        public string CatalogCode { get; set; }
         /// <summary>
         /// 
         /// </summary>

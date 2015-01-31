@@ -34,7 +34,7 @@ namespace Anycmd.Engine.Host.Ac.Identity
                 Mobile = input.Mobile,
                 Name = input.Name,
                 Nickname = input.Nickname,
-                OrganizationCode = input.OrganizationCode,
+                CatalogCode = input.CatalogCode,
                 Qq = input.Qq,
                 QuickQuery = input.QuickQuery,
                 QuickQuery1 = input.QuickQuery1,
@@ -60,7 +60,7 @@ namespace Anycmd.Engine.Host.Ac.Identity
             this.Mobile = input.Mobile;
             this.Name = input.Name;
             this.Nickname = input.Nickname;
-            this.OrganizationCode = input.OrganizationCode;
+            this.CatalogCode = input.CatalogCode;
             this.Qq = input.Qq;
             this.QuickQuery = input.QuickQuery;
             this.QuickQuery1 = input.QuickQuery1;

@@ -123,22 +123,22 @@ namespace Anycmd.Engine.Host.Edi.Handlers
                 return DiscriminateResult.No;
             }
             #endregion
-            if (context.Ontology.Ontology.IsOrganizationalEntity)
+            if (context.Ontology.Ontology.IsCataloguedEntity)
             {
-                // Level5OrganizationAction 如果是目录型本体且当前实体所属的目录的这个本体动作不需要审核则不审核
-                #region Level5OrganizationAction
-                OrganizationState org;
-                if (!context.Host.OrganizationSet.TryGetOrganization(context.OrganizationCode, out org))
+                // Level5CatalogAction 如果是目录型本体且当前实体所属的目录的这个本体动作不需要审核则不审核
+                #region Level5CatalogAction
+                CatalogState org;
+                if (!context.Host.CatalogSet.TryGetCatalog(context.CatalogCode, out org))
                 {
-                    throw new AnycmdException("非法的目录码" + context.OrganizationCode);
+                    throw new AnycmdException("非法的目录码" + context.CatalogCode);
                 }
-                OntologyOrganizationState ontologyOrg;
-                if (!context.Ontology.Organizations.TryGetValue(org, out ontologyOrg))
+                OntologyCatalogState ontologyOrg;
+                if (!context.Ontology.Catalogs.TryGetValue(org, out ontologyOrg))
                 {
                     context.Exception = new AnycmdException("非法的目录码。非法的目录码的命令应该未验证通过，不应该走到这一步");
                     throw context.Exception;
                 }
-                var orgActions = ontologyOrg.OrganizationActions;
+                var orgActions = ontologyOrg.CatalogActions;
                 if (!orgActions.ContainsKey(context.Command.Verb) || orgActions[context.Command.Verb].AuditType == AuditType.NotAudit)
                 {
                     return DiscriminateResult.No;

@@ -24,7 +24,7 @@ namespace Anycmd.Engine.Ac
         private List<FunctionState> _authorizedFunctions;
         private List<PrivilegeState> _accountPrivileges;
 
-        private HashSet<OrganizationState> _organizations;
+        private HashSet<CatalogState> _catalogs;
         private HashSet<RoleState> _roles;
         private HashSet<GroupState> _groups;
         private HashSet<FunctionState> _functions;
@@ -37,7 +37,7 @@ namespace Anycmd.Engine.Ac
             this._userSession = userSession;
         }
 
-        public HashSet<OrganizationState> Organizations
+        public HashSet<CatalogState> Catalogs
         {
             get
             {
@@ -45,7 +45,7 @@ namespace Anycmd.Engine.Ac
                 {
                     Init();
                 }
-                return _organizations;
+                return _catalogs;
             }
         }
 
@@ -147,11 +147,11 @@ namespace Anycmd.Engine.Ac
                 {
                     _authorizedRoleIds.Add(role.Id);
                 }
-                foreach (var organization in this.Organizations)
+                foreach (var catalog in this.Catalogs)
                 {
-                    var organization1 = organization;
+                    var catalog1 = catalog;
                     foreach (var item in _acDomain.PrivilegeSet.Where(a =>
-                        a.SubjectType == AcElementType.Organization && a.SubjectInstanceId == organization1.Id))
+                        a.SubjectType == AcElementType.Catalog && a.SubjectInstanceId == catalog1.Id))
                     {
                         switch (item.ObjectType)
                         {
@@ -285,11 +285,11 @@ namespace Anycmd.Engine.Ac
                         _authorizedFunctionIds.Add(privilegeBigram.ObjectInstanceId);
                     }
                     // 追加账户所在目录的直接功能授权
-                    foreach (var organization in this.Organizations)
+                    foreach (var catalog in this.Catalogs)
                     {
-                        var organization1 = organization;
+                        var catalog1 = catalog;
                         foreach (var item in _acDomain.PrivilegeSet.Where(a =>
-                            a.AcRecordType == AcRecordType.OrganizationFunction && a.SubjectInstanceId == organization1.Id))
+                            a.AcRecordType == AcRecordType.CatalogFunction && a.SubjectInstanceId == catalog1.Id))
                         {
                             var functionId = item.ObjectInstanceId;
                             _authorizedFunctionIds.Add(functionId);
@@ -384,7 +384,7 @@ namespace Anycmd.Engine.Ac
         private void Init()
         {
             if (_initialized) return;
-            var organizations = new HashSet<OrganizationState>();
+            var catalogs = new HashSet<CatalogState>();
             var roles = new HashSet<RoleState>();
             var groups = new HashSet<GroupState>();
             var functions = new HashSet<FunctionState>();
@@ -398,13 +398,13 @@ namespace Anycmd.Engine.Ac
                         break;
                     case AcElementType.Account:
                         break;
-                    case AcElementType.Organization:
+                    case AcElementType.Catalog:
                         {
-                            var organizationId = accountPrivilege.ObjectInstanceId;
-                            OrganizationState organization;
-                            if (_acDomain.OrganizationSet.TryGetOrganization(organizationId, out organization))
+                            var catalogId = accountPrivilege.ObjectInstanceId;
+                            CatalogState catalog;
+                            if (_acDomain.CatalogSet.TryGetCatalog(catalogId, out catalog))
                             {
-                                organizations.Add(organization);
+                                catalogs.Add(catalog);
                             }
                             break;
                         }
@@ -466,7 +466,7 @@ namespace Anycmd.Engine.Ac
                         break;
                 }
             }
-            this._organizations = organizations;
+            this._catalogs = catalogs;
             this._roles = roles;
             this._groups = groups;
             this._functions = functions;

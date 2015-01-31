@@ -1,11 +1,13 @@
 ﻿
-namespace Anycmd.Engine.Edi.Abstractions {
+namespace Anycmd.Engine.Edi.Abstractions
+{
     using System;
 
     /// <summary>
     /// 定义数据交换节点实体。
     /// </summary>
-    public interface INode {
+    public interface INode
+    {
         /// <summary>
         /// 业务节点标识。这是“我节点”给远端节点分配的标识。
         /// </summary>
@@ -29,7 +31,7 @@ namespace Anycmd.Engine.Edi.Abstractions {
         /// <summary>
         /// 接入单位名称
         /// </summary>
-        string Organization { get; }
+        string Catalog { get; }
         /// <summary>
         /// 专员
         /// </summary>

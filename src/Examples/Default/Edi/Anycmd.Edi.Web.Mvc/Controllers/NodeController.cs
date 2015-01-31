@@ -104,7 +104,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
         [By("xuexs")]
         [Description("节点目录")]
         [Guid("F2EA000E-9D4A-4665-BB53-9B7790F897E4")]
-        public ViewResultBase Organizations()
+        public ViewResultBase Catalogs()
         {
             return ViewResult();
         }
@@ -411,7 +411,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             return this.JsonResult(new MiniGrid<NodeTr> { total = queryable.Count(), data = list });
         }
 
-        #region GetOrganizationNodesByParentId
+        #region GetCatalogNodesByParentId
         /// <summary>
         /// 获取给定本体的目录
         /// </summary>
@@ -419,7 +419,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
         [By("xuexs")]
         [Description("获取给定本体的目录")]
         [Guid("4C357D12-2DCD-44C7-8A82-86C5514E5709")]
-        public ActionResult GetOrganizationNodesByParentId(Guid? nodeId, Guid? ontologyId, Guid? parentId)
+        public ActionResult GetCatalogNodesByParentId(Guid? nodeId, Guid? ontologyId, Guid? parentId)
         {
             if (!nodeId.HasValue)
             {
@@ -441,20 +441,20 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             string parentCode = null;
             if (parentId.HasValue)
             {
-                OrganizationState org;
-                if (!AcDomain.OrganizationSet.TryGetOrganization(parentId.Value, out org))
+                CatalogState org;
+                if (!AcDomain.CatalogSet.TryGetCatalog(parentId.Value, out org))
                 {
                     throw new ValidationException("意外的目录标识" + parentId);
                 }
                 parentCode = org.Code;
             }
-            var ontologyOrgs = ontology.Organizations;
-            var orgs = AcDomain.OrganizationSet.Where(ontologyOrgs.ContainsKey);
-            var noos = GetRequiredService<IRepository<NodeOntologyOrganization>>().AsQueryable().Where(a => a.OntologyId == ontologyId.Value && a.NodeId == nodeId.Value).ToList<NodeOntologyOrganization>();
+            var ontologyOrgs = ontology.Catalogs;
+            var orgs = AcDomain.CatalogSet.Where(ontologyOrgs.ContainsKey);
+            var noos = GetRequiredService<IRepository<NodeOntologyCatalog>>().AsQueryable().Where(a => a.OntologyId == ontologyId.Value && a.NodeId == nodeId.Value).ToList<NodeOntologyCatalog>();
             return this.JsonResult(orgs.Where(a => string.Equals(a.ParentCode, parentCode, StringComparison.OrdinalIgnoreCase)).OrderBy(a => a.Code)
                 .Select(a =>
                 {
-                    var norg = noos.FirstOrDefault(b => b.OrganizationId == a.Id);
+                    var norg = noos.FirstOrDefault(b => b.CatalogId == a.Id);
                     bool @checked = true;
                     if (norg == null)
                     {
@@ -471,7 +471,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                         a.Code,
                         a.Name,
                         ParentId = a.ParentCode,
-                        isLeaf = AcDomain.OrganizationSet.All(b => !a.Code.Equals(b.ParentCode, StringComparison.OrdinalIgnoreCase)),
+                        isLeaf = AcDomain.CatalogSet.All(b => !a.Code.Equals(b.ParentCode, StringComparison.OrdinalIgnoreCase)),
                         expanded = false,
                         @checked = @checked,
                         NodeId = nodeId,
@@ -481,7 +481,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
         }
         #endregion
 
-        #region AddOrRemoveOrganizations
+        #region AddOrRemoveCatalogs
         /// <summary>
         /// 添加或移除本体目录
         /// </summary>
@@ -490,21 +490,21 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
         [Description("添加或移除本体目录")]
         [Guid("58281438-8B27-49FA-AE53-2C569D51EC63")]
         [HttpPost]
-        public ActionResult AddOrRemoveOrganizations(Guid nodeId, Guid ontologyId, string addOrganizationIDs, string removeOrganizationIDs)
+        public ActionResult AddOrRemoveCatalogs(Guid nodeId, Guid ontologyId, string addCatalogIds, string removeCatalogIds)
         {
-            string[] addIDs = addOrganizationIDs.Split(',');
-            string[] removeIDs = removeOrganizationIDs.Split(',');
+            string[] addIDs = addCatalogIds.Split(',');
+            string[] removeIDs = removeCatalogIds.Split(',');
             foreach (var item in addIDs)
             {
                 if (!string.IsNullOrEmpty(item))
                 {
-                    var organizationId = new Guid(item);
-                    AcDomain.Handle(new NodeOntologyOrganizationCreateInput
+                    var catalogId = new Guid(item);
+                    AcDomain.Handle(new NodeOntologyCatalogCreateInput
                     {
                         Id = Guid.NewGuid(),
                         NodeId = nodeId,
                         OntologyId = ontologyId,
-                        OrganizationId = organizationId
+                        CatalogId = catalogId
                     }.ToCommand(UserSession));
                 }
             }
@@ -512,11 +512,11 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             {
                 if (!string.IsNullOrEmpty(item))
                 {
-                    var organizationId = new Guid(item);
-                    AcDomain.Handle(new RemoveNodeOntologyOrganizationCommand(UserSession, nodeId, ontologyId, organizationId));
+                    var catalogId = new Guid(item);
+                    AcDomain.Handle(new RemoveNodeOntologyCatalogCommand(UserSession, nodeId, ontologyId, catalogId));
                 }
             }
-            GetRequiredService<IRepository<NodeOntologyOrganization>>().Context.Commit();
+            GetRequiredService<IRepository<NodeOntologyCatalog>>().Context.Commit();
 
             return this.JsonResult(new ResponseData { success = true });
         }
@@ -606,7 +606,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                             Id = entity.Id,
                             Mobile = entity.Mobile,
                             Name = entity.Name,
-                            Organization = entity.Organization,
+                            Catalog = entity.Catalog,
                             PublicKey = entity.PublicKey,
                             Qq = entity.Qq,
                             SecretKey = entity.SecretKey,

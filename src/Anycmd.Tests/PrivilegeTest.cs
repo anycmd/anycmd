@@ -159,7 +159,7 @@ namespace Anycmd.Tests
         }
 
         [Fact]
-        public void OrganizationSubjectTypePrivilege()
+        public void CatalogSubjectTypePrivilege()
         {
             // TODO:实现单元测试
         }
@@ -182,7 +182,7 @@ namespace Anycmd.Tests
                 {
                     Id = Guid.NewGuid(),
                     SubjectInstanceId = Guid.NewGuid(),
-                    SubjectType = "Group",// 用户类别的主体类型只有Account、Organization、Role。Group不是合法的主体类型所以会报错。
+                    SubjectType = "Group",// 用户类别的主体类型只有Account、Catalog、Role。Group不是合法的主体类型所以会报错。
                     AcContent = null,
                     AcContentType = null,
                     ObjectInstanceId = Guid.NewGuid(),

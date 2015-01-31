@@ -51,7 +51,7 @@ namespace Anycmd.Engine.Host
         /// 
         /// </summary>
         /// <returns></returns>
-        IList<Organization> GetOrganizations();
+        IList<Catalog> GetCatalogs();
 
         /// <summary>
         /// 

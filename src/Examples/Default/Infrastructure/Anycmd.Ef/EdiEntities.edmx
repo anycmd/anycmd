@@ -63,7 +63,7 @@
           <Property Name="NodeId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Type" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Title" Type="nvarchar" MaxLength="200" Nullable="false" />
-          <Property Name="OrganizationCode" Type="varchar" MaxLength="50" />
+          <Property Name="CatalogCode" Type="varchar" MaxLength="50" />
           <Property Name="IncludeDescendants" Type="bit" />
           <Property Name="Total" Type="int" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="50" />
@@ -223,7 +223,7 @@
           <Property Name="Code" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Actions" Type="varchar(max)" />
           <Property Name="Abstract" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Organization" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Catalog" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Steward" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Telephone" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Email" Type="varchar" MaxLength="200" />
@@ -323,14 +323,14 @@
           <Property Name="RowGuid" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Etag" Type="timestamp" StoreGeneratedPattern="Computed" />
         </EntityType>
-        <EntityType Name="NodeOntologyOrganization">
+        <EntityType Name="NodeOntologyCatalog">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="NodeId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="OntologyId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="OrganizationId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CatalogId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Actions" Type="varchar(max)" />
           <Property Name="AcContentType" Type="varchar" MaxLength="50" />
           <Property Name="AcContent" Type="varchar" MaxLength="2000" />
@@ -370,7 +370,7 @@
           <Property Name="EntityProviderId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="EntityDatabaseId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="IsSystem" Type="bit" Nullable="false" />
-          <Property Name="IsOrganizationalEntity" Type="bit" Nullable="false" />
+          <Property Name="IsCataloguedEntity" Type="bit" Nullable="false" />
           <Property Name="IsLogicalDeletionEntity" Type="bit" Nullable="false" />
           <Property Name="Triggers" Type="varchar(max)" />
           <Property Name="MessageDatabaseId" Type="uniqueidentifier" Nullable="false" />
@@ -406,13 +406,13 @@
           <Property Name="RowGuid" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Etag" Type="timestamp" StoreGeneratedPattern="Computed" />
         </EntityType>
-        <EntityType Name="OntologyOrganization">
+        <EntityType Name="OntologyCatalog">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="OntologyId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="OrganizationId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CatalogId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Actions" Type="varchar(max)" />
           <Property Name="AcContentType" Type="varchar" MaxLength="50" />
           <Property Name="AcContent" Type="varchar" MaxLength="2000" />
@@ -453,7 +453,7 @@
           </Key>
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="OntologyId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="OrganizationCode" Type="varchar" MaxLength="50" />
+          <Property Name="CatalogCode" Type="varchar" MaxLength="50" />
           <Property Name="Type" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="NetPort" Type="int" Nullable="false" />
@@ -683,26 +683,26 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_NodeOntologyOrganization_Node">
+        <Association Name="FK_NodeOntologyCatalog_Node">
           <End Role="Node" Type="Self.Node" Multiplicity="1" />
-          <End Role="NodeOntologyOrganization" Type="Self.NodeOntologyOrganization" Multiplicity="*" />
+          <End Role="NodeOntologyCatalog" Type="Self.NodeOntologyCatalog" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Node">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="NodeOntologyOrganization">
+            <Dependent Role="NodeOntologyCatalog">
               <PropertyRef Name="NodeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_NodeOntologyOrganization_Ontology">
+        <Association Name="FK_NodeOntologyCatalog_Ontology">
           <End Role="Ontology" Type="Self.Ontology" Multiplicity="1" />
-          <End Role="NodeOntologyOrganization" Type="Self.NodeOntologyOrganization" Multiplicity="*" />
+          <End Role="NodeOntologyCatalog" Type="Self.NodeOntologyCatalog" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Ontology">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="NodeOntologyOrganization">
+            <Dependent Role="NodeOntologyCatalog">
               <PropertyRef Name="OntologyId" />
             </Dependent>
           </ReferentialConstraint>
@@ -731,14 +731,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_OntologyOrganization_Ontology">
+        <Association Name="FK_OntologyCatalog_Ontology">
           <End Role="Ontology" Type="Self.Ontology" Multiplicity="1" />
-          <End Role="OntologyOrganization" Type="Self.OntologyOrganization" Multiplicity="*" />
+          <End Role="OntologyCatalog" Type="Self.OntologyCatalog" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Ontology">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="OntologyOrganization">
+            <Dependent Role="OntologyCatalog">
               <PropertyRef Name="OntologyId" />
             </Dependent>
           </ReferentialConstraint>
@@ -780,10 +780,10 @@
           <EntitySet Name="NodeElementAction" EntityType="Self.NodeElementAction" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NodeElementCare" EntityType="Self.NodeElementCare" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NodeOntologyCare" EntityType="Self.NodeOntologyCare" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="NodeOntologyOrganization" EntityType="Self.NodeOntologyOrganization" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NodeOntologyCatalog" EntityType="Self.NodeOntologyCatalog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NodeTopic" EntityType="Self.NodeTopic" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Ontology" EntityType="Self.Ontology" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="OntologyOrganization" EntityType="Self.OntologyOrganization" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OntologyCatalog" EntityType="Self.OntologyCatalog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Plugin" EntityType="Self.Plugin" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Process" EntityType="Self.Process" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Topic" EntityType="Self.Topic" Schema="dbo" store:Type="Tables" />
@@ -851,13 +851,13 @@
             <End Role="Ontology" EntitySet="Ontology" />
             <End Role="NodeOntologyCare" EntitySet="NodeOntologyCare" />
           </AssociationSet>
-          <AssociationSet Name="FK_NodeOntologyOrganization_Node" Association="Self.FK_NodeOntologyOrganization_Node">
+          <AssociationSet Name="FK_NodeOntologyCatalog_Node" Association="Self.FK_NodeOntologyCatalog_Node">
             <End Role="Node" EntitySet="Node" />
-            <End Role="NodeOntologyOrganization" EntitySet="NodeOntologyOrganization" />
+            <End Role="NodeOntologyCatalog" EntitySet="NodeOntologyCatalog" />
           </AssociationSet>
-          <AssociationSet Name="FK_NodeOntologyOrganization_Ontology" Association="Self.FK_NodeOntologyOrganization_Ontology">
+          <AssociationSet Name="FK_NodeOntologyCatalog_Ontology" Association="Self.FK_NodeOntologyCatalog_Ontology">
             <End Role="Ontology" EntitySet="Ontology" />
-            <End Role="NodeOntologyOrganization" EntitySet="NodeOntologyOrganization" />
+            <End Role="NodeOntologyCatalog" EntitySet="NodeOntologyCatalog" />
           </AssociationSet>
           <AssociationSet Name="FK_NodeTopic_Node" Association="Self.FK_NodeTopic_Node">
             <End Role="Node" EntitySet="Node" />
@@ -867,9 +867,9 @@
             <End Role="Topic" EntitySet="Topic" />
             <End Role="NodeTopic" EntitySet="NodeTopic" />
           </AssociationSet>
-          <AssociationSet Name="FK_OntologyOrganization_Ontology" Association="Self.FK_OntologyOrganization_Ontology">
+          <AssociationSet Name="FK_OntologyCatalog_Ontology" Association="Self.FK_OntologyCatalog_Ontology">
             <End Role="Ontology" EntitySet="Ontology" />
-            <End Role="OntologyOrganization" EntitySet="OntologyOrganization" />
+            <End Role="OntologyCatalog" EntitySet="OntologyCatalog" />
           </AssociationSet>
           <AssociationSet Name="FK_Process_Ontology" Association="Self.FK_Process_Ontology">
             <End Role="Ontology" EntitySet="Ontology" />
@@ -897,10 +897,10 @@
           <EntitySet Name="NodeElementActions" EntityType="AnycmdModel.NodeElementAction" />
           <EntitySet Name="NodeElementCares" EntityType="AnycmdModel.NodeElementCare" />
           <EntitySet Name="NodeOntologyCares" EntityType="AnycmdModel.NodeOntologyCare" />
-          <EntitySet Name="NodeOntologyOrganizations" EntityType="AnycmdModel.NodeOntologyOrganization" />
+          <EntitySet Name="NodeOntologyCatalogs" EntityType="AnycmdModel.NodeOntologyCatalog" />
           <EntitySet Name="NodeTopics" EntityType="AnycmdModel.NodeTopic" />
           <EntitySet Name="Ontologies" EntityType="AnycmdModel.Ontology" />
-          <EntitySet Name="OntologyOrganizations" EntityType="AnycmdModel.OntologyOrganization" />
+          <EntitySet Name="OntologyCatalogs" EntityType="AnycmdModel.OntologyCatalog" />
           <EntitySet Name="Plugins" EntityType="AnycmdModel.Plugin" />
           <EntitySet Name="Processes" EntityType="AnycmdModel.Process" />
           <EntitySet Name="Topics" EntityType="AnycmdModel.Topic" />
@@ -968,17 +968,17 @@
             <End Role="Node" EntitySet="Nodes" />
             <End Role="NodeOntologyCare" EntitySet="NodeOntologyCares" />
           </AssociationSet>
-          <AssociationSet Name="FK_NodeOntologyOrganization_Node" Association="AnycmdModel.FK_NodeOntologyOrganization_Node">
+          <AssociationSet Name="FK_NodeOntologyCatalog_Node" Association="AnycmdModel.FK_NodeOntologyCatalog_Node">
             <End Role="Node" EntitySet="Nodes" />
-            <End Role="NodeOntologyOrganization" EntitySet="NodeOntologyOrganizations" />
+            <End Role="NodeOntologyCatalog" EntitySet="NodeOntologyCatalogs" />
           </AssociationSet>
           <AssociationSet Name="FK_NodeOntologyCare_Ontology" Association="AnycmdModel.FK_NodeOntologyCare_Ontology">
             <End Role="Ontology" EntitySet="Ontologies" />
             <End Role="NodeOntologyCare" EntitySet="NodeOntologyCares" />
           </AssociationSet>
-          <AssociationSet Name="FK_NodeOntologyOrganization_Ontology" Association="AnycmdModel.FK_NodeOntologyOrganization_Ontology">
+          <AssociationSet Name="FK_NodeOntologyCatalog_Ontology" Association="AnycmdModel.FK_NodeOntologyCatalog_Ontology">
             <End Role="Ontology" EntitySet="Ontologies" />
-            <End Role="NodeOntologyOrganization" EntitySet="NodeOntologyOrganizations" />
+            <End Role="NodeOntologyCatalog" EntitySet="NodeOntologyCatalogs" />
           </AssociationSet>
           <AssociationSet Name="FK_NodeEventSubject_EventSubject" Association="AnycmdModel.FK_NodeEventSubject_EventSubject">
             <End Role="Topic" EntitySet="Topics" />
@@ -988,9 +988,9 @@
             <End Role="Ontology" EntitySet="Ontologies" />
             <End Role="Topic" EntitySet="Topics" />
           </AssociationSet>
-          <AssociationSet Name="FK_OntologyOrganization_Ontology" Association="AnycmdModel.FK_OntologyOrganization_Ontology">
+          <AssociationSet Name="FK_OntologyCatalog_Ontology" Association="AnycmdModel.FK_OntologyCatalog_Ontology">
             <End Role="Ontology" EntitySet="Ontologies" />
-            <End Role="OntologyOrganization" EntitySet="OntologyOrganizations" />
+            <End Role="OntologyCatalog" EntitySet="OntologyCatalogs" />
           </AssociationSet>
           <AssociationSet Name="FK_Process_Ontology" Association="AnycmdModel.FK_Process_Ontology">
             <End Role="Ontology" EntitySet="Ontologies" />
@@ -1055,7 +1055,7 @@
           <Property Name="NodeId" Type="Guid" Nullable="false" />
           <Property Name="Type" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Title" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="OrganizationCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CatalogCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="IncludeDescendants" Type="Boolean" />
           <Property Name="Total" Type="Int32" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -1215,7 +1215,7 @@
           <Property Name="Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Actions" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Abstract" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Organization" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Catalog" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Steward" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Telephone" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Email" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
@@ -1315,14 +1315,14 @@
           <Property Name="AcContentType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="AcContent" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="NodeOntologyOrganization">
+        <EntityType Name="NodeOntologyCatalog">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Guid" Nullable="false" />
           <Property Name="NodeId" Type="Guid" Nullable="false" />
           <Property Name="OntologyId" Type="Guid" Nullable="false" />
-          <Property Name="OrganizationId" Type="Guid" Nullable="false" />
+          <Property Name="CatalogId" Type="Guid" Nullable="false" />
           <Property Name="Actions" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="CreateOn" Type="DateTime" Precision="3" />
           <Property Name="CreateUserId" Type="Guid" />
@@ -1362,7 +1362,7 @@
           <Property Name="EntityProviderId" Type="Guid" Nullable="false" />
           <Property Name="EntityDatabaseId" Type="Guid" Nullable="false" />
           <Property Name="IsSystem" Type="Boolean" Nullable="false" />
-          <Property Name="IsOrganizationalEntity" Type="Boolean" Nullable="false" />
+          <Property Name="IsCataloguedEntity" Type="Boolean" Nullable="false" />
           <Property Name="IsLogicalDeletionEntity" Type="Boolean" Nullable="false" />
           <Property Name="Triggers" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="MessageDatabaseId" Type="Guid" Nullable="false" />
@@ -1398,13 +1398,13 @@
           <Property Name="AcContentType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="AcContent" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="OntologyOrganization">
+        <EntityType Name="OntologyCatalog">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Guid" Nullable="false" />
           <Property Name="OntologyId" Type="Guid" Nullable="false" />
-          <Property Name="OrganizationId" Type="Guid" Nullable="false" />
+          <Property Name="CatalogId" Type="Guid" Nullable="false" />
           <Property Name="Actions" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="CreateOn" Type="DateTime" Precision="3" />
           <Property Name="CreateUserId" Type="Guid" />
@@ -1445,7 +1445,7 @@
           </Key>
           <Property Name="Id" Type="Guid" Nullable="false" />
           <Property Name="OntologyId" Type="Guid" Nullable="false" />
-          <Property Name="OrganizationCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CatalogCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Type" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="NetPort" Type="Int32" Nullable="false" />
@@ -1675,14 +1675,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_NodeOntologyOrganization_Node">
+        <Association Name="FK_NodeOntologyCatalog_Node">
           <End Type="AnycmdModel.Node" Role="Node" Multiplicity="1" />
-          <End Type="AnycmdModel.NodeOntologyOrganization" Role="NodeOntologyOrganization" Multiplicity="*" />
+          <End Type="AnycmdModel.NodeOntologyCatalog" Role="NodeOntologyCatalog" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Node">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="NodeOntologyOrganization">
+            <Dependent Role="NodeOntologyCatalog">
               <PropertyRef Name="NodeId" />
             </Dependent>
           </ReferentialConstraint>
@@ -1699,14 +1699,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_NodeOntologyOrganization_Ontology">
+        <Association Name="FK_NodeOntologyCatalog_Ontology">
           <End Type="AnycmdModel.Ontology" Role="Ontology" Multiplicity="1" />
-          <End Type="AnycmdModel.NodeOntologyOrganization" Role="NodeOntologyOrganization" Multiplicity="*" />
+          <End Type="AnycmdModel.NodeOntologyCatalog" Role="NodeOntologyCatalog" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Ontology">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="NodeOntologyOrganization">
+            <Dependent Role="NodeOntologyCatalog">
               <PropertyRef Name="OntologyId" />
             </Dependent>
           </ReferentialConstraint>
@@ -1735,14 +1735,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_OntologyOrganization_Ontology">
+        <Association Name="FK_OntologyCatalog_Ontology">
           <End Type="AnycmdModel.Ontology" Role="Ontology" Multiplicity="1" />
-          <End Type="AnycmdModel.OntologyOrganization" Role="OntologyOrganization" Multiplicity="*" />
+          <End Type="AnycmdModel.OntologyCatalog" Role="OntologyCatalog" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Ontology">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="OntologyOrganization">
+            <Dependent Role="OntologyCatalog">
               <PropertyRef Name="OntologyId" />
             </Dependent>
           </ReferentialConstraint>
@@ -1832,7 +1832,7 @@
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Total" ColumnName="Total" />
                 <ScalarProperty Name="IncludeDescendants" ColumnName="IncludeDescendants" />
-                <ScalarProperty Name="OrganizationCode" ColumnName="OrganizationCode" />
+                <ScalarProperty Name="CatalogCode" ColumnName="CatalogCode" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="NodeId" ColumnName="NodeId" />
@@ -2025,7 +2025,7 @@
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Telephone" ColumnName="Telephone" />
                 <ScalarProperty Name="Steward" ColumnName="Steward" />
-                <ScalarProperty Name="Organization" ColumnName="Organization" />
+                <ScalarProperty Name="Catalog" ColumnName="Catalog" />
                 <ScalarProperty Name="Abstract" ColumnName="Abstract" />
                 <ScalarProperty Name="Actions" ColumnName="Actions" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
@@ -2095,9 +2095,9 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="NodeOntologyOrganizations">
-            <EntityTypeMapping TypeName="AnycmdModel.NodeOntologyOrganization">
-              <MappingFragment StoreEntitySet="NodeOntologyOrganization">
+          <EntitySetMapping Name="NodeOntologyCatalogs">
+            <EntityTypeMapping TypeName="AnycmdModel.NodeOntologyCatalog">
+              <MappingFragment StoreEntitySet="NodeOntologyCatalog">
                 <ScalarProperty Name="AcContent" ColumnName="AcContent" />
                 <ScalarProperty Name="AcContentType" ColumnName="AcContentType" />
                 <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
@@ -2109,7 +2109,7 @@
                 <ScalarProperty Name="CreateUserId" ColumnName="CreateUserId" />
                 <ScalarProperty Name="CreateOn" ColumnName="CreateOn" />
                 <ScalarProperty Name="Actions" ColumnName="Actions" />
-                <ScalarProperty Name="OrganizationId" ColumnName="OrganizationId" />
+                <ScalarProperty Name="CatalogId" ColumnName="CatalogId" />
                 <ScalarProperty Name="OntologyId" ColumnName="OntologyId" />
                 <ScalarProperty Name="NodeId" ColumnName="NodeId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -2172,7 +2172,7 @@
                 <ScalarProperty Name="MessageDatabaseId" ColumnName="MessageDatabaseId" />
                 <ScalarProperty Name="Triggers" ColumnName="Triggers" />
                 <ScalarProperty Name="IsLogicalDeletionEntity" ColumnName="IsLogicalDeletionEntity" />
-                <ScalarProperty Name="IsOrganizationalEntity" ColumnName="IsOrganizationalEntity" />
+                <ScalarProperty Name="IsCataloguedEntity" ColumnName="IsCataloguedEntity" />
                 <ScalarProperty Name="IsSystem" ColumnName="IsSystem" />
                 <ScalarProperty Name="EntityDatabaseId" ColumnName="EntityDatabaseId" />
                 <ScalarProperty Name="EntityProviderId" ColumnName="EntityProviderId" />
@@ -2181,9 +2181,9 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="OntologyOrganizations">
-            <EntityTypeMapping TypeName="AnycmdModel.OntologyOrganization">
-              <MappingFragment StoreEntitySet="OntologyOrganization">
+          <EntitySetMapping Name="OntologyCatalogs">
+            <EntityTypeMapping TypeName="AnycmdModel.OntologyCatalog">
+              <MappingFragment StoreEntitySet="OntologyCatalog">
                 <ScalarProperty Name="AcContent" ColumnName="AcContent" />
                 <ScalarProperty Name="AcContentType" ColumnName="AcContentType" />
                 <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
@@ -2195,7 +2195,7 @@
                 <ScalarProperty Name="CreateUserId" ColumnName="CreateUserId" />
                 <ScalarProperty Name="CreateOn" ColumnName="CreateOn" />
                 <ScalarProperty Name="Actions" ColumnName="Actions" />
-                <ScalarProperty Name="OrganizationId" ColumnName="OrganizationId" />
+                <ScalarProperty Name="CatalogId" ColumnName="CatalogId" />
                 <ScalarProperty Name="OntologyId" ColumnName="OntologyId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
@@ -2242,7 +2242,7 @@
                 <ScalarProperty Name="NetPort" ColumnName="NetPort" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="OrganizationCode" ColumnName="OrganizationCode" />
+                <ScalarProperty Name="CatalogCode" ColumnName="CatalogCode" />
                 <ScalarProperty Name="OntologyId" ColumnName="OntologyId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
@@ -2305,10 +2305,10 @@
         <EntityTypeShape EntityType="AnycmdModel.NodeElementAction" Width="1.875" PointX="9.125" PointY="45" />
         <EntityTypeShape EntityType="AnycmdModel.NodeElementCare" Width="1.75" PointX="13.125" PointY="28.25" />
         <EntityTypeShape EntityType="AnycmdModel.NodeOntologyCare" Width="1.625" PointX="3.625" PointY="28.375" />
-        <EntityTypeShape EntityType="AnycmdModel.NodeOntologyOrganization" Width="2.375" PointX="9.625" PointY="28.125" />
+        <EntityTypeShape EntityType="AnycmdModel.NodeOntologyCatalog" Width="2.375" PointX="9.625" PointY="28.125" />
         <EntityTypeShape EntityType="AnycmdModel.NodeTopic" Width="1.625" PointX="6" PointY="49.375" />
         <EntityTypeShape EntityType="AnycmdModel.Ontology" Width="2.125" PointX="0.75" PointY="25.875" />
-        <EntityTypeShape EntityType="AnycmdModel.OntologyOrganization" Width="2.125" PointX="3.625" PointY="20.375" />
+        <EntityTypeShape EntityType="AnycmdModel.OntologyCatalog" Width="2.125" PointX="3.625" PointY="20.375" />
         <EntityTypeShape EntityType="AnycmdModel.Plugin" Width="1.625" PointX="3.75" PointY="0.75" />
         <EntityTypeShape EntityType="AnycmdModel.Process" Width="1.875" PointX="3.625" PointY="59.25" />
         <EntityTypeShape EntityType="AnycmdModel.Topic" Width="1.625" PointX="3.625" PointY="49" />
@@ -2328,12 +2328,12 @@
         <AssociationConnector Association="AnycmdModel.FK_NodeElementCare_Node" />
         <AssociationConnector Association="AnycmdModel.FK_NodeEventSubject_Node" />
         <AssociationConnector Association="AnycmdModel.FK_NodeOntologyCare_Node" />
-        <AssociationConnector Association="AnycmdModel.FK_NodeOntologyOrganization_Node" />
+        <AssociationConnector Association="AnycmdModel.FK_NodeOntologyCatalog_Node" />
         <AssociationConnector Association="AnycmdModel.FK_NodeOntologyCare_Ontology" />
-        <AssociationConnector Association="AnycmdModel.FK_NodeOntologyOrganization_Ontology" />
+        <AssociationConnector Association="AnycmdModel.FK_NodeOntologyCatalog_Ontology" />
         <AssociationConnector Association="AnycmdModel.FK_NodeEventSubject_EventSubject" />
         <AssociationConnector Association="AnycmdModel.FK_EventSubject_Ontology" />
-        <AssociationConnector Association="AnycmdModel.FK_OntologyOrganization_Ontology" />
+        <AssociationConnector Association="AnycmdModel.FK_OntologyCatalog_Ontology" />
         <AssociationConnector Association="AnycmdModel.FK_Process_Ontology" />
       </Diagram>
     </Diagrams>

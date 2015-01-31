@@ -182,29 +182,29 @@ namespace Anycmd.Edi.MessageServices
         }
         #endregion
 
-        #region GetAllOrganizations
-        public GetOrganizationsResponse Any(GetAllOrganizations request)
+        #region GetAllCatalogs
+        public GetCatalogsResponse Any(GetAllCatalogs request)
         {
-            var organizations = new GetOrganizationsResponse()
+            var catalogs = new GetCatalogsResponse()
             {
                 Status = (int)Status.Ok,
                 ReasonPhrase = Status.Ok.ToName()
             };
-            if (host.OrganizationSet != null)
+            if (host.CatalogSet != null)
             {
-                foreach (var item in host.OrganizationSet)
+                foreach (var item in host.CatalogSet)
                 {
-                    var serializableOrganization = new OrganizationData()
+                    var serializableCatalog = new CatalogData()
                     {
                         ParentCode = item.Parent.Code,
                         Name = item.Name,
                         Code = item.Code
                     };
-                    organizations.Organizations.Add(serializableOrganization);
+                    catalogs.Catalogs.Add(serializableCatalog);
                 }
             }
 
-            return organizations;
+            return catalogs;
         }
         #endregion
     }

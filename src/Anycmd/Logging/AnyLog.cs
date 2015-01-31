@@ -52,7 +52,7 @@ namespace Anycmd.Logging
                 Req_UserName = reader.GetNullableString(reader.GetOrdinal("Req_UserName")),
                 Req_IsDumb = reader.GetBoolean(reader.GetOrdinal("Req_IsDumb")),
                 LocalEntityId = reader.GetNullableString(reader.GetOrdinal("LocalEntityId")),
-                OrganizationCode = reader.GetNullableString(reader.GetOrdinal("OrganizationCode")),
+                CatalogCode = reader.GetNullableString(reader.GetOrdinal("CatalogCode")),
                 Req_ReasonPhrase = reader.GetNullableString(reader.GetOrdinal("Req_ReasonPhrase")),
                 ReceivedOn = reader.GetDateTime(reader.GetOrdinal("ReceivedOn"), SystemTime.MinDate),
                 Req_MessageId = reader.GetNullableString(reader.GetOrdinal("Req_MessageId")),
@@ -84,7 +84,7 @@ namespace Anycmd.Logging
             row["ReceivedOn"] = this.ReceivedOn;
             row["CreateOn"] = this.CreateOn;
             row["LocalEntityId"] = this.LocalEntityId;
-            row["OrganizationCode"] = this.OrganizationCode;
+            row["CatalogCode"] = this.CatalogCode;
             row["Req_Verb"] = this.Req_Verb;
             row["InfoFormat"] = this.InfoFormat;
             row["Req_InfoValue"] = this.Req_InfoValue;
@@ -137,7 +137,7 @@ namespace Anycmd.Logging
 
         public string LocalEntityId { get; set; }
 
-        public string OrganizationCode { get; set; }
+        public string CatalogCode { get; set; }
 
         public DateTime ReceivedOn { get; set; }
 

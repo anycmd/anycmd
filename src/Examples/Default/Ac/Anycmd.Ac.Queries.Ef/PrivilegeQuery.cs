@@ -19,13 +19,13 @@ namespace Anycmd.Ac.Queries.Ef
         {
         }
 
-        public List<DicReader> GetPlistOrganizationAccountTrs(string key, string organizationCode
+        public List<DicReader> GetPlistCatalogAccountTrs(string key, string catalogCode
             , bool includeDescendants, PagingInput paging)
         {
             paging.Valid();
-            if (string.IsNullOrEmpty(organizationCode))
+            if (string.IsNullOrEmpty(catalogCode))
             {
-                throw new ArgumentNullException("organizationCode");
+                throw new ArgumentNullException("catalogCode");
             }
             Func<SqlFilter> filter = () =>
             {
@@ -34,18 +34,18 @@ namespace Anycmd.Ac.Queries.Ef
                 parameters.Add(new SqlParameter("key", "%" + key + "%"));
                 if (!includeDescendants)
                 {
-                    parameters.Add(new SqlParameter("OrganizationCode", organizationCode));
-                    filterString += " and a.OrganizationCode=@OrganizationCode";
+                    parameters.Add(new SqlParameter("CatalogCode", catalogCode));
+                    filterString += " and a.CatalogCode=@CatalogCode";
                 }
                 else
                 {
-                    parameters.Add(new SqlParameter("OrganizationCode", organizationCode + "%"));
-                    filterString += " and a.OrganizationCode like @OrganizationCode";
+                    parameters.Add(new SqlParameter("CatalogCode", catalogCode + "%"));
+                    filterString += " and a.CatalogCode like @CatalogCode";
                 }
                 return new SqlFilter(filterString, parameters.ToArray());
             };
 
-            return base.GetPlist("OrganizationAccountTr", filter, paging);
+            return base.GetPlist("CatalogAccountTr", filter, paging);
         }
     }
 }

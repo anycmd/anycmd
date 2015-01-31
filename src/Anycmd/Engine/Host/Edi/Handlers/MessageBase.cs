@@ -94,7 +94,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers
         /// <summary>
         /// 本地目录码
         /// </summary>
-        public string OrganizationCode { get; protected internal set; }
+        public string CatalogCode { get; protected internal set; }
 
         /// <summary>
         /// 客户端类型
@@ -282,7 +282,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers
                 MessageId = this.MessageId,
                 MessageType = this.MessageType,
                 LocalEntityId = this.LocalEntityId,
-                OrganizationCode = this.OrganizationCode,
+                CatalogCode = this.CatalogCode,
                 TimeStamp = this.TimeStamp,
                 From = this.From,
                 RelatesTo = this.RelatesTo,

@@ -3,7 +3,7 @@
     var infoTabView = Html.GetRuntimeUivIew("Details");
     var elementCareTabView = Html.GetRuntimeUivIew("NodeElementCares");
     var permissionTabView = Html.GetRuntimeUivIew("Permissions");
-    var organizationTabView = Html.GetRuntimeUivIew("Organizations");
+    var catalogTabView = Html.GetRuntimeUivIew("Catalogs");
 }
 <div id="Edi_Node_Index_helperSplitter" class="mini-splitter helperSplitter" style="width: 100%; height: 100%;">
     <div showcollapsebutton="true">
@@ -87,9 +87,9 @@
                         <div name="permissionTab" title="@permissionTabView.Title" iconstyle="background:url(/content/icons/16x16/@permissionTabView.Icon)">
                         </div>
                     }
-                    @if (organizationTabView.Permit())
+                    @if (catalogTabView.Permit())
                     {
-                        <div name="organizationTab" title="@organizationTabView.Title" iconstyle="background:url(/content/icons/16x16/@organizationTabView.Icon)">
+                        <div name="catalogTab" title="@catalogTabView.Title" iconstyle="background:url(/content/icons/16x16/@catalogTabView.Icon)">
                         </div>
                     }
                     @{

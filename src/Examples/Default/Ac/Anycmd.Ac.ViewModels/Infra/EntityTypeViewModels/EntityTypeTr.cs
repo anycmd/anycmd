@@ -26,7 +26,7 @@ namespace Anycmd.Ac.ViewModels.Infra.EntityTypeViewModels
             {
                 Code = entityType.Code,
                 Codespace = entityType.Codespace,
-                IsOrganizational = entityType.IsOrganizational,
+                IsCatalogued = entityType.IsCatalogued,
                 CreateOn = entityType.CreateOn,
                 DatabaseId = entityType.DatabaseId,
                 DeveloperId = entityType.DeveloperId,
@@ -58,7 +58,7 @@ namespace Anycmd.Ac.ViewModels.Infra.EntityTypeViewModels
         /// <summary>
         /// 
         /// </summary>
-        public bool IsOrganizational { get; set; }
+        public bool IsCatalogued { get; set; }
         /// <summary>
         /// 
         /// </summary>

@@ -80,7 +80,7 @@ namespace Anycmd.Engine.Edi.Abstractions
         /// <summary>
         /// 接入单位名称
         /// </summary>
-        public string Organization { get; set; }
+        public string Catalog { get; set; }
         /// <summary>
         /// 专员
         /// </summary>

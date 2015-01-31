@@ -4,8 +4,8 @@
 			<span style="padding-left: 5px; padding-right: 10px;">目录</span>
 		</div>
 		<div class="mini-fit">
-			<ul id="treeOrganization" class="mini-tree" style="height: 100%;" 
-				url="@Url.Action("GetNodesByParentId", "Organization", new { area = "Ac" })"
+			<ul id="treeCatalog" class="mini-tree" style="height: 100%;" 
+				url="@Url.Action("GetNodesByParentId", "Catalog", new { area = "Ac" })"
 				showtreeicon="true" textfield="Name" expandOnLoad="true"
 				idfield="Id" parentfield="ParentId" resultastree="false">
 			</ul>
@@ -45,9 +45,9 @@
 					<div field="AccountCount" width="50" headeralign="center" align="center" allowsort="true">
 						账户数
 					</div>
-					<div field="OrganizationName" width="120" headeralign="center" allowsort="true">
+					<div field="CatalogName" width="120" headeralign="center" allowsort="true">
 						目录
-						<input id="OrganizationNameFilter" name="OrganizationName" property="filter" class="mini-textbox" style="width: 100%;" />
+						<input id="CatalogNameFilter" name="CatalogName" property="filter" class="mini-textbox" style="width: 100%;" />
 					</div>
 					<div field="IsEnabled" width="70" headeralign="center" align="center" allowsort="true">
 						有效状态

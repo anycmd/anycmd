@@ -41,7 +41,7 @@ namespace Anycmd.Engine.Ac.Abstractions.Infra
                 _code = value;
             }
         }
-        public bool IsOrganizational { get; set; }
+        public bool IsCatalogued { get; set; }
         /// <summary>
         /// 
         /// </summary>

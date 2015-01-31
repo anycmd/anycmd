@@ -18,7 +18,7 @@ namespace Anycmd.Edi.ViewModels.MessageViewModels
         /// <summary>
         /// 目录码
         /// </summary>
-        public string OrganizationCode { get; set; }
+        public string CatalogCode { get; set; }
         /// <summary>
         /// 动作码
         /// </summary>

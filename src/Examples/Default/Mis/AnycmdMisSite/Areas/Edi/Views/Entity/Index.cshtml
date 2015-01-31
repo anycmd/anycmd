@@ -9,17 +9,18 @@
 }
 <div id="@(prifix)helperSplitter" class="mini-splitter helperSplitter" style="width: 100%; height: 100%;">
 	<div showcollapsebutton="true">
-		@if (ontology.Ontology.IsOrganizationalEntity) {
+		@if (ontology.Ontology.IsCataloguedEntity)
+		{
 			<div class="mini-splitter" style="width: 100%; height: 100%;">
 				<div size="225" class="mini-toolbar" showcollapsebutton="true">
 					<div class="mini-toolbar" style="border-left: 0; border-right: 0; border-top: 0px; padding: 2px;">
-						<input id="@(prifix)keyOrganization" emptytext="在展开过的目录中搜索" class="mini-textbox" style="width: 150px;" />
-						<a id="@(prifix)btnSearchOrganization" tooltip="离线搜索不搜索未展开过的目录" class="mini-button" iconcls="icon-search" style="width: 60px;">搜索</a>
+						<input id="@(prifix)keyCatalog" emptytext="在展开过的目录中搜索" class="mini-textbox" style="width: 150px;" />
+						<a id="@(prifix)btnSearchCatalog" tooltip="离线搜索不搜索未展开过的目录" class="mini-button" iconcls="icon-search" style="width: 60px;">搜索</a>
 					</div>
 					<span id="@(prifix)msg" style="color: red;display:none;">没有匹配项</span>
 					<div class="mini-fit">
-						<ul id="@(prifix)treeOrganization" class="mini-tree" style="height: 100%;"
-						url="@Url.Action("GetNodesByParentId", "Organization", new { area = "Ac" })"
+						<ul id="@(prifix)treeCatalog" class="mini-tree" style="height: 100%;"
+						url="@Url.Action("GetNodesByParentId", "Catalog", new { area = "Ac" })"
 						showtreeicon="true" textfield="Name" expandonload="true" value="all"
 						idfield="Id" parentfield="ParentId" resultastree="false">
 						</ul>

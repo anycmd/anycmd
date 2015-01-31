@@ -856,11 +856,11 @@ FROM    ( SELECT    [Extent1].[Id] AS [Id] ,
             this.BeatPeriod = 5;
             this.CenterNodeId = "e16ef438-0f95-4605-8556-2ae6e10f1240";
             this.ThisNodeId = "e16ef438-0f95-4605-8556-2ae6e10f1240";
-            this.AuditLevel = ConfigLevel.Level5OrganizationAction;
+            this.AuditLevel = ConfigLevel.Level5CatalogAction;
             this.ImplicitAudit = AuditType.NotAudit;
-            this.AclLevel = ConfigLevel.Level5OrganizationAction;
+            this.AclLevel = ConfigLevel.Level5CatalogAction;
             this.ImplicitAllow = AllowType.ExplicitAllow;
-            this.EntityLogonLevel = ConfigLevel.Level5OrganizationAction;
+            this.EntityLogonLevel = ConfigLevel.Level5CatalogAction;
             this.ImplicitEntityLogon = EntityLogon.ExplicitLogon;
         }
 

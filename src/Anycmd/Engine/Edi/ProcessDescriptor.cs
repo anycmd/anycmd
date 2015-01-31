@@ -37,12 +37,12 @@ namespace Anycmd.Engine.Edi
             {
                 throw new AnycmdException("意外的进程类型");
             }
-            if (!string.IsNullOrEmpty(process.OrganizationCode))
+            if (!string.IsNullOrEmpty(process.CatalogCode))
             {
-                OrganizationState org;
-                if (!AcDomain.OrganizationSet.TryGetOrganization(process.OrganizationCode, out org))
+                CatalogState org;
+                if (!AcDomain.CatalogSet.TryGetCatalog(process.CatalogCode, out org))
                 {
-                    throw new AnycmdException("意外的目录码" + process.OrganizationCode);
+                    throw new AnycmdException("意外的目录码" + process.CatalogCode);
                 }
             }
         }

@@ -83,7 +83,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
         [By("xuexs")]
         [Description("账户所在的目录")]
         [Guid("50F16224-B924-4FFD-9B1A-8D5CFBE28665")]
-        public ViewResultBase Organizations()
+        public ViewResultBase Catalogs()
         {
             return ViewResult();
         }
@@ -246,7 +246,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             input.IncludeDescendants = input.IncludeDescendants ?? false;
             List<DicReader> userAccountTrs = null;
             // 如果组织机构为空则需要检测是否是开发人员，因为只有开发人员才可以看到全部用户。目录为空表示查询全部目录。
-            if (string.IsNullOrEmpty(input.OrganizationCode))
+            if (string.IsNullOrEmpty(input.CatalogCode))
             {
                 if (!UserSession.IsDeveloper())
                 {
@@ -254,13 +254,13 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 }
                 else
                 {
-                    userAccountTrs = GetRequiredService<IAccountQuery>().GetPlistAccountTrs(input.Filters, input.OrganizationCode
+                    userAccountTrs = GetRequiredService<IAccountQuery>().GetPlistAccountTrs(input.Filters, input.CatalogCode
                 , input.IncludeDescendants.Value, input);
                 }
             }
             else
             {
-                userAccountTrs = GetRequiredService<IAccountQuery>().GetPlistAccountTrs(input.Filters, input.OrganizationCode
+                userAccountTrs = GetRequiredService<IAccountQuery>().GetPlistAccountTrs(input.Filters, input.CatalogCode
                 , input.IncludeDescendants.Value, input);
             }
             Debug.Assert(input.Total != null, "requestModel.total != null");
@@ -498,7 +498,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
         [By("xuexs")]
         [Description("根据目录ID分页获取数据集管理员")]
         [Guid("B4183494-8E10-484D-A536-0905A3EB37BE")]
-        public ActionResult GetPlistAccountOrganizationPrivileges(GetPlistAccountOrganizationPrivileges input)
+        public ActionResult GetPlistAccountCatalogPrivileges(GetPlistAccountCatalogPrivileges input)
         {
             if (!ModelState.IsValid)
             {
@@ -506,7 +506,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             }
             input.IncludeDescendants = input.IncludeDescendants ?? false;
             List<DicReader> data;
-            if (string.IsNullOrEmpty(input.OrganizationCode))
+            if (string.IsNullOrEmpty(input.CatalogCode))
             {
                 if (!UserSession.IsDeveloper())
                 {
@@ -514,14 +514,14 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 }
                 else
                 {
-                    data = GetRequiredService<IPrivilegeQuery>().GetPlistOrganizationAccountTrs(input.Key.SafeTrim(),
-                    input.OrganizationCode, input.IncludeDescendants.Value, input);
+                    data = GetRequiredService<IPrivilegeQuery>().GetPlistCatalogAccountTrs(input.Key.SafeTrim(),
+                    input.CatalogCode, input.IncludeDescendants.Value, input);
                 }
             }
             else
             {
-                data = GetRequiredService<IPrivilegeQuery>().GetPlistOrganizationAccountTrs(input.Key.SafeTrim(),
-                    input.OrganizationCode, input.IncludeDescendants.Value, input);
+                data = GetRequiredService<IPrivilegeQuery>().GetPlistCatalogAccountTrs(input.Key.SafeTrim(),
+                    input.CatalogCode, input.IncludeDescendants.Value, input);
             }
 
             Debug.Assert(input.Total != null, "requestData.total != null");
@@ -540,7 +540,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             input.IncludeDescendants = input.IncludeDescendants ?? false;
             List<DicReader> userTrs = null;
             // 如果组织机构为空则需要检测是否是超级管理员，因为只有超级管理员才可以看到全部包工头
-            if (string.IsNullOrEmpty(input.OrganizationCode))
+            if (string.IsNullOrEmpty(input.CatalogCode))
             {
                 if (!UserSession.IsDeveloper())
                 {
@@ -549,13 +549,13 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 else
                 {
                     userTrs = GetRequiredService<IAccountQuery>().GetPlistContractorTrs(
-                        input.Filters, input.OrganizationCode, input.IncludeDescendants.Value, input);
+                        input.Filters, input.CatalogCode, input.IncludeDescendants.Value, input);
                 }
             }
             else
             {
                 userTrs = GetRequiredService<IAccountQuery>().GetPlistContractorTrs(
-                    input.Filters, input.OrganizationCode, input.IncludeDescendants.Value, input);
+                    input.Filters, input.CatalogCode, input.IncludeDescendants.Value, input);
             }
 
             Debug.Assert(input.Total != null, "requestData.total != null");

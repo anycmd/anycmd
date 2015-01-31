@@ -4,8 +4,8 @@
 			<span style="padding-left: 5px; padding-right: 10px;">目录</span>
 		</div>
 		<div class="mini-fit">
-			<ul id="Select_treeOrganization" class="mini-tree" style="height: 100%;" 
-				url="@Url.Action("GetNodesByParentId", "Organization", new { area = "Ac" })"
+			<ul id="Select_treeCatalog" class="mini-tree" style="height: 100%;" 
+				url="@Url.Action("GetNodesByParentId", "Catalog", new { area = "Ac" })"
 				showtreeicon="true" textfield="Name" expandOnLoad="true"
 				idfield="Id" parentfield="ParentId" resultastree="false">
 			</ul>
@@ -33,7 +33,7 @@
 						<a id="Select_btnSearchClear" property="filter" class="mini-button" style="float: right;">条件清空</a>
 					</div>
 					<div type="checkcolumn"></div>
-					<div field="OrganizationName" width="120" headeralign="center" allowsort="true">
+					<div field="CatalogName" width="120" headeralign="center" allowsort="true">
 						目录
 					</div>
 					<div field="LoginName" width="120" headeralign="center" allowsort="true">

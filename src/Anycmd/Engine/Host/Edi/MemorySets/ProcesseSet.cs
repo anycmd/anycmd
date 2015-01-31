@@ -149,7 +149,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             IHandler<AddProcessCommand>,
             IHandler<UpdateProcessCommand>,
             IHandler<RemoveProcessCommand>,
-            IHandler<ChangeProcessOrganizationCommand>,
+            IHandler<ChangeProcessCatalogCommand>,
             IHandler<ChangeProcessNetPortCommand>
         {
             private readonly ProcesseSet _set;
@@ -169,7 +169,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 messageDispatcher.Register((IHandler<AddProcessCommand>)this);
                 messageDispatcher.Register((IHandler<UpdateProcessCommand>)this);
                 messageDispatcher.Register((IHandler<RemoveProcessCommand>)this);
-                messageDispatcher.Register((IHandler<ChangeProcessOrganizationCommand>)this);
+                messageDispatcher.Register((IHandler<ChangeProcessCatalogCommand>)this);
                 messageDispatcher.Register((IHandler<ChangeProcessNetPortCommand>)this);
             }
 
@@ -270,9 +270,9 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 // TODO:处理RemoveProcessCommand命令
             }
 
-            public void Handle(ChangeProcessOrganizationCommand message)
+            public void Handle(ChangeProcessCatalogCommand message)
             {
-                // TODO:处理ChangeProcessOrganizationCommand命令
+                // TODO:处理ChangeProcessCatalogCommand命令
             }
 
             public void Handle(ChangeProcessNetPortCommand message)

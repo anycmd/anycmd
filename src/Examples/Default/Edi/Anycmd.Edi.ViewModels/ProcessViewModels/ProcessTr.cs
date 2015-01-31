@@ -27,7 +27,7 @@ namespace Anycmd.Edi.ViewModels.ProcessViewModels
                 Name = process.Process.Name,
                 NetPort = process.Process.NetPort,
                 OntologyId = process.Process.OntologyId,
-                OrganizationCode = process.Process.OrganizationCode,
+                CatalogCode = process.Process.CatalogCode,
                 Type = process.Process.Type,
                 WebApiBaseAddress = process.WebApiBaseAddress
             };
@@ -80,7 +80,7 @@ namespace Anycmd.Edi.ViewModels.ProcessViewModels
         /// <summary>
         /// 
         /// </summary>
-        public string OrganizationCode { get; set; }
+        public string CatalogCode { get; set; }
         /// <summary>
         /// 
         /// </summary>

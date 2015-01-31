@@ -1,0 +1,56 @@
+﻿@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+	var entityTypeCode = ViewContext.RouteData.Values["Controller"].ToString();
+	string codespace = ViewContext.RouteData.DataTokens["area"].ToString();
+	var prifix = "Edi_Node_Catalogs_";
+}
+<div class="mini-splitter" style="width: 100%; height: 100%;">
+	<div size="350" showcollapsebutton="true">
+		<div class="mini-fit">
+			<div id="@(prifix)dgOntology" class="mini-datagrid" style="width:100%;height:100%;" allowAlternating="true" 
+				url="@Url.Action("GetPlistOntologies", "Ontology")" idfield="Id"
+				selectOnLoad="true" multiselect="false" sizeList="[5,10,20,50]" pageSize="10">
+				<div property="columns">
+					<div type="indexcolumn"></div>
+					<div type="checkcolumn"></div>
+					<div field="Name" width="80" headeralign="center" allowsort="true">
+						本体名
+					</div>
+					<div field="IsEnabled" width="50" headeralign="center" allowsort="true">
+						本体有效状态
+					</div>
+					<div field="SortCode" width="60" headeralign="center" align="center" allowsort="true">
+						@Html.IconLabel("SortCode", "Ontology")
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div showcollapsebutton="true">
+		<div class="mini-toolbar" style="border-left: 0; border-right: 0; border-top: 0px; padding: 2px;">
+			<div style="float: left">
+				<span id="@(prifix)ontologyName"></span>
+				@{Html.RenderPartial("Partials/UiViewButtons");}
+			</div>
+			<div style="float: right">
+			</div>
+			<div style="clear: both;">
+			</div>
+		</div>
+		<!--撑满页面-->
+		<div class="mini-fit noGridBorder">
+			<div id="@(prifix)treeCatalog" class="mini-treegrid" showtreeicon="true" textfield="Name"
+				 idfield="Id" autocheckparent="true" url="@Url.Action("GetCatalogNodesByParentId")"
+				 treecolumn="Name" showcheckbox="true" checkrecursive="true" allowcelledit="true">
+				<div property="columns">
+					<div type="indexcolumn"></div>
+					<div name="Name" field="Name" width="200">名称</div>
+					<div field="Code" width="80">本地编码</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+@section Foot{
+	<script type="text/javascript" src="@Url.Content("~/Scripts/Areas/Edi/Node/Catalogs.cshtml.js")"></script>
+}

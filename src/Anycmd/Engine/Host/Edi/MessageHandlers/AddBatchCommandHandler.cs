@@ -82,11 +82,11 @@ namespace Anycmd.Engine.Host.Edi.MessageHandlers
                 }
             }
             var filters = new List<FilterData>();
-            if (ontology.Ontology.IsOrganizationalEntity && !string.IsNullOrEmpty(entity.OrganizationCode))
+            if (ontology.Ontology.IsCataloguedEntity && !string.IsNullOrEmpty(entity.CatalogCode))
             {
                 filters.Add(includeDescendants
-                    ? FilterData.Like("ZZJGM", entity.OrganizationCode + "%")
-                    : FilterData.EQ("ZZJGM", entity.OrganizationCode));
+                    ? FilterData.Like("ZZJGM", entity.CatalogCode + "%")
+                    : FilterData.EQ("ZZJGM", entity.CatalogCode));
             }
             do
             {
@@ -140,7 +140,7 @@ namespace Anycmd.Engine.Host.Edi.MessageHandlers
                                         Description = entity.Type,
                                         LocalEntityId = item[idIndex].ToString(),
                                         Ontology = ontology.Ontology.Code,
-                                        OrganizationCode = null,// 如果按照目录分片分发命令的话则目录为空的分发命令是由专门的分发器分发的
+                                        CatalogCode = null,// 如果按照目录分片分发命令的话则目录为空的分发命令是由专门的分发器分发的
                                         MessageId = Guid.NewGuid().ToString(),
                                         MessageType = MessageType.Action,
                                         ReasonPhrase = "Ok",
@@ -300,12 +300,12 @@ namespace Anycmd.Engine.Host.Edi.MessageHandlers
             /// <summary>
             /// 本地目录码
             /// </summary>
-            public new string OrganizationCode
+            public new string CatalogCode
             {
-                get { return base.OrganizationCode; }
+                get { return base.CatalogCode; }
                 protected internal set
                 {
-                    base.OrganizationCode = value;
+                    base.CatalogCode = value;
                 }
             }
 

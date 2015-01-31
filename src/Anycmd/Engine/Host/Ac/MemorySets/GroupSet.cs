@@ -107,7 +107,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             IHandler<RemovePositionCommand>, 
             IHandler<GroupRemovedEvent>,
             IHandler<PositionRemovedEvent>,
-            IHandler<OrganizationRemovedEvent>
+            IHandler<CatalogRemovedEvent>
         {
             private readonly GroupSet _set;
 
@@ -137,13 +137,13 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 messageDispatcher.Register((IHandler<PositionRemovedEvent>)this);
             }
 
-            public void Handle(OrganizationRemovedEvent message)
+            public void Handle(CatalogRemovedEvent message)
             {
-                var organizationCode = message.OrganizationCode;
+                var catalogCode = message.CatalogCode;
                 var groupIds = new HashSet<Guid>();
                 foreach (var item in _set._groupDic.Values)
                 {
-                    if (!string.IsNullOrEmpty(item.OrganizationCode) && item.OrganizationCode.Equals(organizationCode, StringComparison.OrdinalIgnoreCase))
+                    if (!string.IsNullOrEmpty(item.CatalogCode) && item.CatalogCode.Equals(catalogCode, StringComparison.OrdinalIgnoreCase))
                     {
                         groupIds.Add(item.Id);
                     }
@@ -242,14 +242,14 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     throw new ValidationException("标识是必须的");
                 }
-                if (string.IsNullOrEmpty(input.OrganizationCode))
+                if (string.IsNullOrEmpty(input.CatalogCode))
                 {
                     throw new ValidationException("目录码不能为空");
                 }
-                OrganizationState org;
-                if (!host.OrganizationSet.TryGetOrganization(input.OrganizationCode, out org))
+                CatalogState org;
+                if (!host.CatalogSet.TryGetCatalog(input.CatalogCode, out org))
                 {
-                    throw new ValidationException("非法的目录码" + input.OrganizationCode);
+                    throw new ValidationException("非法的目录码" + input.CatalogCode);
                 }
 
                 var entity = Group.Create(input);
@@ -261,7 +261,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     {
                         throw new AnycmdException("意外的重复标识");
                     }
-                    if (host.GroupSet.Any(a => input.OrganizationCode.Equals(a.OrganizationCode, StringComparison.OrdinalIgnoreCase) && a.Name.Equals(input.Name, StringComparison.OrdinalIgnoreCase)))
+                    if (host.GroupSet.Any(a => input.CatalogCode.Equals(a.CatalogCode, StringComparison.OrdinalIgnoreCase) && a.Name.Equals(input.Name, StringComparison.OrdinalIgnoreCase)))
                     {
                         throw new ValidationException("重复的岗位名");
                     }
@@ -407,7 +407,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     throw new NotExistException();
                 }
-                if (string.IsNullOrEmpty(bkState.OrganizationCode))
+                if (string.IsNullOrEmpty(bkState.CatalogCode))
                 {
                     throw new AnycmdException("目录码为空");
                 }
@@ -420,7 +420,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     {
                         throw new NotExistException();
                     }
-                    if (host.GroupSet.Any(a => bkState.OrganizationCode.Equals(a.OrganizationCode, StringComparison.OrdinalIgnoreCase) && a.Name.Equals(input.Name, StringComparison.OrdinalIgnoreCase) && a.Id != input.Id))
+                    if (host.GroupSet.Any(a => bkState.CatalogCode.Equals(a.CatalogCode, StringComparison.OrdinalIgnoreCase) && a.Name.Equals(input.Name, StringComparison.OrdinalIgnoreCase) && a.Id != input.Id))
                     {
                         throw new ValidationException("重复的岗位名");
                     }
@@ -566,7 +566,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 if (isCommand)
                 {
                     host.MessageDispatcher.DispatchMessage(new PrivateGroupRemovedEvent(userSession, entity));
-                    if (!string.IsNullOrEmpty(bkState.OrganizationCode))
+                    if (!string.IsNullOrEmpty(bkState.CatalogCode))
                     {
                         host.MessageDispatcher.DispatchMessage(new PrivatePositionRemovedEvent(userSession, entity));
                     }

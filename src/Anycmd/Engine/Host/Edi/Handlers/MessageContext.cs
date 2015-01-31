@@ -26,8 +26,8 @@ namespace Anycmd.Engine.Host.Edi.Handlers
         private TowInfoTuple _towInfoTuple = null;
         private bool _localEntityIdDetected = false;
         private string _localEntityId;
-        private bool _organizationCodeDetected = false;
-        private string _organizationCode;
+        private bool _catalogCodeDetected = false;
+        private string _catalogCode;
         private bool _isValid = false;
         private bool _isValidated = false;
         private bool _isAudit = false;
@@ -150,7 +150,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers
                         }
                     }
                 }
-                if (this.Ontology.Ontology.IsOrganizationalEntity)
+                if (this.Ontology.Ontology.IsCataloguedEntity)
                 {
                     selectElements.Add(this.Ontology.Elements["ZZJGM"]);
                 }
@@ -166,7 +166,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers
         /// 查看该命令是否合法。
         /// <remarks>
         /// 首先验证输入，接着验证前四级权限，再验证实体的存在性，接着验证目录和实体级权限。
-        /// 注意：Level5OrganizationAction级和后续级别的验证是以实体的存在性为前提的。
+        /// 注意：Level5CatalogAction级和后续级别的验证是以实体的存在性为前提的。
         /// </remarks>
         /// </summary>
         /// <returns>True表示合法，False表示非法</returns>
@@ -236,25 +236,25 @@ namespace Anycmd.Engine.Host.Edi.Handlers
                         }
                     }
                 }
-                if (!this.Ontology.Ontology.IsOrganizationalEntity) return this._isValid;
-                OrganizationState org;
-                result = this.ValidOrganizationCode(out org);
+                if (!this.Ontology.Ontology.IsCataloguedEntity) return this._isValid;
+                CatalogState org;
+                result = this.ValidCatalogCode(out org);
                 this._isValid = result.IsSuccess;
                 if (!this._isValid)
                 {
                     this.Result.UpdateStatus(result.StateCode, result.Description);
                     return false;
                 }
-                // Level5OrganizationAction
-                #region Level5OrganizationAction 验证目录级动作权限
-                OntologyOrganizationState ontologyOrg;
-                if (!this.Ontology.Organizations.TryGetValue(org, out ontologyOrg))
+                // Level5CatalogAction
+                #region Level5CatalogAction 验证目录级动作权限
+                OntologyCatalogState ontologyOrg;
+                if (!this.Ontology.Catalogs.TryGetValue(org, out ontologyOrg))
                 {
-                    this.Result.UpdateStatus(Status.InvalidOrganization, "目录" + org.Name + "/" + org.Code + "对于" + this.Ontology.Ontology.Name + "来说是非法的");
+                    this.Result.UpdateStatus(Status.InvalidCatalog, "目录" + org.Name + "/" + org.Code + "对于" + this.Ontology.Ontology.Name + "来说是非法的");
                     this._isValid = false;
                     return false;
                 }
-                var oorgActions = ontologyOrg.OrganizationActions;
+                var oorgActions = ontologyOrg.CatalogActions;
                 if (oorgActions != null && oorgActions.ContainsKey(this.Command.Verb))
                 {
                     var oorgAction = oorgActions[this.Command.Verb];
@@ -452,7 +452,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers
         }
         #endregion
 
-        #region OrganizationCode
+        #region CatalogCode
         /// <summary>
         /// 查看本地目录码。
         /// <remarks>
@@ -460,22 +460,22 @@ namespace Anycmd.Engine.Host.Edi.Handlers
         /// 然后，如果是创建型命令则返回的是客户端输入提供的目录码。
         /// </remarks>
         /// </summary>
-        internal string OrganizationCode
+        internal string CatalogCode
         {
             get
             {
-                if (!this._organizationCodeDetected)
+                if (!this._catalogCodeDetected)
                 {
-                    this._organizationCodeDetected = true;
+                    this._catalogCodeDetected = true;
                     if (this.Ontology == null)
                     {
-                        this._organizationCode = null;
+                        this._catalogCode = null;
                     }
-                    else if (!this.Ontology.Ontology.IsOrganizationalEntity)
+                    else if (!this.Ontology.Ontology.IsCataloguedEntity)
                     {
-                        this._organizationCode = null;
+                        this._catalogCode = null;
                     }
-                    else if (string.IsNullOrEmpty(this.Command.OrganizationCode))
+                    else if (string.IsNullOrEmpty(this.Command.CatalogCode))
                     {
                         if (Verb.Create.Equals(this.Command.Verb))
                         {
@@ -484,7 +484,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers
                                         .Select(a => a.Value).FirstOrDefault();
                             if (!string.IsNullOrEmpty(orgCode))
                             {
-                                this.Command.OrganizationCode = orgCode;
+                                this.Command.CatalogCode = orgCode;
                             }
                         }
                         else
@@ -492,17 +492,17 @@ namespace Anycmd.Engine.Host.Edi.Handlers
                             if (this.TowInfoTuple != null && !this.TowInfoTuple.BothHasValue && !this.TowInfoTuple.BothNoValue)
                             {
                                 ElementDescriptor zzjgmElement = this.Ontology.Elements["ZZJGM"];
-                                this.Command.OrganizationCode = this.TowInfoTuple.SingleInfoTuple.Single(a => a.Element == zzjgmElement).Value;
+                                this.Command.CatalogCode = this.TowInfoTuple.SingleInfoTuple.Single(a => a.Element == zzjgmElement).Value;
                             }
                         }
-                        this._organizationCode = this.Command.OrganizationCode;
+                        this._catalogCode = this.Command.CatalogCode;
                     }
                     else
                     {
-                        this._organizationCode = this.Command.OrganizationCode;
+                        this._catalogCode = this.Command.CatalogCode;
                     }
                 }
-                return this._organizationCode;
+                return this._catalogCode;
             }
         }
         #endregion
@@ -603,25 +603,25 @@ namespace Anycmd.Engine.Host.Edi.Handlers
         }
         #endregion
 
-        #region ValidOrganizationCode
-        private ProcessResult ValidOrganizationCode(out OrganizationState org)
+        #region ValidCatalogCode
+        private ProcessResult ValidCatalogCode(out CatalogState org)
         {
-            if (string.IsNullOrEmpty(this.OrganizationCode))
+            if (string.IsNullOrEmpty(this.CatalogCode))
             {
-                org = OrganizationState.Empty;
-                return new ProcessResult(false, Status.InvalidOrganization, "目录码为空");
+                org = CatalogState.Empty;
+                return new ProcessResult(false, Status.InvalidCatalog, "目录码为空");
             }
-            if (!_host.OrganizationSet.TryGetOrganization(this.OrganizationCode, out org))
+            if (!_host.CatalogSet.TryGetCatalog(this.CatalogCode, out org))
             {
-                return new ProcessResult(false, Status.InvalidOrganization, string.Format("非法的目录码{0}", this.OrganizationCode));
+                return new ProcessResult(false, Status.InvalidCatalog, string.Format("非法的目录码{0}", this.CatalogCode));
             }
-            OntologyOrganizationState oorg;
-            if (!this.Ontology.Organizations.TryGetValue(org, out oorg))
+            OntologyCatalogState oorg;
+            if (!this.Ontology.Catalogs.TryGetValue(org, out oorg))
             {
-                return new ProcessResult(false, Status.InvalidOrganization, string.Format("对于{0}来说{1}是非法的目录码", this.Ontology.Ontology.Name, org.Code));
+                return new ProcessResult(false, Status.InvalidCatalog, string.Format("对于{0}来说{1}是非法的目录码", this.Ontology.Ontology.Name, org.Code));
             }
             var orgCode = org.Code;
-            return _host.OrganizationSet.Any(o => orgCode.Equals(o.ParentCode, StringComparison.OrdinalIgnoreCase)) ? new ProcessResult(false, Status.InvalidOrganization, string.Format("{0}不是叶节点，不能容纳" + this.Ontology.Ontology.Name, org.Name)) : ProcessResult.Ok;
+            return _host.CatalogSet.Any(o => orgCode.Equals(o.ParentCode, StringComparison.OrdinalIgnoreCase)) ? new ProcessResult(false, Status.InvalidCatalog, string.Format("{0}不是叶节点，不能容纳" + this.Ontology.Ontology.Name, org.Name)) : ProcessResult.Ok;
 
         }
         #endregion

@@ -94,7 +94,7 @@ namespace Anycmd
         /// <summary>
         /// 目录数据集
         /// </summary>
-        IOrganizationSet OrganizationSet { get; }
+        ICatalogSet CatalogSet { get; }
         /// <summary>
         /// 界面视图数据集
         /// </summary>

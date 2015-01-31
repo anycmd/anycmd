@@ -98,15 +98,15 @@
     <Compile Include="NodeViewModels\NodeCreateInput.cs" />
     <Compile Include="NodeViewModels\NodeElementCareCreateInput.cs" />
     <Compile Include="NodeViewModels\NodeOntologyCareCreateInput.cs" />
-    <Compile Include="NodeViewModels\NodeOntologyOrganizationCreateInput.cs" />
+    <Compile Include="NodeViewModels\NodeOntologyCatalogCreateInput.cs" />
     <Compile Include="NodeViewModels\NodeUpdateInput.cs" />
     <Compile Include="OntologyViewModels\ActionCreateInput.cs" />
     <Compile Include="OntologyViewModels\ActionTr.cs" />
     <Compile Include="OntologyViewModels\ActionUpdateInput.cs" />
-    <Compile Include="OntologyViewModels\OntologyOrganizationCreateInput.cs" />
+    <Compile Include="OntologyViewModels\OntologyCatalogCreateInput.cs" />
     <Compile Include="OntologyViewModels\TopicCreateInput.cs" />
     <Compile Include="OntologyViewModels\TopicUpdateInput.cs" />
-    <Compile Include="OntologyViewModels\GetPlistOntologyOrganizationActions.cs" />
+    <Compile Include="OntologyViewModels\GetPlistOntologyCatalogActions.cs" />
     <Compile Include="NodeViewModels\NodeAssignActionTr.cs" />
     <Compile Include="ElementViewModels\NodeAssignElementTr.cs" />
     <Compile Include="OntologyViewModels\InfoGroupCreateInput.cs" />
@@ -119,7 +119,7 @@
     <Compile Include="OntologyViewModels\OntologyCreateInput.cs" />
     <Compile Include="OntologyViewModels\OntologyInfo.cs" />
     <Compile Include="OntologyViewModels\OntologyUpdateInput.cs" />
-    <Compile Include="OntologyViewModels\OrganizationAssignActionTr.cs" />
+    <Compile Include="OntologyViewModels\CatalogAssignActionTr.cs" />
     <Compile Include="OntologyViewModels\OntologyTr.cs" />
     <Compile Include="PluginViewModels\IPluginInfo.cs" />
     <Compile Include="PluginViewModels\IPluginTr.cs" />

@@ -75,14 +75,14 @@
     <Compile Include="Operations\GetAllOntologies.cs" />
     <Compile Include="Operations\GetInfoDic.cs" />
     <Compile Include="Operations\GetOntology.cs" />
-    <Compile Include="Operations\GetAllOrganizations.cs" />
+    <Compile Include="Operations\GetAllCatalogs.cs" />
     <Compile Include="Operations\IsAlive.cs" />
     <Compile Include="Types\ActionData.cs" />
     <Compile Include="Types\ElementData.cs" />
     <Compile Include="Operations\Message.cs" />
     <Compile Include="Types\InfoDicData.cs" />
     <Compile Include="Types\InfoDicItemData.cs" />
-    <Compile Include="Types\OrganizationData.cs" />
+    <Compile Include="Types\CatalogData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Types\OntologyData.cs" />
     <Compile Include="Types\StateCodeData.cs" />

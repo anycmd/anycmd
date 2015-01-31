@@ -36,7 +36,7 @@ namespace Anycmd.Engine.Edi.Abstractions
         /// <summary>
         /// 目录码
         /// </summary>
-        string OrganizationCode { get; }
+        string CatalogCode { get; }
         /// <summary>
         /// 是否包括子孙级目录下的实体
         /// </summary>

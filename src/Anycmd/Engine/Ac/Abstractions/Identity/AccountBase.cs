@@ -215,7 +215,7 @@ namespace Anycmd.Engine.Ac.Abstractions.Identity
         /// <summary>
         /// 
         /// </summary>
-        public string OrganizationCode { get; set; }
+        public string CatalogCode { get; set; }
 
         /// <summary>
         /// 

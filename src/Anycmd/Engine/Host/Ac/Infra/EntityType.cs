@@ -25,7 +25,7 @@ namespace Anycmd.Engine.Host.Ac.Infra
                 DatabaseId = input.DatabaseId,
                 Description = input.Description,
                 DeveloperId = input.DeveloperId,
-                IsOrganizational = input.IsOrganizational,
+                IsCatalogued = input.IsCatalogued,
                 Name = input.Name,
                 EditHeight = input.EditHeight,
                 EditWidth = input.EditWidth,
@@ -39,7 +39,7 @@ namespace Anycmd.Engine.Host.Ac.Infra
         {
             this.Code = input.Code;
             this.Codespace = input.Codespace;
-            this.IsOrganizational = input.IsOrganizational;
+            this.IsCatalogued = input.IsCatalogued;
             this.DatabaseId = input.DatabaseId;
             this.Description = input.Description;
             this.DeveloperId = input.DeveloperId;

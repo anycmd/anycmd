@@ -25,7 +25,7 @@ namespace Anycmd.Engine.Host.Edi.Entities
                 Name = input.Name,
                 NetPort = input.NetPort,
                 OntologyId = input.OntologyId,
-                OrganizationCode = input.OrganizationCode
+                CatalogCode = input.CatalogCode
             };
         }
 

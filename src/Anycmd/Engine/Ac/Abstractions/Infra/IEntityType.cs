@@ -28,7 +28,7 @@ namespace Anycmd.Engine.Ac.Abstractions.Infra
         /// <summary>
         /// 
         /// </summary>
-        bool IsOrganizational { get; }
+        bool IsCatalogued { get; }
         /// <summary>
         /// 模型对应的存储数据库
         /// </summary>

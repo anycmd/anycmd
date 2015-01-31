@@ -46,7 +46,7 @@ namespace Anycmd.Edi.ViewModels.NodeViewModels
         [Required]
         [StringLength(100)]
         [DisplayName(@"接入单位名称")]
-        public string Organization { get; set; }
+        public string Catalog { get; set; }
         /// <summary>
         /// 专员
         /// </summary>

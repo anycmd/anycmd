@@ -42,7 +42,8 @@
                                 }
                             }
                         }
-                        @if (ontology.Ontology.IsOrganizationalEntity) {
+                        @if (ontology.Ontology.IsCataloguedEntity)
+                        {
                             <input id="@(prifix)chkbIncludedescendants" class="mini-checkbox" text="包括下级目录的@(ontology.Ontology.Name)" truevalue="1"
                                    falsevalue="0" value="1" />
                         }

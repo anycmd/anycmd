@@ -16,11 +16,11 @@ namespace Anycmd.Ac.ViewModels.Identity.AccountViewModels
         /// 
         /// </summary>
         /// <param name="filters"></param>
-        /// <param name="organizationCode"></param>
+        /// <param name="catalogCode"></param>
         /// <param name="includeDescendants"></param>
         /// <param name="paging"></param>
         /// <returns></returns>
-        List<DicReader> GetPlistAccountTrs(List<FilterData> filters, string organizationCode, bool includeDescendants, PagingInput paging);
+        List<DicReader> GetPlistAccountTrs(List<FilterData> filters, string catalogCode, bool includeDescendants, PagingInput paging);
         /// <summary>
         /// 
         /// </summary>
@@ -42,10 +42,10 @@ namespace Anycmd.Ac.ViewModels.Identity.AccountViewModels
         /// 
         /// </summary>
         /// <param name="filters"></param>
-        /// <param name="organizationCode"></param>
+        /// <param name="catalogCode"></param>
         /// <param name="includeDescendants"></param>
         /// <param name="paging"></param>
         /// <returns></returns>
-        List<DicReader> GetPlistContractorTrs(List<FilterData> filters, string organizationCode, bool includeDescendants, PagingInput paging);
+        List<DicReader> GetPlistContractorTrs(List<FilterData> filters, string catalogCode, bool includeDescendants, PagingInput paging);
     }
 }

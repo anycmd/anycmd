@@ -10,7 +10,7 @@ namespace Anycmd.Engine.Ac.InOuts
     /// </summary>
     public interface IPositionCreateIo : IEntityCreateInput
     {
-        string OrganizationCode { get; }
+        string CatalogCode { get; }
         string CategoryCode { get; }
         string Description { get; }
         int IsEnabled { get; }

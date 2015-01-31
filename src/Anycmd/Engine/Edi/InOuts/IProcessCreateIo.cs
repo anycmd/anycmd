@@ -15,7 +15,7 @@ namespace Anycmd.Engine.Edi.InOuts
 
         Guid OntologyId { get; }
 
-        string OrganizationCode { get; }
+        string CatalogCode { get; }
 
         string Description { get; }
     }

@@ -31,7 +31,7 @@ namespace Anycmd.Edi.ViewModels.OntologyViewModels
                 Id = ontology.Ontology.Id,
                 IsEnabled = ontology.Ontology.IsEnabled,
                 IsLogicalDeletionEntity = ontology.Ontology.IsLogicalDeletionEntity,
-                IsOrganizationalEntity = ontology.Ontology.IsOrganizationalEntity,
+                IsCataloguedEntity = ontology.Ontology.IsCataloguedEntity,
                 IsSystem = ontology.Ontology.IsSystem,
                 MessageDatabaseId = ontology.Ontology.MessageDatabaseId,
                 MessageSchemaName = ontology.Ontology.MessageSchemaName,
@@ -68,7 +68,7 @@ namespace Anycmd.Edi.ViewModels.OntologyViewModels
         /// <summary>
         /// 
         /// </summary>
-        public bool IsOrganizationalEntity { get; set; }
+        public bool IsCataloguedEntity { get; set; }
         /// <summary>
         /// 
         /// </summary>
