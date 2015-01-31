@@ -102,7 +102,8 @@ namespace Anycmd.Tests
                 Id = entityId2,
                 Code = "tes2t",
                 Name = "test2",
-                LoginName = loginName2
+                LoginName = loginName2,
+                Password = "111111"
             });
             host.RetrieveRequiredService<IRepository<Account>>().Context.Commit();
             Assert.True(host.SysUserSet.GetDevAccounts().Count == 1);
@@ -126,6 +127,13 @@ namespace Anycmd.Tests
             host.Handle(new AddDeveloperCommand(host.GetUserSession(), entityId2));
             Assert.Equal(2, host.SysUserSet.GetDevAccounts().Count);
 
+            UserSessionState.SignOut(host, host.GetUserSession());
+            UserSessionState.SignIn(host, new Dictionary<string, object>
+            {
+                {"loginName", loginName2},
+                {"password", "111111"},
+                {"rememberMe", "rememberMe"}
+            });
             host.Handle(new AccountUpdateInput
             {
                 Id = entityId2,

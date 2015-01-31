@@ -4,7 +4,5 @@
     <assembly filename="Anycmd.Tests\bin\Debug\Anycmd.Tests.dll" shadow-copy="true" />
     <assembly filename="Examples\Default\Edi\Anycmd.Edi.Service.Tests\bin\Debug\Anycmd.Edi.Service.Tests.dll" shadow-copy="true" />
     <assembly filename="Anycmd.JintEngine.Tests\bin\Debug\Anycmd.JintEngine.Tests.dll" shadow-copy="true" />
-    <assembly filename="Anycmd.RavenDBTest\bin\Debug\Anycmd.RavenDbTest.dll" shadow-copy="true" />
-    <assembly filename="Anycmd.Xacml.Tests\bin\Debug\Anycmd.Xacml.Tests.dll" shadow-copy="true" />
   </assemblies>
 </xunit>

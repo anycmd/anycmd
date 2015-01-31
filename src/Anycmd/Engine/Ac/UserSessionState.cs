@@ -34,6 +34,24 @@ namespace Anycmd.Engine.Ac
         private AccountState _account;
         private AccountPrivilege _accountPrivilege;
 
+        public static Action<IAcDomain, Dictionary<string, object>> SignIn { get; set; }
+
+        public static Action<IAcDomain, IUserSession> SignOut { get; set; }
+
+        public static Action<IAcDomain, Guid> SignOuted { get; set; }
+
+        public static Func<IAcDomain, Guid, Account> GetAccountById { get; set; }
+
+        public static Func<IAcDomain, string, Account> GetAccountByLoginName { get; set; }
+
+        public static Func<IAcDomain, Guid, IUserSessionEntity> GetUserSession { get; set; }
+
+        public static Func<IAcDomain, Guid, AccountState, IUserSession> AddUserSession { get; set; }
+
+        public static Action<IAcDomain, IUserSessionEntity> UpdateUserSession { get; set; } 
+
+        public static Action<IAcDomain, Guid> DeleteUserSession { get; set; }
+
         static UserSessionState()
         {
             Empty = new UserSessionState(EmptyAcDomain.SingleInstance, Guid.Empty, AccountState.Empty)
@@ -47,6 +65,7 @@ namespace Anycmd.Engine.Ac
             GetAccountByLoginName = GetAccount;
             GetUserSession = GetUserSessionById;
             AddUserSession = DoAddUserSession;
+            UpdateUserSession = DoUpdateUserSession;
             DeleteUserSession = DoDeleteSession;
         }
 
@@ -151,21 +170,6 @@ namespace Anycmd.Engine.Ac
         }
 
         #region 静态成员
-        public static Action<IAcDomain, Dictionary<string, object>> SignIn { get; set; }
-
-        public static Action<IAcDomain, IUserSession> SignOut { get; set; }
-
-        public static Action<IAcDomain, Guid> SignOuted { get; set; }
-
-        public static Func<IAcDomain, Guid, Account> GetAccountById { get; set; }
-
-        public static Func<IAcDomain, string, Account> GetAccountByLoginName { get; set; }
-
-        public static Func<IAcDomain, Guid, IUserSessionEntity> GetUserSession { get; set; }
-
-        public static Func<IAcDomain, Guid, AccountState, IUserSession> AddUserSession { get; set; }
-
-        public static Action<IAcDomain, Guid> DeleteUserSession { get; set; }
 
         #region 私有方法
         private static RdbDescriptor GetAccountDb(IAcDomain acDomain)
@@ -304,20 +308,13 @@ namespace Anycmd.Engine.Ac
 
             // 使用账户标识作为会话标识会导致一个账户只有一个会话
             // TODO:支持账户和会话的一对多，为会话级的动态责任分离做准备
-            var sessionEntity = GetUserSessionById(acDomain, account.Id);
+            var sessionEntity = GetUserSession(acDomain, account.Id);
             IUserSession userSession;
             if (sessionEntity != null)
             {
                 userSession = new UserSessionState(acDomain, sessionEntity.Id, AccountState.Create(account));
                 sessionEntity.IsAuthenticated = true;
-                using (var conn = GetAccountDb(acDomain).GetConnection())
-                {
-                    if (conn.State != ConnectionState.Open)
-                    {
-                        conn.Open();
-                    }
-                    conn.Execute("update UserSession set IsAuthenticated=@IsAuthenticated where Id=@Id", new { IsAuthenticated = true, Id = sessionEntity.Id });
-                }
+                UpdateUserSession(acDomain, sessionEntity);
             }
             else
             {
@@ -451,6 +448,18 @@ namespace Anycmd.Engine.Ac
                                                                                                        LoginName = account.LoginName
                                                                                                    });
                 return user;
+            }
+        }
+
+        private static void DoUpdateUserSession(IAcDomain acDomain, IUserSessionEntity userSessionEntity)
+        {
+            using (var conn = GetAccountDb(acDomain).GetConnection())
+            {
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+                conn.Execute("update UserSession set IsAuthenticated=@IsAuthenticated where Id=@Id", new { userSessionEntity.IsAuthenticated, userSessionEntity.Id });
             }
         }
 

@@ -31,6 +31,60 @@ namespace Anycmd.Tests
             this.RegisterRepository(typeof(AcDomain).Assembly);
             AddService(typeof(ILoggingService), new Log4NetLoggingService(this));
             AddService(typeof(IUserSessionStorage), new SimpleUserSessionStorage());
+            #region UserSessionState
+            UserSessionState.GetUserSession = (acDomain, userSessionId) => acDomain.GetRequiredService<IRepository<UserSession>>().GetByKey(userSessionId);
+            UserSessionState.AddUserSession = (acDomain, sessionId, account) =>
+            {
+                var identity = new AnycmdIdentity(account.LoginName);
+                var userSessionEntity = new UserSession
+                {
+                    Id = sessionId,
+                    AccountId = account.Id,
+                    AuthenticationType = identity.AuthenticationType,
+                    Description = null,
+                    IsAuthenticated = identity.IsAuthenticated,
+                    IsEnabled = 1,
+                    LoginName = account.LoginName
+                };
+                IUserSession user = new UserSessionState(acDomain, userSessionEntity);
+                var repository = acDomain.GetRequiredService<IRepository<UserSession>>();
+                repository.Add(userSessionEntity);
+                repository.Context.Commit();
+                return user;
+            };
+            UserSessionState.UpdateUserSession = (acDomain, userSessionEntity) =>
+            {
+                var repository = acDomain.GetRequiredService<IRepository<UserSession>>();
+                repository.Update(new UserSession()
+                {
+                    Id = userSessionEntity.Id,
+                    AuthenticationType = userSessionEntity.AuthenticationType,
+                    IsAuthenticated = userSessionEntity.IsAuthenticated,
+                    LoginName = userSessionEntity.LoginName,
+                    IsEnabled = userSessionEntity.IsEnabled,
+                    AccountId = userSessionEntity.AccountId,
+                    Description = userSessionEntity.Description
+                });
+                repository.Context.Commit();
+            };
+            UserSessionState.DeleteUserSession = (acDomain, guid) =>
+            {
+                var repository = acDomain.GetRequiredService<IRepository<UserSession>>();
+                var entity = repository.GetByKey(guid);
+                if (entity == null)
+                {
+                    return;
+                }
+                repository.Remove(entity);
+                repository.Context.Commit();
+            };
+            UserSessionState.GetAccountById = (acDomain, id) => acDomain.GetRequiredService<IRepository<Account>>().GetByKey(id);
+            UserSessionState.GetAccountByLoginName =
+                (acDomain, loginName) =>
+                    acDomain.GetRequiredService<IRepository<Account>>()
+                        .AsQueryable()
+                        .FirstOrDefault(a => a.LoginName == loginName);
+            #endregion
             Guid dicId = Guid.NewGuid();
             this.GetRequiredService<IRepository<Dic>>().Add(new Dic()
             {

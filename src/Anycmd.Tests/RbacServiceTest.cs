@@ -362,7 +362,6 @@ namespace Anycmd.Tests
             var host = TestHelper.GetAcDomain();
             var rbacService = host.RetrieveRequiredService<IRbacService>();
             var accountRepository = host.RetrieveRequiredService<IRepository<Account>>();
-            var sessionRepository = host.RetrieveRequiredService<IRepository<UserSession>>();
             UserSessionState.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
@@ -392,7 +391,7 @@ namespace Anycmd.Tests
             var sessionId = Guid.NewGuid();
             var userSession = rbacService.CreateSession(host.GetUserSession(), sessionId, AccountState.Create(account));
             Assert.NotNull(userSession);
-            var sessionEntity = sessionRepository.GetByKey(sessionId);
+            var sessionEntity = UserSessionState.GetUserSession(host, sessionId);
             Assert.NotNull(sessionEntity);
         }
         #endregion
