@@ -1,2 +1,0 @@
-http://ravendb.net/download
-暂时未用到，只有一个用来测试ravendb的单元测试用到它。
