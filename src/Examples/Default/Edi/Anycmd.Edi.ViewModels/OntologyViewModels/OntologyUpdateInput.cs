@@ -96,9 +96,9 @@ namespace Anycmd.Edi.ViewModels.OntologyViewModels
         /// </summary>
         public string Icon { get; set; }
 
-        public IAnycmdCommand ToCommand(IAcSession userSession)
+        public IAnycmdCommand ToCommand(IAcSession acSession)
         {
-            return new UpdateOntologyCommand(userSession, this);
+            return new UpdateOntologyCommand(acSession, this);
         }
     }
 }

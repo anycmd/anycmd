@@ -5,8 +5,8 @@ namespace Anycmd.Engine.Ac.Messages.Infra
 
     public class RemoveAppSystemCommand : RemoveEntityCommand
     {
-        public RemoveAppSystemCommand(IAcSession userSession, Guid appSystemId)
-            : base(userSession, appSystemId)
+        public RemoveAppSystemCommand(IAcSession acSession, Guid appSystemId)
+            : base(acSession, appSystemId)
         {
 
         }

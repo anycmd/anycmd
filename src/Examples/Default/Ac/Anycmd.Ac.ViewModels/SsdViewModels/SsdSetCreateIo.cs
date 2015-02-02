@@ -24,9 +24,9 @@ namespace Anycmd.Ac.ViewModels.SsdViewModels
 
         public string Description { get; set; }
 
-        public override IAnycmdCommand ToCommand(IAcSession userSession)
+        public override IAnycmdCommand ToCommand(IAcSession acSession)
         {
-            return new AddSsdSetCommand(userSession, this);
+            return new AddSsdSetCommand(acSession, this);
         }
     }
 }

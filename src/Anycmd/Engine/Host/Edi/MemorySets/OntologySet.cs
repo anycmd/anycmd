@@ -405,7 +405,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 this.Handle(message.AcSession, message.Output, false);
             }
 
-            private void Handle(IAcSession userSession, IOntologyCreateIo input, bool isCommand)
+            private void Handle(IAcSession acSession, IOntologyCreateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var ontologyRepository = host.RetrieveRequiredService<IRepository<Ontology>>();
@@ -461,14 +461,14 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateOntologyAddedEvent(userSession, entity, input));
+                    host.MessageDispatcher.DispatchMessage(new PrivateOntologyAddedEvent(acSession, entity, input));
                 }
             }
 
             private class PrivateOntologyAddedEvent : OntologyAddedEvent
             {
-                public PrivateOntologyAddedEvent(IAcSession userSession, OntologyBase source, IOntologyCreateIo input)
-                    : base(userSession, source, input)
+                public PrivateOntologyAddedEvent(IAcSession acSession, OntologyBase source, IOntologyCreateIo input)
+                    : base(acSession, source, input)
                 {
 
                 }
@@ -488,7 +488,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 this.Handle(message.AcSession, message.Output, false);
             }
 
-            private void Handle(IAcSession userSession, IOntologyUpdateIo input, bool isCommand)
+            private void Handle(IAcSession acSession, IOntologyUpdateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var ontologyRepository = host.RetrieveRequiredService<IRepository<Ontology>>();
@@ -548,7 +548,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateOntologyUpdatedEvent(userSession, entity, input));
+                    host.MessageDispatcher.DispatchMessage(new PrivateOntologyUpdatedEvent(acSession, entity, input));
                 }
             }
 
@@ -569,8 +569,8 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
             private class PrivateOntologyUpdatedEvent : OntologyUpdatedEvent
             {
-                public PrivateOntologyUpdatedEvent(IAcSession userSession, OntologyBase source, IOntologyUpdateIo input)
-                    : base(userSession, source, input)
+                public PrivateOntologyUpdatedEvent(IAcSession acSession, OntologyBase source, IOntologyUpdateIo input)
+                    : base(acSession, source, input)
                 {
 
                 }
@@ -590,7 +590,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 this.Handle(message.AcSession, message.Source.Id, false);
             }
 
-            private void Handle(IAcSession userSession, Guid ontologyId, bool isCommand)
+            private void Handle(IAcSession acSession, Guid ontologyId, bool isCommand)
             {
                 var host = _set._host;
                 var ontologyRepository = host.RetrieveRequiredService<IRepository<Ontology>>();
@@ -676,13 +676,13 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateOntologyRemovedEvent(userSession, entity));
+                    host.MessageDispatcher.DispatchMessage(new PrivateOntologyRemovedEvent(acSession, entity));
                 }
             }
 
             private class PrivateOntologyRemovedEvent : OntologyRemovedEvent
             {
-                public PrivateOntologyRemovedEvent(IAcSession userSession, OntologyBase source) : base(userSession, source) { }
+                public PrivateOntologyRemovedEvent(IAcSession acSession, OntologyBase source) : base(acSession, source) { }
             }
         }
         #endregion
@@ -1019,9 +1019,9 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                     public string Tooltip { get; set; }
 
-                    public override IAnycmdCommand ToCommand(IAcSession userSession)
+                    public override IAnycmdCommand ToCommand(IAcSession acSession)
                     {
-                        return new AddElementCommand(userSession, this);
+                        return new AddElementCommand(acSession, this);
                     }
                 }
                 #endregion
@@ -1851,7 +1851,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     this.Handle(message.AcSession, message.Output, false);
                 }
 
-                private void Handle(IAcSession userSession, IOntologyCatalogCreateIo input, bool isCommand)
+                private void Handle(IAcSession acSession, IOntologyCatalogCreateIo input, bool isCommand)
                 {
                     var _dic = set._dic;
                     var host = set._host;
@@ -1903,14 +1903,14 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                     if (isCommand)
                     {
-                        host.MessageDispatcher.DispatchMessage(new PrivateOntologyCatalogAddedEvent(userSession, entity, input));
+                        host.MessageDispatcher.DispatchMessage(new PrivateOntologyCatalogAddedEvent(acSession, entity, input));
                     }
                 }
 
                 private class PrivateOntologyCatalogAddedEvent : OntologyCatalogAddedEvent
                 {
-                    public PrivateOntologyCatalogAddedEvent(IAcSession userSession, OntologyCatalogBase source, IOntologyCatalogCreateIo input)
-                        : base(userSession, source, input)
+                    public PrivateOntologyCatalogAddedEvent(IAcSession acSession, OntologyCatalogBase source, IOntologyCatalogCreateIo input)
+                        : base(acSession, source, input)
                     {
 
                     }
@@ -1931,7 +1931,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     this.Handle(message.AcSession, entity.OntologyId, entity.CatalogId, false);
                 }
 
-                private void Handle(IAcSession userSession, Guid ontologyId, Guid catalogId, bool isCommand)
+                private void Handle(IAcSession acSession, Guid ontologyId, Guid catalogId, bool isCommand)
                 {
                     var dic = set._dic;
                     var host = set._host;
@@ -1989,13 +1989,13 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                     if (isCommand)
                     {
-                        host.MessageDispatcher.DispatchMessage(new PrivateOntologyCatalogRemovedEvent(userSession, entity));
+                        host.MessageDispatcher.DispatchMessage(new PrivateOntologyCatalogRemovedEvent(acSession, entity));
                     }
                 }
 
                 private class PrivateOntologyCatalogRemovedEvent : OntologyCatalogRemovedEvent
                 {
-                    public PrivateOntologyCatalogRemovedEvent(IAcSession userSession, OntologyCatalogBase source) : base(userSession, source) { }
+                    public PrivateOntologyCatalogRemovedEvent(IAcSession acSession, OntologyCatalogBase source) : base(acSession, source) { }
                 }
 
                 public void Handle(AddCatalogActionCommand message)

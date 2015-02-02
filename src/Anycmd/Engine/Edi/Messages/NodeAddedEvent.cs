@@ -10,8 +10,8 @@ namespace Anycmd.Engine.Edi.Messages
     /// </summary>
     public class NodeAddedEvent : DomainEvent
     {
-        public NodeAddedEvent(IAcSession userSession, NodeBase source, INodeCreateIo output)
-            : base(userSession, source)
+        public NodeAddedEvent(IAcSession acSession, NodeBase source, INodeCreateIo output)
+            : base(acSession, source)
         {
             if (output == null)
             {

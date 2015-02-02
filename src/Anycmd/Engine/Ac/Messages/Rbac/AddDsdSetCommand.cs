@@ -5,8 +5,8 @@ namespace Anycmd.Engine.Ac.Messages.Rbac
 
     public class AddDsdSetCommand : AddEntityCommand<IDsdSetCreateIo>, IAnycmdCommand
     {
-        public AddDsdSetCommand(IAcSession userSession, IDsdSetCreateIo input)
-            : base(userSession, input)
+        public AddDsdSetCommand(IAcSession acSession, IDsdSetCreateIo input)
+            : base(acSession, input)
         {
 
         }

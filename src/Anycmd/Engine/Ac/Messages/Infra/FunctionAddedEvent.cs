@@ -9,8 +9,8 @@ namespace Anycmd.Engine.Ac.Messages.Infra
     /// </summary>
     public class FunctionAddedEvent : EntityAddedEvent<IFunctionCreateIo>
     {
-        public FunctionAddedEvent(IAcSession userSession, FunctionBase source, IFunctionCreateIo input)
-            : base(userSession, source, input)
+        public FunctionAddedEvent(IAcSession acSession, FunctionBase source, IFunctionCreateIo input)
+            : base(acSession, source, input)
         {
         }
     }

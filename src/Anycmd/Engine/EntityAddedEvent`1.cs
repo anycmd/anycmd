@@ -11,8 +11,8 @@ namespace Anycmd.Engine
     /// <typeparam name="TEntityCreateInput">事件中的输出对象的类型参数。</typeparam>
     public abstract class EntityAddedEvent<TEntityCreateInput> : DomainEvent where TEntityCreateInput : class, IEntityCreateInput
     {
-        protected EntityAddedEvent(IAcSession userSession, IEntity source, TEntityCreateInput output)
-            : base(userSession, source)
+        protected EntityAddedEvent(IAcSession acSession, IEntity source, TEntityCreateInput output)
+            : base(acSession, source)
         {
             if (output == null)
             {

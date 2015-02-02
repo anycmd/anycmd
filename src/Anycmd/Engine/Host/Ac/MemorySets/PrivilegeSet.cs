@@ -256,7 +256,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 this.Handle(message.AcSession, message.Output, false);
             }
 
-            private void Handle(IAcSession userSession, IPrivilegeCreateIo input, bool isCommand)
+            private void Handle(IAcSession acSession, IPrivilegeCreateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var privilegeList = _set._privilegeList;
@@ -466,11 +466,11 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivatPrivilegeAddedEvent(userSession, entity, input));
+                    host.MessageDispatcher.DispatchMessage(new PrivatPrivilegeAddedEvent(acSession, entity, input));
                 }
                 if (subjectType == AcElementType.Role && acObjectType == AcElementType.Role)
                 {
-                    host.MessageDispatcher.DispatchMessage(new RoleRolePrivilegeAddedEvent(userSession, entity));
+                    host.MessageDispatcher.DispatchMessage(new RoleRolePrivilegeAddedEvent(acSession, entity));
                 }
             }
 
@@ -518,8 +518,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivatPrivilegeAddedEvent : PrivilegeAddedEvent
             {
-                internal PrivatPrivilegeAddedEvent(IAcSession userSession, PrivilegeBase source, IPrivilegeCreateIo input)
-                    : base(userSession, source, input)
+                internal PrivatPrivilegeAddedEvent(IAcSession acSession, PrivilegeBase source, IPrivilegeCreateIo input)
+                    : base(acSession, source, input)
                 {
 
                 }
@@ -538,7 +538,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 this.Handle(message.AcSession, message.Output, false);
             }
 
-            private void Handle(IAcSession userSession, IPrivilegeUpdateIo input, bool isCommand)
+            private void Handle(IAcSession acSession, IPrivilegeUpdateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var privilegeList = _set._privilegeList;
@@ -585,14 +585,14 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivatePrivilegeUpdatedEvent(userSession, entity, input));
+                    host.MessageDispatcher.DispatchMessage(new PrivatePrivilegeUpdatedEvent(acSession, entity, input));
                 }
             }
 
             private class PrivatePrivilegeUpdatedEvent : PrivilegeUpdatedEvent
             {
-                internal PrivatePrivilegeUpdatedEvent(IAcSession userSession, PrivilegeBase source, IPrivilegeUpdateIo input)
-                    : base(userSession, source, input)
+                internal PrivatePrivilegeUpdatedEvent(IAcSession acSession, PrivilegeBase source, IPrivilegeUpdateIo input)
+                    : base(acSession, source, input)
                 {
 
                 }
@@ -611,7 +611,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 this.Handle(message.AcSession, message.Source.Id, false);
             }
 
-            private void Handle(IAcSession userSession, Guid privilegeId, bool isCommand)
+            private void Handle(IAcSession acSession, Guid privilegeId, bool isCommand)
             {
                 var host = _set._host;
                 var privilegeList = _set._privilegeList;
@@ -660,18 +660,18 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivatePrivilegeRemovedEvent(userSession, entity));
+                    host.MessageDispatcher.DispatchMessage(new PrivatePrivilegeRemovedEvent(acSession, entity));
                     if (subjectType == UserAcSubjectType.Role && acObjectType == AcElementType.Role)
                     {
-                        host.MessageDispatcher.DispatchMessage(new RoleRolePrivilegeRemovedEvent(userSession, entity));
+                        host.MessageDispatcher.DispatchMessage(new RoleRolePrivilegeRemovedEvent(acSession, entity));
                     }
                 }
             }
 
             private class PrivatePrivilegeRemovedEvent : PrivilegeRemovedEvent
             {
-                internal PrivatePrivilegeRemovedEvent(IAcSession userSession, PrivilegeBase source)
-                    : base(userSession, source)
+                internal PrivatePrivilegeRemovedEvent(IAcSession acSession, PrivilegeBase source)
+                    : base(acSession, source)
                 {
 
                 }

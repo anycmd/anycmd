@@ -5,8 +5,8 @@ namespace Anycmd.Engine.Ac.Messages.Infra
 
     public class UpdateResourceCommand : UpdateEntityCommand<IResourceTypeUpdateIo>, IAnycmdCommand
     {
-        public UpdateResourceCommand(IAcSession userSession, IResourceTypeUpdateIo input)
-            : base(userSession, input)
+        public UpdateResourceCommand(IAcSession acSession, IResourceTypeUpdateIo input)
+            : base(acSession, input)
         {
 
         }

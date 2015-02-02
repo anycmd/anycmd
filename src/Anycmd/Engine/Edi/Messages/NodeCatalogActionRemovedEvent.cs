@@ -6,6 +6,6 @@ namespace Anycmd.Engine.Edi.Messages
 
     public class NodeCatalogActionRemovedEvent : DomainEvent
     {
-        public NodeCatalogActionRemovedEvent(IAcSession userSession, NodeCatalogAction source) : base(userSession, source) { }
+        public NodeCatalogActionRemovedEvent(IAcSession acSession, NodeCatalogAction source) : base(acSession, source) { }
     }
 }

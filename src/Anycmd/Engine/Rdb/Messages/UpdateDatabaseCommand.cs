@@ -6,8 +6,8 @@ namespace Anycmd.Engine.Rdb.Messages
 
     public class UpdateDatabaseCommand : UpdateEntityCommand<IDatabaseUpdateInput>, IAnycmdCommand
     {
-        public UpdateDatabaseCommand(IAcSession userSession, IDatabaseUpdateInput input)
-            : base(userSession, input)
+        public UpdateDatabaseCommand(IAcSession acSession, IDatabaseUpdateInput input)
+            : base(acSession, input)
         {
 
         }

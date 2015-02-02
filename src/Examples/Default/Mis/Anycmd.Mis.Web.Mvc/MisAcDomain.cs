@@ -180,9 +180,9 @@ namespace Anycmd.Mis.Web.Mvc
 
                 public string Url { get; set; }
 
-                public IAnycmdCommand ToCommand(IAcSession userSession)
+                public IAnycmdCommand ToCommand(IAcSession acSession)
                 {
-                    return new AddMenuCommand(userSession, this);
+                    return new AddMenuCommand(acSession, this);
                 }
             }
 
@@ -212,9 +212,9 @@ namespace Anycmd.Mis.Web.Mvc
 
                 public string Url { get; set; }
 
-                public IAnycmdCommand ToCommand(IAcSession userSession)
+                public IAnycmdCommand ToCommand(IAcSession acSession)
                 {
-                    return new UpdateMenuCommand(userSession, this);
+                    return new UpdateMenuCommand(acSession, this);
                 }
             }
         }

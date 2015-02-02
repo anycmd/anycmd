@@ -36,11 +36,11 @@ namespace Anycmd.Web.Mvc
             {
                 if (User.Identity.IsAuthenticated)
                 {
-                    var userSession =
+                    var acSession =
                         AcDomain.GetRequiredService<IAcSessionStorage>()
                             .GetData(AcDomain.Config.CurrentAcSessionCacheKey) as IAcSession;
                     
-                    return userSession;
+                    return acSession;
                 }
                 else {
                     return AcSessionState.Empty;
@@ -59,7 +59,7 @@ namespace Anycmd.Web.Mvc
             return entityTypeEntityType;
         }
         
-        protected ActionResult HandleSeparateGuidString(Action<IAcSession, Guid> action, IAcSession userSession, string id, params char[] separator)
+        protected ActionResult HandleSeparateGuidString(Action<IAcSession, Guid> action, IAcSession acSession, string id, params char[] separator)
         {
             if (action == null)
             {
@@ -85,7 +85,7 @@ namespace Anycmd.Web.Mvc
             }
             foreach (var item in idArray)
             {
-                action(userSession, item);
+                action(acSession, item);
             }
             return this.JsonResult(new ResponseData { id = id, success = true });
         }

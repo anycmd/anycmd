@@ -8,180 +8,180 @@ namespace Anycmd.Engine.Edi
     public static class AcDomainExtension
     {
         #region Edi
-        public static void AddArchive(this IAcDomain host, IAcSession userSession, IArchiveCreateIo input)
+        public static void AddArchive(this IAcDomain host, IAcSession acSession, IArchiveCreateIo input)
         {
-            host.Handle(new AddArchiveCommand(userSession, input));
+            host.Handle(new AddArchiveCommand(acSession, input));
         }
-        public static void UpdateArchive(this IAcDomain host, IAcSession userSession, IArchiveUpdateIo input)
+        public static void UpdateArchive(this IAcDomain host, IAcSession acSession, IArchiveUpdateIo input)
         {
-            host.Handle(new UpdateArchiveCommand(userSession, input));
+            host.Handle(new UpdateArchiveCommand(acSession, input));
         }
-        public static void RemoveArchive(this IAcDomain host, IAcSession userSession, Guid archiveId)
+        public static void RemoveArchive(this IAcDomain host, IAcSession acSession, Guid archiveId)
         {
-            host.Handle(new RemoveArchiveCommand(userSession, archiveId));
-        }
-
-        public static void AddBatch(this IAcDomain host, IAcSession userSession, IBatchCreateIo input)
-        {
-            host.Handle(new AddBatchCommand(userSession, input));
-        }
-        public static void UpdateBatch(this IAcDomain host, IAcSession userSession, IBatchUpdateIo input)
-        {
-            host.Handle(new UpdateBatchCommand(userSession, input));
-        }
-        public static void RemoveBatch(this IAcDomain host, IAcSession userSession, Guid batchId)
-        {
-            host.Handle(new RemoveBatchCommand(userSession, batchId));
+            host.Handle(new RemoveArchiveCommand(acSession, archiveId));
         }
 
-        public static void AddElement(this IAcDomain host, IAcSession userSession, IElementCreateIo input)
+        public static void AddBatch(this IAcDomain host, IAcSession acSession, IBatchCreateIo input)
         {
-            host.Handle(new AddElementCommand(userSession, input));
+            host.Handle(new AddBatchCommand(acSession, input));
         }
-        public static void UpdateElement(this IAcDomain host, IAcSession userSession, IElementUpdateIo input)
+        public static void UpdateBatch(this IAcDomain host, IAcSession acSession, IBatchUpdateIo input)
         {
-            host.Handle(new UpdateElementCommand(userSession, input));
+            host.Handle(new UpdateBatchCommand(acSession, input));
         }
-        public static void RemoveElement(this IAcDomain host, IAcSession userSession, Guid elementId)
+        public static void RemoveBatch(this IAcDomain host, IAcSession acSession, Guid batchId)
         {
-            host.Handle(new RemoveElementCommand(userSession, elementId));
-        }
-
-        public static void AddInfoDic(this IAcDomain host, IAcSession userSession, IInfoDicCreateIo input)
-        {
-            host.Handle(new AddInfoDicCommand(userSession, input));
-        }
-        public static void UpdateInfoDic(this IAcDomain host, IAcSession userSession, IInfoDicUpdateIo input)
-        {
-            host.Handle(new UpdateInfoDicCommand(userSession, input));
-        }
-        public static void RemoveInfoDic(this IAcDomain host, IAcSession userSession, Guid infoDicId)
-        {
-            host.Handle(new RemoveInfoDicCommand(userSession, infoDicId));
+            host.Handle(new RemoveBatchCommand(acSession, batchId));
         }
 
-        public static void AddInfoDicItem(this IAcDomain host, IAcSession userSession, IInfoDicItemCreateIo input)
+        public static void AddElement(this IAcDomain host, IAcSession acSession, IElementCreateIo input)
         {
-            host.Handle(new AddInfoDicItemCommand(userSession, input));
+            host.Handle(new AddElementCommand(acSession, input));
         }
-        public static void UpdateInfoDicItem(this IAcDomain host, IAcSession userSession, IInfoDicItemUpdateIo input)
+        public static void UpdateElement(this IAcDomain host, IAcSession acSession, IElementUpdateIo input)
         {
-            host.Handle(new UpdateInfoDicItemCommand(userSession, input));
+            host.Handle(new UpdateElementCommand(acSession, input));
         }
-        public static void RemoveInfoDicItem(this IAcDomain host, IAcSession userSession, Guid infoDicItemId)
+        public static void RemoveElement(this IAcDomain host, IAcSession acSession, Guid elementId)
         {
-            host.Handle(new RemoveInfoDicItemCommand(userSession, infoDicItemId));
-        }
-
-        public static void AddNode(this IAcDomain host, IAcSession userSession, INodeCreateIo input)
-        {
-            host.Handle(new AddNodeCommand(userSession, input));
-        }
-        public static void UpdateNode(this IAcDomain host, IAcSession userSession, INodeUpdateIo input)
-        {
-            host.Handle(new UpdateNodeCommand(userSession, input));
-        }
-        public static void RemoveNode(this IAcDomain host, IAcSession userSession, Guid nodeId)
-        {
-            host.Handle(new RemoveNodeCommand(userSession, nodeId));
+            host.Handle(new RemoveElementCommand(acSession, elementId));
         }
 
-        public static void RemoveNodeOntologyCare(this IAcDomain host, IAcSession userSession, Guid nodeOntologyCareId)
+        public static void AddInfoDic(this IAcDomain host, IAcSession acSession, IInfoDicCreateIo input)
         {
-            host.Handle(new RemoveNodeOntologyCareCommand(userSession, nodeOntologyCareId));
+            host.Handle(new AddInfoDicCommand(acSession, input));
+        }
+        public static void UpdateInfoDic(this IAcDomain host, IAcSession acSession, IInfoDicUpdateIo input)
+        {
+            host.Handle(new UpdateInfoDicCommand(acSession, input));
+        }
+        public static void RemoveInfoDic(this IAcDomain host, IAcSession acSession, Guid infoDicId)
+        {
+            host.Handle(new RemoveInfoDicCommand(acSession, infoDicId));
         }
 
-        public static void AddNodeOntologyCare(this IAcDomain host, IAcSession userSession, INodeOntologyCareCreateIo input)
+        public static void AddInfoDicItem(this IAcDomain host, IAcSession acSession, IInfoDicItemCreateIo input)
         {
-            host.Handle(new AddNodeOntologyCareCommand(userSession, input));
+            host.Handle(new AddInfoDicItemCommand(acSession, input));
+        }
+        public static void UpdateInfoDicItem(this IAcDomain host, IAcSession acSession, IInfoDicItemUpdateIo input)
+        {
+            host.Handle(new UpdateInfoDicItemCommand(acSession, input));
+        }
+        public static void RemoveInfoDicItem(this IAcDomain host, IAcSession acSession, Guid infoDicItemId)
+        {
+            host.Handle(new RemoveInfoDicItemCommand(acSession, infoDicItemId));
         }
 
-        public static void RemoveNodeElementCare(this IAcDomain host, IAcSession userSession, Guid nodeElementCareId)
+        public static void AddNode(this IAcDomain host, IAcSession acSession, INodeCreateIo input)
         {
-            host.Handle(new RemoveNodeElementCareCommand(userSession, nodeElementCareId));
+            host.Handle(new AddNodeCommand(acSession, input));
+        }
+        public static void UpdateNode(this IAcDomain host, IAcSession acSession, INodeUpdateIo input)
+        {
+            host.Handle(new UpdateNodeCommand(acSession, input));
+        }
+        public static void RemoveNode(this IAcDomain host, IAcSession acSession, Guid nodeId)
+        {
+            host.Handle(new RemoveNodeCommand(acSession, nodeId));
         }
 
-        public static void AddNodeElementCare(this IAcDomain host, IAcSession userSession, INodeElementCareCreateIo input)
+        public static void RemoveNodeOntologyCare(this IAcDomain host, IAcSession acSession, Guid nodeOntologyCareId)
         {
-            host.Handle(new AddNodeElementCareCommand(userSession, input));
+            host.Handle(new RemoveNodeOntologyCareCommand(acSession, nodeOntologyCareId));
         }
 
-        public static void AddOntology(this IAcDomain host, IAcSession userSession, IOntologyCreateIo input)
+        public static void AddNodeOntologyCare(this IAcDomain host, IAcSession acSession, INodeOntologyCareCreateIo input)
         {
-            host.Handle(new AddOntologyCommand(userSession, input));
-        }
-        public static void UpdateOntology(this IAcDomain host, IAcSession userSession, IOntologyUpdateIo input)
-        {
-            host.Handle(new UpdateOntologyCommand(userSession, input));
-        }
-        public static void RemoveOntology(this IAcDomain host, IAcSession userSession, Guid ontologyId)
-        {
-            host.Handle(new RemoveOntologyCommand(userSession, ontologyId));
+            host.Handle(new AddNodeOntologyCareCommand(acSession, input));
         }
 
-        public static void AddOntologyCatalog(this IAcDomain host, IAcSession userSession, IOntologyCatalogCreateIo input)
+        public static void RemoveNodeElementCare(this IAcDomain host, IAcSession acSession, Guid nodeElementCareId)
         {
-            host.Handle(new AddOntologyCatalogCommand(userSession, input));
+            host.Handle(new RemoveNodeElementCareCommand(acSession, nodeElementCareId));
         }
 
-        public static void RemoveOntologyCatalog(this IAcDomain host, IAcSession userSession, Guid ontologyId, Guid catalogId)
+        public static void AddNodeElementCare(this IAcDomain host, IAcSession acSession, INodeElementCareCreateIo input)
         {
-            host.Handle(new RemoveOntologyCatalogCommand(userSession, ontologyId, catalogId));
+            host.Handle(new AddNodeElementCareCommand(acSession, input));
         }
 
-        public static void AddInfoGroup(this IAcDomain host, IAcSession userSession, IInfoGroupCreateIo input)
+        public static void AddOntology(this IAcDomain host, IAcSession acSession, IOntologyCreateIo input)
         {
-            host.Handle(new AddInfoGroupCommand(userSession, input));
+            host.Handle(new AddOntologyCommand(acSession, input));
+        }
+        public static void UpdateOntology(this IAcDomain host, IAcSession acSession, IOntologyUpdateIo input)
+        {
+            host.Handle(new UpdateOntologyCommand(acSession, input));
+        }
+        public static void RemoveOntology(this IAcDomain host, IAcSession acSession, Guid ontologyId)
+        {
+            host.Handle(new RemoveOntologyCommand(acSession, ontologyId));
         }
 
-        public static void UpdateInfoGroup(this IAcDomain host, IAcSession userSession, IInfoGroupUpdateIo input)
+        public static void AddOntologyCatalog(this IAcDomain host, IAcSession acSession, IOntologyCatalogCreateIo input)
         {
-            host.Handle(new UpdateInfoGroupCommand(userSession, input));
+            host.Handle(new AddOntologyCatalogCommand(acSession, input));
         }
 
-        public static void RemoveInfoGroup(this IAcDomain host, IAcSession userSession, Guid infoGroupId)
+        public static void RemoveOntologyCatalog(this IAcDomain host, IAcSession acSession, Guid ontologyId, Guid catalogId)
         {
-            host.Handle(new RemoveInfoGroupCommand(userSession, infoGroupId));
+            host.Handle(new RemoveOntologyCatalogCommand(acSession, ontologyId, catalogId));
         }
 
-        public static void AddAction(this IAcDomain host, IAcSession userSession, IActionCreateIo input)
+        public static void AddInfoGroup(this IAcDomain host, IAcSession acSession, IInfoGroupCreateIo input)
         {
-            host.Handle(new AddActionCommand(userSession, input));
+            host.Handle(new AddInfoGroupCommand(acSession, input));
         }
 
-        public static void UpdateAction(this IAcDomain host, IAcSession userSession, IActionUpdateIo input)
+        public static void UpdateInfoGroup(this IAcDomain host, IAcSession acSession, IInfoGroupUpdateIo input)
         {
-            host.Handle(new UpdateActionCommand(userSession, input));
+            host.Handle(new UpdateInfoGroupCommand(acSession, input));
         }
 
-        public static void RemoveAction(this IAcDomain host, IAcSession userSession, Guid actionId)
+        public static void RemoveInfoGroup(this IAcDomain host, IAcSession acSession, Guid infoGroupId)
         {
-            host.Handle(new RemoveActionCommand(userSession, actionId));
+            host.Handle(new RemoveInfoGroupCommand(acSession, infoGroupId));
         }
 
-        public static void AddTopic(this IAcDomain host, IAcSession userSession, ITopicCreateIo input)
+        public static void AddAction(this IAcDomain host, IAcSession acSession, IActionCreateIo input)
         {
-            host.Handle(new AddTopicCommand(userSession, input));
+            host.Handle(new AddActionCommand(acSession, input));
         }
 
-        public static void UpdateTopic(this IAcDomain host, IAcSession userSession, ITopicUpdateIo input)
+        public static void UpdateAction(this IAcDomain host, IAcSession acSession, IActionUpdateIo input)
         {
-            host.Handle(new UpdateTopicCommand(userSession, input));
+            host.Handle(new UpdateActionCommand(acSession, input));
         }
 
-        public static void RemoveTopic(this IAcDomain host, IAcSession userSession, Guid topicId)
+        public static void RemoveAction(this IAcDomain host, IAcSession acSession, Guid actionId)
         {
-            host.Handle(new RemoveTopicCommand(userSession, topicId));
+            host.Handle(new RemoveActionCommand(acSession, actionId));
         }
 
-        public static void AddProcess(this IAcDomain host, IAcSession userSession, IProcessCreateIo input)
+        public static void AddTopic(this IAcDomain host, IAcSession acSession, ITopicCreateIo input)
         {
-            host.Handle(new AddProcessCommand(userSession, input));
+            host.Handle(new AddTopicCommand(acSession, input));
         }
 
-        public static void UpdateProcess(this IAcDomain host, IAcSession userSession, IProcessUpdateIo input)
+        public static void UpdateTopic(this IAcDomain host, IAcSession acSession, ITopicUpdateIo input)
         {
-            host.Handle(new UpdateProcessCommand(userSession, input));
+            host.Handle(new UpdateTopicCommand(acSession, input));
+        }
+
+        public static void RemoveTopic(this IAcDomain host, IAcSession acSession, Guid topicId)
+        {
+            host.Handle(new RemoveTopicCommand(acSession, topicId));
+        }
+
+        public static void AddProcess(this IAcDomain host, IAcSession acSession, IProcessCreateIo input)
+        {
+            host.Handle(new AddProcessCommand(acSession, input));
+        }
+
+        public static void UpdateProcess(this IAcDomain host, IAcSession acSession, IProcessUpdateIo input)
+        {
+            host.Handle(new UpdateProcessCommand(acSession, input));
         }
         #endregion
     }

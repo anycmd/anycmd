@@ -6,9 +6,9 @@ namespace Anycmd.Engine.Ac.Messages.Identity
 
     public class EnableAccountCommand : Command
     {
-        public EnableAccountCommand(IAcSession userSession, Guid accountId)
+        public EnableAccountCommand(IAcSession acSession, Guid accountId)
         {
-            this.AcSession = userSession;
+            this.AcSession = acSession;
             this.AccountId = accountId;
         }
 

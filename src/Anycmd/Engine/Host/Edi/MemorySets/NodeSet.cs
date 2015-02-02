@@ -396,7 +396,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 this.Handle(message.AcSession, message.Output, false);
             }
 
-            private void Handle(IAcSession userSession, INodeCreateIo input, bool isCommand)
+            private void Handle(IAcSession acSession, INodeCreateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var locker = _set._locker;
@@ -448,14 +448,14 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateNodeAddedEvent(userSession, entity, input));
+                    host.MessageDispatcher.DispatchMessage(new PrivateNodeAddedEvent(acSession, entity, input));
                 }
             }
 
             private class PrivateNodeAddedEvent : NodeAddedEvent
             {
-                internal PrivateNodeAddedEvent(IAcSession userSession, NodeBase source, INodeCreateIo input)
-                    : base(userSession, source, input)
+                internal PrivateNodeAddedEvent(IAcSession acSession, NodeBase source, INodeCreateIo input)
+                    : base(acSession, source, input)
                 {
 
                 }
@@ -474,7 +474,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 this.Handle(message.AcSession, message.Output, false);
             }
 
-            private void Handle(IAcSession userSession, INodeUpdateIo input, bool isCommand)
+            private void Handle(IAcSession acSession, INodeUpdateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var locker = _set._locker;
@@ -531,7 +531,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateNodeUpdatedEvent(userSession, entity, input));
+                    host.MessageDispatcher.DispatchMessage(new PrivateNodeUpdatedEvent(acSession, entity, input));
                 }
             }
 
@@ -554,8 +554,8 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
             private class PrivateNodeUpdatedEvent : NodeUpdatedEvent
             {
-                internal PrivateNodeUpdatedEvent(IAcSession userSession, NodeBase source, INodeUpdateIo input)
-                    : base(userSession, source, input)
+                internal PrivateNodeUpdatedEvent(IAcSession acSession, NodeBase source, INodeUpdateIo input)
+                    : base(acSession, source, input)
                 {
 
                 }
@@ -575,7 +575,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 this.Handle(message.AcSession, message.Source.Id, false);
             }
 
-            private void Handle(IAcSession userSession, Guid nodeId, bool isCommand)
+            private void Handle(IAcSession acSession, Guid nodeId, bool isCommand)
             {
                 var host = _set._host;
                 var locker = _set._locker;
@@ -615,14 +615,14 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateNodeRemovedEvent(userSession, entity));
+                    host.MessageDispatcher.DispatchMessage(new PrivateNodeRemovedEvent(acSession, entity));
                 }
             }
 
             private class PrivateNodeRemovedEvent : NodeRemovedEvent
             {
-                internal PrivateNodeRemovedEvent(IAcSession userSession, NodeBase source)
-                    : base(userSession, source)
+                internal PrivateNodeRemovedEvent(IAcSession acSession, NodeBase source)
+                    : base(acSession, source)
                 {
 
                 }
@@ -770,7 +770,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     this.Handle(message.AcSession, message.Output, false);
                 }
 
-                private void Handle(IAcSession userSession, INodeElementActionCreateIo input, bool isCommand)
+                private void Handle(IAcSession acSession, INodeElementActionCreateIo input, bool isCommand)
                 {
                     var host = _set._host;
                     var nodeElementActionDic = _set._nodeElementActionDic;
@@ -833,14 +833,14 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                     if (isCommand)
                     {
-                        host.MessageDispatcher.DispatchMessage(new PrivateNodeElementActionAddedEvent(userSession, entity, input));
+                        host.MessageDispatcher.DispatchMessage(new PrivateNodeElementActionAddedEvent(acSession, entity, input));
                     }
                 }
 
                 private class PrivateNodeElementActionAddedEvent : NodeElementActionAddedEvent
                 {
-                    internal PrivateNodeElementActionAddedEvent(IAcSession userSession, NodeElementActionBase source, INodeElementActionCreateIo input)
-                        : base(userSession, source, input)
+                    internal PrivateNodeElementActionAddedEvent(IAcSession acSession, NodeElementActionBase source, INodeElementActionCreateIo input)
+                        : base(acSession, source, input)
                     {
 
                     }
@@ -860,7 +860,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     this.Handle(message.AcSession, message.Source.Id, false);
                 }
 
-                private void Handle(IAcSession userSession, Guid nodeElementActionId, bool isCommand)
+                private void Handle(IAcSession acSession, Guid nodeElementActionId, bool isCommand)
                 {
                     var host = _set._host;
                     var nodeElementActionDic = _set._nodeElementActionDic;
@@ -932,14 +932,14 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                     if (isCommand)
                     {
-                        host.MessageDispatcher.DispatchMessage(new PrivateNodeElementActionRemovedEvent(userSession, entity));
+                        host.MessageDispatcher.DispatchMessage(new PrivateNodeElementActionRemovedEvent(acSession, entity));
                     }
                 }
 
                 private class PrivateNodeElementActionRemovedEvent : NodeElementActionRemovedEvent
                 {
-                    public PrivateNodeElementActionRemovedEvent(IAcSession userSession, NodeElementAction source)
-                        : base(userSession, source)
+                    public PrivateNodeElementActionRemovedEvent(IAcSession acSession, NodeElementAction source)
+                        : base(acSession, source)
                     {
 
                     }
@@ -1254,7 +1254,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     this.Handle(message.AcSession, message.Output, false);
                 }
 
-                private void Handle(IAcSession userSession, INodeOntologyCareCreateIo input, bool isCommand)
+                private void Handle(IAcSession acSession, INodeOntologyCareCreateIo input, bool isCommand)
                 {
                     var host = _set._host;
                     var nodeOntologyCareList = _set._nodeOntologyCareList;
@@ -1319,14 +1319,14 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                     if (isCommand)
                     {
-                        host.MessageDispatcher.DispatchMessage(new PrivateNodeOntologyCareAddedEvent(userSession, entity, input));
+                        host.MessageDispatcher.DispatchMessage(new PrivateNodeOntologyCareAddedEvent(acSession, entity, input));
                     }
                 }
 
                 private class PrivateNodeOntologyCareAddedEvent : NodeOntologyCareAddedEvent
                 {
-                    internal PrivateNodeOntologyCareAddedEvent(IAcSession userSession, NodeOntologyCareBase source, INodeOntologyCareCreateIo input)
-                        : base(userSession, source, input)
+                    internal PrivateNodeOntologyCareAddedEvent(IAcSession acSession, NodeOntologyCareBase source, INodeOntologyCareCreateIo input)
+                        : base(acSession, source, input)
                     {
 
                     }
@@ -1346,7 +1346,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     this.Handle(message.AcSession, message.Source.Id, false);
                 }
 
-                private void Handle(IAcSession userSession, Guid nodeOntologyCareId, bool isCommand)
+                private void Handle(IAcSession acSession, Guid nodeOntologyCareId, bool isCommand)
                 {
                     var host = _set._host;
                     var nodeOntologyCareList = _set._nodeOntologyCareList;
@@ -1402,13 +1402,13 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                     if (isCommand)
                     {
-                        host.MessageDispatcher.DispatchMessage(new PrivateNodeOntologyCareRemovedEvent(userSession, entity));
+                        host.MessageDispatcher.DispatchMessage(new PrivateNodeOntologyCareRemovedEvent(acSession, entity));
                     }
                 }
 
                 private class PrivateNodeOntologyCareRemovedEvent : NodeOntologyCareRemovedEvent
                 {
-                    internal PrivateNodeOntologyCareRemovedEvent(IAcSession userSession, NodeOntologyCareBase source) : base(userSession, source) { }
+                    internal PrivateNodeOntologyCareRemovedEvent(IAcSession acSession, NodeOntologyCareBase source) : base(acSession, source) { }
 
                 }
 
@@ -1426,7 +1426,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     this.Handle(message.AcSession, message.Output, false);
                 }
 
-                private void Handle(IAcSession userSession, INodeElementCareCreateIo input, bool isCommand)
+                private void Handle(IAcSession acSession, INodeElementCareCreateIo input, bool isCommand)
                 {
                     var host = _set._host;
                     var nodeElementCareList = _set._nodeElementCareList;
@@ -1491,14 +1491,14 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                     if (isCommand)
                     {
-                        host.MessageDispatcher.DispatchMessage(new PrivateNodeElementCareAddedEvent(userSession, entity, input));
+                        host.MessageDispatcher.DispatchMessage(new PrivateNodeElementCareAddedEvent(acSession, entity, input));
                     }
                 }
 
                 private class PrivateNodeElementCareAddedEvent : NodeElementCareAddedEvent
                 {
-                    internal PrivateNodeElementCareAddedEvent(IAcSession userSession, NodeElementCareBase source, INodeElementCareCreateIo input)
-                        : base(userSession, source, input)
+                    internal PrivateNodeElementCareAddedEvent(IAcSession acSession, NodeElementCareBase source, INodeElementCareCreateIo input)
+                        : base(acSession, source, input)
                     {
 
                     }
@@ -1518,7 +1518,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     this.Handle(message.AcSession, message.Source.Id, message.IsInfoIdItem, false);
                 }
 
-                private void Handle(IAcSession userSession, Guid nodeElementCareId, bool isInfoIdItem, bool isCommand)
+                private void Handle(IAcSession acSession, Guid nodeElementCareId, bool isInfoIdItem, bool isCommand)
                 {
                     var host = _set._host;
                     var nodeElementCareList = _set._nodeElementCareList;
@@ -1583,14 +1583,14 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                     if (isCommand)
                     {
-                        host.MessageDispatcher.DispatchMessage(new PrivateNodeElementCareUpdatedEvent(userSession, entity));
+                        host.MessageDispatcher.DispatchMessage(new PrivateNodeElementCareUpdatedEvent(acSession, entity));
                     }
                 }
 
                 private class PrivateNodeElementCareUpdatedEvent : NodeElementCareUpdatedEvent
                 {
-                    internal PrivateNodeElementCareUpdatedEvent(IAcSession userSession, NodeElementCareBase source)
-                        : base(userSession, source)
+                    internal PrivateNodeElementCareUpdatedEvent(IAcSession acSession, NodeElementCareBase source)
+                        : base(acSession, source)
                     {
 
                     }
@@ -1610,7 +1610,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     this.HandleElement(message.AcSession, message.Source.Id, false);
                 }
 
-                private void HandleElement(IAcSession userSession, Guid nodeElementCareId, bool isCommand)
+                private void HandleElement(IAcSession acSession, Guid nodeElementCareId, bool isCommand)
                 {
                     var host = _set._host;
                     var nodeElementCareList = _set._nodeElementCareList;
@@ -1682,13 +1682,13 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                     if (isCommand)
                     {
-                        host.MessageDispatcher.DispatchMessage(new PrivateNodeElementCareRemovedEvent(userSession, entity));
+                        host.MessageDispatcher.DispatchMessage(new PrivateNodeElementCareRemovedEvent(acSession, entity));
                     }
                 }
 
                 private class PrivateNodeElementCareRemovedEvent : NodeElementCareRemovedEvent
                 {
-                    internal PrivateNodeElementCareRemovedEvent(IAcSession userSession, NodeElementCareBase source) : base(userSession, source) { }
+                    internal PrivateNodeElementCareRemovedEvent(IAcSession acSession, NodeElementCareBase source) : base(acSession, source) { }
 
                 }
             }
@@ -1862,7 +1862,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     this.Handle(message.AcSession, message.Output, false);
                 }
 
-                private void Handle(IAcSession userSession, INodeOntologyCatalogCreateIo input, bool isCommand)
+                private void Handle(IAcSession acSession, INodeOntologyCatalogCreateIo input, bool isCommand)
                 {
                     var host = _set._host;
                     var dic = _set._dic;
@@ -1929,14 +1929,14 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                     if (isCommand)
                     {
-                        host.MessageDispatcher.DispatchMessage(new PrivateNodeOntologyCatalogAddedEvent(userSession, entity, input));
+                        host.MessageDispatcher.DispatchMessage(new PrivateNodeOntologyCatalogAddedEvent(acSession, entity, input));
                     }
                 }
 
                 private class PrivateNodeOntologyCatalogAddedEvent : NodeOntologyCatalogAddedEvent
                 {
-                    internal PrivateNodeOntologyCatalogAddedEvent(IAcSession userSession, NodeOntologyCatalogBase source, INodeOntologyCatalogCreateIo input)
-                        : base(userSession, source, input)
+                    internal PrivateNodeOntologyCatalogAddedEvent(IAcSession acSession, NodeOntologyCatalogBase source, INodeOntologyCatalogCreateIo input)
+                        : base(acSession, source, input)
                     {
 
                     }
@@ -1957,7 +1957,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     this.Handle(message.AcSession, entity.NodeId, entity.OntologyId, entity.CatalogId, false);
                 }
 
-                private void Handle(IAcSession userSession, Guid nodeId, Guid ontologyId, Guid catalogId, bool isCommand)
+                private void Handle(IAcSession acSession, Guid nodeId, Guid ontologyId, Guid catalogId, bool isCommand)
                 {
                     var host = _set._host;
                     var dic = _set._dic;
@@ -2003,13 +2003,13 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                     if (isCommand)
                     {
-                        host.MessageDispatcher.DispatchMessage(new PrivateNodeOntologyCatalogRemovedEvent(userSession, entity));
+                        host.MessageDispatcher.DispatchMessage(new PrivateNodeOntologyCatalogRemovedEvent(acSession, entity));
                     }
                 }
 
                 private class PrivateNodeOntologyCatalogRemovedEvent : NodeOntologyCatalogRemovedEvent
                 {
-                    internal PrivateNodeOntologyCatalogRemovedEvent(IAcSession userSession, NodeOntologyCatalogBase source) : base(userSession, source) { }
+                    internal PrivateNodeOntologyCatalogRemovedEvent(IAcSession acSession, NodeOntologyCatalogBase source) : base(acSession, source) { }
                 }
             }
             #endregion

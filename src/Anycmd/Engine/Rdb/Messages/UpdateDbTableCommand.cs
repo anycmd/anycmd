@@ -8,13 +8,13 @@ namespace Anycmd.Engine.Rdb.Messages
 
     public class UpdateDbTableCommand : Command, IAnycmdCommand
     {
-        public UpdateDbTableCommand(IAcSession userSession, IDbTableUpdateInput input)
+        public UpdateDbTableCommand(IAcSession acSession, IDbTableUpdateInput input)
         {
             if (input == null)
             {
                 throw new ArgumentNullException("input");
             }
-            this.AcSession = userSession;
+            this.AcSession = acSession;
             this.Input = input;
         }
 

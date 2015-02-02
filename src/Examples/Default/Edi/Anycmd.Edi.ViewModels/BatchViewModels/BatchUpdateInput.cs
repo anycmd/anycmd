@@ -33,9 +33,9 @@ namespace Anycmd.Edi.ViewModels.BatchViewModels
         /// </summary>
         public string Description { get; set; }
 
-        public IAnycmdCommand ToCommand(IAcSession userSession)
+        public IAnycmdCommand ToCommand(IAcSession acSession)
         {
-            return new UpdateBatchCommand(userSession, this);
+            return new UpdateBatchCommand(acSession, this);
         }
     }
 }

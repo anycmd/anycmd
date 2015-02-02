@@ -8,13 +8,13 @@ namespace Anycmd.Engine.Rdb.Messages
 
     public class UpdateDbViewColumnCommand: Command, IAnycmdCommand
     {
-        public UpdateDbViewColumnCommand(IAcSession userSession, IDbViewColumnUpdateInput input)
+        public UpdateDbViewColumnCommand(IAcSession acSession, IDbViewColumnUpdateInput input)
         {
             if (input == null)
             {
                 throw new ArgumentNullException("input");
             }
-            this.AcSession = userSession;
+            this.AcSession = acSession;
             this.Input = input;
         }
 

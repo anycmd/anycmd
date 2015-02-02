@@ -88,9 +88,9 @@ namespace Anycmd.Ac.ViewModels.Infra.EntityTypeViewModels
 
         public string Tooltip { get; set; }
 
-        public override IAnycmdCommand ToCommand(IAcSession userSession)
+        public override IAnycmdCommand ToCommand(IAcSession acSession)
         {
-            return new AddPropertyCommand(userSession, this);
+            return new AddPropertyCommand(acSession, this);
         }
     }
 }

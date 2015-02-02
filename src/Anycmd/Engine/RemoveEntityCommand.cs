@@ -10,9 +10,9 @@ namespace Anycmd.Engine
     /// </summary>
     public abstract class RemoveEntityCommand : Command, IAnycmdCommand
     {
-        protected RemoveEntityCommand(IAcSession userSession, Guid entityId)
+        protected RemoveEntityCommand(IAcSession acSession, Guid entityId)
         {
-            this.AcSession = userSession;
+            this.AcSession = acSession;
             this.EntityId = entityId;
         }
 

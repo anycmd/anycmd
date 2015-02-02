@@ -5,8 +5,8 @@ namespace Anycmd.Engine.Ac.Messages.Infra
 
     public class AddPositionCommand : AddEntityCommand<IPositionCreateIo>, IAnycmdCommand
     {
-        public AddPositionCommand(IAcSession userSession, IPositionCreateIo input)
-            : base(userSession, input)
+        public AddPositionCommand(IAcSession acSession, IPositionCreateIo input)
+            : base(acSession, input)
         {
         }
     }

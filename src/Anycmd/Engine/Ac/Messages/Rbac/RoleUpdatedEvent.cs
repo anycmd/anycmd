@@ -8,8 +8,8 @@ namespace Anycmd.Engine.Ac.Messages.Rbac
 
     public class RoleUpdatedEvent : DomainEvent
     {
-        public RoleUpdatedEvent(IAcSession userSession, RoleBase source, IRoleUpdateIo output)
-            : base(userSession, source)
+        public RoleUpdatedEvent(IAcSession acSession, RoleBase source, IRoleUpdateIo output)
+            : base(acSession, source)
         {
             if (output == null)
             {

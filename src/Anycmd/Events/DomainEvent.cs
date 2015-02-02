@@ -37,10 +37,10 @@ namespace Anycmd.Events
             this.Source = source;
         }
 
-        protected DomainEvent(IAcSession userSession, IEntity source)
+        protected DomainEvent(IAcSession acSession, IEntity source)
             : this(source)
         {
-            this.AcSession = userSession;
+            this.AcSession = acSession;
         }
         #endregion
 

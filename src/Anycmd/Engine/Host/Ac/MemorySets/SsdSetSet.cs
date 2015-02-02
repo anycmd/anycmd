@@ -224,7 +224,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 this.Handle(message.AcSession, message.Output, false);
             }
 
-            private void Handle(IAcSession userSession, ISsdSetCreateIo input, bool isCommand)
+            private void Handle(IAcSession acSession, ISsdSetCreateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var ssdSetDic = _set._ssdSetDic;
@@ -271,14 +271,14 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateSsdSetAddedEvent(userSession, entity, input));
+                    host.MessageDispatcher.DispatchMessage(new PrivateSsdSetAddedEvent(acSession, entity, input));
                 }
             }
 
             private class PrivateSsdSetAddedEvent : SsdSetAddedEvent
             {
-                internal PrivateSsdSetAddedEvent(IAcSession userSession, SsdSetBase source, ISsdSetCreateIo input)
-                    : base(userSession, source, input)
+                internal PrivateSsdSetAddedEvent(IAcSession acSession, SsdSetBase source, ISsdSetCreateIo input)
+                    : base(acSession, source, input)
                 {
                 }
             }
@@ -297,7 +297,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 this.Handle(message.AcSession, message.Output, false);
             }
 
-            private void Handle(IAcSession userSession, ISsdSetUpdateIo input, bool isCommand)
+            private void Handle(IAcSession acSession, ISsdSetUpdateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var ssdSetDic = _set._ssdSetDic;
@@ -354,7 +354,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateSsdSetUpdatedEvent(userSession, entity, input));
+                    host.MessageDispatcher.DispatchMessage(new PrivateSsdSetUpdatedEvent(acSession, entity, input));
                 }
             }
 
@@ -367,8 +367,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateSsdSetUpdatedEvent : SsdSetUpdatedEvent
             {
-                internal PrivateSsdSetUpdatedEvent(IAcSession userSession, SsdSetBase source, ISsdSetUpdateIo input)
-                    : base(userSession, source, input)
+                internal PrivateSsdSetUpdatedEvent(IAcSession acSession, SsdSetBase source, ISsdSetUpdateIo input)
+                    : base(acSession, source, input)
                 {
 
                 }
@@ -388,7 +388,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 this.Handle(message.AcSession, message.Source.Id, false);
             }
 
-            private void Handle(IAcSession userSession, Guid ssdSetId, bool isCommand)
+            private void Handle(IAcSession acSession, Guid ssdSetId, bool isCommand)
             {
                 var host = _set._host;
                 var ssdSetDic = _set._ssdSetDic;
@@ -435,14 +435,14 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateSsdSetRemovedEvent(userSession, entity));
+                    host.MessageDispatcher.DispatchMessage(new PrivateSsdSetRemovedEvent(acSession, entity));
                 }
             }
 
             private class PrivateSsdSetRemovedEvent : SsdSetRemovedEvent
             {
-                internal PrivateSsdSetRemovedEvent(IAcSession userSession, SsdSetBase source)
-                    : base(userSession, source)
+                internal PrivateSsdSetRemovedEvent(IAcSession acSession, SsdSetBase source)
+                    : base(acSession, source)
                 {
                 }
             }
@@ -461,7 +461,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 this.Handle(message.AcSession, message.Output, false);
             }
 
-            private void Handle(IAcSession userSession, ISsdRoleCreateIo input, bool isCommand)
+            private void Handle(IAcSession acSession, ISsdRoleCreateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var ssdRoleBySet = _set._ssdRoleBySet;
@@ -524,14 +524,14 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateSsdRoleAddedEvent(userSession, entity, input));
+                    host.MessageDispatcher.DispatchMessage(new PrivateSsdRoleAddedEvent(acSession, entity, input));
                 }
             }
 
             private class PrivateSsdRoleAddedEvent : SsdRoleAddedEvent
             {
-                internal PrivateSsdRoleAddedEvent(IAcSession userSession, SsdRoleBase source, ISsdRoleCreateIo input)
-                    : base(userSession, source, input)
+                internal PrivateSsdRoleAddedEvent(IAcSession acSession, SsdRoleBase source, ISsdRoleCreateIo input)
+                    : base(acSession, source, input)
                 {
 
                 }
@@ -551,7 +551,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 this.HandleSsdRole(message.AcSession, message.Source.Id, false);
             }
 
-            private void HandleSsdRole(IAcSession userSession, Guid ssdRoleId, bool isCommand)
+            private void HandleSsdRole(IAcSession acSession, Guid ssdRoleId, bool isCommand)
             {
                 var host = _set._host;
                 var ssdSetDic = _set._ssdSetDic;
@@ -609,14 +609,14 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateSsdRoleRemovedEvent(userSession, entity));
+                    host.MessageDispatcher.DispatchMessage(new PrivateSsdRoleRemovedEvent(acSession, entity));
                 }
             }
 
             private class PrivateSsdRoleRemovedEvent : SsdRoleRemovedEvent
             {
-                internal PrivateSsdRoleRemovedEvent(IAcSession userSession, SsdRoleBase source)
-                    : base(userSession, source)
+                internal PrivateSsdRoleRemovedEvent(IAcSession acSession, SsdRoleBase source)
+                    : base(acSession, source)
                 {
                 }
             }

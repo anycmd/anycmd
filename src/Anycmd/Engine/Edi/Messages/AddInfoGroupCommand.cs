@@ -5,8 +5,8 @@ namespace Anycmd.Engine.Edi.Messages
 
     public class AddInfoGroupCommand : AddEntityCommand<IInfoGroupCreateIo>, IAnycmdCommand
     {
-        public AddInfoGroupCommand(IAcSession userSession, IInfoGroupCreateIo input)
-            : base(userSession, input)
+        public AddInfoGroupCommand(IAcSession acSession, IInfoGroupCreateIo input)
+            : base(acSession, input)
         {
 
         }

@@ -6,6 +6,6 @@ namespace Anycmd.Engine.Edi.Messages
 
     public class NodeCatalogActionAddedEvent : DomainEvent
     {
-        public NodeCatalogActionAddedEvent(IAcSession userSession, NodeCatalogAction source) : base(userSession, source) { }
+        public NodeCatalogActionAddedEvent(IAcSession acSession, NodeCatalogAction source) : base(acSession, source) { }
     }
 }

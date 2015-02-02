@@ -5,8 +5,8 @@ namespace Anycmd.Engine.Ac.Messages.Rbac
 
     public class RemoveDsdSetCommand : RemoveEntityCommand
     {
-        public RemoveDsdSetCommand(IAcSession userSession, Guid dsdSetId)
-            : base(userSession, dsdSetId)
+        public RemoveDsdSetCommand(IAcSession acSession, Guid dsdSetId)
+            : base(acSession, dsdSetId)
         {
 
         }

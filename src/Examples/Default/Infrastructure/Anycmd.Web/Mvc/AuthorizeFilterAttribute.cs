@@ -105,8 +105,8 @@ namespace Anycmd.Web.Mvc
                 return;
             }
             var storage = acDomain.GetRequiredService<IAcSessionStorage>();
-            var userSession = storage.GetData(acDomain.Config.CurrentAcSessionCacheKey) as IAcSession;
-            if (userSession == null)
+            var acSession = storage.GetData(acDomain.Config.CurrentAcSessionCacheKey) as IAcSession;
+            if (acSession == null)
             {
                 var account = AcSessionState.GetAccountByLoginName(acDomain, user.Identity.Name);
                 if (account == null)
@@ -123,17 +123,17 @@ namespace Anycmd.Web.Mvc
                         ToLogin(filterContext, isAjaxRequest);
                         return;
                     }
-                    userSession = new AcSessionState(acDomain, sessionEntity);
+                    acSession = new AcSessionState(acDomain, sessionEntity);
                 }
                 else
                 {
                     // 使用账户标识作为会话标识会导致一个账户只有一个会话
                     // TODO:支持账户和会话的一对多，为会话级的动态责任分离做准备
-                    userSession = AcSessionState.AddAcSession(acDomain, account.Id, AccountState.Create(account));
+                    acSession = AcSessionState.AddAcSession(acDomain, account.Id, AccountState.Create(account));
                 }
-                storage.SetData(acDomain.Config.CurrentAcSessionCacheKey, userSession);
+                storage.SetData(acDomain.Config.CurrentAcSessionCacheKey, acSession);
             }
-            if (userSession.Permit(function, null)) return;
+            if (acSession.Permit(function, null)) return;
             if (isAjaxRequest)
             {
                 filterContext.Result = new FormatJsonResult

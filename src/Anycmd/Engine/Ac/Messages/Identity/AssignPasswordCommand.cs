@@ -7,13 +7,13 @@ namespace Anycmd.Engine.Ac.Messages.Identity
 
     public class AssignPasswordCommand : Command, IAnycmdCommand
     {
-        public AssignPasswordCommand(IAcSession userSession, IPasswordAssignIo input)
+        public AssignPasswordCommand(IAcSession acSession, IPasswordAssignIo input)
         {
             if (input == null)
             {
                 throw new ArgumentNullException("input");
             }
-            this.AcSession = userSession;
+            this.AcSession = acSession;
             this.Input = input;
         }
 

@@ -16,6 +16,6 @@ namespace Anycmd.Engine
 
         public string HecpVerb { get; protected set; }
 
-        public abstract IAnycmdCommand ToCommand(IAcSession userSession);
+        public abstract IAnycmdCommand ToCommand(IAcSession acSession);
     }
 }

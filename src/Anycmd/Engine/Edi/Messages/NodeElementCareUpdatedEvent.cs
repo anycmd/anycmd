@@ -6,8 +6,8 @@ namespace Anycmd.Engine.Edi.Messages
 
     public class NodeElementCareUpdatedEvent : DomainEvent
     {
-        public NodeElementCareUpdatedEvent(IAcSession userSession, NodeElementCareBase source)
-            : base(userSession, source)
+        public NodeElementCareUpdatedEvent(IAcSession acSession, NodeElementCareBase source)
+            : base(acSession, source)
         {
             this.IsInfoIdItem = source.IsInfoIdItem;
         }

@@ -40,9 +40,9 @@ namespace Anycmd.Ac.ViewModels.Infra.DicViewModels
         /// </summary>
         public int SortCode { get; set; }
 
-        public override IAnycmdCommand ToCommand(IAcSession userSession)
+        public override IAnycmdCommand ToCommand(IAcSession acSession)
         {
-            return new AddDicCommand(userSession, this);
+            return new AddDicCommand(acSession, this);
         }
     }
 }

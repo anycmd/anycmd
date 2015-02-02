@@ -6,6 +6,6 @@ namespace Anycmd.Engine.Edi.Messages
 
     public class ProcessRemovedEvent : DomainEvent
     {
-        public ProcessRemovedEvent(IAcSession userSession, ProcessBase source) : base(userSession, source) { }
+        public ProcessRemovedEvent(IAcSession acSession, ProcessBase source) : base(acSession, source) { }
     }
 }

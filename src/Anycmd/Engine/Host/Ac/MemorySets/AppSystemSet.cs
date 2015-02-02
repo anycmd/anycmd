@@ -211,7 +211,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 Handle(message.AcSession, message.Input, false);
             }
 
-            private void Handle(IAcSession userSession, IAppSystemCreateIo input, bool isCommand)
+            private void Handle(IAcSession acSession, IAppSystemCreateIo input, bool isCommand)
             {
                 var dicByCode = _set._dicByCode;
                 var dicById = _set._dicById;
@@ -275,14 +275,14 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 // 如果是命令则分发事件
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateAppSystemAddedEvent(userSession, entity, input));
+                    host.MessageDispatcher.DispatchMessage(new PrivateAppSystemAddedEvent(acSession, entity, input));
                 }
             }
 
             private class PrivateAppSystemAddedEvent : AppSystemAddedEvent
             {
-                internal PrivateAppSystemAddedEvent(IAcSession userSession, AppSystemBase source, IAppSystemCreateIo input)
-                    : base(userSession, source, input)
+                internal PrivateAppSystemAddedEvent(IAcSession acSession, AppSystemBase source, IAppSystemCreateIo input)
+                    : base(acSession, source, input)
                 {
                 }
             }
@@ -300,7 +300,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 Handle(message.AcSession, message.Input, false);
             }
 
-            private void Handle(IAcSession userSession, IAppSystemUpdateIo input, bool isCommand)
+            private void Handle(IAcSession acSession, IAppSystemUpdateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var repository = host.RetrieveRequiredService<IRepository<AppSystem>>();
@@ -361,7 +361,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateAppSystemUpdatedEvent(userSession, entity, input));
+                    host.MessageDispatcher.DispatchMessage(new PrivateAppSystemUpdatedEvent(acSession, entity, input));
                 }
             }
 
@@ -387,8 +387,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateAppSystemUpdatedEvent : AppSystemUpdatedEvent
             {
-                internal PrivateAppSystemUpdatedEvent(IAcSession userSession, AppSystemBase source, IAppSystemUpdateIo input)
-                    : base(userSession, source, input)
+                internal PrivateAppSystemUpdatedEvent(IAcSession acSession, AppSystemBase source, IAppSystemUpdateIo input)
+                    : base(acSession, source, input)
                 {
 
                 }
@@ -407,7 +407,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 Handle(message.AcSession, message.Source.Id, false);
             }
 
-            private void Handle(IAcSession userSession, Guid appSystemId, bool isCommand)
+            private void Handle(IAcSession acSession, Guid appSystemId, bool isCommand)
             {
                 var dicByCode = _set._dicByCode;
                 var dicById = _set._dicById;
@@ -443,7 +443,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     {
                         if (isCommand)
                         {
-                            host.MessageDispatcher.DispatchMessage(new AppSystemRemovingEvent(userSession, entity));
+                            host.MessageDispatcher.DispatchMessage(new AppSystemRemovingEvent(acSession, entity));
                         }
                         if (dicByCode.ContainsKey(bkState.Code))
                         {
@@ -475,13 +475,13 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateAppSystemRemovedEvent(userSession, entity));
+                    host.MessageDispatcher.DispatchMessage(new PrivateAppSystemRemovedEvent(acSession, entity));
                 }
             }
 
             private class PrivateAppSystemRemovedEvent : AppSystemRemovedEvent
             {
-                internal PrivateAppSystemRemovedEvent(IAcSession userSession, AppSystemBase source) : base(userSession, source) { }
+                internal PrivateAppSystemRemovedEvent(IAcSession acSession, AppSystemBase source) : base(acSession, source) { }
             }
         }
         #endregion

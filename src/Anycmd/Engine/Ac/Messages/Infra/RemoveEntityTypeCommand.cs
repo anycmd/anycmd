@@ -5,8 +5,8 @@ namespace Anycmd.Engine.Ac.Messages.Infra
 
     public class RemoveEntityTypeCommand : RemoveEntityCommand
     {
-        public RemoveEntityTypeCommand(IAcSession userSession, Guid entityTypeId)
-            : base(userSession, entityTypeId)
+        public RemoveEntityTypeCommand(IAcSession acSession, Guid entityTypeId)
+            : base(acSession, entityTypeId)
         {
 
         }

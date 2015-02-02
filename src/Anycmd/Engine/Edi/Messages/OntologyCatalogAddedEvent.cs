@@ -7,8 +7,8 @@ namespace Anycmd.Engine.Edi.Messages
 
     public class OntologyCatalogAddedEvent : DomainEvent
     {
-        public OntologyCatalogAddedEvent(IAcSession userSession, OntologyCatalogBase source, IOntologyCatalogCreateIo output)
-            : base(userSession, source)
+        public OntologyCatalogAddedEvent(IAcSession acSession, OntologyCatalogBase source, IOntologyCatalogCreateIo output)
+            : base(acSession, source)
         {
             if (output == null)
             {

@@ -9,8 +9,8 @@ namespace Anycmd.Engine.Ac.Messages.Infra
     /// </summary>
     public class ResourceTypeRemovedEvent : DomainEvent
     {
-        public ResourceTypeRemovedEvent(IAcSession userSession, ResourceTypeBase source)
-            : base(userSession, source)
+        public ResourceTypeRemovedEvent(IAcSession acSession, ResourceTypeBase source)
+            : base(acSession, source)
         {
         }
     }

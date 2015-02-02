@@ -9,8 +9,8 @@ namespace Anycmd.Engine.Ac.Messages.Infra
     /// </summary>
     public class CatalogAddedEvent : EntityAddedEvent<ICatalogCreateIo>
     {
-        public CatalogAddedEvent(IAcSession userSession, CatalogBase source, ICatalogCreateIo input)
-            : base(userSession, source, input)
+        public CatalogAddedEvent(IAcSession acSession, CatalogBase source, ICatalogCreateIo input)
+            : base(acSession, source, input)
         {
         }
     }

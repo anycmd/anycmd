@@ -31,9 +31,9 @@ namespace Anycmd.Edi.ViewModels.NodeViewModels
 
         public bool IsInfoIdItem { get; set; }
 
-        public override IAnycmdCommand ToCommand(IAcSession userSession)
+        public override IAnycmdCommand ToCommand(IAcSession acSession)
         {
-            return new AddNodeElementCareCommand(userSession, this);
+            return new AddNodeElementCareCommand(acSession, this);
         }
     }
 }

@@ -6,9 +6,9 @@ namespace Anycmd.Engine.Ac.Messages.Identity
 
     public class AddVisitingLogCommand : Command, IAnycmdCommand
     {
-        public AddVisitingLogCommand(IAcSession userSession)
+        public AddVisitingLogCommand(IAcSession acSession)
         {
-            this.AcSession = userSession;
+            this.AcSession = acSession;
         }
 
         public IAcSession AcSession { get; private set; }

@@ -9,8 +9,8 @@ namespace Anycmd.Engine.Ac.Messages.Identity
     /// </summary>
     public class AccountLogoutedEvent : DomainEvent
     {
-        public AccountLogoutedEvent(IAcSession userSession, AccountBase source)
-            : base(userSession, source)
+        public AccountLogoutedEvent(IAcSession acSession, AccountBase source)
+            : base(acSession, source)
         {
         }
     }

@@ -6,8 +6,8 @@ namespace Anycmd.Engine.Ac.Messages.Infra
 
     public class UpdateButtonCommand : UpdateEntityCommand<IButtonUpdateIo>, IAnycmdCommand
     {
-        public UpdateButtonCommand(IAcSession userSession, IButtonUpdateIo input)
-            : base(userSession, input)
+        public UpdateButtonCommand(IAcSession acSession, IButtonUpdateIo input)
+            : base(acSession, input)
         {
 
         }

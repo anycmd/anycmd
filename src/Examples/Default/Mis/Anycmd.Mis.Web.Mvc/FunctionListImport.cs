@@ -29,7 +29,7 @@ namespace Anycmd.Mis.Web.Mvc
         private static readonly object Locker = new object();
         private static bool _isChanged = true;
 
-        public void Import(IAcDomain host, IAcSession userSession, string appSystemCode)
+        public void Import(IAcDomain host, IAcSession acSession, string appSystemCode)
         {
             if (_isChanged)
             {
@@ -149,13 +149,13 @@ namespace Anycmd.Mis.Web.Mvc
                                             ResourceTypeId = resource.Id,
                                             SortCode = sortCode,
                                             Code = function.FunctionCode
-                                        }.ToCommand(userSession));
+                                        }.ToCommand(acSession));
                                         if (isPage)
                                         {
                                             host.Handle(new UiViewCreateInput
                                             {
                                                 Id = function.Id
-                                            }.ToCommand(userSession));
+                                            }.ToCommand(acSession));
                                         }
                                     }
                                     else
@@ -171,7 +171,7 @@ namespace Anycmd.Mis.Web.Mvc
                                                 DeveloperId = developerId,
                                                 Id = oldFunction.Id,
                                                 SortCode = oldFunction.SortCode
-                                            }.ToCommand(userSession));
+                                            }.ToCommand(acSession));
                                         }
                                         reflectionFunctions.Add(FunctionId.Create(oldFunction.Id, appSystemCode, areaCode, resourceCode, action));
                                         if (isPage)
@@ -181,7 +181,7 @@ namespace Anycmd.Mis.Web.Mvc
                                                 host.Handle(new UiViewCreateInput
                                                 {
                                                     Id = oldFunction.Id
-                                                }.ToCommand(userSession));
+                                                }.ToCommand(acSession));
                                             }
                                         }
                                         else
@@ -189,7 +189,7 @@ namespace Anycmd.Mis.Web.Mvc
                                             // 删除废弃的页面
                                             if (oldPages.All(a => a.Id != oldFunction.Id))
                                             {
-                                                host.Handle(new RemoveUiViewCommand(userSession, oldFunction.Id));
+                                                host.Handle(new RemoveUiViewCommand(acSession, oldFunction.Id));
                                             }
                                         }
                                     }
@@ -208,11 +208,11 @@ namespace Anycmd.Mis.Web.Mvc
                                 foreach (var rolePrivilege in privilegeBigramRepository.AsQueryable().Where(a => privilegeType == a.ObjectType && a.ObjectInstanceId == oldFunction.Id).ToList())
                                 {
                                     privilegeBigramRepository.Remove(rolePrivilege);
-                                    host.EventBus.Publish(new PrivilegeRemovedEvent(userSession, rolePrivilege));
+                                    host.EventBus.Publish(new PrivilegeRemovedEvent(acSession, rolePrivilege));
                                 }
                                 host.EventBus.Commit();
                                 privilegeBigramRepository.Context.Commit();
-                                host.Handle(new RemoveFunctionCommand(userSession, oldFunction.Id));
+                                host.Handle(new RemoveFunctionCommand(acSession, oldFunction.Id));
                             }
                         }
                         #endregion

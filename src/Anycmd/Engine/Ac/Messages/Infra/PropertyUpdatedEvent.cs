@@ -10,8 +10,8 @@ namespace Anycmd.Engine.Ac.Messages.Infra
     /// </summary>
     public class PropertyUpdatedEvent : DomainEvent
     {
-        public PropertyUpdatedEvent(IAcSession userSession, PropertyBase source, IPropertyUpdateIo input)
-            : base(userSession, source)
+        public PropertyUpdatedEvent(IAcSession acSession, PropertyBase source, IPropertyUpdateIo input)
+            : base(acSession, source)
         {
             if (input == null)
             {

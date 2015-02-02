@@ -46,9 +46,9 @@ namespace Anycmd.Ac.ViewModels.Infra.DicViewModels
         [Required]
         public int SortCode { get; set; }
 
-        public IAnycmdCommand ToCommand(IAcSession userSession)
+        public IAnycmdCommand ToCommand(IAcSession acSession)
         {
-            return new UpdateDicItemCommand(userSession, this);
+            return new UpdateDicItemCommand(acSession, this);
         }
     }
 }

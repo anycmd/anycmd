@@ -6,8 +6,8 @@ namespace Anycmd.Engine.Ac.Messages.Infra
 
     public class CatalogRemovingEvent: DomainEvent
     {
-        public CatalogRemovingEvent(IAcSession userSession, CatalogBase source)
-            : base(userSession, source)
+        public CatalogRemovingEvent(IAcSession acSession, CatalogBase source)
+            : base(acSession, source)
         {
         }
     }

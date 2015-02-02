@@ -51,9 +51,9 @@ namespace Anycmd.Ac.ViewModels.Infra.FunctionViewModels
         [Required]
         public int SortCode { get; set; }
 
-        public override IAnycmdCommand ToCommand(IAcSession userSession)
+        public override IAnycmdCommand ToCommand(IAcSession acSession)
         {
-            return new AddFunctionCommand(userSession, this);
+            return new AddFunctionCommand(acSession, this);
         }
     }
 }

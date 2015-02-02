@@ -6,9 +6,9 @@ namespace Anycmd.Engine.Edi.Messages
     // TODO:在界面上添加创建运行时本体元素的按钮
     public class AddSystemElementCommand : Command, IAnycmdCommand
     {
-        public AddSystemElementCommand(IAcSession userSession)
+        public AddSystemElementCommand(IAcSession acSession)
         {
-            this.AcSession = userSession;
+            this.AcSession = acSession;
         }
 
         public IAcSession AcSession { get; private set; }

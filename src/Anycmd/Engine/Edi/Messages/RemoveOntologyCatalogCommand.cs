@@ -6,9 +6,9 @@ namespace Anycmd.Engine.Edi.Messages
 
     public class RemoveOntologyCatalogCommand : Command, IAnycmdCommand
     {
-        public RemoveOntologyCatalogCommand(IAcSession userSession, Guid ontologyId, Guid catalogId)
+        public RemoveOntologyCatalogCommand(IAcSession acSession, Guid ontologyId, Guid catalogId)
         {
-            this.AcSession = userSession;
+            this.AcSession = acSession;
             this.OntologyId = ontologyId;
             this.CatalogId = catalogId;
         }

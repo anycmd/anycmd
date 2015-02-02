@@ -6,8 +6,8 @@ namespace Anycmd.Engine.Ac.Messages.Rbac
 
     public class DsdRoleAddedEvent : EntityAddedEvent<IDsdRoleCreateIo>
     {
-        public DsdRoleAddedEvent(IAcSession userSession, DsdRoleBase source, IDsdRoleCreateIo output)
-            : base(userSession, source, output)
+        public DsdRoleAddedEvent(IAcSession acSession, DsdRoleBase source, IDsdRoleCreateIo output)
+            : base(acSession, source, output)
         {
         }
     }

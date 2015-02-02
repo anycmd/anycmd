@@ -15,7 +15,7 @@ namespace Anycmd.Engine.Ac
     public sealed class AccountPrivilege
     {
         private bool _initialized = false;
-        private readonly IAcSession _userSession;
+        private readonly IAcSession _acSession;
         private readonly IAcDomain _acDomain;
         private HashSet<Guid> _authorizedRoleIds;
         private List<RoleState> _authorizedRoles;
@@ -31,10 +31,10 @@ namespace Anycmd.Engine.Ac
         private HashSet<MenuState> _menus;
         private HashSet<AppSystemState> _appSystems;
 
-        public AccountPrivilege(IAcDomain acDomain, IAcSession userSession)
+        public AccountPrivilege(IAcDomain acDomain, IAcSession acSession)
         {
             this._acDomain = acDomain;
-            this._userSession = userSession;
+            this._acSession = acSession;
         }
 
         public HashSet<CatalogState> Catalogs
@@ -114,7 +114,7 @@ namespace Anycmd.Engine.Ac
             get
             {
                 if (_accountPrivileges != null) return _accountPrivileges;
-                if (_userSession.Account.Id == Guid.Empty)
+                if (_acSession.Account.Id == Guid.Empty)
                 {
                     return new List<PrivilegeState>();
                 }
@@ -234,7 +234,7 @@ namespace Anycmd.Engine.Ac
                 if (_authorizedMenus != null) return _authorizedMenus;
                 _authorizedMenus = new HashSet<MenuState>();
                 var menuList = new List<MenuState>();
-                if (_userSession.IsDeveloper())
+                if (_acSession.IsDeveloper())
                 {
                     menuList.AddRange(_acDomain.MenuSet);
                 }
@@ -377,7 +377,7 @@ namespace Anycmd.Engine.Ac
         {
             var subjectType = UserAcSubjectType.Account.ToName();
             var accountPrivileges = _acDomain.RetrieveRequiredService<IRepository<Privilege>>().AsQueryable()
-                .Where(a => a.SubjectType == subjectType && a.SubjectInstanceId == _userSession.Account.Id).ToList().Select(PrivilegeState.Create).ToList();
+                .Where(a => a.SubjectType == subjectType && a.SubjectInstanceId == _acSession.Account.Id).ToList().Select(PrivilegeState.Create).ToList();
             return accountPrivileges;
         }
 

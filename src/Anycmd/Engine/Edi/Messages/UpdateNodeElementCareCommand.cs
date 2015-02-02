@@ -6,9 +6,9 @@ namespace Anycmd.Engine.Edi.Messages
 
     public class UpdateNodeElementCareCommand : Command, IAnycmdCommand
     {
-        public UpdateNodeElementCareCommand(IAcSession userSession, Guid nodeElementCareId, bool isInfoIdItem)
+        public UpdateNodeElementCareCommand(IAcSession acSession, Guid nodeElementCareId, bool isInfoIdItem)
         {
-            this.AcSession = userSession;
+            this.AcSession = acSession;
             this.NodeElementCareId = nodeElementCareId;
             this.IsInfoIdItem = isInfoIdItem;
         }

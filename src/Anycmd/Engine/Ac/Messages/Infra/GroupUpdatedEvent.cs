@@ -7,8 +7,8 @@ namespace Anycmd.Engine.Ac.Messages.Infra
 
     public class GroupUpdatedEvent : DomainEvent
     {
-        public GroupUpdatedEvent(IAcSession userSession, GroupBase source, IGroupUpdateIo output)
-            : base(userSession, source)
+        public GroupUpdatedEvent(IAcSession acSession, GroupBase source, IGroupUpdateIo output)
+            : base(acSession, source)
         {
             if (output == null)
             {

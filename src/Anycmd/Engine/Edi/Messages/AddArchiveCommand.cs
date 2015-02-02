@@ -5,8 +5,8 @@ namespace Anycmd.Engine.Edi.Messages
 
     public class AddArchiveCommand : AddEntityCommand<IArchiveCreateIo>, IAnycmdCommand
     {
-        public AddArchiveCommand(IAcSession userSession, IArchiveCreateIo input)
-            : base(userSession, input)
+        public AddArchiveCommand(IAcSession acSession, IArchiveCreateIo input)
+            : base(acSession, input)
         {
 
         }

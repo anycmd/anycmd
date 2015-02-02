@@ -177,7 +177,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 this.Handle(message.AcSession, message.Source.Id, false);
             }
 
-            private void Handle(IAcSession userSession, Guid accountId, bool isCommand)
+            private void Handle(IAcSession acSession, Guid accountId, bool isCommand)
             {
                 var host = _set._host;
                 var devAccountById = _set._devAccountById;
@@ -221,13 +221,13 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateDeveloperAddedEvent(userSession, entity));
+                    host.MessageDispatcher.DispatchMessage(new PrivateDeveloperAddedEvent(acSession, entity));
                 }
             }
 
             private class PrivateDeveloperAddedEvent : DeveloperAddedEvent
             {
-                internal PrivateDeveloperAddedEvent(IAcSession userSession, DeveloperId source) : base(userSession, source) { }
+                internal PrivateDeveloperAddedEvent(IAcSession acSession, DeveloperId source) : base(acSession, source) { }
             }
 
             public void Handle(DeveloperUpdatedEvent message)
@@ -267,7 +267,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 this.HandleRemove(message.AcSession, message.Source.Id, false);
             }
 
-            private void HandleRemove(IAcSession userSession, Guid accountId, bool isCommand)
+            private void HandleRemove(IAcSession acSession, Guid accountId, bool isCommand)
             {
                 var host = _set._host;
                 var devAccountById = _set._devAccountById;
@@ -310,13 +310,13 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateDeveloperRemovedEvent(userSession, entity));
+                    host.MessageDispatcher.DispatchMessage(new PrivateDeveloperRemovedEvent(acSession, entity));
                 }
             }
 
             private class PrivateDeveloperRemovedEvent : DeveloperRemovedEvent
             {
-                internal PrivateDeveloperRemovedEvent(IAcSession userSession, DeveloperId source) : base(userSession, source) { }
+                internal PrivateDeveloperRemovedEvent(IAcSession acSession, DeveloperId source) : base(acSession, source) { }
             }
         }
     }

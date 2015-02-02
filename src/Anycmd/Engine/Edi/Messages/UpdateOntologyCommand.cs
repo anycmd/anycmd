@@ -5,8 +5,8 @@ namespace Anycmd.Engine.Edi.Messages
 
     public class UpdateOntologyCommand: UpdateEntityCommand<IOntologyUpdateIo>, IAnycmdCommand
     {
-        public UpdateOntologyCommand(IAcSession userSession, IOntologyUpdateIo input)
-            : base(userSession, input)
+        public UpdateOntologyCommand(IAcSession acSession, IOntologyUpdateIo input)
+            : base(acSession, input)
         {
 
         }

@@ -6,8 +6,8 @@ namespace Anycmd.Engine.Ac.Messages.Infra
 
     public class AddPropertyCommand : AddEntityCommand<IPropertyCreateIo>, IAnycmdCommand
     {
-        public AddPropertyCommand(IAcSession userSession, IPropertyCreateIo input)
-            : base(userSession, input)
+        public AddPropertyCommand(IAcSession acSession, IPropertyCreateIo input)
+            : base(acSession, input)
         {
 
         }

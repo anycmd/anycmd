@@ -389,8 +389,8 @@ namespace Anycmd.Tests
             });
             var account = accountRepository.GetByKey(accountId);
             var sessionId = Guid.NewGuid();
-            var userSession = rbacService.CreateSession(host.GetAcSession(), sessionId, AccountState.Create(account));
-            Assert.NotNull(userSession);
+            var acSession = rbacService.CreateSession(host.GetAcSession(), sessionId, AccountState.Create(account));
+            Assert.NotNull(acSession);
             var sessionEntity = AcSessionState.GetAcSession(host, sessionId);
             Assert.NotNull(sessionEntity);
         }
@@ -431,8 +431,8 @@ namespace Anycmd.Tests
             });
             var account = accountRepository.GetByKey(accountId);
             var sessionId = Guid.NewGuid();
-            var userSession = rbacService.CreateSession(host.GetAcSession(), sessionId, AccountState.Create(account));
-            Assert.NotNull(userSession);
+            var acSession = rbacService.CreateSession(host.GetAcSession(), sessionId, AccountState.Create(account));
+            Assert.NotNull(acSession);
             var sessionEntity = sessionRepository.GetByKey(sessionId);
             Assert.NotNull(sessionEntity);
             rbacService.DeleteSession(host.GetAcSession(), sessionId);
@@ -630,12 +630,12 @@ namespace Anycmd.Tests
             }));
             var account = accountRepository.GetByKey(accountId);
             var sessionId = Guid.NewGuid();
-            var userSession = rbacService.CreateSession(host.GetAcSession(), sessionId, AccountState.Create(account));
-            Assert.NotNull(userSession);
+            var acSession = rbacService.CreateSession(host.GetAcSession(), sessionId, AccountState.Create(account));
+            Assert.NotNull(acSession);
             var sessionEntity = sessionRepository.GetByKey(sessionId);
             Assert.NotNull(sessionEntity);
-            Assert.Equal(1, userSession.AccountPrivilege.Roles.Count);
-            Assert.Equal(3, userSession.AccountPrivilege.AuthorizedRoles.Count);// 用户的全部角色来自直接角色、目录角色、工作组角色三者的并集所以是三个角色。
+            Assert.Equal(1, acSession.AccountPrivilege.Roles.Count);
+            Assert.Equal(3, acSession.AccountPrivilege.AuthorizedRoles.Count);// 用户的全部角色来自直接角色、目录角色、工作组角色三者的并集所以是三个角色。
         }
         #endregion
 
@@ -749,13 +749,13 @@ namespace Anycmd.Tests
             }));
             var account = accountRepository.GetByKey(accountId);
             var sessionId = Guid.NewGuid();
-            var userSession = rbacService.CreateSession(host.GetAcSession(), sessionId, AccountState.Create(account));
-            Assert.NotNull(userSession);
+            var acSession = rbacService.CreateSession(host.GetAcSession(), sessionId, AccountState.Create(account));
+            Assert.NotNull(acSession);
             var sessionEntity = sessionRepository.GetByKey(sessionId);
             Assert.NotNull(sessionEntity);
-            Assert.Equal(1, userSession.AccountPrivilege.Functions.Count);
-            Assert.Equal(2, userSession.AccountPrivilege.AuthorizedFunctions.Count);
-            Assert.Equal(2, rbacService.UserPermissions(host.GetAcSession(), userSession).Count);
+            Assert.Equal(1, acSession.AccountPrivilege.Functions.Count);
+            Assert.Equal(2, acSession.AccountPrivilege.AuthorizedFunctions.Count);
+            Assert.Equal(2, rbacService.UserPermissions(host.GetAcSession(), acSession).Count);
         }
         #endregion
 

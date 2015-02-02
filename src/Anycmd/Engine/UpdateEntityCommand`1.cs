@@ -10,13 +10,13 @@ namespace Anycmd.Engine
     /// </summary>
     public abstract class UpdateEntityCommand<TEntityUpdateInput> : Command where TEntityUpdateInput : class, IEntityUpdateInput
     {
-        protected UpdateEntityCommand(IAcSession userSession, TEntityUpdateInput input)
+        protected UpdateEntityCommand(IAcSession acSession, TEntityUpdateInput input)
         {
             if (input == null)
             {
                 throw new ArgumentNullException("input");
             }
-            this.AcSession = userSession;
+            this.AcSession = acSession;
             this.Input = input;
         }
 

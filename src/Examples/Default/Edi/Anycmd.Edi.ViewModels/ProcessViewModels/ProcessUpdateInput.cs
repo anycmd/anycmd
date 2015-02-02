@@ -40,9 +40,9 @@ namespace Anycmd.Edi.ViewModels.ProcessViewModels
         [DefaultValue(1)]
         public int IsEnabled { get; set; }
 
-        public IAnycmdCommand ToCommand(IAcSession userSession)
+        public IAnycmdCommand ToCommand(IAcSession acSession)
         {
-            return new UpdateProcessCommand(userSession, this);
+            return new UpdateProcessCommand(acSession, this);
         }
     }
 }

@@ -6,8 +6,8 @@ namespace Anycmd.Engine.Ac.Messages.Infra
 
     public class PositionRemovedEvent : DomainEvent
     {
-        public PositionRemovedEvent(IAcSession userSession, GroupBase source)
-            : base(userSession, source)
+        public PositionRemovedEvent(IAcSession acSession, GroupBase source)
+            : base(acSession, source)
         {
         }
     }

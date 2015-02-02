@@ -56,9 +56,9 @@ namespace Anycmd.Ac.ViewModels.GroupViewModels
         [Required]
         public int SortCode { get; set; }
 
-        public override IAnycmdCommand ToCommand(IAcSession userSession)
+        public override IAnycmdCommand ToCommand(IAcSession acSession)
         {
-            return new AddGroupCommand(userSession, this);
+            return new AddGroupCommand(acSession, this);
         }
     }
 }

@@ -5,8 +5,8 @@ namespace Anycmd.Engine.Edi.Messages
 
     public class RemoveNodeCommand : RemoveEntityCommand
     {
-        public RemoveNodeCommand(IAcSession userSession, Guid nodeId)
-            : base(userSession, nodeId)
+        public RemoveNodeCommand(IAcSession acSession, Guid nodeId)
+            : base(acSession, nodeId)
         {
 
         }

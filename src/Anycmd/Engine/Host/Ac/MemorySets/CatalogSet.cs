@@ -170,7 +170,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 this.Handle(message.AcSession, message.Output, false);
             }
 
-            private void Handle(IAcSession userSession, ICatalogCreateIo input, bool isCommand)
+            private void Handle(IAcSession acSession, ICatalogCreateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var dicByCode = _set._dicByCode;
@@ -258,14 +258,14 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateCatalogAddedEvent(userSession, entity, input));
+                    host.MessageDispatcher.DispatchMessage(new PrivateCatalogAddedEvent(acSession, entity, input));
                 }
             }
 
             private class PrivateCatalogAddedEvent : CatalogAddedEvent
             {
-                internal PrivateCatalogAddedEvent(IAcSession userSession, CatalogBase source, ICatalogCreateIo input)
-                    : base(userSession, source, input)
+                internal PrivateCatalogAddedEvent(IAcSession acSession, CatalogBase source, ICatalogCreateIo input)
+                    : base(acSession, source, input)
                 {
 
                 }
@@ -285,7 +285,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 this.Handle(message.AcSession, message.Input, false);
             }
 
-            private void Handle(IAcSession userSession, ICatalogUpdateIo input, bool isCommand)
+            private void Handle(IAcSession acSession, ICatalogUpdateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var catalogRepository = host.RetrieveRequiredService<IRepository<Catalog>>();
@@ -361,7 +361,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateCatalogUpdatedEvent(userSession, entity, input));
+                    host.MessageDispatcher.DispatchMessage(new PrivateCatalogUpdatedEvent(acSession, entity, input));
                 }
             }
 
@@ -385,7 +385,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateCatalogUpdatedEvent : CatalogUpdatedEvent
             {
-                internal PrivateCatalogUpdatedEvent(IAcSession userSession, CatalogBase source, ICatalogUpdateIo input) : base(userSession, source, input) { }
+                internal PrivateCatalogUpdatedEvent(IAcSession acSession, CatalogBase source, ICatalogUpdateIo input) : base(acSession, source, input) { }
             }
 
             public void Handle(RemoveCatalogCommand message)
@@ -402,7 +402,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 this.Handle(message.AcSession, message.Source.Id, false);
             }
 
-            private void Handle(IAcSession userSession, Guid catalogId, bool isCommand)
+            private void Handle(IAcSession acSession, Guid catalogId, bool isCommand)
             {
                 var host = _set._host;
                 var dicByCode = _set._dicByCode;
@@ -434,7 +434,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     {
                         if (isCommand)
                         {
-                            host.MessageDispatcher.DispatchMessage(new CatalogRemovingEvent(userSession, entity));
+                            host.MessageDispatcher.DispatchMessage(new CatalogRemovingEvent(acSession, entity));
                         }
                         dicById.Remove(bkState.Id);
                         dicByCode.Remove(bkState.Code);
@@ -460,14 +460,14 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateCatalogRemovedEvent(userSession, entity));
+                    host.MessageDispatcher.DispatchMessage(new PrivateCatalogRemovedEvent(acSession, entity));
                 }
             }
 
             private class PrivateCatalogRemovedEvent : CatalogRemovedEvent
             {
-                internal PrivateCatalogRemovedEvent(IAcSession userSession, CatalogBase source)
-                    : base(userSession, source)
+                internal PrivateCatalogRemovedEvent(IAcSession acSession, CatalogBase source)
+                    : base(acSession, source)
                 {
 
                 }

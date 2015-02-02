@@ -10,8 +10,8 @@ namespace Anycmd.Engine.Edi.Messages
     /// </summary>
     public class InfoDicUpdatedEvent : DomainEvent
     {
-        public InfoDicUpdatedEvent(IAcSession userSession, InfoDicBase source, IInfoDicUpdateIo output)
-            : base(userSession, source)
+        public InfoDicUpdatedEvent(IAcSession acSession, InfoDicBase source, IInfoDicUpdateIo output)
+            : base(acSession, source)
         {
             if (output == null)
             {

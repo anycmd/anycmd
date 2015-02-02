@@ -6,8 +6,8 @@ namespace Anycmd.Engine.Ac.Messages.Rbac
 
     public class DsdSetRemovedEvent : DomainEvent
     {
-        public DsdSetRemovedEvent(IAcSession userSession, DsdSetBase source)
-            : base(userSession, source)
+        public DsdSetRemovedEvent(IAcSession acSession, DsdSetBase source)
+            : base(acSession, source)
         {
         }
     }

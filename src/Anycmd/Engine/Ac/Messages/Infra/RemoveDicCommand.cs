@@ -5,8 +5,8 @@ namespace Anycmd.Engine.Ac.Messages.Infra
 
     public class RemoveDicCommand : RemoveEntityCommand
     {
-        public RemoveDicCommand(IAcSession userSession, Guid dicId)
-            : base(userSession, dicId)
+        public RemoveDicCommand(IAcSession acSession, Guid dicId)
+            : base(acSession, dicId)
         {
 
         }

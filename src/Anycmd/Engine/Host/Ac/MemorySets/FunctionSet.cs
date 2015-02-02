@@ -211,7 +211,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 this.Handle(message.AcSession, message.Output, false);
             }
 
-            private void Handle(IAcSession userSession, IFunctionCreateIo input, bool isCommand)
+            private void Handle(IAcSession acSession, IFunctionCreateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var dicByCode = _set._dicByCode;
@@ -281,13 +281,13 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateFunctionAddedEvent(userSession, entity, input));
+                    host.MessageDispatcher.DispatchMessage(new PrivateFunctionAddedEvent(acSession, entity, input));
                 }
             }
 
             private class PrivateFunctionAddedEvent : FunctionAddedEvent
             {
-                public PrivateFunctionAddedEvent(IAcSession userSession, FunctionBase source, IFunctionCreateIo input) : base(userSession, source, input) { }
+                public PrivateFunctionAddedEvent(IAcSession acSession, FunctionBase source, IFunctionCreateIo input) : base(acSession, source, input) { }
             }
 
             public void Handle(UpdateFunctionCommand message)
@@ -304,7 +304,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 this.Handle(message.AcSession, message.Input, false);
             }
 
-            private void Handle(IAcSession userSession, IFunctionUpdateIo input, bool isCommand)
+            private void Handle(IAcSession acSession, IFunctionUpdateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var functionRepository = host.RetrieveRequiredService<IRepository<Function>>();
@@ -370,7 +370,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateFunctionUpdatedEvent(userSession, entity, input));
+                    host.MessageDispatcher.DispatchMessage(new PrivateFunctionUpdatedEvent(acSession, entity, input));
                 }
             }
 
@@ -401,8 +401,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateFunctionUpdatedEvent : FunctionUpdatedEvent
             {
-                internal PrivateFunctionUpdatedEvent(IAcSession userSession, FunctionBase source, IFunctionUpdateIo input)
-                    : base(userSession, source, input)
+                internal PrivateFunctionUpdatedEvent(IAcSession acSession, FunctionBase source, IFunctionUpdateIo input)
+                    : base(acSession, source, input)
                 {
 
                 }
@@ -421,7 +421,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 this.Handle(message.AcSession, message.Source.Id, false);
             }
 
-            private void Handle(IAcSession userSession, Guid functionId, bool isCommand)
+            private void Handle(IAcSession acSession, Guid functionId, bool isCommand)
             {
                 var host = _set._host;
                 var dicByCode = _set._dicByCode;
@@ -451,7 +451,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     {
                         if (isCommand)
                         {
-                            host.MessageDispatcher.DispatchMessage(new FunctionRemovingEvent(userSession, entity));
+                            host.MessageDispatcher.DispatchMessage(new FunctionRemovingEvent(acSession, entity));
                         }
                         if (dicByCode.ContainsKey(bkState.Resource)
                             && dicByCode[bkState.Resource].ContainsKey(bkState.Code))
@@ -496,14 +496,14 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateFunctionRemovedEvent(userSession, entity));
+                    host.MessageDispatcher.DispatchMessage(new PrivateFunctionRemovedEvent(acSession, entity));
                 }
             }
 
             private class PrivateFunctionRemovedEvent : FunctionRemovedEvent
             {
-                internal PrivateFunctionRemovedEvent(IAcSession userSession, FunctionBase function)
-                    : base(userSession, function)
+                internal PrivateFunctionRemovedEvent(IAcSession acSession, FunctionBase function)
+                    : base(acSession, function)
                 {
 
                 }

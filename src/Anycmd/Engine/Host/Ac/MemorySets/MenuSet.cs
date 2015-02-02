@@ -139,7 +139,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 this.Handle(message.AcSession, message.Output, false);
             }
 
-            private void Handle(IAcSession userSession, IMenuCreateIo input, bool isCommand)
+            private void Handle(IAcSession acSession, IMenuCreateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var menuById = _set._menuById;
@@ -208,14 +208,14 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateMenuAddedEvent(userSession, entity, input));
+                    host.MessageDispatcher.DispatchMessage(new PrivateMenuAddedEvent(acSession, entity, input));
                 }
             }
 
             private class PrivateMenuAddedEvent : MenuAddedEvent
             {
-                internal PrivateMenuAddedEvent(IAcSession userSession, MenuBase source, IMenuCreateIo input)
-                    : base(userSession, source, input)
+                internal PrivateMenuAddedEvent(IAcSession acSession, MenuBase source, IMenuCreateIo input)
+                    : base(acSession, source, input)
                 {
 
                 }
@@ -234,7 +234,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 this.Handle(message.AcSession, message.Input, false);
             }
 
-            private void Handle(IAcSession userSession, IMenuUpdateIo input, bool isCommand)
+            private void Handle(IAcSession acSession, IMenuUpdateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var menuById = _set._menuById;
@@ -287,14 +287,14 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateMenuUpdatedEvent(userSession, entity, input));
+                    host.MessageDispatcher.DispatchMessage(new PrivateMenuUpdatedEvent(acSession, entity, input));
                 }
             }
 
             private class PrivateMenuUpdatedEvent : MenuUpdatedEvent
             {
-                internal PrivateMenuUpdatedEvent(IAcSession userSession, MenuBase source, IMenuUpdateIo input)
-                    : base(userSession, source, input)
+                internal PrivateMenuUpdatedEvent(IAcSession acSession, MenuBase source, IMenuUpdateIo input)
+                    : base(acSession, source, input)
                 {
 
                 }
@@ -320,7 +320,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 this.Handle(message.AcSession, message.Source.Id, false);
             }
 
-            private void Handle(IAcSession userSession, Guid menuId, bool isCommand)
+            private void Handle(IAcSession acSession, Guid menuId, bool isCommand)
             {
                 var host = _set._host;
                 var menuById = _set._menuById;
@@ -351,7 +351,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     {
                         if (isCommand)
                         {
-                            host.MessageDispatcher.DispatchMessage(new MenuRemovingEvent(userSession, entity));
+                            host.MessageDispatcher.DispatchMessage(new MenuRemovingEvent(acSession, entity));
                         }
                         menuById.Remove(bkState.Id);
                     }
@@ -375,14 +375,14 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateMenuRemovedEvent(userSession, entity));
+                    host.MessageDispatcher.DispatchMessage(new PrivateMenuRemovedEvent(acSession, entity));
                 }
             }
 
             private class PrivateMenuRemovedEvent : MenuRemovedEvent
             {
-                internal PrivateMenuRemovedEvent(IAcSession userSession, MenuBase source)
-                    : base(userSession, source)
+                internal PrivateMenuRemovedEvent(IAcSession acSession, MenuBase source)
+                    : base(acSession, source)
                 {
 
                 }

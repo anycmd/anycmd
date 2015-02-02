@@ -5,8 +5,8 @@ namespace Anycmd.Engine.Ac.Messages.Infra
 
     public class UpdateUiViewCommand : UpdateEntityCommand<IUiViewUpdateIo>, IAnycmdCommand
     {
-        public UpdateUiViewCommand(IAcSession userSession, IUiViewUpdateIo input)
-            : base(userSession, input)
+        public UpdateUiViewCommand(IAcSession acSession, IUiViewUpdateIo input)
+            : base(acSession, input)
         {
 
         }

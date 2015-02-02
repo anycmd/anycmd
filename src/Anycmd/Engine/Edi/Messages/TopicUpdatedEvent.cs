@@ -9,8 +9,8 @@ namespace Anycmd.Engine.Edi.Messages
         /// <summary>
         /// 
         /// </summary>
-        public TopicUpdatedEvent(IAcSession userSession, TopicBase source)
-            : base(userSession, source)
+        public TopicUpdatedEvent(IAcSession acSession, TopicBase source)
+            : base(acSession, source)
         {
         }
     }

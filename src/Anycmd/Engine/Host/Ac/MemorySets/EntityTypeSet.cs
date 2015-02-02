@@ -246,7 +246,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 Handle(message.AcSession, message.Output, false);
             }
 
-            private void Handle(IAcSession userSession, IEntityTypeCreateIo input, bool isCommand)
+            private void Handle(IAcSession acSession, IEntityTypeCreateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var dicById = _set._dicById;
@@ -313,14 +313,14 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateEntityTypeAddedEvent(userSession, entity, input));
+                    host.MessageDispatcher.DispatchMessage(new PrivateEntityTypeAddedEvent(acSession, entity, input));
                 }
             }
 
             private class PrivateEntityTypeAddedEvent : EntityTypeAddedEvent
             {
-                internal PrivateEntityTypeAddedEvent(IAcSession userSession, EntityTypeBase source, IEntityTypeCreateIo input)
-                    : base(userSession, source, input)
+                internal PrivateEntityTypeAddedEvent(IAcSession acSession, EntityTypeBase source, IEntityTypeCreateIo input)
+                    : base(acSession, source, input)
                 {
 
                 }
@@ -340,7 +340,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 Handle(message.AcSession, message.Input, false);
             }
 
-            private void Handle(IAcSession userSession, IEntityTypeUpdateIo input, bool isCommand)
+            private void Handle(IAcSession acSession, IEntityTypeUpdateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var entityTypeRepository = host.RetrieveRequiredService<IRepository<EntityType>>();
@@ -397,7 +397,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateEntityTypeUpdatedEvent(userSession, entity, input));
+                    host.MessageDispatcher.DispatchMessage(new PrivateEntityTypeUpdatedEvent(acSession, entity, input));
                 }
             }
 
@@ -433,8 +433,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateEntityTypeUpdatedEvent : EntityTypeUpdatedEvent
             {
-                internal PrivateEntityTypeUpdatedEvent(IAcSession userSession, EntityTypeBase source, IEntityTypeUpdateIo input)
-                    : base(userSession, source, input)
+                internal PrivateEntityTypeUpdatedEvent(IAcSession acSession, EntityTypeBase source, IEntityTypeUpdateIo input)
+                    : base(acSession, source, input)
                 {
 
                 }
@@ -454,7 +454,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 this.Handle(message.AcSession, message.Source.Id, false);
             }
 
-            private void Handle(IAcSession userSession, Guid entityTypeId, bool isCommand)
+            private void Handle(IAcSession acSession, Guid entityTypeId, bool isCommand)
             {
                 var host = _set._host;
                 var dicById = _set._dicById;
@@ -482,7 +482,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     {
                         if (isCommand)
                         {
-                            host.MessageDispatcher.DispatchMessage(new EntityTypeRemovingEvent(userSession, entity));
+                            host.MessageDispatcher.DispatchMessage(new EntityTypeRemovingEvent(acSession, entity));
                         }
                         var entityType = dicById[bkState.Id];
                         if (dicByCode.ContainsKey(entityType.Codespace) && dicByCode[entityType.Codespace].ContainsKey(entityType.Code))
@@ -519,14 +519,14 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateEntityTypeRemovedEvent(userSession, entity));
+                    host.MessageDispatcher.DispatchMessage(new PrivateEntityTypeRemovedEvent(acSession, entity));
                 }
             }
 
             private class PrivateEntityTypeRemovedEvent : EntityTypeRemovedEvent
             {
-                internal PrivateEntityTypeRemovedEvent(IAcSession userSession, EntityTypeBase source)
-                    : base(userSession, source)
+                internal PrivateEntityTypeRemovedEvent(IAcSession acSession, EntityTypeBase source)
+                    : base(acSession, source)
                 {
 
                 }
@@ -755,7 +755,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     Handle(message.AcSession, message.Output, false);
                 }
 
-                private void Handle(IAcSession userSession, IPropertyCreateIo input, bool isCommand)
+                private void Handle(IAcSession acSession, IPropertyCreateIo input, bool isCommand)
                 {
                     var host = _set._host;
                     var dicByCode = _set._dicByCode;
@@ -826,14 +826,14 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                     if (isCommand)
                     {
-                        host.MessageDispatcher.DispatchMessage(new PrivatePropertyAddedEvent(userSession, entity, input));
+                        host.MessageDispatcher.DispatchMessage(new PrivatePropertyAddedEvent(acSession, entity, input));
                     }
                 }
 
                 private class PrivatePropertyAddedEvent : PropertyAddedEvent
                 {
-                    internal PrivatePropertyAddedEvent(IAcSession userSession, PropertyBase source, IPropertyCreateIo input)
-                        : base(userSession, source, input)
+                    internal PrivatePropertyAddedEvent(IAcSession acSession, PropertyBase source, IPropertyCreateIo input)
+                        : base(acSession, source, input)
                     {
 
                     }
@@ -1119,9 +1119,9 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                     public propertyCode Tooltip { get; set; }
 
-                    public override IAnycmdCommand ToCommand(IAcSession userSession)
+                    public override IAnycmdCommand ToCommand(IAcSession acSession)
                     {
-                        return new AddPropertyCommand(userSession, this);
+                        return new AddPropertyCommand(acSession, this);
                     }
                 }
 
@@ -1139,7 +1139,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     Handle(message.AcSession, message.Input, false);
                 }
 
-                private void Handle(IAcSession userSession, IPropertyUpdateIo input, bool isCommand)
+                private void Handle(IAcSession acSession, IPropertyUpdateIo input, bool isCommand)
                 {
                     var host = _set._host;
                     var propertyRepository = host.RetrieveRequiredService<IRepository<Property>>();
@@ -1205,7 +1205,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                     if (isCommand && stateChanged)
                     {
-                        host.MessageDispatcher.DispatchMessage(new PrivatePropertyUpdatedEvent(userSession, entity, input));
+                        host.MessageDispatcher.DispatchMessage(new PrivatePropertyUpdatedEvent(acSession, entity, input));
                     }
                 }
 
@@ -1236,8 +1236,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 private class PrivatePropertyUpdatedEvent : PropertyUpdatedEvent
                 {
-                    internal PrivatePropertyUpdatedEvent(IAcSession userSession, PropertyBase source, IPropertyUpdateIo input)
-                        : base(userSession, source, input)
+                    internal PrivatePropertyUpdatedEvent(IAcSession acSession, PropertyBase source, IPropertyUpdateIo input)
+                        : base(acSession, source, input)
                     {
 
                     }
@@ -1257,7 +1257,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     this.Handle(message.AcSession, message.Source.Id, false);
                 }
 
-                private void Handle(IAcSession userSession, Guid propertyId, bool isCommand)
+                private void Handle(IAcSession acSession, Guid propertyId, bool isCommand)
                 {
                     var host = _set._host;
                     var dicByCode = _set._dicByCode;
@@ -1317,14 +1317,14 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                     if (isCommand)
                     {
-                        host.MessageDispatcher.DispatchMessage(new PrivatePropertyRemovedEvent(userSession, entity));
+                        host.MessageDispatcher.DispatchMessage(new PrivatePropertyRemovedEvent(acSession, entity));
                     }
                 }
 
                 private class PrivatePropertyRemovedEvent : PropertyRemovedEvent
                 {
-                    internal PrivatePropertyRemovedEvent(IAcSession userSession, PropertyBase source)
-                        : base(userSession, source)
+                    internal PrivatePropertyRemovedEvent(IAcSession acSession, PropertyBase source)
+                        : base(acSession, source)
                     {
 
                     }

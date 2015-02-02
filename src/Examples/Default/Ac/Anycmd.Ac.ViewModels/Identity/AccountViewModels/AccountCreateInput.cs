@@ -119,9 +119,9 @@ namespace Anycmd.Ac.ViewModels.Identity.AccountViewModels
 
         public string BlogUrl { get; set; }
 
-        public override IAnycmdCommand ToCommand(IAcSession userSession)
+        public override IAnycmdCommand ToCommand(IAcSession acSession)
         {
-            return new AddAccountCommand(userSession, this);
+            return new AddAccountCommand(acSession, this);
         }
     }
 }

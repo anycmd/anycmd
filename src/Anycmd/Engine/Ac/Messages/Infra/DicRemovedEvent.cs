@@ -9,8 +9,8 @@ namespace Anycmd.Engine.Ac.Messages.Infra
     /// </summary>
     public class DicRemovedEvent : DomainEvent
     {
-        public DicRemovedEvent(IAcSession userSession, DicBase source)
-            : base(userSession, source)
+        public DicRemovedEvent(IAcSession acSession, DicBase source)
+            : base(acSession, source)
         {
         }
     }

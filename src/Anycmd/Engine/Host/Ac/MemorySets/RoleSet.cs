@@ -215,7 +215,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 this.Handle(message.AcSession, message.Output, false);
             }
 
-            private void Handle(IAcSession userSession, IRoleCreateIo input, bool isCommand)
+            private void Handle(IAcSession acSession, IRoleCreateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var roleDic = _set._roleDic;
@@ -264,14 +264,14 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateRoleAddedEvent(userSession, entity, input));
+                    host.MessageDispatcher.DispatchMessage(new PrivateRoleAddedEvent(acSession, entity, input));
                 }
             }
 
             private class PrivateRoleAddedEvent : RoleAddedEvent
             {
-                internal PrivateRoleAddedEvent(IAcSession userSession, RoleBase source, IRoleCreateIo input)
-                    : base(userSession, source, input)
+                internal PrivateRoleAddedEvent(IAcSession acSession, RoleBase source, IRoleCreateIo input)
+                    : base(acSession, source, input)
                 {
 
                 }
@@ -290,7 +290,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 this.Handle(message.AcSession, message.Output, false);
             }
 
-            private void Handle(IAcSession userSession, IRoleUpdateIo input, bool isCommand)
+            private void Handle(IAcSession acSession, IRoleUpdateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var roleDic = _set._roleDic;
@@ -347,7 +347,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateRoleUpdatedEvent(userSession, entity, input));
+                    host.MessageDispatcher.DispatchMessage(new PrivateRoleUpdatedEvent(acSession, entity, input));
                 }
             }
 
@@ -359,8 +359,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateRoleUpdatedEvent : RoleUpdatedEvent
             {
-                internal PrivateRoleUpdatedEvent(IAcSession userSession, RoleBase source, IRoleUpdateIo input)
-                    : base(userSession, source, input)
+                internal PrivateRoleUpdatedEvent(IAcSession acSession, RoleBase source, IRoleUpdateIo input)
+                    : base(acSession, source, input)
                 {
 
                 }
@@ -379,7 +379,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 this.Handle(message.AcSession, message.Source.Id, false);
             }
 
-            private void Handle(IAcSession userSession, Guid roleId, bool isCommand)
+            private void Handle(IAcSession acSession, Guid roleId, bool isCommand)
             {
                 var host = _set._host;
                 var roleDic = _set._roleDic;
@@ -406,7 +406,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     {
                         if (isCommand)
                         {
-                            host.MessageDispatcher.DispatchMessage(new RoleRemovingEvent(userSession, entity));
+                            host.MessageDispatcher.DispatchMessage(new RoleRemovingEvent(acSession, entity));
                         }
                         roleDic.Remove(bkState.Id);
                     }
@@ -430,14 +430,14 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateRoleRemovedEvent(userSession, entity));
+                    host.MessageDispatcher.DispatchMessage(new PrivateRoleRemovedEvent(acSession, entity));
                 }
             }
 
             private class PrivateRoleRemovedEvent : RoleRemovedEvent
             {
-                internal PrivateRoleRemovedEvent(IAcSession userSession, RoleBase source)
-                    : base(userSession, source)
+                internal PrivateRoleRemovedEvent(IAcSession acSession, RoleBase source)
+                    : base(acSession, source)
                 {
 
                 }

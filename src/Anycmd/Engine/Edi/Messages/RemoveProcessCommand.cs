@@ -5,8 +5,8 @@ namespace Anycmd.Engine.Edi.Messages
 
     public class RemoveProcessCommand : RemoveEntityCommand
     {
-        public RemoveProcessCommand(IAcSession userSession, Guid processId)
-            : base(userSession, processId)
+        public RemoveProcessCommand(IAcSession acSession, Guid processId)
+            : base(acSession, processId)
         {
 
         }

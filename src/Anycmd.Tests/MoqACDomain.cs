@@ -32,11 +32,11 @@ namespace Anycmd.Tests
             AddService(typeof(ILoggingService), new Log4NetLoggingService(this));
             AddService(typeof(IAcSessionStorage), new SimpleAcSessionStorage());
             #region AcSessionState
-            AcSessionState.GetAcSession = (acDomain, userSessionId) => acDomain.GetRequiredService<IRepository<AcSession>>().GetByKey(userSessionId);
+            AcSessionState.GetAcSession = (acDomain, acSessionId) => acDomain.GetRequiredService<IRepository<AcSession>>().GetByKey(acSessionId);
             AcSessionState.AddAcSession = (acDomain, sessionId, account) =>
             {
                 var identity = new AnycmdIdentity(account.LoginName);
-                var userSessionEntity = new AcSession
+                var acSessionEntity = new AcSession
                 {
                     Id = sessionId,
                     AccountId = account.Id,
@@ -46,24 +46,24 @@ namespace Anycmd.Tests
                     IsEnabled = 1,
                     LoginName = account.LoginName
                 };
-                IAcSession user = new AcSessionState(acDomain, userSessionEntity);
+                IAcSession user = new AcSessionState(acDomain, acSessionEntity);
                 var repository = acDomain.GetRequiredService<IRepository<AcSession>>();
-                repository.Add(userSessionEntity);
+                repository.Add(acSessionEntity);
                 repository.Context.Commit();
                 return user;
             };
-            AcSessionState.UpdateAcSession = (acDomain, userSessionEntity) =>
+            AcSessionState.UpdateAcSession = (acDomain, acSessionEntity) =>
             {
                 var repository = acDomain.GetRequiredService<IRepository<AcSession>>();
                 repository.Update(new AcSession()
                 {
-                    Id = userSessionEntity.Id,
-                    AuthenticationType = userSessionEntity.AuthenticationType,
-                    IsAuthenticated = userSessionEntity.IsAuthenticated,
-                    LoginName = userSessionEntity.LoginName,
-                    IsEnabled = userSessionEntity.IsEnabled,
-                    AccountId = userSessionEntity.AccountId,
-                    Description = userSessionEntity.Description
+                    Id = acSessionEntity.Id,
+                    AuthenticationType = acSessionEntity.AuthenticationType,
+                    IsAuthenticated = acSessionEntity.IsAuthenticated,
+                    LoginName = acSessionEntity.LoginName,
+                    IsEnabled = acSessionEntity.IsEnabled,
+                    AccountId = acSessionEntity.AccountId,
+                    Description = acSessionEntity.Description
                 });
                 repository.Context.Commit();
             };

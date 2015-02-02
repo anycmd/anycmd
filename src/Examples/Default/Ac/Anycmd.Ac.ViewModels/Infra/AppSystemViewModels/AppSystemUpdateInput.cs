@@ -65,9 +65,9 @@ namespace Anycmd.Ac.ViewModels.Infra.AppSystemViewModels
         /// </summary>
         public Guid PrincipalId { get; set; }
 
-        public IAnycmdCommand ToCommand(IAcSession userSession)
+        public IAnycmdCommand ToCommand(IAcSession acSession)
         {
-            return new UpdateAppSystemCommand(userSession, this);
+            return new UpdateAppSystemCommand(acSession, this);
         }
     }
 }

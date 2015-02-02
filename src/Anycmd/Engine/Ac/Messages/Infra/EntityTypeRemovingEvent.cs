@@ -6,8 +6,8 @@ namespace Anycmd.Engine.Ac.Messages.Infra
 
     public class EntityTypeRemovingEvent: DomainEvent
     {
-        public EntityTypeRemovingEvent(IAcSession userSession, EntityTypeBase source)
-            : base(userSession, source)
+        public EntityTypeRemovingEvent(IAcSession acSession, EntityTypeBase source)
+            : base(acSession, source)
         {
         }
     }

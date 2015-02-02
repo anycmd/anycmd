@@ -6,9 +6,9 @@ namespace Anycmd.Engine.Ac.Messages.Infra
 
     public class AddCommonPropertiesCommand : Command, IAnycmdCommand
     {
-        public AddCommonPropertiesCommand(IAcSession userSession, Guid entityTypeId)
+        public AddCommonPropertiesCommand(IAcSession acSession, Guid entityTypeId)
         {
-            this.AcSession = userSession;
+            this.AcSession = acSession;
             this.EntityTypeId = entityTypeId;
         }
 

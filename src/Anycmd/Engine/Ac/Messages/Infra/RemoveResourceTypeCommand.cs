@@ -5,8 +5,8 @@ namespace Anycmd.Engine.Ac.Messages.Infra
 
     public class RemoveResourceTypeCommand : RemoveEntityCommand
     {
-        public RemoveResourceTypeCommand(IAcSession userSession, Guid resourceTypeId)
-            : base(userSession, resourceTypeId)
+        public RemoveResourceTypeCommand(IAcSession acSession, Guid resourceTypeId)
+            : base(acSession, resourceTypeId)
         {
 
         }

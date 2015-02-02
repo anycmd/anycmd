@@ -6,8 +6,8 @@ namespace Anycmd.Engine.Ac.Messages.Infra
 
     public class AppSystemRemovingEvent: DomainEvent
     {
-        public AppSystemRemovingEvent(IAcSession userSession, AppSystemBase source)
-            : base(userSession, source)
+        public AppSystemRemovingEvent(IAcSession acSession, AppSystemBase source)
+            : base(acSession, source)
         {
         }
     }

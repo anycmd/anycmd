@@ -6,8 +6,8 @@ namespace Anycmd.Engine.Edi.Messages
 
     public class BatchAddedEvent : DomainEvent
     {
-        public BatchAddedEvent(IAcSession userSession, IBatch source)
-            : base(userSession, source)
+        public BatchAddedEvent(IAcSession acSession, IBatch source)
+            : base(acSession, source)
         {
         }
     }

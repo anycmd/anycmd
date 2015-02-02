@@ -10,8 +10,8 @@ namespace Anycmd.Engine.Ac.Messages.Infra
     /// </summary>
     public class CatalogUpdatedEvent : DomainEvent
     {
-        public CatalogUpdatedEvent(IAcSession userSession, CatalogBase source, ICatalogUpdateIo input)
-            : base(userSession, source)
+        public CatalogUpdatedEvent(IAcSession acSession, CatalogBase source, ICatalogUpdateIo input)
+            : base(acSession, source)
         {
             if (input == null)
             {

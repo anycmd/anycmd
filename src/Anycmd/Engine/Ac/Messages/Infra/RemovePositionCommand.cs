@@ -5,8 +5,8 @@ namespace Anycmd.Engine.Ac.Messages.Infra
 
     public class RemovePositionCommand: RemoveEntityCommand
     {
-        public RemovePositionCommand(IAcSession userSession, Guid groupId)
-            : base(userSession, groupId)
+        public RemovePositionCommand(IAcSession acSession, Guid groupId)
+            : base(acSession, groupId)
         {
 
         }

@@ -39,9 +39,9 @@ namespace Anycmd.Ac.ViewModels.RdbViewModels
         /// </summary>
         public string Description { get; set; }
 
-        public IAnycmdCommand ToCommand(IAcSession userSession)
+        public IAnycmdCommand ToCommand(IAcSession acSession)
         {
-            return new UpdateDatabaseCommand(userSession, this);
+            return new UpdateDatabaseCommand(acSession, this);
         }
     }
 }

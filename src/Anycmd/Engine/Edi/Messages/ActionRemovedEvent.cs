@@ -9,6 +9,6 @@ namespace Anycmd.Engine.Edi.Messages
     /// </summary>
     public sealed class ActionRemovedEvent : DomainEvent
     {
-        public ActionRemovedEvent(IAcSession userSession, ActionBase source) : base(userSession, source) { }
+        public ActionRemovedEvent(IAcSession acSession, ActionBase source) : base(acSession, source) { }
     }
 }

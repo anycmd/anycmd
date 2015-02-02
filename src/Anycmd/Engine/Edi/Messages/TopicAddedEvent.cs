@@ -6,6 +6,6 @@ namespace Anycmd.Engine.Edi.Messages
 
     public class TopicAddedEvent : DomainEvent
     {
-        public TopicAddedEvent(IAcSession userSession, TopicBase source) : base(userSession, source) { }
+        public TopicAddedEvent(IAcSession acSession, TopicBase source) : base(acSession, source) { }
     }
 }

@@ -5,8 +5,8 @@ namespace Anycmd.Engine.Ac.Messages.Infra
 
     public class UpdatePropertyCommand : UpdateEntityCommand<IPropertyUpdateIo>, IAnycmdCommand
     {
-        public UpdatePropertyCommand(IAcSession userSession, IPropertyUpdateIo input)
-            : base(userSession, input)
+        public UpdatePropertyCommand(IAcSession acSession, IPropertyUpdateIo input)
+            : base(acSession, input)
         {
 
         }

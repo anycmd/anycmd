@@ -83,9 +83,9 @@ namespace Anycmd.Ac.ViewModels.Infra.EntityTypeViewModels
         /// </summary>
         public bool IsTotalLine { get; set; }
 
-        public IAnycmdCommand ToCommand(IAcSession userSession)
+        public IAnycmdCommand ToCommand(IAcSession acSession)
         {
-            return new UpdatePropertyCommand(userSession, this);
+            return new UpdatePropertyCommand(acSession, this);
         }
     }
 }

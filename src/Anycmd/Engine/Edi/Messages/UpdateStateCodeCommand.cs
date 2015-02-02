@@ -5,8 +5,8 @@ namespace Anycmd.Engine.Edi.Messages
 
     public class UpdateStateCodeCommand : UpdateEntityCommand<IStateCodeUpdateInput>, IAnycmdCommand
     {
-        public UpdateStateCodeCommand(IAcSession userSession, IStateCodeUpdateInput input)
-            : base(userSession, input)
+        public UpdateStateCodeCommand(IAcSession acSession, IStateCodeUpdateInput input)
+            : base(acSession, input)
         {
 
         }

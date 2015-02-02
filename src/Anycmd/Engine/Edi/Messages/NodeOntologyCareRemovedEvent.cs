@@ -9,6 +9,6 @@ namespace Anycmd.Engine.Edi.Messages
     /// </summary>
     public class NodeOntologyCareRemovedEvent : DomainEvent
     {
-        public NodeOntologyCareRemovedEvent(IAcSession userSession, NodeOntologyCareBase source) : base(userSession, source) { }
+        public NodeOntologyCareRemovedEvent(IAcSession acSession, NodeOntologyCareBase source) : base(acSession, source) { }
     }
 }

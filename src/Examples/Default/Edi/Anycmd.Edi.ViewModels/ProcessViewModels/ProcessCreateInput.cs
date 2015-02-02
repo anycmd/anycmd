@@ -48,9 +48,9 @@ namespace Anycmd.Edi.ViewModels.ProcessViewModels
 
         public string CatalogCode { get; set; }
 
-        public override IAnycmdCommand ToCommand(IAcSession userSession)
+        public override IAnycmdCommand ToCommand(IAcSession acSession)
         {
-            return new AddProcessCommand(userSession, this);
+            return new AddProcessCommand(acSession, this);
         }
     }
 }

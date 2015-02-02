@@ -5,8 +5,8 @@ namespace Anycmd.Engine.Edi.Messages
 
     public class AddNodeElementCareCommand : AddEntityCommand<INodeElementCareCreateIo>, IAnycmdCommand
     {
-        public AddNodeElementCareCommand(IAcSession userSession, INodeElementCareCreateIo input)
-            : base(userSession, input)
+        public AddNodeElementCareCommand(IAcSession acSession, INodeElementCareCreateIo input)
+            : base(acSession, input)
         {
 
         }

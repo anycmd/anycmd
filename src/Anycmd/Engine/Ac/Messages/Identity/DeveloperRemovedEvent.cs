@@ -9,6 +9,6 @@ namespace Anycmd.Engine.Ac.Messages.Identity
     /// </summary>
     public class DeveloperRemovedEvent : DomainEvent
     {
-        public DeveloperRemovedEvent(IAcSession userSession, DeveloperId source) : base(userSession, source) { }
+        public DeveloperRemovedEvent(IAcSession acSession, DeveloperId source) : base(acSession, source) { }
     }
 }

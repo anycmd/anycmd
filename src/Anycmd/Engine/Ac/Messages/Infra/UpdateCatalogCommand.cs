@@ -5,8 +5,8 @@ namespace Anycmd.Engine.Ac.Messages.Infra
 
     public class UpdateCatalogCommand : UpdateEntityCommand<ICatalogUpdateIo>, IAnycmdCommand
     {
-        public UpdateCatalogCommand(IAcSession userSession, ICatalogUpdateIo input)
-            : base(userSession, input)
+        public UpdateCatalogCommand(IAcSession acSession, ICatalogUpdateIo input)
+            : base(acSession, input)
         {
 
         }

@@ -97,20 +97,20 @@ namespace Anycmd.Engine.Ac
             _accountId = account.Id;
         }
 
-        public AcSessionState(IAcDomain host, IAcSessionEntity userSessionEntity)
+        public AcSessionState(IAcDomain host, IAcSessionEntity acSessionEntity)
         {
             if (host == null)
             {
                 throw new ArgumentNullException("host");
             }
-            if (userSessionEntity == null)
+            if (acSessionEntity == null)
             {
-                throw new ArgumentNullException("userSessionEntity");
+                throw new ArgumentNullException("acSessionEntity");
             }
-            Identity = new AnycmdIdentity(userSessionEntity.LoginName);
+            Identity = new AnycmdIdentity(acSessionEntity.LoginName);
             _acDomain = host;
-            _id = userSessionEntity.Id;
-            _accountId = userSessionEntity.AccountId;
+            _id = acSessionEntity.Id;
+            _accountId = acSessionEntity.AccountId;
         }
 
         public Guid Id
@@ -309,35 +309,35 @@ namespace Anycmd.Engine.Ac
             // 使用账户标识作为会话标识会导致一个账户只有一个会话
             // TODO:支持账户和会话的一对多，为会话级的动态责任分离做准备
             var sessionEntity = GetAcSession(acDomain, account.Id);
-            IAcSession userSession;
+            IAcSession acSession;
             if (sessionEntity != null)
             {
-                userSession = new AcSessionState(acDomain, sessionEntity.Id, AccountState.Create(account));
+                acSession = new AcSessionState(acDomain, sessionEntity.Id, AccountState.Create(account));
                 sessionEntity.IsAuthenticated = true;
                 UpdateAcSession(acDomain, sessionEntity);
             }
             else
             {
-                userSession = AddAcSession(acDomain, account.Id, AccountState.Create(account));
+                acSession = AddAcSession(acDomain, account.Id, AccountState.Create(account));
             }
-            userSession.SetData("CurrentUser_Wallpaper", account.Wallpaper);
-            userSession.SetData("CurrentUser_BackColor", account.BackColor);
+            acSession.SetData("CurrentUser_Wallpaper", account.Wallpaper);
+            acSession.SetData("CurrentUser_BackColor", account.BackColor);
             if (HttpContext.Current != null)
             {
-                HttpContext.Current.User = userSession;
+                HttpContext.Current.User = acSession;
                 bool createPersistentCookie = rememberMe.Equals("rememberMe", StringComparison.OrdinalIgnoreCase);
                 FormsAuthentication.SetAuthCookie(account.LoginName, createPersistentCookie);
             }
             else
             {
-                Thread.CurrentPrincipal = userSession;
+                Thread.CurrentPrincipal = acSession;
             }
             Guid? visitingLogId = Guid.NewGuid();
 
-            userSession.SetData("UserContext_Current_VisitingLogId", visitingLogId);
-            userSession.SetData(acDomain.Config.CurrentAcSessionCacheKey, userSession);
+            acSession.SetData("UserContext_Current_VisitingLogId", visitingLogId);
+            acSession.SetData(acDomain.Config.CurrentAcSessionCacheKey, acSession);
 
-            acDomain.EventBus.Publish(new AccountLoginedEvent(userSession, account));
+            acDomain.EventBus.Publish(new AccountLoginedEvent(acSession, account));
             acDomain.EventBus.Commit();
             addVisitingLogCommand.StateCode = (int)VisitState.Logged;
             addVisitingLogCommand.ReasonPhrase = VisitState.Logged.ToName();
@@ -345,18 +345,18 @@ namespace Anycmd.Engine.Ac
             acDomain.MessageDispatcher.DispatchMessage(addVisitingLogCommand);
         }
 
-        private static void DoSignOut(IAcDomain acDomain, IAcSession userSession)
+        private static void DoSignOut(IAcDomain acDomain, IAcSession acSession)
         {
-            var userSessionStorage = acDomain.GetRequiredService<IAcSessionStorage>();
-            if (!userSession.Identity.IsAuthenticated)
+            var acSessionStorage = acDomain.GetRequiredService<IAcSessionStorage>();
+            if (!acSession.Identity.IsAuthenticated)
             {
-                DeleteAcSession(acDomain, userSession.Account.Id);
+                DeleteAcSession(acDomain, acSession.Account.Id);
                 return;
             }
-            if (userSession.Account.Id == Guid.Empty)
+            if (acSession.Account.Id == Guid.Empty)
             {
-                Thread.CurrentPrincipal = userSession;
-                DeleteAcSession(acDomain, userSession.Account.Id);
+                Thread.CurrentPrincipal = acSession;
+                DeleteAcSession(acDomain, acSession.Account.Id);
                 return;
             }
             if (HttpContext.Current != null)
@@ -365,17 +365,17 @@ namespace Anycmd.Engine.Ac
             }
             else
             {
-                Thread.CurrentPrincipal = userSession;
+                Thread.CurrentPrincipal = acSession;
             }
-            userSessionStorage.Clear();
+            acSessionStorage.Clear();
             if (SignOuted != null)
             {
-                SignOuted(acDomain, userSession.Id);
+                SignOuted(acDomain, acSession.Id);
             }
-            var entity = GetAccountById(acDomain, userSession.Account.Id);
+            var entity = GetAccountById(acDomain, acSession.Account.Id);
             if (entity != null)
             {
-                acDomain.EventBus.Publish(new AccountLogoutedEvent(userSession, entity));
+                acDomain.EventBus.Publish(new AccountLogoutedEvent(acSession, entity));
                 acDomain.EventBus.Commit();
             }
         }
@@ -404,7 +404,7 @@ namespace Anycmd.Engine.Ac
             }
         }
 
-        private static IAcSessionEntity GetAcSessionById(IAcDomain acDomain, Guid userSessionId)
+        private static IAcSessionEntity GetAcSessionById(IAcDomain acDomain, Guid acSessionId)
         {
             using (var conn = GetAccountDb(acDomain).GetConnection())
             {
@@ -413,7 +413,7 @@ namespace Anycmd.Engine.Ac
                     conn.Open();
                 }
                 return
-                    conn.Query<AcSession>("select * from [AcSession] where Id=@Id", new {Id = userSessionId})
+                    conn.Query<AcSession>("select * from [AcSession] where Id=@Id", new {Id = acSessionId})
                         .FirstOrDefault();
             }
         }
@@ -451,7 +451,7 @@ namespace Anycmd.Engine.Ac
             }
         }
 
-        private static void DoUpdateAcSession(IAcDomain acDomain, IAcSessionEntity userSessionEntity)
+        private static void DoUpdateAcSession(IAcDomain acDomain, IAcSessionEntity acSessionEntity)
         {
             using (var conn = GetAccountDb(acDomain).GetConnection())
             {
@@ -459,7 +459,7 @@ namespace Anycmd.Engine.Ac
                 {
                     conn.Open();
                 }
-                conn.Execute("update AcSession set IsAuthenticated=@IsAuthenticated where Id=@Id", new { userSessionEntity.IsAuthenticated, userSessionEntity.Id });
+                conn.Execute("update AcSession set IsAuthenticated=@IsAuthenticated where Id=@Id", new { acSessionEntity.IsAuthenticated, acSessionEntity.Id });
             }
         }
 

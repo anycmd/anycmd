@@ -6,9 +6,9 @@ namespace Anycmd.Engine.Ac.Messages.Identity
 
     public class RemoveDeveloperCommand: Command, IAnycmdCommand
     {
-        public RemoveDeveloperCommand(IAcSession userSession, Guid accountId)
+        public RemoveDeveloperCommand(IAcSession acSession, Guid accountId)
         {
-            this.AcSession = userSession;
+            this.AcSession = acSession;
             this.AccountId = accountId;
         }
 

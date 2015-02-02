@@ -23,9 +23,9 @@ namespace Anycmd.Ac.ViewModels.Identity.AccountViewModels
 
         public string NewPassword { get; set; }
 
-        public IAnycmdCommand ToCommand(IAcSession userSession)
+        public IAnycmdCommand ToCommand(IAcSession acSession)
         {
-            return new ChangePasswordCommand(userSession, this);
+            return new ChangePasswordCommand(acSession, this);
         }
     }
 }

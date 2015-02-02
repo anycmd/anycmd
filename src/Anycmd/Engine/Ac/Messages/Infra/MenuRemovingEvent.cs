@@ -6,8 +6,8 @@ namespace Anycmd.Engine.Ac.Messages.Infra
 
     public class MenuRemovingEvent: DomainEvent
     {
-        public MenuRemovingEvent(IAcSession userSession, MenuBase source)
-            : base(userSession, source)
+        public MenuRemovingEvent(IAcSession acSession, MenuBase source)
+            : base(acSession, source)
         {
         }
     }

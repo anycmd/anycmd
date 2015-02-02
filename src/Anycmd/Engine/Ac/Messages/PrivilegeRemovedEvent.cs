@@ -6,8 +6,8 @@ namespace Anycmd.Engine.Ac.Messages
 
     public class PrivilegeRemovedEvent : DomainEvent
     {
-        public PrivilegeRemovedEvent(IAcSession userSession, PrivilegeBase source)
-            : base(userSession, source)
+        public PrivilegeRemovedEvent(IAcSession acSession, PrivilegeBase source)
+            : base(acSession, source)
         {
         }
     }

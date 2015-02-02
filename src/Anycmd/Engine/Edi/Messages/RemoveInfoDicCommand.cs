@@ -5,8 +5,8 @@ namespace Anycmd.Engine.Edi.Messages
 
     public class RemoveInfoDicCommand : RemoveEntityCommand
     {
-        public RemoveInfoDicCommand(IAcSession userSession, Guid infoDicId)
-            : base(userSession, infoDicId)
+        public RemoveInfoDicCommand(IAcSession acSession, Guid infoDicId)
+            : base(acSession, infoDicId)
         {
 
         }

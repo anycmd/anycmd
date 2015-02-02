@@ -6,8 +6,8 @@ namespace Anycmd.Engine.Ac.Messages.Infra
 
     public class MenuAddedEvent : EntityAddedEvent<IMenuCreateIo>
     {
-        public MenuAddedEvent(IAcSession userSession, MenuBase source, IMenuCreateIo input)
-            : base(userSession, source, input)
+        public MenuAddedEvent(IAcSession acSession, MenuBase source, IMenuCreateIo input)
+            : base(acSession, source, input)
         {
         }
     }

@@ -34,8 +34,8 @@ namespace Anycmd.Engine.Ac
         /// <returns></returns>
         public static T GetData<T>(this IAcSession user, string key)
         {
-            var userSessionStorage = user.AcDomain.RetrieveRequiredService<IAcSessionStorage>();
-            var obj = userSessionStorage.GetData(key);
+            var acSessionStorage = user.AcDomain.RetrieveRequiredService<IAcSessionStorage>();
+            var obj = acSessionStorage.GetData(key);
             if (obj is T)
             {
                 return (T)obj;
@@ -51,8 +51,8 @@ namespace Anycmd.Engine.Ac
         /// <param name="data"></param>
         public static void SetData(this IAcSession user, string key, object data)
         {
-            var userSessionStorage = user.AcDomain.RetrieveRequiredService<IAcSessionStorage>();
-            userSessionStorage.SetData(key, data);
+            var acSessionStorage = user.AcDomain.RetrieveRequiredService<IAcSessionStorage>();
+            acSessionStorage.SetData(key, data);
         }
         #endregion
 

@@ -107,9 +107,9 @@ namespace Anycmd.Ac.ViewModels.Infra.CatalogViewModels
         [Required]
         public int SortCode { get; set; }
 
-        public IAnycmdCommand ToCommand(IAcSession userSession)
+        public IAnycmdCommand ToCommand(IAcSession acSession)
         {
-            return new UpdateCatalogCommand(userSession, this);
+            return new UpdateCatalogCommand(acSession, this);
         }
     }
 }

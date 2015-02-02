@@ -6,8 +6,8 @@ namespace Anycmd.Engine.Ac.Messages.Rbac
 
     public class RoleRolePrivilegeRemovedEvent : DomainEvent
     {
-        public RoleRolePrivilegeRemovedEvent(IAcSession userSession, PrivilegeBase source)
-            : base(userSession, source)
+        public RoleRolePrivilegeRemovedEvent(IAcSession acSession, PrivilegeBase source)
+            : base(acSession, source)
         {
         }
     }

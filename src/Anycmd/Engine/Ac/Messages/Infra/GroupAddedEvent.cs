@@ -6,8 +6,8 @@ namespace Anycmd.Engine.Ac.Messages.Infra
 
     public class GroupAddedEvent : EntityAddedEvent<IGroupCreateIo>
     {
-        public GroupAddedEvent(IAcSession userSession, GroupBase source, IGroupCreateIo output)
-            : base(userSession, source, output)
+        public GroupAddedEvent(IAcSession acSession, GroupBase source, IGroupCreateIo output)
+            : base(acSession, source, output)
         {
         }
     }

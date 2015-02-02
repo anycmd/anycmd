@@ -6,8 +6,8 @@ namespace Anycmd.Engine.Ac.Messages.Infra
 
     public class GroupRemovingEvent: DomainEvent
     {
-        public GroupRemovingEvent(IAcSession userSession, GroupBase source)
-            : base(userSession, source)
+        public GroupRemovingEvent(IAcSession acSession, GroupBase source)
+            : base(acSession, source)
         {
         }
     }

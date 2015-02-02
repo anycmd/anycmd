@@ -6,9 +6,9 @@ namespace Anycmd.Engine.Ac.Messages.Identity
 
     public class DisableAccountCommand : Command, IAnycmdCommand
     {
-        public DisableAccountCommand(IAcSession userSession, Guid accountId)
+        public DisableAccountCommand(IAcSession acSession, Guid accountId)
         {
-            this.AcSession = userSession;
+            this.AcSession = acSession;
             this.AccountId = accountId;
         }
 
