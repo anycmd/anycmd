@@ -1,4 +1,4 @@
-<img border="0" src="http://git.oschina.net/anycmd/anycmd/raw/master/docs/logoSmall.png" alt="logo" title="logo"> Anycmd <a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=7c53e6d84b1c9ca2a31a1cd58e33cea5f32ffa9ef8427996a8c0a15d9fe3ef35"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt=".NET 开源权限引擎" title=".NET 开源权限引擎"></a>
+<img border="0" src="http://git.oschina.net/anycmd/anycmd/raw/master/docs/logoSmall.png" alt="logo" title="logo"> Anycmd <a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=7c53e6d84b1c9ca2a31a1cd58e33cea5f32ffa9ef8427996a8c0a15d9fe3ef35"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt=".NET 开源权限引擎" title=".NET 开源权限引擎">QQ交流群:306029222</a>
 ======
 #权限系统干了什么？
 
@@ -70,11 +70,12 @@ http://git.oschina.net/anycmd/anycmd/blob/master/src/Anycmd/IRbacService.cs
 ## 感谢
 * [Apworks](https://github.com/daxnet/Apworks/) @ [Apache License 2.0]
 * [Jint](https://github.com/sebastienros/jint/) @ [BSD 2-Clause License]
+
 ---
 ## 学习资源
 * javacript引擎：https://github.com/sebastienros/jint/
 * actor框架：https://github.com/akkadotnet/akka.net/
-* nosql文档数据库：https://github.com/ravendb/ravendb/
+* nosql文档数据库：https://github.com/mbdavid/LiteDB/
 
 ---
 ##授权协议

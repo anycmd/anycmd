@@ -7,7 +7,7 @@ namespace Anycmd.Engine.Ac.Messages.Rbac
 
     public class DsdSetUpdatedEvent : DomainEvent
     {
-        public DsdSetUpdatedEvent(IUserSession userSession, DsdSetBase source, IDsdSetUpdateIo output)
+        public DsdSetUpdatedEvent(IAcSession userSession, DsdSetBase source, IDsdSetUpdateIo output)
             : base(userSession, source)
         {
             if (output == null)

@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Edi.Messages
 
     public class AddBatchCommand : AddEntityCommand<IBatchCreateIo>, IAnycmdCommand
     {
-        public AddBatchCommand(IUserSession userSession, IBatchCreateIo input)
+        public AddBatchCommand(IAcSession userSession, IBatchCreateIo input)
             : base(userSession, input)
         {
         }

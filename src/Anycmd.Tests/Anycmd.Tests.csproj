@@ -88,7 +88,7 @@
     <Compile Include="TestHelper.cs" />
     <Compile Include="TokenTest.cs" />
     <Compile Include="UnifiedQueriesTest.cs" />
-    <Compile Include="UserSessionTest.cs" />
+    <Compile Include="AcSessionTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

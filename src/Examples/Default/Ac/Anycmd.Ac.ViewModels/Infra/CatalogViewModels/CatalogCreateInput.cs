@@ -101,7 +101,7 @@ namespace Anycmd.Ac.ViewModels.Infra.CatalogViewModels
         [Required]
         public int SortCode { get; set; }
 
-        public override IAnycmdCommand ToCommand(IUserSession userSession)
+        public override IAnycmdCommand ToCommand(IAcSession userSession)
         {
             return new AddCatalogCommand(userSession, this);
         }

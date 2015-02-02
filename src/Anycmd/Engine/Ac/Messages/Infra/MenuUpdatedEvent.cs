@@ -7,7 +7,7 @@ namespace Anycmd.Engine.Ac.Messages.Infra
 
     public class MenuUpdatedEvent : DomainEvent
     {
-        public MenuUpdatedEvent(IUserSession userSession, MenuBase source, IMenuUpdateIo input)
+        public MenuUpdatedEvent(IAcSession userSession, MenuBase source, IMenuUpdateIo input)
             : base(userSession, source)
         {
             if (input == null)

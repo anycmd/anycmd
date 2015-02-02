@@ -21,7 +21,7 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             Assert.Equal(0, host.FunctionSet.Count());
-            UserSessionState.SignIn(host, new Dictionary<string, object>
+            AcSessionState.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -40,7 +40,7 @@ namespace Anycmd.Tests
                 IsManaged = true,
                 ResourceTypeId = host.ResourceTypeSet.First().Id,
                 SortCode = 10
-            }.ToCommand(host.GetUserSession()));
+            }.ToCommand(host.GetAcSession()));
             ResourceTypeState resource;
             Assert.True(host.ResourceTypeSet.TryGetResource(host.ResourceTypeSet.First().Id, out resource));
             Assert.Equal(1, host.FunctionSet.Count());
@@ -55,13 +55,13 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 IsManaged = false,
                 SortCode = 10
-            }.ToCommand(host.GetUserSession()));
+            }.ToCommand(host.GetAcSession()));
             Assert.Equal(1, host.FunctionSet.Count());
             Assert.True(host.FunctionSet.TryGetFunction(entityId, out functionById));
             Assert.Equal("test2", functionById.Description);
             Assert.Equal("fun2", functionById.Code);
 
-            host.Handle(new RemoveFunctionCommand(host.GetUserSession(), entityId));
+            host.Handle(new RemoveFunctionCommand(host.GetAcSession(), entityId));
             Assert.False(host.FunctionSet.TryGetFunction(entityId, out functionById));
             Assert.Equal(0, host.FunctionSet.Count());
         }
@@ -72,7 +72,7 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             Assert.Equal(0, host.FunctionSet.Count());
-            UserSessionState.SignIn(host, new Dictionary<string, object>
+            AcSessionState.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -91,7 +91,7 @@ namespace Anycmd.Tests
                 IsManaged = true,
                 ResourceTypeId = host.ResourceTypeSet.First().Id,
                 SortCode = 10
-            }.ToCommand(host.GetUserSession()));
+            }.ToCommand(host.GetAcSession()));
             ResourceTypeState resource;
             Assert.True(host.ResourceTypeSet.TryGetResource(host.ResourceTypeSet.First().Id, out resource));
             Assert.Equal(1, host.FunctionSet.Count());
@@ -109,7 +109,7 @@ namespace Anycmd.Tests
                     IsManaged = true,
                     ResourceTypeId = host.ResourceTypeSet.First().Id,
                     SortCode = 10
-                }.ToCommand(host.GetUserSession()));
+                }.ToCommand(host.GetAcSession()));
             }
             catch (Exception)
             {
@@ -127,7 +127,7 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             Assert.Equal(0, host.FunctionSet.Count());
-            UserSessionState.SignIn(host, new Dictionary<string, object>
+            AcSessionState.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -161,7 +161,7 @@ namespace Anycmd.Tests
                 Code = "app1",
                 Name = "测试1",
                 PrincipalId = host.SysUserSet.GetDevAccounts().First().Id
-            }.ToCommand(host.GetUserSession()));
+            }.ToCommand(host.GetAcSession()));
 
             bool catched = false;
             try
@@ -176,7 +176,7 @@ namespace Anycmd.Tests
                     IsManaged = true,
                     ResourceTypeId = host.ResourceTypeSet.First().Id,
                     SortCode = 10
-                }.ToCommand(host.GetUserSession()));
+                }.ToCommand(host.GetAcSession()));
             }
             catch (Exception e)
             {
@@ -200,7 +200,7 @@ namespace Anycmd.Tests
                 IsManaged = true,
                 ResourceTypeId = host.ResourceTypeSet.First().Id,
                 SortCode = 10
-            }.ToCommand(host.GetUserSession()));
+            }.ToCommand(host.GetAcSession()));
             Assert.Equal(1, host.FunctionSet.Count());
 
             catched = false;
@@ -215,7 +215,7 @@ namespace Anycmd.Tests
                     IsEnabled = 1,
                     IsManaged = false,
                     SortCode = 10
-                }.ToCommand(host.GetUserSession()));
+                }.ToCommand(host.GetAcSession()));
             }
             catch (Exception e)
             {
@@ -235,7 +235,7 @@ namespace Anycmd.Tests
             catched = false;
             try
             {
-                host.Handle(new RemoveFunctionCommand(host.GetUserSession(), entityId2));
+                host.Handle(new RemoveFunctionCommand(host.GetAcSession(), entityId2));
             }
             catch (Exception e)
             {

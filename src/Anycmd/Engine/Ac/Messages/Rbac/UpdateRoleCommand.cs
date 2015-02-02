@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Ac.Messages.Rbac
 
     public class UpdateRoleCommand : UpdateEntityCommand<IRoleUpdateIo>, IAnycmdCommand
     {
-        public UpdateRoleCommand(IUserSession userSession, IRoleUpdateIo input)
+        public UpdateRoleCommand(IAcSession userSession, IRoleUpdateIo input)
             : base(userSession, input)
         {
 

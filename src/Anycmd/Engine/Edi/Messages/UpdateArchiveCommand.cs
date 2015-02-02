@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Edi.Messages
 
     public class UpdateArchiveCommand : UpdateEntityCommand<IArchiveUpdateIo>, IAnycmdCommand
     {
-        public UpdateArchiveCommand(IUserSession userSession, IArchiveUpdateIo input)
+        public UpdateArchiveCommand(IAcSession userSession, IArchiveUpdateIo input)
             : base(userSession, input)
         {
 

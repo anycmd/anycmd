@@ -9,7 +9,7 @@ namespace Anycmd.Engine.Edi.Messages
     /// </summary>
     public sealed class ElementActionUpdatedEvent : DomainEvent
     {
-        public ElementActionUpdatedEvent(IUserSession userSession, ElementAction source)
+        public ElementActionUpdatedEvent(IAcSession userSession, ElementAction source)
             : base(userSession, source)
         {
             this.IsAllowed = source.IsAllowed;

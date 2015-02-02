@@ -9,7 +9,7 @@ namespace Anycmd.Engine.Ac.Messages.Infra
     /// </summary>
     public class ButtonAddedEvent : EntityAddedEvent<IButtonCreateIo>
     {
-        public ButtonAddedEvent(IUserSession userSession, ButtonBase source, IButtonCreateIo input)
+        public ButtonAddedEvent(IAcSession userSession, ButtonBase source, IButtonCreateIo input)
             : base(userSession, source, input)
         {
         }

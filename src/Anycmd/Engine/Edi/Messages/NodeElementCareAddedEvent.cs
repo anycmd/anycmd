@@ -10,7 +10,7 @@ namespace Anycmd.Engine.Edi.Messages
     /// </summary>
     public class NodeElementCareAddedEvent : DomainEvent
     {
-        public NodeElementCareAddedEvent(IUserSession userSession, NodeElementCareBase source, INodeElementCareCreateIo output)
+        public NodeElementCareAddedEvent(IAcSession userSession, NodeElementCareBase source, INodeElementCareCreateIo output)
             : base(userSession, source)
         {
             if (output == null)

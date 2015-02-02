@@ -50,7 +50,7 @@ namespace Anycmd.Engine.Host.Ac.MessageHandlers
 
             accountRepository.Add(entity);
             accountRepository.Context.Commit();
-            _host.EventBus.Publish(new AccountAddedEvent(command.UserSession, entity));
+            _host.EventBus.Publish(new AccountAddedEvent(command.AcSession, entity));
             _host.EventBus.Commit();
         }
     }

@@ -119,7 +119,7 @@ namespace Anycmd.Ac.ViewModels.Identity.AccountViewModels
 
         public string BlogUrl { get; set; }
 
-        public override IAnycmdCommand ToCommand(IUserSession userSession)
+        public override IAnycmdCommand ToCommand(IAcSession userSession)
         {
             return new AddAccountCommand(userSession, this);
         }

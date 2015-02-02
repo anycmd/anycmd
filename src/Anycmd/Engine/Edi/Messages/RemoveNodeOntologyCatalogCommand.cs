@@ -6,15 +6,15 @@ namespace Anycmd.Engine.Edi.Messages
 
     public class RemoveNodeOntologyCatalogCommand : Command, IAnycmdCommand
     {
-        public RemoveNodeOntologyCatalogCommand(IUserSession userSession, Guid nodeId, Guid ontologyId, Guid catalogId)
+        public RemoveNodeOntologyCatalogCommand(IAcSession userSession, Guid nodeId, Guid ontologyId, Guid catalogId)
         {
-            this.UserSession = userSession;
+            this.AcSession = userSession;
             this.NodeId = nodeId;
             this.OntologyId = ontologyId;
             this.CatalogId = catalogId;
         }
 
-        public IUserSession UserSession { get; private set; }
+        public IAcSession AcSession { get; private set; }
         public Guid NodeId { get; private set; }
         public Guid OntologyId { get; private set; }
         public Guid CatalogId { get; private set; }

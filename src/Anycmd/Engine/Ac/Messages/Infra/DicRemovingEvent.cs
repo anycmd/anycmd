@@ -6,7 +6,7 @@ namespace Anycmd.Engine.Ac.Messages.Infra
 
     public class DicRemovingEvent: DomainEvent
     {
-        public DicRemovingEvent(IUserSession userSession, DicBase source)
+        public DicRemovingEvent(IAcSession userSession, DicBase source)
             : base(userSession, source)
         {
         }

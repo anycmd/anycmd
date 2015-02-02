@@ -9,7 +9,7 @@ namespace Anycmd.Engine.Ac.Messages.Infra
     /// </summary>
     public class AppSystemRemovedEvent : DomainEvent
     {
-        public AppSystemRemovedEvent(IUserSession userSession, AppSystemBase source)
+        public AppSystemRemovedEvent(IAcSession userSession, AppSystemBase source)
             : base(userSession, source)
         {
         }

@@ -10,13 +10,13 @@ namespace Anycmd.Engine
     /// </summary>
     public abstract class RemoveEntityCommand : Command, IAnycmdCommand
     {
-        protected RemoveEntityCommand(IUserSession userSession, Guid entityId)
+        protected RemoveEntityCommand(IAcSession userSession, Guid entityId)
         {
-            this.UserSession = userSession;
+            this.AcSession = userSession;
             this.EntityId = entityId;
         }
 
-        public IUserSession UserSession { get; private set; }
+        public IAcSession AcSession { get; private set; }
 
         /// <summary>
         /// 实体标识。

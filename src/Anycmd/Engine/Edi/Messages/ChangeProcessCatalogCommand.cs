@@ -6,14 +6,14 @@ namespace Anycmd.Engine.Edi.Messages
 
     public class ChangeProcessCatalogCommand : Command, IAnycmdCommand
     {
-        public ChangeProcessCatalogCommand(IUserSession userSession, Guid processId, string catalogCode)
+        public ChangeProcessCatalogCommand(IAcSession userSession, Guid processId, string catalogCode)
         {
-            this.UserSession = userSession;
+            this.AcSession = userSession;
             this.ProcessId = processId;
             this.CatalogCode = catalogCode;
         }
 
-        public IUserSession UserSession { get; private set; }
+        public IAcSession AcSession { get; private set; }
 
         public Guid ProcessId { get; private set; }
         public string CatalogCode { get; private set; }

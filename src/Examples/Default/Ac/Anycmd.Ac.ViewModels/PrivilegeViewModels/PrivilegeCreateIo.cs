@@ -29,7 +29,7 @@ namespace Anycmd.Ac.ViewModels.PrivilegeViewModels
 
         public string AcContentType { get; set; }
 
-        public override IAnycmdCommand ToCommand(IUserSession userSession)
+        public override IAnycmdCommand ToCommand(IAcSession userSession)
         {
             return new AddPrivilegeCommand(userSession, this);
         }

@@ -6,7 +6,7 @@ namespace Anycmd.Engine.Ac.Messages.Infra
 
     public class AddCatalogCommand : AddEntityCommand<ICatalogCreateIo>, IAnycmdCommand
     {
-        public AddCatalogCommand(IUserSession userSession, ICatalogCreateIo input)
+        public AddCatalogCommand(IAcSession userSession, ICatalogCreateIo input)
             : base(userSession, input)
         {
 

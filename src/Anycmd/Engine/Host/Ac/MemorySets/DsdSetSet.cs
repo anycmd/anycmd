@@ -208,7 +208,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(AddDsdSetCommand message)
             {
-                Handle(message.UserSession, message.Input, true);
+                Handle(message.AcSession, message.Input, true);
             }
 
             public void Handle(DsdSetAddedEvent message)
@@ -217,10 +217,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                Handle(message.UserSession, message.Output, false);
+                Handle(message.AcSession, message.Output, false);
             }
 
-            private void Handle(IUserSession userSession, IDsdSetCreateIo input, bool isCommand)
+            private void Handle(IAcSession userSession, IDsdSetCreateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var dsdSetDic = _set._dsdSetDic;
@@ -273,7 +273,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateDsdSetAddedEvent : DsdSetAddedEvent
             {
-                internal PrivateDsdSetAddedEvent(IUserSession userSession, DsdSetBase source, IDsdSetCreateIo input)
+                internal PrivateDsdSetAddedEvent(IAcSession userSession, DsdSetBase source, IDsdSetCreateIo input)
                     : base(userSession, source, input)
                 {
                 }
@@ -281,7 +281,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(UpdateDsdSetCommand message)
             {
-                Handle(message.UserSession, message.Input, true);
+                Handle(message.AcSession, message.Input, true);
             }
 
             public void Handle(DsdSetUpdatedEvent message)
@@ -290,10 +290,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                Handle(message.UserSession, message.Output, false);
+                Handle(message.AcSession, message.Output, false);
             }
 
-            private void Handle(IUserSession userSession, IDsdSetUpdateIo input, bool isCommand)
+            private void Handle(IAcSession userSession, IDsdSetUpdateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var dsdSetRepository = host.RetrieveRequiredService<IRepository<DsdSet>>();
@@ -369,7 +369,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateDsdSetUpdatedEvent : DsdSetUpdatedEvent
             {
-                internal PrivateDsdSetUpdatedEvent(IUserSession userSession, DsdSetBase source, IDsdSetUpdateIo input)
+                internal PrivateDsdSetUpdatedEvent(IAcSession userSession, DsdSetBase source, IDsdSetUpdateIo input)
                     : base(userSession, source, input)
                 {
 
@@ -378,7 +378,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(RemoveDsdSetCommand message)
             {
-                Handle(message.UserSession, message.EntityId, true);
+                Handle(message.AcSession, message.EntityId, true);
             }
 
             public void Handle(DsdSetRemovedEvent message)
@@ -387,10 +387,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                Handle(message.UserSession, message.Source.Id, false);
+                Handle(message.AcSession, message.Source.Id, false);
             }
 
-            private void Handle(IUserSession userSession, Guid dsdSetId, bool isCommand)
+            private void Handle(IAcSession userSession, Guid dsdSetId, bool isCommand)
             {
                 var host = _set._host;
                 var dsdSetDic = _set._dsdSetDic;
@@ -443,7 +443,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateDsdSetRemovedEvent : DsdSetRemovedEvent
             {
-                internal PrivateDsdSetRemovedEvent(IUserSession userSession, DsdSetBase source)
+                internal PrivateDsdSetRemovedEvent(IAcSession userSession, DsdSetBase source)
                     : base(userSession, source)
                 {
                 }
@@ -451,7 +451,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(AddDsdRoleCommand message)
             {
-                Handle(message.UserSession, message.Input, true);
+                Handle(message.AcSession, message.Input, true);
             }
 
             public void Handle(DsdRoleAddedEvent message)
@@ -460,10 +460,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                Handle(message.UserSession, message.Output, false);
+                Handle(message.AcSession, message.Output, false);
             }
 
-            private void Handle(IUserSession userSession, IDsdRoleCreateIo input, bool isCommand)
+            private void Handle(IAcSession userSession, IDsdRoleCreateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var dsdRoleBySet = _set._dsdRoleBySet;
@@ -532,7 +532,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateDsdRoleAddedEvent : DsdRoleAddedEvent
             {
-                internal PrivateDsdRoleAddedEvent(IUserSession userSession, DsdRoleBase source, IDsdRoleCreateIo input)
+                internal PrivateDsdRoleAddedEvent(IAcSession userSession, DsdRoleBase source, IDsdRoleCreateIo input)
                     : base(userSession, source, input)
                 {
 
@@ -541,7 +541,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(RemoveDsdRoleCommand message)
             {
-                HandleDsdRole(message.UserSession, message.EntityId, true);
+                HandleDsdRole(message.AcSession, message.EntityId, true);
             }
 
             public void Handle(DsdRoleRemovedEvent message)
@@ -550,10 +550,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                HandleDsdRole(message.UserSession, message.Source.Id, false);
+                HandleDsdRole(message.AcSession, message.Source.Id, false);
             }
 
-            private void HandleDsdRole(IUserSession userSession, Guid dsdRoleId, bool isCommand)
+            private void HandleDsdRole(IAcSession userSession, Guid dsdRoleId, bool isCommand)
             {
                 var host = _set._host;
                 var dsdSetDic = _set._dsdSetDic;
@@ -617,7 +617,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateDsdRoleRemovedEvent : DsdRoleRemovedEvent
             {
-                internal PrivateDsdRoleRemovedEvent(IUserSession userSession, DsdRoleBase source)
+                internal PrivateDsdRoleRemovedEvent(IAcSession userSession, DsdRoleBase source)
                     : base(userSession, source)
                 {
                 }

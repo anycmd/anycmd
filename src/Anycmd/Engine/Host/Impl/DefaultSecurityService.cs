@@ -6,7 +6,7 @@ namespace Anycmd.Engine.Host.Impl
 
     public class DefaultSecurityService : ISecurityService
     {
-        public bool Permit(IUserSession user, FunctionState function, IManagedObject data)
+        public bool Permit(IAcSession user, FunctionState function, IManagedObject data)
         {
             if (function == null)
             {

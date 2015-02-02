@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Edi.Messages
 
     public class UpdateCatalogActionCommand : UpdateEntityCommand<ICatalogActionUpdateIo>, IAnycmdCommand
     {
-        public UpdateCatalogActionCommand(IUserSession userSession, ICatalogActionUpdateIo input)
+        public UpdateCatalogActionCommand(IAcSession userSession, ICatalogActionUpdateIo input)
             : base(userSession, input)
         {
 

@@ -6,7 +6,7 @@ namespace Anycmd.Engine.Edi.Messages
 
     public class ProcessUpdatedEvent : DomainEvent
     {
-        public ProcessUpdatedEvent(IUserSession userSession, ProcessBase source)
+        public ProcessUpdatedEvent(IAcSession userSession, ProcessBase source)
             : base(userSession, source)
         {
         }

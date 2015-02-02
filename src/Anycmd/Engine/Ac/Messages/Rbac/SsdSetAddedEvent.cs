@@ -6,7 +6,7 @@ namespace Anycmd.Engine.Ac.Messages.Rbac
 
     public class SsdSetAddedEvent: EntityAddedEvent<ISsdSetCreateIo>
     {
-        public SsdSetAddedEvent(IUserSession userSession, SsdSetBase source, ISsdSetCreateIo output)
+        public SsdSetAddedEvent(IAcSession userSession, SsdSetBase source, ISsdSetCreateIo output)
             : base(userSession, source, output)
         {
         }

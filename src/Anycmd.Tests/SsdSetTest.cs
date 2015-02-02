@@ -25,7 +25,7 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             Assert.Equal(0, host.SsdSetSet.Count());
-            UserSessionState.SignIn(host, new Dictionary<string, object>
+            AcSessionState.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -34,7 +34,7 @@ namespace Anycmd.Tests
             var entityId = Guid.NewGuid();
 
             SsdSetState ssdSetById;
-            host.Handle(new AddSsdSetCommand(host.GetUserSession(), new SsdSetCreateIo
+            host.Handle(new AddSsdSetCommand(host.GetAcSession(), new SsdSetCreateIo
             {
                 Id = entityId,
                 Name = "测试1",
@@ -45,7 +45,7 @@ namespace Anycmd.Tests
             Assert.Equal(1, host.SsdSetSet.Count());
             Assert.True(host.SsdSetSet.TryGetSsdSet(entityId, out ssdSetById));
 
-            host.Handle(new UpdateSsdSetCommand(host.GetUserSession(), new SsdSetUpdateIo
+            host.Handle(new UpdateSsdSetCommand(host.GetAcSession(), new SsdSetUpdateIo
             {
                 Id = entityId,
                 Name = "test2",
@@ -57,7 +57,7 @@ namespace Anycmd.Tests
             Assert.True(host.SsdSetSet.TryGetSsdSet(entityId, out ssdSetById));
             Assert.Equal("test2", ssdSetById.Name);
 
-            host.Handle(new RemoveSsdSetCommand(host.GetUserSession(), entityId));
+            host.Handle(new RemoveSsdSetCommand(host.GetAcSession(), entityId));
             Assert.False(host.SsdSetSet.TryGetSsdSet(entityId, out ssdSetById));
             Assert.Equal(0, host.SsdSetSet.Count());
         }
@@ -67,7 +67,7 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             Assert.Equal(0, host.SsdSetSet.Count());
-            UserSessionState.SignIn(host, new Dictionary<string, object>
+            AcSessionState.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -76,7 +76,7 @@ namespace Anycmd.Tests
             var ssdSetId = Guid.NewGuid();
 
             SsdSetState ssdSetById;
-            host.Handle(new AddSsdSetCommand(host.GetUserSession(), new SsdSetCreateIo
+            host.Handle(new AddSsdSetCommand(host.GetAcSession(), new SsdSetCreateIo
             {
                 Id = ssdSetId,
                 Name = "测试1",
@@ -99,18 +99,18 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }.ToCommand(host.GetUserSession()));
+            }.ToCommand(host.GetAcSession()));
             Assert.Equal(1, host.RoleSet.Count());
             Assert.True(host.RoleSet.TryGetRole(roleId, out roleById));
             var entityId = Guid.NewGuid();
-            host.Handle(new AddSsdRoleCommand(host.GetUserSession(), new SsdRoleCreateIo
+            host.Handle(new AddSsdRoleCommand(host.GetAcSession(), new SsdRoleCreateIo
             {
                 Id = entityId,
                 RoleId = roleId,
                 SsdSetId = ssdSetId
             }));
             Assert.Equal(1, host.SsdSetSet.GetSsdRoles(ssdSetById).Count);
-            host.Handle(new RemoveSsdRoleCommand(host.GetUserSession(), entityId));
+            host.Handle(new RemoveSsdRoleCommand(host.GetAcSession(), entityId));
             Assert.Equal(0, host.SsdSetSet.GetSsdRoles(ssdSetById).Count);
         }
 
@@ -119,7 +119,7 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             Assert.Equal(0, host.SsdSetSet.Count());
-            UserSessionState.SignIn(host, new Dictionary<string, object>
+            AcSessionState.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -128,7 +128,7 @@ namespace Anycmd.Tests
             var ssdSetId = Guid.NewGuid();
 
             SsdSetState ssdSetById;
-            host.Handle(new AddSsdSetCommand(host.GetUserSession(), new SsdSetCreateIo
+            host.Handle(new AddSsdSetCommand(host.GetAcSession(), new SsdSetCreateIo
             {
                 Id = ssdSetId,
                 Name = "测试1",
@@ -150,9 +150,9 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }.ToCommand(host.GetUserSession()));
+            }.ToCommand(host.GetAcSession()));
             Guid entityId = Guid.NewGuid();
-            host.Handle(new AddSsdRoleCommand(host.GetUserSession(), new SsdRoleCreateIo
+            host.Handle(new AddSsdRoleCommand(host.GetAcSession(), new SsdRoleCreateIo
             {
                 Id = entityId,
                 RoleId = roleId1,
@@ -168,9 +168,9 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }.ToCommand(host.GetUserSession()));
+            }.ToCommand(host.GetAcSession()));
             entityId = Guid.NewGuid();
-            host.Handle(new AddSsdRoleCommand(host.GetUserSession(), new SsdRoleCreateIo
+            host.Handle(new AddSsdRoleCommand(host.GetAcSession(), new SsdRoleCreateIo
             {
                 Id = entityId,
                 RoleId = roleId2,
@@ -186,9 +186,9 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }.ToCommand(host.GetUserSession()));
+            }.ToCommand(host.GetAcSession()));
             entityId = Guid.NewGuid();
-            host.Handle(new AddSsdRoleCommand(host.GetUserSession(), new SsdRoleCreateIo
+            host.Handle(new AddSsdRoleCommand(host.GetAcSession(), new SsdRoleCreateIo
             {
                 Id = entityId,
                 RoleId = roleId3,
@@ -206,7 +206,7 @@ namespace Anycmd.Tests
                 Description = "test",
                 SortCode = 10,
                 Icon = null,
-            }.ToCommand(host.GetUserSession()));
+            }.ToCommand(host.GetAcSession()));
             Guid accountId = Guid.NewGuid();
             host.Handle(new AccountCreateInput
             {
@@ -218,17 +218,17 @@ namespace Anycmd.Tests
                 CatalogCode = "100",
                 IsEnabled = 1,
                 AuditState = "auditPass"
-            }.ToCommand(host.GetUserSession()));
+            }.ToCommand(host.GetAcSession()));
             Assert.NotNull(host.RetrieveRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
-            UserSessionState.SignIn(host, new Dictionary<string, object>
+            AcSessionState.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
                 {"rememberMe", "rememberMe"}
             });
-            Assert.True(host.GetUserSession().Identity.IsAuthenticated);
-            Assert.Equal(0, host.GetUserSession().AccountPrivilege.Roles.Count);
-            host.Handle(new AddPrivilegeCommand(host.GetUserSession(), new PrivilegeCreateIo
+            Assert.True(host.GetAcSession().Identity.IsAuthenticated);
+            Assert.Equal(0, host.GetAcSession().AccountPrivilege.Roles.Count);
+            host.Handle(new AddPrivilegeCommand(host.GetAcSession(), new PrivilegeCreateIo
             {
                 Id = Guid.NewGuid(),
                 SubjectInstanceId = accountId,
@@ -238,7 +238,7 @@ namespace Anycmd.Tests
                 ObjectInstanceId = roleId1,
                 ObjectType = AcElementType.Role.ToString()
             }));
-            host.Handle(new AddPrivilegeCommand(host.GetUserSession(), new PrivilegeCreateIo
+            host.Handle(new AddPrivilegeCommand(host.GetAcSession(), new PrivilegeCreateIo
             {
                 Id = Guid.NewGuid(),
                 SubjectInstanceId = accountId,
@@ -251,7 +251,7 @@ namespace Anycmd.Tests
             var catched = false;
             try
             {
-                host.Handle(new AddPrivilegeCommand(host.GetUserSession(), new PrivilegeCreateIo
+                host.Handle(new AddPrivilegeCommand(host.GetAcSession(), new PrivilegeCreateIo
                 {
                     Id = Guid.NewGuid(),
                     SubjectInstanceId = accountId,

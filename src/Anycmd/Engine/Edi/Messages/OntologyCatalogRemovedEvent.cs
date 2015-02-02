@@ -6,6 +6,6 @@ namespace Anycmd.Engine.Edi.Messages
 
     public class OntologyCatalogRemovedEvent : DomainEvent
     {
-        public OntologyCatalogRemovedEvent(IUserSession userSession, OntologyCatalogBase source) : base(userSession, source) { }
+        public OntologyCatalogRemovedEvent(IAcSession userSession, OntologyCatalogBase source) : base(userSession, source) { }
     }
 }

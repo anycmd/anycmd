@@ -108,7 +108,7 @@ namespace Anycmd.Ac.ViewModels.Identity.AccountViewModels
         public string Qq { get; set; }
         public string BlogUrl { get; set; }
 
-        public IAnycmdCommand ToCommand(IUserSession userSession)
+        public IAnycmdCommand ToCommand(IAcSession userSession)
         {
             return new UpdateAccountCommand(userSession, this);
         }

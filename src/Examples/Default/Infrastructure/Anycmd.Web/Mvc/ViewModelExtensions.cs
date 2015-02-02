@@ -284,7 +284,7 @@ namespace Anycmd.Web.Mvc
             {
                 return result;
             }
-            if ((!string.IsNullOrEmpty(property.Tooltip) || GetUserSession().IsDeveloper()))
+            if ((!string.IsNullOrEmpty(property.Tooltip) || GetAcSession().IsDeveloper()))
             {
                 var urlHelper = new UrlHelper(html.ViewContext.RequestContext, html.RouteCollection);
                 var href = urlHelper.Action("Tooltip", "Property", new { area = "Ac", propertyId = property.Id });
@@ -309,7 +309,7 @@ namespace Anycmd.Web.Mvc
             {
                 return result;
             }
-            if (uiView != null && (!string.IsNullOrEmpty(uiView.Tooltip) || GetUserSession().IsDeveloper()))
+            if (uiView != null && (!string.IsNullOrEmpty(uiView.Tooltip) || GetAcSession().IsDeveloper()))
             {
                 var urlHelper = new UrlHelper(html.ViewContext.RequestContext, html.RouteCollection);
                 var href = urlHelper.Action("Tooltip", "UiView", new { area = "Ac", uiViewId = uiView.Id });
@@ -413,7 +413,7 @@ namespace Anycmd.Web.Mvc
         public static IHtmlString IsEnabled(this HtmlHelper html, string resourceCode, string functionCode)
         {
             var htmlEnabled = string.Empty;
-            if (!GetUserSession().Permit(resourceCode, functionCode))
+            if (!GetAcSession().Permit(resourceCode, functionCode))
             {
                 htmlEnabled = "enabled='false'";
             }
@@ -551,12 +551,12 @@ namespace Anycmd.Web.Mvc
         #region Permit
         public static bool Permit(this UiViewState page)
         {
-            return GetUserSession().Permit(page);
+            return GetAcSession().Permit(page);
         }
 
         public static bool Permit(this UiViewViewModel page)
         {
-            return GetUserSession().Permit(page.UiView);
+            return GetAcSession().Permit(page.UiView);
         }
         #endregion
 
@@ -565,9 +565,9 @@ namespace Anycmd.Web.Mvc
             return GetAcDomain();
         }
 
-        public static IUserSession CurrentUser(this WebViewPage page)
+        public static IAcSession CurrentUser(this WebViewPage page)
         {
-            return GetUserSession();
+            return GetAcSession();
         }
 
         #region GetOperationLogEntityType
@@ -981,7 +981,7 @@ namespace Anycmd.Web.Mvc
         public static IHtmlString Qtip(this HtmlHelper html, IElement element)
         {
             IHtmlString result = MvcHtmlString.Empty;
-            if (element != null && (!string.IsNullOrEmpty(element.Tooltip) || GetUserSession().IsDeveloper()))
+            if (element != null && (!string.IsNullOrEmpty(element.Tooltip) || GetAcSession().IsDeveloper()))
             {
                 var urlHelper = new UrlHelper(html.ViewContext.RequestContext, html.RouteCollection);
                 var href = urlHelper.Action("Tooltip", "Element", new { area = "Edi", elementId = element.Id });
@@ -1006,14 +1006,14 @@ namespace Anycmd.Web.Mvc
             return host;
         }
 
-        private static IUserSession GetUserSession()
+        private static IAcSession GetAcSession()
         {
             var host = GetAcDomain();
-            var storage = host.GetRequiredService<IUserSessionStorage>();
-            var user = storage.GetData(host.Config.CurrentUserSessionCacheKey) as IUserSession;
+            var storage = host.GetRequiredService<IAcSessionStorage>();
+            var user = storage.GetData(host.Config.CurrentAcSessionCacheKey) as IAcSession;
             if (user == null)
             {
-                return UserSessionState.Empty;
+                return AcSessionState.Empty;
             }
             return user;
         }

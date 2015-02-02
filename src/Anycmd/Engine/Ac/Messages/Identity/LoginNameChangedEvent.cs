@@ -6,7 +6,7 @@ namespace Anycmd.Engine.Ac.Messages.Identity
 
     public class LoginNameChangedEvent : DomainEvent
     {
-        public LoginNameChangedEvent(IUserSession userSession, AccountBase source)
+        public LoginNameChangedEvent(IAcSession userSession, AccountBase source)
             : base(userSession, source)
         {
         }

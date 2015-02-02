@@ -156,7 +156,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             {
                 return this.ModelState.ToJsonResult();
             }
-            AcDomain.Handle(input.ToCommand(UserSession));
+            AcDomain.Handle(input.ToCommand(AcSession));
 
             return this.JsonResult(new ResponseData { success = true, id = input.Id.Value });
         }
@@ -176,7 +176,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             {
                 return this.ModelState.ToJsonResult();
             }
-            AcDomain.Handle(input.ToCommand(UserSession));
+            AcDomain.Handle(input.ToCommand(AcSession));
 
             return this.JsonResult(new ResponseData { success = true, id = input.Id });
         }

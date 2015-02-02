@@ -29,7 +29,7 @@ namespace Anycmd.Repl
 				var acDomain = new DefaultAcDomain();
 				_acDomain = acDomain;
 				_acDomain.AddService(typeof(ILoggingService), new Log4NetLoggingService(_acDomain));
-				_acDomain.AddService(typeof(IUserSessionStorage), new SimpleUserSessionStorage());
+				_acDomain.AddService(typeof(IAcSessionStorage), new SimpleAcSessionStorage());
 				acDomain.Init();
 				_acDomain.RegisterRepository(new List<string> {
 						"EdiEntities",

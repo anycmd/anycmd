@@ -6,7 +6,7 @@ namespace Anycmd.Engine.Ac.Messages.Infra
 
     public class RemovePropertyCommand : RemoveEntityCommand
     {
-        public RemovePropertyCommand(IUserSession userSession, Guid propertyId)
+        public RemovePropertyCommand(IAcSession userSession, Guid propertyId)
             : base(userSession, propertyId)
         {
 

@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Ac.Messages.Infra
 
     public class RemoveFunctionCommand : RemoveEntityCommand
     {
-        public RemoveFunctionCommand(IUserSession userSession, Guid functionId)
+        public RemoveFunctionCommand(IAcSession userSession, Guid functionId)
             : base(userSession, functionId)
         {
 

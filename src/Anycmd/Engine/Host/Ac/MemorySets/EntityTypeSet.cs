@@ -234,7 +234,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(AddEntityTypeCommand message)
             {
-                Handle(message.UserSession, message.Input, true);
+                Handle(message.AcSession, message.Input, true);
             }
 
             public void Handle(EntityTypeAddedEvent message)
@@ -243,10 +243,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                Handle(message.UserSession, message.Output, false);
+                Handle(message.AcSession, message.Output, false);
             }
 
-            private void Handle(IUserSession userSession, IEntityTypeCreateIo input, bool isCommand)
+            private void Handle(IAcSession userSession, IEntityTypeCreateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var dicById = _set._dicById;
@@ -319,7 +319,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateEntityTypeAddedEvent : EntityTypeAddedEvent
             {
-                internal PrivateEntityTypeAddedEvent(IUserSession userSession, EntityTypeBase source, IEntityTypeCreateIo input)
+                internal PrivateEntityTypeAddedEvent(IAcSession userSession, EntityTypeBase source, IEntityTypeCreateIo input)
                     : base(userSession, source, input)
                 {
 
@@ -328,7 +328,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(UpdateEntityTypeCommand message)
             {
-                Handle(message.UserSession, message.Input, true);
+                Handle(message.AcSession, message.Input, true);
             }
 
             public void Handle(EntityTypeUpdatedEvent message)
@@ -337,10 +337,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                Handle(message.UserSession, message.Input, false);
+                Handle(message.AcSession, message.Input, false);
             }
 
-            private void Handle(IUserSession userSession, IEntityTypeUpdateIo input, bool isCommand)
+            private void Handle(IAcSession userSession, IEntityTypeUpdateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var entityTypeRepository = host.RetrieveRequiredService<IRepository<EntityType>>();
@@ -433,7 +433,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateEntityTypeUpdatedEvent : EntityTypeUpdatedEvent
             {
-                internal PrivateEntityTypeUpdatedEvent(IUserSession userSession, EntityTypeBase source, IEntityTypeUpdateIo input)
+                internal PrivateEntityTypeUpdatedEvent(IAcSession userSession, EntityTypeBase source, IEntityTypeUpdateIo input)
                     : base(userSession, source, input)
                 {
 
@@ -442,7 +442,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(RemoveEntityTypeCommand message)
             {
-                this.Handle(message.UserSession, message.EntityId, true);
+                this.Handle(message.AcSession, message.EntityId, true);
             }
 
             public void Handle(EntityTypeRemovedEvent message)
@@ -451,10 +451,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                this.Handle(message.UserSession, message.Source.Id, false);
+                this.Handle(message.AcSession, message.Source.Id, false);
             }
 
-            private void Handle(IUserSession userSession, Guid entityTypeId, bool isCommand)
+            private void Handle(IAcSession userSession, Guid entityTypeId, bool isCommand)
             {
                 var host = _set._host;
                 var dicById = _set._dicById;
@@ -525,7 +525,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateEntityTypeRemovedEvent : EntityTypeRemovedEvent
             {
-                internal PrivateEntityTypeRemovedEvent(IUserSession userSession, EntityTypeBase source)
+                internal PrivateEntityTypeRemovedEvent(IAcSession userSession, EntityTypeBase source)
                     : base(userSession, source)
                 {
 
@@ -743,7 +743,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 public void Handle(AddPropertyCommand message)
                 {
-                    Handle(message.UserSession, message.Input, true);
+                    Handle(message.AcSession, message.Input, true);
                 }
 
                 public void Handle(PropertyAddedEvent message)
@@ -752,10 +752,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     {
                         return;
                     }
-                    Handle(message.UserSession, message.Output, false);
+                    Handle(message.AcSession, message.Output, false);
                 }
 
-                private void Handle(IUserSession userSession, IPropertyCreateIo input, bool isCommand)
+                private void Handle(IAcSession userSession, IPropertyCreateIo input, bool isCommand)
                 {
                     var host = _set._host;
                     var dicByCode = _set._dicByCode;
@@ -832,7 +832,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 private class PrivatePropertyAddedEvent : PropertyAddedEvent
                 {
-                    internal PrivatePropertyAddedEvent(IUserSession userSession, PropertyBase source, IPropertyCreateIo input)
+                    internal PrivatePropertyAddedEvent(IAcSession userSession, PropertyBase source, IPropertyCreateIo input)
                         : base(userSession, source, input)
                     {
 
@@ -851,7 +851,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     #region createIDProperty
                     if (!host.EntityTypeSet.TryGetProperty(entityType, "Id", out property))
                     {
-                        var createIdProperty = new AddPropertyCommand(message.UserSession, new PropertyCreateInput
+                        var createIdProperty = new AddPropertyCommand(message.AcSession, new PropertyCreateInput
                         {
                             Code = "Id",
                             Description = null,
@@ -878,7 +878,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     #region createCreateOnProperty
                     if (!host.EntityTypeSet.TryGetProperty(entityType, "CreateOn", out property))
                     {
-                        var createCreateOnProperty = new AddPropertyCommand(message.UserSession, new PropertyCreateInput
+                        var createCreateOnProperty = new AddPropertyCommand(message.AcSession, new PropertyCreateInput
                         {
                             Code = "CreateOn",
                             Description = null,
@@ -905,7 +905,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     #region createCreateByProperty
                     if (!host.EntityTypeSet.TryGetProperty(entityType, "CreateBy", out property))
                     {
-                        var createCreateByProperty = new AddPropertyCommand(message.UserSession, new PropertyCreateInput
+                        var createCreateByProperty = new AddPropertyCommand(message.AcSession, new PropertyCreateInput
                         {
                             Code = "CreateBy",
                             Description = null,
@@ -932,7 +932,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     #region createCreateUserIdProperty
                     if (!host.EntityTypeSet.TryGetProperty(entityType, "CreateUserId", out property))
                     {
-                        var createCreateUserIdProperty = new AddPropertyCommand(message.UserSession, new PropertyCreateInput
+                        var createCreateUserIdProperty = new AddPropertyCommand(message.AcSession, new PropertyCreateInput
                         {
                             Code = "CreateUserId",
                             Description = null,
@@ -959,7 +959,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     #region createModifiedOnProperty
                     if (!host.EntityTypeSet.TryGetProperty(entityType, "ModifiedOn", out property))
                     {
-                        var createModifiedOnProperty = new AddPropertyCommand(message.UserSession, new PropertyCreateInput
+                        var createModifiedOnProperty = new AddPropertyCommand(message.AcSession, new PropertyCreateInput
                         {
                             Code = "ModifiedOn",
                             Description = null,
@@ -986,7 +986,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     #region createModifiedByProperty
                     if (!host.EntityTypeSet.TryGetProperty(entityType, "ModifiedBy", out property))
                     {
-                        var createModifiedByProperty = new AddPropertyCommand(message.UserSession, new PropertyCreateInput
+                        var createModifiedByProperty = new AddPropertyCommand(message.AcSession, new PropertyCreateInput
                         {
                             Code = "ModifiedBy",
                             Description = null,
@@ -1013,7 +1013,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     #region createModifiedUserIDProperty
                     if (!host.EntityTypeSet.TryGetProperty(entityType, "ModifiedUserId", out property))
                     {
-                        var createModifiedUserIdProperty = new AddPropertyCommand(message.UserSession, new PropertyCreateInput
+                        var createModifiedUserIdProperty = new AddPropertyCommand(message.AcSession, new PropertyCreateInput
                         {
                             Code = "ModifiedUserId",
                             Description = null,
@@ -1119,7 +1119,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                     public propertyCode Tooltip { get; set; }
 
-                    public override IAnycmdCommand ToCommand(IUserSession userSession)
+                    public override IAnycmdCommand ToCommand(IAcSession userSession)
                     {
                         return new AddPropertyCommand(userSession, this);
                     }
@@ -1127,7 +1127,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 public void Handle(UpdatePropertyCommand message)
                 {
-                    Handle(message.UserSession, message.Input, true);
+                    Handle(message.AcSession, message.Input, true);
                 }
 
                 public void Handle(PropertyUpdatedEvent message)
@@ -1136,10 +1136,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     {
                         return;
                     }
-                    Handle(message.UserSession, message.Input, false);
+                    Handle(message.AcSession, message.Input, false);
                 }
 
-                private void Handle(IUserSession userSession, IPropertyUpdateIo input, bool isCommand)
+                private void Handle(IAcSession userSession, IPropertyUpdateIo input, bool isCommand)
                 {
                     var host = _set._host;
                     var propertyRepository = host.RetrieveRequiredService<IRepository<Property>>();
@@ -1236,7 +1236,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 private class PrivatePropertyUpdatedEvent : PropertyUpdatedEvent
                 {
-                    internal PrivatePropertyUpdatedEvent(IUserSession userSession, PropertyBase source, IPropertyUpdateIo input)
+                    internal PrivatePropertyUpdatedEvent(IAcSession userSession, PropertyBase source, IPropertyUpdateIo input)
                         : base(userSession, source, input)
                     {
 
@@ -1245,7 +1245,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 public void Handle(RemovePropertyCommand message)
                 {
-                    this.Handle(message.UserSession, message.EntityId, true);
+                    this.Handle(message.AcSession, message.EntityId, true);
                 }
 
                 public void Handle(PropertyRemovedEvent message)
@@ -1254,10 +1254,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     {
                         return;
                     }
-                    this.Handle(message.UserSession, message.Source.Id, false);
+                    this.Handle(message.AcSession, message.Source.Id, false);
                 }
 
-                private void Handle(IUserSession userSession, Guid propertyId, bool isCommand)
+                private void Handle(IAcSession userSession, Guid propertyId, bool isCommand)
                 {
                     var host = _set._host;
                     var dicByCode = _set._dicByCode;
@@ -1323,7 +1323,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 private class PrivatePropertyRemovedEvent : PropertyRemovedEvent
                 {
-                    internal PrivatePropertyRemovedEvent(IUserSession userSession, PropertyBase source)
+                    internal PrivatePropertyRemovedEvent(IAcSession userSession, PropertyBase source)
                         : base(userSession, source)
                     {
 

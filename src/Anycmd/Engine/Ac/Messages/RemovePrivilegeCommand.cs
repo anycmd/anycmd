@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Ac.Messages
 
     public class RemovePrivilegeCommand : RemoveEntityCommand
     {
-        public RemovePrivilegeCommand(IUserSession userSession, Guid privilegeBigramId)
+        public RemovePrivilegeCommand(IAcSession userSession, Guid privilegeBigramId)
             : base(userSession, privilegeBigramId)
         {
 

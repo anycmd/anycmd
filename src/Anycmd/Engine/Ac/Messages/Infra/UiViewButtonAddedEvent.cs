@@ -9,7 +9,7 @@ namespace Anycmd.Engine.Ac.Messages.Infra
     /// </summary>
     public class UiViewButtonAddedEvent : EntityAddedEvent<IUiViewButtonCreateIo>
     {
-        public UiViewButtonAddedEvent(IUserSession userSession, UiViewButtonBase source, IUiViewButtonCreateIo input)
+        public UiViewButtonAddedEvent(IAcSession userSession, UiViewButtonBase source, IUiViewButtonCreateIo input)
             : base(userSession, source, input)
         {
         }

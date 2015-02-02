@@ -95,8 +95,8 @@ namespace Anycmd.Ef
                 var entity = (obj as IEntityBase);
                 if (entity.CreateUserId == null)
                 {
-                    var storage = _host.GetRequiredService<IUserSessionStorage>();
-                    var user = storage.GetData(_host.Config.CurrentUserSessionCacheKey) as IUserSession;
+                    var storage = _host.GetRequiredService<IAcSessionStorage>();
+                    var user = storage.GetData(_host.Config.CurrentAcSessionCacheKey) as IAcSession;
                     if (user != null && user.Identity.IsAuthenticated)
                     {
                         if (string.IsNullOrEmpty(entity.CreateBy))
@@ -129,8 +129,8 @@ namespace Anycmd.Ef
                 var entity = (obj as IEntityBase);
                 if (entity.ModifiedUserId == null)
                 {
-                    var storage = _host.GetRequiredService<IUserSessionStorage>();
-                    var user = storage.GetData(_host.Config.CurrentUserSessionCacheKey) as IUserSession;
+                    var storage = _host.GetRequiredService<IAcSessionStorage>();
+                    var user = storage.GetData(_host.Config.CurrentAcSessionCacheKey) as IAcSession;
                     if (user != null && user.Identity.IsAuthenticated)
                     {
                         if (string.IsNullOrEmpty(entity.ModifiedBy))

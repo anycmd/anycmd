@@ -129,7 +129,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                     {
                         if (!isAssigned)
                         {
-                            AcDomain.Handle(new RemoveSsdRoleCommand(UserSession, id));
+                            AcDomain.Handle(new RemoveSsdRoleCommand(AcSession, id));
                         }
                     }
                     else if (isAssigned)
@@ -140,7 +140,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                             RoleId = new Guid(row["RoleId"].ToString()),
                             SsdSetId = new Guid(row["SsdSetId"].ToString())
                         };
-                        AcDomain.Handle(createInput.ToCommand(UserSession));
+                        AcDomain.Handle(createInput.ToCommand(AcSession));
                     }
                 }
             }
@@ -159,7 +159,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return this.ModelState.ToJsonResult();
             }
-            AcDomain.Handle(input.ToCommand(UserSession));
+            AcDomain.Handle(input.ToCommand(AcSession));
 
             return this.JsonResult(new ResponseData { success = true, id = input.Id });
         }
@@ -174,7 +174,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return this.ModelState.ToJsonResult();
             }
-            AcDomain.Handle(input.ToCommand(UserSession));
+            AcDomain.Handle(input.ToCommand(AcSession));
 
             return this.JsonResult(new ResponseData { success = true, id = input.Id });
         }
@@ -201,7 +201,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             }
             foreach (var item in idArray)
             {
-                AcDomain.Handle(new RemoveSsdSetCommand(UserSession, item));
+                AcDomain.Handle(new RemoveSsdSetCommand(AcSession, item));
             }
 
             return this.JsonResult(new ResponseData { id = id, success = true });

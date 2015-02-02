@@ -6,7 +6,7 @@ namespace Anycmd.Engine.Edi.Messages
 
     public class AddActionCommand : AddEntityCommand<IActionCreateIo>, IAnycmdCommand
     {
-        public AddActionCommand(IUserSession userSession, IActionCreateIo input)
+        public AddActionCommand(IAcSession userSession, IActionCreateIo input)
             : base(userSession, input)
         {
 

@@ -6,7 +6,7 @@ namespace Anycmd.Engine.Ac.Messages.Infra
 
     public class MenuRemovedEvent : DomainEvent
     {
-        public MenuRemovedEvent(IUserSession userSession, MenuBase source)
+        public MenuRemovedEvent(IAcSession userSession, MenuBase source)
             : base(userSession, source)
         {
         }

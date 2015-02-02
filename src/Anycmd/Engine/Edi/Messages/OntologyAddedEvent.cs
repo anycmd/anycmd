@@ -10,7 +10,7 @@ namespace Anycmd.Engine.Edi.Messages
     /// </summary>
     public class OntologyAddedEvent : DomainEvent
     {
-        public OntologyAddedEvent(IUserSession userSession, OntologyBase source, IOntologyCreateIo output)
+        public OntologyAddedEvent(IAcSession userSession, OntologyBase source, IOntologyCreateIo output)
             : base(userSession, source)
         {
             if (output == null)

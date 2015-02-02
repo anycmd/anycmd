@@ -171,7 +171,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(AddButtonCommand message)
             {
-                Handle(message.UserSession, message.Input, isCommand: true);
+                Handle(message.AcSession, message.Input, isCommand: true);
             }
 
             public void Handle(ButtonAddedEvent message)
@@ -180,10 +180,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                Handle(message.UserSession, message.Output, isCommand: false);
+                Handle(message.AcSession, message.Output, isCommand: false);
             }
 
-            private void Handle(IUserSession userSession, IButtonCreateIo input, bool isCommand)
+            private void Handle(IAcSession userSession, IButtonCreateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var dicById = _set._dicById;
@@ -246,7 +246,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateButtonAddedEvent : ButtonAddedEvent
             {
-                internal PrivateButtonAddedEvent(IUserSession userSession, ButtonBase source, IButtonCreateIo input)
+                internal PrivateButtonAddedEvent(IAcSession userSession, ButtonBase source, IButtonCreateIo input)
                     : base(userSession, source, input)
                 {
 
@@ -254,7 +254,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             }
             public void Handle(UpdateButtonCommand message)
             {
-                Handle(message.UserSession, message.Input, isCommand: true);
+                Handle(message.AcSession, message.Input, isCommand: true);
             }
 
             public void Handle(ButtonUpdatedEvent message)
@@ -263,10 +263,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                Handle(message.UserSession, message.Input, isCommand: false);
+                Handle(message.AcSession, message.Input, isCommand: false);
             }
 
-            private void Handle(IUserSession userSession, IButtonUpdateIo input, bool isCommand)
+            private void Handle(IAcSession userSession, IButtonUpdateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var buttonRepository = host.RetrieveRequiredService<IRepository<Button>>();
@@ -352,7 +352,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateButtonUpdatedEvent : ButtonUpdatedEvent
             {
-                internal PrivateButtonUpdatedEvent(IUserSession userSession, ButtonBase source, IButtonUpdateIo input)
+                internal PrivateButtonUpdatedEvent(IAcSession userSession, ButtonBase source, IButtonUpdateIo input)
                     : base(userSession, source, input)
                 {
 
@@ -360,7 +360,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             }
             public void Handle(RemoveButtonCommand message)
             {
-                Handle(message.UserSession, message.EntityId, isCommand: true);
+                Handle(message.AcSession, message.EntityId, isCommand: true);
             }
 
             public void Handle(ButtonRemovedEvent message)
@@ -369,10 +369,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                Handle(message.UserSession, message.Source.Id, isCommand: false);
+                Handle(message.AcSession, message.Source.Id, isCommand: false);
             }
 
-            private void Handle(IUserSession userSession, Guid buttonId, bool isCommand)
+            private void Handle(IAcSession userSession, Guid buttonId, bool isCommand)
             {
                 var host = _set._host;
                 var dicById = _set._dicById;
@@ -441,7 +441,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateButtonRemovedEvent : ButtonRemovedEvent
             {
-                internal PrivateButtonRemovedEvent(IUserSession userSession, ButtonBase source)
+                internal PrivateButtonRemovedEvent(IAcSession userSession, ButtonBase source)
                     : base(userSession, source)
                 {
 

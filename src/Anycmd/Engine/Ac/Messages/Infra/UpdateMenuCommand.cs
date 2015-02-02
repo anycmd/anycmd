@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Ac.Messages.Infra
 
     public class UpdateMenuCommand : UpdateEntityCommand<IMenuUpdateIo>, IAnycmdCommand
     {
-        public UpdateMenuCommand(IUserSession userSession, IMenuUpdateIo input)
+        public UpdateMenuCommand(IAcSession userSession, IMenuUpdateIo input)
             : base(userSession, input)
         {
 

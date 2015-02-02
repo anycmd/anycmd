@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Edi.Messages
 
     public class AddCatalogActionCommand: AddEntityCommand<ICatalogActionCreateIo>, IAnycmdCommand
     {
-        public AddCatalogActionCommand(IUserSession userSession, ICatalogActionCreateIo input)
+        public AddCatalogActionCommand(IAcSession userSession, ICatalogActionCreateIo input)
             : base(userSession, input)
         {
 

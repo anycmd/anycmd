@@ -32,8 +32,8 @@ namespace Anycmd.Web.Mvc
                 {
                     throw new AnycmdException("");
                 }
-                var storage = host.GetRequiredService<IUserSessionStorage>();
-                var user = storage.GetData(host.Config.CurrentUserSessionCacheKey) as IUserSession;
+                var storage = host.GetRequiredService<IAcSessionStorage>();
+                var user = storage.GetData(host.Config.CurrentAcSessionCacheKey) as IAcSession;
                 bool isValidationException = exceptionContext.Exception is ValidationException;
                 bool isAjaxRequest = exceptionContext.HttpContext.Request.IsAjaxRequest();
                 ActionResult result = null;

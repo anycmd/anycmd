@@ -6,14 +6,14 @@ namespace Anycmd.Engine.Edi.Messages
 
     public class UpdateNodeElementCareCommand : Command, IAnycmdCommand
     {
-        public UpdateNodeElementCareCommand(IUserSession userSession, Guid nodeElementCareId, bool isInfoIdItem)
+        public UpdateNodeElementCareCommand(IAcSession userSession, Guid nodeElementCareId, bool isInfoIdItem)
         {
-            this.UserSession = userSession;
+            this.AcSession = userSession;
             this.NodeElementCareId = nodeElementCareId;
             this.IsInfoIdItem = isInfoIdItem;
         }
 
-        public IUserSession UserSession { get; private set; }
+        public IAcSession AcSession { get; private set; }
         public Guid NodeElementCareId { get; private set; }
         public bool IsInfoIdItem { get; private set; }
     }

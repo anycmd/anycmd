@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Edi.Messages
 
     public class AddNodeOntologyCatalogCommand : AddEntityCommand<INodeOntologyCatalogCreateIo>, IAnycmdCommand
     {
-        public AddNodeOntologyCatalogCommand(IUserSession userSession, INodeOntologyCatalogCreateIo input)
+        public AddNodeOntologyCatalogCommand(IAcSession userSession, INodeOntologyCatalogCreateIo input)
             : base(userSession, input)
         {
 

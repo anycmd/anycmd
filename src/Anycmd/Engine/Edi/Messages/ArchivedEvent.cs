@@ -9,7 +9,7 @@ namespace Anycmd.Engine.Edi.Messages
     /// </summary>
     public sealed class ArchivedEvent : DomainEvent
     {
-        public ArchivedEvent(IUserSession userSession, ArchiveBase source)
+        public ArchivedEvent(IAcSession userSession, ArchiveBase source)
             : base(userSession, source)
         {
         }

@@ -357,7 +357,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             var responseResult = new ResponseData { success = true, id = input.Id };
             if (ModelState.IsValid)
             {
-                AcDomain.Handle(input.ToCommand(UserSession));
+                AcDomain.Handle(input.ToCommand(AcSession));
             }
             else
             {
@@ -380,7 +380,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             var responseResult = new ResponseData { success = true, id = input.Id };
             if (ModelState.IsValid)
             {
-                AcDomain.Handle(input.ToCommand(UserSession));
+                AcDomain.Handle(input.ToCommand(AcSession));
             }
             else
             {
@@ -403,7 +403,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             var responseResult = new ResponseData { success = true, id = input.Id };
             if (ModelState.IsValid)
             {
-                AcDomain.Handle(input.ToCommand(UserSession));
+                AcDomain.Handle(input.ToCommand(AcSession));
             }
             else
             {
@@ -426,7 +426,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             var responseResult = new ResponseData { success = true, id = input.Id };
             if (ModelState.IsValid)
             {
-                AcDomain.Handle(input.ToCommand(UserSession));
+                AcDomain.Handle(input.ToCommand(AcSession));
             }
             else
             {
@@ -449,7 +449,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             var responseResult = new ResponseData { success = true, id = input.Id };
             if (ModelState.IsValid)
             {
-                AcDomain.Handle(input.ToCommand(UserSession));
+                AcDomain.Handle(input.ToCommand(AcSession));
             }
             else
             {

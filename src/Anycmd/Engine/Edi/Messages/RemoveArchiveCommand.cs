@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Edi.Messages
 
     public class RemoveArchiveCommand : RemoveEntityCommand
     {
-        public RemoveArchiveCommand(IUserSession userSession, Guid archiveId)
+        public RemoveArchiveCommand(IAcSession userSession, Guid archiveId)
             : base(userSession, archiveId)
         {
 

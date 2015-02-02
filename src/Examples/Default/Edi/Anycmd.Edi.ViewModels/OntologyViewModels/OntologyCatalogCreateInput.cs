@@ -18,7 +18,7 @@ namespace Anycmd.Edi.ViewModels.OntologyViewModels
 
         public Guid CatalogId { get; set; }
 
-        public override IAnycmdCommand ToCommand(IUserSession userSession)
+        public override IAnycmdCommand ToCommand(IAcSession userSession)
         {
             return new AddOntologyCatalogCommand(userSession, this);
         }

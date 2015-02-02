@@ -150,13 +150,13 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 foreach (var groupId in groupIds)
                 {
-                    _set._host.Handle(new RemovePositionCommand(message.UserSession, groupId));
+                    _set._host.Handle(new RemovePositionCommand(message.AcSession, groupId));
                 }
             }
 
             public void Handle(AddGroupCommand message)
             {
-                this.Handle(message.UserSession, message.Input, true);
+                this.Handle(message.AcSession, message.Input, true);
             }
 
             public void Handle(GroupAddedEvent message)
@@ -165,12 +165,12 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                this.Handle(message.UserSession, message.Output, false);
+                this.Handle(message.AcSession, message.Output, false);
             }
 
             public void Handle(AddPositionCommand message)
             {
-                this.Handle(message.UserSession, message.Input, true);
+                this.Handle(message.AcSession, message.Input, true);
             }
 
             public void Handle(PositionAddedEvent message)
@@ -179,10 +179,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                this.Handle(message.UserSession, message.Output, false);
+                this.Handle(message.AcSession, message.Output, false);
             }
 
-            private void Handle(IUserSession userSession, IGroupCreateIo input, bool isCommand)
+            private void Handle(IAcSession userSession, IGroupCreateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var groupDic = _set._groupDic;
@@ -233,7 +233,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
             }
 
-            private void Handle(IUserSession userSession, IPositionCreateIo input, bool isCommand)
+            private void Handle(IAcSession userSession, IPositionCreateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var groupDic = _set._groupDic;
@@ -295,7 +295,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateGroupAddedEvent : GroupAddedEvent
             {
-                internal PrivateGroupAddedEvent(IUserSession userSession, GroupBase source, IGroupCreateIo input)
+                internal PrivateGroupAddedEvent(IAcSession userSession, GroupBase source, IGroupCreateIo input)
                     : base(userSession, source, input)
                 {
 
@@ -303,7 +303,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             }
             private class PrivatePositionAddedEvent : PositionAddedEvent
             {
-                internal PrivatePositionAddedEvent(IUserSession userSession, GroupBase source, IPositionCreateIo input)
+                internal PrivatePositionAddedEvent(IAcSession userSession, GroupBase source, IPositionCreateIo input)
                     : base(userSession, source, input)
                 {
 
@@ -312,7 +312,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(UpdateGroupCommand message)
             {
-                this.Handle(message.UserSession, message.Input, true);
+                this.Handle(message.AcSession, message.Input, true);
             }
 
             public void Handle(GroupUpdatedEvent message)
@@ -321,12 +321,12 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                this.Handle(message.UserSession, message.Output, false);
+                this.Handle(message.AcSession, message.Output, false);
             }
 
             public void Handle(UpdatePositionCommand message)
             {
-                this.Handle(message.UserSession, message.Input, true);
+                this.Handle(message.AcSession, message.Input, true);
             }
 
             public void Handle(PositionUpdatedEvent message)
@@ -335,10 +335,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                this.Handle(message.UserSession, message.Output, false);
+                this.Handle(message.AcSession, message.Output, false);
             }
 
-            private void Handle(IUserSession userSession, IGroupUpdateIo input, bool isCommand)
+            private void Handle(IAcSession userSession, IGroupUpdateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var groupRepository = host.RetrieveRequiredService<IRepository<Group>>();
@@ -398,7 +398,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
             }
 
-            private void Handle(IUserSession userSession, IPositionUpdateIo input, bool isCommand)
+            private void Handle(IAcSession userSession, IPositionUpdateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var groupRepository = host.RetrieveRequiredService<IRepository<Group>>();
@@ -470,7 +470,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateGroupUpdatedEvent : GroupUpdatedEvent
             {
-                internal PrivateGroupUpdatedEvent(IUserSession userSession, GroupBase source, IGroupUpdateIo input)
+                internal PrivateGroupUpdatedEvent(IAcSession userSession, GroupBase source, IGroupUpdateIo input)
                     : base(userSession, source, input)
                 {
 
@@ -479,7 +479,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivatePositionUpdatedEvent : PositionUpdatedEvent
             {
-                internal PrivatePositionUpdatedEvent(IUserSession userSession, GroupBase source, IPositionUpdateIo input)
+                internal PrivatePositionUpdatedEvent(IAcSession userSession, GroupBase source, IPositionUpdateIo input)
                     : base(userSession, source, input)
                 {
 
@@ -488,7 +488,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(RemoveGroupCommand message)
             {
-                this.Handle(message.UserSession, message.EntityId, true);
+                this.Handle(message.AcSession, message.EntityId, true);
             }
 
             public void Handle(GroupRemovedEvent message)
@@ -497,12 +497,12 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                this.Handle(message.UserSession, message.Source.Id, false);
+                this.Handle(message.AcSession, message.Source.Id, false);
             }
 
             public void Handle(RemovePositionCommand message)
             {
-                this.Handle(message.UserSession, message.EntityId, true);
+                this.Handle(message.AcSession, message.EntityId, true);
             }
 
             public void Handle(PositionRemovedEvent message)
@@ -511,10 +511,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                this.Handle(message.UserSession, message.Source.Id, false);
+                this.Handle(message.AcSession, message.Source.Id, false);
             }
 
-            private void Handle(IUserSession userSession, Guid groupId, bool isCommand)
+            private void Handle(IAcSession userSession, Guid groupId, bool isCommand)
             {
                 var host = _set._host;
                 var groupDic = _set._groupDic;
@@ -575,7 +575,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateGroupRemovedEvent : GroupRemovedEvent
             {
-                internal PrivateGroupRemovedEvent(IUserSession userSession, GroupBase source)
+                internal PrivateGroupRemovedEvent(IAcSession userSession, GroupBase source)
                     : base(userSession, source)
                 {
 
@@ -584,7 +584,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivatePositionRemovedEvent : PositionRemovedEvent
             {
-                internal PrivatePositionRemovedEvent(IUserSession userSession, GroupBase source)
+                internal PrivatePositionRemovedEvent(IAcSession userSession, GroupBase source)
                     : base(userSession, source)
                 {
 

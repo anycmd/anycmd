@@ -4,7 +4,7 @@ namespace Anycmd.Engine.Host.Impl
     using System;
     using System.Collections.Concurrent;
 
-    public sealed class SimpleUserSessionStorage : IUserSessionStorage
+    public sealed class SimpleAcSessionStorage : IAcSessionStorage
     {
         private readonly ConcurrentDictionary<string, object> _dic = new ConcurrentDictionary<string, object>(StringComparer.OrdinalIgnoreCase);
 

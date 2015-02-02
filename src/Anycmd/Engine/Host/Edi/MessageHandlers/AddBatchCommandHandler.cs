@@ -147,7 +147,7 @@ namespace Anycmd.Engine.Host.Edi.MessageHandlers
                                         Status = 200,
                                         EventSourceType = string.Empty,
                                         EventSubjectCode = string.Empty,
-                                        UserName = command.UserSession.Account.Id.ToString(),
+                                        UserName = command.AcSession.Account.Id.ToString(),
                                         IsDumb = false,
                                         ReceivedOn = DateTime.Now,
                                         Version = ApiVersion.V1.ToName()
@@ -168,7 +168,7 @@ namespace Anycmd.Engine.Host.Edi.MessageHandlers
             batchRepository.Add(entity);
             batchRepository.Context.Commit();
 
-            _host.PublishEvent(new BatchAddedEvent(command.UserSession, entity));
+            _host.PublishEvent(new BatchAddedEvent(command.AcSession, entity));
             _host.CommitEventBus();
         }
 

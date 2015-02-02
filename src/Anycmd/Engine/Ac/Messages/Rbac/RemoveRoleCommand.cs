@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Ac.Messages.Rbac
 
     public class RemoveRoleCommand : RemoveEntityCommand
     {
-        public RemoveRoleCommand(IUserSession userSession, Guid roleId)
+        public RemoveRoleCommand(IAcSession userSession, Guid roleId)
             : base(userSession, roleId)
         {
 

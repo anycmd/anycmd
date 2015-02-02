@@ -6,6 +6,6 @@ namespace Anycmd.Engine.Edi.Messages
 
     public class TopicRemovedEvent : DomainEvent
     {
-        public TopicRemovedEvent(IUserSession userSession, TopicBase source) : base(userSession, source) { }
+        public TopicRemovedEvent(IAcSession userSession, TopicBase source) : base(userSession, source) { }
     }
 }

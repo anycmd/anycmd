@@ -393,7 +393,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
             public void Handle(AddOntologyCommand message)
             {
-                this.Handle(message.UserSession, message.Input, true);
+                this.Handle(message.AcSession, message.Input, true);
             }
 
             public void Handle(OntologyAddedEvent message)
@@ -402,10 +402,10 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 {
                     return;
                 }
-                this.Handle(message.UserSession, message.Output, false);
+                this.Handle(message.AcSession, message.Output, false);
             }
 
-            private void Handle(IUserSession userSession, IOntologyCreateIo input, bool isCommand)
+            private void Handle(IAcSession userSession, IOntologyCreateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var ontologyRepository = host.RetrieveRequiredService<IRepository<Ontology>>();
@@ -467,7 +467,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
             private class PrivateOntologyAddedEvent : OntologyAddedEvent
             {
-                public PrivateOntologyAddedEvent(IUserSession userSession, OntologyBase source, IOntologyCreateIo input)
+                public PrivateOntologyAddedEvent(IAcSession userSession, OntologyBase source, IOntologyCreateIo input)
                     : base(userSession, source, input)
                 {
 
@@ -476,7 +476,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
             public void Handle(UpdateOntologyCommand message)
             {
-                this.Handle(message.UserSession, message.Input, true);
+                this.Handle(message.AcSession, message.Input, true);
             }
 
             public void Handle(OntologyUpdatedEvent message)
@@ -485,10 +485,10 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 {
                     return;
                 }
-                this.Handle(message.UserSession, message.Output, false);
+                this.Handle(message.AcSession, message.Output, false);
             }
 
-            private void Handle(IUserSession userSession, IOntologyUpdateIo input, bool isCommand)
+            private void Handle(IAcSession userSession, IOntologyUpdateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var ontologyRepository = host.RetrieveRequiredService<IRepository<Ontology>>();
@@ -569,7 +569,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
             private class PrivateOntologyUpdatedEvent : OntologyUpdatedEvent
             {
-                public PrivateOntologyUpdatedEvent(IUserSession userSession, OntologyBase source, IOntologyUpdateIo input)
+                public PrivateOntologyUpdatedEvent(IAcSession userSession, OntologyBase source, IOntologyUpdateIo input)
                     : base(userSession, source, input)
                 {
 
@@ -578,7 +578,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
             public void Handle(RemoveOntologyCommand message)
             {
-                this.Handle(message.UserSession, message.EntityId, true);
+                this.Handle(message.AcSession, message.EntityId, true);
             }
 
             public void Handle(OntologyRemovedEvent message)
@@ -587,10 +587,10 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 {
                     return;
                 }
-                this.Handle(message.UserSession, message.Source.Id, false);
+                this.Handle(message.AcSession, message.Source.Id, false);
             }
 
-            private void Handle(IUserSession userSession, Guid ontologyId, bool isCommand)
+            private void Handle(IAcSession userSession, Guid ontologyId, bool isCommand)
             {
                 var host = _set._host;
                 var ontologyRepository = host.RetrieveRequiredService<IRepository<Ontology>>();
@@ -682,7 +682,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
             private class PrivateOntologyRemovedEvent : OntologyRemovedEvent
             {
-                public PrivateOntologyRemovedEvent(IUserSession userSession, OntologyBase source) : base(userSession, source) { }
+                public PrivateOntologyRemovedEvent(IAcSession userSession, OntologyBase source) : base(userSession, source) { }
             }
         }
         #endregion
@@ -890,7 +890,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                             throw;
                         }
                     }
-                    _set._host.PublishEvent(new ElementAddedEvent(message.UserSession, entity));
+                    _set._host.PublishEvent(new ElementAddedEvent(message.AcSession, entity));
                     _set._host.CommitEventBus();
                 }
 
@@ -911,7 +911,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     {
                         foreach (var entity in elementEntities)
                         {
-                            _set._host.Handle(new AddElementCommand(message.UserSession, entity));
+                            _set._host.Handle(new AddElementCommand(message.AcSession, entity));
                         }
                     }
                 }
@@ -1019,7 +1019,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                     public string Tooltip { get; set; }
 
-                    public override IAnycmdCommand ToCommand(IUserSession userSession)
+                    public override IAnycmdCommand ToCommand(IAcSession userSession)
                     {
                         return new AddElementCommand(userSession, this);
                     }
@@ -1076,7 +1076,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                         }
                         if (stateChanged)
                         {
-                            _set._host.PublishEvent(new ElementUpdatedEvent(message.UserSession, entity));
+                            _set._host.PublishEvent(new ElementUpdatedEvent(message.AcSession, entity));
                             _set._host.CommitEventBus();
                         }
                     }
@@ -1129,7 +1129,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                             throw;
                         }
                     }
-                    _set._host.PublishEvent(new ElementRemovedEvent(message.UserSession, entity));
+                    _set._host.PublishEvent(new ElementRemovedEvent(message.AcSession, entity));
                     _set._host.CommitEventBus();
                 }
             }
@@ -1312,7 +1312,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                             throw;
                         }
                     }
-                    host.PublishEvent(new ActionAddedEvent(message.UserSession, entity));
+                    host.PublishEvent(new ActionAddedEvent(message.AcSession, entity));
                     host.CommitEventBus();
                 }
 
@@ -1378,7 +1378,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                     if (stateChanged)
                     {
-                        _set._host.PublishEvent(new ActionUpdatedEvent(message.UserSession, entity));
+                        _set._host.PublishEvent(new ActionUpdatedEvent(message.AcSession, entity));
                         _set._host.CommitEventBus();
                     }
                 }
@@ -1442,7 +1442,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                             throw;
                         }
                     }
-                    host.PublishEvent(new ActionRemovedEvent(message.UserSession, entity));
+                    host.PublishEvent(new ActionRemovedEvent(message.AcSession, entity));
                     host.CommitEventBus();
                 }
             }
@@ -1608,7 +1608,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                             throw;
                         }
                     }
-                    _set._host.PublishEvent(new InfoGroupAddedEvent(message.UserSession, entity));
+                    _set._host.PublishEvent(new InfoGroupAddedEvent(message.AcSession, entity));
                     _set._host.CommitEventBus();
                 }
 
@@ -1666,7 +1666,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                     if (stateChanged)
                     {
-                        _set._host.PublishEvent(new InfoGroupUpdatedEvent(message.UserSession, entity));
+                        _set._host.PublishEvent(new InfoGroupUpdatedEvent(message.AcSession, entity));
                         _set._host.CommitEventBus();
                     }
                 }
@@ -1704,7 +1704,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                             throw;
                         }
                     }
-                    _set._host.PublishEvent(new InfoGroupRemovedEvent(message.UserSession, entity));
+                    _set._host.PublishEvent(new InfoGroupRemovedEvent(message.AcSession, entity));
                     _set._host.CommitEventBus();
                 }
             }
@@ -1839,7 +1839,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 public void Handle(AddOntologyCatalogCommand message)
                 {
-                    this.Handle(message.UserSession, message.Input, true);
+                    this.Handle(message.AcSession, message.Input, true);
                 }
 
                 public void Handle(OntologyCatalogAddedEvent message)
@@ -1848,10 +1848,10 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     {
                         return;
                     }
-                    this.Handle(message.UserSession, message.Output, false);
+                    this.Handle(message.AcSession, message.Output, false);
                 }
 
-                private void Handle(IUserSession userSession, IOntologyCatalogCreateIo input, bool isCommand)
+                private void Handle(IAcSession userSession, IOntologyCatalogCreateIo input, bool isCommand)
                 {
                     var _dic = set._dic;
                     var host = set._host;
@@ -1909,7 +1909,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 private class PrivateOntologyCatalogAddedEvent : OntologyCatalogAddedEvent
                 {
-                    public PrivateOntologyCatalogAddedEvent(IUserSession userSession, OntologyCatalogBase source, IOntologyCatalogCreateIo input)
+                    public PrivateOntologyCatalogAddedEvent(IAcSession userSession, OntologyCatalogBase source, IOntologyCatalogCreateIo input)
                         : base(userSession, source, input)
                     {
 
@@ -1918,7 +1918,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 public void Handle(RemoveOntologyCatalogCommand message)
                 {
-                    this.Handle(message.UserSession, message.OntologyId, message.CatalogId, true);
+                    this.Handle(message.AcSession, message.OntologyId, message.CatalogId, true);
                 }
 
                 public void Handle(OntologyCatalogRemovedEvent message)
@@ -1928,10 +1928,10 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                         return;
                     }
                     var entity = message.Source as OntologyCatalogBase;
-                    this.Handle(message.UserSession, entity.OntologyId, entity.CatalogId, false);
+                    this.Handle(message.AcSession, entity.OntologyId, entity.CatalogId, false);
                 }
 
-                private void Handle(IUserSession userSession, Guid ontologyId, Guid catalogId, bool isCommand)
+                private void Handle(IAcSession userSession, Guid ontologyId, Guid catalogId, bool isCommand)
                 {
                     var dic = set._dic;
                     var host = set._host;
@@ -1995,7 +1995,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 private class PrivateOntologyCatalogRemovedEvent : OntologyCatalogRemovedEvent
                 {
-                    public PrivateOntologyCatalogRemovedEvent(IUserSession userSession, OntologyCatalogBase source) : base(userSession, source) { }
+                    public PrivateOntologyCatalogRemovedEvent(IAcSession userSession, OntologyCatalogBase source) : base(userSession, source) { }
                 }
 
                 public void Handle(AddCatalogActionCommand message)
@@ -2184,7 +2184,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                             throw;
                         }
                     }
-                    _set._host.PublishEvent(new TopicAddedEvent(message.UserSession, entity));
+                    _set._host.PublishEvent(new TopicAddedEvent(message.AcSession, entity));
                     _set._host.CommitEventBus();
                 }
 
@@ -2264,7 +2264,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                             throw;
                         }
                     }
-                    _set._host.PublishEvent(new TopicUpdatedEvent(message.UserSession, entity));
+                    _set._host.PublishEvent(new TopicUpdatedEvent(message.AcSession, entity));
                     _set._host.CommitEventBus();
                 }
 
@@ -2314,7 +2314,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                             throw;
                         }
                     }
-                    _set._host.PublishEvent(new TopicRemovedEvent(message.UserSession, entity));
+                    _set._host.PublishEvent(new TopicRemovedEvent(message.AcSession, entity));
                     _set._host.CommitEventBus();
                 }
             }
@@ -2507,7 +2507,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                             throw;
                         }
                     }
-                    _set._host.PublishEvent(new ArchivedEvent(message.UserSession, entity));
+                    _set._host.PublishEvent(new ArchivedEvent(message.AcSession, entity));
                     _set._host.CommitEventBus();
                 }
 
@@ -2554,7 +2554,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                     if (stateChanged)
                     {
-                        _set._host.PublishEvent(new ArchiveUpdatedEvent(message.UserSession, entity));
+                        _set._host.PublishEvent(new ArchiveUpdatedEvent(message.AcSession, entity));
                         _set._host.CommitEventBus();
                     }
                 }
@@ -2623,7 +2623,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                             throw;
                         }
                     }
-                    _set._host.CommandBus.Publish(new ArchiveDeletedEvent(message.UserSession, entity));
+                    _set._host.CommandBus.Publish(new ArchiveDeletedEvent(message.AcSession, entity));
                     _set._host.CommandBus.Commit();
                 }
             }

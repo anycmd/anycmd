@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Edi.Messages
 
     public class RemoveTopicCommand : RemoveEntityCommand
     {
-        public RemoveTopicCommand(IUserSession userSession, Guid eventTopicId)
+        public RemoveTopicCommand(IAcSession userSession, Guid eventTopicId)
             : base(userSession, eventTopicId)
         {
 

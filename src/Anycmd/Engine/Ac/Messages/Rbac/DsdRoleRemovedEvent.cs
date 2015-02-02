@@ -6,7 +6,7 @@ namespace Anycmd.Engine.Ac.Messages.Rbac
 
     public class DsdRoleRemovedEvent : DomainEvent
     {
-        public DsdRoleRemovedEvent(IUserSession userSession, DsdRoleBase source)
+        public DsdRoleRemovedEvent(IAcSession userSession, DsdRoleBase source)
             : base(userSession, source)
         {
         }

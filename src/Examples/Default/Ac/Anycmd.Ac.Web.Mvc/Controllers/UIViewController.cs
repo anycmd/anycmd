@@ -187,7 +187,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 Icon = entity.Icon,
                 Id = entity.Id,
                 Tooltip = tooltip
-            }.ToCommand(UserSession));
+            }.ToCommand(AcSession));
             return this.JsonResult(new ResponseData { success = true });
         }
 
@@ -217,7 +217,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            AcDomain.Handle(input.ToCommand(UserSession));
+            AcDomain.Handle(input.ToCommand(AcSession));
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -233,7 +233,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            AcDomain.Handle(input.ToCommand(UserSession));
+            AcDomain.Handle(input.ToCommand(AcSession));
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -284,7 +284,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                                 IsEnabled = inputModel.IsEnabled,
                                 FunctionId = inputModel.FunctionId
                             };
-                            AcDomain.Handle(updateModel.ToCommand(UserSession));
+                            AcDomain.Handle(updateModel.ToCommand(AcSession));
                         }
                         else
                         {
@@ -296,12 +296,12 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                                 FunctionId = inputModel.FunctionId,
                                 UiViewId = inputModel.UiViewId
                             };
-                            AcDomain.Handle(input.ToCommand(UserSession));
+                            AcDomain.Handle(input.ToCommand(AcSession));
                         }
                     }
                     else
                     {
-                        AcDomain.Handle(new RemoveUiViewButtonCommand(UserSession, inputModel.Id));
+                        AcDomain.Handle(new RemoveUiViewButtonCommand(AcSession, inputModel.Id));
                     }
                     if (functionId.HasValue)
                     {
@@ -322,7 +322,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                             Description = function.Description
                         };
                         input.IsEnabled = functionIsEnabled;
-                        AcDomain.Handle(input.ToCommand(UserSession));
+                        AcDomain.Handle(input.ToCommand(AcSession));
                     }
                 }
             }
@@ -353,7 +353,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             }
             foreach (var item in idArray)
             {
-                AcDomain.Handle(new RemoveUiViewCommand(UserSession, item));
+                AcDomain.Handle(new RemoveUiViewCommand(AcSession, item));
             }
 
             return this.JsonResult(new ResponseData { id = id, success = true });

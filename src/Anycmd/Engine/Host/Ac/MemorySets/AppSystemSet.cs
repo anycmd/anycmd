@@ -199,7 +199,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(AddAppSystemCommand message)
             {
-                Handle(message.UserSession, message.Input, true);
+                Handle(message.AcSession, message.Input, true);
             }
 
             public void Handle(AppSystemAddedEvent message)
@@ -208,10 +208,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                Handle(message.UserSession, message.Input, false);
+                Handle(message.AcSession, message.Input, false);
             }
 
-            private void Handle(IUserSession userSession, IAppSystemCreateIo input, bool isCommand)
+            private void Handle(IAcSession userSession, IAppSystemCreateIo input, bool isCommand)
             {
                 var dicByCode = _set._dicByCode;
                 var dicById = _set._dicById;
@@ -281,14 +281,14 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateAppSystemAddedEvent : AppSystemAddedEvent
             {
-                internal PrivateAppSystemAddedEvent(IUserSession userSession, AppSystemBase source, IAppSystemCreateIo input)
+                internal PrivateAppSystemAddedEvent(IAcSession userSession, AppSystemBase source, IAppSystemCreateIo input)
                     : base(userSession, source, input)
                 {
                 }
             }
             public void Handle(UpdateAppSystemCommand message)
             {
-                Handle(message.UserSession, message.Input, true);
+                Handle(message.AcSession, message.Input, true);
             }
 
             public void Handle(AppSystemUpdatedEvent message)
@@ -297,10 +297,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                Handle(message.UserSession, message.Input, false);
+                Handle(message.AcSession, message.Input, false);
             }
 
-            private void Handle(IUserSession userSession, IAppSystemUpdateIo input, bool isCommand)
+            private void Handle(IAcSession userSession, IAppSystemUpdateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var repository = host.RetrieveRequiredService<IRepository<AppSystem>>();
@@ -387,7 +387,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateAppSystemUpdatedEvent : AppSystemUpdatedEvent
             {
-                internal PrivateAppSystemUpdatedEvent(IUserSession userSession, AppSystemBase source, IAppSystemUpdateIo input)
+                internal PrivateAppSystemUpdatedEvent(IAcSession userSession, AppSystemBase source, IAppSystemUpdateIo input)
                     : base(userSession, source, input)
                 {
 
@@ -395,7 +395,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             }
             public void Handle(RemoveAppSystemCommand message)
             {
-                Handle(message.UserSession, message.EntityId, true);
+                Handle(message.AcSession, message.EntityId, true);
             }
 
             public void Handle(AppSystemRemovedEvent message)
@@ -404,10 +404,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                Handle(message.UserSession, message.Source.Id, false);
+                Handle(message.AcSession, message.Source.Id, false);
             }
 
-            private void Handle(IUserSession userSession, Guid appSystemId, bool isCommand)
+            private void Handle(IAcSession userSession, Guid appSystemId, bool isCommand)
             {
                 var dicByCode = _set._dicByCode;
                 var dicById = _set._dicById;
@@ -481,7 +481,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateAppSystemRemovedEvent : AppSystemRemovedEvent
             {
-                internal PrivateAppSystemRemovedEvent(IUserSession userSession, AppSystemBase source) : base(userSession, source) { }
+                internal PrivateAppSystemRemovedEvent(IAcSession userSession, AppSystemBase source) : base(userSession, source) { }
             }
         }
         #endregion

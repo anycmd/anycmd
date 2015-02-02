@@ -6,7 +6,7 @@ namespace Anycmd.Engine.Ac.Messages.Infra
 
     public class AddDicItemCommand : AddEntityCommand<IDicItemCreateIo>, IAnycmdCommand
     {
-        public AddDicItemCommand(IUserSession userSession, IDicItemCreateIo input)
+        public AddDicItemCommand(IAcSession userSession, IDicItemCreateIo input)
             : base(userSession, input)
         {
 

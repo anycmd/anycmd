@@ -248,7 +248,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 throw new ValidationException("非法的操作，试图越权。");
             }
-            AcDomain.Handle(input.ToCommand(UserSession));
+            AcDomain.Handle(input.ToCommand(AcSession));
 
             return this.JsonResult(new ResponseData { success = true, id = input.Id });
         }
@@ -263,7 +263,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return this.ModelState.ToJsonResult();
             }
-            AcDomain.Handle(input.ToCommand(UserSession));
+            AcDomain.Handle(input.ToCommand(AcSession));
 
             return this.JsonResult(new ResponseData { success = true, id = input.Id });
         }
@@ -290,7 +290,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             }
             foreach (var item in idArray)
             {
-                AcDomain.Handle(new RemoveGroupCommand(UserSession, item));
+                AcDomain.Handle(new RemoveGroupCommand(AcSession, item));
             }
 
             return this.JsonResult(new ResponseData { id = id, success = true });
@@ -319,7 +319,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                     {
                         if (!isAssigned)
                         {
-                            AcDomain.Handle(new RemovePrivilegeCommand(UserSession, entity.Id));
+                            AcDomain.Handle(new RemovePrivilegeCommand(AcSession, entity.Id));
                         }
                         else
                         {
@@ -329,7 +329,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                                 {
                                     Id = id,
                                     AcContent = row["AcContent"].ToString()
-                                }.ToCommand(UserSession));
+                                }.ToCommand(AcSession));
                             }
                         }
                     }
@@ -349,7 +349,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                         {
                             createInput.AcContent = row["AcContent"].ToString();
                         }
-                        AcDomain.Handle(createInput.ToCommand(UserSession));
+                        AcDomain.Handle(createInput.ToCommand(AcSession));
                     }
                 }
             }
@@ -374,7 +374,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                     SubjectType = UserAcSubjectType.Account.ToName(),
                     ObjectInstanceId = groupId,
                     SubjectInstanceId = accountId
-                }.ToCommand(UserSession));
+                }.ToCommand(AcSession));
             }
 
             return this.JsonResult(new ResponseData { success = true, id = accountIDs });
@@ -389,7 +389,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             string[] ids = id.Split(',');
             foreach (var item in ids)
             {
-                AcDomain.Handle(new RemovePrivilegeCommand(UserSession, new Guid(item)));
+                AcDomain.Handle(new RemovePrivilegeCommand(AcSession, new Guid(item)));
             }
 
             return this.JsonResult(new ResponseData { success = true, id = id });

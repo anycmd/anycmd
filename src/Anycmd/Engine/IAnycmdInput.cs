@@ -7,6 +7,6 @@ namespace Anycmd.Engine
 
         string HecpVerb { get; }
 
-        IAnycmdCommand ToCommand(IUserSession userSession);
+        IAnycmdCommand ToCommand(IAcSession userSession);
     }
 }

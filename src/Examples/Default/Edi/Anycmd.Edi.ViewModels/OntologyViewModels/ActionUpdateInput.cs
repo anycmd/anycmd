@@ -57,7 +57,7 @@ namespace Anycmd.Edi.ViewModels.OntologyViewModels
         /// </summary>
         public string Description { get; set; }
 
-        public IAnycmdCommand ToCommand(IUserSession userSession)
+        public IAnycmdCommand ToCommand(IAcSession userSession)
         {
             return new UpdateActionCommand(userSession, this);
         }

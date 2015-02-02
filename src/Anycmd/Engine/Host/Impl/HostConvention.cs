@@ -43,7 +43,7 @@ namespace Anycmd.Engine.Host.Impl
             {
             };
             #endregion
-            this.CurrentUserSessionCacheKey = "UserSession";
+            this.CurrentAcSessionCacheKey = "_acSession";
             this.EnableClientCache = false;
             this.EnableOperationLog = true;
             this.SelfAppSystemCode = "Anycmd";
@@ -866,7 +866,7 @@ FROM    ( SELECT    [Extent1].[Id] AS [Id] ,
 
         public Func<PluginType, string> PluginBaseDirectory { get; set; }
 
-        public string CurrentUserSessionCacheKey { get; set; }
+        public string CurrentAcSessionCacheKey { get; set; }
 
         /// <summary>
         /// 管道插件

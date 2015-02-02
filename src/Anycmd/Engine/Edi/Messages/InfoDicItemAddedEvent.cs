@@ -10,7 +10,7 @@ namespace Anycmd.Engine.Edi.Messages
     /// </summary>
     public class InfoDicItemAddedEvent : DomainEvent
     {
-        public InfoDicItemAddedEvent(IUserSession userSession, InfoDicItemBase source, IInfoDicItemCreateIo output)
+        public InfoDicItemAddedEvent(IAcSession userSession, InfoDicItemBase source, IInfoDicItemCreateIo output)
             : base(userSession, source)
         {
             if (output == null)

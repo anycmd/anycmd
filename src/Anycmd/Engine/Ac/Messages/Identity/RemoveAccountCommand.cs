@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Ac.Messages.Identity
 
     public class RemoveAccountCommand : RemoveEntityCommand
     {
-        public RemoveAccountCommand(IUserSession userSession, Guid accountId)
+        public RemoveAccountCommand(IAcSession userSession, Guid accountId)
             : base(userSession, accountId)
         {
 

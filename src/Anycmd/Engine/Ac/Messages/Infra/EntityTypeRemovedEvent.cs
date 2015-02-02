@@ -9,7 +9,7 @@ namespace Anycmd.Engine.Ac.Messages.Infra
     /// </summary>
     public class EntityTypeRemovedEvent : DomainEvent
     {
-        public EntityTypeRemovedEvent(IUserSession userSession, EntityTypeBase source)
+        public EntityTypeRemovedEvent(IAcSession userSession, EntityTypeBase source)
             : base(userSession, source)
         {
         }

@@ -37,10 +37,10 @@ namespace Anycmd.Events
             this.Source = source;
         }
 
-        protected DomainEvent(IUserSession userSession, IEntity source)
+        protected DomainEvent(IAcSession userSession, IEntity source)
             : this(source)
         {
-            this.UserSession = userSession;
+            this.AcSession = userSession;
         }
         #endregion
 
@@ -80,7 +80,7 @@ namespace Anycmd.Events
         [XmlIgnore]
         [SoapIgnore]
         [IgnoreDataMember]
-        public IUserSession UserSession { get; private set; }
+        public IAcSession AcSession { get; private set; }
 
         #region IDomainEvent Members
         /// <summary>

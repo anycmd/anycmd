@@ -9,7 +9,7 @@ namespace Anycmd.Engine.Ac.Messages.Infra
     /// </summary>
     public class PropertyAddedEvent : EntityAddedEvent<IPropertyCreateIo>
     {
-        public PropertyAddedEvent(IUserSession userSession, PropertyBase source, IPropertyCreateIo input)
+        public PropertyAddedEvent(IAcSession userSession, PropertyBase source, IPropertyCreateIo input)
             : base(userSession, source, input)
         {
         }

@@ -6,7 +6,7 @@ namespace Anycmd.Engine.Ac.Messages.Infra
 
     public class AddButtonCommand : AddEntityCommand<IButtonCreateIo>, IAnycmdCommand
     {
-        public AddButtonCommand(IUserSession userSession, IButtonCreateIo input)
+        public AddButtonCommand(IAcSession userSession, IButtonCreateIo input)
             : base(userSession, input)
         {
 

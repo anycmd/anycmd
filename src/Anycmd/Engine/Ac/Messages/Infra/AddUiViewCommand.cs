@@ -6,7 +6,7 @@ namespace Anycmd.Engine.Ac.Messages.Infra
 
     public class AddUiViewCommand : AddEntityCommand<IUiViewCreateIo>, IAnycmdCommand
     {
-        public AddUiViewCommand(IUserSession userSession, IUiViewCreateIo input)
+        public AddUiViewCommand(IAcSession userSession, IUiViewCreateIo input)
             : base(userSession, input)
         {
 

@@ -151,7 +151,7 @@ namespace Anycmd.Edi.ViewModels.ElementViewModels
         public string Tooltip { get; set; }
         #endregion
 
-        public IAnycmdCommand ToCommand(IUserSession userSession)
+        public IAnycmdCommand ToCommand(IAcSession userSession)
         {
             return new UpdateElementCommand(userSession, this);
         }

@@ -30,7 +30,7 @@ namespace Anycmd.Engine.Host.Edi.MessageHandlers
             repository.Update(entity);
             repository.Context.Commit();
 
-            _host.EventBus.Publish(new InfoRuleUpdatedEvent(command.UserSession, entity, command.Input));
+            _host.EventBus.Publish(new InfoRuleUpdatedEvent(command.AcSession, entity, command.Input));
             _host.EventBus.Commit();
         }
     }

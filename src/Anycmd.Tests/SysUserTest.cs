@@ -18,7 +18,7 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             Assert.True(host.SysUserSet.GetDevAccounts().Count == 1);
-            UserSessionState.SignIn(host, new Dictionary<string, object>
+            AcSessionState.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -34,13 +34,13 @@ namespace Anycmd.Tests
             });
             host.RetrieveRequiredService<IRepository<Account>>().Context.Commit();
             Assert.True(host.SysUserSet.GetDevAccounts().Count == 1);
-            host.Handle(new AddDeveloperCommand(host.GetUserSession(), accountId));
+            host.Handle(new AddDeveloperCommand(host.GetAcSession(), accountId));
             AccountState developer;
             Assert.True(host.SysUserSet.GetDevAccounts().Count == 2);
             Assert.True(host.SysUserSet.TryGetDevAccount(accountId, out developer));
             Assert.True(host.SysUserSet.TryGetDevAccount("anycmd", out developer));
 
-            host.Handle(new RemoveDeveloperCommand(host.GetUserSession(), accountId));
+            host.Handle(new RemoveDeveloperCommand(host.GetAcSession(), accountId));
             Assert.True(host.SysUserSet.GetDevAccounts().Count == 1);
             Assert.False(host.SysUserSet.TryGetDevAccount(accountId, out developer));
             Assert.False(host.SysUserSet.TryGetDevAccount("anycmd", out developer));
@@ -48,7 +48,7 @@ namespace Anycmd.Tests
             bool catched = false;
             try
             {
-                host.Handle(new AddDeveloperCommand(host.GetUserSession(), Guid.NewGuid()));// 将不存在的账户设为开发人员时应引发异常
+                host.Handle(new AddDeveloperCommand(host.GetAcSession(), Guid.NewGuid()));// 将不存在的账户设为开发人员时应引发异常
             }
             catch (Exception)
             {
@@ -66,7 +66,7 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             Assert.Equal(1, host.SysUserSet.GetDevAccounts().Count);
-            UserSessionState.SignIn(host, new Dictionary<string, object>
+            AcSessionState.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -110,7 +110,7 @@ namespace Anycmd.Tests
             bool catched = false;
             try
             {
-                host.Handle(new AddDeveloperCommand(host.GetUserSession(), entityId1));
+                host.Handle(new AddDeveloperCommand(host.GetAcSession(), entityId1));
             }
             catch (Exception e)
             {
@@ -124,11 +124,11 @@ namespace Anycmd.Tests
                 Assert.Equal(1, host.SysUserSet.GetDevAccounts().Count);
             }
 
-            host.Handle(new AddDeveloperCommand(host.GetUserSession(), entityId2));
+            host.Handle(new AddDeveloperCommand(host.GetAcSession(), entityId2));
             Assert.Equal(2, host.SysUserSet.GetDevAccounts().Count);
 
-            UserSessionState.SignOut(host, host.GetUserSession());
-            UserSessionState.SignIn(host, new Dictionary<string, object>
+            AcSessionState.SignOut(host, host.GetAcSession());
+            AcSessionState.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", loginName2},
                 {"password", "111111"},
@@ -138,14 +138,14 @@ namespace Anycmd.Tests
             {
                 Id = entityId2,
                 Name = "test2"
-            }.ToCommand(host.GetUserSession()));
+            }.ToCommand(host.GetAcSession()));
             Assert.True(catched);
             Assert.Equal(2, host.SysUserSet.GetDevAccounts().Count);
 
             catched = false;
             try
             {
-                host.Handle(new RemoveDeveloperCommand(host.GetUserSession(), entityId2));
+                host.Handle(new RemoveDeveloperCommand(host.GetAcSession(), entityId2));
             }
             catch (Exception e)
             {

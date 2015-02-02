@@ -50,7 +50,7 @@ namespace Anycmd.Ac.ViewModels.Infra.MenuViewModels
         [Required]
         public int SortCode { get; set; }
 
-        public override IAnycmdCommand ToCommand(IUserSession userSession)
+        public override IAnycmdCommand ToCommand(IAcSession userSession)
         {
             return new AddMenuCommand(userSession, this);
         }

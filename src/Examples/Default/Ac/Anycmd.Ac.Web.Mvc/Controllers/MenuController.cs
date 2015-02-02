@@ -249,7 +249,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 input.ParentId = null;
             }
-            AcDomain.Handle(input.ToCommand(UserSession));
+            AcDomain.Handle(input.ToCommand(AcSession));
 
             return this.JsonResult(new ResponseData { success = true, id = input.Id });
         }
@@ -264,7 +264,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return this.ModelState.ToJsonResult();
             }
-            AcDomain.Handle(input.ToCommand(UserSession));
+            AcDomain.Handle(input.ToCommand(AcSession));
 
             return this.JsonResult(new ResponseData { success = true, id = input.Id });
         }
@@ -293,7 +293,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                     {
                         if (!isAssigned)
                         {
-                            AcDomain.Handle(new RemovePrivilegeCommand(UserSession, id));
+                            AcDomain.Handle(new RemovePrivilegeCommand(AcSession, id));
                         }
                         else
                         {
@@ -303,7 +303,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                                 {
                                     Id = entity.Id,
                                     AcContent = row["AcContent"].ToString()
-                                }.ToCommand(UserSession));
+                                }.ToCommand(AcSession));
                             }
                         }
                     }
@@ -323,7 +323,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                         {
                             createInput.AcContent = row["AcContent"].ToString();
                         }
-                        AcDomain.Handle(createInput.ToCommand(UserSession));
+                        AcDomain.Handle(createInput.ToCommand(AcSession));
                     }
                 }
             }
@@ -354,7 +354,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             }
             foreach (var item in idArray)
             {
-                AcDomain.Handle(new RemoveMenuCommand(UserSession, item));
+                AcDomain.Handle(new RemoveMenuCommand(AcSession, item));
             }
 
             return this.JsonResult(new ResponseData { id = id, success = true });

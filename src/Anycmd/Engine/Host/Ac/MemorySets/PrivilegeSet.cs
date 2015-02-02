@@ -142,7 +142,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 var privilegeList = _set._privilegeList;
                 foreach (var item in privilegeList.Where(a => a.ObjectType == AcElementType.Catalog && a.ObjectInstanceId == message.Source.Id))
                 {
-                    host.Handle(new RemovePrivilegeCommand(message.UserSession, item.Id));
+                    host.Handle(new RemovePrivilegeCommand(message.AcSession, item.Id));
                 }
             }
 
@@ -158,7 +158,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 foreach (var item in privilegeList.Where(a => a.ObjectType == AcElementType.Role && a.ObjectInstanceId == message.Source.Id))
                 {
-                    host.Handle(new RemovePrivilegeCommand(message.UserSession, item.Id));
+                    host.Handle(new RemovePrivilegeCommand(message.AcSession, item.Id));
                 }
             }
 
@@ -174,7 +174,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 foreach (var item in privilegeList.Where(a => a.ObjectType == AcElementType.Function && a.ObjectInstanceId == message.Source.Id))
                 {
-                    host.Handle(new RemovePrivilegeCommand(message.UserSession, item.Id));
+                    host.Handle(new RemovePrivilegeCommand(message.AcSession, item.Id));
                 }
             }
 
@@ -190,7 +190,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 foreach (var item in privilegeList.Where(a => a.ObjectType == AcElementType.Menu && a.ObjectInstanceId == message.Source.Id))
                 {
-                    host.Handle(new RemovePrivilegeCommand(message.UserSession, item.Id));
+                    host.Handle(new RemovePrivilegeCommand(message.AcSession, item.Id));
                 }
             }
 
@@ -206,7 +206,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 foreach (var item in privilegeList.Where(a => a.ObjectType == AcElementType.Group && a.ObjectInstanceId == message.Source.Id))
                 {
-                    host.Handle(new RemovePrivilegeCommand(message.UserSession, item.Id));
+                    host.Handle(new RemovePrivilegeCommand(message.AcSession, item.Id));
                 }
             }
 
@@ -222,7 +222,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 foreach (var item in privilegeList.Where(a => a.ObjectType == AcElementType.AppSystem && a.ObjectInstanceId == message.Source.Id))
                 {
-                    host.Handle(new RemovePrivilegeCommand(message.UserSession, item.Id));
+                    host.Handle(new RemovePrivilegeCommand(message.AcSession, item.Id));
                 }
             }
 
@@ -238,13 +238,13 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 foreach (var item in privilegeList.Where(a => a.ObjectType == AcElementType.ResourceType && a.ObjectInstanceId == message.Source.Id))
                 {
-                    host.Handle(new RemovePrivilegeCommand(message.UserSession, item.Id));
+                    host.Handle(new RemovePrivilegeCommand(message.AcSession, item.Id));
                 }
             }
 
             public void Handle(AddPrivilegeCommand message)
             {
-                this.Handle(message.UserSession, message.Input, true);
+                this.Handle(message.AcSession, message.Input, true);
             }
 
             public void Handle(PrivilegeAddedEvent message)
@@ -253,10 +253,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                this.Handle(message.UserSession, message.Output, false);
+                this.Handle(message.AcSession, message.Output, false);
             }
 
-            private void Handle(IUserSession userSession, IPrivilegeCreateIo input, bool isCommand)
+            private void Handle(IAcSession userSession, IPrivilegeCreateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var privilegeList = _set._privilegeList;
@@ -518,7 +518,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivatPrivilegeAddedEvent : PrivilegeAddedEvent
             {
-                internal PrivatPrivilegeAddedEvent(IUserSession userSession, PrivilegeBase source, IPrivilegeCreateIo input)
+                internal PrivatPrivilegeAddedEvent(IAcSession userSession, PrivilegeBase source, IPrivilegeCreateIo input)
                     : base(userSession, source, input)
                 {
 
@@ -526,7 +526,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             }
             public void Handle(UpdatePrivilegeCommand message)
             {
-                this.Handle(message.UserSession, message.Input, true);
+                this.Handle(message.AcSession, message.Input, true);
             }
 
             public void Handle(PrivilegeUpdatedEvent message)
@@ -535,10 +535,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                this.Handle(message.UserSession, message.Output, false);
+                this.Handle(message.AcSession, message.Output, false);
             }
 
-            private void Handle(IUserSession userSession, IPrivilegeUpdateIo input, bool isCommand)
+            private void Handle(IAcSession userSession, IPrivilegeUpdateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var privilegeList = _set._privilegeList;
@@ -591,7 +591,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivatePrivilegeUpdatedEvent : PrivilegeUpdatedEvent
             {
-                internal PrivatePrivilegeUpdatedEvent(IUserSession userSession, PrivilegeBase source, IPrivilegeUpdateIo input)
+                internal PrivatePrivilegeUpdatedEvent(IAcSession userSession, PrivilegeBase source, IPrivilegeUpdateIo input)
                     : base(userSession, source, input)
                 {
 
@@ -599,7 +599,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             }
             public void Handle(RemovePrivilegeCommand message)
             {
-                this.Handle(message.UserSession, message.EntityId, true);
+                this.Handle(message.AcSession, message.EntityId, true);
             }
 
             public void Handle(PrivilegeRemovedEvent message)
@@ -608,10 +608,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                this.Handle(message.UserSession, message.Source.Id, false);
+                this.Handle(message.AcSession, message.Source.Id, false);
             }
 
-            private void Handle(IUserSession userSession, Guid privilegeId, bool isCommand)
+            private void Handle(IAcSession userSession, Guid privilegeId, bool isCommand)
             {
                 var host = _set._host;
                 var privilegeList = _set._privilegeList;
@@ -670,7 +670,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivatePrivilegeRemovedEvent : PrivilegeRemovedEvent
             {
-                internal PrivatePrivilegeRemovedEvent(IUserSession userSession, PrivilegeBase source)
+                internal PrivatePrivilegeRemovedEvent(IAcSession userSession, PrivilegeBase source)
                     : base(userSession, source)
                 {
 

@@ -39,7 +39,7 @@ namespace Anycmd.Edi.Service.Tests
         {
             EfContext.InitStorage(new SimpleEfContextStorage());
             AcDomain.AddService(typeof(ILoggingService), new Log4NetLoggingService(AcDomain));
-            AcDomain.AddService(typeof(IUserSessionStorage), new SimpleUserSessionStorage());
+            AcDomain.AddService(typeof(IAcSessionStorage), new SimpleAcSessionStorage());
             AcDomain.Init();
             AcDomain.RegisterRepository(new List<string>
             {

@@ -158,7 +158,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(AddCatalogCommand message)
             {
-                this.Handle(message.UserSession, message.Input, true);
+                this.Handle(message.AcSession, message.Input, true);
             }
 
             public void Handle(CatalogAddedEvent message)
@@ -167,10 +167,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                this.Handle(message.UserSession, message.Output, false);
+                this.Handle(message.AcSession, message.Output, false);
             }
 
-            private void Handle(IUserSession userSession, ICatalogCreateIo input, bool isCommand)
+            private void Handle(IAcSession userSession, ICatalogCreateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var dicByCode = _set._dicByCode;
@@ -264,7 +264,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateCatalogAddedEvent : CatalogAddedEvent
             {
-                internal PrivateCatalogAddedEvent(IUserSession userSession, CatalogBase source, ICatalogCreateIo input)
+                internal PrivateCatalogAddedEvent(IAcSession userSession, CatalogBase source, ICatalogCreateIo input)
                     : base(userSession, source, input)
                 {
 
@@ -273,7 +273,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(UpdateCatalogCommand message)
             {
-                this.Handle(message.UserSession, message.Input, true);
+                this.Handle(message.AcSession, message.Input, true);
             }
 
             public void Handle(CatalogUpdatedEvent message)
@@ -282,10 +282,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                this.Handle(message.UserSession, message.Input, false);
+                this.Handle(message.AcSession, message.Input, false);
             }
 
-            private void Handle(IUserSession userSession, ICatalogUpdateIo input, bool isCommand)
+            private void Handle(IAcSession userSession, ICatalogUpdateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var catalogRepository = host.RetrieveRequiredService<IRepository<Catalog>>();
@@ -385,12 +385,12 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateCatalogUpdatedEvent : CatalogUpdatedEvent
             {
-                internal PrivateCatalogUpdatedEvent(IUserSession userSession, CatalogBase source, ICatalogUpdateIo input) : base(userSession, source, input) { }
+                internal PrivateCatalogUpdatedEvent(IAcSession userSession, CatalogBase source, ICatalogUpdateIo input) : base(userSession, source, input) { }
             }
 
             public void Handle(RemoveCatalogCommand message)
             {
-                this.Handle(message.UserSession, message.EntityId, true);
+                this.Handle(message.AcSession, message.EntityId, true);
             }
 
             public void Handle(CatalogRemovedEvent message)
@@ -399,10 +399,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                this.Handle(message.UserSession, message.Source.Id, false);
+                this.Handle(message.AcSession, message.Source.Id, false);
             }
 
-            private void Handle(IUserSession userSession, Guid catalogId, bool isCommand)
+            private void Handle(IAcSession userSession, Guid catalogId, bool isCommand)
             {
                 var host = _set._host;
                 var dicByCode = _set._dicByCode;
@@ -466,7 +466,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateCatalogRemovedEvent : CatalogRemovedEvent
             {
-                internal PrivateCatalogRemovedEvent(IUserSession userSession, CatalogBase source)
+                internal PrivateCatalogRemovedEvent(IAcSession userSession, CatalogBase source)
                     : base(userSession, source)
                 {
 

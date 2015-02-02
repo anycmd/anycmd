@@ -27,7 +27,7 @@ namespace Anycmd.Ac.ViewModels.PrivilegeViewModels
         /// </summary>
         public string AcContent { get; set; }
 
-        public IAnycmdCommand ToCommand(IUserSession userSession)
+        public IAnycmdCommand ToCommand(IAcSession userSession)
         {
             return new UpdatePrivilegeCommand(userSession, this);
         }

@@ -224,7 +224,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            AcDomain.Handle(input.ToCommand(UserSession));
+            AcDomain.Handle(input.ToCommand(AcSession));
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -243,7 +243,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            AcDomain.Handle(input.ToCommand(UserSession));
+            AcDomain.Handle(input.ToCommand(AcSession));
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -573,7 +573,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                         Id = Guid.NewGuid(),
                         OntologyId = ontologyId,
                         CatalogId = catalogId
-                    }.ToCommand(UserSession));
+                    }.ToCommand(AcSession));
                 }
             }
             foreach (var item in removeIDs)
@@ -581,7 +581,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                 if (!string.IsNullOrEmpty(item))
                 {
                     var catalogId = new Guid(item);
-                    AcDomain.RemoveOntologyCatalog(UserSession, ontologyId, catalogId);
+                    AcDomain.RemoveOntologyCatalog(AcSession, ontologyId, catalogId);
                 }
             }
 
@@ -645,7 +645,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                             Id = inputModel.Id,
                             CatalogId = inputModel.CatalogId
                         };
-                        AcDomain.PublishEvent(new CatalogActionUpdatedEvent(UserSession, entity));
+                        AcDomain.PublishEvent(new CatalogActionUpdatedEvent(AcSession, entity));
                     }
                     else
                     {
@@ -655,7 +655,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                         entity.ActionId = inputModel.ActionId;
                         entity.IsAudit = inputModel.IsAudit;
                         entity.IsAllowed = inputModel.IsAllowed;
-                        AcDomain.PublishEvent(new CatalogActionAddedEvent(UserSession, entity));
+                        AcDomain.PublishEvent(new CatalogActionAddedEvent(AcSession, entity));
                     }
                     AcDomain.CommitEventBus();
                 }
@@ -738,7 +738,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            AcDomain.Handle(input.ToCommand(UserSession));
+            AcDomain.Handle(input.ToCommand(AcSession));
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -758,7 +758,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            AcDomain.Handle(input.ToCommand(UserSession));
+            AcDomain.Handle(input.ToCommand(AcSession));
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -776,7 +776,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
         [Guid("F1DABD8C-8EF6-448B-BD3F-98F2C8441F9E")]
         public ActionResult DeleteInfoGroup(string id)
         {
-            return this.HandleSeparateGuidString(AcDomain.RemoveInfoGroup, UserSession, id, ',');
+            return this.HandleSeparateGuidString(AcDomain.RemoveInfoGroup, AcSession, id, ',');
         }
         #endregion
 
@@ -795,7 +795,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            AcDomain.Handle(input.ToCommand(UserSession));
+            AcDomain.Handle(input.ToCommand(AcSession));
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -815,7 +815,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            AcDomain.Handle(input.ToCommand(UserSession));
+            AcDomain.Handle(input.ToCommand(AcSession));
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -833,7 +833,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
         [Guid("5299F593-3164-44B8-8C41-3EF037539033")]
         public ActionResult DeleteAction(string id)
         {
-            return this.HandleSeparateGuidString(AcDomain.RemoveAction, UserSession, id, ',');
+            return this.HandleSeparateGuidString(AcDomain.RemoveAction, AcSession, id, ',');
         }
         #endregion
 
@@ -852,7 +852,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            AcDomain.Handle(input.ToCommand(UserSession));
+            AcDomain.Handle(input.ToCommand(AcSession));
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -872,7 +872,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            AcDomain.Handle(input.ToCommand(UserSession));
+            AcDomain.Handle(input.ToCommand(AcSession));
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -890,7 +890,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
         [Guid("328C9EA0-E183-4FF9-9CF6-49D0E3AF752C")]
         public ActionResult DeleteTopic(string id)
         {
-            return this.HandleSeparateGuidString(AcDomain.RemoveTopic, UserSession, id, ',');
+            return this.HandleSeparateGuidString(AcDomain.RemoveTopic, AcSession, id, ',');
         }
         #endregion
 
@@ -1027,7 +1027,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
         [Guid("59E3AA78-A721-4809-88D4-EB5073B9E310")]
         public ActionResult Delete(string id)
         {
-            return this.HandleSeparateGuidString(AcDomain.RemoveOntology, UserSession, id, ',');
+            return this.HandleSeparateGuidString(AcDomain.RemoveOntology, AcSession, id, ',');
         }
         #endregion
     }

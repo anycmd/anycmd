@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Ac.Messages.Identity
 
     public class AddAccountCommand : AddEntityCommand<IAccountCreateIo>, IAnycmdCommand
     {
-        public AddAccountCommand(IUserSession userSession, IAccountCreateIo input)
+        public AddAccountCommand(IAcSession userSession, IAccountCreateIo input)
             : base(userSession, input)
         {
         }

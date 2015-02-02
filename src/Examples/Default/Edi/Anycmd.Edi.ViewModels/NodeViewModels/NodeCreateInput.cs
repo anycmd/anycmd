@@ -109,7 +109,7 @@ namespace Anycmd.Edi.ViewModels.NodeViewModels
         /// </summary>
         public string Icon { get; set; }
 
-        public override IAnycmdCommand ToCommand(IUserSession userSession)
+        public override IAnycmdCommand ToCommand(IAcSession userSession)
         {
             return new AddNodeCommand(userSession, this);
         }

@@ -180,7 +180,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(AddResourceCommand message)
             {
-                this.Handle(message.UserSession, message.Input, true);
+                this.Handle(message.AcSession, message.Input, true);
             }
 
             public void Handle(ResourceTypeAddedEvent message)
@@ -189,10 +189,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                this.Handle(message.UserSession, message.Input, false);
+                this.Handle(message.AcSession, message.Input, false);
             }
 
-            private void Handle(IUserSession userSession, IResourceTypeCreateIo input, bool isCommand)
+            private void Handle(IAcSession userSession, IResourceTypeCreateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var dicByCode = _set._dicByCode;
@@ -269,7 +269,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateResourceAddedEvent : ResourceTypeAddedEvent
             {
-                internal PrivateResourceAddedEvent(IUserSession userSession, ResourceTypeBase source, IResourceTypeCreateIo input)
+                internal PrivateResourceAddedEvent(IAcSession userSession, ResourceTypeBase source, IResourceTypeCreateIo input)
                     : base(userSession, source, input)
                 {
 
@@ -278,7 +278,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(UpdateResourceCommand message)
             {
-                this.Handle(message.UserSession, message.Input, true);
+                this.Handle(message.AcSession, message.Input, true);
             }
 
             public void Handle(ResourceTypeUpdatedEvent message)
@@ -287,10 +287,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                this.Handle(message.UserSession, message.Input, false);
+                this.Handle(message.AcSession, message.Input, false);
             }
 
-            private void Handle(IUserSession userSession, IResourceTypeUpdateIo input, bool isCommand)
+            private void Handle(IAcSession userSession, IResourceTypeUpdateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var resourceRepository = host.RetrieveRequiredService<IRepository<ResourceType>>();
@@ -391,7 +391,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateResourceUpdatedEvent : ResourceTypeUpdatedEvent
             {
-                internal PrivateResourceUpdatedEvent(IUserSession userSession, ResourceTypeBase source, IResourceTypeUpdateIo input)
+                internal PrivateResourceUpdatedEvent(IAcSession userSession, ResourceTypeBase source, IResourceTypeUpdateIo input)
                     : base(userSession, source, input)
                 {
 
@@ -399,7 +399,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             }
             public void Handle(RemoveResourceTypeCommand message)
             {
-                this.Handle(message.UserSession, message.EntityId, true);
+                this.Handle(message.AcSession, message.EntityId, true);
             }
 
             public void Handle(ResourceTypeRemovedEvent message)
@@ -408,10 +408,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                this.Handle(message.UserSession, message.Source.Id, false);
+                this.Handle(message.AcSession, message.Source.Id, false);
             }
 
-            private void Handle(IUserSession userSession, Guid resourceTypeId, bool isCommand)
+            private void Handle(IAcSession userSession, Guid resourceTypeId, bool isCommand)
             {
                 var host = _set._host;
                 var dicByCode = _set._dicByCode;
@@ -486,7 +486,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateResourceRemovedEvent : ResourceTypeRemovedEvent
             {
-                internal PrivateResourceRemovedEvent(IUserSession userSession, ResourceTypeBase source)
+                internal PrivateResourceRemovedEvent(IAcSession userSession, ResourceTypeBase source)
                     : base(userSession, source)
                 {
 

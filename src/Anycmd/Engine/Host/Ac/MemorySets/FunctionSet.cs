@@ -199,7 +199,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(AddFunctionCommand message)
             {
-                this.Handle(message.UserSession, message.Input, true);
+                this.Handle(message.AcSession, message.Input, true);
             }
 
             public void Handle(FunctionAddedEvent message)
@@ -208,10 +208,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                this.Handle(message.UserSession, message.Output, false);
+                this.Handle(message.AcSession, message.Output, false);
             }
 
-            private void Handle(IUserSession userSession, IFunctionCreateIo input, bool isCommand)
+            private void Handle(IAcSession userSession, IFunctionCreateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var dicByCode = _set._dicByCode;
@@ -287,12 +287,12 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateFunctionAddedEvent : FunctionAddedEvent
             {
-                public PrivateFunctionAddedEvent(IUserSession userSession, FunctionBase source, IFunctionCreateIo input) : base(userSession, source, input) { }
+                public PrivateFunctionAddedEvent(IAcSession userSession, FunctionBase source, IFunctionCreateIo input) : base(userSession, source, input) { }
             }
 
             public void Handle(UpdateFunctionCommand message)
             {
-                this.Handle(message.UserSession, message.Input, true);
+                this.Handle(message.AcSession, message.Input, true);
             }
 
             public void Handle(FunctionUpdatedEvent message)
@@ -301,10 +301,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                this.Handle(message.UserSession, message.Input, false);
+                this.Handle(message.AcSession, message.Input, false);
             }
 
-            private void Handle(IUserSession userSession, IFunctionUpdateIo input, bool isCommand)
+            private void Handle(IAcSession userSession, IFunctionUpdateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var functionRepository = host.RetrieveRequiredService<IRepository<Function>>();
@@ -401,7 +401,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateFunctionUpdatedEvent : FunctionUpdatedEvent
             {
-                internal PrivateFunctionUpdatedEvent(IUserSession userSession, FunctionBase source, IFunctionUpdateIo input)
+                internal PrivateFunctionUpdatedEvent(IAcSession userSession, FunctionBase source, IFunctionUpdateIo input)
                     : base(userSession, source, input)
                 {
 
@@ -409,7 +409,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             }
             public void Handle(RemoveFunctionCommand message)
             {
-                this.Handle(message.UserSession, message.EntityId, true);
+                this.Handle(message.AcSession, message.EntityId, true);
             }
 
             public void Handle(FunctionRemovedEvent message)
@@ -418,10 +418,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                this.Handle(message.UserSession, message.Source.Id, false);
+                this.Handle(message.AcSession, message.Source.Id, false);
             }
 
-            private void Handle(IUserSession userSession, Guid functionId, bool isCommand)
+            private void Handle(IAcSession userSession, Guid functionId, bool isCommand)
             {
                 var host = _set._host;
                 var dicByCode = _set._dicByCode;
@@ -502,7 +502,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateFunctionRemovedEvent : FunctionRemovedEvent
             {
-                internal PrivateFunctionRemovedEvent(IUserSession userSession, FunctionBase function)
+                internal PrivateFunctionRemovedEvent(IAcSession userSession, FunctionBase function)
                     : base(userSession, function)
                 {
 

@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Host
     /// <summary>
     /// 表示该接口的实现类是用户上下文贮存器。
     /// </summary>
-    public interface IUserSessionStorage
+    public interface IAcSessionStorage
     {
         /// <summary>
         /// 

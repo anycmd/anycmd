@@ -46,7 +46,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
         {
             if (!string.IsNullOrEmpty(isTooltip))
             {
-                var data = GetRequiredService<IAccountQuery>().Get("AccountInfo", UserSession.Account.Id);
+                var data = GetRequiredService<IAccountQuery>().Get("AccountInfo", AcSession.Account.Id);
 
                 return this.PartialView("Partials/Details", data);
             }
@@ -103,10 +103,10 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
         [Guid("F3236A82-DA72-4009-90CC-F0460E3479DE")]
         public ActionResult GetAccountInfo()
         {
-            if (UserSession.Identity.IsAuthenticated)
+            if (AcSession.Identity.IsAuthenticated)
             {
-                var account = UserSession.Account;
-                var menuList = UserSession.AccountPrivilege.AuthorizedMenus.Cast<IMenu>().ToList();
+                var account = AcSession.Account;
+                var menuList = AcSession.AccountPrivilege.AuthorizedMenus.Cast<IMenu>().ToList();
                 var menus = menuList.Select(m => new
                 {
                     id = m.Id,
@@ -117,13 +117,13 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 });
                 return this.JsonResult(new
                 {
-                    isLogined = UserSession.Identity.IsAuthenticated,
-                    loginName = UserSession.IsDeveloper() ? string.Format("{0}(开发人员)", account.LoginName) : account.LoginName,
-                    wallpaper = UserSession.GetData<string>("CurrentUser_Wallpaper") ?? string.Empty,
-                    backColor = UserSession.GetData<string>("CurrentUser_BackColor") ?? string.Empty,
+                    isLogined = AcSession.Identity.IsAuthenticated,
+                    loginName = AcSession.IsDeveloper() ? string.Format("{0}(开发人员)", account.LoginName) : account.LoginName,
+                    wallpaper = AcSession.GetData<string>("CurrentUser_Wallpaper") ?? string.Empty,
+                    backColor = AcSession.GetData<string>("CurrentUser_BackColor") ?? string.Empty,
                     menus,
-                    roles = UserSession.AccountPrivilege.Roles,
-                    groups = UserSession.AccountPrivilege.Groups
+                    roles = AcSession.AccountPrivilege.Roles,
+                    groups = AcSession.AccountPrivilege.Groups
                 });
             }
             else
@@ -140,14 +140,14 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
         [Guid("C8533933-6AA7-4EFE-B238-E0AFCCC3B761")]
         public ActionResult SignIn(string loginName, string password, string rememberMe)
         {
-            UserSessionState.SignIn(AcDomain, new Dictionary<string, object>
+            AcSessionState.SignIn(AcDomain, new Dictionary<string, object>
             {
                 {"loginName", loginName},
                 {"password", password},
                 {"rememberMe", rememberMe}
             });
 
-            return this.JsonResult(new ResponseData { success = UserSession.Identity.IsAuthenticated });
+            return this.JsonResult(new ResponseData { success = AcSession.Identity.IsAuthenticated });
         }
 
         [By("xuexs")]
@@ -156,7 +156,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
         [Guid("E0F71820-7225-4CE6-B6FF-68D33EE47CB9")]
         public ActionResult SignOut()
         {
-            UserSessionState.SignOut(AcDomain, UserSession);
+            AcSessionState.SignOut(AcDomain, AcSession);
 
             return this.JsonResult(new ResponseData { success = true });
         }
@@ -171,7 +171,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            AcDomain.Handle(input.ToCommand(UserSession));
+            AcDomain.Handle(input.ToCommand(AcSession));
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -188,10 +188,10 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             }
             AcDomain.Handle(new PasswordChangeInput
             {
-                LoginName = UserSession.Identity.Name,
+                LoginName = AcSession.Identity.Name,
                 OldPassword = oldPassword,
                 NewPassword = password
-            }.ToCommand(UserSession));
+            }.ToCommand(AcSession));
 
             return this.JsonResult(new ResponseData { success = true });
         }
@@ -248,7 +248,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             // 如果组织机构为空则需要检测是否是开发人员，因为只有开发人员才可以看到全部用户。目录为空表示查询全部目录。
             if (string.IsNullOrEmpty(input.CatalogCode))
             {
-                if (!UserSession.IsDeveloper())
+                if (!AcSession.IsDeveloper())
                 {
                     throw new ValidationException("对不起，您没有查看全部账户的权限");
                 }
@@ -316,7 +316,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            AcDomain.Handle(input.ToCommand(UserSession));
+            AcDomain.Handle(input.ToCommand(AcSession));
 
             return this.JsonResult(new ResponseData { success = true, id = input.Id });
         }
@@ -331,7 +331,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return this.ModelState.ToJsonResult();
             }
-            AcDomain.Handle(input.ToCommand(UserSession));
+            AcDomain.Handle(input.ToCommand(AcSession));
 
             return this.JsonResult(new ResponseData { success = true, id = input.Id });
         }
@@ -384,7 +384,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
         [Guid("AF3793B3-9CBB-4F53-9307-1910F9473058")]
         public ActionResult Delete(string id)
         {
-            return this.HandleSeparateGuidString(AcDomain.RemoveAccount, UserSession, id, ',');
+            return this.HandleSeparateGuidString(AcDomain.RemoveAccount, AcSession, id, ',');
         }
 
         #region GrantOrDenyRoles
@@ -411,7 +411,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                     {
                         if (!isAssigned)
                         {
-                            AcDomain.Handle(new RemovePrivilegeCommand(UserSession, id));
+                            AcDomain.Handle(new RemovePrivilegeCommand(AcSession, id));
                         }
                         else
                         {
@@ -421,7 +421,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                                 {
                                     Id = id,
                                     AcContent = row["AcContent"].ToString()
-                                }.ToCommand(UserSession));
+                                }.ToCommand(AcSession));
                             }
                         }
                     }
@@ -441,7 +441,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                         {
                             createInput.AcContent = row["AcContent"].ToString();
                         }
-                        AcDomain.Handle(createInput.ToCommand(UserSession));
+                        AcDomain.Handle(createInput.ToCommand(AcSession));
                     }
                 }
             }
@@ -474,7 +474,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                     {
                         if (!isAssigned)
                         {
-                            AcDomain.Handle(new RemovePrivilegeCommand(UserSession, id));
+                            AcDomain.Handle(new RemovePrivilegeCommand(AcSession, id));
                         }
                     }
                     else if (isAssigned)
@@ -486,7 +486,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                             ObjectInstanceId = new Guid(row["GroupId"].ToString()),
                             SubjectInstanceId = new Guid(row["AccountId"].ToString()),
                             SubjectType = UserAcSubjectType.Account.ToName()
-                        }.ToCommand(UserSession));
+                        }.ToCommand(AcSession));
                     }
                 }
             }
@@ -508,7 +508,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             List<DicReader> data;
             if (string.IsNullOrEmpty(input.CatalogCode))
             {
-                if (!UserSession.IsDeveloper())
+                if (!AcSession.IsDeveloper())
                 {
                     throw new ValidationException("对不起，您没有查看全部管理员的权限");
                 }
@@ -542,7 +542,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             // 如果组织机构为空则需要检测是否是超级管理员，因为只有超级管理员才可以看到全部包工头
             if (string.IsNullOrEmpty(input.CatalogCode))
             {
-                if (!UserSession.IsDeveloper())
+                if (!AcSession.IsDeveloper())
                 {
                     throw new ValidationException("对不起，您没有查看全部包工头的权限");
                 }

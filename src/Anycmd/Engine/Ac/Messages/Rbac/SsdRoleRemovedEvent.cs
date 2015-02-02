@@ -6,7 +6,7 @@ namespace Anycmd.Engine.Ac.Messages.Rbac
 
     public class SsdRoleRemovedEvent : DomainEvent
     {
-        public SsdRoleRemovedEvent(IUserSession userSession, SsdRoleBase source)
+        public SsdRoleRemovedEvent(IAcSession userSession, SsdRoleBase source)
             : base(userSession, source)
         {
         }

@@ -6,7 +6,7 @@ namespace Anycmd.Engine.Edi.Messages
 
     public class BatchUpdatedEvent : DomainEvent
     {
-        public BatchUpdatedEvent(IUserSession userSession, IBatch source)
+        public BatchUpdatedEvent(IAcSession userSession, IBatch source)
             : base(userSession, source)
         {
         }

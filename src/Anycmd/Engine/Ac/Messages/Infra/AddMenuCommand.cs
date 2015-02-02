@@ -6,7 +6,7 @@ namespace Anycmd.Engine.Ac.Messages.Infra
 
     public class AddMenuCommand : AddEntityCommand<IMenuCreateIo>, IAnycmdCommand
     {
-        public AddMenuCommand(IUserSession userSession, IMenuCreateIo input)
+        public AddMenuCommand(IAcSession userSession, IMenuCreateIo input)
             : base(userSession, input)
         {
 

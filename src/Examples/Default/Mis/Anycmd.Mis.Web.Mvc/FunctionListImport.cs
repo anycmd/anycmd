@@ -29,7 +29,7 @@ namespace Anycmd.Mis.Web.Mvc
         private static readonly object Locker = new object();
         private static bool _isChanged = true;
 
-        public void Import(IAcDomain host, IUserSession userSession, string appSystemCode)
+        public void Import(IAcDomain host, IAcSession userSession, string appSystemCode)
         {
             if (_isChanged)
             {

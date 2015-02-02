@@ -28,8 +28,8 @@ namespace Anycmd.Web.Mvc
             {
                 throw new AnycmdException("");
             }
-            var storage = host.GetRequiredService<IUserSessionStorage>();
-            var user = storage.GetData(host.Config.CurrentUserSessionCacheKey) as IUserSession;
+            var storage = host.GetRequiredService<IAcSessionStorage>();
+            var user = storage.GetData(host.Config.CurrentAcSessionCacheKey) as IAcSession;
             if (!user.IsDeveloper())
             {
                 var request = filterContext.HttpContext.Request;

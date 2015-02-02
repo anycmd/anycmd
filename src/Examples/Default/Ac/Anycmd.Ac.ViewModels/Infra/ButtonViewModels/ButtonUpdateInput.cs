@@ -58,7 +58,7 @@ namespace Anycmd.Ac.ViewModels.Infra.ButtonViewModels
         [DefaultValue(1)]
         public int IsEnabled { get; set; }
 
-        public IAnycmdCommand ToCommand(IUserSession userSession)
+        public IAnycmdCommand ToCommand(IAcSession userSession)
         {
             return new UpdateButtonCommand(userSession, this);
         }

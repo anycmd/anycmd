@@ -22,7 +22,7 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             Assert.Equal(1, host.AppSystemSet.Count());
-            UserSessionState.SignIn(host, new Dictionary<string, object>
+            AcSessionState.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -38,7 +38,7 @@ namespace Anycmd.Tests
                 Code = "app1",
                 Name = "测试1",
                 PrincipalId = host.SysUserSet.GetDevAccounts().First().Id
-            }.ToCommand(host.GetUserSession()));
+            }.ToCommand(host.GetAcSession()));
             Assert.Equal(2, host.AppSystemSet.Count());
             Assert.True(host.AppSystemSet.TryGetAppSystem(entityId, out appSystemById));
             Assert.True(host.AppSystemSet.TryGetAppSystem("app1", out appSystemByCode));
@@ -50,7 +50,7 @@ namespace Anycmd.Tests
                 Name = "test2",
                 Code = "app2",
                 PrincipalId = host.SysUserSet.GetDevAccounts().First().Id
-            }.ToCommand(host.GetUserSession()));
+            }.ToCommand(host.GetAcSession()));
             AppSystemState appSystemById1;
             AppSystemState appSystemByCode1;
             Assert.Equal(2, host.AppSystemSet.Count());
@@ -65,7 +65,7 @@ namespace Anycmd.Tests
             Assert.Equal("app2", appSystemById1.Code);
 
             Assert.NotNull(host.RetrieveRequiredService<IRepository<AppSystem>>().GetByKey(entityId));
-            host.Handle(new RemoveAppSystemCommand(host.GetUserSession(), entityId));
+            host.Handle(new RemoveAppSystemCommand(host.GetAcSession(), entityId));
             Assert.False(host.AppSystemSet.TryGetAppSystem(entityId, out appSystemById1));
             Assert.False(host.AppSystemSet.TryGetAppSystem("app2", out appSystemByCode1));
             Assert.Equal(1, host.AppSystemSet.Count());
@@ -78,7 +78,7 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             Assert.Equal(1, host.AppSystemSet.Count());
-            UserSessionState.SignIn(host, new Dictionary<string, object>
+            AcSessionState.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -92,7 +92,7 @@ namespace Anycmd.Tests
                 Code = "app1",
                 Name = "测试1",
                 PrincipalId = host.SysUserSet.GetDevAccounts().First().Id
-            }.ToCommand(host.GetUserSession()));
+            }.ToCommand(host.GetAcSession()));
             Assert.Equal(2, host.AppSystemSet.Count());
 
             host.Handle(new MenuCreateInput
@@ -105,12 +105,12 @@ namespace Anycmd.Tests
                 Description = string.Empty,
                 Icon = string.Empty,
                 ParentId = null
-            }.ToCommand(host.GetUserSession()));
+            }.ToCommand(host.GetAcSession()));
 
             bool catched = false;
             try
             {
-                host.Handle(new RemoveAppSystemCommand(host.GetUserSession(), entityId));
+                host.Handle(new RemoveAppSystemCommand(host.GetAcSession(), entityId));
             }
             catch (ValidationException)
             {
@@ -131,7 +131,7 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             Assert.Equal(1, host.AppSystemSet.Count());
-            UserSessionState.SignIn(host, new Dictionary<string, object>
+            AcSessionState.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -159,7 +159,7 @@ namespace Anycmd.Tests
                     Code = code,
                     Name = name,
                     PrincipalId = host.SysUserSet.GetDevAccounts().First().Id
-                }.ToCommand(host.GetUserSession()));
+                }.ToCommand(host.GetAcSession()));
             }
             catch (Exception e)
             {
@@ -179,7 +179,7 @@ namespace Anycmd.Tests
                 Code = code,
                 Name = name,
                 PrincipalId = host.SysUserSet.GetDevAccounts().First().Id
-            }.ToCommand(host.GetUserSession()));
+            }.ToCommand(host.GetAcSession()));
             Assert.Equal(2, host.AppSystemSet.Count());
 
             catched = false;
@@ -191,7 +191,7 @@ namespace Anycmd.Tests
                     Name = "test2",
                     Code = "app2",
                     PrincipalId = host.SysUserSet.GetDevAccounts().First().Id
-                }.ToCommand(host.GetUserSession()));
+                }.ToCommand(host.GetAcSession()));
             }
             catch (Exception e)
             {
@@ -211,7 +211,7 @@ namespace Anycmd.Tests
             catched = false;
             try
             {
-                host.Handle(new RemoveAppSystemCommand(host.GetUserSession(), entityId2));
+                host.Handle(new RemoveAppSystemCommand(host.GetAcSession(), entityId2));
             }
             catch (Exception e)
             {

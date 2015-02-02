@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Edi.Messages
 
     public class RemoveNodeElementCareCommand : RemoveEntityCommand
     {
-        public RemoveNodeElementCareCommand(IUserSession userSession, Guid nodeElementCareId)
+        public RemoveNodeElementCareCommand(IAcSession userSession, Guid nodeElementCareId)
             : base(userSession, nodeElementCareId)
         {
 

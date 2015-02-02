@@ -405,7 +405,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 			{
 				throw new ValidationException("非法的本体码" + ontologyCode);
 			}
-			string dirPath = Server.MapPath("~/Content/Import/Excel/" + ontology.Ontology.Code + "/" + UserSession.Account.Id);
+			string dirPath = Server.MapPath("~/Content/Import/Excel/" + ontology.Ontology.Code + "/" + AcSession.Account.Id);
 			string fullName = Path.Combine(dirPath, fileName);
 			if (!System.IO.File.Exists(fullName))
 			{
@@ -742,13 +742,13 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 				throw new ValidationException("非法的本体码" + ontologyCode);
 			}
 			var files = new FileInfo[0];
-			string dirPath = Server.MapPath("~/Content/Import/Excel/" + ontology.Ontology.Code + "/" + UserSession.Account.Id);
+			string dirPath = Server.MapPath("~/Content/Import/Excel/" + ontology.Ontology.Code + "/" + AcSession.Account.Id);
 			if (Directory.Exists(dirPath))
 			{
 				var dirInfo = new DirectoryInfo(dirPath);
 				files = dirInfo.GetFiles();
 			}
-			string userName = UserSession.Account.Name;
+			string userName = AcSession.Account.Name;
 
 			return this.JsonResult(new MiniGrid
 			{
@@ -786,7 +786,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 			{
 				throw new ValidationException("非法的本体码" + ontologyCode);
 			}
-			string dirPath = Server.MapPath("~/Content/Import/Excel/" + ontology.Ontology.Code + "/" + UserSession.Account.Id);
+			string dirPath = Server.MapPath("~/Content/Import/Excel/" + ontology.Ontology.Code + "/" + AcSession.Account.Id);
 			string fullName = Path.Combine(dirPath, fileName);
 			if (System.IO.File.Exists(fullName))
 			{
@@ -841,7 +841,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 			{
 				throw new ValidationException("非法的本体码" + ontologyCode);
 			}
-			string dirPath = Server.MapPath("~/Content/Import/Excel/" + ontology.Ontology.Code + "/" + UserSession.Account.Id);
+			string dirPath = Server.MapPath("~/Content/Import/Excel/" + ontology.Ontology.Code + "/" + AcSession.Account.Id);
 			string fullName = Path.Combine(dirPath, fileName);
 			if (!System.IO.File.Exists(fullName))
 			{
@@ -929,7 +929,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 				}
 				if (isSave)
 				{
-					string dirPath = Server.MapPath("~/Content/Import/Excel/" + ontology.Ontology.Code + "/" + UserSession.Account.Id);
+					string dirPath = Server.MapPath("~/Content/Import/Excel/" + ontology.Ontology.Code + "/" + AcSession.Account.Id);
 					DirectoryInfo dirInfo;
 					dirInfo = !Directory.Exists(dirPath) ? Directory.CreateDirectory(dirPath) : new DirectoryInfo(dirPath);
 					string fullName = Path.Combine(dirPath, fileName + Guid.NewGuid().ToString() + fileType);
@@ -1254,7 +1254,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 									CredentialType = CredentialType.Token.ToName(),
 									ClientId = AcDomain.NodeHost.Nodes.ThisNode.Node.Id.ToString(),
 									Ticks = ticks,
-									UserName = UserSession.Account.Id.ToString()
+									UserName = AcSession.Account.Id.ToString()
 								};
 								command.Credential = credential;
 								commands.Add(i, command);
@@ -1351,7 +1351,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 			{
 				throw new ValidationException("非法的本体码" + ontologyCode);
 			}
-			string dirPath = Server.MapPath("~/Content/Import/Excel/" + ontology.Ontology.Code + "/" + UserSession.Account.Id);
+			string dirPath = Server.MapPath("~/Content/Import/Excel/" + ontology.Ontology.Code + "/" + AcSession.Account.Id);
 			string[] files = fileNames.Split('/');
 			foreach (var fileName in files)
 			{
@@ -1571,7 +1571,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 				cell.CellStyle = helderStyle;
 				i++;
 			}
-			if (UserSession.IsDeveloper())
+			if (AcSession.IsDeveloper())
 			{
 				foreach (var item in AcDomain.CatalogSet)
 				{
@@ -1623,7 +1623,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 			}
 			else
 			{
-				foreach (var myOrg in UserSession.AccountPrivilege.Catalogs)
+				foreach (var myOrg in AcSession.AccountPrivilege.Catalogs)
 				{
 					foreach (var item in AcDomain.CatalogSet)
 					{
@@ -1883,7 +1883,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 			}
 			requestModel.Includedescendants = requestModel.Includedescendants ?? false;
 			IDataTuples infoValues = null;
-			if (string.IsNullOrEmpty(requestModel.CatalogCode) && !UserSession.IsDeveloper())
+			if (string.IsNullOrEmpty(requestModel.CatalogCode) && !AcSession.IsDeveloper())
 			{
 				throw new ValidationException("对不起，您没有查看全部数据的权限");
 			}
@@ -1930,7 +1930,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 					selectElements.Add(element);
 				}
 			}
-			if (string.IsNullOrEmpty(requestModel.CatalogCode) && !UserSession.IsDeveloper())
+			if (string.IsNullOrEmpty(requestModel.CatalogCode) && !AcSession.IsDeveloper())
 			{
 				throw new ValidationException("对不起，您没有查看全部数据的权限");
 			}
@@ -2024,7 +2024,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 					UserType = UserType.None.ToName(),
 					CredentialType = CredentialType.Token.ToName(),
 					ClientId = node.Node.Id.ToString(),
-					UserName = UserSession.Account.Id.ToString(),// UserName
+					UserName = AcSession.Account.Id.ToString(),// UserName
 					Password = TokenObject.Token(node.Node.Id.ToString(), ticks, node.Node.SecretKey),
 					Ticks = ticks
 				},
@@ -2095,7 +2095,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 					UserType = UserType.None.ToName(),
 					CredentialType = CredentialType.Token.ToName(),
 					ClientId = node.Node.Id.ToString(),
-					UserName = UserSession.Account.Id.ToString(),// UserName
+					UserName = AcSession.Account.Id.ToString(),// UserName
 					Password = TokenObject.Token(node.Node.Id.ToString(), ticks, node.Node.SecretKey),
 					Ticks = ticks
 				},

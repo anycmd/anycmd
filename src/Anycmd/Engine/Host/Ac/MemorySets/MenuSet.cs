@@ -127,7 +127,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(AddMenuCommand message)
             {
-                this.Handle(message.UserSession, message.Input, true);
+                this.Handle(message.AcSession, message.Input, true);
             }
 
             public void Handle(MenuAddedEvent message)
@@ -136,10 +136,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                this.Handle(message.UserSession, message.Output, false);
+                this.Handle(message.AcSession, message.Output, false);
             }
 
-            private void Handle(IUserSession userSession, IMenuCreateIo input, bool isCommand)
+            private void Handle(IAcSession userSession, IMenuCreateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var menuById = _set._menuById;
@@ -214,7 +214,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateMenuAddedEvent : MenuAddedEvent
             {
-                internal PrivateMenuAddedEvent(IUserSession userSession, MenuBase source, IMenuCreateIo input)
+                internal PrivateMenuAddedEvent(IAcSession userSession, MenuBase source, IMenuCreateIo input)
                     : base(userSession, source, input)
                 {
 
@@ -222,7 +222,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             }
             public void Handle(UpdateMenuCommand message)
             {
-                this.Handle(message.UserSession, message.Input, true);
+                this.Handle(message.AcSession, message.Input, true);
             }
 
             public void Handle(MenuUpdatedEvent message)
@@ -231,10 +231,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                this.Handle(message.UserSession, message.Input, false);
+                this.Handle(message.AcSession, message.Input, false);
             }
 
-            private void Handle(IUserSession userSession, IMenuUpdateIo input, bool isCommand)
+            private void Handle(IAcSession userSession, IMenuUpdateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var menuById = _set._menuById;
@@ -293,7 +293,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateMenuUpdatedEvent : MenuUpdatedEvent
             {
-                internal PrivateMenuUpdatedEvent(IUserSession userSession, MenuBase source, IMenuUpdateIo input)
+                internal PrivateMenuUpdatedEvent(IAcSession userSession, MenuBase source, IMenuUpdateIo input)
                     : base(userSession, source, input)
                 {
 
@@ -308,7 +308,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(RemoveMenuCommand message)
             {
-                this.Handle(message.UserSession, message.EntityId, true);
+                this.Handle(message.AcSession, message.EntityId, true);
             }
 
             public void Handle(MenuRemovedEvent message)
@@ -317,10 +317,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                this.Handle(message.UserSession, message.Source.Id, false);
+                this.Handle(message.AcSession, message.Source.Id, false);
             }
 
-            private void Handle(IUserSession userSession, Guid menuId, bool isCommand)
+            private void Handle(IAcSession userSession, Guid menuId, bool isCommand)
             {
                 var host = _set._host;
                 var menuById = _set._menuById;
@@ -381,7 +381,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateMenuRemovedEvent : MenuRemovedEvent
             {
-                internal PrivateMenuRemovedEvent(IUserSession userSession, MenuBase source)
+                internal PrivateMenuRemovedEvent(IAcSession userSession, MenuBase source)
                     : base(userSession, source)
                 {
 

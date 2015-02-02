@@ -7,7 +7,7 @@ namespace Anycmd.Web
     /// <summary>
     /// 基于Web的用户上下文贮存器，存储在Http Session中
     /// </summary>
-    public sealed class WebUserSessionStorage : IUserSessionStorage
+    public sealed class WebAcSessionStorage : IAcSessionStorage
     {
         /// <summary>
         /// 

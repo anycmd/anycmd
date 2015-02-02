@@ -20,9 +20,9 @@ namespace Anycmd.Tests
     {
         public MoqAcDomain()
         {
-            UserSessionState.SignOuted = OnSignOuted;
-            UserSessionState.GetAccountById = GetAccountById;
-            UserSessionState.GetAccountByLoginName = GetAccountByLoginName;
+            AcSessionState.SignOuted = OnSignOuted;
+            AcSessionState.GetAccountById = GetAccountById;
+            AcSessionState.GetAccountByLoginName = GetAccountByLoginName;
         }
 
         public override void Configure()
@@ -30,13 +30,13 @@ namespace Anycmd.Tests
             base.Configure();
             this.RegisterRepository(typeof(AcDomain).Assembly);
             AddService(typeof(ILoggingService), new Log4NetLoggingService(this));
-            AddService(typeof(IUserSessionStorage), new SimpleUserSessionStorage());
-            #region UserSessionState
-            UserSessionState.GetUserSession = (acDomain, userSessionId) => acDomain.GetRequiredService<IRepository<UserSession>>().GetByKey(userSessionId);
-            UserSessionState.AddUserSession = (acDomain, sessionId, account) =>
+            AddService(typeof(IAcSessionStorage), new SimpleAcSessionStorage());
+            #region AcSessionState
+            AcSessionState.GetAcSession = (acDomain, userSessionId) => acDomain.GetRequiredService<IRepository<AcSession>>().GetByKey(userSessionId);
+            AcSessionState.AddAcSession = (acDomain, sessionId, account) =>
             {
                 var identity = new AnycmdIdentity(account.LoginName);
-                var userSessionEntity = new UserSession
+                var userSessionEntity = new AcSession
                 {
                     Id = sessionId,
                     AccountId = account.Id,
@@ -46,16 +46,16 @@ namespace Anycmd.Tests
                     IsEnabled = 1,
                     LoginName = account.LoginName
                 };
-                IUserSession user = new UserSessionState(acDomain, userSessionEntity);
-                var repository = acDomain.GetRequiredService<IRepository<UserSession>>();
+                IAcSession user = new AcSessionState(acDomain, userSessionEntity);
+                var repository = acDomain.GetRequiredService<IRepository<AcSession>>();
                 repository.Add(userSessionEntity);
                 repository.Context.Commit();
                 return user;
             };
-            UserSessionState.UpdateUserSession = (acDomain, userSessionEntity) =>
+            AcSessionState.UpdateAcSession = (acDomain, userSessionEntity) =>
             {
-                var repository = acDomain.GetRequiredService<IRepository<UserSession>>();
-                repository.Update(new UserSession()
+                var repository = acDomain.GetRequiredService<IRepository<AcSession>>();
+                repository.Update(new AcSession()
                 {
                     Id = userSessionEntity.Id,
                     AuthenticationType = userSessionEntity.AuthenticationType,
@@ -67,9 +67,9 @@ namespace Anycmd.Tests
                 });
                 repository.Context.Commit();
             };
-            UserSessionState.DeleteUserSession = (acDomain, guid) =>
+            AcSessionState.DeleteAcSession = (acDomain, guid) =>
             {
-                var repository = acDomain.GetRequiredService<IRepository<UserSession>>();
+                var repository = acDomain.GetRequiredService<IRepository<AcSession>>();
                 var entity = repository.GetByKey(guid);
                 if (entity == null)
                 {
@@ -78,8 +78,8 @@ namespace Anycmd.Tests
                 repository.Remove(entity);
                 repository.Context.Commit();
             };
-            UserSessionState.GetAccountById = (acDomain, id) => acDomain.GetRequiredService<IRepository<Account>>().GetByKey(id);
-            UserSessionState.GetAccountByLoginName =
+            AcSessionState.GetAccountById = (acDomain, id) => acDomain.GetRequiredService<IRepository<Account>>().GetByKey(id);
+            AcSessionState.GetAccountByLoginName =
                 (acDomain, loginName) =>
                     acDomain.GetRequiredService<IRepository<Account>>()
                         .AsQueryable()
@@ -216,7 +216,7 @@ namespace Anycmd.Tests
 
         private static void OnSignOuted(IAcDomain acDomain, Guid sessionId)
         {
-            var repository = acDomain.GetRequiredService<IRepository<UserSession>>();
+            var repository = acDomain.GetRequiredService<IRepository<AcSession>>();
             var entity = repository.GetByKey(sessionId);
             if (entity == null) return;
             entity.IsAuthenticated = false;

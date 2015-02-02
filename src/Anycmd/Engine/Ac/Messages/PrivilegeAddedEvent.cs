@@ -7,7 +7,7 @@ namespace Anycmd.Engine.Ac.Messages
 
     public class PrivilegeAddedEvent : DomainEvent
     {
-        public PrivilegeAddedEvent(IUserSession userSession, PrivilegeBase source, IPrivilegeCreateIo output)
+        public PrivilegeAddedEvent(IAcSession userSession, PrivilegeBase source, IPrivilegeCreateIo output)
             : base(userSession, source)
         {
             if (output == null)

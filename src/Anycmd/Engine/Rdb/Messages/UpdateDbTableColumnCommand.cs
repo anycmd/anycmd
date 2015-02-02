@@ -8,17 +8,17 @@ namespace Anycmd.Engine.Rdb.Messages
 
     public class UpdateDbTableColumnCommand : Command, IAnycmdCommand
     {
-        public UpdateDbTableColumnCommand(IUserSession userSession, IDbTableColumnUpdateInput input)
+        public UpdateDbTableColumnCommand(IAcSession userSession, IDbTableColumnUpdateInput input)
         {
             if (input == null)
             {
                 throw new ArgumentNullException("input");
             }
-            this.UserSession = userSession;
+            this.AcSession = userSession;
             this.Input = input;
         }
 
-        public IUserSession UserSession { get; private set; }
+        public IAcSession AcSession { get; private set; }
 
         public IDbTableColumnUpdateInput Input { get; private set; }
     }

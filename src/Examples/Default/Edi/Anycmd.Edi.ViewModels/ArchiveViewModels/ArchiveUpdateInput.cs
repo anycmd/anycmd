@@ -38,7 +38,7 @@ namespace Anycmd.Edi.ViewModels.ArchiveViewModels
         [DisplayName(@"备注")]
         public string Description { get; set; }
 
-        public IAnycmdCommand ToCommand(IUserSession userSession)
+        public IAnycmdCommand ToCommand(IAcSession userSession)
         {
             return new UpdateArchiveCommand(userSession, this);
         }

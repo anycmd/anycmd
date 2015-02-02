@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Edi.Messages
 
     public class RemoveInfoGroupCommand : RemoveEntityCommand
     {
-        public RemoveInfoGroupCommand(IUserSession userSession, Guid infoGroupId)
+        public RemoveInfoGroupCommand(IAcSession userSession, Guid infoGroupId)
             : base(userSession, infoGroupId)
         {
 

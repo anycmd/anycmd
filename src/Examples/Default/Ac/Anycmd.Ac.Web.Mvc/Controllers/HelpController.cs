@@ -136,7 +136,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 }
                 id = function.Id;
             }
-            AcDomain.Handle(new SaveHelpCommand(UserSession, id.Value, content, isEnabled));
+            AcDomain.Handle(new SaveHelpCommand(AcSession, id.Value, content, isEnabled));
 
             return new FormatJsonResult { Data = new ResponseData { success = true } };
         }

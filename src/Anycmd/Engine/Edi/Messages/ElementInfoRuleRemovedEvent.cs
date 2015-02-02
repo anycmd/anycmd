@@ -6,6 +6,6 @@ namespace Anycmd.Engine.Edi.Messages
 
     public class ElementInfoRuleRemovedEvent : DomainEvent
     {
-        public ElementInfoRuleRemovedEvent(IUserSession userSession, ElementInfoRule source) : base(userSession, source) { }
+        public ElementInfoRuleRemovedEvent(IAcSession userSession, ElementInfoRule source) : base(userSession, source) { }
     }
 }

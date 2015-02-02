@@ -25,7 +25,7 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             Assert.Equal(0, host.DsdSetSet.Count());
-            UserSessionState.SignIn(host, new Dictionary<string, object>
+            AcSessionState.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -34,7 +34,7 @@ namespace Anycmd.Tests
             var entityId = Guid.NewGuid();
 
             DsdSetState dsdSetById;
-            host.Handle(new AddDsdSetCommand(host.GetUserSession(), new DsdSetCreateIo
+            host.Handle(new AddDsdSetCommand(host.GetAcSession(), new DsdSetCreateIo
             {
                 Id = entityId,
                 Name = "测试1",
@@ -45,7 +45,7 @@ namespace Anycmd.Tests
             Assert.Equal(1, host.DsdSetSet.Count());
             Assert.True(host.DsdSetSet.TryGetDsdSet(entityId, out dsdSetById));
 
-            host.Handle(new UpdateDsdSetCommand(host.GetUserSession(), new DsdSetUpdateIo
+            host.Handle(new UpdateDsdSetCommand(host.GetAcSession(), new DsdSetUpdateIo
             {
                 Id = entityId,
                 Name = "test2",
@@ -57,7 +57,7 @@ namespace Anycmd.Tests
             Assert.True(host.DsdSetSet.TryGetDsdSet(entityId, out dsdSetById));
             Assert.Equal("test2", dsdSetById.Name);
 
-            host.Handle(new RemoveDsdSetCommand(host.GetUserSession(), entityId));
+            host.Handle(new RemoveDsdSetCommand(host.GetAcSession(), entityId));
             Assert.False(host.DsdSetSet.TryGetDsdSet(entityId, out dsdSetById));
             Assert.Equal(0, host.DsdSetSet.Count());
         }
@@ -67,7 +67,7 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             Assert.Equal(0, host.DsdSetSet.Count());
-            UserSessionState.SignIn(host, new Dictionary<string, object>
+            AcSessionState.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -76,7 +76,7 @@ namespace Anycmd.Tests
             var dsdSetId = Guid.NewGuid();
 
             DsdSetState dsdSetById;
-            host.Handle(new AddDsdSetCommand(host.GetUserSession(), new DsdSetCreateIo
+            host.Handle(new AddDsdSetCommand(host.GetAcSession(), new DsdSetCreateIo
             {
                 Id = dsdSetId,
                 Name = "测试1",
@@ -99,18 +99,18 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }.ToCommand(host.GetUserSession()));
+            }.ToCommand(host.GetAcSession()));
             Assert.Equal(1, host.RoleSet.Count());
             Assert.True(host.RoleSet.TryGetRole(roleId, out roleById));
             var entityId = Guid.NewGuid();
-            host.Handle(new AddDsdRoleCommand(host.GetUserSession(), new DsdRoleCreateIo
+            host.Handle(new AddDsdRoleCommand(host.GetAcSession(), new DsdRoleCreateIo
             {
                 Id = entityId,
                 RoleId = roleId,
                 DsdSetId = dsdSetId
             }));
             Assert.Equal(1, host.DsdSetSet.GetDsdRoles(dsdSetById).Count);
-            host.Handle(new RemoveDsdRoleCommand(host.GetUserSession(), entityId));
+            host.Handle(new RemoveDsdRoleCommand(host.GetAcSession(), entityId));
             Assert.Equal(0, host.DsdSetSet.GetDsdRoles(dsdSetById).Count);
         }
 
@@ -119,7 +119,7 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             Assert.Equal(0, host.DsdSetSet.Count());
-            UserSessionState.SignIn(host, new Dictionary<string, object>
+            AcSessionState.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -128,7 +128,7 @@ namespace Anycmd.Tests
             var ssdSetId = Guid.NewGuid();
 
             DsdSetState ssdSetById;
-            host.Handle(new AddDsdSetCommand(host.GetUserSession(), new DsdSetCreateIo
+            host.Handle(new AddDsdSetCommand(host.GetAcSession(), new DsdSetCreateIo
             {
                 Id = ssdSetId,
                 Name = "测试1",
@@ -150,9 +150,9 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }.ToCommand(host.GetUserSession()));
+            }.ToCommand(host.GetAcSession()));
             var entityId = Guid.NewGuid();
-            host.Handle(new AddDsdRoleCommand(host.GetUserSession(), new DsdRoleCreateIo
+            host.Handle(new AddDsdRoleCommand(host.GetAcSession(), new DsdRoleCreateIo
             {
                 Id = entityId,
                 RoleId = roleId1,
@@ -168,9 +168,9 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }.ToCommand(host.GetUserSession()));
+            }.ToCommand(host.GetAcSession()));
             entityId = Guid.NewGuid();
-            host.Handle(new AddDsdRoleCommand(host.GetUserSession(), new DsdRoleCreateIo
+            host.Handle(new AddDsdRoleCommand(host.GetAcSession(), new DsdRoleCreateIo
             {
                 Id = entityId,
                 RoleId = roleId2,
@@ -186,9 +186,9 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }.ToCommand(host.GetUserSession()));
+            }.ToCommand(host.GetAcSession()));
             entityId = Guid.NewGuid();
-            host.Handle(new AddDsdRoleCommand(host.GetUserSession(), new DsdRoleCreateIo
+            host.Handle(new AddDsdRoleCommand(host.GetAcSession(), new DsdRoleCreateIo
             {
                 Id = entityId,
                 RoleId = roleId3,
@@ -206,18 +206,18 @@ namespace Anycmd.Tests
                 Description = "test",
                 SortCode = 10,
                 Icon = null,
-            }.ToCommand(host.GetUserSession()));
-            var accountId = host.GetUserSession().Account.Id;
+            }.ToCommand(host.GetAcSession()));
+            var accountId = host.GetAcSession().Account.Id;
             Assert.NotNull(host.RetrieveRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
-            UserSessionState.SignIn(host, new Dictionary<string, object>
+            AcSessionState.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
                 {"rememberMe", "rememberMe"}
             });
-            Assert.True(host.GetUserSession().Identity.IsAuthenticated);
-            Assert.Equal(0, host.GetUserSession().AccountPrivilege.Roles.Count);
-            host.Handle(new AddPrivilegeCommand(host.GetUserSession(), new PrivilegeCreateIo
+            Assert.True(host.GetAcSession().Identity.IsAuthenticated);
+            Assert.Equal(0, host.GetAcSession().AccountPrivilege.Roles.Count);
+            host.Handle(new AddPrivilegeCommand(host.GetAcSession(), new PrivilegeCreateIo
             {
                 Id = Guid.NewGuid(),
                 SubjectInstanceId = accountId,
@@ -227,7 +227,7 @@ namespace Anycmd.Tests
                 ObjectInstanceId = roleId1,
                 ObjectType = AcElementType.Role.ToString()
             }));
-            host.Handle(new AddPrivilegeCommand(host.GetUserSession(), new PrivilegeCreateIo
+            host.Handle(new AddPrivilegeCommand(host.GetAcSession(), new PrivilegeCreateIo
             {
                 Id = Guid.NewGuid(),
                 SubjectInstanceId = accountId,
@@ -237,7 +237,7 @@ namespace Anycmd.Tests
                 ObjectInstanceId = roleId2,
                 ObjectType = AcElementType.Role.ToString()
             }));
-            host.Handle(new AddPrivilegeCommand(host.GetUserSession(), new PrivilegeCreateIo
+            host.Handle(new AddPrivilegeCommand(host.GetAcSession(), new PrivilegeCreateIo
             {
                 Id = Guid.NewGuid(),
                 SubjectInstanceId = accountId,
@@ -248,16 +248,16 @@ namespace Anycmd.Tests
                 ObjectType = AcElementType.Role.ToString()
             }));
             var catched = false;
-            UserSessionState.SignOut(host, host.GetUserSession());
+            AcSessionState.SignOut(host, host.GetAcSession());
             try
             {
-                UserSessionState.SignIn(host, new Dictionary<string, object>
+                AcSessionState.SignIn(host, new Dictionary<string, object>
                 {
                     {"loginName", "test"},
                     {"password", "111111"},
                     {"rememberMe", "rememberMe"}
                 });
-                var p = host.GetUserSession().AccountPrivilege;
+                var p = host.GetAcSession().AccountPrivilege;
             }
             catch
             {

@@ -158,7 +158,7 @@ namespace Anycmd.Edi.ViewModels.ElementViewModels
 
         public string Tooltip { get; set; }
 
-        public override IAnycmdCommand ToCommand(IUserSession userSession)
+        public override IAnycmdCommand ToCommand(IAcSession userSession)
         {
             return new AddElementCommand(userSession, this);
         }

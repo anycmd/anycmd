@@ -6,13 +6,13 @@ namespace Anycmd.Tests
 
     public static class AcDomainExtension
     {
-        public static IUserSession GetUserSession(this IAcDomain acDomain)
+        public static IAcSession GetAcSession(this IAcDomain acDomain)
         {
-            var storage = acDomain.GetRequiredService<IUserSessionStorage>();
-            var user = storage.GetData(acDomain.Config.CurrentUserSessionCacheKey) as IUserSession;
+            var storage = acDomain.GetRequiredService<IAcSessionStorage>();
+            var user = storage.GetData(acDomain.Config.CurrentAcSessionCacheKey) as IAcSession;
             if (user == null)
             {
-                return UserSessionState.Empty;
+                return AcSessionState.Empty;
             }
             return user;
         }

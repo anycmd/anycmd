@@ -6,15 +6,15 @@ namespace Anycmd.Engine.Ac.Messages.Infra
 
     public class SaveHelpCommand : Command, IAnycmdCommand
     {
-        public SaveHelpCommand(IUserSession userSession, Guid functionId, string content, int? isEnabled)
+        public SaveHelpCommand(IAcSession userSession, Guid functionId, string content, int? isEnabled)
         {
-            this.UserSession = userSession;
+            this.AcSession = userSession;
             this.FunctionId = functionId;
             this.Content = content;
             this.IsEnabled = isEnabled;
         }
 
-        public IUserSession UserSession { get; private set; }
+        public IAcSession AcSession { get; private set; }
 
         public Guid FunctionId { get; private set; }
         public string Content { get; private set; }

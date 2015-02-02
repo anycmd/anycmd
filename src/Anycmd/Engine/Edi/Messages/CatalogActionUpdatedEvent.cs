@@ -6,7 +6,7 @@ namespace Anycmd.Engine.Edi.Messages
 
     public class CatalogActionUpdatedEvent : DomainEvent
     {
-        public CatalogActionUpdatedEvent(IUserSession userSession, CatalogAction source)
+        public CatalogActionUpdatedEvent(IAcSession userSession, CatalogAction source)
             : base(userSession, source)
         {
         }

@@ -6,13 +6,13 @@ namespace Anycmd.Engine.Ac.Messages.Identity
 
     public class DisableAccountCommand : Command, IAnycmdCommand
     {
-        public DisableAccountCommand(IUserSession userSession, Guid accountId)
+        public DisableAccountCommand(IAcSession userSession, Guid accountId)
         {
-            this.UserSession = userSession;
+            this.AcSession = userSession;
             this.AccountId = accountId;
         }
 
-        public IUserSession UserSession { get; private set; }
+        public IAcSession AcSession { get; private set; }
 
         public Guid AccountId { get; private set; }
     }

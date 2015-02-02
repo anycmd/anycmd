@@ -162,7 +162,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             }
             if (!parentId.HasValue)
             {
-                if (UserSession.IsDeveloper())
+                if (AcSession.IsDeveloper())
                 {
                     return this.JsonResult(AcDomain.CatalogSet.Where(a => a != CatalogState.VirtualRoot && a.ParentCode == null).OrderBy(a => a.SortCode).Select(a => new CatalogMiniNode
                     {
@@ -179,7 +179,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 }
                 else
                 {
-                    var orgs = UserSession.AccountPrivilege.Catalogs;
+                    var orgs = AcSession.AccountPrivilege.Catalogs;
                     if (orgs != null && orgs.Count > 0)
                     {
                         return this.JsonResult(orgs.Select(org => new CatalogMiniNode
@@ -291,7 +291,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                     Id = Guid.NewGuid(),
                     ObjectInstanceId = catalogId,
                     ObjectType = AcElementType.Catalog.ToName()
-                }.ToCommand(UserSession));
+                }.ToCommand(AcSession));
             }
 
             return this.JsonResult(new ResponseData { success = true, id = accountIDs });
@@ -306,7 +306,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             string[] ids = id.Split(',');
             foreach (var item in ids)
             {
-                AcDomain.Handle(new RemovePrivilegeCommand(UserSession, new Guid(item)));
+                AcDomain.Handle(new RemovePrivilegeCommand(AcSession, new Guid(item)));
             }
 
             return this.JsonResult(new ResponseData { success = true, id = id });
@@ -322,7 +322,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            AcDomain.Handle(input.ToCommand(UserSession));
+            AcDomain.Handle(input.ToCommand(AcSession));
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -337,7 +337,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            AcDomain.Handle(input.ToCommand(UserSession));
+            AcDomain.Handle(input.ToCommand(AcSession));
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -364,7 +364,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             }
             foreach (var item in idArray)
             {
-                AcDomain.Handle(new RemoveCatalogCommand(UserSession, item));
+                AcDomain.Handle(new RemoveCatalogCommand(AcSession, item));
             }
 
             return this.JsonResult(new ResponseData { id = id, success = true });
@@ -394,7 +394,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                     {
                         if (!isAssigned)
                         {
-                            AcDomain.Handle(new RemovePrivilegeCommand(UserSession, id));
+                            AcDomain.Handle(new RemovePrivilegeCommand(AcSession, id));
                         }
                     }
                     else if (isAssigned)
@@ -406,7 +406,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                             SubjectType = UserAcSubjectType.Catalog.ToName(),
                             ObjectInstanceId = new Guid(row["RoleId"].ToString()),
                             SubjectInstanceId = new Guid(row["CatalogId"].ToString())
-                        }.ToCommand(UserSession));
+                        }.ToCommand(AcSession));
                     }
                 }
             }

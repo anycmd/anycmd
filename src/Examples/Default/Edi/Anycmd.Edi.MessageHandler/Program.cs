@@ -70,7 +70,7 @@ namespace Anycmd.Edi.MessageHandler
 			// 环境初始化
 			acDomain = new DefaultAcDomain();
 			acDomain.AddService(typeof(ILoggingService), new Log4NetLoggingService(acDomain));
-			acDomain.AddService(typeof(IUserSessionStorage), new SimpleUserSessionStorage());
+			acDomain.AddService(typeof(IAcSessionStorage), new SimpleAcSessionStorage());
 			acDomain.Init();
 			acDomain.RegisterRepository(new List<string>
 			{

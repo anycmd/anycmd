@@ -39,7 +39,7 @@ namespace Anycmd.Ac.ViewModels.Identity.AccountViewModels
         [Required]
         public string Password { get; set; }
 
-        public IAnycmdCommand ToCommand(IUserSession userSession)
+        public IAnycmdCommand ToCommand(IAcSession userSession)
         {
             return new AssignPasswordCommand(userSession, this);
         }

@@ -21,7 +21,7 @@ namespace Anycmd.Tests
             var host = TestHelper.GetAcDomain();
             Assert.Equal(1, host.CatalogSet.Count());
             Assert.Equal(CatalogState.VirtualRoot, host.CatalogSet.First());
-            UserSessionState.SignIn(host, new Dictionary<string, object>
+            AcSessionState.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -38,7 +38,7 @@ namespace Anycmd.Tests
                 Description = "test",
                 SortCode = 10,
                 Icon = null,
-            }.ToCommand(host.GetUserSession()));
+            }.ToCommand(host.GetAcSession()));
             Assert.Equal(2, host.CatalogSet.Count());
             Assert.True(host.CatalogSet.TryGetCatalog(entityId, out catalogById));
 
@@ -50,12 +50,12 @@ namespace Anycmd.Tests
                 Description = "test",
                 SortCode = 10,
                 Icon = null,
-            }.ToCommand(host.GetUserSession()));
+            }.ToCommand(host.GetAcSession()));
             Assert.Equal(2, host.CatalogSet.Count());
             Assert.True(host.CatalogSet.TryGetCatalog(entityId, out catalogById));
             Assert.Equal("test2", catalogById.Name);
 
-            host.Handle(new RemoveCatalogCommand(host.GetUserSession(), entityId));
+            host.Handle(new RemoveCatalogCommand(host.GetAcSession(), entityId));
             Assert.False(host.CatalogSet.TryGetCatalog(entityId, out catalogById));
             Assert.Equal(1, host.CatalogSet.Count());
         }
@@ -66,7 +66,7 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             Assert.Equal(1, host.CatalogSet.Count());
-            UserSessionState.SignIn(host, new Dictionary<string, object>
+            AcSessionState.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -84,7 +84,7 @@ namespace Anycmd.Tests
                 Description = "test",
                 SortCode = 10,
                 Icon = null,
-            }.ToCommand(host.GetUserSession()));
+            }.ToCommand(host.GetAcSession()));
             Assert.Equal(2, host.CatalogSet.Count());
             Assert.True(host.CatalogSet.TryGetCatalog(entityId, out catalogById));
             bool catched = false;
@@ -99,7 +99,7 @@ namespace Anycmd.Tests
                     Description = "test",
                     SortCode = 10,
                     Icon = null,
-                }.ToCommand(host.GetUserSession()));
+                }.ToCommand(host.GetAcSession()));
                 host.Handle(new CatalogCreateInput
                 {
                     Id = entityId2,
@@ -109,7 +109,7 @@ namespace Anycmd.Tests
                     Description = "test",
                     SortCode = 10,
                     Icon = null,
-                }.ToCommand(host.GetUserSession()));
+                }.ToCommand(host.GetAcSession()));
             }
             catch (Exception)
             {
@@ -127,7 +127,7 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             Assert.Equal(1, host.CatalogSet.Count());
-            UserSessionState.SignIn(host, new Dictionary<string, object>
+            AcSessionState.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -145,7 +145,7 @@ namespace Anycmd.Tests
                 Description = "test",
                 SortCode = 10,
                 Icon = null,
-            }.ToCommand(host.GetUserSession()));
+            }.ToCommand(host.GetAcSession()));
             host.Handle(new CatalogCreateInput
             {
                 Id = entityId2,
@@ -155,13 +155,13 @@ namespace Anycmd.Tests
                 Description = "test",
                 SortCode = 10,
                 Icon = null,
-            }.ToCommand(host.GetUserSession()));
+            }.ToCommand(host.GetAcSession()));
             Assert.Equal(3, host.CatalogSet.Count());
             Assert.True(host.CatalogSet.TryGetCatalog(entityId, out catalogById));
             bool catched = false;
             try
             {
-                host.Handle(new RemoveCatalogCommand(host.GetUserSession(), entityId));
+                host.Handle(new RemoveCatalogCommand(host.GetAcSession(), entityId));
             }
             catch (Exception)
             {
@@ -181,7 +181,7 @@ namespace Anycmd.Tests
             var host = TestHelper.GetAcDomain();
             Assert.Equal(1, host.CatalogSet.Count());
             Assert.Equal(CatalogState.VirtualRoot, host.CatalogSet.First());
-            UserSessionState.SignIn(host, new Dictionary<string, object>
+            AcSessionState.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -210,7 +210,7 @@ namespace Anycmd.Tests
                     SortCode = 10,
                     Icon = null,
                     Name = name
-                }.ToCommand(host.GetUserSession()));
+                }.ToCommand(host.GetAcSession()));
             }
             catch (Exception e)
             {
@@ -232,7 +232,7 @@ namespace Anycmd.Tests
                 SortCode = 10,
                 Icon = null,
                 Name = name
-            }.ToCommand(host.GetUserSession()));
+            }.ToCommand(host.GetAcSession()));
             Assert.Equal(2, host.CatalogSet.Count());
 
             catched = false;
@@ -246,7 +246,7 @@ namespace Anycmd.Tests
                     SortCode = 10,
                     Icon = null,
                     Name = "test2"
-                }.ToCommand(host.GetUserSession()));
+                }.ToCommand(host.GetAcSession()));
             }
             catch (Exception e)
             {
@@ -266,7 +266,7 @@ namespace Anycmd.Tests
             catched = false;
             try
             {
-                host.Handle(new RemoveCatalogCommand(host.GetUserSession(), entityId2));
+                host.Handle(new RemoveCatalogCommand(host.GetAcSession(), entityId2));
             }
             catch (Exception e)
             {

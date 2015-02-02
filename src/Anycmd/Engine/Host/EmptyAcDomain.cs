@@ -78,9 +78,9 @@ namespace Anycmd.Engine.Host
             get { return _objectJsonSerializer ?? (_objectJsonSerializer = new ObjectJsonSerializer()); }
         }
 
-        public IUserSession CreateSession(Guid sessionId, AccountState account)
+        public IAcSession CreateSession(Guid sessionId, AccountState account)
         {
-            return UserSessionState.Empty;
+            return AcSessionState.Empty;
         }
 
         public IDbTableColumns DbTableColumns
@@ -203,11 +203,6 @@ namespace Anycmd.Engine.Host
         public ISysUserSet SysUserSet
         {
             get { return Ac.MemorySets.SysUserSet.Empty; }
-        }
-
-        public IUserSession UserSession
-        {
-            get { return UserSessionState.Empty; }
         }
 
         public string BuildInPluginsBaseDirectory
@@ -348,7 +343,7 @@ namespace Anycmd.Engine.Host
         {
             public static readonly IAppConfig Empty = new EmptyAppConfig();
 
-            public string CurrentUserSessionCacheKey
+            public string CurrentAcSessionCacheKey
             {
                 get { return string.Empty; }
             }

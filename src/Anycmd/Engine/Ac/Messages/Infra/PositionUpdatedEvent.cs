@@ -7,7 +7,7 @@ namespace Anycmd.Engine.Ac.Messages.Infra
 
     public class PositionUpdatedEvent : DomainEvent
     {
-        public PositionUpdatedEvent(IUserSession userSession, GroupBase source, IPositionUpdateIo output)
+        public PositionUpdatedEvent(IAcSession userSession, GroupBase source, IPositionUpdateIo output)
             : base(userSession, source)
         {
             if (output == null)

@@ -21,7 +21,7 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             Assert.Equal(0, host.UiViewSet.Count());
-            UserSessionState.SignIn(host, new Dictionary<string, object>
+            AcSessionState.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -39,7 +39,7 @@ namespace Anycmd.Tests
                 IsManaged = true,
                 ResourceTypeId = host.ResourceTypeSet.First().Id,
                 SortCode = 10
-            }.ToCommand(host.GetUserSession()));
+            }.ToCommand(host.GetAcSession()));
             FunctionState functionById;
             Assert.Equal(1, host.FunctionSet.Count());
             Assert.True(host.FunctionSet.TryGetFunction(entityId, out functionById));
@@ -49,7 +49,7 @@ namespace Anycmd.Tests
                 Id = entityId,
                 Icon = null,
                 Tooltip = null
-            }.ToCommand(host.GetUserSession()));
+            }.ToCommand(host.GetAcSession()));
             Assert.Equal(1, host.UiViewSet.Count());
             Assert.True(host.UiViewSet.TryGetUiView(entityId, out pageById));
             bool catched = false;
@@ -60,7 +60,7 @@ namespace Anycmd.Tests
                     Id = Guid.NewGuid(),
                     Icon = null,
                     Tooltip = null
-                }.ToCommand(host.GetUserSession()));
+                }.ToCommand(host.GetAcSession()));
             }
             catch (Exception)
             {
@@ -75,11 +75,11 @@ namespace Anycmd.Tests
                 Id = entityId,
                 Icon = null,
                 Tooltip = null
-            }.ToCommand(host.GetUserSession()));
+            }.ToCommand(host.GetAcSession()));
             Assert.Equal(1, host.UiViewSet.Count());
             Assert.True(host.UiViewSet.TryGetUiView(entityId, out pageById));
 
-            host.Handle(new RemoveUiViewCommand(host.GetUserSession(), entityId));
+            host.Handle(new RemoveUiViewCommand(host.GetAcSession(), entityId));
             Assert.False(host.UiViewSet.TryGetUiView(entityId, out pageById));
             Assert.Equal(0, host.UiViewSet.Count());
         }
@@ -91,7 +91,7 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             Assert.Equal(0, host.UiViewSet.Count());
-            UserSessionState.SignIn(host, new Dictionary<string, object>
+            AcSessionState.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -118,7 +118,7 @@ namespace Anycmd.Tests
                 IsManaged = true,
                 ResourceTypeId = host.ResourceTypeSet.First().Id,
                 SortCode = 10
-            }.ToCommand(host.GetUserSession()));
+            }.ToCommand(host.GetAcSession()));
             host.Handle(new FunctionCreateInput
             {
                 Id = entityId2,
@@ -129,7 +129,7 @@ namespace Anycmd.Tests
                 IsManaged = true,
                 ResourceTypeId = host.ResourceTypeSet.First().Id,
                 SortCode = 10
-            }.ToCommand(host.GetUserSession()));
+            }.ToCommand(host.GetAcSession()));
             FunctionState functionById;
             Assert.Equal(2, host.FunctionSet.Count());
             Assert.True(host.FunctionSet.TryGetFunction(entityId1, out functionById));
@@ -141,7 +141,7 @@ namespace Anycmd.Tests
                 host.Handle(new UiViewCreateInput
                 {
                     Id = entityId1
-                }.ToCommand(host.GetUserSession()));
+                }.ToCommand(host.GetAcSession()));
             }
             catch (Exception e)
             {
@@ -158,7 +158,7 @@ namespace Anycmd.Tests
             host.Handle(new UiViewCreateInput
             {
                 Id = entityId2
-            }.ToCommand(host.GetUserSession()));
+            }.ToCommand(host.GetAcSession()));
             Assert.Equal(1, host.UiViewSet.Count());
 
             catched = false;
@@ -167,7 +167,7 @@ namespace Anycmd.Tests
                 host.Handle(new UiViewUpdateInput
                 {
                     Id = entityId2
-                }.ToCommand(host.GetUserSession()));
+                }.ToCommand(host.GetAcSession()));
             }
             catch (Exception e)
             {
@@ -186,7 +186,7 @@ namespace Anycmd.Tests
             catched = false;
             try
             {
-                host.Handle(new RemoveUiViewCommand(host.GetUserSession(), entityId2));
+                host.Handle(new RemoveUiViewCommand(host.GetAcSession(), entityId2));
             }
             catch (Exception e)
             {

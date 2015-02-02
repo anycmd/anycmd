@@ -104,18 +104,18 @@ namespace Anycmd.Web.Mvc
             {
                 return;
             }
-            var storage = acDomain.GetRequiredService<IUserSessionStorage>();
-            var userSession = storage.GetData(acDomain.Config.CurrentUserSessionCacheKey) as IUserSession;
+            var storage = acDomain.GetRequiredService<IAcSessionStorage>();
+            var userSession = storage.GetData(acDomain.Config.CurrentAcSessionCacheKey) as IAcSession;
             if (userSession == null)
             {
-                var account = UserSessionState.GetAccountByLoginName(acDomain, user.Identity.Name);
+                var account = AcSessionState.GetAccountByLoginName(acDomain, user.Identity.Name);
                 if (account == null)
                 {
                     if (user.Identity.IsAuthenticated) return;
                     ToLogin(filterContext, isAjaxRequest);
                     return;
                 }
-                var sessionEntity = UserSessionState.GetUserSession(acDomain, account.Id);
+                var sessionEntity = AcSessionState.GetAcSession(acDomain, account.Id);
                 if (sessionEntity != null)
                 {
                     if (!sessionEntity.IsAuthenticated)
@@ -123,15 +123,15 @@ namespace Anycmd.Web.Mvc
                         ToLogin(filterContext, isAjaxRequest);
                         return;
                     }
-                    userSession = new UserSessionState(acDomain, sessionEntity);
+                    userSession = new AcSessionState(acDomain, sessionEntity);
                 }
                 else
                 {
                     // 使用账户标识作为会话标识会导致一个账户只有一个会话
                     // TODO:支持账户和会话的一对多，为会话级的动态责任分离做准备
-                    userSession = UserSessionState.AddUserSession(acDomain, account.Id, AccountState.Create(account));
+                    userSession = AcSessionState.AddAcSession(acDomain, account.Id, AccountState.Create(account));
                 }
-                storage.SetData(acDomain.Config.CurrentUserSessionCacheKey, userSession);
+                storage.SetData(acDomain.Config.CurrentAcSessionCacheKey, userSession);
             }
             if (userSession.Permit(function, null)) return;
             if (isAjaxRequest)

@@ -48,7 +48,7 @@ namespace Anycmd.Edi.ViewModels.NodeViewModels
         [Required]
         public Guid OntologyId { get; set; }
 
-        public IAnycmdCommand ToCommand(IUserSession userSession)
+        public IAnycmdCommand ToCommand(IAcSession userSession)
         {
             return new AddNodeOntologyCareCommand(userSession, this);
         }

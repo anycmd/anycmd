@@ -6,7 +6,7 @@ namespace Anycmd.Engine.Edi.Messages
 
     public class BatchRemovedEvent : DomainEvent
     {
-        public BatchRemovedEvent(IUserSession userSession, IBatch source)
+        public BatchRemovedEvent(IAcSession userSession, IBatch source)
             : base(userSession, source)
         {
         }

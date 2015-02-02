@@ -42,7 +42,7 @@ namespace Anycmd.Edi.ViewModels.ArchiveViewModels
         [DisplayName(@"备注")]
         public string Description { get; set; }
 
-        public override IAnycmdCommand ToCommand(IUserSession userSession)
+        public override IAnycmdCommand ToCommand(IAcSession userSession)
         {
             return new AddArchiveCommand(userSession, this);
         }

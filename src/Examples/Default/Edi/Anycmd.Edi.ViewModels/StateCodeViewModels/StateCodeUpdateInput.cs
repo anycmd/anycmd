@@ -36,7 +36,7 @@ namespace Anycmd.Edi.ViewModels.StateCodeViewModels
         /// </summary>
         public string Description { get; set; }
 
-        public IAnycmdCommand ToCommand(IUserSession userSession)
+        public IAnycmdCommand ToCommand(IAcSession userSession)
         {
             return new UpdateStateCodeCommand(userSession, this);
         }

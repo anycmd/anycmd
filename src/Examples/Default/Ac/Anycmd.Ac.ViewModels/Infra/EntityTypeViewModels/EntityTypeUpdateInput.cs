@@ -76,7 +76,7 @@ namespace Anycmd.Ac.ViewModels.Infra.EntityTypeViewModels
         [Required]
         public Guid DeveloperId { get; set; }
 
-        public IAnycmdCommand ToCommand(IUserSession userSession)
+        public IAnycmdCommand ToCommand(IAcSession userSession)
         {
             return new UpdateEntityTypeCommand(userSession, this);
         }

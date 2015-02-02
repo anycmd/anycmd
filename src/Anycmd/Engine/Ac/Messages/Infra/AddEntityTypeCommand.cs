@@ -6,7 +6,7 @@ namespace Anycmd.Engine.Ac.Messages.Infra
 
     public class AddEntityTypeCommand : AddEntityCommand<IEntityTypeCreateIo>, IAnycmdCommand
     {
-        public AddEntityTypeCommand(IUserSession userSession, IEntityTypeCreateIo input)
+        public AddEntityTypeCommand(IAcSession userSession, IEntityTypeCreateIo input)
             : base(userSession, input)
         {
 

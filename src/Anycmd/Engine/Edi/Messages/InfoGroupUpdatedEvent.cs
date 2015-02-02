@@ -9,7 +9,7 @@ namespace Anycmd.Engine.Edi.Messages
     /// </summary>
     public sealed class InfoGroupUpdatedEvent : DomainEvent
     {
-        public InfoGroupUpdatedEvent(IUserSession userSession, InfoGroupBase source)
+        public InfoGroupUpdatedEvent(IAcSession userSession, InfoGroupBase source)
             : base(userSession, source)
         {
         }

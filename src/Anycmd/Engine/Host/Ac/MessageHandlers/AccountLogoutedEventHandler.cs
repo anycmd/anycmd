@@ -22,7 +22,7 @@ namespace Anycmd.Engine.Host.Ac.MessageHandlers
 
         public void Handle(AccountLogoutedEvent message)
         {
-            var visitingLogId = message.UserSession.GetData<Guid?>("UserContext_Current_VisitingLogId");
+            var visitingLogId = message.AcSession.GetData<Guid?>("UserContext_Current_VisitingLogId");
             if (!visitingLogId.HasValue) return;
             var dbId = new Guid("67E6CBF4-B481-4DDD-9FD9-1F0E06E9E1CB");
             RdbDescriptor db;

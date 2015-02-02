@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Ac.Messages.Infra
 
     public class RemoveButtonCommand : RemoveEntityCommand, IAnycmdCommand
     {
-        public RemoveButtonCommand(IUserSession userSession, Guid buttonId)
+        public RemoveButtonCommand(IAcSession userSession, Guid buttonId)
             : base(userSession, buttonId)
         {
 

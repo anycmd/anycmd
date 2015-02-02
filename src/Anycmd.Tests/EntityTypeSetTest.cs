@@ -22,7 +22,7 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             Assert.Equal(0, host.EntityTypeSet.Count());
-            UserSessionState.SignIn(host, new Dictionary<string, object>
+            AcSessionState.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -49,7 +49,7 @@ namespace Anycmd.Tests
                 SchemaName = string.Empty,
                 SortCode = 10,
                 TableName = string.Empty
-            }.ToCommand(host.GetUserSession()));
+            }.ToCommand(host.GetAcSession()));
             Assert.Equal(1, host.EntityTypeSet.Count());
             Assert.True(host.EntityTypeSet.TryGetEntityType(entityTypeId, out entityTypeById));
             Assert.True(host.EntityTypeSet.TryGetEntityType(new Coder(codespace, "EntityType1"), out entityTypeByCode));
@@ -71,7 +71,7 @@ namespace Anycmd.Tests
                 SchemaName = string.Empty,
                 SortCode = 100,
                 TableName = string.Empty
-            }.ToCommand(host.GetUserSession()));
+            }.ToCommand(host.GetAcSession()));
             Assert.Equal(1, host.EntityTypeSet.Count());
             Assert.True(host.EntityTypeSet.TryGetEntityType(entityTypeId, out entityTypeById));
             Assert.True(host.EntityTypeSet.TryGetEntityType(new Coder(codespace, "EntityType2"), out entityTypeByCode));
@@ -80,7 +80,7 @@ namespace Anycmd.Tests
             Assert.Equal("test2", entityTypeById.Name);
             Assert.Equal("EntityType2", entityTypeById.Code);
 
-            host.Handle(new RemoveEntityTypeCommand(host.GetUserSession(), entityTypeId));
+            host.Handle(new RemoveEntityTypeCommand(host.GetAcSession(), entityTypeId));
             Assert.False(host.EntityTypeSet.TryGetEntityType(entityTypeId, out entityTypeById));
             Assert.False(host.EntityTypeSet.TryGetEntityType(new Coder(codespace, "EntityType2"), out entityTypeByCode));
             Assert.Equal(0, host.EntityTypeSet.Count());
@@ -101,7 +101,7 @@ namespace Anycmd.Tests
                 SchemaName = string.Empty,
                 SortCode = 10,
                 TableName = string.Empty
-            }.ToCommand(host.GetUserSession()));
+            }.ToCommand(host.GetAcSession()));
             Assert.Equal(1, host.EntityTypeSet.Count());
             Assert.True(host.EntityTypeSet.TryGetEntityType(entityTypeId, out entityTypeById));
             PropertyState propertyById;
@@ -124,7 +124,7 @@ namespace Anycmd.Tests
                 Description = string.Empty,
                 Code = "Property1",
                 Name = "测试1"
-            }.ToCommand(host.GetUserSession()));
+            }.ToCommand(host.GetAcSession()));
             Assert.Equal(1, host.EntityTypeSet.GetProperties(entityTypeById).Count());
             Assert.True(host.EntityTypeSet.TryGetProperty(propertyId, out propertyById));
             Assert.True(host.EntityTypeSet.TryGetProperty(entityTypeById, "Property1", out propertyByCode));
@@ -136,7 +136,7 @@ namespace Anycmd.Tests
                 Id = propertyId,
                 Name = "test2",
                 Code = "Property2"
-            }.ToCommand(host.GetUserSession()));
+            }.ToCommand(host.GetAcSession()));
             Assert.Equal(1, host.EntityTypeSet.GetProperties(entityTypeById).Count);
             Assert.True(host.EntityTypeSet.TryGetProperty(propertyId, out propertyById));
             Assert.True(host.EntityTypeSet.TryGetProperty(entityTypeById, "Property2", out propertyByCode));
@@ -145,7 +145,7 @@ namespace Anycmd.Tests
             Assert.Equal("test2", propertyById.Name);
             Assert.Equal("Property2", propertyById.Code);
 
-            host.Handle(new RemovePropertyCommand(host.GetUserSession(), propertyId));
+            host.Handle(new RemovePropertyCommand(host.GetAcSession(), propertyId));
             Assert.False(host.EntityTypeSet.TryGetProperty(propertyId, out propertyById));
             Assert.False(host.EntityTypeSet.TryGetProperty(entityTypeById, "Property2", out propertyByCode));
             Assert.Equal(0, host.EntityTypeSet.GetProperties(entityTypeById).Count);
@@ -158,7 +158,7 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             Assert.Equal(0, host.EntityTypeSet.Count());
-            UserSessionState.SignIn(host, new Dictionary<string, object>
+            AcSessionState.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -181,7 +181,7 @@ namespace Anycmd.Tests
                 SchemaName = string.Empty,
                 SortCode = 10,
                 TableName = string.Empty
-            }.ToCommand(host.GetUserSession()));
+            }.ToCommand(host.GetAcSession()));
             Assert.Equal(1, host.EntityTypeSet.Count());
 
             host.Handle(new PropertyCreateInput
@@ -202,12 +202,12 @@ namespace Anycmd.Tests
                 Description = string.Empty,
                 Code = "Property1",
                 Name = "测试1"
-            }.ToCommand(host.GetUserSession()));
+            }.ToCommand(host.GetAcSession()));
 
             bool catched = false;
             try
             {
-                host.Handle(new RemoveEntityTypeCommand(host.GetUserSession(), entityTypeId));
+                host.Handle(new RemoveEntityTypeCommand(host.GetAcSession(), entityTypeId));
             }
             catch (ValidationException)
             {
@@ -228,7 +228,7 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             Assert.Equal(0, host.EntityTypeSet.Count());
-            UserSessionState.SignIn(host, new Dictionary<string, object>
+            AcSessionState.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -294,7 +294,7 @@ namespace Anycmd.Tests
                     SchemaName = string.Empty,
                     SortCode = 10,
                     TableName = string.Empty
-                }.ToCommand(host.GetUserSession()));
+                }.ToCommand(host.GetAcSession()));
             }
             catch (Exception e)
             {
@@ -323,7 +323,7 @@ namespace Anycmd.Tests
                 SchemaName = string.Empty,
                 SortCode = 10,
                 TableName = string.Empty
-            }.ToCommand(host.GetUserSession()));
+            }.ToCommand(host.GetAcSession()));
             Assert.Equal(1, host.EntityTypeSet.Count());
 
             catched = false;
@@ -344,7 +344,7 @@ namespace Anycmd.Tests
                     SchemaName = string.Empty,
                     SortCode = 100,
                     TableName = string.Empty
-                }.ToCommand(host.GetUserSession()));
+                }.ToCommand(host.GetAcSession()));
             }
             catch (Exception e)
             {
@@ -364,7 +364,7 @@ namespace Anycmd.Tests
             catched = false;
             try
             {
-                host.Handle(new RemoveEntityTypeCommand(host.GetUserSession(), entityId2));
+                host.Handle(new RemoveEntityTypeCommand(host.GetAcSession(), entityId2));
             }
             catch (Exception e)
             {

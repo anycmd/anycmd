@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Ac.Messages.Rbac
 
     public class RemoveSsdRoleCommand : RemoveEntityCommand
     {
-        public RemoveSsdRoleCommand(IUserSession userSession, Guid ssdRoleId)
+        public RemoveSsdRoleCommand(IAcSession userSession, Guid ssdRoleId)
             : base(userSession, ssdRoleId)
         {
 

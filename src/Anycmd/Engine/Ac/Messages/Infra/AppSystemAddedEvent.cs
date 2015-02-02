@@ -11,7 +11,7 @@ namespace Anycmd.Engine.Ac.Messages.Infra
     /// </summary>
     public class AppSystemAddedEvent : DomainEvent
     {
-        public AppSystemAddedEvent(IUserSession userSession, AppSystemBase source, IAppSystemCreateIo input)
+        public AppSystemAddedEvent(IAcSession userSession, AppSystemBase source, IAppSystemCreateIo input)
             : base(userSession, source)
         {
             if (input == null)

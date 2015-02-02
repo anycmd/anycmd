@@ -9,6 +9,6 @@ namespace Anycmd.Engine.Edi.Messages
     /// </summary>
     public sealed class NodeActionAddedEvent : DomainEvent
     {
-        public NodeActionAddedEvent(IUserSession userSession, NodeAction source) : base(userSession, source) { }
+        public NodeActionAddedEvent(IAcSession userSession, NodeAction source) : base(userSession, source) { }
     }
 }

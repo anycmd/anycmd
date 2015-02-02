@@ -23,7 +23,7 @@ namespace Anycmd.Ac.ViewModels.Identity.AccountViewModels
 
         public string NewPassword { get; set; }
 
-        public IAnycmdCommand ToCommand(IUserSession userSession)
+        public IAnycmdCommand ToCommand(IAcSession userSession)
         {
             return new ChangePasswordCommand(userSession, this);
         }

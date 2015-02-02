@@ -7,7 +7,7 @@ namespace Anycmd.Engine.Ac.Abstractions.Rbac
     /// <summary>
     /// 用户会话基类。
     /// </summary>
-    public abstract class UserSessionBase : EntityBase, IUserSessionEntity
+    public abstract class AcSessionBase : EntityBase, IAcSessionEntity
     {
         public string AuthenticationType { get; set; }
         public bool IsAuthenticated { get; set; }

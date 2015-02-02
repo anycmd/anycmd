@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Ac.Messages.Infra
 
     public class AddGroupCommand : AddEntityCommand<IGroupCreateIo>, IAnycmdCommand
     {
-        public AddGroupCommand(IUserSession userSession, IGroupCreateIo input)
+        public AddGroupCommand(IAcSession userSession, IGroupCreateIo input)
             : base(userSession, input)
         {
 

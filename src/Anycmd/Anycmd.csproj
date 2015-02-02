@@ -60,7 +60,7 @@
     <Compile Include="Engine\Ac\Abstractions\Infra\FieldBase.cs" />
     <Compile Include="Engine\Ac\Abstractions\IAcElement.cs" />
     <Compile Include="Engine\Ac\Abstractions\Infra\IField.cs" />
-    <Compile Include="Engine\Ac\Abstractions\Rbac\IUserSessionEntity.cs" />
+    <Compile Include="Engine\Ac\Abstractions\Rbac\IAcSessionEntity.cs" />
     <Compile Include="Engine\Ac\Abstractions\SysAcSubjectType.cs" />
     <Compile Include="Engine\Ac\Abstractions\UserAcSubjectType.cs" />
     <Compile Include="Engine\Ac\Abstractions\Rbac\DsdRoleBase.cs" />
@@ -75,7 +75,7 @@
     <Compile Include="Engine\Ac\Abstractions\Rbac\ISsdSet.cs" />
     <Compile Include="Engine\Ac\Abstractions\Rbac\SsdRoleBase.cs" />
     <Compile Include="Engine\Ac\Abstractions\Rbac\SsdSetBase.cs" />
-    <Compile Include="Engine\Ac\Abstractions\Rbac\UserSessionBase.cs" />
+    <Compile Include="Engine\Ac\Abstractions\Rbac\AcSessionBase.cs" />
     <Compile Include="AnyMessage.cs" />
     <Compile Include="Engine\Ac\Abstractions\IAppSystemSet.cs" />
     <Compile Include="Engine\Ac\Abstractions\IButtonSet.cs" />
@@ -227,7 +227,7 @@
     <Compile Include="Engine\Ac\Messages\Rbac\UpdateDsdSetCommand.cs" />
     <Compile Include="Engine\Ac\Messages\Infra\UpdatePositionCommand.cs" />
     <Compile Include="Engine\Ac\Messages\Rbac\UpdateSsdSetCommand.cs" />
-    <Compile Include="Engine\Host\Ac\Rbac\UserSession.cs" />
+    <Compile Include="Engine\Host\Ac\Rbac\AcSession.cs" />
     <Compile Include="Engine\Ac\DsdRoleState.cs" />
     <Compile Include="Engine\Ac\DsdSetState.cs" />
     <Compile Include="Engine\Edi\AcDomainExtension.cs" />
@@ -247,7 +247,7 @@
     <Compile Include="Engine\Host\Edi\MemorySets\StateCodeSet.cs" />
     <Compile Include="Engine\Host\Impl\DefaultRbacService.cs" />
     <Compile Include="Engine\Host\EmptyAcDomain.cs" />
-    <Compile Include="Engine\Host\Impl\SimpleUserSessionStorage.cs" />
+    <Compile Include="Engine\Host\Impl\SimpleAcSessionStorage.cs" />
     <Compile Include="Engine\Ac\SsdRoleState.cs" />
     <Compile Include="Engine\Ac\SsdSetState.cs" />
     <Compile Include="Engine\Host\Impl\UnauthenticatedIdentity.cs" />
@@ -265,7 +265,7 @@
     <Compile Include="Util\Coder.cs" />
     <Compile Include="Util\IDAttribute.cs" />
     <Compile Include="Engine\StateObject`1.cs" />
-    <Compile Include="Engine\Ac\UserSessionState.cs" />
+    <Compile Include="Engine\Ac\AcSessionState.cs" />
     <Compile Include="Engine\AddEntityCommand`1.cs" />
     <Compile Include="Engine\EntityAddedEvent`1.cs" />
     <Compile Include="Engine\IStateObject.cs" />
@@ -862,7 +862,7 @@
     <Compile Include="Engine\Ac\PropertyState.cs" />
     <Compile Include="Engine\Ac\ResourceTypeState.cs" />
     <Compile Include="Model\ISourcedAggregateRoot.cs" />
-    <Compile Include="IUserSession.cs" />
+    <Compile Include="IAcSession.cs" />
     <Compile Include="Logging\ExceptionLog.cs" />
     <Compile Include="Logging\OperationLogBase.cs" />
     <Compile Include="Engine\ManagedPropertyValues.cs" />
@@ -972,7 +972,7 @@
     <Compile Include="Model\IUnitOfWork.cs" />
     <Compile Include="Engine\Host\Impl\AcDomain.cs" />
     <Compile Include="Engine\Host\Tracer.cs" />
-    <Compile Include="Engine\Ac\UserSessionExtension.cs" />
+    <Compile Include="Engine\Ac\AcSessionExtension.cs" />
     <Compile Include="Engine\Host\SleepingEventArgs.cs" />
     <Compile Include="Query\SqlFilterStringBuilder.cs" />
     <Compile Include="Query\ISqlFilterStringBuilder.cs" />
@@ -1027,7 +1027,7 @@
     <Compile Include="Engine\Ac\Abstractions\Infra\ICatalog.cs" />
     <Compile Include="Engine\Ac\Abstractions\Rbac\IRole.cs" />
     <Compile Include="Engine\Ac\Abstractions\Infra\IResourceType.cs" />
-    <Compile Include="Engine\Host\IUserSessionStorage.cs" />
+    <Compile Include="Engine\Host\IAcSessionStorage.cs" />
     <Compile Include="Engine\Ac\Abstractions\Infra\IButton.cs" />
     <Compile Include="Engine\Ac\Abstractions\Infra\IDicItem.cs" />
     <Compile Include="Engine\Ac\Abstractions\Infra\IUiView.cs" />

@@ -20,7 +20,7 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             Assert.Equal(0, host.MenuSet.Count());
-            UserSessionState.SignIn(host, new Dictionary<string, object>
+            AcSessionState.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -39,7 +39,7 @@ namespace Anycmd.Tests
                 Icon = null,
                 ParentId = null,
                 Url = string.Empty
-            }.ToCommand(host.GetUserSession()));
+            }.ToCommand(host.GetAcSession()));
             Assert.Equal(1, host.MenuSet.Count());
             Assert.True(host.MenuSet.TryGetMenu(entityId, out menuById));
 
@@ -52,12 +52,12 @@ namespace Anycmd.Tests
                 AppSystemId = host.AppSystemSet.First().Id,
                 Icon = null,
                 Url = string.Empty
-            }.ToCommand(host.GetUserSession()));
+            }.ToCommand(host.GetAcSession()));
             Assert.Equal(1, host.MenuSet.Count());
             Assert.True(host.MenuSet.TryGetMenu(entityId, out menuById));
             Assert.Equal("test2", menuById.Name);
 
-            host.Handle(new RemoveMenuCommand(host.GetUserSession(), entityId));
+            host.Handle(new RemoveMenuCommand(host.GetAcSession(), entityId));
             Assert.False(host.MenuSet.TryGetMenu(entityId, out menuById));
             Assert.Equal(0, host.MenuSet.Count());
         }
@@ -68,7 +68,7 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             Assert.Equal(0, host.MenuSet.Count());
-            UserSessionState.SignIn(host, new Dictionary<string, object>
+            AcSessionState.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -88,7 +88,7 @@ namespace Anycmd.Tests
                 Icon = null,
                 ParentId = null,
                 Url = string.Empty
-            }.ToCommand(host.GetUserSession()));
+            }.ToCommand(host.GetAcSession()));
             host.Handle(new MenuCreateInput
             {
                 Id = entityId2,
@@ -99,7 +99,7 @@ namespace Anycmd.Tests
                 Icon = null,
                 ParentId = entityId,
                 Url = string.Empty
-            }.ToCommand(host.GetUserSession()));
+            }.ToCommand(host.GetAcSession()));
             Assert.Equal(2, host.MenuSet.Count());
             Assert.NotNull(host.RetrieveRequiredService<IRepository<Menu>>().GetByKey(entityId));
             Assert.NotNull(host.RetrieveRequiredService<IRepository<Menu>>().GetByKey(entityId2));
@@ -108,7 +108,7 @@ namespace Anycmd.Tests
             bool catched = false;
             try
             {
-                host.Handle(new RemoveMenuCommand(host.GetUserSession(), entityId));
+                host.Handle(new RemoveMenuCommand(host.GetAcSession(), entityId));
             }
             catch (Exception)
             {
@@ -127,7 +127,7 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             Assert.Equal(0, host.MenuSet.Count());
-            UserSessionState.SignIn(host, new Dictionary<string, object>
+            AcSessionState.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -153,7 +153,7 @@ namespace Anycmd.Tests
                     Id = entityId1,
                     AppSystemId = host.AppSystemSet.First().Id,
                     Name = name
-                }.ToCommand(host.GetUserSession()));
+                }.ToCommand(host.GetAcSession()));
             }
             catch (Exception e)
             {
@@ -172,7 +172,7 @@ namespace Anycmd.Tests
                 Id = entityId2,
                 AppSystemId = host.AppSystemSet.First().Id,
                 Name = name
-            }.ToCommand(host.GetUserSession()));
+            }.ToCommand(host.GetAcSession()));
             Assert.Equal(1, host.MenuSet.Count());
 
             catched = false;
@@ -183,7 +183,7 @@ namespace Anycmd.Tests
                     Id = entityId2,
                     AppSystemId = host.AppSystemSet.First().Id,
                     Name = "test2"
-                }.ToCommand(host.GetUserSession()));
+                }.ToCommand(host.GetAcSession()));
             }
             catch (Exception e)
             {
@@ -203,7 +203,7 @@ namespace Anycmd.Tests
             catched = false;
             try
             {
-                host.Handle(new RemoveMenuCommand(host.GetUserSession(), entityId2));
+                host.Handle(new RemoveMenuCommand(host.GetAcSession(), entityId2));
             }
             catch (Exception e)
             {

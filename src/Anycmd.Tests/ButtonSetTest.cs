@@ -24,7 +24,7 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             Assert.Equal(0, host.ButtonSet.Count());
-            UserSessionState.SignIn(host, new Dictionary<string, object>
+            AcSessionState.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -39,7 +39,7 @@ namespace Anycmd.Tests
                 Id = entityId,
                 Code = "btn1",
                 Name = "测试1"
-            }.ToCommand(host.GetUserSession()));
+            }.ToCommand(host.GetAcSession()));
             Assert.Equal(1, host.ButtonSet.Count());
             Assert.True(host.ButtonSet.ContainsButton(entityId));
             Assert.True(host.ButtonSet.ContainsButton("btn1"));
@@ -53,7 +53,7 @@ namespace Anycmd.Tests
                 Id = entityId,
                 Name = "test2",
                 Code = "btn2"
-            }.ToCommand(host.GetUserSession()));
+            }.ToCommand(host.GetAcSession()));
             Assert.Equal(1, host.ButtonSet.Count());
             Assert.True(host.ButtonSet.ContainsButton(entityId));
             Assert.True(host.ButtonSet.ContainsButton("btn2"));
@@ -64,7 +64,7 @@ namespace Anycmd.Tests
             Assert.Equal("test2", buttonById.Name);
             Assert.Equal("btn2", buttonById.Code);
 
-            host.Handle(new RemoveButtonCommand(host.GetUserSession(), entityId));
+            host.Handle(new RemoveButtonCommand(host.GetAcSession(), entityId));
             Assert.False(host.ButtonSet.ContainsButton(entityId));
             Assert.False(host.ButtonSet.ContainsButton("btn2"));
             Assert.False(host.ButtonSet.TryGetButton(entityId, out buttonById));
@@ -79,7 +79,7 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             Assert.Equal(0, host.ButtonSet.Count());
-            UserSessionState.SignIn(host, new Dictionary<string, object>
+            AcSessionState.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -96,7 +96,7 @@ namespace Anycmd.Tests
                 Id = entityId,
                 Code = "app1",
                 Name = "测试1"
-            }.ToCommand(host.GetUserSession()));
+            }.ToCommand(host.GetAcSession()));
             Assert.Equal(1, host.ButtonSet.Count());
             host.Handle(new AppSystemCreateInput
             {
@@ -104,7 +104,7 @@ namespace Anycmd.Tests
                 Code = "app1",
                 Name = "app1",
                 PrincipalId = host.SysUserSet.GetDevAccounts().First().Id
-            }.ToCommand(host.GetUserSession()));
+            }.ToCommand(host.GetAcSession()));
             host.Handle(new FunctionCreateInput
             {
                 Id = functionId,
@@ -115,11 +115,11 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 IsManaged = true,
                 SortCode = 0
-            }.ToCommand(host.GetUserSession()));
+            }.ToCommand(host.GetAcSession()));
             host.Handle(new UiViewCreateInput
             {
                 Id = functionId
-            }.ToCommand(host.GetUserSession()));
+            }.ToCommand(host.GetAcSession()));
             host.Handle(new UiViewButtonCreateInput
             {
                 Id = pageButtonId,
@@ -127,12 +127,12 @@ namespace Anycmd.Tests
                 UiViewId = pageId,
                 FunctionId = null,
                 IsEnabled = 1
-            }.ToCommand(host.GetUserSession()));
+            }.ToCommand(host.GetAcSession()));
 
             bool catched = false;
             try
             {
-                host.Handle(new RemoveButtonCommand(host.GetUserSession(), entityId));
+                host.Handle(new RemoveButtonCommand(host.GetAcSession(), entityId));
             }
             catch (ValidationException)
             {
@@ -146,8 +146,8 @@ namespace Anycmd.Tests
             }
 
             {
-                host.Handle(new RemoveUiViewButtonCommand(host.GetUserSession(), pageButtonId));
-                host.Handle(new RemoveButtonCommand(host.GetUserSession(), entityId));
+                host.Handle(new RemoveUiViewButtonCommand(host.GetAcSession(), pageButtonId));
+                host.Handle(new RemoveButtonCommand(host.GetAcSession(), entityId));
                 ButtonState button;
                 Assert.False(host.ButtonSet.TryGetButton(entityId, out button));
             }
@@ -160,7 +160,7 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             Assert.Equal(0, host.ButtonSet.Count());
-            UserSessionState.SignIn(host, new Dictionary<string, object>
+            AcSessionState.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -188,7 +188,7 @@ namespace Anycmd.Tests
                     Id = entityId1,
                     Code = code,
                     Name = name
-                }.ToCommand(host.GetUserSession()));
+                }.ToCommand(host.GetAcSession()));
             }
             catch (Exception e)
             {
@@ -207,7 +207,7 @@ namespace Anycmd.Tests
                 Id = entityId2,
                 Code = code,
                 Name = name
-            }.ToCommand(host.GetUserSession()));
+            }.ToCommand(host.GetAcSession()));
             Assert.Equal(1, host.ButtonSet.Count());
 
             catched = false;
@@ -218,7 +218,7 @@ namespace Anycmd.Tests
                     Id = entityId2,
                     Name = "test2",
                     Code = "btn2"
-                }.ToCommand(host.GetUserSession()));
+                }.ToCommand(host.GetAcSession()));
             }
             catch (Exception e)
             {
@@ -238,7 +238,7 @@ namespace Anycmd.Tests
             catched = false;
             try
             {
-                host.Handle(new RemoveButtonCommand(host.GetUserSession(), entityId2));
+                host.Handle(new RemoveButtonCommand(host.GetAcSession(), entityId2));
             }
             catch (Exception e)
             {

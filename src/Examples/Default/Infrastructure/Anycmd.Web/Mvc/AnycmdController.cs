@@ -30,20 +30,20 @@ namespace Anycmd.Web.Mvc
         }
 
 
-        protected IUserSession UserSession
+        protected IAcSession AcSession
         {
             get
             {
                 if (User.Identity.IsAuthenticated)
                 {
                     var userSession =
-                        AcDomain.GetRequiredService<IUserSessionStorage>()
-                            .GetData(AcDomain.Config.CurrentUserSessionCacheKey) as IUserSession;
+                        AcDomain.GetRequiredService<IAcSessionStorage>()
+                            .GetData(AcDomain.Config.CurrentAcSessionCacheKey) as IAcSession;
                     
                     return userSession;
                 }
                 else {
-                    return UserSessionState.Empty;
+                    return AcSessionState.Empty;
                 }
             }
         }
@@ -59,7 +59,7 @@ namespace Anycmd.Web.Mvc
             return entityTypeEntityType;
         }
         
-        protected ActionResult HandleSeparateGuidString(Action<IUserSession, Guid> action, IUserSession userSession, string id, params char[] separator)
+        protected ActionResult HandleSeparateGuidString(Action<IAcSession, Guid> action, IAcSession userSession, string id, params char[] separator)
         {
             if (action == null)
             {

@@ -6,7 +6,7 @@ namespace Anycmd.Engine.Ac.Messages.Rbac
 
     public class SsdSetRemovedEvent : DomainEvent
     {
-        public SsdSetRemovedEvent(IUserSession userSession, SsdSetBase source)
+        public SsdSetRemovedEvent(IAcSession userSession, SsdSetBase source)
             : base(userSession, source)
         {
         }

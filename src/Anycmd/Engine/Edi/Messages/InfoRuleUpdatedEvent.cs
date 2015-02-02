@@ -7,7 +7,7 @@ namespace Anycmd.Engine.Edi.Messages
 
     public class InfoRuleUpdatedEvent : DomainEvent
     {
-        public InfoRuleUpdatedEvent(IUserSession userSession, InfoRuleEntityBase source, IInfoRuleUpdateIo output)
+        public InfoRuleUpdatedEvent(IAcSession userSession, InfoRuleEntityBase source, IInfoRuleUpdateIo output)
             : base(userSession, source)
         {
             if (output == null)

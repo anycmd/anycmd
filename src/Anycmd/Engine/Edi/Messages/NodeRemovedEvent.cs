@@ -9,6 +9,6 @@ namespace Anycmd.Engine.Edi.Messages
     /// </summary>
     public class NodeRemovedEvent : DomainEvent
     {
-        public NodeRemovedEvent(IUserSession userSession, NodeBase source) : base(userSession, source) { }
+        public NodeRemovedEvent(IAcSession userSession, NodeBase source) : base(userSession, source) { }
     }
 }

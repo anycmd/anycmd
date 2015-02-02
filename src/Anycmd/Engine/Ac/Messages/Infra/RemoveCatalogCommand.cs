@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Ac.Messages.Infra
 
     public class RemoveCatalogCommand : RemoveEntityCommand
     {
-        public RemoveCatalogCommand(IUserSession userSession, Guid catalogId)
+        public RemoveCatalogCommand(IAcSession userSession, Guid catalogId)
             : base(userSession, catalogId)
         {
 

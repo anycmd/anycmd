@@ -15,7 +15,7 @@ namespace Anycmd.Engine.Ac
     public sealed class AccountPrivilege
     {
         private bool _initialized = false;
-        private readonly IUserSession _userSession;
+        private readonly IAcSession _userSession;
         private readonly IAcDomain _acDomain;
         private HashSet<Guid> _authorizedRoleIds;
         private List<RoleState> _authorizedRoles;
@@ -31,7 +31,7 @@ namespace Anycmd.Engine.Ac
         private HashSet<MenuState> _menus;
         private HashSet<AppSystemState> _appSystems;
 
-        public AccountPrivilege(IAcDomain acDomain, IUserSession userSession)
+        public AccountPrivilege(IAcDomain acDomain, IAcSession userSession)
         {
             this._acDomain = acDomain;
             this._userSession = userSession;

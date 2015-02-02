@@ -12,6 +12,6 @@ namespace Anycmd.Engine
     /// </summary>
     public interface IAnycmdCommand : ICommand
     {
-        IUserSession UserSession { get; }
+        IAcSession AcSession { get; }
     }
 }

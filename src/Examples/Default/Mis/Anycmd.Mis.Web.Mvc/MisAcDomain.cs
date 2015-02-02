@@ -37,7 +37,7 @@ namespace Anycmd.Mis.Web.Mvc
             base.AddService(typeof(IFunctionListImport), new FunctionListImport());
             base.AddService(typeof(IEfFilterStringBuilder), new EfFilterStringBuilder());
             base.AddService(typeof(ILoggingService), new Log4NetLoggingService(this));
-            base.AddService(typeof(IUserSessionStorage), new WebUserSessionStorage());
+            base.AddService(typeof(IAcSessionStorage), new WebAcSessionStorage());
             this.RegisterRepository(new List<string>
             {
                 "EdiEntities",
@@ -98,12 +98,12 @@ namespace Anycmd.Mis.Web.Mvc
                 MenuState parentMenu;
                 if (!_host.MenuSet.TryGetMenu(entityMenuId, out parentMenu))
                 {
-                    _host.Handle(new AddMenuCommand(message.UserSession, entityMenu));
+                    _host.Handle(new AddMenuCommand(message.AcSession, entityMenu));
                 }
                 OntologyDescriptor ontology;
                 if (_host.NodeHost.Ontologies.TryGetOntology(message.Source.Id, out ontology))
                 {
-                    _host.Handle(new AddMenuCommand(message.UserSession, new MenuCreateInput
+                    _host.Handle(new AddMenuCommand(message.AcSession, new MenuCreateInput
                     {
                         Id = ontology.Ontology.Id,// 约定
                         ParentId = entityMenu.Id,
@@ -125,7 +125,7 @@ namespace Anycmd.Mis.Web.Mvc
                     MenuState menu;
                     if (_host.MenuSet.TryGetMenu(ontology.Ontology.Id, out menu))
                     {
-                        _host.Handle(new UpdateMenuCommand(message.UserSession, new MenuUpdateInput
+                        _host.Handle(new UpdateMenuCommand(message.AcSession, new MenuUpdateInput
                         {
                             Id = ontology.Ontology.Id,
                             AppSystemId = menu.AppSystemId,
@@ -147,7 +147,7 @@ namespace Anycmd.Mis.Web.Mvc
                     MenuState menu;
                     if (_host.MenuSet.TryGetMenu(ontology.Ontology.Id, out menu))
                     {
-                        _host.Handle(new RemoveMenuCommand(message.UserSession, ontology.Ontology.Id));
+                        _host.Handle(new RemoveMenuCommand(message.AcSession, ontology.Ontology.Id));
                     }
                 }
             }
@@ -180,7 +180,7 @@ namespace Anycmd.Mis.Web.Mvc
 
                 public string Url { get; set; }
 
-                public IAnycmdCommand ToCommand(IUserSession userSession)
+                public IAnycmdCommand ToCommand(IAcSession userSession)
                 {
                     return new AddMenuCommand(userSession, this);
                 }
@@ -212,7 +212,7 @@ namespace Anycmd.Mis.Web.Mvc
 
                 public string Url { get; set; }
 
-                public IAnycmdCommand ToCommand(IUserSession userSession)
+                public IAnycmdCommand ToCommand(IAcSession userSession)
                 {
                     return new UpdateMenuCommand(userSession, this);
                 }

@@ -231,7 +231,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(AddDicCommand message)
             {
-                Handle(message.UserSession, message.Input, isCommand: true);
+                Handle(message.AcSession, message.Input, isCommand: true);
             }
 
             public void Handle(DicAddedEvent message)
@@ -240,10 +240,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                Handle(message.UserSession, message.Output, isCommand: false);
+                Handle(message.AcSession, message.Output, isCommand: false);
             }
 
-            private void Handle(IUserSession userSession, IDicCreateIo input, bool isCommand)
+            private void Handle(IAcSession userSession, IDicCreateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var dicById = _set._dicById;
@@ -310,7 +310,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateDicAddedEvent : DicAddedEvent
             {
-                internal PrivateDicAddedEvent(IUserSession userSession, DicBase source, IDicCreateIo input)
+                internal PrivateDicAddedEvent(IAcSession userSession, DicBase source, IDicCreateIo input)
                     : base(userSession, source, input)
                 {
 
@@ -318,7 +318,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             }
             public void Handle(UpdateDicCommand message)
             {
-                Handle(message.UserSession, message.Input, true);
+                Handle(message.AcSession, message.Input, true);
             }
 
             public void Handle(DicUpdatedEvent message)
@@ -327,10 +327,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                Handle(message.UserSession, message.Input, false);
+                Handle(message.AcSession, message.Input, false);
             }
 
-            private void Handle(IUserSession userSession, IDicUpdateIo input, bool isCommand)
+            private void Handle(IAcSession userSession, IDicUpdateIo input, bool isCommand)
             {
                 var host = _set._host;
                 var dicRepository = host.RetrieveRequiredService<IRepository<Dic>>();
@@ -412,7 +412,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateDicUpdatedEvent : DicUpdatedEvent
             {
-                internal PrivateDicUpdatedEvent(IUserSession userSession, DicBase source, IDicUpdateIo input)
+                internal PrivateDicUpdatedEvent(IAcSession userSession, DicBase source, IDicUpdateIo input)
                     : base(userSession, source, input)
                 {
 
@@ -420,7 +420,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             }
             public void Handle(RemoveDicCommand message)
             {
-                Handle(message.UserSession, message.EntityId, true);
+                Handle(message.AcSession, message.EntityId, true);
             }
 
             public void Handle(DicRemovedEvent message)
@@ -429,10 +429,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                Handle(message.UserSession, message.Source.Id, false);
+                Handle(message.AcSession, message.Source.Id, false);
             }
 
-            private void Handle(IUserSession userSession, Guid dicId, bool isCommand)
+            private void Handle(IAcSession userSession, Guid dicId, bool isCommand)
             {
                 var host = _set._host;
                 var dicById = _set._dicById;
@@ -514,7 +514,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateDicRemovedEvent : DicRemovedEvent
             {
-                internal PrivateDicRemovedEvent(IUserSession userSession, DicBase dic) : base(userSession, dic) { }
+                internal PrivateDicRemovedEvent(IAcSession userSession, DicBase dic) : base(userSession, dic) { }
             }
         }
         #endregion
@@ -693,7 +693,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 public void Handle(AddDicItemCommand message)
                 {
-                    Handle(message.UserSession, message.Input, true);
+                    Handle(message.AcSession, message.Input, true);
                 }
 
                 public void Handle(DicItemAddedEvent message)
@@ -702,10 +702,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     {
                         return;
                     }
-                    Handle(message.UserSession, message.Output, false);
+                    Handle(message.AcSession, message.Output, false);
                 }
 
-                private void Handle(IUserSession userSession, IDicItemCreateIo input, bool isCommand)
+                private void Handle(IAcSession userSession, IDicItemCreateIo input, bool isCommand)
                 {
                     var host = _set._host;
                     var dicItemsByCode = _set._dicItemsByCode;
@@ -782,7 +782,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 private class PrivateDicItemAddedEvent : DicItemAddedEvent
                 {
-                    internal PrivateDicItemAddedEvent(IUserSession userSession, DicItemBase source, IDicItemCreateIo input)
+                    internal PrivateDicItemAddedEvent(IAcSession userSession, DicItemBase source, IDicItemCreateIo input)
                         : base(userSession, source, input)
                     {
 
@@ -791,7 +791,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 public void Handle(UpdateDicItemCommand message)
                 {
-                    Handle(message.UserSession, message.Input, true);
+                    Handle(message.AcSession, message.Input, true);
                 }
 
                 public void Handle(DicItemUpdatedEvent message)
@@ -800,10 +800,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     {
                         return;
                     }
-                    Handle(message.UserSession, message.Input, false);
+                    Handle(message.AcSession, message.Input, false);
                 }
 
-                private void Handle(IUserSession userSession, IDicItemUpdateIo input, bool isCommand)
+                private void Handle(IAcSession userSession, IDicItemUpdateIo input, bool isCommand)
                 {
                     var host = _set._host;
                     var dicItemRepository = host.RetrieveRequiredService<IRepository<DicItem>>();
@@ -895,7 +895,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 private class PrivateDicItemUpdatedEvent : DicItemUpdatedEvent
                 {
-                    internal PrivateDicItemUpdatedEvent(IUserSession userSession, DicItemBase source, IDicItemUpdateIo input)
+                    internal PrivateDicItemUpdatedEvent(IAcSession userSession, DicItemBase source, IDicItemUpdateIo input)
                         : base(userSession, source, input)
                     {
 
@@ -904,7 +904,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 public void Handle(RemoveDicItemCommand message)
                 {
-                    Handle(message.UserSession, message.EntityId, true);
+                    Handle(message.AcSession, message.EntityId, true);
                 }
 
                 public void Handle(DicItemRemovedEvent message)
@@ -913,10 +913,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     {
                         return;
                     }
-                    Handle(message.UserSession, message.Source.Id, false);
+                    Handle(message.AcSession, message.Source.Id, false);
                 }
 
-                private void Handle(IUserSession userSession, Guid dicItemId, bool isCommand)
+                private void Handle(IAcSession userSession, Guid dicItemId, bool isCommand)
                 {
                     var host = _set._host;
                     var dicItemsByCode = _set._dicItemsByCode;
@@ -988,7 +988,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 private class PrivateDicItemRemovedEvent : DicItemRemovedEvent
                 {
-                    internal PrivateDicItemRemovedEvent(IUserSession userSession, DicItemBase source)
+                    internal PrivateDicItemRemovedEvent(IAcSession userSession, DicItemBase source)
                         : base(userSession, source)
                     {
 

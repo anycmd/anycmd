@@ -33,11 +33,11 @@ namespace Anycmd.Engine.Host.Ac.MessageHandlers
             AccountState devAccount;
             if (_host.SysUserSet.TryGetDevAccount(entity.Id, out devAccount))
             {
-                if (!command.UserSession.IsDeveloper())
+                if (!command.AcSession.IsDeveloper())
                 {
                     throw new AnycmdException("对不起，您不能修改开发者的信息");
                 }
-                if (command.UserSession.Account.Id != command.Input.Id)
+                if (command.AcSession.Account.Id != command.Input.Id)
                 {
                     throw new ValidationException("对不起，您不能修改别的开发者的信息");
                 }
@@ -59,9 +59,9 @@ namespace Anycmd.Engine.Host.Ac.MessageHandlers
             accountRepository.Context.Commit();
             if (_host.SysUserSet.TryGetDevAccount(entity.Id, out devAccount))
             {
-                _host.EventBus.Publish(new DeveloperUpdatedEvent(command.UserSession, entity));
+                _host.EventBus.Publish(new DeveloperUpdatedEvent(command.AcSession, entity));
             }
-            _host.EventBus.Publish(new AccountUpdatedEvent(command.UserSession, entity));
+            _host.EventBus.Publish(new AccountUpdatedEvent(command.AcSession, entity));
             _host.EventBus.Commit();
         }
     }

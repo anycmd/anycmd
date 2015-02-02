@@ -21,7 +21,7 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             Assert.Equal(0, host.GroupSet.Count());
-            UserSessionState.SignIn(host, new Dictionary<string, object>
+            AcSessionState.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -30,7 +30,7 @@ namespace Anycmd.Tests
             var entityId = Guid.NewGuid();
 
             GroupState groupById;
-            host.Handle(new AddGroupCommand(host.GetUserSession(), new GroupCreateInput
+            host.Handle(new AddGroupCommand(host.GetAcSession(), new GroupCreateInput
             {
                 Id = entityId,
                 Name = "测试1",
@@ -44,7 +44,7 @@ namespace Anycmd.Tests
             Assert.Equal(1, host.GroupSet.Count());
             Assert.True(host.GroupSet.TryGetGroup(entityId, out groupById));
 
-            host.Handle(new UpdateGroupCommand(host.GetUserSession(), new GroupUpdateInput
+            host.Handle(new UpdateGroupCommand(host.GetAcSession(), new GroupUpdateInput
             {
                 Id = entityId,
                 Name = "test2",
@@ -58,7 +58,7 @@ namespace Anycmd.Tests
             Assert.True(host.GroupSet.TryGetGroup(entityId, out groupById));
             Assert.Equal("test2", groupById.Name);
 
-            host.Handle(new RemoveGroupCommand(host.GetUserSession(), entityId));
+            host.Handle(new RemoveGroupCommand(host.GetAcSession(), entityId));
             Assert.False(host.GroupSet.TryGetGroup(entityId, out groupById));
             Assert.Equal(0, host.GroupSet.Count());
         }
@@ -70,7 +70,7 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             Assert.Equal(0, host.GroupSet.Count());
-            UserSessionState.SignIn(host, new Dictionary<string, object>
+            AcSessionState.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -91,7 +91,7 @@ namespace Anycmd.Tests
             bool catched = false;
             try
             {
-                host.Handle(new AddGroupCommand(host.GetUserSession(), new GroupCreateInput
+                host.Handle(new AddGroupCommand(host.GetAcSession(), new GroupCreateInput
                 {
                     Id = entityId1,
                     Name = name,
@@ -110,7 +110,7 @@ namespace Anycmd.Tests
                 Assert.Equal(0, host.GroupSet.Count());
             }
 
-            host.Handle(new AddGroupCommand(host.GetUserSession(), new GroupCreateInput
+            host.Handle(new AddGroupCommand(host.GetAcSession(), new GroupCreateInput
             {
                 Id = entityId2,
                 Name = name,
@@ -121,7 +121,7 @@ namespace Anycmd.Tests
             catched = false;
             try
             {
-                host.Handle(new UpdateGroupCommand(host.GetUserSession(), new GroupUpdateInput
+                host.Handle(new UpdateGroupCommand(host.GetAcSession(), new GroupUpdateInput
                 {
                     Id = entityId2,
                     Name = "test2"
@@ -145,7 +145,7 @@ namespace Anycmd.Tests
             catched = false;
             try
             {
-                host.Handle(new RemoveGroupCommand(host.GetUserSession(), entityId2));
+                host.Handle(new RemoveGroupCommand(host.GetAcSession(), entityId2));
             }
             catch (Exception e)
             {
@@ -168,7 +168,7 @@ namespace Anycmd.Tests
         {
             var host = TestHelper.GetAcDomain();
             Assert.Equal(0, host.GroupSet.Count());
-            UserSessionState.SignIn(host, new Dictionary<string, object>
+            AcSessionState.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -182,7 +182,7 @@ namespace Anycmd.Tests
                 Description = "test",
                 SortCode = 10,
                 Icon = null,
-            }.ToCommand(host.GetUserSession()));
+            }.ToCommand(host.GetAcSession()));
             var entityId = Guid.NewGuid();
 
             GroupState groupById;
@@ -196,10 +196,10 @@ namespace Anycmd.Tests
                 ShortName = "",
                 SortCode = 10,
                 CatalogCode = "100"
-            }.ToCommand(host.GetUserSession()));
+            }.ToCommand(host.GetAcSession()));
             Assert.Equal(1, host.GroupSet.Count());
             Assert.True(host.GroupSet.TryGetGroup(entityId, out groupById));
-            host.Handle(new RemovePositionCommand(host.GetUserSession(), entityId));
+            host.Handle(new RemovePositionCommand(host.GetAcSession(), entityId));
             Assert.Equal(0, host.GroupSet.Count());
         }
     }

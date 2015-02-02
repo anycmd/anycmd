@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Ac.Messages.Infra
 
     public class RemoveMenuCommand : RemoveEntityCommand
     {
-        public RemoveMenuCommand(IUserSession userSession, Guid menuId)
+        public RemoveMenuCommand(IAcSession userSession, Guid menuId)
             : base(userSession, menuId)
         {
 

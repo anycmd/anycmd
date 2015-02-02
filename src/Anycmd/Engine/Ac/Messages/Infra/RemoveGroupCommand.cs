@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Ac.Messages.Infra
 
     public class RemoveGroupCommand : RemoveEntityCommand
     {
-        public RemoveGroupCommand(IUserSession userSession, Guid groupId)
+        public RemoveGroupCommand(IAcSession userSession, Guid groupId)
             : base(userSession, groupId)
         {
 

@@ -26,7 +26,7 @@ namespace Anycmd.Edi.ViewModels.NodeViewModels
 
         public Guid? Id { get; set; }
 
-        public IAnycmdCommand ToCommand(IUserSession userSession)
+        public IAnycmdCommand ToCommand(IAcSession userSession)
         {
             return new AddNodeOntologyCatalogCommand(userSession, this);
         }

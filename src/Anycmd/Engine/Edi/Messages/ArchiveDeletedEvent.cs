@@ -9,6 +9,6 @@ namespace Anycmd.Engine.Edi.Messages
     /// </summary>
     public sealed class ArchiveDeletedEvent : DomainEvent
     {
-        public ArchiveDeletedEvent(IUserSession userSession, ArchiveBase source) : base(userSession, source) { }
+        public ArchiveDeletedEvent(IAcSession userSession, ArchiveBase source) : base(userSession, source) { }
     }
 }

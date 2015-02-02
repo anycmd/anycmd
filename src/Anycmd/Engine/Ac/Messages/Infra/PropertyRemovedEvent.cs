@@ -9,7 +9,7 @@ namespace Anycmd.Engine.Ac.Messages.Infra
     /// </summary>
     public class PropertyRemovedEvent : DomainEvent
     {
-        public PropertyRemovedEvent(IUserSession userSession, PropertyBase source)
+        public PropertyRemovedEvent(IAcSession userSession, PropertyBase source)
             : base(userSession, source)
         {
         }

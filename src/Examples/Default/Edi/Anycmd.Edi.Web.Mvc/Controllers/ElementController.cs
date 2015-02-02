@@ -154,7 +154,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                                 SortCode = entity.SortCode,
                                 Width = entity.Width,
                                 Tooltip = tooltip
-                            }.ToCommand(UserSession));
+                            }.ToCommand(AcSession));
                     }
                     return this.JsonResult(new ResponseData { success = true });
                 }
@@ -390,7 +390,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            AcDomain.Handle(input.ToCommand(UserSession));
+            AcDomain.Handle(input.ToCommand(AcSession));
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -410,7 +410,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            AcDomain.Handle(input.ToCommand(UserSession));
+            AcDomain.Handle(input.ToCommand(AcSession));
 
             return this.JsonResult(new ResponseData { id = input.Id, success = true });
         }
@@ -458,7 +458,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                             ElementId = element.Element.Id,
                             Id = inputModel.Id
                         };
-                        AcDomain.PublishEvent(new ElementActionUpdatedEvent(UserSession, entity));
+                        AcDomain.PublishEvent(new ElementActionUpdatedEvent(AcSession, entity));
                     }
                     else
                     {
@@ -470,7 +470,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                             IsAudit = inputModel.IsAudit,
                             IsAllowed = inputModel.IsAllowed
                         };
-                        AcDomain.PublishEvent(new ElementActionAddedEvent(UserSession, entity));
+                        AcDomain.PublishEvent(new ElementActionAddedEvent(AcSession, entity));
                     }
                     AcDomain.CommitEventBus();
                 }
@@ -566,7 +566,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
         [Guid("9E7D2E71-A143-44C0-AE7A-5011E64D8B9D")]
         public ActionResult Delete(string id)
         {
-            return this.HandleSeparateGuidString(AcDomain.RemoveElement, UserSession, id, ',');
+            return this.HandleSeparateGuidString(AcDomain.RemoveElement, AcSession, id, ',');
         }
         #endregion
     }

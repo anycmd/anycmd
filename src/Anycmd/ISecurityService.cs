@@ -21,6 +21,6 @@ namespace Anycmd
         /// 功能是绑定了资源类型的，给定了功能即给定了被操作资源的资源类型。</param>
         /// <param name="obj">可为null，表示不验证实体级权限</param>
         /// <returns></returns>
-        bool Permit(IUserSession subject, FunctionState function, IManagedObject obj);
+        bool Permit(IAcSession subject, FunctionState function, IManagedObject obj);
     }
 }

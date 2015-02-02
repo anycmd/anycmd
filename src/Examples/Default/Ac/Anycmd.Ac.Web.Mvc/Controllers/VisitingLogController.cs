@@ -78,12 +78,12 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            if (!UserSession.Identity.IsAuthenticated)
+            if (!AcSession.Identity.IsAuthenticated)
             {
                 return this.JsonResult(new MiniGrid<Dictionary<string, object>> { total = 0, data = new List<Dictionary<string, object>> { } });
             }
             var visitingLogs = GetRequiredService<IVisitingLogQuery>().GetPlistVisitingLogTrs(
-                UserSession.Account.Id, UserSession.Identity.Name, requestData.LeftVisitOn, requestData.RightVisitOn
+                AcSession.Account.Id, AcSession.Identity.Name, requestData.LeftVisitOn, requestData.RightVisitOn
                 , requestData);
             Debug.Assert(requestData.Total != null, "requestData.total != null");
             ViewModelHelper.FillVisitingLog(visitingLogs);

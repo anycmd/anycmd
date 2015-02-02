@@ -44,16 +44,16 @@ namespace Anycmd.Engine.Host.Ac.MessageHandlers
             AccountState developer;
             if (_host.SysUserSet.TryGetDevAccount(command.Input.Id, out developer))
             {
-                if (!command.UserSession.IsDeveloper())
+                if (!command.AcSession.IsDeveloper())
                 {
                     throw new ValidationException("对不起，您不能修改开发人员的密码。");    
                 }
-                else if (command.UserSession.Account.Id != command.Input.Id)
+                else if (command.AcSession.Account.Id != command.Input.Id)
                 {
                     throw new ValidationException("对不起，您不能修改别的开发者的密码。");
                 }
             }
-            if (!command.UserSession.IsDeveloper() && "admin".Equals(entity.LoginName, StringComparison.OrdinalIgnoreCase))
+            if (!command.AcSession.IsDeveloper() && "admin".Equals(entity.LoginName, StringComparison.OrdinalIgnoreCase))
             {
                 throw new ValidationException("对不起，您无权修改admin账户的密码");
             }
@@ -79,13 +79,13 @@ namespace Anycmd.Engine.Host.Ac.MessageHandlers
             accountRepository.Context.Commit();
             if (loginNameChanged)
             {
-                _host.EventBus.Publish(new LoginNameChangedEvent(command.UserSession, entity));
+                _host.EventBus.Publish(new LoginNameChangedEvent(command.AcSession, entity));
                 if (_host.SysUserSet.TryGetDevAccount(entity.Id, out developer))
                 {
-                    _host.MessageDispatcher.DispatchMessage(new DeveloperUpdatedEvent(command.UserSession, entity));
+                    _host.MessageDispatcher.DispatchMessage(new DeveloperUpdatedEvent(command.AcSession, entity));
                 }
             }
-            _host.EventBus.Publish(new PasswordUpdatedEvent(command.UserSession, entity));
+            _host.EventBus.Publish(new PasswordUpdatedEvent(command.AcSession, entity));
             _host.EventBus.Commit();
         }
     }

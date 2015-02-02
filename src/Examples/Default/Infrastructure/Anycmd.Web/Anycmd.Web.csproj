@@ -107,7 +107,7 @@
     <Compile Include="Mvc\ResourceAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringExtension.cs" />
-    <Compile Include="WebUserSessionStorage.cs" />
+    <Compile Include="WebAcSessionStorage.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Anycmd.ViewModel\Anycmd.ViewModel.csproj">

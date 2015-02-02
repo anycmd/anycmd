@@ -117,7 +117,7 @@ namespace Anycmd.Edi.ViewModels.NodeViewModels
         /// </summary>
         public string Icon { get; set; }
 
-        public IAnycmdCommand ToCommand(IUserSession userSession)
+        public IAnycmdCommand ToCommand(IAcSession userSession)
         {
             return new UpdateNodeCommand(userSession, this);
         }

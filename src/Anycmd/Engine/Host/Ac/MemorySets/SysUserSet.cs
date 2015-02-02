@@ -164,7 +164,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(AddDeveloperCommand message)
             {
-                this.Handle(message.UserSession, message.AccountId, true);
+                this.Handle(message.AcSession, message.AccountId, true);
             }
 
             public void Handle(DeveloperAddedEvent message)
@@ -174,10 +174,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     return;
                 }
 
-                this.Handle(message.UserSession, message.Source.Id, false);
+                this.Handle(message.AcSession, message.Source.Id, false);
             }
 
-            private void Handle(IUserSession userSession, Guid accountId, bool isCommand)
+            private void Handle(IAcSession userSession, Guid accountId, bool isCommand)
             {
                 var host = _set._host;
                 var devAccountById = _set._devAccountById;
@@ -227,7 +227,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateDeveloperAddedEvent : DeveloperAddedEvent
             {
-                internal PrivateDeveloperAddedEvent(IUserSession userSession, DeveloperId source) : base(userSession, source) { }
+                internal PrivateDeveloperAddedEvent(IAcSession userSession, DeveloperId source) : base(userSession, source) { }
             }
 
             public void Handle(DeveloperUpdatedEvent message)
@@ -255,7 +255,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(RemoveDeveloperCommand message)
             {
-                this.HandleRemove(message.UserSession, message.AccountId, true);
+                this.HandleRemove(message.AcSession, message.AccountId, true);
             }
 
             public void Handle(DeveloperRemovedEvent message)
@@ -264,10 +264,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                this.HandleRemove(message.UserSession, message.Source.Id, false);
+                this.HandleRemove(message.AcSession, message.Source.Id, false);
             }
 
-            private void HandleRemove(IUserSession userSession, Guid accountId, bool isCommand)
+            private void HandleRemove(IAcSession userSession, Guid accountId, bool isCommand)
             {
                 var host = _set._host;
                 var devAccountById = _set._devAccountById;
@@ -316,7 +316,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private class PrivateDeveloperRemovedEvent : DeveloperRemovedEvent
             {
-                internal PrivateDeveloperRemovedEvent(IUserSession userSession, DeveloperId source) : base(userSession, source) { }
+                internal PrivateDeveloperRemovedEvent(IAcSession userSession, DeveloperId source) : base(userSession, source) { }
             }
         }
     }

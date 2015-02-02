@@ -24,9 +24,9 @@ namespace Anycmd.Engine.Ac
     /// <summary>
     /// 表示用户会话业务实体。
     /// </summary>
-    public class UserSessionState : IUserSession, IStateObject
+    public class AcSessionState : IAcSession, IStateObject
     {
-        public static readonly UserSessionState Empty;
+        public static readonly AcSessionState Empty;
 
         private readonly IAcDomain _acDomain;
         private readonly Guid _id;
@@ -36,7 +36,7 @@ namespace Anycmd.Engine.Ac
 
         public static Action<IAcDomain, Dictionary<string, object>> SignIn { get; set; }
 
-        public static Action<IAcDomain, IUserSession> SignOut { get; set; }
+        public static Action<IAcDomain, IAcSession> SignOut { get; set; }
 
         public static Action<IAcDomain, Guid> SignOuted { get; set; }
 
@@ -44,17 +44,17 @@ namespace Anycmd.Engine.Ac
 
         public static Func<IAcDomain, string, Account> GetAccountByLoginName { get; set; }
 
-        public static Func<IAcDomain, Guid, IUserSessionEntity> GetUserSession { get; set; }
+        public static Func<IAcDomain, Guid, IAcSessionEntity> GetAcSession { get; set; }
 
-        public static Func<IAcDomain, Guid, AccountState, IUserSession> AddUserSession { get; set; }
+        public static Func<IAcDomain, Guid, AccountState, IAcSession> AddAcSession { get; set; }
 
-        public static Action<IAcDomain, IUserSessionEntity> UpdateUserSession { get; set; } 
+        public static Action<IAcDomain, IAcSessionEntity> UpdateAcSession { get; set; } 
 
-        public static Action<IAcDomain, Guid> DeleteUserSession { get; set; }
+        public static Action<IAcDomain, Guid> DeleteAcSession { get; set; }
 
-        static UserSessionState()
+        static AcSessionState()
         {
-            Empty = new UserSessionState(EmptyAcDomain.SingleInstance, Guid.Empty, AccountState.Empty)
+            Empty = new AcSessionState(EmptyAcDomain.SingleInstance, Guid.Empty, AccountState.Empty)
             {
                 _accountPrivilege = null
             };
@@ -63,17 +63,17 @@ namespace Anycmd.Engine.Ac
             SignOuted = OnSignOuted;
             GetAccountById = GetAccount;
             GetAccountByLoginName = GetAccount;
-            GetUserSession = GetUserSessionById;
-            AddUserSession = DoAddUserSession;
-            UpdateUserSession = DoUpdateUserSession;
-            DeleteUserSession = DoDeleteSession;
+            GetAcSession = GetAcSessionById;
+            AddAcSession = DoAddAcSession;
+            UpdateAcSession = DoUpdateAcSession;
+            DeleteAcSession = DoDeleteAcSession;
         }
 
-        private UserSessionState()
+        private AcSessionState()
         {
         }
 
-        internal UserSessionState(IAcDomain host, Guid sessionId, AccountState account)
+        internal AcSessionState(IAcDomain host, Guid sessionId, AccountState account)
         {
             if (host == null)
             {
@@ -97,7 +97,7 @@ namespace Anycmd.Engine.Ac
             _accountId = account.Id;
         }
 
-        public UserSessionState(IAcDomain host, IUserSessionEntity userSessionEntity)
+        public AcSessionState(IAcDomain host, IAcSessionEntity userSessionEntity)
         {
             if (host == null)
             {
@@ -196,7 +196,7 @@ namespace Anycmd.Engine.Ac
                 {
                     conn.Open();
                 }
-                conn.Execute("update UserSession set IsAuthenticated=@IsAuthenticated where Id=@Id", new { IsAuthenticated = false, Id = sessionId });
+                conn.Execute("update AcSession set IsAuthenticated=@IsAuthenticated where Id=@Id", new { IsAuthenticated = false, Id = sessionId });
             }
         }
 
@@ -308,17 +308,17 @@ namespace Anycmd.Engine.Ac
 
             // 使用账户标识作为会话标识会导致一个账户只有一个会话
             // TODO:支持账户和会话的一对多，为会话级的动态责任分离做准备
-            var sessionEntity = GetUserSession(acDomain, account.Id);
-            IUserSession userSession;
+            var sessionEntity = GetAcSession(acDomain, account.Id);
+            IAcSession userSession;
             if (sessionEntity != null)
             {
-                userSession = new UserSessionState(acDomain, sessionEntity.Id, AccountState.Create(account));
+                userSession = new AcSessionState(acDomain, sessionEntity.Id, AccountState.Create(account));
                 sessionEntity.IsAuthenticated = true;
-                UpdateUserSession(acDomain, sessionEntity);
+                UpdateAcSession(acDomain, sessionEntity);
             }
             else
             {
-                userSession = AddUserSession(acDomain, account.Id, AccountState.Create(account));
+                userSession = AddAcSession(acDomain, account.Id, AccountState.Create(account));
             }
             userSession.SetData("CurrentUser_Wallpaper", account.Wallpaper);
             userSession.SetData("CurrentUser_BackColor", account.BackColor);
@@ -335,7 +335,7 @@ namespace Anycmd.Engine.Ac
             Guid? visitingLogId = Guid.NewGuid();
 
             userSession.SetData("UserContext_Current_VisitingLogId", visitingLogId);
-            userSession.SetData(acDomain.Config.CurrentUserSessionCacheKey, userSession);
+            userSession.SetData(acDomain.Config.CurrentAcSessionCacheKey, userSession);
 
             acDomain.EventBus.Publish(new AccountLoginedEvent(userSession, account));
             acDomain.EventBus.Commit();
@@ -345,18 +345,18 @@ namespace Anycmd.Engine.Ac
             acDomain.MessageDispatcher.DispatchMessage(addVisitingLogCommand);
         }
 
-        private static void DoSignOut(IAcDomain acDomain, IUserSession userSession)
+        private static void DoSignOut(IAcDomain acDomain, IAcSession userSession)
         {
-            var userSessionStorage = acDomain.GetRequiredService<IUserSessionStorage>();
+            var userSessionStorage = acDomain.GetRequiredService<IAcSessionStorage>();
             if (!userSession.Identity.IsAuthenticated)
             {
-                DeleteUserSession(acDomain, userSession.Account.Id);
+                DeleteAcSession(acDomain, userSession.Account.Id);
                 return;
             }
             if (userSession.Account.Id == Guid.Empty)
             {
                 Thread.CurrentPrincipal = userSession;
-                DeleteUserSession(acDomain, userSession.Account.Id);
+                DeleteAcSession(acDomain, userSession.Account.Id);
                 return;
             }
             if (HttpContext.Current != null)
@@ -404,7 +404,7 @@ namespace Anycmd.Engine.Ac
             }
         }
 
-        private static IUserSessionEntity GetUserSessionById(IAcDomain acDomain, Guid userSessionId)
+        private static IAcSessionEntity GetAcSessionById(IAcDomain acDomain, Guid userSessionId)
         {
             using (var conn = GetAccountDb(acDomain).GetConnection())
             {
@@ -413,7 +413,7 @@ namespace Anycmd.Engine.Ac
                     conn.Open();
                 }
                 return
-                    conn.Query<UserSession>("select * from [UserSession] where Id=@Id", new {Id = userSessionId})
+                    conn.Query<AcSession>("select * from [AcSession] where Id=@Id", new {Id = userSessionId})
                         .FirstOrDefault();
             }
         }
@@ -425,7 +425,7 @@ namespace Anycmd.Engine.Ac
         /// <param name="acDomain"></param>
         /// <param name="sessionId">会话标识。会话级的权限依赖于会话的持久跟踪</param>
         /// <returns></returns>
-        private static IUserSession DoAddUserSession(IAcDomain acDomain, Guid sessionId, AccountState account)
+        private static IAcSession DoAddAcSession(IAcDomain acDomain, Guid sessionId, AccountState account)
         {
             using (var conn = GetAccountDb(acDomain).GetConnection())
             {
@@ -434,10 +434,10 @@ namespace Anycmd.Engine.Ac
                     conn.Open();
                 }
                 var identity = new AnycmdIdentity(account.LoginName);
-                IUserSession user = new UserSessionState(acDomain, sessionId, account);
+                IAcSession user = new AcSessionState(acDomain, sessionId, account);
                 conn.Execute(
-@"insert into UserSession(Id,AccountId,AuthenticationType,Description,IsAuthenticated,IsEnabled,LoginName) 
-    values(@Id,@AccountId,@AuthenticationType,@Description,@IsAuthenticated,@IsEnabled,@LoginName)", new UserSession
+@"insert into AcSession(Id,AccountId,AuthenticationType,Description,IsAuthenticated,IsEnabled,LoginName) 
+    values(@Id,@AccountId,@AuthenticationType,@Description,@IsAuthenticated,@IsEnabled,@LoginName)", new AcSession
                                                                                                    {
                                                                                                        Id = sessionId,
                                                                                                        AccountId = account.Id,
@@ -451,7 +451,7 @@ namespace Anycmd.Engine.Ac
             }
         }
 
-        private static void DoUpdateUserSession(IAcDomain acDomain, IUserSessionEntity userSessionEntity)
+        private static void DoUpdateAcSession(IAcDomain acDomain, IAcSessionEntity userSessionEntity)
         {
             using (var conn = GetAccountDb(acDomain).GetConnection())
             {
@@ -459,19 +459,19 @@ namespace Anycmd.Engine.Ac
                 {
                     conn.Open();
                 }
-                conn.Execute("update UserSession set IsAuthenticated=@IsAuthenticated where Id=@Id", new { userSessionEntity.IsAuthenticated, userSessionEntity.Id });
+                conn.Execute("update AcSession set IsAuthenticated=@IsAuthenticated where Id=@Id", new { userSessionEntity.IsAuthenticated, userSessionEntity.Id });
             }
         }
 
         /// <summary>
         /// 删除会话
         /// <remarks>
-        /// 会话不应该经常删除，会话级的权限依赖于会话的持久跟踪。用户退出系统只需要清空该用户的内存会话记录和更新数据库中的会话记录为IsAuthenticated为false而不需要删除持久的UserSession。
+        /// 会话不应该经常删除，会话级的权限依赖于会话的持久跟踪。用户退出系统只需要清空该用户的内存会话记录和更新数据库中的会话记录为IsAuthenticated为false而不需要删除持久的AcSession。
         /// </remarks>
         /// </summary>
         /// <param name="acDomain"></param>
         /// <param name="sessionId"></param>
-        private static void DoDeleteSession(IAcDomain acDomain, Guid sessionId)
+        private static void DoDeleteAcSession(IAcDomain acDomain, Guid sessionId)
         {
             using (var conn = GetAccountDb(acDomain).GetConnection())
             {
@@ -479,7 +479,7 @@ namespace Anycmd.Engine.Ac
                 {
                     conn.Open();
                 }
-                conn.Execute("delete UserSession where Id=@Id", new { Id = sessionId });
+                conn.Execute("delete AcSession where Id=@Id", new { Id = sessionId });
             }
         }
         #endregion

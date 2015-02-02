@@ -37,7 +37,7 @@ namespace Anycmd.Edi.ViewModels.OntologyViewModels
 
         public bool IsAllowed { get; set; }
 
-        public override IAnycmdCommand ToCommand(IUserSession userSession)
+        public override IAnycmdCommand ToCommand(IAcSession userSession)
         {
             return new AddTopicCommand(userSession, this);
         }

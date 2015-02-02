@@ -5,14 +5,14 @@ namespace Anycmd.Engine.Ac
     using Host;
     using System;
 
-    public static class UserSessionExtension
+    public static class AcSessionExtension
     {
         #region IsDeveloper
         /// <summary>
         /// 判断当前用户是否是超级管理员
         /// </summary>
         /// <returns>True表示是超级管理员，False不是</returns>
-        public static bool IsDeveloper(this IUserSession user)
+        public static bool IsDeveloper(this IAcSession user)
         {
             if (user == null)
             {
@@ -32,9 +32,9 @@ namespace Anycmd.Engine.Ac
         /// <param name="user"></param>
         /// <param name="key"></param>
         /// <returns></returns>
-        public static T GetData<T>(this IUserSession user, string key)
+        public static T GetData<T>(this IAcSession user, string key)
         {
-            var userSessionStorage = user.AcDomain.RetrieveRequiredService<IUserSessionStorage>();
+            var userSessionStorage = user.AcDomain.RetrieveRequiredService<IAcSessionStorage>();
             var obj = userSessionStorage.GetData(key);
             if (obj is T)
             {
@@ -49,9 +49,9 @@ namespace Anycmd.Engine.Ac
         /// <param name="user"></param>
         /// <param name="key"></param>
         /// <param name="data"></param>
-        public static void SetData(this IUserSession user, string key, object data)
+        public static void SetData(this IAcSession user, string key, object data)
         {
-            var userSessionStorage = user.AcDomain.RetrieveRequiredService<IUserSessionStorage>();
+            var userSessionStorage = user.AcDomain.RetrieveRequiredService<IAcSessionStorage>();
             userSessionStorage.SetData(key, data);
         }
         #endregion
@@ -65,7 +65,7 @@ namespace Anycmd.Engine.Ac
         /// <param name="resourceCode"></param>
         /// <param name="functionCode"></param>
         /// <returns></returns>
-        public static bool Permit(this IUserSession user, string resourceCode, string functionCode)
+        public static bool Permit(this IAcSession user, string resourceCode, string functionCode)
         {
             var securityService = user.AcDomain.RetrieveRequiredService<ISecurityService>();
             ResourceTypeState resource;
@@ -81,7 +81,7 @@ namespace Anycmd.Engine.Ac
             return securityService.Permit(user, function, null);
         }
 
-        public static bool Permit<TEntity, TInput>(this IUserSession user, string resourceCode, string functionCode, IManagedObject currentEntity)
+        public static bool Permit<TEntity, TInput>(this IAcSession user, string resourceCode, string functionCode, IManagedObject currentEntity)
             where TEntity : IManagedPropertyValues
             where TInput : IManagedPropertyValues
         {
@@ -105,7 +105,7 @@ namespace Anycmd.Engine.Ac
         /// <param name="user"></param>
         /// <param name="view"></param>
         /// <returns></returns>
-        public static bool Permit(this IUserSession user, UiViewState view)
+        public static bool Permit(this IAcSession user, UiViewState view)
         {
             var securityService = user.AcDomain.RetrieveRequiredService<ISecurityService>();
             if (view == null)
@@ -124,7 +124,7 @@ namespace Anycmd.Engine.Ac
             return securityService.Permit(user, function, null);
         }
 
-        public static bool Permit<TEntity, TInput>(this IUserSession user, UiViewState view, IManagedObject currentEntity)
+        public static bool Permit<TEntity, TInput>(this IAcSession user, UiViewState view, IManagedObject currentEntity)
             where TEntity : IManagedPropertyValues
             where TInput : IManagedPropertyValues
         {
@@ -152,7 +152,7 @@ namespace Anycmd.Engine.Ac
         /// 判断当前用户是否具有给定的权限码标识的权限
         /// </summary>
         /// <returns>True表示有权，False无权</returns>
-        public static bool Permit(this IUserSession user, Guid functionId)
+        public static bool Permit(this IAcSession user, Guid functionId)
         {
             var securityService = user.AcDomain.RetrieveRequiredService<ISecurityService>();
             FunctionState function;
@@ -163,7 +163,7 @@ namespace Anycmd.Engine.Ac
             return securityService.Permit(user, function, null);
         }
 
-        public static bool Permit<TEntity, TInput>(this IUserSession user, Guid functionId, IManagedObject currentEntity)
+        public static bool Permit<TEntity, TInput>(this IAcSession user, Guid functionId, IManagedObject currentEntity)
             where TEntity : IManagedPropertyValues
             where TInput : IManagedPropertyValues
         {
@@ -182,14 +182,14 @@ namespace Anycmd.Engine.Ac
         /// <param name="user"></param>
         /// <param name="function"></param>
         /// <returns></returns>
-        public static bool Permit(this IUserSession user, FunctionState function)
+        public static bool Permit(this IAcSession user, FunctionState function)
         {
             var securityService = user.AcDomain.RetrieveRequiredService<ISecurityService>();
 
             return securityService.Permit(user, function, null);
         }
 
-        public static bool Permit<T, TInput>(this IUserSession user, FunctionState function, IManagedObject currentEntity)
+        public static bool Permit<T, TInput>(this IAcSession user, FunctionState function, IManagedObject currentEntity)
             where T : IManagedPropertyValues
             where TInput : IManagedPropertyValues
         {
@@ -198,7 +198,7 @@ namespace Anycmd.Engine.Ac
             return securityService.Permit(user, function, currentEntity);
         }
 
-        public static bool Permit(this IUserSession user, FunctionState function, ManagedObject currentEntity)
+        public static bool Permit(this IAcSession user, FunctionState function, ManagedObject currentEntity)
         {
             var securityService = user.AcDomain.RetrieveRequiredService<ISecurityService>();
 

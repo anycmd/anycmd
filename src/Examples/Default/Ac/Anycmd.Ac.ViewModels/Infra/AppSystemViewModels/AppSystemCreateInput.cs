@@ -60,7 +60,7 @@ namespace Anycmd.Ac.ViewModels.Infra.AppSystemViewModels
         /// </summary>
         public Guid PrincipalId { get; set; }
 
-        public override IAnycmdCommand ToCommand(IUserSession userSession)
+        public override IAnycmdCommand ToCommand(IAcSession userSession)
         {
             return new AddAppSystemCommand(userSession, this);
         }
