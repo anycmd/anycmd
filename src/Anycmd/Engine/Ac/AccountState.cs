@@ -21,6 +21,17 @@ namespace Anycmd.Engine.Ac
         private string _qq;
         private string _nickname;
         private string _blogUrl;
+        private string _password;
+        private string _auditState;
+        private DateTime? _allowStartTime;
+        private DateTime? _allowEndTime;
+        private DateTime? _lockStartTime;
+        private DateTime? _lockEndTime;
+        private DateTime? _firtLoginOn;
+        private DateTime? _priviousLoginOn;
+        private int? _loginCount;
+        private string _ipAddress;
+        private int _isEnabled;
 
         /// <summary>
         /// 空账户
@@ -36,12 +47,23 @@ namespace Anycmd.Engine.Ac
             _name = string.Empty,
             _nickname = string.Empty,
             _qq = string.Empty,
-            _blogUrl = string.Empty
+            _blogUrl = string.Empty,
+            _password = string.Empty,
+            _auditState = string.Empty,
+            _allowStartTime = null,
+            _allowEndTime = null,
+            _lockStartTime = null,
+            _loginCount = 0,
+            _lockEndTime = null,
+            _priviousLoginOn = null,
+            _firtLoginOn = null,
+            _ipAddress = string.Empty,
+            _isEnabled = 0
         };
 
         private AccountState(Guid id) : base(id) { }
 
-        public static AccountState Create(AccountBase account)
+        public static AccountState Create(IAccount account)
         {
             if (account == null)
             {
@@ -58,7 +80,18 @@ namespace Anycmd.Engine.Ac
                 _name = account.Name,
                 _nickname = account.Nickname,
                 _qq = account.Qq,
-                _blogUrl = account.BlogUrl
+                _blogUrl = account.BlogUrl,
+                _password = account.Password,
+                _auditState = account.AuditState,
+                _allowStartTime = account.AllowStartTime,
+                _allowEndTime = account.AllowEndTime,
+                _lockStartTime = account.LockStartTime,
+                _loginCount = account.LoginCount,
+                _lockEndTime = account.LockEndTime,
+                _priviousLoginOn = account.PreviousLoginOn,
+                _firtLoginOn = account.FirstLoginOn,
+                _ipAddress = account.IpAddress,
+                _isEnabled = account.IsEnabled
             };
         }
 
@@ -117,6 +150,77 @@ namespace Anycmd.Engine.Ac
             get { return _createOn; }
         }
 
+        public string Password
+        {
+            get { return _password; }
+        }
+
+        public string AuditState
+        {
+            get { return _auditState; }
+        }
+
+        public DateTime? AllowStartTime
+        {
+            get { return _allowStartTime; }
+        }
+
+        public DateTime? AllowEndTime
+        {
+            get { return _allowEndTime; }
+        }
+
+        public DateTime? LockStartTime
+        {
+            get { return _lockStartTime; }
+        }
+
+        public DateTime? LockEndTime
+        {
+            get { return _lockEndTime; }
+        }
+
+        public DateTime? FirstLoginOn
+        {
+            get { return _firtLoginOn; }
+            set
+            {
+                // 什么都不做
+            }
+        }
+
+        public DateTime? PreviousLoginOn
+        {
+            get { return _priviousLoginOn; }
+            set
+            {
+                // 什么都不做
+            }
+        }
+
+        public int? LoginCount
+        {
+            get { return _loginCount; }
+            set
+            {
+                // 什么都不做
+            }
+        }
+
+        public string IpAddress
+        {
+            get { return _ipAddress; }
+            set
+            {
+                // 什么都不做
+            }
+        }
+
+        public int IsEnabled
+        {
+            get { return _isEnabled; }
+        }
+
         public override string ToString()
         {
             return string.Format(
@@ -140,9 +244,20 @@ namespace Anycmd.Engine.Ac
             return Id == other.Id &&
                 LoginName == other.LoginName &&
                 NumberId == other.NumberId &&
+                Password == other.Password &&
                 Name == other.Name &&
                 Nickname == other.Nickname &&
                 Code == other.Code &&
+                AuditState == other.AuditState &&
+                AllowStartTime == other.AllowStartTime &&
+                AllowEndTime == other.AllowEndTime &&
+                LockStartTime == other.LockStartTime &&
+                LockEndTime == other.LockEndTime &&
+                FirstLoginOn == other.FirstLoginOn &&
+                PreviousLoginOn == other.PreviousLoginOn &&
+                LoginCount == other.LoginCount &&
+                IpAddress == other.IpAddress &&
+                IsEnabled == other.IsEnabled &&
                 Email == other.Email &&
                 Qq == other.Qq &&
                 Mobile == other.Mobile &&

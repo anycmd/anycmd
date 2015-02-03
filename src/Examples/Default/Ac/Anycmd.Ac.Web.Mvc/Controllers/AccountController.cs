@@ -119,8 +119,8 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 {
                     isLogined = AcSession.Identity.IsAuthenticated,
                     loginName = AcSession.IsDeveloper() ? string.Format("{0}(开发人员)", account.LoginName) : account.LoginName,
-                    wallpaper = AcSession.GetData<string>("CurrentUser_Wallpaper") ?? string.Empty,
-                    backColor = AcSession.GetData<string>("CurrentUser_BackColor") ?? string.Empty,
+                    wallpaper = string.Empty,
+                    backColor = string.Empty,
                     menus,
                     roles = AcSession.AccountPrivilege.Roles,
                     groups = AcSession.AccountPrivilege.Groups

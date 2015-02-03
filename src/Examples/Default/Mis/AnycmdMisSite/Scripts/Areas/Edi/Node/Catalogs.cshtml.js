@@ -22,7 +22,7 @@
         removeCatalogIds.clear();
         var record = dgOntology.getSelected();
         currentOntology = record;
-        if (!record.IsCatalogalEntity) {
+        if (!record.IsCataloguedEntity) {
             mini.alert("选中的本体不是目录型本体");
         }
         else {

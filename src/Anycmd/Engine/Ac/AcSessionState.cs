@@ -5,6 +5,7 @@ namespace Anycmd.Engine.Ac
     using Exceptions;
     using Host;
     using Host.Ac.Identity;
+    using Abstractions.Identity;
     using Host.Ac.Rbac;
     using Host.Dapper;
     using Host.Impl;
@@ -40,9 +41,9 @@ namespace Anycmd.Engine.Ac
 
         public static Action<IAcDomain, Guid> SignOuted { get; set; }
 
-        public static Func<IAcDomain, Guid, Account> GetAccountById { get; set; }
+        public static Func<IAcDomain, Guid, IAccount> GetAccountById { get; set; }
 
-        public static Func<IAcDomain, string, Account> GetAccountByLoginName { get; set; }
+        public static Func<IAcDomain, string, IAccount> GetAccountByLoginName { get; set; }
 
         public static Func<IAcDomain, Guid, IAcSessionEntity> GetAcSessionEntity { get; set; }
 
@@ -387,8 +388,6 @@ namespace Anycmd.Engine.Ac
                 AddAcSession(acDomain, acSessionEntity);
                 acSession = new AcSessionState(acDomain, account.Id, accountState);
             }
-            acSession.SetData("CurrentUser_Wallpaper", account.Wallpaper);
-            acSession.SetData("CurrentUser_BackColor", account.BackColor);
             if (HttpContext.Current != null)
             {
                 HttpContext.Current.User = acSession;
@@ -447,7 +446,7 @@ namespace Anycmd.Engine.Ac
             }
         }
 
-        private static Account GetAccount(IAcDomain acDomain, string loginName)
+        private static IAccount GetAccount(IAcDomain acDomain, string loginName)
         {
             using (var conn = GetAccountDb(acDomain).GetConnection())
             {
@@ -459,7 +458,7 @@ namespace Anycmd.Engine.Ac
             }
         }
 
-        private static Account GetAccount(IAcDomain acDomain, Guid accountId)
+        private static IAccount GetAccount(IAcDomain acDomain, Guid accountId)
         {
             using (var conn = GetAccountDb(acDomain).GetConnection())
             {

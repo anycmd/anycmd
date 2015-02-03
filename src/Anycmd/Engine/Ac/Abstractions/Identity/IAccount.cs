@@ -2,6 +2,7 @@
 namespace Anycmd.Engine.Ac.Abstractions.Identity
 {
     using Model;
+    using System;
 
     /// <summary>
     /// 表示该接口的实现类是账户
@@ -20,6 +21,8 @@ namespace Anycmd.Engine.Ac.Abstractions.Identity
         /// 登录名
         /// </summary>
         string LoginName { get; }
+
+        string Password { get; }
 
         /// <summary>
         /// 名称
@@ -43,5 +46,27 @@ namespace Anycmd.Engine.Ac.Abstractions.Identity
         string Mobile { get; }
 
         string BlogUrl { get; }
+
+        string AuditState { get; }
+
+        DateTime? AllowStartTime { get; }
+
+        DateTime? AllowEndTime { get; }
+
+        DateTime? LockStartTime { get; }
+
+        DateTime? LockEndTime { get; }
+
+        DateTime? FirstLoginOn { get; set; }
+
+        DateTime? PreviousLoginOn { get; set; }
+
+        int? LoginCount { get; set; }
+
+        string IpAddress { get; set; }
+
+        DateTime? CreateOn { get; }
+
+        int IsEnabled { get; }
     }
 }
