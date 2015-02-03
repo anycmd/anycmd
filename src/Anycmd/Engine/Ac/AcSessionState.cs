@@ -1,11 +1,11 @@
 ﻿
 namespace Anycmd.Engine.Ac
 {
+    using Abstractions.Identity;
     using Abstractions.Rbac;
     using Exceptions;
     using Host;
     using Host.Ac.Identity;
-    using Abstractions.Identity;
     using Host.Ac.Rbac;
     using Host.Dapper;
     using Host.Impl;
@@ -35,32 +35,57 @@ namespace Anycmd.Engine.Ac
         private AccountState _account;
         private AccountPrivilege _accountPrivilege;
 
+        /// <summary>
+        /// 签入用户
+        /// </summary>
         public static Action<IAcDomain, Dictionary<string, object>> SignIn { get; set; }
 
+        /// <summary>
+        /// 签出用户
+        /// </summary>
         public static Action<IAcDomain, IAcSession> SignOut { get; set; }
 
+        /// <summary>
+        /// 用户签出后执行的过程
+        /// </summary>
         public static Action<IAcDomain, Guid> SignOuted { get; set; }
 
+        /// <summary>
+        /// 从持久层加载给定标识的Account记录。
+        /// </summary>
         public static Func<IAcDomain, Guid, IAccount> GetAccountById { get; set; }
 
+        /// <summary>
+        /// 从持久层加载给定的登录名标识的Account记录。
+        /// </summary>
         public static Func<IAcDomain, string, IAccount> GetAccountByLoginName { get; set; }
 
+        /// <summary>
+        /// 从持久层加载给定标识的AcSessionEntity记录。
+        /// </summary>
         public static Func<IAcDomain, Guid, IAcSessionEntity> GetAcSessionEntity { get; set; }
 
+        /// <summary>
+        /// 读取给定的登录名标识的AcSession对象。
+        /// </summary>
         public static Func<IAcDomain, string, IAcSession> GetAcSession { get; set; } 
 
         /// <summary>
-        /// 
+        /// 添加给定的AcSessionEntity记录到持久层。
         /// </summary>
         public static Action<IAcDomain, IAcSessionEntity> AddAcSession { get; set; }
 
         /// <summary>
-        /// 持久更新给定的AcSessionEntity记录。
+        /// 更新持久层中的给定的AcSessionEntity记录。
         /// </summary>
         public static Action<IAcDomain, IAcSessionEntity> UpdateAcSession { get; set; } 
 
         /// <summary>
-        /// 持久删除给定标识的AcSessionEntity。
+        /// 从持久层删除给定标识的AcSessionEntity记录。
+        /// <remarks>
+        /// 会话不应该经常删除，会话级的权限依赖于会话的持久跟踪。用户退出系统只需要清空该用户的
+        /// 内存会话记录和更新数据库中的会话记录为IsAuthenticated为false而不需要删除持久的AcSession。
+        /// </remarks>
         /// </summary>
         public static Action<IAcDomain, Guid> DeleteAcSession { get; set; }
 
@@ -82,6 +107,7 @@ namespace Anycmd.Engine.Ac
             DeleteAcSession = DoDeleteAcSession;
         }
 
+        #region ctor
         private AcSessionState()
         {
         }
@@ -125,6 +151,7 @@ namespace Anycmd.Engine.Ac
             _id = acSessionEntity.Id;
             _accountId = acSessionEntity.AccountId;
         }
+        #endregion
 
         public Guid Id
         {
@@ -152,7 +179,7 @@ namespace Anycmd.Engine.Ac
         }
 
         /// <summary>
-        /// 工人
+        /// 当事人账户
         /// </summary>
         public AccountState Account
         {
@@ -164,6 +191,9 @@ namespace Anycmd.Engine.Ac
             }
         }
 
+        /// <summary>
+        /// 当事人标识
+        /// </summary>
         public IIdentity Identity { get; private set; }
 
         /// <summary>
@@ -182,9 +212,7 @@ namespace Anycmd.Engine.Ac
             return this.AccountPrivilege.AuthorizedRoleIds.Contains(roleId);
         }
 
-        #region 静态成员
-
-        #region 私有方法
+        #region 私有静态方法
         private static IAcSession GetAcSessionByLoginName(IAcDomain acDomain, string loginName)
         {
             var storage = acDomain.GetRequiredService<IAcSessionStorage>();
@@ -484,12 +512,6 @@ namespace Anycmd.Engine.Ac
             }
         }
 
-        /// <summary>
-        /// 创建Ac会话
-        /// </summary>
-        /// <param name="acDomain"></param>
-        /// <param name="acSessionEntity"></param>
-        /// <returns></returns>
         private static void DoAddAcSession(IAcDomain acDomain, IAcSessionEntity  acSessionEntity)
         {
             using (var conn = GetAccountDb(acDomain).GetConnection())
@@ -516,14 +538,6 @@ namespace Anycmd.Engine.Ac
             }
         }
 
-        /// <summary>
-        /// 删除会话
-        /// <remarks>
-        /// 会话不应该经常删除，会话级的权限依赖于会话的持久跟踪。用户退出系统只需要清空该用户的内存会话记录和更新数据库中的会话记录为IsAuthenticated为false而不需要删除持久的AcSession。
-        /// </remarks>
-        /// </summary>
-        /// <param name="acDomain"></param>
-        /// <param name="sessionId"></param>
         private static void DoDeleteAcSession(IAcDomain acDomain, Guid sessionId)
         {
             using (var conn = GetAccountDb(acDomain).GetConnection())
@@ -535,7 +549,6 @@ namespace Anycmd.Engine.Ac
                 conn.Execute("delete AcSession where Id=@Id", new { Id = sessionId });
             }
         }
-        #endregion
         #endregion
     }
 }
