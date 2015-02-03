@@ -3,7 +3,6 @@ namespace Anycmd.Web.Mvc
 {
     using Engine;
     using Engine.Ac;
-    using Engine.Host;
     using Exceptions;
     using System;
     using System.Web.Mvc;
@@ -32,19 +31,8 @@ namespace Anycmd.Web.Mvc
 
         protected IAcSession AcSession
         {
-            get
-            {
-                if (User.Identity.IsAuthenticated)
-                {
-                    var acSession =
-                        AcDomain.GetRequiredService<IAcSessionStorage>()
-                            .GetData(AcDomain.Config.CurrentAcSessionCacheKey) as IAcSession;
-                    
-                    return acSession;
-                }
-                else {
-                    return AcSessionState.Empty;
-                }
+            get {
+                return User.Identity.IsAuthenticated ? AcSessionState.GetAcSession(AcDomain, User.Identity.Name) : AcSessionState.Empty;
             }
         }
 

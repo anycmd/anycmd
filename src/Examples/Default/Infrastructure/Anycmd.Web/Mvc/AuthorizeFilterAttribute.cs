@@ -2,7 +2,6 @@
 namespace Anycmd.Web.Mvc
 {
     using Engine.Ac;
-    using Engine.Host;
     using Exceptions;
     using System;
     using System.Web.Mvc;
@@ -104,35 +103,7 @@ namespace Anycmd.Web.Mvc
             {
                 return;
             }
-            var storage = acDomain.GetRequiredService<IAcSessionStorage>();
-            var acSession = storage.GetData(acDomain.Config.CurrentAcSessionCacheKey) as IAcSession;
-            if (acSession == null)
-            {
-                var account = AcSessionState.GetAccountByLoginName(acDomain, user.Identity.Name);
-                if (account == null)
-                {
-                    if (user.Identity.IsAuthenticated) return;
-                    ToLogin(filterContext, isAjaxRequest);
-                    return;
-                }
-                var sessionEntity = AcSessionState.GetAcSession(acDomain, account.Id);
-                if (sessionEntity != null)
-                {
-                    if (!sessionEntity.IsAuthenticated)
-                    {
-                        ToLogin(filterContext, isAjaxRequest);
-                        return;
-                    }
-                    acSession = new AcSessionState(acDomain, sessionEntity);
-                }
-                else
-                {
-                    // 使用账户标识作为会话标识会导致一个账户只有一个会话
-                    // TODO:支持账户和会话的一对多，为会话级的动态责任分离做准备
-                    acSession = AcSessionState.AddAcSession(acDomain, account.Id, AccountState.Create(account));
-                }
-                storage.SetData(acDomain.Config.CurrentAcSessionCacheKey, acSession);
-            }
+            var acSession = AcSessionState.GetAcSession(acDomain, user.Identity.Name);
             if (acSession.Permit(function, null)) return;
             if (isAjaxRequest)
             {

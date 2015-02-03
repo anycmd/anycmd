@@ -32,7 +32,7 @@ namespace Anycmd.Tests
             AddService(typeof(ILoggingService), new Log4NetLoggingService(this));
             AddService(typeof(IAcSessionStorage), new SimpleAcSessionStorage());
             #region AcSessionState
-            AcSessionState.GetAcSession = (acDomain, acSessionId) => acDomain.GetRequiredService<IRepository<AcSession>>().GetByKey(acSessionId);
+            AcSessionState.GetAcSessionEntity = (acDomain, acSessionId) => acDomain.GetRequiredService<IRepository<AcSession>>().GetByKey(acSessionId);
             AcSessionState.AddAcSession = (acDomain, sessionId, account) =>
             {
                 var identity = new AnycmdIdentity(account.LoginName);
@@ -46,11 +46,9 @@ namespace Anycmd.Tests
                     IsEnabled = 1,
                     LoginName = account.LoginName
                 };
-                IAcSession user = new AcSessionState(acDomain, acSessionEntity);
                 var repository = acDomain.GetRequiredService<IRepository<AcSession>>();
                 repository.Add(acSessionEntity);
                 repository.Context.Commit();
-                return user;
             };
             AcSessionState.UpdateAcSession = (acDomain, acSessionEntity) =>
             {

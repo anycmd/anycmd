@@ -44,12 +44,23 @@ namespace Anycmd.Engine.Ac
 
         public static Func<IAcDomain, string, Account> GetAccountByLoginName { get; set; }
 
-        public static Func<IAcDomain, Guid, IAcSessionEntity> GetAcSession { get; set; }
+        public static Func<IAcDomain, Guid, IAcSessionEntity> GetAcSessionEntity { get; set; }
 
-        public static Func<IAcDomain, Guid, AccountState, IAcSession> AddAcSession { get; set; }
+        public static Func<IAcDomain, string, IAcSession> GetAcSession { get; set; } 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public static Action<IAcDomain, Guid, AccountState> AddAcSession { get; set; }
+
+        /// <summary>
+        /// 持久更新给定的AcSessionEntity记录。
+        /// </summary>
         public static Action<IAcDomain, IAcSessionEntity> UpdateAcSession { get; set; } 
 
+        /// <summary>
+        /// 持久删除给定标识的AcSessionEntity。
+        /// </summary>
         public static Action<IAcDomain, Guid> DeleteAcSession { get; set; }
 
         static AcSessionState()
@@ -63,7 +74,8 @@ namespace Anycmd.Engine.Ac
             SignOuted = OnSignOuted;
             GetAccountById = GetAccount;
             GetAccountByLoginName = GetAccount;
-            GetAcSession = GetAcSessionById;
+            GetAcSessionEntity = GetAcSessionEntityById;
+            GetAcSession = GetAcSessionByLoginName;
             AddAcSession = DoAddAcSession;
             UpdateAcSession = DoUpdateAcSession;
             DeleteAcSession = DoDeleteAcSession;
@@ -97,7 +109,7 @@ namespace Anycmd.Engine.Ac
             _accountId = account.Id;
         }
 
-        public AcSessionState(IAcDomain host, IAcSessionEntity acSessionEntity)
+        private AcSessionState(IAcDomain host, IAcSessionEntity acSessionEntity)
         {
             if (host == null)
             {
@@ -172,6 +184,37 @@ namespace Anycmd.Engine.Ac
         #region 静态成员
 
         #region 私有方法
+        private static IAcSession GetAcSessionByLoginName(IAcDomain acDomain, string loginName)
+        {
+            var storage = acDomain.GetRequiredService<IAcSessionStorage>();
+            var acSession = storage.GetData(acDomain.Config.CurrentAcSessionCacheKey) as IAcSession;
+            if (acSession != null) return acSession;
+            var account = GetAccountByLoginName(acDomain, loginName);
+            if (account == null)
+            {
+                return Empty;
+            }
+            var sessionEntity = GetAcSessionEntity(acDomain, account.Id);
+            if (sessionEntity != null)
+            {
+                if (!sessionEntity.IsAuthenticated)
+                {
+                    return Empty;
+                }
+                acSession = new AcSessionState(acDomain, sessionEntity);
+            }
+            else
+            {
+                // 使用账户标识作为会话标识会导致一个账户只有一个会话
+                // TODO:支持账户和会话的一对多，为会话级的动态责任分离做准备
+                var accountState = AccountState.Create(account);
+                AddAcSession(acDomain, account.Id, accountState);
+                acSession = new AcSessionState(acDomain, account.Id, accountState);
+            }
+            storage.SetData(acDomain.Config.CurrentAcSessionCacheKey, acSession);
+            return acSession;
+        }
+
         private static RdbDescriptor GetAccountDb(IAcDomain acDomain)
         {
 
@@ -308,7 +351,7 @@ namespace Anycmd.Engine.Ac
 
             // 使用账户标识作为会话标识会导致一个账户只有一个会话
             // TODO:支持账户和会话的一对多，为会话级的动态责任分离做准备
-            var sessionEntity = GetAcSession(acDomain, account.Id);
+            var sessionEntity = GetAcSessionEntity(acDomain, account.Id);
             IAcSession acSession;
             if (sessionEntity != null)
             {
@@ -318,7 +361,9 @@ namespace Anycmd.Engine.Ac
             }
             else
             {
-                acSession = AddAcSession(acDomain, account.Id, AccountState.Create(account));
+                var accountState = AccountState.Create(account);
+                AddAcSession(acDomain, account.Id, AccountState.Create(account));
+                acSession = new AcSessionState(acDomain, account.Id, accountState);
             }
             acSession.SetData("CurrentUser_Wallpaper", account.Wallpaper);
             acSession.SetData("CurrentUser_BackColor", account.BackColor);
@@ -404,7 +449,7 @@ namespace Anycmd.Engine.Ac
             }
         }
 
-        private static IAcSessionEntity GetAcSessionById(IAcDomain acDomain, Guid acSessionId)
+        private static IAcSessionEntity GetAcSessionEntityById(IAcDomain acDomain, Guid acSessionId)
         {
             using (var conn = GetAccountDb(acDomain).GetConnection())
             {
@@ -425,7 +470,7 @@ namespace Anycmd.Engine.Ac
         /// <param name="acDomain"></param>
         /// <param name="sessionId">会话标识。会话级的权限依赖于会话的持久跟踪</param>
         /// <returns></returns>
-        private static IAcSession DoAddAcSession(IAcDomain acDomain, Guid sessionId, AccountState account)
+        private static void DoAddAcSession(IAcDomain acDomain, Guid sessionId, AccountState account)
         {
             using (var conn = GetAccountDb(acDomain).GetConnection())
             {
@@ -434,7 +479,6 @@ namespace Anycmd.Engine.Ac
                     conn.Open();
                 }
                 var identity = new AnycmdIdentity(account.LoginName);
-                IAcSession user = new AcSessionState(acDomain, sessionId, account);
                 conn.Execute(
 @"insert into AcSession(Id,AccountId,AuthenticationType,Description,IsAuthenticated,IsEnabled,LoginName) 
     values(@Id,@AccountId,@AuthenticationType,@Description,@IsAuthenticated,@IsEnabled,@LoginName)", new AcSession
@@ -447,7 +491,6 @@ namespace Anycmd.Engine.Ac
                                                                                                        IsEnabled = 1,
                                                                                                        LoginName = account.LoginName
                                                                                                    });
-                return user;
             }
         }
 

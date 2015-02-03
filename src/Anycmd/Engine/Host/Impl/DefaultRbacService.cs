@@ -22,36 +22,36 @@ namespace Anycmd.Engine.Host.Impl
 
     public class DefaultRbacService : IRbacService
     {
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
-        public DefaultRbacService(IAcDomain host)
+        public DefaultRbacService(IAcDomain acDomain)
         {
-            this._host = host;
+            this._acDomain = acDomain;
         }
 
         public void AddUser(IAcSession subject, IAccountCreateIo input)
         {
-            _host.Handle(new AddAccountCommand(subject, input));
+            _acDomain.Handle(new AddAccountCommand(subject, input));
         }
 
         public void DeleteUser(IAcSession subject, Guid accountId)
         {
-            _host.Handle(new RemoveAccountCommand(subject, accountId));
+            _acDomain.Handle(new RemoveAccountCommand(subject, accountId));
         }
 
         public void AddRole(IAcSession subject, IRoleCreateIo input)
         {
-            _host.Handle(new AddRoleCommand(subject, input));
+            _acDomain.Handle(new AddRoleCommand(subject, input));
         }
 
         public void DeleteRole(IAcSession subject, Guid roleId)
         {
-            _host.Handle(new RemoveRoleCommand(subject, roleId));
+            _acDomain.Handle(new RemoveRoleCommand(subject, roleId));
         }
 
         public void AssignUser(IAcSession subject, Guid accountId, Guid roleId)
         {
-            _host.Handle(new AddPrivilegeCommand(subject, new PrivilegeCreateIo
+            _acDomain.Handle(new AddPrivilegeCommand(subject, new PrivilegeCreateIo
             {
                 Id = Guid.NewGuid(),
                 SubjectType = UserAcSubjectType.Account.ToName(),
@@ -65,7 +65,7 @@ namespace Anycmd.Engine.Host.Impl
 
         public void DeassignUser(IAcSession subject, Guid accountId, Guid roleId)
         {
-            var repository = _host.RetrieveRequiredService<IRepository<Privilege>>();
+            var repository = _acDomain.RetrieveRequiredService<IRepository<Privilege>>();
             var subjectType = UserAcSubjectType.Account.ToName();
             var objectType = AcElementType.Role.ToName();
             var entity = repository.AsQueryable().FirstOrDefault(a =>
@@ -75,12 +75,12 @@ namespace Anycmd.Engine.Host.Impl
             {
                 return;
             }
-            _host.Handle(new RemovePrivilegeCommand(subject, entity.Id));
+            _acDomain.Handle(new RemovePrivilegeCommand(subject, entity.Id));
         }
 
         public void GrantPermission(IAcSession subject, Guid functionId, Guid roleId)
         {
-            _host.Handle(new AddPrivilegeCommand(subject, new PrivilegeCreateIo
+            _acDomain.Handle(new AddPrivilegeCommand(subject, new PrivilegeCreateIo
             {
                 Id = Guid.NewGuid(),
                 SubjectType = UserAcSubjectType.Role.ToName(),
@@ -94,7 +94,7 @@ namespace Anycmd.Engine.Host.Impl
 
         public void RevokePermission(IAcSession subject, Guid functionId, Guid roleId)
         {
-            var repository = _host.RetrieveRequiredService<IRepository<Privilege>>();
+            var repository = _acDomain.RetrieveRequiredService<IRepository<Privilege>>();
             var subjectType = UserAcSubjectType.Role.ToName();
             var objectType = AcElementType.Function.ToName();
             var entity = repository.AsQueryable().FirstOrDefault(a =>
@@ -104,17 +104,19 @@ namespace Anycmd.Engine.Host.Impl
             {
                 return;
             }
-            _host.Handle(new RemovePrivilegeCommand(subject, entity.Id));
+            _acDomain.Handle(new RemovePrivilegeCommand(subject, entity.Id));
         }
 
         public IAcSession CreateSession(IAcSession subject, Guid sessionId, AccountState account)
         {
-            return AcSessionState.AddAcSession(_host, sessionId, account);
+            AcSessionState.AddAcSession(_acDomain, sessionId, account);
+
+            return new AcSessionState(_acDomain, sessionId, account);
         }
 
         public void DeleteSession(IAcSession subject, Guid sessionId)
         {
-            AcSessionState.DeleteAcSession(_host, sessionId);
+            AcSessionState.DeleteAcSession(_acDomain, sessionId);
         }
 
         public IReadOnlyCollection<RoleState> SessionRoles(IAcSession subject, IAcSession targetSession)
@@ -136,7 +138,7 @@ namespace Anycmd.Engine.Host.Impl
         public void AddActiveRole(IAcSession subject, IAcSession targetSession, Guid roleId)
         {
             RoleState role;
-            if (!_host.RoleSet.TryGetRole(roleId, out role))
+            if (!_acDomain.RoleSet.TryGetRole(roleId, out role))
             {
                 throw new ValidationException("给定标识的角色不存在" + roleId);
             }
@@ -151,7 +153,7 @@ namespace Anycmd.Engine.Host.Impl
         public void DropActiveRole(IAcSession subject, IAcSession targetSession, Guid roleId)
         {
             RoleState role;
-            if (!_host.RoleSet.TryGetRole(roleId, out role))
+            if (!_acDomain.RoleSet.TryGetRole(roleId, out role))
             {
                 throw new ValidationException("给定标识的角色不存在" + roleId);
             }
@@ -165,9 +167,9 @@ namespace Anycmd.Engine.Host.Impl
 
         public bool CheckAccess(IAcSession subject, IAcSession targetSession, Guid functionId, IManagedObject obj)
         {
-            var securityService = _host.RetrieveRequiredService<ISecurityService>();
+            var securityService = _acDomain.RetrieveRequiredService<ISecurityService>();
             FunctionState function;
-            if (!_host.FunctionSet.TryGetFunction(functionId, out function))
+            if (!_acDomain.FunctionSet.TryGetFunction(functionId, out function))
             {
                 throw new ValidationException("给定标识的功能不存在" + functionId);
             }
@@ -198,12 +200,12 @@ namespace Anycmd.Engine.Host.Impl
                                               AND ar.ObjectType = 'Role' AND ar.ObjectInstanceId='" + roleId + @"'
     WHERE   a.DeletionStateCode = 0";
             EntityTypeState entityType;
-            if (!_host.EntityTypeSet.TryGetEntityType(new Coder("Ac", "Account"), out entityType))
+            if (!_acDomain.EntityTypeSet.TryGetEntityType(new Coder("Ac", "Account"), out entityType))
             {
                 throw new AnycmdException("意外的实体类型码Ac.Account");
             }
             Engine.Rdb.RdbDescriptor db;
-            if (!_host.Rdbs.TryDb(entityType.DatabaseId, out db))
+            if (!_acDomain.Rdbs.TryDb(entityType.DatabaseId, out db))
             {
                 throw new AnycmdException("意外的账户数据库标识" + entityType.DatabaseId);
             }
@@ -219,7 +221,7 @@ namespace Anycmd.Engine.Host.Impl
 
         public IReadOnlyCollection<RoleState> AssignedRoles(IAcSession subject, Guid accountId)
         {
-            var repository = _host.RetrieveRequiredService<IRepository<Privilege>>();
+            var repository = _acDomain.RetrieveRequiredService<IRepository<Privilege>>();
             var subjectType = UserAcSubjectType.Account.ToName();
             var objectType = AcElementType.Role.ToName();
             var privileges = repository.AsQueryable().Where(a => a.SubjectType == subjectType && a.SubjectInstanceId == accountId && a.ObjectType == objectType);
@@ -227,7 +229,7 @@ namespace Anycmd.Engine.Host.Impl
             foreach (var item in privileges)
             {
                 RoleState role;
-                if (_host.RoleSet.TryGetRole(item.ObjectInstanceId, out role))
+                if (_acDomain.RoleSet.TryGetRole(item.ObjectInstanceId, out role))
                 {
                     list.Add(role);
                 }
@@ -238,12 +240,12 @@ namespace Anycmd.Engine.Host.Impl
         public virtual IReadOnlyCollection<AccountState> AuthorizedUsers(IAcSession subject, IAcSession targetSession, Guid roleId)
         {
             RoleState role;
-            if (!_host.RoleSet.TryGetRole(roleId, out role))
+            if (!_acDomain.RoleSet.TryGetRole(roleId, out role))
             {
                 throw new ValidationException("给定标识的角色不存在" + roleId);
             }
             var roles = new HashSet<RoleState> { role };
-            foreach (var item in _host.RoleSet.GetAscendantRoles(role))
+            foreach (var item in _acDomain.RoleSet.GetAscendantRoles(role))
             {
                 roles.Add(item);
             }
@@ -273,12 +275,12 @@ namespace Anycmd.Engine.Host.Impl
                                               AND ar.ObjectType = 'Role' AND ar.ObjectInstanceId IN (" + sb.ToString() + @")
     WHERE   a.DeletionStateCode = 0";
             EntityTypeState entityType;
-            if (!_host.EntityTypeSet.TryGetEntityType(new Coder("Ac", "Account"), out entityType))
+            if (!_acDomain.EntityTypeSet.TryGetEntityType(new Coder("Ac", "Account"), out entityType))
             {
                 throw new AnycmdException("意外的实体类型码Ac.Account");
             }
             Engine.Rdb.RdbDescriptor db;
-            if (!_host.Rdbs.TryDb(entityType.DatabaseId, out db))
+            if (!_acDomain.Rdbs.TryDb(entityType.DatabaseId, out db))
             {
                 throw new AnycmdException("意外的账户数据库标识" + entityType.DatabaseId);
             }
@@ -301,29 +303,29 @@ namespace Anycmd.Engine.Host.Impl
         public IReadOnlyCollection<FunctionState> RolePermissions(IAcSession subject, Guid roleId)
         {
             RoleState role;
-            if (!_host.RoleSet.TryGetRole(roleId, out role))
+            if (!_acDomain.RoleSet.TryGetRole(roleId, out role))
             {
                 throw new ValidationException("给定标识的角色不存在" + roleId);
             }
             var functions = new HashSet<FunctionState>();
-            foreach (var privilege in _host.PrivilegeSet.Where(a =>
+            foreach (var privilege in _acDomain.PrivilegeSet.Where(a =>
                 a.SubjectType == AcElementType.Role && a.SubjectInstanceId == roleId && a.ObjectType == AcElementType.Function))
             {
                 FunctionState f;
-                if (_host.FunctionSet.TryGetFunction(privilege.ObjectInstanceId, out f))
+                if (_acDomain.FunctionSet.TryGetFunction(privilege.ObjectInstanceId, out f))
                 {
                     functions.Add(f);
                 }
             }
-            foreach (var privilege in _host.RoleSet.GetDescendantRoles(role)
+            foreach (var privilege in _acDomain.RoleSet.GetDescendantRoles(role)
                 .SelectMany(item =>
-                    _host.PrivilegeSet.Where(a =>
+                    _acDomain.PrivilegeSet.Where(a =>
                         a.SubjectType == AcElementType.Role
                         && a.SubjectInstanceId == item.Id
                         && a.ObjectType == AcElementType.Function)))
             {
                 FunctionState f;
-                if (_host.FunctionSet.TryGetFunction(privilege.ObjectInstanceId, out f))
+                if (_acDomain.FunctionSet.TryGetFunction(privilege.ObjectInstanceId, out f))
                 {
                     functions.Add(f);
                 }
@@ -340,18 +342,18 @@ namespace Anycmd.Engine.Host.Impl
         public IReadOnlyCollection<FunctionState> RoleOperationsOnObject(IAcSession subject, IAcSession targetSession, Guid roleId, IManagedObject obj)
         {
             RoleState role;
-            if (!_host.RoleSet.TryGetRole(roleId, out role))
+            if (!_acDomain.RoleSet.TryGetRole(roleId, out role))
             {
                 throw new ValidationException("给定标识的角色不存在" + roleId);
             }
             var functions = new HashSet<FunctionState>();
-            foreach (var item in _host.RoleSet.GetDescendantRoles(role))
+            foreach (var item in _acDomain.RoleSet.GetDescendantRoles(role))
             {
-                foreach (var privilege in _host.PrivilegeSet.Where(a =>
+                foreach (var privilege in _acDomain.PrivilegeSet.Where(a =>
                     a.SubjectType == AcElementType.Role && a.SubjectInstanceId == roleId && a.ObjectType == AcElementType.Function))
                 {
                     FunctionState f;
-                    if (_host.FunctionSet.TryGetFunction(privilege.ObjectInstanceId, out f))
+                    if (_acDomain.FunctionSet.TryGetFunction(privilege.ObjectInstanceId, out f))
                     {
                         functions.Add(f);
                     }
@@ -375,7 +377,7 @@ namespace Anycmd.Engine.Host.Impl
 
         public void AddInheritance(IAcSession subject, Guid subjectRoleId, Guid objectRoleId)
         {
-            _host.Handle(new AddPrivilegeCommand(subject, new PrivilegeCreateIo
+            _acDomain.Handle(new AddPrivilegeCommand(subject, new PrivilegeCreateIo
             {
                 Id = Guid.NewGuid(),
                 SubjectType = UserAcSubjectType.Role.ToName(),
@@ -389,7 +391,7 @@ namespace Anycmd.Engine.Host.Impl
 
         public void DeleteInheritance(IAcSession subject, Guid subjectRoleId, Guid objectRoleId)
         {
-            var repository = _host.RetrieveRequiredService<IRepository<Privilege>>();
+            var repository = _acDomain.RetrieveRequiredService<IRepository<Privilege>>();
             var subjectType = UserAcSubjectType.Role.ToName();
             var objectType = AcElementType.Role.ToName();
             var entity = repository.AsQueryable().FirstOrDefault(a =>
@@ -399,14 +401,14 @@ namespace Anycmd.Engine.Host.Impl
             {
                 return;
             }
-            _host.Handle(new RemovePrivilegeCommand(subject, entity.Id));
+            _acDomain.Handle(new RemovePrivilegeCommand(subject, entity.Id));
         }
 
         public void AddAscendant(IAcSession subject, Guid childRoleId, IRoleCreateIo parentRoleCreateInput)
         {
-            _host.Handle(new AddRoleCommand(subject, parentRoleCreateInput));
+            _acDomain.Handle(new AddRoleCommand(subject, parentRoleCreateInput));
             Debug.Assert(parentRoleCreateInput.Id != null, "parentRoleCreateInput.Id != null");
-            _host.Handle(new AddPrivilegeCommand(subject, new PrivilegeCreateIo
+            _acDomain.Handle(new AddPrivilegeCommand(subject, new PrivilegeCreateIo
             {
                 Id = Guid.NewGuid(),
                 SubjectType = UserAcSubjectType.Role.ToName(),
@@ -420,9 +422,9 @@ namespace Anycmd.Engine.Host.Impl
 
         public void AddDescendant(IAcSession subject, Guid parentRoleId, IRoleCreateIo childRoleCreateInput)
         {
-            _host.Handle(new AddRoleCommand(subject, childRoleCreateInput));
+            _acDomain.Handle(new AddRoleCommand(subject, childRoleCreateInput));
             Debug.Assert(childRoleCreateInput.Id != null, "childRoleCreateInput.Id != null");
-            _host.Handle(new AddPrivilegeCommand(subject, new PrivilegeCreateIo
+            _acDomain.Handle(new AddPrivilegeCommand(subject, new PrivilegeCreateIo
             {
                 Id = Guid.NewGuid(),
                 SubjectType = UserAcSubjectType.Role.ToName(),
@@ -436,17 +438,17 @@ namespace Anycmd.Engine.Host.Impl
 
         public void CreateSsdSet(IAcSession subject, ISsdSetCreateIo input)
         {
-            _host.Handle(new AddSsdSetCommand(subject, input));
+            _acDomain.Handle(new AddSsdSetCommand(subject, input));
         }
 
         public void DeleteSsdSet(IAcSession subject, Guid ssdSetId)
         {
-            _host.Handle(new RemoveSsdSetCommand(subject, ssdSetId));
+            _acDomain.Handle(new RemoveSsdSetCommand(subject, ssdSetId));
         }
 
         public void AddSsdRoleMember(IAcSession subject, Guid ssdSetId, Guid roleId)
         {
-            _host.Handle(new AddSsdRoleCommand(subject, new SsdRoleCreateIo
+            _acDomain.Handle(new AddSsdRoleCommand(subject, new SsdRoleCreateIo
             {
                 Id = Guid.NewGuid(),
                 RoleId = roleId,
@@ -456,28 +458,28 @@ namespace Anycmd.Engine.Host.Impl
 
         public void DeleteSsdRoleMember(IAcSession subject, Guid ssdRoleId)
         {
-            _host.Handle(new RemoveSsdRoleCommand(subject, ssdRoleId));
+            _acDomain.Handle(new RemoveSsdRoleCommand(subject, ssdRoleId));
         }
 
         public void DeleteSsdRoleMember(IAcSession subject, Guid ssdSetId, Guid roleId)
         {
-            var ssdRoleRepository = _host.RetrieveRequiredService<IRepository<SsdRole>>();
+            var ssdRoleRepository = _acDomain.RetrieveRequiredService<IRepository<SsdRole>>();
             var entity = ssdRoleRepository.AsQueryable().FirstOrDefault(a => a.SsdSetId == ssdSetId && a.RoleId == roleId);
             if (entity == null)
             {
                 return;
             }
-            _host.Handle(new RemoveSsdRoleCommand(subject, entity.Id));
+            _acDomain.Handle(new RemoveSsdRoleCommand(subject, entity.Id));
         }
 
         public void SetSsdCardinality(IAcSession subject, Guid ssdSetId, int cardinality)
         {
             SsdSetState state;
-            if (!_host.SsdSetSet.TryGetSsdSet(ssdSetId, out state))
+            if (!_acDomain.SsdSetSet.TryGetSsdSet(ssdSetId, out state))
             {
                 throw new ValidationException("意外的静态责任分离角色集标识" + ssdSetId);
             }
-            _host.Handle(new UpdateSsdSetCommand(subject, new SsdSetUpdateIo
+            _acDomain.Handle(new UpdateSsdSetCommand(subject, new SsdSetUpdateIo
             {
                 Id = state.Id,
                 Description = state.Description,
@@ -489,21 +491,21 @@ namespace Anycmd.Engine.Host.Impl
 
         public IReadOnlyCollection<SsdRoleState> SsdRoleSets(IAcSession subject)
         {
-            return _host.SsdSetSet.GetSsdRoles();
+            return _acDomain.SsdSetSet.GetSsdRoles();
         }
 
         public IReadOnlyCollection<RoleState> SsdRoleSetRoles(IAcSession subject, Guid ssdSetId)
         {
             SsdSetState ssdSet;
-            if (!_host.SsdSetSet.TryGetSsdSet(ssdSetId, out ssdSet))
+            if (!_acDomain.SsdSetSet.TryGetSsdSet(ssdSetId, out ssdSet))
             {
                 throw new ValidationException("给定标识的静态责任分离角色集不存在" + ssdSetId);
             }
             var result = new List<RoleState>();
-            foreach (var item in _host.SsdSetSet.GetSsdRoles(ssdSet))
+            foreach (var item in _acDomain.SsdSetSet.GetSsdRoles(ssdSet))
             {
                 RoleState role;
-                if (_host.RoleSet.TryGetRole(item.RoleId, out role))
+                if (_acDomain.RoleSet.TryGetRole(item.RoleId, out role))
                 {
                     result.Add(role);
                 }
@@ -515,7 +517,7 @@ namespace Anycmd.Engine.Host.Impl
         public int SsdRoleSetCardinality(IAcSession subject, Guid ssdSetId)
         {
             SsdSetState ssdSet;
-            if (!_host.SsdSetSet.TryGetSsdSet(ssdSetId, out ssdSet))
+            if (!_acDomain.SsdSetSet.TryGetSsdSet(ssdSetId, out ssdSet))
             {
                 throw new ValidationException("意外的静态责任分离角色集标识" + ssdSetId);
             }
@@ -524,17 +526,17 @@ namespace Anycmd.Engine.Host.Impl
 
         public void CreateDsdSet(IAcSession subject, IDsdSetCreateIo input)
         {
-            _host.Handle(new AddDsdSetCommand(subject, input));
+            _acDomain.Handle(new AddDsdSetCommand(subject, input));
         }
 
         public void DeleteDsdSet(IAcSession subject, Guid dsdSetId)
         {
-            _host.Handle(new RemoveDsdSetCommand(subject, dsdSetId));
+            _acDomain.Handle(new RemoveDsdSetCommand(subject, dsdSetId));
         }
 
         public void AddDsdRoleMember(IAcSession subject, Guid dsdSetId, Guid roleId)
         {
-            _host.Handle(new AddDsdRoleCommand(subject, new DsdRoleCreateIo
+            _acDomain.Handle(new AddDsdRoleCommand(subject, new DsdRoleCreateIo
             {
                 Id = Guid.NewGuid(),
                 RoleId = roleId,
@@ -544,28 +546,28 @@ namespace Anycmd.Engine.Host.Impl
 
         public void DeleteDsdRoleMember(IAcSession subject, Guid dsdRoleId)
         {
-            _host.Handle(new RemoveDsdRoleCommand(subject, dsdRoleId));
+            _acDomain.Handle(new RemoveDsdRoleCommand(subject, dsdRoleId));
         }
 
         public void DeleteDsdRoleMember(IAcSession subject, Guid dsdRoleId, Guid roleId)
         {
-            var dsdRoleRepository = _host.RetrieveRequiredService<IRepository<DsdRole>>();
+            var dsdRoleRepository = _acDomain.RetrieveRequiredService<IRepository<DsdRole>>();
             var entity = dsdRoleRepository.AsQueryable().FirstOrDefault(a => a.DsdSetId == dsdRoleId && a.RoleId == roleId);
             if (entity == null)
             {
                 return;
             }
-            _host.Handle(new RemoveDsdRoleCommand(subject, entity.Id));
+            _acDomain.Handle(new RemoveDsdRoleCommand(subject, entity.Id));
         }
 
         public void SetDsdCardinality(IAcSession subject, Guid dsdSetId, int cardinality)
         {
             DsdSetState state;
-            if (!_host.DsdSetSet.TryGetDsdSet(dsdSetId, out state))
+            if (!_acDomain.DsdSetSet.TryGetDsdSet(dsdSetId, out state))
             {
                 throw new ValidationException("意外的动态责任分离角色集标识" + dsdSetId);
             }
-            _host.Handle(new UpdateDsdSetCommand(subject, new DsdSetUpdateIo
+            _acDomain.Handle(new UpdateDsdSetCommand(subject, new DsdSetUpdateIo
             {
                 Id = state.Id,
                 Description = state.Description,
@@ -577,21 +579,21 @@ namespace Anycmd.Engine.Host.Impl
 
         public IReadOnlyCollection<DsdRoleState> DsdRoleSets(IAcSession subject)
         {
-            return _host.DsdSetSet.GetDsdRoles();
+            return _acDomain.DsdSetSet.GetDsdRoles();
         }
 
         public IReadOnlyCollection<RoleState> DsdRoleSetRoles(IAcSession subject, Guid dsdSetId)
         {
             DsdSetState dsdSet;
-            if (!_host.DsdSetSet.TryGetDsdSet(dsdSetId, out dsdSet))
+            if (!_acDomain.DsdSetSet.TryGetDsdSet(dsdSetId, out dsdSet))
             {
                 throw new ValidationException("给定标识的动态责任分离角色集不存在" + dsdSetId);
             }
             var result = new List<RoleState>();
-            foreach (var item in _host.DsdSetSet.GetDsdRoles(dsdSet))
+            foreach (var item in _acDomain.DsdSetSet.GetDsdRoles(dsdSet))
             {
                 RoleState role;
-                if (_host.RoleSet.TryGetRole(item.RoleId, out role))
+                if (_acDomain.RoleSet.TryGetRole(item.RoleId, out role))
                 {
                     result.Add(role);
                 }
@@ -603,7 +605,7 @@ namespace Anycmd.Engine.Host.Impl
         public int DsdRoleSetCardinality(IAcSession subject, Guid dsdSetId)
         {
             DsdSetState dsdSet;
-            if (!_host.DsdSetSet.TryGetDsdSet(dsdSetId, out dsdSet))
+            if (!_acDomain.DsdSetSet.TryGetDsdSet(dsdSetId, out dsdSet))
             {
                 throw new ValidationException("意外的动态责任分离角色集标识" + dsdSetId);
             }

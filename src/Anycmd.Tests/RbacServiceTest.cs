@@ -391,7 +391,7 @@ namespace Anycmd.Tests
             var sessionId = Guid.NewGuid();
             var acSession = rbacService.CreateSession(host.GetAcSession(), sessionId, AccountState.Create(account));
             Assert.NotNull(acSession);
-            var sessionEntity = AcSessionState.GetAcSession(host, sessionId);
+            var sessionEntity = AcSessionState.GetAcSessionEntity(host, sessionId);
             Assert.NotNull(sessionEntity);
         }
         #endregion
