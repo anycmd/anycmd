@@ -33,21 +33,10 @@ namespace Anycmd.Tests
             AddService(typeof(IAcSessionStorage), new SimpleAcSessionStorage());
             #region AcSessionState
             AcSessionState.GetAcSessionEntity = (acDomain, acSessionId) => acDomain.GetRequiredService<IRepository<AcSession>>().GetByKey(acSessionId);
-            AcSessionState.AddAcSession = (acDomain, sessionId, account) =>
+            AcSessionState.AddAcSession = (acDomain, acSessionEntity) =>
             {
-                var identity = new AnycmdIdentity(account.LoginName);
-                var acSessionEntity = new AcSession
-                {
-                    Id = sessionId,
-                    AccountId = account.Id,
-                    AuthenticationType = identity.AuthenticationType,
-                    Description = null,
-                    IsAuthenticated = identity.IsAuthenticated,
-                    IsEnabled = 1,
-                    LoginName = account.LoginName
-                };
                 var repository = acDomain.GetRequiredService<IRepository<AcSession>>();
-                repository.Add(acSessionEntity);
+                repository.Add((AcSession)acSessionEntity);
                 repository.Context.Commit();
             };
             AcSessionState.UpdateAcSession = (acDomain, acSessionEntity) =>

@@ -51,7 +51,7 @@ namespace Anycmd.Engine.Ac
         /// <summary>
         /// 
         /// </summary>
-        public static Action<IAcDomain, Guid, AccountState> AddAcSession { get; set; }
+        public static Action<IAcDomain, IAcSessionEntity> AddAcSession { get; set; }
 
         /// <summary>
         /// 持久更新给定的AcSessionEntity记录。
@@ -208,7 +208,18 @@ namespace Anycmd.Engine.Ac
                 // 使用账户标识作为会话标识会导致一个账户只有一个会话
                 // TODO:支持账户和会话的一对多，为会话级的动态责任分离做准备
                 var accountState = AccountState.Create(account);
-                AddAcSession(acDomain, account.Id, accountState);
+                var identity = new AnycmdIdentity(account.LoginName);
+                var acSessionEntity = new AcSession
+                {
+                    Id = account.Id,
+                    AccountId = account.Id,
+                    AuthenticationType = identity.AuthenticationType,
+                    Description = null,
+                    IsAuthenticated = identity.IsAuthenticated,
+                    IsEnabled = 1,
+                    LoginName = account.LoginName
+                };
+                AddAcSession(acDomain, acSessionEntity);
                 acSession = new AcSessionState(acDomain, account.Id, accountState);
             }
             storage.SetData(acDomain.Config.CurrentAcSessionCacheKey, acSession);
@@ -362,7 +373,18 @@ namespace Anycmd.Engine.Ac
             else
             {
                 var accountState = AccountState.Create(account);
-                AddAcSession(acDomain, account.Id, AccountState.Create(account));
+                var identity = new AnycmdIdentity(account.LoginName);
+                var acSessionEntity = new AcSession
+                {
+                    Id = account.Id,
+                    AccountId = account.Id,
+                    AuthenticationType = identity.AuthenticationType,
+                    Description = null,
+                    IsAuthenticated = identity.IsAuthenticated,
+                    IsEnabled = 1,
+                    LoginName = account.LoginName
+                };
+                AddAcSession(acDomain, acSessionEntity);
                 acSession = new AcSessionState(acDomain, account.Id, accountState);
             }
             acSession.SetData("CurrentUser_Wallpaper", account.Wallpaper);
@@ -466,11 +488,10 @@ namespace Anycmd.Engine.Ac
         /// <summary>
         /// 创建Ac会话
         /// </summary>
-        /// <param name="account"></param>
         /// <param name="acDomain"></param>
-        /// <param name="sessionId">会话标识。会话级的权限依赖于会话的持久跟踪</param>
+        /// <param name="acSessionEntity"></param>
         /// <returns></returns>
-        private static void DoAddAcSession(IAcDomain acDomain, Guid sessionId, AccountState account)
+        private static void DoAddAcSession(IAcDomain acDomain, IAcSessionEntity  acSessionEntity)
         {
             using (var conn = GetAccountDb(acDomain).GetConnection())
             {
@@ -478,19 +499,9 @@ namespace Anycmd.Engine.Ac
                 {
                     conn.Open();
                 }
-                var identity = new AnycmdIdentity(account.LoginName);
                 conn.Execute(
 @"insert into AcSession(Id,AccountId,AuthenticationType,Description,IsAuthenticated,IsEnabled,LoginName) 
-    values(@Id,@AccountId,@AuthenticationType,@Description,@IsAuthenticated,@IsEnabled,@LoginName)", new AcSession
-                                                                                                   {
-                                                                                                       Id = sessionId,
-                                                                                                       AccountId = account.Id,
-                                                                                                       AuthenticationType = identity.AuthenticationType,
-                                                                                                       Description = null,
-                                                                                                       IsAuthenticated = identity.IsAuthenticated,
-                                                                                                       IsEnabled = 1,
-                                                                                                       LoginName = account.LoginName
-                                                                                                   });
+    values(@Id,@AccountId,@AuthenticationType,@Description,@IsAuthenticated,@IsEnabled,@LoginName)", acSessionEntity);
             }
         }
 

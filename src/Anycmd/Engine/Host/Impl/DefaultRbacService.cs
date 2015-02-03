@@ -109,7 +109,18 @@ namespace Anycmd.Engine.Host.Impl
 
         public IAcSession CreateSession(IAcSession subject, Guid sessionId, AccountState account)
         {
-            AcSessionState.AddAcSession(_acDomain, sessionId, account);
+            var identity = new AnycmdIdentity(account.LoginName);
+            var acSessionEntity = new AcSession
+            {
+                Id = sessionId,
+                AccountId = account.Id,
+                AuthenticationType = identity.AuthenticationType,
+                Description = null,
+                IsAuthenticated = identity.IsAuthenticated,
+                IsEnabled = 1,
+                LoginName = account.LoginName
+            };
+            AcSessionState.AddAcSession(_acDomain, acSessionEntity);
 
             return new AcSessionState(_acDomain, sessionId, account);
         }
