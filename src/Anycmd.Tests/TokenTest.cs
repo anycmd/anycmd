@@ -2,12 +2,13 @@
 namespace Anycmd.Tests
 {
     using DataContracts;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Util;
-    using Xunit;
 
+    [TestClass]
     public class TokenTest
     {
-        [Fact]
+        [TestMethod]
         public void TokenIsValid()
         {
             var ticks = SystemTime.UtcNow().Ticks;
@@ -18,17 +19,17 @@ namespace Anycmd.Tests
                 appId,
                 ticks);
 
-            Assert.True(token.IsValid(secKey));
+            Assert.IsTrue(token.IsValid(secKey));
         }
 
-        [Fact]
+        [TestMethod]
         public void SignatureIsValid()
         {
             var ticks = SystemTime.UtcNow().Ticks;
             const string secKey = "123456";
             const string orignalString = "appID=100&random=778899";
             Signature signature = Signature.Create(orignalString, Signature.Sign(orignalString, secKey));
-            Assert.True(signature.IsValid(secKey));
+            Assert.IsTrue(signature.IsValid(secKey));
         }
     }
 }

@@ -120,14 +120,14 @@ namespace Anycmd.Engine.Host.Impl
                 IsEnabled = 1,
                 LoginName = account.LoginName
             };
-            AcSessionState.AddAcSession(_acDomain, acSessionEntity);
+            AcSessionState.AcMethod.AddAcSession(_acDomain, acSessionEntity);
 
             return new AcSessionState(_acDomain, sessionId, account);
         }
 
         public void DeleteSession(IAcSession subject, Guid sessionId)
         {
-            AcSessionState.DeleteAcSession(_acDomain, sessionId);
+            AcSessionState.AcMethod.DeleteAcSession(_acDomain, sessionId);
         }
 
         public IReadOnlyCollection<RoleState> SessionRoles(IAcSession subject, IAcSession targetSession)

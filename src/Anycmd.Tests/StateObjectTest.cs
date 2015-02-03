@@ -3,13 +3,14 @@ namespace Anycmd.Tests
 {
     using Engine.Ac;
     using Engine.Host.Ac.Infra;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
     using System.Linq;
-    using Xunit;
 
+    [TestClass]
     public class StateObjectTest
     {
-        [Fact]
+        [TestMethod]
         public void StateObjectEquals()
         {
             var host = TestHelper.GetAcDomain();
@@ -29,9 +30,9 @@ namespace Anycmd.Tests
             var appSystem1 = AppSystemState.Create(host, entity);
             var appSystem2 = appSystem1;
 
-            Assert.Equal(appSystem1, appSystem1);
-            Assert.True(appSystem1 == appSystem2);
-            Assert.True(appSystem1.Equals(appSystem2));
+            Assert.AreEqual(appSystem1, appSystem1);
+            Assert.IsTrue(appSystem1 == appSystem2);
+            Assert.IsTrue(appSystem1.Equals(appSystem2));
             entity = new AppSystem
             {
                 Id = appSystem1.Id,
@@ -46,14 +47,14 @@ namespace Anycmd.Tests
                 ImageUrl = string.Empty
             };
             appSystem2 = AppSystemState.Create(host, entity);
-            Assert.Equal(appSystem1, appSystem1);
-            Assert.True(appSystem1 == appSystem2);
-            Assert.True(appSystem1.Equals(appSystem2));
+            Assert.AreEqual(appSystem1, appSystem1);
+            Assert.IsTrue(appSystem1 == appSystem2);
+            Assert.IsTrue(appSystem1.Equals(appSystem2));
             entity.Code = "app";
             appSystem2 = AppSystemState.Create(host, entity);
-            Assert.NotEqual(appSystem1, appSystem2);
-            Assert.False(appSystem1 == appSystem2);
-            Assert.False(appSystem1.Equals(appSystem2));
+            Assert.AreNotEqual(appSystem1, appSystem2);
+            Assert.IsFalse(appSystem1 == appSystem2);
+            Assert.IsFalse(appSystem1.Equals(appSystem2));
         }
     }
 }

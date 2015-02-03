@@ -1,5 +1,4 @@
 ﻿
-
 namespace Anycmd.Engine.Host.Impl
 {
     using Bus;
@@ -42,10 +41,8 @@ namespace Anycmd.Engine.Host.Impl
         public DateTime ReadyAt { get; protected set; }
 
         protected AcDomain()
+            : this(Conventions)
         {
-            this.Config = this.Conventions;
-            this.Name = "DefaultAcDomain";
-            this.StartedAt = DateTime.UtcNow;
         }
 
         protected AcDomain(IAppConfig config)
@@ -55,6 +52,8 @@ namespace Anycmd.Engine.Host.Impl
                 throw new ArgumentNullException("config");
             }
             this.Config = config;
+            this.Name = "DefaultAcDomain";
+            this.StartedAt = DateTime.UtcNow;
         }
 
         /// <summary>
@@ -83,13 +82,13 @@ namespace Anycmd.Engine.Host.Impl
             }
         }
 
-        private HostConvention _conventions;
+        private static HostConvention _conventions;
 
         /// <summary>
         /// Gets the conventions.
         /// </summary>
         /// <value>The conventions.</value>
-        private HostConvention Conventions
+        private static HostConvention Conventions
         {
             get { return _conventions ?? (_conventions = new HostConvention()); }
         }

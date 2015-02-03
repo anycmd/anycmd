@@ -9,22 +9,23 @@ namespace Anycmd.Tests
     using Engine.Ac.Messages.Rbac;
     using Engine.Host.Ac;
     using Engine.Host.Ac.Rbac;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Moq;
     using Repositories;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Xunit;
 
+    [TestClass]
     public class RoleTest
     {
         #region RoleSet
-        [Fact]
+        [TestMethod]
         public void RoleSet()
         {
             var host = TestHelper.GetAcDomain();
-            Assert.Equal(0, host.RoleSet.Count());
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            Assert.AreEqual(0, host.RoleSet.Count());
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -43,8 +44,8 @@ namespace Anycmd.Tests
                 SortCode = 10,
                 Icon = null
             }.ToCommand(host.GetAcSession()));
-            Assert.Equal(1, host.RoleSet.Count());
-            Assert.True(host.RoleSet.TryGetRole(entityId, out roleById));
+            Assert.AreEqual(1, host.RoleSet.Count());
+            Assert.IsTrue(host.RoleSet.TryGetRole(entityId, out roleById));
 
             host.Handle(new RoleUpdateInput
             {
@@ -56,23 +57,23 @@ namespace Anycmd.Tests
                 SortCode = 10,
                 Icon = null
             }.ToCommand(host.GetAcSession()));
-            Assert.Equal(1, host.RoleSet.Count());
-            Assert.True(host.RoleSet.TryGetRole(entityId, out roleById));
-            Assert.Equal("test2", roleById.Name);
+            Assert.AreEqual(1, host.RoleSet.Count());
+            Assert.IsTrue(host.RoleSet.TryGetRole(entityId, out roleById));
+            Assert.AreEqual("test2", roleById.Name);
 
             host.Handle(new RemoveRoleCommand(host.GetAcSession(), entityId));
-            Assert.False(host.RoleSet.TryGetRole(entityId, out roleById));
-            Assert.Equal(0, host.RoleSet.Count());
+            Assert.IsFalse(host.RoleSet.TryGetRole(entityId, out roleById));
+            Assert.AreEqual(0, host.RoleSet.Count());
         }
         #endregion
 
         #region RoleSetShouldRollbackedWhenPersistFailed
-        [Fact]
+        [TestMethod]
         public void RoleSetShouldRollbackedWhenPersistFailed()
         {
             var host = TestHelper.GetAcDomain();
-            Assert.Equal(0, host.RoleSet.Count());
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            Assert.AreEqual(0, host.RoleSet.Count());
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -101,14 +102,14 @@ namespace Anycmd.Tests
             }
             catch (Exception e)
             {
-                Assert.Equal(e.GetType(), typeof(DbException));
+                Assert.AreEqual(e.GetType(), typeof(DbException));
                 catched = true;
-                Assert.Equal(entityId1.ToString(), e.Message);
+                Assert.AreEqual(entityId1.ToString(), e.Message);
             }
             finally
             {
-                Assert.True(catched);
-                Assert.Equal(0, host.RoleSet.Count());
+                Assert.IsTrue(catched);
+                Assert.AreEqual(0, host.RoleSet.Count());
             }
 
             host.Handle(new RoleCreateInput
@@ -116,7 +117,7 @@ namespace Anycmd.Tests
                 Id = entityId2,
                 Name = name
             }.ToCommand(host.GetAcSession()));
-            Assert.Equal(1, host.RoleSet.Count());
+            Assert.AreEqual(1, host.RoleSet.Count());
 
             catched = false;
             try
@@ -129,17 +130,17 @@ namespace Anycmd.Tests
             }
             catch (Exception e)
             {
-                Assert.Equal(e.GetType(), typeof(DbException));
+                Assert.AreEqual(e.GetType(), typeof(DbException));
                 catched = true;
-                Assert.Equal(entityId2.ToString(), e.Message);
+                Assert.AreEqual(entityId2.ToString(), e.Message);
             }
             finally
             {
-                Assert.True(catched);
-                Assert.Equal(1, host.RoleSet.Count());
+                Assert.IsTrue(catched);
+                Assert.AreEqual(1, host.RoleSet.Count());
                 RoleState role;
-                Assert.True(host.RoleSet.TryGetRole(entityId2, out role));
-                Assert.Equal(name, role.Name);
+                Assert.IsTrue(host.RoleSet.TryGetRole(entityId2, out role));
+                Assert.AreEqual(name, role.Name);
             }
 
             catched = false;
@@ -149,26 +150,26 @@ namespace Anycmd.Tests
             }
             catch (Exception e)
             {
-                Assert.Equal(e.GetType(), typeof(DbException));
+                Assert.AreEqual(e.GetType(), typeof(DbException));
                 catched = true;
-                Assert.Equal(entityId2.ToString(), e.Message);
+                Assert.AreEqual(entityId2.ToString(), e.Message);
             }
             finally
             {
-                Assert.True(catched);
+                Assert.IsTrue(catched);
                 RoleState role;
-                Assert.True(host.RoleSet.TryGetRole(entityId2, out role));
-                Assert.Equal(1, host.RoleSet.Count());
+                Assert.IsTrue(host.RoleSet.TryGetRole(entityId2, out role));
+                Assert.AreEqual(1, host.RoleSet.Count());
             }
         }
         #endregion
 
-        [Fact]
+        [TestMethod]
         public void TestRoleHierarchy()
         {
             var host = TestHelper.GetAcDomain();
-            Assert.Equal(0, host.RoleSet.Count());
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            Assert.AreEqual(0, host.RoleSet.Count());
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -213,8 +214,8 @@ namespace Anycmd.Tests
                 ObjectType = AcElementType.Role.ToString()// 客体也是角色
             }));
             PrivilegeState privilegeBigram = host.PrivilegeSet.First(a => a.Id == privilegeId);
-            Assert.NotNull(privilegeBigram);
-            Assert.NotNull(host.RetrieveRequiredService<IRepository<Privilege>>().AsQueryable().FirstOrDefault(a => a.Id == privilegeId));
+            Assert.IsNotNull(privilegeBigram);
+            Assert.IsNotNull(host.RetrieveRequiredService<IRepository<Privilege>>().AsQueryable().FirstOrDefault(a => a.Id == privilegeId));
 
             var roleId3 = Guid.NewGuid();
             // 创建role3
@@ -241,7 +242,7 @@ namespace Anycmd.Tests
                 ObjectType = AcElementType.Role.ToString()// 客体也是角色
             }));
             RoleState role3;
-            Assert.True(host.RoleSet.TryGetRole(roleId3, out role3));
+            Assert.IsTrue(host.RoleSet.TryGetRole(roleId3, out role3));
             var roleId4 = Guid.NewGuid();
             host.Handle(new RoleCreateInput
             {
@@ -264,7 +265,7 @@ namespace Anycmd.Tests
                 ObjectInstanceId = roleId4,
                 ObjectType = AcElementType.Role.ToString()// 客体也是角色
             }));
-            Assert.Equal(1, host.RoleSet.GetDescendantRoles(role3).Count);
+            Assert.AreEqual(1, host.RoleSet.GetDescendantRoles(role3).Count);
         }
     }
 }

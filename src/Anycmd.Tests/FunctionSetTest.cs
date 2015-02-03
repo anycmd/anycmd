@@ -6,22 +6,23 @@ namespace Anycmd.Tests
     using Engine.Ac;
     using Engine.Ac.Messages.Infra;
     using Engine.Host.Ac.Infra;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Moq;
     using Repositories;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Xunit;
 
+    [TestClass]
     public class FunctionSetTest
     {
         #region FunctionSet
-        [Fact]
+        [TestMethod]
         public void FunctionSet()
         {
             var host = TestHelper.GetAcDomain();
-            Assert.Equal(0, host.FunctionSet.Count());
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            Assert.AreEqual(0, host.FunctionSet.Count());
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -42,9 +43,9 @@ namespace Anycmd.Tests
                 SortCode = 10
             }.ToCommand(host.GetAcSession()));
             ResourceTypeState resource;
-            Assert.True(host.ResourceTypeSet.TryGetResource(host.ResourceTypeSet.First().Id, out resource));
-            Assert.Equal(1, host.FunctionSet.Count());
-            Assert.True(host.FunctionSet.TryGetFunction(entityId, out functionById));
+            Assert.IsTrue(host.ResourceTypeSet.TryGetResource(host.ResourceTypeSet.First().Id, out resource));
+            Assert.AreEqual(1, host.FunctionSet.Count());
+            Assert.IsTrue(host.FunctionSet.TryGetFunction(entityId, out functionById));
 
             host.Handle(new FunctionUpdateInput
             {
@@ -56,23 +57,23 @@ namespace Anycmd.Tests
                 IsManaged = false,
                 SortCode = 10
             }.ToCommand(host.GetAcSession()));
-            Assert.Equal(1, host.FunctionSet.Count());
-            Assert.True(host.FunctionSet.TryGetFunction(entityId, out functionById));
-            Assert.Equal("test2", functionById.Description);
-            Assert.Equal("fun2", functionById.Code);
+            Assert.AreEqual(1, host.FunctionSet.Count());
+            Assert.IsTrue(host.FunctionSet.TryGetFunction(entityId, out functionById));
+            Assert.AreEqual("test2", functionById.Description);
+            Assert.AreEqual("fun2", functionById.Code);
 
             host.Handle(new RemoveFunctionCommand(host.GetAcSession(), entityId));
-            Assert.False(host.FunctionSet.TryGetFunction(entityId, out functionById));
-            Assert.Equal(0, host.FunctionSet.Count());
+            Assert.IsFalse(host.FunctionSet.TryGetFunction(entityId, out functionById));
+            Assert.AreEqual(0, host.FunctionSet.Count());
         }
         #endregion
 
-        [Fact]
+        [TestMethod]
         public void FunctionCodeMustBeUnique()
         {
             var host = TestHelper.GetAcDomain();
-            Assert.Equal(0, host.FunctionSet.Count());
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            Assert.AreEqual(0, host.FunctionSet.Count());
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -93,9 +94,9 @@ namespace Anycmd.Tests
                 SortCode = 10
             }.ToCommand(host.GetAcSession()));
             ResourceTypeState resource;
-            Assert.True(host.ResourceTypeSet.TryGetResource(host.ResourceTypeSet.First().Id, out resource));
-            Assert.Equal(1, host.FunctionSet.Count());
-            Assert.True(host.FunctionSet.TryGetFunction(entityId, out functionById));
+            Assert.IsTrue(host.ResourceTypeSet.TryGetResource(host.ResourceTypeSet.First().Id, out resource));
+            Assert.AreEqual(1, host.FunctionSet.Count());
+            Assert.IsTrue(host.FunctionSet.TryGetFunction(entityId, out functionById));
             bool catched = false;
             try
             {
@@ -117,17 +118,17 @@ namespace Anycmd.Tests
             }
             finally
             {
-                Assert.True(catched);
+                Assert.IsTrue(catched);
             }
         }
 
         #region FunctionSetShouldRollbackedWhenPersistFailed
-        [Fact]
+        [TestMethod]
         public void FunctionSetShouldRollbackedWhenPersistFailed()
         {
             var host = TestHelper.GetAcDomain();
-            Assert.Equal(0, host.FunctionSet.Count());
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            Assert.AreEqual(0, host.FunctionSet.Count());
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -180,14 +181,14 @@ namespace Anycmd.Tests
             }
             catch (Exception e)
             {
-                Assert.Equal(e.GetType(), typeof(DbException));
+                Assert.AreEqual(e.GetType(), typeof(DbException));
                 catched = true;
-                Assert.Equal(entityId1.ToString(), e.Message);
+                Assert.AreEqual(entityId1.ToString(), e.Message);
             }
             finally
             {
-                Assert.True(catched);
-                Assert.Equal(0, host.FunctionSet.Count());
+                Assert.IsTrue(catched);
+                Assert.AreEqual(0, host.FunctionSet.Count());
             }
 
             host.Handle(new FunctionCreateInput
@@ -201,7 +202,7 @@ namespace Anycmd.Tests
                 ResourceTypeId = host.ResourceTypeSet.First().Id,
                 SortCode = 10
             }.ToCommand(host.GetAcSession()));
-            Assert.Equal(1, host.FunctionSet.Count());
+            Assert.AreEqual(1, host.FunctionSet.Count());
 
             catched = false;
             try
@@ -219,17 +220,17 @@ namespace Anycmd.Tests
             }
             catch (Exception e)
             {
-                Assert.Equal(e.GetType(), typeof(DbException));
+                Assert.AreEqual(e.GetType(), typeof(DbException));
                 catched = true;
-                Assert.Equal(entityId2.ToString(), e.Message);
+                Assert.AreEqual(entityId2.ToString(), e.Message);
             }
             finally
             {
-                Assert.True(catched);
-                Assert.Equal(1, host.FunctionSet.Count());
+                Assert.IsTrue(catched);
+                Assert.AreEqual(1, host.FunctionSet.Count());
                 FunctionState function;
-                Assert.True(host.FunctionSet.TryGetFunction(entityId2, out function));
-                Assert.Equal("fun2", function.Code);
+                Assert.IsTrue(host.FunctionSet.TryGetFunction(entityId2, out function));
+                Assert.AreEqual("fun2", function.Code);
             }
 
             catched = false;
@@ -239,16 +240,16 @@ namespace Anycmd.Tests
             }
             catch (Exception e)
             {
-                Assert.Equal(e.GetType(), typeof(DbException));
+                Assert.AreEqual(e.GetType(), typeof(DbException));
                 catched = true;
-                Assert.Equal(entityId2.ToString(), e.Message);
+                Assert.AreEqual(entityId2.ToString(), e.Message);
             }
             finally
             {
-                Assert.True(catched);
+                Assert.IsTrue(catched);
                 FunctionState function;
-                Assert.True(host.FunctionSet.TryGetFunction(entityId2, out function));
-                Assert.Equal(1, host.FunctionSet.Count());
+                Assert.IsTrue(host.FunctionSet.TryGetFunction(entityId2, out function));
+                Assert.AreEqual(1, host.FunctionSet.Count());
             }
         }
         #endregion

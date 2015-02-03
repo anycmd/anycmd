@@ -13,6 +13,7 @@ namespace Anycmd.Engine.Host.Impl
     using Edi.Entities;
     using Edi.Handlers;
     using Edi.MessageHandlers;
+    using Engine.Ac;
     using Engine.Rdb;
     using IdGenerators;
     using Logging;
@@ -25,6 +26,8 @@ namespace Anycmd.Engine.Host.Impl
     /// </summary>
     public class DefaultAcDomain : AcDomain, IHandler<MemorySetInitingEvent>, IHandler<MemorySetInitializedEvent>
     {
+        protected IAcSessionMethod AcSessionFunctions { get; set; }
+
         public DefaultAcDomain()
         {
             Construct();
@@ -77,6 +80,10 @@ namespace Anycmd.Engine.Host.Impl
 
         public override void Configure()
         {
+            if (AcSessionFunctions != null)
+            {
+                AcSessionState.AcMethod = AcSessionFunctions;   
+            }
             this.AddDefaultService<IOriginalHostStateReader>(new RdbOriginalHostStateReader(this));
             this.AddDefaultService<IRdbMetaDataService>(new SqlServerMetaDataService(this));
             this.AddDefaultService<ISqlFilterStringBuilder>(new SqlFilterStringBuilder());

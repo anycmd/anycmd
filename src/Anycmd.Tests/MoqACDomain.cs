@@ -1,7 +1,7 @@
 ﻿
 namespace Anycmd.Tests
 {
-    using Engine.Ac;
+    using Engine.Ac.Abstractions.Rbac;
     using Engine.Host;
     using Engine.Host.Ac;
     using Engine.Host.Ac.Identity;
@@ -20,58 +20,18 @@ namespace Anycmd.Tests
     {
         public MoqAcDomain()
         {
-            AcSessionState.SignOuted = OnSignOuted;
-            AcSessionState.GetAccountById = GetAccountById;
-            AcSessionState.GetAccountByLoginName = GetAccountByLoginName;
         }
 
         public override void Configure()
         {
+            var acMethod = new DefaultAcSessionMethod();
+            base.AcSessionFunctions = new DefaultAcSessionMethod(
+                acMethod.SignIn, acMethod.SignOut, OnSignOuted, GetAccountById, GetAccountByLoginName
+                , GetAcSessionEntity, acMethod.GetAcSession, AddAcSession, UpdateAcSession, DeleteAcSession);
             base.Configure();
             this.RegisterRepository(typeof(AcDomain).Assembly);
             AddService(typeof(ILoggingService), new Log4NetLoggingService(this));
             AddService(typeof(IAcSessionStorage), new SimpleAcSessionStorage());
-            #region AcSessionState
-            AcSessionState.GetAcSessionEntity = (acDomain, acSessionId) => acDomain.GetRequiredService<IRepository<AcSession>>().GetByKey(acSessionId);
-            AcSessionState.AddAcSession = (acDomain, acSessionEntity) =>
-            {
-                var repository = acDomain.GetRequiredService<IRepository<AcSession>>();
-                repository.Add((AcSession)acSessionEntity);
-                repository.Context.Commit();
-            };
-            AcSessionState.UpdateAcSession = (acDomain, acSessionEntity) =>
-            {
-                var repository = acDomain.GetRequiredService<IRepository<AcSession>>();
-                repository.Update(new AcSession()
-                {
-                    Id = acSessionEntity.Id,
-                    AuthenticationType = acSessionEntity.AuthenticationType,
-                    IsAuthenticated = acSessionEntity.IsAuthenticated,
-                    LoginName = acSessionEntity.LoginName,
-                    IsEnabled = acSessionEntity.IsEnabled,
-                    AccountId = acSessionEntity.AccountId,
-                    Description = acSessionEntity.Description
-                });
-                repository.Context.Commit();
-            };
-            AcSessionState.DeleteAcSession = (acDomain, guid) =>
-            {
-                var repository = acDomain.GetRequiredService<IRepository<AcSession>>();
-                var entity = repository.GetByKey(guid);
-                if (entity == null)
-                {
-                    return;
-                }
-                repository.Remove(entity);
-                repository.Context.Commit();
-            };
-            AcSessionState.GetAccountById = (acDomain, id) => acDomain.GetRequiredService<IRepository<Account>>().GetByKey(id);
-            AcSessionState.GetAccountByLoginName =
-                (acDomain, loginName) =>
-                    acDomain.GetRequiredService<IRepository<Account>>()
-                        .AsQueryable()
-                        .FirstOrDefault(a => a.LoginName == loginName);
-            #endregion
             Guid dicId = Guid.NewGuid();
             this.GetRequiredService<IRepository<Dic>>().Add(new Dic()
             {
@@ -203,6 +163,10 @@ namespace Anycmd.Tests
 
         private static void OnSignOuted(IAcDomain acDomain, Guid sessionId)
         {
+            if (EmptyAcDomain.SingleInstance.Equals(acDomain))
+            {
+                return;
+            }
             var repository = acDomain.GetRequiredService<IRepository<AcSession>>();
             var entity = repository.GetByKey(sessionId);
             if (entity == null) return;
@@ -210,16 +174,80 @@ namespace Anycmd.Tests
             repository.Update(entity);
         }
 
+        private static IAcSessionEntity GetAcSessionEntity(IAcDomain acDomain, Guid acSessionId)
+        {
+            if (EmptyAcDomain.SingleInstance.Equals(acDomain))
+            {
+                return null;
+            }
+            return acDomain.GetRequiredService<IRepository<AcSession>>().GetByKey(acSessionId);
+        }
+
+        private static void AddAcSession(IAcDomain acDomain, IAcSessionEntity acSessionEntity)
+        {
+            if (EmptyAcDomain.SingleInstance.Equals(acDomain))
+            {
+                return;
+            }
+            var repository = acDomain.GetRequiredService<IRepository<AcSession>>();
+            repository.Add((AcSession)acSessionEntity);
+            repository.Context.Commit();
+        }
+
+        private static void UpdateAcSession(IAcDomain acDomain, IAcSessionEntity acSessionEntity)
+        {
+            if (EmptyAcDomain.SingleInstance.Equals(acDomain))
+            {
+                return;
+            }
+            var repository = acDomain.GetRequiredService<IRepository<AcSession>>();
+            repository.Update(new AcSession()
+            {
+                Id = acSessionEntity.Id,
+                AuthenticationType = acSessionEntity.AuthenticationType,
+                IsAuthenticated = acSessionEntity.IsAuthenticated,
+                LoginName = acSessionEntity.LoginName,
+                IsEnabled = acSessionEntity.IsEnabled,
+                AccountId = acSessionEntity.AccountId,
+                Description = acSessionEntity.Description
+            });
+            repository.Context.Commit();
+        }
+
+        private static void DeleteAcSession(IAcDomain acDomain, Guid acSessionId)
+        {
+            if (EmptyAcDomain.SingleInstance.Equals(acDomain))
+            {
+                return;
+            }
+            var repository = acDomain.GetRequiredService<IRepository<AcSession>>();
+            var entity = repository.GetByKey(acSessionId);
+            if (entity == null)
+            {
+                return;
+            }
+            repository.Remove(entity);
+            repository.Context.Commit();
+        }
+
         private static Account GetAccountById(IAcDomain acDomain, Guid accountId)
         {
+            if (EmptyAcDomain.SingleInstance.Equals(acDomain))
+            {
+                return null;
+            }
             var repository = acDomain.GetRequiredService<IRepository<Account>>();
             return repository.GetByKey(accountId);
         }
 
         private static Account GetAccountByLoginName(IAcDomain acDomain, string loginName)
         {
+            if (EmptyAcDomain.SingleInstance.Equals(acDomain))
+            {
+                return null;
+            }
             var repository = acDomain.GetRequiredService<IRepository<Account>>();
-            return repository.AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, loginName, StringComparison.OrdinalIgnoreCase));
+            return repository.AsQueryable().FirstOrDefault(a => a.LoginName == loginName);
         }
     }
 }

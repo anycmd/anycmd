@@ -1,15 +1,16 @@
 ﻿
 namespace Anycmd.Tests
 {
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Query.UnifiedQueries;
     using Query.UnifiedQueries.Compilers;
     using System;
     using System.Linq;
-    using Xunit;
 
+    [TestClass]
     public class UnifiedQueriesTest
     {
-        [Fact]
+        [TestMethod]
         public void QueryTest()
         {
             var querySpecification = QuerySpecification.LoadFromFile("QuerySpecificationSample.xml");

@@ -17,11 +17,11 @@ namespace Anycmd.Engine.Host
     using System;
     using System.Collections.Generic;
 
-    internal class EmptyAcDomain : AnycmdServiceContainer, IAcDomain
+    public class EmptyAcDomain : AnycmdServiceContainer, IAcDomain
     {
         public static readonly IAcDomain SingleInstance = new EmptyAcDomain();
 
-        public EmptyAcDomain()
+        private EmptyAcDomain()
         {
             this.NodeHost = new EmptyNodeHost(this);
             this.SignIn = (args) =>
@@ -105,7 +105,7 @@ namespace Anycmd.Engine.Host
 
         public void DeleteSession(Guid sessionId)
         {
-
+            // 什么也不做
         }
 
         public IDicSet DicSet

@@ -11,21 +11,22 @@ namespace Anycmd.Tests
     using Engine.Ac.Messages.Infra;
     using Engine.Host.Ac;
     using Engine.Host.Ac.Identity;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Repositories;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Xunit;
 
+    [TestClass]
     public class PrivilegeTest
     {
         #region AccountSubjectTypePrivilege
-        [Fact]
+        [TestMethod]
         public void AccountSubjectTypePrivilege()
         {
             var host = TestHelper.GetAcDomain();
-            Assert.Equal(0, host.PrivilegeSet.Count());
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            Assert.AreEqual(0, host.PrivilegeSet.Count());
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -64,34 +65,34 @@ namespace Anycmd.Tests
                 ObjectInstanceId = groupId,
                 ObjectType = AcElementType.Group.ToString()
             }));
-            Assert.Equal(0, host.PrivilegeSet.Count()); // 主体为账户的权限记录不驻留在内存中所以为0
+            Assert.AreEqual(0, host.PrivilegeSet.Count()); // 主体为账户的权限记录不驻留在内存中所以为0
             var privilegeBigram = host.RetrieveRequiredService<IRepository<Privilege>>().AsQueryable().FirstOrDefault(a => a.Id == entityId);
-            Assert.NotNull(privilegeBigram);
-            Assert.Equal(accountId, privilegeBigram.SubjectInstanceId);
-            Assert.Equal(groupId, privilegeBigram.ObjectInstanceId);
+            Assert.IsNotNull(privilegeBigram);
+            Assert.AreEqual(accountId, privilegeBigram.SubjectInstanceId);
+            Assert.AreEqual(groupId, privilegeBigram.ObjectInstanceId);
 
             host.Handle(new UpdatePrivilegeCommand(host.GetAcSession(), new PrivilegeUpdateIo
             {
                 Id = entityId,
                 AcContent = "this is a test"
             }));
-            Assert.Equal(0, host.PrivilegeSet.Count());// 主体为账户的权限记录不驻留在内存中所以为0
+            Assert.AreEqual(0, host.PrivilegeSet.Count());// 主体为账户的权限记录不驻留在内存中所以为0
             var firstOrDefault = host.RetrieveRequiredService<IRepository<Privilege>>().AsQueryable().FirstOrDefault(a => a.Id == entityId);
             if (
                 firstOrDefault != null)
-                Assert.Equal("this is a test", firstOrDefault.AcContent);
+                Assert.AreEqual("this is a test", firstOrDefault.AcContent);
 
             host.Handle(new RemovePrivilegeCommand(host.GetAcSession(), entityId));
-            Assert.Null(host.RetrieveRequiredService<IRepository<Privilege>>().AsQueryable().FirstOrDefault(a => a.Id == entityId));
+            Assert.IsNull(host.RetrieveRequiredService<IRepository<Privilege>>().AsQueryable().FirstOrDefault(a => a.Id == entityId));
         }
         #endregion
 
-        [Fact]
+        [TestMethod]
         public void RoleSubjectTypePrivilege()
         {
             var host = TestHelper.GetAcDomain();
             var roleId = Guid.NewGuid();
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -108,8 +109,8 @@ namespace Anycmd.Tests
                 SortCode = 10,
                 Icon = null
             }.ToCommand(host.GetAcSession()));
-            Assert.Equal(1, host.RoleSet.Count());
-            Assert.True(host.RoleSet.TryGetRole(roleId, out roleById));
+            Assert.AreEqual(1, host.RoleSet.Count());
+            Assert.IsTrue(host.RoleSet.TryGetRole(roleId, out roleById));
 
             var functionId = Guid.NewGuid();
 
@@ -126,9 +127,9 @@ namespace Anycmd.Tests
                 SortCode = 10
             }.ToCommand(host.GetAcSession()));
             ResourceTypeState resource;
-            Assert.True(host.ResourceTypeSet.TryGetResource(host.ResourceTypeSet.First().Id, out resource));
-            Assert.Equal(1, host.FunctionSet.Count());
-            Assert.True(host.FunctionSet.TryGetFunction(functionId, out functionById));
+            Assert.IsTrue(host.ResourceTypeSet.TryGetResource(host.ResourceTypeSet.First().Id, out resource));
+            Assert.AreEqual(1, host.FunctionSet.Count());
+            Assert.IsTrue(host.FunctionSet.TryGetFunction(functionId, out functionById));
             var entityId = Guid.NewGuid();
 
             host.Handle(new AddPrivilegeCommand(host.GetAcSession(), new PrivilegeCreateIo
@@ -142,34 +143,34 @@ namespace Anycmd.Tests
                 ObjectType = AcElementType.Function.ToString()
             }));
             PrivilegeState privilegeBigram = host.PrivilegeSet.First(a => a.Id == entityId);
-            Assert.NotNull(privilegeBigram);
-            Assert.NotNull(host.RetrieveRequiredService<IRepository<Privilege>>().AsQueryable().FirstOrDefault(a => a.Id == entityId));
-            Assert.Equal(roleId, privilegeBigram.SubjectInstanceId);
-            Assert.Equal(functionId, privilegeBigram.ObjectInstanceId);
+            Assert.IsNotNull(privilegeBigram);
+            Assert.IsNotNull(host.RetrieveRequiredService<IRepository<Privilege>>().AsQueryable().FirstOrDefault(a => a.Id == entityId));
+            Assert.AreEqual(roleId, privilegeBigram.SubjectInstanceId);
+            Assert.AreEqual(functionId, privilegeBigram.ObjectInstanceId);
 
             host.Handle(new UpdatePrivilegeCommand(host.GetAcSession(), new PrivilegeUpdateIo
             {
                 Id = entityId,
                 AcContent = "this is a test"
             }));
-            Assert.Equal("this is a test", host.PrivilegeSet.Single(a => a.Id == entityId).AcContent);
+            Assert.AreEqual("this is a test", host.PrivilegeSet.Single(a => a.Id == entityId).AcContent);
 
             host.Handle(new RemovePrivilegeCommand(host.GetAcSession(), entityId));
-            Assert.Null(host.PrivilegeSet.FirstOrDefault(a => a.Id == entityId));
+            Assert.IsNull(host.PrivilegeSet.FirstOrDefault(a => a.Id == entityId));
         }
 
-        [Fact]
+        [TestMethod]
         public void CatalogSubjectTypePrivilege()
         {
             // TODO:实现单元测试
         }
 
-        [Fact]
+        [TestMethod]
         public void SubjectTypeTest()
         {
             var host = TestHelper.GetAcDomain();
-            Assert.Equal(0, host.PrivilegeSet.Count());
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            Assert.AreEqual(0, host.PrivilegeSet.Count());
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -195,8 +196,8 @@ namespace Anycmd.Tests
             }
             finally
             {
-                Assert.True(catched);
-                Assert.Equal(0, host.PrivilegeSet.Count());
+                Assert.IsTrue(catched);
+                Assert.AreEqual(0, host.PrivilegeSet.Count());
             }
             catched = false;
             try
@@ -218,8 +219,8 @@ namespace Anycmd.Tests
             }
             finally
             {
-                Assert.True(catched);
-                Assert.Equal(0, host.PrivilegeSet.Count());
+                Assert.IsTrue(catched);
+                Assert.AreEqual(0, host.PrivilegeSet.Count());
             }
             catched = false;
             try
@@ -241,8 +242,8 @@ namespace Anycmd.Tests
             }
             finally
             {
-                Assert.True(catched);
-                Assert.Equal(0, host.PrivilegeSet.Count());
+                Assert.IsTrue(catched);
+                Assert.AreEqual(0, host.PrivilegeSet.Count());
             }
 
             Guid groupId = Guid.NewGuid();
@@ -286,8 +287,8 @@ namespace Anycmd.Tests
             }
             finally
             {
-                Assert.True(catched);
-                Assert.Equal(0, host.PrivilegeSet.Count());
+                Assert.IsTrue(catched);
+                Assert.AreEqual(0, host.PrivilegeSet.Count());
             }
         }
     }

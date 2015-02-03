@@ -5,23 +5,24 @@ namespace Anycmd.Tests
     using Engine.Ac;
     using Engine.Ac.Messages.Infra;
     using Engine.Host.Ac.Infra;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Moq;
     using Repositories;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Xunit;
 
+    [TestClass]
     public class CatalogTest
     {
         #region CatalogSet
-        [Fact]
+        [TestMethod]
         public void CatalogSet()
         {
             var host = TestHelper.GetAcDomain();
-            Assert.Equal(1, host.CatalogSet.Count());
-            Assert.Equal(CatalogState.VirtualRoot, host.CatalogSet.First());
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            Assert.AreEqual(1, host.CatalogSet.Count());
+            Assert.AreEqual(CatalogState.VirtualRoot, host.CatalogSet.First());
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -39,8 +40,8 @@ namespace Anycmd.Tests
                 SortCode = 10,
                 Icon = null,
             }.ToCommand(host.GetAcSession()));
-            Assert.Equal(2, host.CatalogSet.Count());
-            Assert.True(host.CatalogSet.TryGetCatalog(entityId, out catalogById));
+            Assert.AreEqual(2, host.CatalogSet.Count());
+            Assert.IsTrue(host.CatalogSet.TryGetCatalog(entityId, out catalogById));
 
             host.Handle(new CatalogUpdateInput
             {
@@ -51,22 +52,22 @@ namespace Anycmd.Tests
                 SortCode = 10,
                 Icon = null,
             }.ToCommand(host.GetAcSession()));
-            Assert.Equal(2, host.CatalogSet.Count());
-            Assert.True(host.CatalogSet.TryGetCatalog(entityId, out catalogById));
-            Assert.Equal("test2", catalogById.Name);
+            Assert.AreEqual(2, host.CatalogSet.Count());
+            Assert.IsTrue(host.CatalogSet.TryGetCatalog(entityId, out catalogById));
+            Assert.AreEqual("test2", catalogById.Name);
 
             host.Handle(new RemoveCatalogCommand(host.GetAcSession(), entityId));
-            Assert.False(host.CatalogSet.TryGetCatalog(entityId, out catalogById));
-            Assert.Equal(1, host.CatalogSet.Count());
+            Assert.IsFalse(host.CatalogSet.TryGetCatalog(entityId, out catalogById));
+            Assert.AreEqual(1, host.CatalogSet.Count());
         }
         #endregion
 
-        [Fact]
+        [TestMethod]
         public void CatalogCodeMustBeUnique()
         {
             var host = TestHelper.GetAcDomain();
-            Assert.Equal(1, host.CatalogSet.Count());
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            Assert.AreEqual(1, host.CatalogSet.Count());
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -85,8 +86,8 @@ namespace Anycmd.Tests
                 SortCode = 10,
                 Icon = null,
             }.ToCommand(host.GetAcSession()));
-            Assert.Equal(2, host.CatalogSet.Count());
-            Assert.True(host.CatalogSet.TryGetCatalog(entityId, out catalogById));
+            Assert.AreEqual(2, host.CatalogSet.Count());
+            Assert.IsTrue(host.CatalogSet.TryGetCatalog(entityId, out catalogById));
             bool catched = false;
             try
             {
@@ -117,17 +118,17 @@ namespace Anycmd.Tests
             }
             finally
             {
-                Assert.True(catched);
-                Assert.Equal(2, host.CatalogSet.Count());
+                Assert.IsTrue(catched);
+                Assert.AreEqual(2, host.CatalogSet.Count());
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void CatalogCanNotRemoveWhenItHasChildCatalogs()
         {
             var host = TestHelper.GetAcDomain();
-            Assert.Equal(1, host.CatalogSet.Count());
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            Assert.AreEqual(1, host.CatalogSet.Count());
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -156,8 +157,8 @@ namespace Anycmd.Tests
                 SortCode = 10,
                 Icon = null,
             }.ToCommand(host.GetAcSession()));
-            Assert.Equal(3, host.CatalogSet.Count());
-            Assert.True(host.CatalogSet.TryGetCatalog(entityId, out catalogById));
+            Assert.AreEqual(3, host.CatalogSet.Count());
+            Assert.IsTrue(host.CatalogSet.TryGetCatalog(entityId, out catalogById));
             bool catched = false;
             try
             {
@@ -169,19 +170,19 @@ namespace Anycmd.Tests
             }
             finally
             {
-                Assert.True(catched);
-                Assert.Equal(3, host.CatalogSet.Count());
+                Assert.IsTrue(catched);
+                Assert.AreEqual(3, host.CatalogSet.Count());
             }
         }
 
         #region CatalogSetShouldRollbackedWhenPersistFailed
-        [Fact]
+        [TestMethod]
         public void CatalogSetShouldRollbackedWhenPersistFailed()
         {
             var host = TestHelper.GetAcDomain();
-            Assert.Equal(1, host.CatalogSet.Count());
-            Assert.Equal(CatalogState.VirtualRoot, host.CatalogSet.First());
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            Assert.AreEqual(1, host.CatalogSet.Count());
+            Assert.AreEqual(CatalogState.VirtualRoot, host.CatalogSet.First());
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -214,14 +215,14 @@ namespace Anycmd.Tests
             }
             catch (Exception e)
             {
-                Assert.Equal(e.GetType(), typeof(DbException));
+                Assert.AreEqual(e.GetType(), typeof(DbException));
                 catched = true;
-                Assert.Equal(entityId1.ToString(), e.Message);
+                Assert.AreEqual(entityId1.ToString(), e.Message);
             }
             finally
             {
-                Assert.True(catched);
-                Assert.Equal(1, host.CatalogSet.Count());
+                Assert.IsTrue(catched);
+                Assert.AreEqual(1, host.CatalogSet.Count());
             }
 
             host.Handle(new CatalogCreateInput
@@ -233,7 +234,7 @@ namespace Anycmd.Tests
                 Icon = null,
                 Name = name
             }.ToCommand(host.GetAcSession()));
-            Assert.Equal(2, host.CatalogSet.Count());
+            Assert.AreEqual(2, host.CatalogSet.Count());
 
             catched = false;
             try
@@ -250,17 +251,17 @@ namespace Anycmd.Tests
             }
             catch (Exception e)
             {
-                Assert.Equal(e.GetType(), typeof(DbException));
+                Assert.AreEqual(e.GetType(), typeof(DbException));
                 catched = true;
-                Assert.Equal(entityId2.ToString(), e.Message);
+                Assert.AreEqual(entityId2.ToString(), e.Message);
             }
             finally
             {
-                Assert.True(catched);
-                Assert.Equal(2, host.CatalogSet.Count());
+                Assert.IsTrue(catched);
+                Assert.AreEqual(2, host.CatalogSet.Count());
                 CatalogState catalog;
-                Assert.True(host.CatalogSet.TryGetCatalog(entityId2, out catalog));
-                Assert.Equal(name, catalog.Name);
+                Assert.IsTrue(host.CatalogSet.TryGetCatalog(entityId2, out catalog));
+                Assert.AreEqual(name, catalog.Name);
             }
 
             catched = false;
@@ -270,16 +271,16 @@ namespace Anycmd.Tests
             }
             catch (Exception e)
             {
-                Assert.Equal(e.GetType(), typeof(DbException));
+                Assert.AreEqual(e.GetType(), typeof(DbException));
                 catched = true;
-                Assert.Equal(entityId2.ToString(), e.Message);
+                Assert.AreEqual(entityId2.ToString(), e.Message);
             }
             finally
             {
-                Assert.True(catched);
+                Assert.IsTrue(catched);
                 CatalogState catalog;
-                Assert.True(host.CatalogSet.TryGetCatalog(entityId2, out catalog));
-                Assert.Equal(2, host.CatalogSet.Count());
+                Assert.IsTrue(host.CatalogSet.TryGetCatalog(entityId2, out catalog));
+                Assert.AreEqual(2, host.CatalogSet.Count());
             }
         }
         #endregion

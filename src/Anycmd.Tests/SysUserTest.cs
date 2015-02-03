@@ -5,20 +5,21 @@ namespace Anycmd.Tests
     using Engine.Ac;
     using Engine.Ac.Messages.Identity;
     using Engine.Host.Ac.Identity;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Moq;
     using Repositories;
     using System;
     using System.Collections.Generic;
-    using Xunit;
 
+    [TestClass]
     public class SysUserTest
     {
-        [Fact]
+        [TestMethod]
         public void SysUserSet()
         {
             var host = TestHelper.GetAcDomain();
-            Assert.True(host.SysUserSet.GetDevAccounts().Count == 1);
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            Assert.IsTrue(host.SysUserSet.GetDevAccounts().Count == 1);
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -33,17 +34,17 @@ namespace Anycmd.Tests
                 LoginName = "anycmd"
             });
             host.RetrieveRequiredService<IRepository<Account>>().Context.Commit();
-            Assert.True(host.SysUserSet.GetDevAccounts().Count == 1);
+            Assert.IsTrue(host.SysUserSet.GetDevAccounts().Count == 1);
             host.Handle(new AddDeveloperCommand(host.GetAcSession(), accountId));
             AccountState developer;
-            Assert.True(host.SysUserSet.GetDevAccounts().Count == 2);
-            Assert.True(host.SysUserSet.TryGetDevAccount(accountId, out developer));
-            Assert.True(host.SysUserSet.TryGetDevAccount("anycmd", out developer));
+            Assert.IsTrue(host.SysUserSet.GetDevAccounts().Count == 2);
+            Assert.IsTrue(host.SysUserSet.TryGetDevAccount(accountId, out developer));
+            Assert.IsTrue(host.SysUserSet.TryGetDevAccount("anycmd", out developer));
 
             host.Handle(new RemoveDeveloperCommand(host.GetAcSession(), accountId));
-            Assert.True(host.SysUserSet.GetDevAccounts().Count == 1);
-            Assert.False(host.SysUserSet.TryGetDevAccount(accountId, out developer));
-            Assert.False(host.SysUserSet.TryGetDevAccount("anycmd", out developer));
+            Assert.IsTrue(host.SysUserSet.GetDevAccounts().Count == 1);
+            Assert.IsFalse(host.SysUserSet.TryGetDevAccount(accountId, out developer));
+            Assert.IsFalse(host.SysUserSet.TryGetDevAccount("anycmd", out developer));
 
             bool catched = false;
             try
@@ -56,17 +57,17 @@ namespace Anycmd.Tests
             }
             finally
             {
-                Assert.True(catched);
+                Assert.IsTrue(catched);
             }
         }
 
         #region SysUserSetShouldRollbackedWhenPersistFailed
-        [Fact]
+        [TestMethod]
         public void SysUserSetShouldRollbackedWhenPersistFailed()
         {
             var host = TestHelper.GetAcDomain();
-            Assert.Equal(1, host.SysUserSet.GetDevAccounts().Count);
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            Assert.AreEqual(1, host.SysUserSet.GetDevAccounts().Count);
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -106,7 +107,10 @@ namespace Anycmd.Tests
                 Password = "111111"
             });
             host.RetrieveRequiredService<IRepository<Account>>().Context.Commit();
-            Assert.True(host.SysUserSet.GetDevAccounts().Count == 1);
+            Assert.IsNotNull(host.RetrieveRequiredService<IRepository<Account>>().GetByKey(entityId2));
+            Assert.IsNotNull(AcSessionState.AcMethod.GetAccountById(host, entityId2));
+            Assert.IsNotNull(AcSessionState.AcMethod.GetAccountByLoginName(host, loginName2));
+            Assert.IsTrue(host.SysUserSet.GetDevAccounts().Count == 1);
             bool catched = false;
             try
             {
@@ -114,21 +118,21 @@ namespace Anycmd.Tests
             }
             catch (Exception e)
             {
-                Assert.Equal(e.GetType(), typeof(DbException));
+                Assert.AreEqual(e.GetType(), typeof(DbException));
                 catched = true;
-                Assert.Equal(entityId1.ToString(), e.Message);
+                Assert.AreEqual(entityId1.ToString(), e.Message);
             }
             finally
             {
-                Assert.True(catched);
-                Assert.Equal(1, host.SysUserSet.GetDevAccounts().Count);
+                Assert.IsTrue(catched);
+                Assert.AreEqual(1, host.SysUserSet.GetDevAccounts().Count);
             }
 
             host.Handle(new AddDeveloperCommand(host.GetAcSession(), entityId2));
-            Assert.Equal(2, host.SysUserSet.GetDevAccounts().Count);
+            Assert.AreEqual(2, host.SysUserSet.GetDevAccounts().Count);
 
-            AcSessionState.SignOut(host, host.GetAcSession());
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            AcSessionState.AcMethod.SignOut(host, host.GetAcSession());
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", loginName2},
                 {"password", "111111"},
@@ -139,8 +143,8 @@ namespace Anycmd.Tests
                 Id = entityId2,
                 Name = "test2"
             }.ToCommand(host.GetAcSession()));
-            Assert.True(catched);
-            Assert.Equal(2, host.SysUserSet.GetDevAccounts().Count);
+            Assert.IsTrue(catched);
+            Assert.AreEqual(2, host.SysUserSet.GetDevAccounts().Count);
 
             catched = false;
             try
@@ -149,14 +153,14 @@ namespace Anycmd.Tests
             }
             catch (Exception e)
             {
-                Assert.Equal(e.GetType(), typeof(DbException));
+                Assert.AreEqual(e.GetType(), typeof(DbException));
                 catched = true;
-                Assert.Equal(entityId2.ToString(), e.Message);
+                Assert.AreEqual(entityId2.ToString(), e.Message);
             }
             finally
             {
-                Assert.True(catched);
-                Assert.Equal(2, host.SysUserSet.GetDevAccounts().Count);
+                Assert.IsTrue(catched);
+                Assert.AreEqual(2, host.SysUserSet.GetDevAccounts().Count);
             }
         }
         #endregion

@@ -2,34 +2,35 @@
 namespace Anycmd.Tests
 {
     using Engine.Host.Ac.Infra;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
     using System.Collections.Generic;
-    using Xunit;
 
+    [TestClass]
     public class TempTest
     {
-        [Fact]
+        [TestMethod]
         public void ConfigurationFileTest()
         {
             string fileName = AppDomain.CurrentDomain.SetupInformation.ConfigurationFile;
-            Assert.True(fileName.EndsWith("dll.config", StringComparison.OrdinalIgnoreCase));
-            Assert.True(null + string.Empty + " " == " ");
+            Assert.IsTrue(fileName.EndsWith("dll.config", StringComparison.OrdinalIgnoreCase));
+            Assert.IsTrue(null + string.Empty + " " == " ");
             var entityTypeMaps = new HashSet<EntityTypeMap>();
             var item = EntityTypeMap.Create(this.GetType(), "test", "test");
             entityTypeMaps.Add(item);
             entityTypeMaps.Add(item);
-            Assert.Equal(1, entityTypeMaps.Count);
+            Assert.AreEqual(1, entityTypeMaps.Count);
         }
 
-        [Fact]
+        [TestMethod]
         public void ClrTypeTest()
         {
             var privatePublicSubClass = typeof(PrivatePublicSubClass);
             var privateProtectedSubClass = typeof(PrivateProtectedSubClass);
-            Assert.True(typeof(PublicClass).IsNested);
-            Assert.True(!typeof(ProtectedClass).IsPublic);
-            Assert.True(!privatePublicSubClass.IsPublic);
-            Assert.True(!privateProtectedSubClass.IsPublic);
+            Assert.IsTrue(typeof(PublicClass).IsNested);
+            Assert.IsTrue(!typeof(ProtectedClass).IsPublic);
+            Assert.IsTrue(!privatePublicSubClass.IsPublic);
+            Assert.IsTrue(!privateProtectedSubClass.IsPublic);
         }
 
         protected class ProtectedClass

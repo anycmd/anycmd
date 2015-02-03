@@ -103,7 +103,7 @@ namespace Anycmd.Web.Mvc
             {
                 return;
             }
-            var acSession = AcSessionState.GetAcSession(acDomain, user.Identity.Name);
+            var acSession = AcSessionState.AcMethod.GetAcSession(acDomain, user.Identity.Name);
             if (acSession.Permit(function, null)) return;
             if (isAjaxRequest)
             {

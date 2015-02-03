@@ -140,7 +140,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
         [Guid("C8533933-6AA7-4EFE-B238-E0AFCCC3B761")]
         public ActionResult SignIn(string loginName, string password, string rememberMe)
         {
-            AcSessionState.SignIn(AcDomain, new Dictionary<string, object>
+            AcSessionState.AcMethod.SignIn(AcDomain, new Dictionary<string, object>
             {
                 {"loginName", loginName},
                 {"password", password},
@@ -156,7 +156,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
         [Guid("E0F71820-7225-4CE6-B6FF-68D33EE47CB9")]
         public ActionResult SignOut()
         {
-            AcSessionState.SignOut(AcDomain, AcSession);
+            AcSessionState.AcMethod.SignOut(AcDomain, AcSession);
 
             return this.JsonResult(new ResponseData { success = true });
         }

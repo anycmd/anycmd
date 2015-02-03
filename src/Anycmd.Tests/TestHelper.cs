@@ -13,7 +13,9 @@ namespace Anycmd.Tests
     {
         public static IAcDomain GetAcDomain()
         {
-            return new MoqAcDomain().Init();
+            var acDomain = new MoqAcDomain().Init();
+
+            return acDomain;
         }
 
         public static Mock<TRepository> GetMoqRepository<TEntity, TRepository>(this IAcDomain host)

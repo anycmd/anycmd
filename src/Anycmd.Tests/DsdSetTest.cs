@@ -2,8 +2,6 @@
 namespace Anycmd.Tests
 {
     using Ac.ViewModels.DsdViewModels;
-    using Ac.ViewModels.Identity.AccountViewModels;
-    using Ac.ViewModels.Infra.DicViewModels;
     using Ac.ViewModels.Infra.CatalogViewModels;
     using Ac.ViewModels.PrivilegeViewModels;
     using Ac.ViewModels.RoleViewModels;
@@ -12,20 +10,21 @@ namespace Anycmd.Tests
     using Engine.Ac.Messages;
     using Engine.Ac.Messages.Rbac;
     using Engine.Host.Ac.Identity;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Repositories;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Xunit;
 
+    [TestClass]
     public class DsdSetTest
     {
-        [Fact]
+        [TestMethod]
         public void DsdSet()
         {
             var host = TestHelper.GetAcDomain();
-            Assert.Equal(0, host.DsdSetSet.Count());
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            Assert.AreEqual(0, host.DsdSetSet.Count());
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -42,8 +41,8 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 DsdCard = 2
             }));
-            Assert.Equal(1, host.DsdSetSet.Count());
-            Assert.True(host.DsdSetSet.TryGetDsdSet(entityId, out dsdSetById));
+            Assert.AreEqual(1, host.DsdSetSet.Count());
+            Assert.IsTrue(host.DsdSetSet.TryGetDsdSet(entityId, out dsdSetById));
 
             host.Handle(new UpdateDsdSetCommand(host.GetAcSession(), new DsdSetUpdateIo
             {
@@ -53,21 +52,21 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 DsdCard = 2
             }));
-            Assert.Equal(1, host.DsdSetSet.Count());
-            Assert.True(host.DsdSetSet.TryGetDsdSet(entityId, out dsdSetById));
-            Assert.Equal("test2", dsdSetById.Name);
+            Assert.AreEqual(1, host.DsdSetSet.Count());
+            Assert.IsTrue(host.DsdSetSet.TryGetDsdSet(entityId, out dsdSetById));
+            Assert.AreEqual("test2", dsdSetById.Name);
 
             host.Handle(new RemoveDsdSetCommand(host.GetAcSession(), entityId));
-            Assert.False(host.DsdSetSet.TryGetDsdSet(entityId, out dsdSetById));
-            Assert.Equal(0, host.DsdSetSet.Count());
+            Assert.IsFalse(host.DsdSetSet.TryGetDsdSet(entityId, out dsdSetById));
+            Assert.AreEqual(0, host.DsdSetSet.Count());
         }
 
-        [Fact]
+        [TestMethod]
         public void TestDsdRole()
         {
             var host = TestHelper.GetAcDomain();
-            Assert.Equal(0, host.DsdSetSet.Count());
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            Assert.AreEqual(0, host.DsdSetSet.Count());
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -84,10 +83,10 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 DsdCard = 2
             }));
-            Assert.Equal(1, host.DsdSetSet.Count());
-            Assert.True(host.DsdSetSet.TryGetDsdSet(dsdSetId, out dsdSetById));
+            Assert.AreEqual(1, host.DsdSetSet.Count());
+            Assert.IsTrue(host.DsdSetSet.TryGetDsdSet(dsdSetId, out dsdSetById));
 
-            Assert.Equal(0, host.DsdSetSet.GetDsdRoles(dsdSetById).Count);
+            Assert.AreEqual(0, host.DsdSetSet.GetDsdRoles(dsdSetById).Count);
             RoleState roleById;
             var roleId = Guid.NewGuid();
             host.Handle(new RoleCreateInput
@@ -100,8 +99,8 @@ namespace Anycmd.Tests
                 SortCode = 10,
                 Icon = null
             }.ToCommand(host.GetAcSession()));
-            Assert.Equal(1, host.RoleSet.Count());
-            Assert.True(host.RoleSet.TryGetRole(roleId, out roleById));
+            Assert.AreEqual(1, host.RoleSet.Count());
+            Assert.IsTrue(host.RoleSet.TryGetRole(roleId, out roleById));
             var entityId = Guid.NewGuid();
             host.Handle(new AddDsdRoleCommand(host.GetAcSession(), new DsdRoleCreateIo
             {
@@ -109,17 +108,17 @@ namespace Anycmd.Tests
                 RoleId = roleId,
                 DsdSetId = dsdSetId
             }));
-            Assert.Equal(1, host.DsdSetSet.GetDsdRoles(dsdSetById).Count);
+            Assert.AreEqual(1, host.DsdSetSet.GetDsdRoles(dsdSetById).Count);
             host.Handle(new RemoveDsdRoleCommand(host.GetAcSession(), entityId));
-            Assert.Equal(0, host.DsdSetSet.GetDsdRoles(dsdSetById).Count);
+            Assert.AreEqual(0, host.DsdSetSet.GetDsdRoles(dsdSetById).Count);
         }
 
-        [Fact]
+        [TestMethod]
         public void CheckDsdSetRoles()
         {
             var host = TestHelper.GetAcDomain();
-            Assert.Equal(0, host.DsdSetSet.Count());
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            Assert.AreEqual(0, host.DsdSetSet.Count());
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -136,10 +135,10 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 DsdCard = 2
             }));
-            Assert.Equal(1, host.DsdSetSet.Count());
-            Assert.True(host.DsdSetSet.TryGetDsdSet(ssdSetId, out ssdSetById));
+            Assert.AreEqual(1, host.DsdSetSet.Count());
+            Assert.IsTrue(host.DsdSetSet.TryGetDsdSet(ssdSetId, out ssdSetById));
 
-            Assert.Equal(0, host.DsdSetSet.GetDsdRoles(ssdSetById).Count);
+            Assert.AreEqual(0, host.DsdSetSet.GetDsdRoles(ssdSetById).Count);
             var roleId1 = Guid.NewGuid();
             host.Handle(new RoleCreateInput
             {
@@ -194,8 +193,8 @@ namespace Anycmd.Tests
                 RoleId = roleId3,
                 DsdSetId = ssdSetId
             }));
-            Assert.Equal(3, host.RoleSet.Count());
-            Assert.Equal(3, host.DsdSetSet.GetDsdRoles(ssdSetById).Count);
+            Assert.AreEqual(3, host.RoleSet.Count());
+            Assert.AreEqual(3, host.DsdSetSet.GetDsdRoles(ssdSetById).Count);
             var orgId = Guid.NewGuid();
 
             host.Handle(new CatalogCreateInput
@@ -208,15 +207,15 @@ namespace Anycmd.Tests
                 Icon = null,
             }.ToCommand(host.GetAcSession()));
             var accountId = host.GetAcSession().Account.Id;
-            Assert.NotNull(host.RetrieveRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            Assert.IsNotNull(host.RetrieveRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
                 {"rememberMe", "rememberMe"}
             });
-            Assert.True(host.GetAcSession().Identity.IsAuthenticated);
-            Assert.Equal(0, host.GetAcSession().AccountPrivilege.Roles.Count);
+            Assert.IsTrue(host.GetAcSession().Identity.IsAuthenticated);
+            Assert.AreEqual(0, host.GetAcSession().AccountPrivilege.Roles.Count);
             host.Handle(new AddPrivilegeCommand(host.GetAcSession(), new PrivilegeCreateIo
             {
                 Id = Guid.NewGuid(),
@@ -248,10 +247,10 @@ namespace Anycmd.Tests
                 ObjectType = AcElementType.Role.ToString()
             }));
             var catched = false;
-            AcSessionState.SignOut(host, host.GetAcSession());
+            AcSessionState.AcMethod.SignOut(host, host.GetAcSession());
             try
             {
-                AcSessionState.SignIn(host, new Dictionary<string, object>
+                AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
                 {
                     {"loginName", "test"},
                     {"password", "111111"},
@@ -263,7 +262,7 @@ namespace Anycmd.Tests
             {
                 catched = true;
             }
-            Assert.True(catched);
+            Assert.IsTrue(catched);
         }
     }
 }

@@ -1,8 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<xunit>
-  <assemblies>
-    <assembly filename="Anycmd.Tests\bin\Debug\Anycmd.Tests.dll" shadow-copy="true" />
-    <assembly filename="Examples\Default\Edi\Anycmd.Edi.Service.Tests\bin\Debug\Anycmd.Edi.Service.Tests.dll" shadow-copy="true" />
-    <assembly filename="Anycmd.JintEngine.Tests\bin\Debug\Anycmd.JintEngine.Tests.dll" shadow-copy="true" />
-  </assemblies>
-</xunit>

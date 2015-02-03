@@ -6,22 +6,23 @@ namespace Anycmd.Tests
     using Engine.Ac.Messages.Infra;
     using Engine.Host.Ac.Infra;
     using Exceptions;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Moq;
     using Repositories;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Xunit;
 
+    [TestClass]
     public class DicSetTest
     {
         #region DicSet
-        [Fact]
+        [TestMethod]
         public void DicSet()
         {
             var host = TestHelper.GetAcDomain();
-            Assert.Equal(1, host.DicSet.Count());
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            Assert.AreEqual(1, host.DicSet.Count());
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -38,11 +39,11 @@ namespace Anycmd.Tests
                 Code = "dic1",
                 Name = "测试1"
             }.ToCommand(host.GetAcSession()));
-            Assert.Equal(2, host.DicSet.Count());
-            Assert.True(host.DicSet.TryGetDic(dicId, out dicById));
-            Assert.True(host.DicSet.TryGetDic("dic1", out dicByCode));
-            Assert.Equal(dicByCode, dicById);
-            Assert.True(ReferenceEquals(dicById, dicByCode));
+            Assert.AreEqual(2, host.DicSet.Count());
+            Assert.IsTrue(host.DicSet.TryGetDic(dicId, out dicById));
+            Assert.IsTrue(host.DicSet.TryGetDic("dic1", out dicByCode));
+            Assert.AreEqual(dicByCode, dicById);
+            Assert.IsTrue(ReferenceEquals(dicById, dicByCode));
 
             host.Handle(new DicUpdateInput
             {
@@ -50,18 +51,18 @@ namespace Anycmd.Tests
                 Name = "test2",
                 Code = "dic2"
             }.ToCommand(host.GetAcSession()));
-            Assert.Equal(2, host.DicSet.Count());
-            Assert.True(host.DicSet.TryGetDic(dicId, out dicById));
-            Assert.True(host.DicSet.TryGetDic("dic2", out dicByCode));
-            Assert.Equal(dicByCode, dicById);
-            Assert.True(ReferenceEquals(dicById, dicByCode));
-            Assert.Equal("test2", dicById.Name);
-            Assert.Equal("dic2", dicById.Code);
+            Assert.AreEqual(2, host.DicSet.Count());
+            Assert.IsTrue(host.DicSet.TryGetDic(dicId, out dicById));
+            Assert.IsTrue(host.DicSet.TryGetDic("dic2", out dicByCode));
+            Assert.AreEqual(dicByCode, dicById);
+            Assert.IsTrue(ReferenceEquals(dicById, dicByCode));
+            Assert.AreEqual("test2", dicById.Name);
+            Assert.AreEqual("dic2", dicById.Code);
 
             host.Handle(new RemoveDicCommand(host.GetAcSession(), dicId));
-            Assert.False(host.DicSet.TryGetDic(dicId, out dicById));
-            Assert.False(host.DicSet.TryGetDic("dic2", out dicByCode));
-            Assert.Equal(1, host.DicSet.Count());
+            Assert.IsFalse(host.DicSet.TryGetDic(dicId, out dicById));
+            Assert.IsFalse(host.DicSet.TryGetDic("dic2", out dicByCode));
+            Assert.AreEqual(1, host.DicSet.Count());
 
             // 开始测试DicItem
             host.Handle(new DicCreateInput
@@ -70,8 +71,8 @@ namespace Anycmd.Tests
                 Code = "dic1",
                 Name = "测试1"
             }.ToCommand(host.GetAcSession()));
-            Assert.Equal(2, host.DicSet.Count());
-            Assert.True(host.DicSet.TryGetDic(dicId, out dicById));
+            Assert.AreEqual(2, host.DicSet.Count());
+            Assert.IsTrue(host.DicSet.TryGetDic(dicId, out dicById));
             DicItemState dicItemById;
             DicItemState dicItemByCode;
             host.Handle(new DicItemCreateInput
@@ -84,11 +85,11 @@ namespace Anycmd.Tests
                 Code = "dicItem1",
                 Name = "测试1"
             }.ToCommand(host.GetAcSession()));
-            Assert.Equal(1, host.DicSet.GetDicItems(dicById).Count());
-            Assert.True(host.DicSet.TryGetDicItem(dicItemId, out dicItemById));
-            Assert.True(host.DicSet.TryGetDicItem(dicById, "dicItem1", out dicItemByCode));
-            Assert.Equal(dicItemByCode, dicItemById);
-            Assert.True(ReferenceEquals(dicItemById, dicItemByCode));
+            Assert.AreEqual(1, host.DicSet.GetDicItems(dicById).Count());
+            Assert.IsTrue(host.DicSet.TryGetDicItem(dicItemId, out dicItemById));
+            Assert.IsTrue(host.DicSet.TryGetDicItem(dicById, "dicItem1", out dicItemByCode));
+            Assert.AreEqual(dicItemByCode, dicItemById);
+            Assert.IsTrue(ReferenceEquals(dicItemById, dicItemByCode));
 
             host.Handle(new DicItemUpdateInput
             {
@@ -96,28 +97,28 @@ namespace Anycmd.Tests
                 Name = "test2",
                 Code = "dicItem2"
             }.ToCommand(host.GetAcSession()));
-            Assert.Equal(1, host.DicSet.GetDicItems(dicById).Count);
-            Assert.True(host.DicSet.TryGetDicItem(dicItemId, out dicItemById));
-            Assert.True(host.DicSet.TryGetDicItem(dicById, "dicItem2", out dicItemByCode));
-            Assert.Equal(dicItemByCode, dicItemById);
-            Assert.True(ReferenceEquals(dicItemById, dicItemByCode));
-            Assert.Equal("test2", dicItemById.Name);
-            Assert.Equal("dicItem2", dicItemById.Code);
+            Assert.AreEqual(1, host.DicSet.GetDicItems(dicById).Count);
+            Assert.IsTrue(host.DicSet.TryGetDicItem(dicItemId, out dicItemById));
+            Assert.IsTrue(host.DicSet.TryGetDicItem(dicById, "dicItem2", out dicItemByCode));
+            Assert.AreEqual(dicItemByCode, dicItemById);
+            Assert.IsTrue(ReferenceEquals(dicItemById, dicItemByCode));
+            Assert.AreEqual("test2", dicItemById.Name);
+            Assert.AreEqual("dicItem2", dicItemById.Code);
 
             host.Handle(new RemoveDicItemCommand(host.GetAcSession(), dicItemId));
-            Assert.False(host.DicSet.TryGetDicItem(dicItemId, out dicItemById));
-            Assert.False(host.DicSet.TryGetDicItem(dicById, "dicItem2", out dicItemByCode));
-            Assert.Equal(0, host.DicSet.GetDicItems(dicById).Count);
+            Assert.IsFalse(host.DicSet.TryGetDicItem(dicItemId, out dicItemById));
+            Assert.IsFalse(host.DicSet.TryGetDicItem(dicById, "dicItem2", out dicItemByCode));
+            Assert.AreEqual(0, host.DicSet.GetDicItems(dicById).Count);
         }
         #endregion
 
         #region CanNotDeleteDicWhenItHasDicItems
-        [Fact]
+        [TestMethod]
         public void CanNotDeleteDicWhenItHasDicItems()
         {
             var host = TestHelper.GetAcDomain();
-            Assert.Equal(1, host.DicSet.Count());
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            Assert.AreEqual(1, host.DicSet.Count());
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -131,7 +132,7 @@ namespace Anycmd.Tests
                 Code = "dic1",
                 Name = "测试1"
             }.ToCommand(host.GetAcSession()));
-            Assert.Equal(2, host.DicSet.Count());
+            Assert.AreEqual(2, host.DicSet.Count());
 
             host.Handle(new DicItemCreateInput
             {
@@ -155,20 +156,20 @@ namespace Anycmd.Tests
             }
             finally
             {
-                Assert.True(catched);
+                Assert.IsTrue(catched);
                 DicState dic;
-                Assert.True(host.DicSet.TryGetDic(dicId, out dic));
+                Assert.IsTrue(host.DicSet.TryGetDic(dicId, out dic));
             }
         }
         #endregion
 
         #region DicSetShouldRollbackedWhenPersistFailed
-        [Fact]
+        [TestMethod]
         public void DicSetShouldRollbackedWhenPersistFailed()
         {
             var host = TestHelper.GetAcDomain();
-            Assert.Equal(1, host.DicSet.Count());
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            Assert.AreEqual(1, host.DicSet.Count());
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -200,14 +201,14 @@ namespace Anycmd.Tests
             }
             catch (Exception e)
             {
-                Assert.Equal(e.GetType(), typeof(DbException));
+                Assert.AreEqual(e.GetType(), typeof(DbException));
                 catched = true;
-                Assert.Equal(entityId1.ToString(), e.Message);
+                Assert.AreEqual(entityId1.ToString(), e.Message);
             }
             finally
             {
-                Assert.True(catched);
-                Assert.Equal(1, host.DicSet.Count());
+                Assert.IsTrue(catched);
+                Assert.AreEqual(1, host.DicSet.Count());
             }
 
             host.Handle(new DicCreateInput
@@ -216,7 +217,7 @@ namespace Anycmd.Tests
                 Code = code,
                 Name = name
             }.ToCommand(host.GetAcSession()));
-            Assert.Equal(2, host.DicSet.Count());
+            Assert.AreEqual(2, host.DicSet.Count());
 
             catched = false;
             try
@@ -230,17 +231,17 @@ namespace Anycmd.Tests
             }
             catch (Exception e)
             {
-                Assert.Equal(e.GetType(), typeof(DbException));
+                Assert.AreEqual(e.GetType(), typeof(DbException));
                 catched = true;
-                Assert.Equal(entityId2.ToString(), e.Message);
+                Assert.AreEqual(entityId2.ToString(), e.Message);
             }
             finally
             {
-                Assert.True(catched);
-                Assert.Equal(2, host.DicSet.Count());
+                Assert.IsTrue(catched);
+                Assert.AreEqual(2, host.DicSet.Count());
                 DicState dic;
-                Assert.True(host.DicSet.TryGetDic(entityId2, out dic));
-                Assert.Equal(code, dic.Code);
+                Assert.IsTrue(host.DicSet.TryGetDic(entityId2, out dic));
+                Assert.AreEqual(code, dic.Code);
             }
 
             catched = false;
@@ -250,16 +251,16 @@ namespace Anycmd.Tests
             }
             catch (Exception e)
             {
-                Assert.Equal(e.GetType(), typeof(DbException));
+                Assert.AreEqual(e.GetType(), typeof(DbException));
                 catched = true;
-                Assert.Equal(entityId2.ToString(), e.Message);
+                Assert.AreEqual(entityId2.ToString(), e.Message);
             }
             finally
             {
-                Assert.True(catched);
+                Assert.IsTrue(catched);
                 DicState dic;
-                Assert.True(host.DicSet.TryGetDic(entityId2, out dic));
-                Assert.Equal(2, host.DicSet.Count());
+                Assert.IsTrue(host.DicSet.TryGetDic(entityId2, out dic));
+                Assert.AreEqual(2, host.DicSet.Count());
             }
         }
         #endregion

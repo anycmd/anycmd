@@ -2,7 +2,6 @@
 namespace Anycmd.Tests
 {
     using Ac.ViewModels.Identity.AccountViewModels;
-    using Ac.ViewModels.Infra.DicViewModels;
     using Ac.ViewModels.Infra.CatalogViewModels;
     using Ac.ViewModels.PrivilegeViewModels;
     using Ac.ViewModels.RoleViewModels;
@@ -12,20 +11,21 @@ namespace Anycmd.Tests
     using Engine.Ac.Messages;
     using Engine.Ac.Messages.Rbac;
     using Engine.Host.Ac.Identity;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Repositories;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Xunit;
 
+    [TestClass]
     public class SsdSetTest
     {
-        [Fact]
+        [TestMethod]
         public void SsdSet()
         {
             var host = TestHelper.GetAcDomain();
-            Assert.Equal(0, host.SsdSetSet.Count());
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            Assert.AreEqual(0, host.SsdSetSet.Count());
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -42,8 +42,8 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SsdCard = 2
             }));
-            Assert.Equal(1, host.SsdSetSet.Count());
-            Assert.True(host.SsdSetSet.TryGetSsdSet(entityId, out ssdSetById));
+            Assert.AreEqual(1, host.SsdSetSet.Count());
+            Assert.IsTrue(host.SsdSetSet.TryGetSsdSet(entityId, out ssdSetById));
 
             host.Handle(new UpdateSsdSetCommand(host.GetAcSession(), new SsdSetUpdateIo
             {
@@ -53,21 +53,21 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SsdCard = 2
             }));
-            Assert.Equal(1, host.SsdSetSet.Count());
-            Assert.True(host.SsdSetSet.TryGetSsdSet(entityId, out ssdSetById));
-            Assert.Equal("test2", ssdSetById.Name);
+            Assert.AreEqual(1, host.SsdSetSet.Count());
+            Assert.IsTrue(host.SsdSetSet.TryGetSsdSet(entityId, out ssdSetById));
+            Assert.AreEqual("test2", ssdSetById.Name);
 
             host.Handle(new RemoveSsdSetCommand(host.GetAcSession(), entityId));
-            Assert.False(host.SsdSetSet.TryGetSsdSet(entityId, out ssdSetById));
-            Assert.Equal(0, host.SsdSetSet.Count());
+            Assert.IsFalse(host.SsdSetSet.TryGetSsdSet(entityId, out ssdSetById));
+            Assert.AreEqual(0, host.SsdSetSet.Count());
         }
 
-        [Fact]
+        [TestMethod]
         public void TestSsdRole()
         {
             var host = TestHelper.GetAcDomain();
-            Assert.Equal(0, host.SsdSetSet.Count());
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            Assert.AreEqual(0, host.SsdSetSet.Count());
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -84,10 +84,10 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SsdCard = 2
             }));
-            Assert.Equal(1, host.SsdSetSet.Count());
-            Assert.True(host.SsdSetSet.TryGetSsdSet(ssdSetId, out ssdSetById));
+            Assert.AreEqual(1, host.SsdSetSet.Count());
+            Assert.IsTrue(host.SsdSetSet.TryGetSsdSet(ssdSetId, out ssdSetById));
 
-            Assert.Equal(0, host.SsdSetSet.GetSsdRoles(ssdSetById).Count);
+            Assert.AreEqual(0, host.SsdSetSet.GetSsdRoles(ssdSetById).Count);
             RoleState roleById;
             var roleId = Guid.NewGuid();
             host.Handle(new RoleCreateInput
@@ -100,8 +100,8 @@ namespace Anycmd.Tests
                 SortCode = 10,
                 Icon = null
             }.ToCommand(host.GetAcSession()));
-            Assert.Equal(1, host.RoleSet.Count());
-            Assert.True(host.RoleSet.TryGetRole(roleId, out roleById));
+            Assert.AreEqual(1, host.RoleSet.Count());
+            Assert.IsTrue(host.RoleSet.TryGetRole(roleId, out roleById));
             var entityId = Guid.NewGuid();
             host.Handle(new AddSsdRoleCommand(host.GetAcSession(), new SsdRoleCreateIo
             {
@@ -109,17 +109,17 @@ namespace Anycmd.Tests
                 RoleId = roleId,
                 SsdSetId = ssdSetId
             }));
-            Assert.Equal(1, host.SsdSetSet.GetSsdRoles(ssdSetById).Count);
+            Assert.AreEqual(1, host.SsdSetSet.GetSsdRoles(ssdSetById).Count);
             host.Handle(new RemoveSsdRoleCommand(host.GetAcSession(), entityId));
-            Assert.Equal(0, host.SsdSetSet.GetSsdRoles(ssdSetById).Count);
+            Assert.AreEqual(0, host.SsdSetSet.GetSsdRoles(ssdSetById).Count);
         }
 
-        [Fact]
+        [TestMethod]
         public void CheckSsdSetRoles()
         {
             var host = TestHelper.GetAcDomain();
-            Assert.Equal(0, host.SsdSetSet.Count());
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            Assert.AreEqual(0, host.SsdSetSet.Count());
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -136,10 +136,10 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SsdCard = 2
             }));
-            Assert.Equal(1, host.SsdSetSet.Count());
-            Assert.True(host.SsdSetSet.TryGetSsdSet(ssdSetId, out ssdSetById));
+            Assert.AreEqual(1, host.SsdSetSet.Count());
+            Assert.IsTrue(host.SsdSetSet.TryGetSsdSet(ssdSetId, out ssdSetById));
 
-            Assert.Equal(0, host.SsdSetSet.GetSsdRoles(ssdSetById).Count);
+            Assert.AreEqual(0, host.SsdSetSet.GetSsdRoles(ssdSetById).Count);
             var roleId1 = Guid.NewGuid();
             host.Handle(new RoleCreateInput
             {
@@ -194,8 +194,8 @@ namespace Anycmd.Tests
                 RoleId = roleId3,
                 SsdSetId = ssdSetId
             }));
-            Assert.Equal(3, host.RoleSet.Count());
-            Assert.Equal(3, host.SsdSetSet.GetSsdRoles(ssdSetById).Count);
+            Assert.AreEqual(3, host.RoleSet.Count());
+            Assert.AreEqual(3, host.SsdSetSet.GetSsdRoles(ssdSetById).Count);
             var orgId = Guid.NewGuid();
 
             host.Handle(new CatalogCreateInput
@@ -219,15 +219,15 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 AuditState = "auditPass"
             }.ToCommand(host.GetAcSession()));
-            Assert.NotNull(host.RetrieveRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            Assert.IsNotNull(host.RetrieveRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
                 {"rememberMe", "rememberMe"}
             });
-            Assert.True(host.GetAcSession().Identity.IsAuthenticated);
-            Assert.Equal(0, host.GetAcSession().AccountPrivilege.Roles.Count);
+            Assert.IsTrue(host.GetAcSession().Identity.IsAuthenticated);
+            Assert.AreEqual(0, host.GetAcSession().AccountPrivilege.Roles.Count);
             host.Handle(new AddPrivilegeCommand(host.GetAcSession(), new PrivilegeCreateIo
             {
                 Id = Guid.NewGuid(),
@@ -266,7 +266,7 @@ namespace Anycmd.Tests
             {
                 catched = true;
             }
-            Assert.True(catched);
+            Assert.IsTrue(catched);
         }
     }
 }

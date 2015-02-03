@@ -6,22 +6,23 @@ namespace Anycmd.Tests
     using Engine.Ac;
     using Engine.Ac.Messages.Infra;
     using Engine.Host.Ac.Infra;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Moq;
     using Repositories;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Xunit;
 
+    [TestClass]
     public class PageTest
     {
         #region PageSet
-        [Fact]
+        [TestMethod]
         public void PageSet()
         {
             var host = TestHelper.GetAcDomain();
-            Assert.Equal(0, host.UiViewSet.Count());
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            Assert.AreEqual(0, host.UiViewSet.Count());
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -41,8 +42,8 @@ namespace Anycmd.Tests
                 SortCode = 10
             }.ToCommand(host.GetAcSession()));
             FunctionState functionById;
-            Assert.Equal(1, host.FunctionSet.Count());
-            Assert.True(host.FunctionSet.TryGetFunction(entityId, out functionById));
+            Assert.AreEqual(1, host.FunctionSet.Count());
+            Assert.IsTrue(host.FunctionSet.TryGetFunction(entityId, out functionById));
             UiViewState pageById;
             host.Handle(new UiViewCreateInput
             {
@@ -50,8 +51,8 @@ namespace Anycmd.Tests
                 Icon = null,
                 Tooltip = null
             }.ToCommand(host.GetAcSession()));
-            Assert.Equal(1, host.UiViewSet.Count());
-            Assert.True(host.UiViewSet.TryGetUiView(entityId, out pageById));
+            Assert.AreEqual(1, host.UiViewSet.Count());
+            Assert.IsTrue(host.UiViewSet.TryGetUiView(entityId, out pageById));
             bool catched = false;
             try
             {
@@ -68,7 +69,7 @@ namespace Anycmd.Tests
             }
             finally
             {
-                Assert.True(catched);
+                Assert.IsTrue(catched);
             }
             host.Handle(new UiViewUpdateInput
             {
@@ -76,22 +77,22 @@ namespace Anycmd.Tests
                 Icon = null,
                 Tooltip = null
             }.ToCommand(host.GetAcSession()));
-            Assert.Equal(1, host.UiViewSet.Count());
-            Assert.True(host.UiViewSet.TryGetUiView(entityId, out pageById));
+            Assert.AreEqual(1, host.UiViewSet.Count());
+            Assert.IsTrue(host.UiViewSet.TryGetUiView(entityId, out pageById));
 
             host.Handle(new RemoveUiViewCommand(host.GetAcSession(), entityId));
-            Assert.False(host.UiViewSet.TryGetUiView(entityId, out pageById));
-            Assert.Equal(0, host.UiViewSet.Count());
+            Assert.IsFalse(host.UiViewSet.TryGetUiView(entityId, out pageById));
+            Assert.AreEqual(0, host.UiViewSet.Count());
         }
         #endregion
 
         #region PageSetShouldRollbackedWhenPersistFailed
-        [Fact]
+        [TestMethod]
         public void PageSetShouldRollbackedWhenPersistFailed()
         {
             var host = TestHelper.GetAcDomain();
-            Assert.Equal(0, host.UiViewSet.Count());
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            Assert.AreEqual(0, host.UiViewSet.Count());
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -131,9 +132,9 @@ namespace Anycmd.Tests
                 SortCode = 10
             }.ToCommand(host.GetAcSession()));
             FunctionState functionById;
-            Assert.Equal(2, host.FunctionSet.Count());
-            Assert.True(host.FunctionSet.TryGetFunction(entityId1, out functionById));
-            Assert.True(host.FunctionSet.TryGetFunction(entityId2, out functionById));
+            Assert.AreEqual(2, host.FunctionSet.Count());
+            Assert.IsTrue(host.FunctionSet.TryGetFunction(entityId1, out functionById));
+            Assert.IsTrue(host.FunctionSet.TryGetFunction(entityId2, out functionById));
 
             bool catched = false;
             try
@@ -145,21 +146,21 @@ namespace Anycmd.Tests
             }
             catch (Exception e)
             {
-                Assert.Equal(e.GetType(), typeof(DbException));
+                Assert.AreEqual(e.GetType(), typeof(DbException));
                 catched = true;
-                Assert.Equal(entityId1.ToString(), e.Message);
+                Assert.AreEqual(entityId1.ToString(), e.Message);
             }
             finally
             {
-                Assert.True(catched);
-                Assert.Equal(0, host.UiViewSet.Count());
+                Assert.IsTrue(catched);
+                Assert.AreEqual(0, host.UiViewSet.Count());
             }
 
             host.Handle(new UiViewCreateInput
             {
                 Id = entityId2
             }.ToCommand(host.GetAcSession()));
-            Assert.Equal(1, host.UiViewSet.Count());
+            Assert.AreEqual(1, host.UiViewSet.Count());
 
             catched = false;
             try
@@ -171,16 +172,16 @@ namespace Anycmd.Tests
             }
             catch (Exception e)
             {
-                Assert.Equal(e.GetType(), typeof(DbException));
+                Assert.AreEqual(e.GetType(), typeof(DbException));
                 catched = true;
-                Assert.Equal(entityId2.ToString(), e.Message);
+                Assert.AreEqual(entityId2.ToString(), e.Message);
             }
             finally
             {
-                Assert.True(catched);
-                Assert.Equal(1, host.UiViewSet.Count());
+                Assert.IsTrue(catched);
+                Assert.AreEqual(1, host.UiViewSet.Count());
                 UiViewState page;
-                Assert.True(host.UiViewSet.TryGetUiView(entityId2, out page));
+                Assert.IsTrue(host.UiViewSet.TryGetUiView(entityId2, out page));
             }
 
             catched = false;
@@ -190,16 +191,16 @@ namespace Anycmd.Tests
             }
             catch (Exception e)
             {
-                Assert.Equal(e.GetType(), typeof(DbException));
+                Assert.AreEqual(e.GetType(), typeof(DbException));
                 catched = true;
-                Assert.Equal(entityId2.ToString(), e.Message);
+                Assert.AreEqual(entityId2.ToString(), e.Message);
             }
             finally
             {
-                Assert.True(catched);
+                Assert.IsTrue(catched);
                 UiViewState page;
-                Assert.True(host.UiViewSet.TryGetUiView(entityId2, out page));
-                Assert.Equal(1, host.UiViewSet.Count());
+                Assert.IsTrue(host.UiViewSet.TryGetUiView(entityId2, out page));
+                Assert.AreEqual(1, host.UiViewSet.Count());
             }
         }
         #endregion

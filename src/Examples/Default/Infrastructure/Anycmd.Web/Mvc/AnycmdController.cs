@@ -32,7 +32,7 @@ namespace Anycmd.Web.Mvc
         protected IAcSession AcSession
         {
             get {
-                return User.Identity.IsAuthenticated ? AcSessionState.GetAcSession(AcDomain, User.Identity.Name) : AcSessionState.Empty;
+                return User.Identity.IsAuthenticated ? AcSessionState.AcMethod.GetAcSession(AcDomain, User.Identity.Name) : AcSessionState.Empty;
             }
         }
 

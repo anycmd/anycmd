@@ -10,27 +10,29 @@ namespace Anycmd.Tests
     using Ac.ViewModels.PrivilegeViewModels;
     using Ac.ViewModels.RoleViewModels;
     using Engine.Ac;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Engine.Ac.Abstractions;
     using Engine.Ac.Messages;
     using Engine.Ac.Messages.Infra;
     using Engine.Host.Ac;
     using Engine.Host.Ac.Identity;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Repositories;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using Util;
-    using Xunit;
 
+    [TestClass]
     public class AcSessionTest
     {
         #region TestSignInSignOut
-        [Fact]
+        [TestMethod]
         public void TestSignInSignOut()
         {
             var host = TestHelper.GetAcDomain();
-            AcSessionState.SignOut(host, host.GetAcSession());
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            AcSessionState.AcMethod.SignOut(host, host.GetAcSession());
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -59,28 +61,28 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 AuditState = "auditPass"
             }.ToCommand(host.GetAcSession()));
-            Assert.NotNull(host.RetrieveRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
-            AcSessionState.SignOut(host, host.GetAcSession());
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            Assert.IsNotNull(host.RetrieveRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
+            AcSessionState.AcMethod.SignOut(host, host.GetAcSession());
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test1"},
                 {"password", "111111"},
                 {"rememberMe", "rememberMe"}
             });
-            Assert.True(host.GetAcSession().Identity.IsAuthenticated);
-            Assert.Equal("test1", host.GetAcSession().Identity.Name);
-            AcSessionState.SignOut(host, host.GetAcSession());
-            Assert.False(host.GetAcSession().Identity.IsAuthenticated);
+            Assert.IsTrue(host.GetAcSession().Identity.IsAuthenticated);
+            Assert.AreEqual("test1", host.GetAcSession().Identity.Name);
+            AcSessionState.AcMethod.SignOut(host, host.GetAcSession());
+            Assert.IsFalse(host.GetAcSession().Identity.IsAuthenticated);
         }
         #endregion
 
         #region TestUserRoles
-        [Fact]
+        [TestMethod]
         public void TestUserRoles()
         {
             var host = TestHelper.GetAcDomain();
-            AcSessionState.SignOut(host, host.GetAcSession());
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            AcSessionState.AcMethod.SignOut(host, host.GetAcSession());
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -109,15 +111,15 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 AuditState = "auditPass"
             }.ToCommand(host.GetAcSession()));
-            Assert.NotNull(host.RetrieveRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            Assert.IsNotNull(host.RetrieveRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test1"},
                 {"password", "111111"},
                 {"rememberMe", "rememberMe"}
             });
-            Assert.True(host.GetAcSession().Identity.IsAuthenticated);
-            Assert.Equal(0, host.GetAcSession().AccountPrivilege.Roles.Count);
+            Assert.IsTrue(host.GetAcSession().Identity.IsAuthenticated);
+            Assert.AreEqual(0, host.GetAcSession().AccountPrivilege.Roles.Count);
             Guid roleId = Guid.NewGuid();
             host.Handle(new RoleCreateInput
             {
@@ -140,47 +142,47 @@ namespace Anycmd.Tests
                 ObjectInstanceId = roleId,
                 ObjectType = AcElementType.Role.ToString()
             }));
-            Assert.Equal(0, host.PrivilegeSet.Count()); // 主体为账户的权限记录不驻留在内存中所以为0
+            Assert.AreEqual(0, host.PrivilegeSet.Count()); // 主体为账户的权限记录不驻留在内存中所以为0
             RoleState role;
-            Assert.True(host.RoleSet.TryGetRole(roleId, out role));
+            Assert.IsTrue(host.RoleSet.TryGetRole(roleId, out role));
             host.GetAcSession().AccountPrivilege.AddActiveRole(role);
-            Assert.Equal(1, host.GetAcSession().AccountPrivilege.Roles.Count);
+            Assert.AreEqual(1, host.GetAcSession().AccountPrivilege.Roles.Count);
             var privilegeBigram = host.RetrieveRequiredService<IRepository<Privilege>>().AsQueryable().FirstOrDefault(a => a.Id == entityId);
-            Assert.NotNull(privilegeBigram);
-            Assert.Equal(accountId, privilegeBigram.SubjectInstanceId);
-            Assert.Equal(roleId, privilegeBigram.ObjectInstanceId);
-            Assert.Equal(UserAcSubjectType.Account.ToName(), privilegeBigram.SubjectType);
-            Assert.Equal(AcElementType.Role.ToName(), privilegeBigram.ObjectType);
-            AcSessionState.SignOut(host, host.GetAcSession());
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            Assert.IsNotNull(privilegeBigram);
+            Assert.AreEqual(accountId, privilegeBigram.SubjectInstanceId);
+            Assert.AreEqual(roleId, privilegeBigram.ObjectInstanceId);
+            Assert.AreEqual(UserAcSubjectType.Account.ToName(), privilegeBigram.SubjectType);
+            Assert.AreEqual(AcElementType.Role.ToName(), privilegeBigram.ObjectType);
+            AcSessionState.AcMethod.SignOut(host, host.GetAcSession());
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test1"},
                 {"password", "111111"},
                 {"rememberMe", "rememberMe"}
             });
-            Assert.Equal(1, host.GetAcSession().AccountPrivilege.Roles.Count);
+            Assert.AreEqual(1, host.GetAcSession().AccountPrivilege.Roles.Count);
             host.Handle(new RemovePrivilegeCommand(host.GetAcSession(), entityId));
-            Assert.Equal(1, host.GetAcSession().AccountPrivilege.Roles.Count);
+            Assert.AreEqual(1, host.GetAcSession().AccountPrivilege.Roles.Count);
             host.GetAcSession().AccountPrivilege.DropActiveRole(role);
-            Assert.Equal(0, host.GetAcSession().AccountPrivilege.Roles.Count);
-            AcSessionState.SignOut(host, host.GetAcSession());
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            Assert.AreEqual(0, host.GetAcSession().AccountPrivilege.Roles.Count);
+            AcSessionState.AcMethod.SignOut(host, host.GetAcSession());
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test1"},
                 {"password", "111111"},
                 {"rememberMe", "rememberMe"}
             });
-            Assert.Equal(0, host.GetAcSession().AccountPrivilege.Roles.Count);
+            Assert.AreEqual(0, host.GetAcSession().AccountPrivilege.Roles.Count);
         }
         #endregion
 
         #region TestUserFunctions
-        [Fact]
+        [TestMethod]
         public void TestUserFunctions()
         {
             var host = TestHelper.GetAcDomain();
-            AcSessionState.SignOut(host, host.GetAcSession());
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            AcSessionState.AcMethod.SignOut(host, host.GetAcSession());
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -209,15 +211,15 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 AuditState = "auditPass"
             }.ToCommand(host.GetAcSession()));
-            Assert.NotNull(host.RetrieveRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            Assert.IsNotNull(host.RetrieveRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test1"},
                 {"password", "111111"},
                 {"rememberMe", "rememberMe"}
             });
-            Assert.True(host.GetAcSession().Identity.IsAuthenticated);
-            Assert.Equal(0, host.GetAcSession().AccountPrivilege.Roles.Count);
+            Assert.IsTrue(host.GetAcSession().Identity.IsAuthenticated);
+            Assert.AreEqual(0, host.GetAcSession().AccountPrivilege.Roles.Count);
             Guid functionId = Guid.NewGuid();
             host.Handle(new FunctionCreateInput
             {
@@ -241,42 +243,42 @@ namespace Anycmd.Tests
                 ObjectInstanceId = functionId,
                 ObjectType = AcElementType.Function.ToString()
             }));
-            Assert.Equal(0, host.PrivilegeSet.Count()); // 主体为账户的权限记录不驻留在内存中所以为0
-            Assert.Equal(0, host.GetAcSession().AccountPrivilege.Functions.Count);// 需要重新登录才能激活新添加的用户功能授权所以为0
+            Assert.AreEqual(0, host.PrivilegeSet.Count()); // 主体为账户的权限记录不驻留在内存中所以为0
+            Assert.AreEqual(0, host.GetAcSession().AccountPrivilege.Functions.Count);// 需要重新登录才能激活新添加的用户功能授权所以为0
             var privilegeBigram = host.RetrieveRequiredService<IRepository<Privilege>>().AsQueryable().FirstOrDefault(a => a.Id == entityId);
-            Assert.NotNull(privilegeBigram);
-            Assert.Equal(accountId, privilegeBigram.SubjectInstanceId);
-            Assert.Equal(functionId, privilegeBigram.ObjectInstanceId);
-            Assert.Equal(UserAcSubjectType.Account.ToName(), privilegeBigram.SubjectType);
-            Assert.Equal(AcElementType.Function.ToName(), privilegeBigram.ObjectType);
-            AcSessionState.SignOut(host, host.GetAcSession());
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            Assert.IsNotNull(privilegeBigram);
+            Assert.AreEqual(accountId, privilegeBigram.SubjectInstanceId);
+            Assert.AreEqual(functionId, privilegeBigram.ObjectInstanceId);
+            Assert.AreEqual(UserAcSubjectType.Account.ToName(), privilegeBigram.SubjectType);
+            Assert.AreEqual(AcElementType.Function.ToName(), privilegeBigram.ObjectType);
+            AcSessionState.AcMethod.SignOut(host, host.GetAcSession());
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test1"},
                 {"password", "111111"},
                 {"rememberMe", "rememberMe"}
             });
-            Assert.Equal(1, host.GetAcSession().AccountPrivilege.Functions.Count);
+            Assert.AreEqual(1, host.GetAcSession().AccountPrivilege.Functions.Count);
             host.Handle(new RemovePrivilegeCommand(host.GetAcSession(), entityId));
-            Assert.Equal(1, host.GetAcSession().AccountPrivilege.Functions.Count);
-            AcSessionState.SignOut(host, host.GetAcSession());
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            Assert.AreEqual(1, host.GetAcSession().AccountPrivilege.Functions.Count);
+            AcSessionState.AcMethod.SignOut(host, host.GetAcSession());
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test1"},
                 {"password", "111111"},
                 {"rememberMe", "rememberMe"}
             });
-            Assert.Equal(0, host.GetAcSession().AccountPrivilege.Functions.Count);
+            Assert.AreEqual(0, host.GetAcSession().AccountPrivilege.Functions.Count);
         }
         #endregion
 
         #region TestUserCatalogs
-        [Fact]
+        [TestMethod]
         public void TestUserCatalogs()
         {
             var host = TestHelper.GetAcDomain();
-            AcSessionState.SignOut(host, host.GetAcSession());
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            AcSessionState.AcMethod.SignOut(host, host.GetAcSession());
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -305,15 +307,15 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 AuditState = "auditPass"
             }.ToCommand(host.GetAcSession()));
-            Assert.NotNull(host.RetrieveRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            Assert.IsNotNull(host.RetrieveRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test1"},
                 {"password", "111111"},
                 {"rememberMe", "rememberMe"}
             });
-            Assert.True(host.GetAcSession().Identity.IsAuthenticated);
-            Assert.Equal(0, host.GetAcSession().AccountPrivilege.Roles.Count);
+            Assert.IsTrue(host.GetAcSession().Identity.IsAuthenticated);
+            Assert.AreEqual(0, host.GetAcSession().AccountPrivilege.Roles.Count);
             Guid catalogId = Guid.NewGuid();
             host.Handle(new CatalogCreateInput
             {
@@ -335,42 +337,42 @@ namespace Anycmd.Tests
                 ObjectInstanceId = catalogId,
                 ObjectType = AcElementType.Catalog.ToString()
             }));
-            Assert.Equal(0, host.PrivilegeSet.Count()); // 主体为账户的权限记录不驻留在内存中所以为0
-            Assert.Equal(0, host.GetAcSession().AccountPrivilege.Catalogs.Count);// 需要重新登录才能激活新添加的用户功能授权所以为0
+            Assert.AreEqual(0, host.PrivilegeSet.Count()); // 主体为账户的权限记录不驻留在内存中所以为0
+            Assert.AreEqual(0, host.GetAcSession().AccountPrivilege.Catalogs.Count);// 需要重新登录才能激活新添加的用户功能授权所以为0
             var privilegeBigram = host.RetrieveRequiredService<IRepository<Privilege>>().AsQueryable().FirstOrDefault(a => a.Id == entityId);
-            Assert.NotNull(privilegeBigram);
-            Assert.Equal(accountId, privilegeBigram.SubjectInstanceId);
-            Assert.Equal(catalogId, privilegeBigram.ObjectInstanceId);
-            Assert.Equal(UserAcSubjectType.Account.ToName(), privilegeBigram.SubjectType);
-            Assert.Equal(AcElementType.Catalog.ToName(), privilegeBigram.ObjectType);
-            AcSessionState.SignOut(host, host.GetAcSession());
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            Assert.IsNotNull(privilegeBigram);
+            Assert.AreEqual(accountId, privilegeBigram.SubjectInstanceId);
+            Assert.AreEqual(catalogId, privilegeBigram.ObjectInstanceId);
+            Assert.AreEqual(UserAcSubjectType.Account.ToName(), privilegeBigram.SubjectType);
+            Assert.AreEqual(AcElementType.Catalog.ToName(), privilegeBigram.ObjectType);
+            AcSessionState.AcMethod.SignOut(host, host.GetAcSession());
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test1"},
                 {"password", "111111"},
                 {"rememberMe", "rememberMe"}
             });
-            Assert.Equal(1, host.GetAcSession().AccountPrivilege.Catalogs.Count);
+            Assert.AreEqual(1, host.GetAcSession().AccountPrivilege.Catalogs.Count);
             host.Handle(new RemovePrivilegeCommand(host.GetAcSession(), entityId));
-            Assert.Equal(1, host.GetAcSession().AccountPrivilege.Catalogs.Count);
-            AcSessionState.SignOut(host, host.GetAcSession());
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            Assert.AreEqual(1, host.GetAcSession().AccountPrivilege.Catalogs.Count);
+            AcSessionState.AcMethod.SignOut(host, host.GetAcSession());
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test1"},
                 {"password", "111111"},
                 {"rememberMe", "rememberMe"}
             });
-            Assert.Equal(0, host.GetAcSession().AccountPrivilege.Catalogs.Count);
+            Assert.AreEqual(0, host.GetAcSession().AccountPrivilege.Catalogs.Count);
         }
         #endregion
 
         #region TestUserGroups
-        [Fact]
+        [TestMethod]
         public void TestUserGroups()
         {
             var host = TestHelper.GetAcDomain();
-            AcSessionState.SignOut(host, host.GetAcSession());
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            AcSessionState.AcMethod.SignOut(host, host.GetAcSession());
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -399,15 +401,15 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 AuditState = "auditPass"
             }.ToCommand(host.GetAcSession()));
-            Assert.NotNull(host.RetrieveRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            Assert.IsNotNull(host.RetrieveRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test1"},
                 {"password", "111111"},
                 {"rememberMe", "rememberMe"}
             });
-            Assert.True(host.GetAcSession().Identity.IsAuthenticated);
-            Assert.Equal(0, host.GetAcSession().AccountPrivilege.Roles.Count);
+            Assert.IsTrue(host.GetAcSession().Identity.IsAuthenticated);
+            Assert.AreEqual(0, host.GetAcSession().AccountPrivilege.Roles.Count);
             Guid groupId = Guid.NewGuid();
             host.Handle(new AddGroupCommand(host.GetAcSession(), new GroupCreateInput
             {
@@ -431,42 +433,42 @@ namespace Anycmd.Tests
                 ObjectInstanceId = groupId,
                 ObjectType = AcElementType.Group.ToString()
             }));
-            Assert.Equal(0, host.PrivilegeSet.Count()); // 主体为账户的权限记录不驻留在内存中所以为0
-            Assert.Equal(0, host.GetAcSession().AccountPrivilege.Groups.Count);// 需要重新登录才能激活新添加的用户功能授权所以为0
+            Assert.AreEqual(0, host.PrivilegeSet.Count()); // 主体为账户的权限记录不驻留在内存中所以为0
+            Assert.AreEqual(0, host.GetAcSession().AccountPrivilege.Groups.Count);// 需要重新登录才能激活新添加的用户功能授权所以为0
             var privilegeBigram = host.RetrieveRequiredService<IRepository<Privilege>>().AsQueryable().FirstOrDefault(a => a.Id == entityId);
-            Assert.NotNull(privilegeBigram);
-            Assert.Equal(accountId, privilegeBigram.SubjectInstanceId);
-            Assert.Equal(groupId, privilegeBigram.ObjectInstanceId);
-            Assert.Equal(UserAcSubjectType.Account.ToName(), privilegeBigram.SubjectType);
-            Assert.Equal(AcElementType.Group.ToName(), privilegeBigram.ObjectType);
-            AcSessionState.SignOut(host, host.GetAcSession());
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            Assert.IsNotNull(privilegeBigram);
+            Assert.AreEqual(accountId, privilegeBigram.SubjectInstanceId);
+            Assert.AreEqual(groupId, privilegeBigram.ObjectInstanceId);
+            Assert.AreEqual(UserAcSubjectType.Account.ToName(), privilegeBigram.SubjectType);
+            Assert.AreEqual(AcElementType.Group.ToName(), privilegeBigram.ObjectType);
+            AcSessionState.AcMethod.SignOut(host, host.GetAcSession());
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test1"},
                 {"password", "111111"},
                 {"rememberMe", "rememberMe"}
             });
-            Assert.Equal(1, host.GetAcSession().AccountPrivilege.Groups.Count);
+            Assert.AreEqual(1, host.GetAcSession().AccountPrivilege.Groups.Count);
             host.Handle(new RemovePrivilegeCommand(host.GetAcSession(), entityId));
-            Assert.Equal(1, host.GetAcSession().AccountPrivilege.Groups.Count);
-            AcSessionState.SignOut(host, host.GetAcSession());
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            Assert.AreEqual(1, host.GetAcSession().AccountPrivilege.Groups.Count);
+            AcSessionState.AcMethod.SignOut(host, host.GetAcSession());
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test1"},
                 {"password", "111111"},
                 {"rememberMe", "rememberMe"}
             });
-            Assert.Equal(0, host.GetAcSession().AccountPrivilege.Groups.Count);
+            Assert.AreEqual(0, host.GetAcSession().AccountPrivilege.Groups.Count);
         }
         #endregion
 
         #region TestUserMenus
-        [Fact]
+        [TestMethod]
         public void TestUserMenus()
         {
             var host = TestHelper.GetAcDomain();
-            AcSessionState.SignOut(host, host.GetAcSession());
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            AcSessionState.AcMethod.SignOut(host, host.GetAcSession());
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -495,15 +497,15 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 AuditState = "auditPass"
             }.ToCommand(host.GetAcSession()));
-            Assert.NotNull(host.RetrieveRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            Assert.IsNotNull(host.RetrieveRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test1"},
                 {"password", "111111"},
                 {"rememberMe", "rememberMe"}
             });
-            Assert.True(host.GetAcSession().Identity.IsAuthenticated);
-            Assert.Equal(0, host.GetAcSession().AccountPrivilege.Roles.Count);
+            Assert.IsTrue(host.GetAcSession().Identity.IsAuthenticated);
+            Assert.AreEqual(0, host.GetAcSession().AccountPrivilege.Roles.Count);
             Guid menuId = Guid.NewGuid();
             host.Handle(new MenuCreateInput
             {
@@ -527,42 +529,42 @@ namespace Anycmd.Tests
                 ObjectInstanceId = menuId,
                 ObjectType = AcElementType.Menu.ToString()
             }));
-            Assert.Equal(0, host.PrivilegeSet.Count()); // 主体为账户的权限记录不驻留在内存中所以为0
-            Assert.Equal(0, host.GetAcSession().AccountPrivilege.Menus.Count);// 需要重新登录才能激活新添加的用户功能授权所以为0
+            Assert.AreEqual(0, host.PrivilegeSet.Count()); // 主体为账户的权限记录不驻留在内存中所以为0
+            Assert.AreEqual(0, host.GetAcSession().AccountPrivilege.Menus.Count);// 需要重新登录才能激活新添加的用户功能授权所以为0
             var privilegeBigram = host.RetrieveRequiredService<IRepository<Privilege>>().AsQueryable().FirstOrDefault(a => a.Id == entityId);
-            Assert.NotNull(privilegeBigram);
-            Assert.Equal(accountId, privilegeBigram.SubjectInstanceId);
-            Assert.Equal(menuId, privilegeBigram.ObjectInstanceId);
-            Assert.Equal(UserAcSubjectType.Account.ToName(), privilegeBigram.SubjectType);
-            Assert.Equal(AcElementType.Menu.ToName(), privilegeBigram.ObjectType);
-            AcSessionState.SignOut(host, host.GetAcSession());
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            Assert.IsNotNull(privilegeBigram);
+            Assert.AreEqual(accountId, privilegeBigram.SubjectInstanceId);
+            Assert.AreEqual(menuId, privilegeBigram.ObjectInstanceId);
+            Assert.AreEqual(UserAcSubjectType.Account.ToName(), privilegeBigram.SubjectType);
+            Assert.AreEqual(AcElementType.Menu.ToName(), privilegeBigram.ObjectType);
+            AcSessionState.AcMethod.SignOut(host, host.GetAcSession());
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test1"},
                 {"password", "111111"},
                 {"rememberMe", "rememberMe"}
             });
-            Assert.Equal(1, host.GetAcSession().AccountPrivilege.Menus.Count);
+            Assert.AreEqual(1, host.GetAcSession().AccountPrivilege.Menus.Count);
             host.Handle(new RemovePrivilegeCommand(host.GetAcSession(), entityId));
-            Assert.Equal(1, host.GetAcSession().AccountPrivilege.Menus.Count);
-            AcSessionState.SignOut(host, host.GetAcSession());
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            Assert.AreEqual(1, host.GetAcSession().AccountPrivilege.Menus.Count);
+            AcSessionState.AcMethod.SignOut(host, host.GetAcSession());
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test1"},
                 {"password", "111111"},
                 {"rememberMe", "rememberMe"}
             });
-            Assert.Equal(0, host.GetAcSession().AccountPrivilege.Menus.Count);
+            Assert.AreEqual(0, host.GetAcSession().AccountPrivilege.Menus.Count);
         }
         #endregion
 
         #region TestUserAppSystems
-        [Fact]
+        [TestMethod]
         public void TestUserAppSystems()
         {
             var host = TestHelper.GetAcDomain();
-            AcSessionState.SignOut(host, host.GetAcSession());
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            AcSessionState.AcMethod.SignOut(host, host.GetAcSession());
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -591,15 +593,15 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 AuditState = "auditPass"
             }.ToCommand(host.GetAcSession()));
-            Assert.NotNull(host.RetrieveRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            Assert.IsNotNull(host.RetrieveRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test1"},
                 {"password", "111111"},
                 {"rememberMe", "rememberMe"}
             });
-            Assert.True(host.GetAcSession().Identity.IsAuthenticated);
-            Assert.Equal(0, host.GetAcSession().AccountPrivilege.Roles.Count);
+            Assert.IsTrue(host.GetAcSession().Identity.IsAuthenticated);
+            Assert.AreEqual(0, host.GetAcSession().AccountPrivilege.Roles.Count);
             Guid appSystemId = Guid.NewGuid();
             host.Handle(new AppSystemCreateInput
             {
@@ -619,42 +621,42 @@ namespace Anycmd.Tests
                 ObjectInstanceId = appSystemId,
                 ObjectType = AcElementType.AppSystem.ToString()
             }));
-            Assert.Equal(0, host.PrivilegeSet.Count()); // 主体为账户的权限记录不驻留在内存中所以为0
-            Assert.Equal(0, host.GetAcSession().AccountPrivilege.AppSystems.Count);// 需要重新登录才能激活新添加的用户功能授权所以为0
+            Assert.AreEqual(0, host.PrivilegeSet.Count()); // 主体为账户的权限记录不驻留在内存中所以为0
+            Assert.AreEqual(0, host.GetAcSession().AccountPrivilege.AppSystems.Count);// 需要重新登录才能激活新添加的用户功能授权所以为0
             var privilegeBigram = host.RetrieveRequiredService<IRepository<Privilege>>().AsQueryable().FirstOrDefault(a => a.Id == entityId);
-            Assert.NotNull(privilegeBigram);
-            Assert.Equal(accountId, privilegeBigram.SubjectInstanceId);
-            Assert.Equal(appSystemId, privilegeBigram.ObjectInstanceId);
-            Assert.Equal(UserAcSubjectType.Account.ToName(), privilegeBigram.SubjectType);
-            Assert.Equal(AcElementType.AppSystem.ToName(), privilegeBigram.ObjectType);
-            AcSessionState.SignOut(host, host.GetAcSession());
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            Assert.IsNotNull(privilegeBigram);
+            Assert.AreEqual(accountId, privilegeBigram.SubjectInstanceId);
+            Assert.AreEqual(appSystemId, privilegeBigram.ObjectInstanceId);
+            Assert.AreEqual(UserAcSubjectType.Account.ToName(), privilegeBigram.SubjectType);
+            Assert.AreEqual(AcElementType.AppSystem.ToName(), privilegeBigram.ObjectType);
+            AcSessionState.AcMethod.SignOut(host, host.GetAcSession());
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test1"},
                 {"password", "111111"},
                 {"rememberMe", "rememberMe"}
             });
-            Assert.Equal(1, host.GetAcSession().AccountPrivilege.AppSystems.Count);
+            Assert.AreEqual(1, host.GetAcSession().AccountPrivilege.AppSystems.Count);
             host.Handle(new RemovePrivilegeCommand(host.GetAcSession(), entityId));
-            Assert.Equal(1, host.GetAcSession().AccountPrivilege.AppSystems.Count);
-            AcSessionState.SignOut(host, host.GetAcSession());
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            Assert.AreEqual(1, host.GetAcSession().AccountPrivilege.AppSystems.Count);
+            AcSessionState.AcMethod.SignOut(host, host.GetAcSession());
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test1"},
                 {"password", "111111"},
                 {"rememberMe", "rememberMe"}
             });
-            Assert.Equal(0, host.GetAcSession().AccountPrivilege.AppSystems.Count);
+            Assert.AreEqual(0, host.GetAcSession().AccountPrivilege.AppSystems.Count);
         }
         #endregion
 
         #region TestUserRolePrivilege
-        [Fact]
+        [TestMethod]
         public void TestUserRolePrivilege()
         {
             var host = TestHelper.GetAcDomain();
-            AcSessionState.SignOut(host, host.GetAcSession());
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            AcSessionState.AcMethod.SignOut(host, host.GetAcSession());
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -683,15 +685,15 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 AuditState = "auditPass"
             }.ToCommand(host.GetAcSession()));
-            Assert.NotNull(host.RetrieveRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            Assert.IsNotNull(host.RetrieveRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test1"},
                 {"password", "111111"},
                 {"rememberMe", "rememberMe"}
             });
-            Assert.True(host.GetAcSession().Identity.IsAuthenticated);
-            Assert.Equal(0, host.GetAcSession().AccountPrivilege.Roles.Count);
+            Assert.IsTrue(host.GetAcSession().Identity.IsAuthenticated);
+            Assert.AreEqual(0, host.GetAcSession().AccountPrivilege.Roles.Count);
             Guid roleId = Guid.NewGuid();
             host.Handle(new RoleCreateInput
             {
@@ -785,15 +787,15 @@ namespace Anycmd.Tests
                 ObjectInstanceId = groupId,
                 ObjectType = AcElementType.Group.ToString()
             }));
-            AcSessionState.SignOut(host, host.GetAcSession());
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            AcSessionState.AcMethod.SignOut(host, host.GetAcSession());
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test1"},
                 {"password", "111111"},
                 {"rememberMe", "rememberMe"}
             });
-            Assert.Equal(1, host.GetAcSession().AccountPrivilege.Roles.Count);
-            Assert.Equal(1, host.GetAcSession().AccountPrivilege.AuthorizedRoles.Count);
+            Assert.AreEqual(1, host.GetAcSession().AccountPrivilege.Roles.Count);
+            Assert.AreEqual(1, host.GetAcSession().AccountPrivilege.AuthorizedRoles.Count);
             roleId = Guid.NewGuid();
             // 添加一个新角色并将该角色授予上面创建的目录
             host.Handle(new RoleCreateInput
@@ -817,15 +819,15 @@ namespace Anycmd.Tests
                 ObjectInstanceId = roleId,
                 ObjectType = AcElementType.Role.ToString()
             }));
-            AcSessionState.SignOut(host, host.GetAcSession());
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            AcSessionState.AcMethod.SignOut(host, host.GetAcSession());
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test1"},
                 {"password", "111111"},
                 {"rememberMe", "rememberMe"}
             });
-            Assert.Equal(1, host.GetAcSession().AccountPrivilege.Roles.Count);
-            Assert.Equal(2, host.GetAcSession().AccountPrivilege.AuthorizedRoles.Count);
+            Assert.AreEqual(1, host.GetAcSession().AccountPrivilege.Roles.Count);
+            Assert.AreEqual(2, host.GetAcSession().AccountPrivilege.AuthorizedRoles.Count);
             entityId = Guid.NewGuid();
             host.Handle(new AddPrivilegeCommand(host.GetAcSession(), new PrivilegeCreateIo
             {
@@ -837,15 +839,15 @@ namespace Anycmd.Tests
                 ObjectInstanceId = groupId,
                 ObjectType = AcElementType.Group.ToString()
             }));
-            AcSessionState.SignOut(host, host.GetAcSession());
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            AcSessionState.AcMethod.SignOut(host, host.GetAcSession());
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test1"},
                 {"password", "111111"},
                 {"rememberMe", "rememberMe"}
             });
-            Assert.Equal(1, host.GetAcSession().AccountPrivilege.Roles.Count);
-            Assert.Equal(2, host.GetAcSession().AccountPrivilege.AuthorizedRoles.Count);
+            Assert.AreEqual(1, host.GetAcSession().AccountPrivilege.Roles.Count);
+            Assert.AreEqual(2, host.GetAcSession().AccountPrivilege.AuthorizedRoles.Count);
             roleId = Guid.NewGuid();
             // 添加一个新角色并将该角色授予上面创建的工作组
             host.Handle(new RoleCreateInput
@@ -870,25 +872,25 @@ namespace Anycmd.Tests
                 ObjectType = AcElementType.Group.ToString()
             }));
 
-            AcSessionState.SignOut(host, host.GetAcSession());
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            AcSessionState.AcMethod.SignOut(host, host.GetAcSession());
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test1"},
                 {"password", "111111"},
                 {"rememberMe", "rememberMe"}
             });
-            Assert.Equal(1, host.GetAcSession().AccountPrivilege.Roles.Count);
-            Assert.Equal(3, host.GetAcSession().AccountPrivilege.AuthorizedRoles.Count);// 用户的全部角色来自直接角色、目录角色、工作组角色三者的并集所以是三个角色。
+            Assert.AreEqual(1, host.GetAcSession().AccountPrivilege.Roles.Count);
+            Assert.AreEqual(3, host.GetAcSession().AccountPrivilege.AuthorizedRoles.Count);// 用户的全部角色来自直接角色、目录角色、工作组角色三者的并集所以是三个角色。
         }
         #endregion
 
         #region TestUserFunctionPrivilege
-        [Fact]
+        [TestMethod]
         public void TestUserFunctionPrivilege()
         {
             var host = TestHelper.GetAcDomain();
-            AcSessionState.SignOut(host, host.GetAcSession());
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            AcSessionState.AcMethod.SignOut(host, host.GetAcSession());
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -917,7 +919,7 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 AuditState = "auditPass"
             }.ToCommand(host.GetAcSession()));
-            Assert.NotNull(host.RetrieveRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
+            Assert.IsNotNull(host.RetrieveRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
             Guid roleId = Guid.NewGuid();
             host.Handle(new RoleCreateInput
             {
@@ -988,25 +990,25 @@ namespace Anycmd.Tests
                 ObjectInstanceId = functionId,
                 ObjectType = AcElementType.Function.ToString()
             }));
-            AcSessionState.SignOut(host, host.GetAcSession());
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            AcSessionState.AcMethod.SignOut(host, host.GetAcSession());
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test1"},
                 {"password", "111111"},
                 {"rememberMe", "rememberMe"}
             });
-            Assert.Equal(1, host.GetAcSession().AccountPrivilege.Functions.Count);
-            Assert.Equal(2, host.GetAcSession().AccountPrivilege.AuthorizedFunctions.Count);
+            Assert.AreEqual(1, host.GetAcSession().AccountPrivilege.Functions.Count);
+            Assert.AreEqual(2, host.GetAcSession().AccountPrivilege.AuthorizedFunctions.Count);
         }
         #endregion
 
         #region TestUserMenuPrivileges
-        [Fact]
+        [TestMethod]
         public void TestUserMenuPrivileges()
         {
             var host = TestHelper.GetAcDomain();
-            AcSessionState.SignOut(host, host.GetAcSession());
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            AcSessionState.AcMethod.SignOut(host, host.GetAcSession());
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -1035,7 +1037,7 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 AuditState = "auditPass"
             }.ToCommand(host.GetAcSession()));
-            Assert.NotNull(host.RetrieveRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
+            Assert.IsNotNull(host.RetrieveRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
             Guid roleId = Guid.NewGuid();
             host.Handle(new RoleCreateInput
             {
@@ -1106,15 +1108,15 @@ namespace Anycmd.Tests
                 ObjectInstanceId = menuId,
                 ObjectType = AcElementType.Menu.ToString()
             }));
-            AcSessionState.SignOut(host, host.GetAcSession());
-            AcSessionState.SignIn(host, new Dictionary<string, object>
+            AcSessionState.AcMethod.SignOut(host, host.GetAcSession());
+            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
             {
                 {"loginName", "test1"},
                 {"password", "111111"},
                 {"rememberMe", "rememberMe"}
             });
-            Assert.Equal(1, host.GetAcSession().AccountPrivilege.Menus.Count);
-            Assert.Equal(2, host.GetAcSession().AccountPrivilege.AuthorizedMenus.Count);
+            Assert.AreEqual(1, host.GetAcSession().AccountPrivilege.Menus.Count);
+            Assert.AreEqual(2, host.GetAcSession().AccountPrivilege.AuthorizedMenus.Count);
         }
         #endregion
     }
