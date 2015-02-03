@@ -18,7 +18,7 @@ namespace Anycmd.Repositories
     {
         #region Private Fields
         private readonly IStorage _storage;
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
         #endregion
 
         #region Ctor
@@ -26,15 +26,15 @@ namespace Anycmd.Repositories
         /// <summary>
         /// Initializes a new instance of <c>SnapshotDomainRepository</c> class.
         /// </summary>
-        /// <param name="host"></param>
+        /// <param name="acDomain"></param>
         /// <param name="storage">The <see cref="Anycmd.Storage.IStorage"/> instance that is used
         /// by the current domain repository to manipulate snapshot data.</param>
         /// <param name="eventBus">The <see cref="Anycmd.Bus.IEventBus"/> instance to which
         /// the domain events are published.</param>
-        public SnapshotDomainRepository(IAcDomain host, IStorage storage, IEventBus eventBus)
+        public SnapshotDomainRepository(IAcDomain acDomain, IStorage storage, IEventBus eventBus)
             : base(eventBus)
         {
-            this._host = host;
+            this._acDomain = acDomain;
             this._storage = storage;
         }
         #endregion
@@ -47,7 +47,7 @@ namespace Anycmd.Repositories
         {
             foreach (var aggregateRoot in this.SaveHash)
             {
-                var snapshotDataObject = _host.CreateFromAggregateRoot(aggregateRoot);
+                var snapshotDataObject = _acDomain.CreateFromAggregateRoot(aggregateRoot);
                 var aggregateRootId = aggregateRoot.Id;
                 var aggregateRootType = aggregateRoot.GetType().AssemblyQualifiedName;
                 ISpecification<SnapshotDataObject> spec = Specification<SnapshotDataObject>.Eval(p => p.AggregateRootId == aggregateRootId && p.AggregateRootType == aggregateRootType);
@@ -127,7 +127,7 @@ namespace Anycmd.Repositories
             var snapshotDataObject = this._storage.SelectFirstOnly<SnapshotDataObject>(spec);
             if (snapshotDataObject == null)
                 throw new RepositoryException("The aggregate (id={0}) cannot be found in the domain repository.", id);
-            var snapshot = _host.ExtractSnapshot(snapshotDataObject);
+            var snapshot = _acDomain.ExtractSnapshot(snapshotDataObject);
             var aggregateRoot = this.CreateAggregateRootInstance<TAggregateRoot>();
             aggregateRoot.BuildFromSnapshot(snapshot);
             return aggregateRoot;

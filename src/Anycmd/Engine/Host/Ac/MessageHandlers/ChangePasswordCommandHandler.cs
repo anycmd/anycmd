@@ -13,16 +13,16 @@ namespace Anycmd.Engine.Host.Ac.MessageHandlers
 
     public class ChangePasswordCommandHandler : CommandHandler<ChangePasswordCommand>
     {
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
-        public ChangePasswordCommandHandler(IAcDomain host)
+        public ChangePasswordCommandHandler(IAcDomain acDomain)
         {
-            this._host = host;
+            this._acDomain = acDomain;
         }
 
         public override void Handle(ChangePasswordCommand command)
         {
-            var accountRepository = _host.RetrieveRequiredService<IRepository<Account>>();
+            var accountRepository = _acDomain.RetrieveRequiredService<IRepository<Account>>();
             if (command.Input == null)
             {
                 throw new InvalidOperationException("command.Input == null");
@@ -39,7 +39,7 @@ namespace Anycmd.Engine.Host.Ac.MessageHandlers
             }
             bool loginNameChanged = !string.Equals(command.Input.LoginName, entity.LoginName);
             AccountState developer;
-            if (_host.SysUserSet.TryGetDevAccount(command.Input.LoginName, out developer) && !command.AcSession.IsDeveloper())
+            if (_acDomain.SysUserSet.TryGetDevAccount(command.Input.LoginName, out developer) && !command.AcSession.IsDeveloper())
             {
                 throw new ValidationException("对不起，您不能修改开发人员的密码。");
             }
@@ -66,7 +66,7 @@ namespace Anycmd.Engine.Host.Ac.MessageHandlers
             {
                 throw new ValidationException("新密码不能为空");
             }
-            var passwordEncryptionService = _host.RetrieveRequiredService<IPasswordEncryptionService>();
+            var passwordEncryptionService = _acDomain.RetrieveRequiredService<IPasswordEncryptionService>();
             var oldPwd = passwordEncryptionService.Encrypt(command.Input.OldPassword);
             if (!string.Equals(entity.Password, oldPwd))
             {
@@ -77,20 +77,20 @@ namespace Anycmd.Engine.Host.Ac.MessageHandlers
             {
                 entity.Password = newPassword;
                 entity.LastPasswordChangeOn = DateTime.Now;
-                _host.EventBus.Publish(new PasswordUpdatedEvent(command.AcSession, entity));
+                _acDomain.EventBus.Publish(new PasswordUpdatedEvent(command.AcSession, entity));
             }
             #endregion
             if (loginNameChanged)
             {
-                _host.EventBus.Publish(new LoginNameChangedEvent(command.AcSession, entity));
-                if (_host.SysUserSet.TryGetDevAccount(entity.Id, out developer))
+                _acDomain.EventBus.Publish(new LoginNameChangedEvent(command.AcSession, entity));
+                if (_acDomain.SysUserSet.TryGetDevAccount(entity.Id, out developer))
                 {
-                    _host.MessageDispatcher.DispatchMessage(new DeveloperUpdatedEvent(command.AcSession, entity));
+                    _acDomain.MessageDispatcher.DispatchMessage(new DeveloperUpdatedEvent(command.AcSession, entity));
                 }
             }
             accountRepository.Update(entity);
             accountRepository.Context.Commit();
-            _host.EventBus.Commit();
+            _acDomain.EventBus.Commit();
         }
     }
 }

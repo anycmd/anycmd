@@ -14,8 +14,8 @@ namespace Anycmd.Ac.Queries.Ef.Identity
 	/// </summary>
 	public sealed class AccountQuery : QueryBase, IAccountQuery
 	{
-		public AccountQuery(IAcDomain host)
-			: base(host, "IdentityEntities")
+		public AccountQuery(IAcDomain acDomain)
+			: base(acDomain, "IdentityEntities")
 		{
 		}
 

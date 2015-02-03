@@ -23,13 +23,13 @@ namespace Anycmd.Web.Mvc
         /// <param name="filterContext"></param>
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            var host = (filterContext.HttpContext.Application[Constants.ApplicationRuntime.AcDomainCacheKey] as IAcDomain);
-            if (host == null)
+            var acDomain = (filterContext.HttpContext.Application[Constants.ApplicationRuntime.AcDomainCacheKey] as IAcDomain);
+            if (acDomain == null)
             {
                 throw new AnycmdException("");
             }
-            var storage = host.GetRequiredService<IAcSessionStorage>();
-            var user = storage.GetData(host.Config.CurrentAcSessionCacheKey) as IAcSession;
+            var storage = acDomain.GetRequiredService<IAcSessionStorage>();
+            var user = storage.GetData(acDomain.Config.CurrentAcSessionCacheKey) as IAcSession;
             if (!user.IsDeveloper())
             {
                 var request = filterContext.HttpContext.Request;

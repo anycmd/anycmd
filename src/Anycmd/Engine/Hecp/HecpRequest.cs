@@ -21,15 +21,15 @@ namespace Anycmd.Engine.Hecp
         private readonly DataItem[] _infoId;
         private readonly DataItem[] _infoValue;
         private readonly string[] _queryList;
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
-        private HecpRequest(IAcDomain host)
+        private HecpRequest(IAcDomain acDomain)
         {
-            this._host = host;
+            this._acDomain = acDomain;
         }
 
-        private HecpRequest(IAcDomain host, IMessageDto cmdDto)
-            : this(host)
+        private HecpRequest(IAcDomain acDomain, IMessageDto cmdDto)
+            : this(acDomain)
         {
             if (cmdDto == null)
             {
@@ -69,17 +69,17 @@ namespace Anycmd.Engine.Hecp
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="host"></param>
+        /// <param name="acDomain"></param>
         /// <param name="cmdDto"></param>
         /// <returns></returns>
-        public static HecpRequest Create(IAcDomain host, IMessageDto cmdDto)
+        public static HecpRequest Create(IAcDomain acDomain, IMessageDto cmdDto)
         {
-            return cmdDto == null ? null : new HecpRequest(host, cmdDto);
+            return cmdDto == null ? null : new HecpRequest(acDomain, cmdDto);
         }
 
         public IAcDomain Host
         {
-            get { return _host; }
+            get { return _acDomain; }
         }
 
         /// <summary>

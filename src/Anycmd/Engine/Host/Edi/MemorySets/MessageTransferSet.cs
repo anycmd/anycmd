@@ -23,24 +23,24 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
         private bool _initialized = false;
         private readonly object _locker = new object();
         private readonly Guid _id = Guid.NewGuid();
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
         public Guid Id
         {
             get { return _id; }
         }
 
-        internal MessageTransferSet(IAcDomain host)
+        internal MessageTransferSet(IAcDomain acDomain)
         {
-            if (host == null)
+            if (acDomain == null)
             {
-                throw new ArgumentNullException("host");
+                throw new ArgumentNullException("acDomain");
             }
-            if (host.Equals(EmptyAcDomain.SingleInstance))
+            if (acDomain.Equals(EmptyAcDomain.SingleInstance))
             {
                 _initialized = true;
             }
-            this._host = host;
+            this._acDomain = acDomain;
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             lock (_locker)
             {
                 if (_initialized) return;
-                _host.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
+                _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
                 foreach (var item in _dic.Values)
                 {
                     item.Dispose();
@@ -117,7 +117,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                 }
                 _initialized = true;
-                _host.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
+                _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
             }
         }
 
@@ -145,7 +145,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
         private IEnumerable<IMessageTransfer> GetTransfers()
         {
             IEnumerable<IMessageTransfer> r = null;
-            using (var catalog = new DirectoryCatalog(Path.Combine(_host.GetPluginBaseDirectory(PluginType.MessageTransfer), "Bin")))
+            using (var catalog = new DirectoryCatalog(Path.Combine(_acDomain.GetPluginBaseDirectory(PluginType.MessageTransfer), "Bin")))
             using (var container = new CompositionContainer(catalog))
             {
                 var infoValueConverterImport = new MessageTransferImport();

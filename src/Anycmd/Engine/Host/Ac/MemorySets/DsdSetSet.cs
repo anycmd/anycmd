@@ -27,23 +27,23 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
         private bool _initialized;
 
         private readonly Guid _id = Guid.NewGuid();
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
         public Guid Id
         {
             get { return _id; }
         }
 
-        internal DsdSetSet(IAcDomain host)
+        internal DsdSetSet(IAcDomain acDomain)
         {
-            if (host == null)
+            if (acDomain == null)
             {
-                throw new ArgumentNullException("host");
+                throw new ArgumentNullException("acDomain");
             }
-            if (host.Equals(EmptyAcDomain.SingleInstance))
+            if (acDomain.Equals(EmptyAcDomain.SingleInstance))
             {
                 _initialized = true;
             }
-            this._host = host;
+            this._acDomain = acDomain;
             new MessageHandler(this).Register();
         }
 
@@ -127,11 +127,11 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             lock (this)
             {
                 if (_initialized) return;
-                _host.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
+                _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
                 _dsdSetDic.Clear();
                 _dsdRoleBySet.Clear();
                 _dsdRoleById.Clear();
-                var stateReder = _host.RetrieveRequiredService<IOriginalHostStateReader>();
+                var stateReder = _acDomain.RetrieveRequiredService<IOriginalHostStateReader>();
                 var dsdSets = stateReder.GetAllDsdSets();
                 foreach (var dsdSet in dsdSets)
                 {
@@ -163,7 +163,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                 }
                 _initialized = true;
-                _host.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
+                _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
             }
         }
 
@@ -189,10 +189,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Register()
             {
-                var messageDispatcher = _set._host.MessageDispatcher;
+                var messageDispatcher = _set._acDomain.MessageDispatcher;
                 if (messageDispatcher == null)
                 {
-                    throw new ArgumentNullException("messageDispatcher has not be set of host:{0}".Fmt(_set._host.Name));
+                    throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(_set._acDomain.Name));
                 }
                 messageDispatcher.Register((IHandler<AddDsdSetCommand>)this);
                 messageDispatcher.Register((IHandler<DsdSetAddedEvent>)this);
@@ -222,14 +222,14 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Handle(IAcSession acSession, IDsdSetCreateIo input, bool isCommand)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var dsdSetDic = _set._dsdSetDic;
-                var dsdSetRepository = host.RetrieveRequiredService<IRepository<DsdSet>>();
+                var dsdSetRepository = acDomain.RetrieveRequiredService<IRepository<DsdSet>>();
                 if (!input.Id.HasValue)
                 {
                     throw new ValidationException("标识是必须的");
                 }
-                if (host.DsdSetSet.Any(a => a.Name.Equals(input.Name, StringComparison.OrdinalIgnoreCase)))
+                if (acDomain.DsdSetSet.Any(a => a.Name.Equals(input.Name, StringComparison.OrdinalIgnoreCase)))
                 {
                     throw new ValidationException("重复的动态责任分离角色集名称");
                 }
@@ -239,7 +239,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 lock (this)
                 {
                     DsdSetState dsdSet;
-                    if (host.DsdSetSet.TryGetDsdSet(entity.Id, out dsdSet))
+                    if (acDomain.DsdSetSet.TryGetDsdSet(entity.Id, out dsdSet))
                     {
                         throw new AnycmdException("意外的重复标识");
                     }
@@ -267,7 +267,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateDsdSetAddedEvent(acSession, entity, input));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivateDsdSetAddedEvent(acSession, entity, input));
                 }
             }
 
@@ -295,10 +295,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Handle(IAcSession acSession, IDsdSetUpdateIo input, bool isCommand)
             {
-                var host = _set._host;
-                var dsdSetRepository = host.RetrieveRequiredService<IRepository<DsdSet>>();
+                var acDomain = _set._acDomain;
+                var dsdSetRepository = acDomain.RetrieveRequiredService<IRepository<DsdSet>>();
                 DsdSetState bkState;
-                if (!host.DsdSetSet.TryGetDsdSet(input.Id, out bkState))
+                if (!acDomain.DsdSetSet.TryGetDsdSet(input.Id, out bkState))
                 {
                     throw new NotExistException();
                 }
@@ -307,11 +307,11 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 lock (bkState)
                 {
                     DsdSetState oldState;
-                    if (!host.DsdSetSet.TryGetDsdSet(input.Id, out oldState))
+                    if (!acDomain.DsdSetSet.TryGetDsdSet(input.Id, out oldState))
                     {
                         throw new NotExistException();
                     }
-                    if (host.DsdSetSet.Any(a => a.Name.Equals(input.Name, StringComparison.OrdinalIgnoreCase) && a.Id != input.Id))
+                    if (acDomain.DsdSetSet.Any(a => a.Name.Equals(input.Name, StringComparison.OrdinalIgnoreCase) && a.Id != input.Id))
                     {
                         throw new ValidationException("重复的静态责任分离角色组名");
                     }
@@ -349,13 +349,13 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateDsdSetUpdatedEvent(acSession, entity, input));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivateDsdSetUpdatedEvent(acSession, entity, input));
                 }
             }
 
             private void Update(DsdSetState state)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var dsdSetDic = _set._dsdSetDic;
                 var dsdRoleBySet = _set._dsdRoleBySet;
                 var oldState = dsdSetDic[state.Id];
@@ -392,11 +392,11 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Handle(IAcSession acSession, Guid dsdSetId, bool isCommand)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var dsdSetDic = _set._dsdSetDic;
-                var dsdSetRepository = host.RetrieveRequiredService<IRepository<DsdSet>>();
+                var dsdSetRepository = acDomain.RetrieveRequiredService<IRepository<DsdSet>>();
                 DsdSetState bkState;
-                if (!host.DsdSetSet.TryGetDsdSet(dsdSetId, out bkState))
+                if (!acDomain.DsdSetSet.TryGetDsdSet(dsdSetId, out bkState))
                 {
                     return;
                 }
@@ -404,7 +404,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 lock (bkState)
                 {
                     DsdSetState state;
-                    if (!host.DsdSetSet.TryGetDsdSet(dsdSetId, out state))
+                    if (!acDomain.DsdSetSet.TryGetDsdSet(dsdSetId, out state))
                     {
                         return;
                     }
@@ -437,7 +437,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateDsdSetRemovedEvent(acSession, entity));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivateDsdSetRemovedEvent(acSession, entity));
                 }
             }
 
@@ -465,10 +465,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Handle(IAcSession acSession, IDsdRoleCreateIo input, bool isCommand)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var dsdRoleBySet = _set._dsdRoleBySet;
                 var dsdRoleById = _set._dsdRoleById;
-                var dsdRoleRepository = host.RetrieveRequiredService<IRepository<DsdRole>>();
+                var dsdRoleRepository = acDomain.RetrieveRequiredService<IRepository<DsdRole>>();
                 if (!input.Id.HasValue)
                 {
                     throw new ValidationException("标识是必须的");
@@ -478,7 +478,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     throw new ValidationException("重复的记录");
                 }
                 DsdSetState dsdSet;
-                if (!host.DsdSetSet.TryGetDsdSet(input.DsdSetId, out dsdSet))
+                if (!acDomain.DsdSetSet.TryGetDsdSet(input.DsdSetId, out dsdSet))
                 {
                     throw new ValidationException("意外的动态责任分离角色集标识" + input.DsdSetId);
                 }
@@ -491,7 +491,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     {
                         throw new ValidationException("重复的记录");
                     }
-                    if (!host.DsdSetSet.TryGetDsdSet(input.DsdSetId, out dsdSet))
+                    if (!acDomain.DsdSetSet.TryGetDsdSet(input.DsdSetId, out dsdSet))
                     {
                         throw new ValidationException("意外的动态责任分离角色集标识" + input.DsdSetId);
                     }
@@ -526,7 +526,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateDsdRoleAddedEvent(acSession, entity, input));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivateDsdRoleAddedEvent(acSession, entity, input));
                 }
             }
 
@@ -555,11 +555,11 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void HandleDsdRole(IAcSession acSession, Guid dsdRoleId, bool isCommand)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var dsdSetDic = _set._dsdSetDic;
                 var dsdRoleBySet = _set._dsdRoleBySet;
                 var dsdRoleById = _set._dsdRoleById;
-                var dsdRoleRepository = host.RetrieveRequiredService<IRepository<DsdRole>>();
+                var dsdRoleRepository = acDomain.RetrieveRequiredService<IRepository<DsdRole>>();
                 DsdRoleState bkState;
                 if (!dsdRoleById.TryGetValue(dsdRoleId, out bkState))
                 {
@@ -611,7 +611,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateDsdRoleRemovedEvent(acSession, entity));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivateDsdRoleRemovedEvent(acSession, entity));
                 }
             }
 

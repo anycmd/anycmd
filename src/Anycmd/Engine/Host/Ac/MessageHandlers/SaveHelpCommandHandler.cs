@@ -11,23 +11,23 @@ namespace Anycmd.Engine.Host.Ac.MessageHandlers
 
     public class SaveHelpCommandHandler : CommandHandler<SaveHelpCommand>
     {
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
-        public SaveHelpCommandHandler(IAcDomain host)
+        public SaveHelpCommandHandler(IAcDomain acDomain)
         {
-            this._host = host;
+            this._acDomain = acDomain;
         }
 
         public override void Handle(SaveHelpCommand command)
         {
-            var operationHelpRepository = _host.RetrieveRequiredService<IRepository<OperationHelp>>();
-            var functionRepository = _host.RetrieveRequiredService<IRepository<Function>>();
+            var operationHelpRepository = _acDomain.RetrieveRequiredService<IRepository<OperationHelp>>();
+            var functionRepository = _acDomain.RetrieveRequiredService<IRepository<Function>>();
             if (command.FunctionId == Guid.Empty)
             {
                 throw new ValidationException("EmptyFunctionId");
             }
             FunctionState operation;
-            if (!_host.FunctionSet.TryGetFunction(command.FunctionId, out operation))
+            if (!_acDomain.FunctionSet.TryGetFunction(command.FunctionId, out operation))
             {
                 throw new ValidationException("没有Id为" + command.FunctionId + "的操作");
             }

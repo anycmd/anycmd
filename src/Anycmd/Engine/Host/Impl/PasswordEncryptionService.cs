@@ -5,11 +5,11 @@ namespace Anycmd.Engine.Host.Impl
 
     public class PasswordEncryptionService : IPasswordEncryptionService
     {
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
-        public PasswordEncryptionService(IAcDomain host)
+        public PasswordEncryptionService(IAcDomain acDomain)
         {
-            this._host = host;
+            this._acDomain = acDomain;
         }
 
         public string Encrypt(string rawPwd)

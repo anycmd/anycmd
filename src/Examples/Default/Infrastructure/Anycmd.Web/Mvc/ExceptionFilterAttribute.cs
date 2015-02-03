@@ -27,13 +27,13 @@ namespace Anycmd.Web.Mvc
         {
             if (exceptionContext.Exception != null)
             {
-                var host = (exceptionContext.HttpContext.Application[Constants.ApplicationRuntime.AcDomainCacheKey] as IAcDomain);
-                if (host == null)
+                var acDomain = (exceptionContext.HttpContext.Application[Constants.ApplicationRuntime.AcDomainCacheKey] as IAcDomain);
+                if (acDomain == null)
                 {
                     throw new AnycmdException("");
                 }
-                var storage = host.GetRequiredService<IAcSessionStorage>();
-                var user = storage.GetData(host.Config.CurrentAcSessionCacheKey) as IAcSession;
+                var storage = acDomain.GetRequiredService<IAcSessionStorage>();
+                var user = storage.GetData(acDomain.Config.CurrentAcSessionCacheKey) as IAcSession;
                 bool isValidationException = exceptionContext.Exception is ValidationException;
                 bool isAjaxRequest = exceptionContext.HttpContext.Request.IsAjaxRequest();
                 ActionResult result = null;
@@ -47,7 +47,7 @@ namespace Anycmd.Web.Mvc
                     var logMessage = new AnycmdLogMessage(exceptionContext.Exception.Message);
 
                     // 记录异常
-                    host.LoggingService.Error(logMessage, exceptionContext.Exception);
+                    acDomain.LoggingService.Error(logMessage, exceptionContext.Exception);
 
                     // 如果当前登录的不是开发人员就不展示详细异常了
                     if (user.IsDeveloper() || GetClientIp() == IPAddress.Loopback.ToString())
@@ -56,7 +56,7 @@ namespace Anycmd.Web.Mvc
                     }
                     else
                     {
-                        result = GetErrorForNormalUser(host, isAjaxRequest);
+                        result = GetErrorForNormalUser(acDomain, isAjaxRequest);
                     }
                 }
 
@@ -137,10 +137,10 @@ namespace Anycmd.Web.Mvc
         #endregion
 
         #region GetErrorForNormalUser
-        private static ActionResult GetErrorForNormalUser(IAcDomain host, bool isAjaxRequest)
+        private static ActionResult GetErrorForNormalUser(IAcDomain acDomain, bool isAjaxRequest)
         {
             AccountState account;
-            host.SysUserSet.TryGetDevAccount(host.AppSystemSet.SelfAppSystem.PrincipalId, out account);
+            acDomain.SysUserSet.TryGetDevAccount(acDomain.AppSystemSet.SelfAppSystem.PrincipalId, out account);
             string name = string.Empty;
             string email = string.Empty;
             string qq = string.Empty;

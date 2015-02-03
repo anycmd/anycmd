@@ -21,11 +21,11 @@ namespace Anycmd.Ef
         private IEfFilterStringBuilder _filterStringBuilder;
 
         private readonly string _efDbContextName;
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
-        protected QueryBase(IAcDomain host, string efDbContextName)
+        protected QueryBase(IAcDomain acDomain, string efDbContextName)
         {
-            this._host = host;
+            this._acDomain = acDomain;
             this._efDbContextName = efDbContextName;
         }
 
@@ -39,7 +39,7 @@ namespace Anycmd.Ef
                 var repositoryContext = EfContext.Storage.GetRepositoryContext(this._efDbContextName);
                 if (repositoryContext == null)
                 {
-                    repositoryContext = new EfRepositoryContext(_host, this._efDbContextName);
+                    repositoryContext = new EfRepositoryContext(_acDomain, this._efDbContextName);
                     EfContext.Storage.SetRepositoryContext(repositoryContext);
                 }
                 return repositoryContext.DbContext;
@@ -65,7 +65,7 @@ namespace Anycmd.Ef
             {
                 if (_filterStringBuilder == null)
                 {
-                    _filterStringBuilder = _host.RetrieveRequiredService<IEfFilterStringBuilder>();
+                    _filterStringBuilder = _acDomain.RetrieveRequiredService<IEfFilterStringBuilder>();
                 }
                 return _filterStringBuilder;
             }
@@ -86,7 +86,7 @@ namespace Anycmd.Ef
                 using (var reader = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection))
                 {
                     if (!reader.Read()) return null;
-                    var dic = new DicReader(_host);
+                    var dic = new DicReader(_acDomain);
                     for (var i = 0; i < reader.FieldCount; i++)
                     {
                         dic.Add(reader.GetName(i), reader.GetValue(i));
@@ -169,7 +169,7 @@ namespace Anycmd.Ef
                 {
                     while (reader.Read())
                     {
-                        var dic = new DicReader(_host);
+                        var dic = new DicReader(_acDomain);
                         for (int i = 0; i < reader.FieldCount; i++)
                         {
                             dic.Add(reader.GetName(i), reader.GetValue(i));

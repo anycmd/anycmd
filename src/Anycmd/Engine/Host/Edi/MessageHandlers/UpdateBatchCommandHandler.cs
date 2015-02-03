@@ -9,16 +9,16 @@ namespace Anycmd.Engine.Host.Edi.MessageHandlers
 
     public class UpdateBatchCommandHandler : CommandHandler<UpdateBatchCommand>
     {
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
-        public UpdateBatchCommandHandler(IAcDomain host)
+        public UpdateBatchCommandHandler(IAcDomain acDomain)
         {
-            this._host = host;
+            this._acDomain = acDomain;
         }
 
         public override void Handle(UpdateBatchCommand command)
         {
-            var batchRepository = _host.RetrieveRequiredService<IRepository<Batch>>();
+            var batchRepository = _acDomain.RetrieveRequiredService<IRepository<Batch>>();
             var entity = batchRepository.GetByKey(command.Input.Id);
             if (entity == null)
             {
@@ -30,8 +30,8 @@ namespace Anycmd.Engine.Host.Edi.MessageHandlers
             batchRepository.Update(entity);
             batchRepository.Context.Commit();
 
-            _host.EventBus.Publish(new BatchUpdatedEvent(command.AcSession, entity));
-            _host.EventBus.Commit();
+            _acDomain.EventBus.Publish(new BatchUpdatedEvent(command.AcSession, entity));
+            _acDomain.EventBus.Commit();
         }
     }
 }

@@ -25,24 +25,24 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
         private bool _initialized = false;
 
         private readonly Guid _id = Guid.NewGuid();
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
         public Guid Id
         {
             get { return _id; }
         }
 
-        internal SysUserSet(IAcDomain host)
+        internal SysUserSet(IAcDomain acDomain)
         {
-            if (host == null)
+            if (acDomain == null)
             {
-                throw new ArgumentNullException("host");
+                throw new ArgumentNullException("acDomain");
             }
-            if (host.Equals(EmptyAcDomain.SingleInstance))
+            if (acDomain.Equals(EmptyAcDomain.SingleInstance))
             {
                 _initialized = true;
             }
-            this._host = host;
+            this._acDomain = acDomain;
             new MessageHandle(this).Register();
         }
 
@@ -113,10 +113,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             lock (this)
             {
                 if (_initialized) return;
-                _host.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
+                _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
                 _devAccountById.Clear();
                 _devAccountByLoginName.Clear();
-                var accounts = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllDevAccounts();
+                var accounts = _acDomain.RetrieveRequiredService<IOriginalHostStateReader>().GetAllDevAccounts();
                 foreach (var account in accounts)
                 {
                     var accountState = AccountState.Create(account);
@@ -130,7 +130,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                 }
                 _initialized = true;
-                _host.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
+                _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
             }
         }
 
@@ -150,10 +150,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Register()
             {
-                var messageDispatcher = _set._host.MessageDispatcher;
+                var messageDispatcher = _set._acDomain.MessageDispatcher;
                 if (messageDispatcher == null)
                 {
-                    throw new ArgumentNullException("messageDispatcher has not be set of host:{0}".Fmt(_set._host.Name));
+                    throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(_set._acDomain.Name));
                 }
                 messageDispatcher.Register((IHandler<AddDeveloperCommand>)this);
                 messageDispatcher.Register((IHandler<DeveloperAddedEvent>)this);
@@ -179,11 +179,11 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Handle(IAcSession acSession, Guid accountId, bool isCommand)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var devAccountById = _set._devAccountById;
                 var devAccountByLoginName = _set._devAccountByLoginName;
-                var accountRepository = host.RetrieveRequiredService<IRepository<Account>>();
-                var developerRepository = host.RetrieveRequiredService<IRepository<DeveloperId>>();
+                var accountRepository = acDomain.RetrieveRequiredService<IRepository<Account>>();
+                var developerRepository = acDomain.RetrieveRequiredService<IRepository<DeveloperId>>();
                 DeveloperId entity;
                 lock (this)
                 {
@@ -221,7 +221,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateDeveloperAddedEvent(acSession, entity));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivateDeveloperAddedEvent(acSession, entity));
                 }
             }
 
@@ -269,10 +269,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void HandleRemove(IAcSession acSession, Guid accountId, bool isCommand)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var devAccountById = _set._devAccountById;
                 var devAccountByLoginName = _set._devAccountByLoginName;
-                var developerRepository = host.RetrieveRequiredService<IRepository<DeveloperId>>();
+                var developerRepository = acDomain.RetrieveRequiredService<IRepository<DeveloperId>>();
                 if (!devAccountById.ContainsKey(accountId))
                 {
                     return;
@@ -310,7 +310,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateDeveloperRemovedEvent(acSession, entity));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivateDeveloperRemovedEvent(acSession, entity));
                 }
             }
 

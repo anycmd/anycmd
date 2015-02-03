@@ -12,18 +12,18 @@ namespace Anycmd.Edi.Application {
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="host"></param>
-        public static void RegisterEdiCore(this IAcDomain host)
+        /// <param name="acDomain"></param>
+        public static void RegisterEdiCore(this IAcDomain acDomain)
         {
             #region Edi
-            host.AddService(typeof(IExecutorFactory), new ExecutorFactory());
-            host.AddService(typeof(IDispatcherFactory), new DispatcherFactory());
-            host.AddService(typeof(IAuthenticator), new DefaultAuthenticator());
-            host.AddService(typeof(IMessageProducer), new DefaultMessageProducer());
-            host.AddService(typeof(IStackTraceFormater), new JsonStackTraceFormater());
-            host.AddService(typeof(IInputValidator), new DefaultInputValidator());
-            host.AddService(typeof(IAuditDiscriminator), new DefaultAuditDiscriminator());
-            host.AddService(typeof(IPermissionValidator), new DefaultPermissionValidator());
+            acDomain.AddService(typeof(IExecutorFactory), new ExecutorFactory());
+            acDomain.AddService(typeof(IDispatcherFactory), new DispatcherFactory());
+            acDomain.AddService(typeof(IAuthenticator), new DefaultAuthenticator());
+            acDomain.AddService(typeof(IMessageProducer), new DefaultMessageProducer());
+            acDomain.AddService(typeof(IStackTraceFormater), new JsonStackTraceFormater());
+            acDomain.AddService(typeof(IInputValidator), new DefaultInputValidator());
+            acDomain.AddService(typeof(IAuditDiscriminator), new DefaultAuditDiscriminator());
+            acDomain.AddService(typeof(IPermissionValidator), new DefaultPermissionValidator());
             #endregion
         }
     }

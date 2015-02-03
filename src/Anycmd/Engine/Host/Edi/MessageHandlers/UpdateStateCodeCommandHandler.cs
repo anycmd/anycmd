@@ -7,11 +7,11 @@ namespace Anycmd.Engine.Host.Edi.MessageHandlers
 
     public class UpdateStateCodeCommandHandler : CommandHandler<UpdateStateCodeCommand>
     {
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
-        public UpdateStateCodeCommandHandler(IAcDomain host)
+        public UpdateStateCodeCommandHandler(IAcDomain acDomain)
         {
-            this._host = host;
+            this._acDomain = acDomain;
         }
 
         public override void Handle(UpdateStateCodeCommand command)

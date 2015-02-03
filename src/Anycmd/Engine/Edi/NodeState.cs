@@ -12,21 +12,21 @@ namespace Anycmd.Engine.Edi
     public sealed class NodeState : StateObject<NodeState>, INode, IStateObject
     {
         private Dictionary<OntologyDescriptor, Dictionary<Verb, INodeAction>> _nodeActionDic;
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
-        private NodeState(IAcDomain host, Guid id)
+        private NodeState(IAcDomain acDomain, Guid id)
             : base(id)
         {
-            this._host = host;
+            this._acDomain = acDomain;
         }
 
-        public static NodeState Create(IAcDomain host, INode node)
+        public static NodeState Create(IAcDomain acDomain, INode node)
         {
             if (node == null)
             {
                 throw new ArgumentNullException("node");
             }
-            var data = new NodeState(host, node.Id)
+            var data = new NodeState(acDomain, node.Id)
             {
                 Abstract = node.Abstract,
                 Actions = node.Actions,
@@ -57,18 +57,18 @@ namespace Anycmd.Engine.Edi
             data._nodeActionDic = nodeActionDic;
             if (data.Actions != null)
             {
-                var nodeActions = host.JsonSerializer.Deserialize<NodeAction[]>(data.Actions);
+                var nodeActions = acDomain.JsonSerializer.Deserialize<NodeAction[]>(data.Actions);
                 if (nodeActions != null)
                 {
                     foreach (var nodeAction in nodeActions)
                     {
-                        var action = host.NodeHost.Ontologies.GetAction(nodeAction.ActionId);
+                        var action = acDomain.NodeHost.Ontologies.GetAction(nodeAction.ActionId);
                         if (action == null)
                         {
                             throw new AnycmdException("意外的本体动作标识" + nodeAction.ActionId);
                         }
                         OntologyDescriptor ontology;
-                        if (!host.NodeHost.Ontologies.TryGetOntology(action.OntologyId, out ontology))
+                        if (!acDomain.NodeHost.Ontologies.TryGetOntology(action.OntologyId, out ontology))
                         {
                             throw new AnycmdException("意外的本体元素本体标识" + action.OntologyId);
                         }
@@ -76,7 +76,7 @@ namespace Anycmd.Engine.Edi
                         {
                             nodeActionDic.Add(ontology, new Dictionary<Verb, INodeAction>());
                         }
-                        var actionDic = host.NodeHost.Ontologies.GetActons(ontology);
+                        var actionDic = acDomain.NodeHost.Ontologies.GetActons(ontology);
                         var verb = actionDic.Where(a => a.Value.Id == nodeAction.ActionId).Select(a => a.Key).FirstOrDefault();
                         if (verb == null)
                         {

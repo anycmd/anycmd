@@ -14,11 +14,11 @@ namespace Anycmd.Engine.Host.Rdb.MemorySets
 
         private readonly Dictionary<RdbDescriptor, Dictionary<string, DbTable>> _dicById = new Dictionary<RdbDescriptor, Dictionary<string, DbTable>>();
         private bool _initialized = false;
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
-        public DbTables(IAcDomain host)
+        public DbTables(IAcDomain acDomain)
         {
-            this._host = host;
+            this._acDomain = acDomain;
             // TODO:接入总线
         }
 
@@ -64,10 +64,10 @@ namespace Anycmd.Engine.Host.Rdb.MemorySets
             {
                 if (_initialized) return;
                 _dicById.Clear();
-                foreach (var db in _host.Rdbs)
+                foreach (var db in _acDomain.Rdbs)
                 {
                     _dicById.Add(db, new Dictionary<string, DbTable>(StringComparer.OrdinalIgnoreCase));
-                    var tables = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetDbTables(db);
+                    var tables = _acDomain.RetrieveRequiredService<IOriginalHostStateReader>().GetDbTables(db);
                     foreach (var item in tables)
                     {
                         _dicById[db].Add(item.Id, item);

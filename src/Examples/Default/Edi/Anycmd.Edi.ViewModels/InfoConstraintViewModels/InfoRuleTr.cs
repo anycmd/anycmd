@@ -12,7 +12,7 @@ namespace Anycmd.Edi.ViewModels.InfoConstraintViewModels
     {
         private InfoRuleTr() { }
 
-        public static InfoRuleTr Create(IAcDomain host, InfoRuleState infoRule)
+        public static InfoRuleTr Create(IAcDomain acDomain, InfoRuleState infoRule)
         {
             return new InfoRuleTr
             {

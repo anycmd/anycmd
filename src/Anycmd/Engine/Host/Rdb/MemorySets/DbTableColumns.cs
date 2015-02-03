@@ -18,11 +18,11 @@ namespace Anycmd.Engine.Host.Rdb.MemorySets
             _dic = new Dictionary<RdbDescriptor, Dictionary<DbTable, Dictionary<string, DbTableColumn>>>();
         private readonly Dictionary<RdbDescriptor, Dictionary<string, DbTableColumn>> _dicById = new Dictionary<RdbDescriptor, Dictionary<string, DbTableColumn>>();
         private bool _initialized = false;
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
-        public DbTableColumns(IAcDomain host)
+        public DbTableColumns(IAcDomain acDomain)
         {
-            this._host = host;
+            this._acDomain = acDomain;
             // TODO:接入总线
         }
 
@@ -67,9 +67,9 @@ namespace Anycmd.Engine.Host.Rdb.MemorySets
                     {
                         _dic.Clear();
                         _dicById.Clear();
-                        foreach (var database in _host.Rdbs)
+                        foreach (var database in _acDomain.Rdbs)
                         {
-                            var columns = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetTableColumns(database);
+                            var columns = _acDomain.RetrieveRequiredService<IOriginalHostStateReader>().GetTableColumns(database);
                             _dic.Add(database, new Dictionary<DbTable, Dictionary<string, DbTableColumn>>());
                             _dicById.Add(database, new Dictionary<string, DbTableColumn>(StringComparer.OrdinalIgnoreCase));
                             foreach (var table in database.DbTables.Values)

@@ -28,13 +28,13 @@ namespace Anycmd.Engine.Host.Impl
         /// </summary>
         public string BootConnString { get { return _bootConnString; } }
 
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
         private DataSet ds = null;
         private readonly List<string> _tableNames = new List<string>();
 
-        public RdbOriginalHostStateReader(IAcDomain host)
+        public RdbOriginalHostStateReader(IAcDomain acDomain)
         {
-            this._host = host;
+            this._acDomain = acDomain;
         }
 
         private DataTable this[string tableName]
@@ -112,22 +112,22 @@ namespace Anycmd.Engine.Host.Impl
 
         public IList<DbTableColumn> GetTableColumns(RdbDescriptor db)
         {
-            return _host.RetrieveRequiredService<IRdbMetaDataService>().GetTableColumns(db);
+            return _acDomain.RetrieveRequiredService<IRdbMetaDataService>().GetTableColumns(db);
         }
 
         public IList<DbTable> GetDbTables(RdbDescriptor db)
         {
-            return _host.RetrieveRequiredService<IRdbMetaDataService>().GetDbTables(db);
+            return _acDomain.RetrieveRequiredService<IRdbMetaDataService>().GetDbTables(db);
         }
 
         public IList<DbViewColumn> GetViewColumns(RdbDescriptor db)
         {
-            return _host.RetrieveRequiredService<IRdbMetaDataService>().GetViewColumns(db);
+            return _acDomain.RetrieveRequiredService<IRdbMetaDataService>().GetViewColumns(db);
         }
 
         public IList<DbView> GetDbViews(RdbDescriptor db)
         {
-            return _host.RetrieveRequiredService<IRdbMetaDataService>().GetDbViews(db);
+            return _acDomain.RetrieveRequiredService<IRdbMetaDataService>().GetDbViews(db);
         }
 
         public IList<Catalog> GetCatalogs()

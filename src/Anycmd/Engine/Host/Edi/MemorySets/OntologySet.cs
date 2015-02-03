@@ -42,7 +42,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
         private readonly TopicSet _topics;
         private readonly ArchiveSet _archiveSet;
 
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
         public Guid Id
         {
@@ -56,24 +56,24 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
         /// <summary>
         /// 构造并接入总线
         /// </summary>
-        public OntologySet(IAcDomain host)
+        public OntologySet(IAcDomain acDomain)
         {
-            if (host == null)
+            if (acDomain == null)
             {
-                throw new ArgumentNullException("host");
+                throw new ArgumentNullException("acDomain");
             }
-            if (host.Equals(EmptyAcDomain.SingleInstance))
+            if (acDomain.Equals(EmptyAcDomain.SingleInstance))
             {
                 _initialized = true;
             }
-            this._host = host;
+            this._acDomain = acDomain;
             new MessageHandler(this).Register();
-            this._elementSet = new ElementSet(host);
-            this._actionSet = new ActionSet(host);
-            this._infoGroupSet = new InfoGroupSet(host);
-            this._catalogSet = new OntologyCatalogSet(host);
-            this._topics = new TopicSet(host);
-            this._archiveSet = new ArchiveSet(host);
+            this._elementSet = new ElementSet(acDomain);
+            this._actionSet = new ActionSet(acDomain);
+            this._infoGroupSet = new InfoGroupSet(acDomain);
+            this._catalogSet = new OntologyCatalogSet(acDomain);
+            this._topics = new TopicSet(acDomain);
+            this._archiveSet = new ArchiveSet(acDomain);
         }
         #endregion
 
@@ -343,18 +343,18 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             lock (_locker)
             {
                 if (_initialized) return;
-                _host.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
+                _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
                 _ontologyDicByCode.Clear();
                 _ontologyDicById.Clear();
-                var allOntologies = _host.RetrieveRequiredService<INodeHostBootstrap>().GetOntologies().OrderBy(s => s.SortCode);
+                var allOntologies = _acDomain.RetrieveRequiredService<INodeHostBootstrap>().GetOntologies().OrderBy(s => s.SortCode);
                 foreach (var ontology in allOntologies)
                 {
-                    var ontologyDescriptor = new OntologyDescriptor(_host, OntologyState.Create(ontology), ontology.Id);
+                    var ontologyDescriptor = new OntologyDescriptor(_acDomain, OntologyState.Create(ontology), ontology.Id);
                     _ontologyDicByCode.Add(ontology.Code, ontologyDescriptor);
                     _ontologyDicById.Add(ontology.Id, ontologyDescriptor);
                 }
                 _initialized = true;
-                _host.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
+                _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
             }
         }
 
@@ -378,10 +378,10 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
             public void Register()
             {
-                var messageDispatcher = _set._host.MessageDispatcher;
+                var messageDispatcher = _set._acDomain.MessageDispatcher;
                 if (messageDispatcher == null)
                 {
-                    throw new ArgumentNullException("messageDispatcher has not be set of host:{0}".Fmt(_set._host.Name));
+                    throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(_set._acDomain.Name));
                 }
                 messageDispatcher.Register((IHandler<AddOntologyCommand>)this);
                 messageDispatcher.Register((IHandler<OntologyAddedEvent>)this);
@@ -407,8 +407,8 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
             private void Handle(IAcSession acSession, IOntologyCreateIo input, bool isCommand)
             {
-                var host = _set._host;
-                var ontologyRepository = host.RetrieveRequiredService<IRepository<Ontology>>();
+                var acDomain = _set._acDomain;
+                var ontologyRepository = acDomain.RetrieveRequiredService<IRepository<Ontology>>();
                 if (string.IsNullOrEmpty(input.Code))
                 {
                     throw new ValidationException("编码不能为空");
@@ -421,14 +421,14 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 lock (this)
                 {
                     OntologyDescriptor ontology;
-                    if (host.NodeHost.Ontologies.TryGetOntology(input.Id.Value, out ontology))
+                    if (acDomain.NodeHost.Ontologies.TryGetOntology(input.Id.Value, out ontology))
                     {
                         throw new ValidationException("给定的标识标识的记录已经存在");
                     }
 
                     entity = Ontology.Create(input);
 
-                    var descriptor = new OntologyDescriptor(host, OntologyState.Create(entity), entity.Id);
+                    var descriptor = new OntologyDescriptor(acDomain, OntologyState.Create(entity), entity.Id);
                     if (!_set._ontologyDicByCode.ContainsKey(entity.Code))
                     {
                         _set._ontologyDicByCode.Add(entity.Code, descriptor);
@@ -461,7 +461,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateOntologyAddedEvent(acSession, entity, input));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivateOntologyAddedEvent(acSession, entity, input));
                 }
             }
 
@@ -490,14 +490,14 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
             private void Handle(IAcSession acSession, IOntologyUpdateIo input, bool isCommand)
             {
-                var host = _set._host;
-                var ontologyRepository = host.RetrieveRequiredService<IRepository<Ontology>>();
+                var acDomain = _set._acDomain;
+                var ontologyRepository = acDomain.RetrieveRequiredService<IRepository<Ontology>>();
                 if (string.IsNullOrEmpty(input.Code))
                 {
                     throw new ValidationException("编码不能为空");
                 }
                 OntologyDescriptor bkState;
-                if (!host.NodeHost.Ontologies.TryGetOntology(input.Id, out bkState))
+                if (!acDomain.NodeHost.Ontologies.TryGetOntology(input.Id, out bkState))
                 {
                     throw new NotExistException();
                 }
@@ -506,11 +506,11 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 lock (bkState)
                 {
                     OntologyDescriptor ontology;
-                    if (!host.NodeHost.Ontologies.TryGetOntology(input.Id, out ontology))
+                    if (!acDomain.NodeHost.Ontologies.TryGetOntology(input.Id, out ontology))
                     {
                         throw new NotExistException();
                     }
-                    if (host.NodeHost.Ontologies.TryGetOntology(input.Code, out ontology) && ontology.Ontology.Id != input.Id)
+                    if (acDomain.NodeHost.Ontologies.TryGetOntology(input.Code, out ontology) && ontology.Ontology.Id != input.Id)
                     {
                         throw new ValidationException("重复的编码");
                     }
@@ -522,7 +522,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                     entity.Update(input);
 
-                    var newState = new OntologyDescriptor(host, OntologyState.Create(entity), entity.Id);
+                    var newState = new OntologyDescriptor(acDomain, OntologyState.Create(entity), entity.Id);
                     stateChanged = newState != bkState;
                     if (stateChanged)
                     {
@@ -548,7 +548,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateOntologyUpdatedEvent(acSession, entity, input));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivateOntologyUpdatedEvent(acSession, entity, input));
                 }
             }
 
@@ -592,10 +592,10 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
             private void Handle(IAcSession acSession, Guid ontologyId, bool isCommand)
             {
-                var host = _set._host;
-                var ontologyRepository = host.RetrieveRequiredService<IRepository<Ontology>>();
+                var acDomain = _set._acDomain;
+                var ontologyRepository = acDomain.RetrieveRequiredService<IRepository<Ontology>>();
                 OntologyDescriptor ontology;
-                if (!host.NodeHost.Ontologies.TryGetOntology(ontologyId, out ontology))
+                if (!acDomain.NodeHost.Ontologies.TryGetOntology(ontologyId, out ontology))
                 {
                     return;
                 }
@@ -632,15 +632,15 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 {
                     throw new ValidationException("本体下建立了信息组时不能删除");
                 }
-                if (host.NodeHost.Nodes.GetNodeOntologyCares().Any(a => a.OntologyId == entity.Id))
+                if (acDomain.NodeHost.Nodes.GetNodeOntologyCares().Any(a => a.OntologyId == entity.Id))
                 {
                     throw new ValidationException("有节点关心了该本体时不能删除");
                 }
-                if (host.NodeHost.Nodes.GetNodeOntologyCatalogs().Any(a => a.OntologyId == entity.Id))
+                if (acDomain.NodeHost.Nodes.GetNodeOntologyCatalogs().Any(a => a.OntologyId == entity.Id))
                 {
                     throw new ValidationException("有节点关心了该本体下的目录时不能删除");
                 }
-                if (host.RetrieveRequiredService<IRepository<Batch>>().AsQueryable().Any(a => a.OntologyId == entity.Id))
+                if (acDomain.RetrieveRequiredService<IRepository<Batch>>().AsQueryable().Any(a => a.OntologyId == entity.Id))
                 {
                     throw new ValidationException("本体下有批处理记录时不能删除");
                 }
@@ -676,7 +676,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateOntologyRemovedEvent(acSession, entity));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivateOntologyRemovedEvent(acSession, entity));
                 }
             }
 
@@ -698,7 +698,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             private readonly object _locker = new object();
             private readonly Guid _id = Guid.NewGuid();
             #endregion
-            private readonly IAcDomain _host;
+            private readonly IAcDomain _acDomain;
 
             public Guid Id
             {
@@ -706,17 +706,17 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             }
 
             #region Ctor
-            internal ElementSet(IAcDomain host)
+            internal ElementSet(IAcDomain acDomain)
             {
-                if (host == null)
+                if (acDomain == null)
                 {
-                    throw new ArgumentNullException("host");
+                    throw new ArgumentNullException("acDomain");
                 }
-                if (host.Equals(EmptyAcDomain.SingleInstance))
+                if (acDomain.Equals(EmptyAcDomain.SingleInstance))
                 {
                     _initialized = true;
                 }
-                this._host = host;
+                this._acDomain = acDomain;
                 new ElementMessageHandler(this).Register();
             }
             #endregion
@@ -786,14 +786,14 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     if (_initialized) return;
                     _elementDicByOntology.Clear();
                     _elementDicById.Clear();
-                    var allElements = _host.RetrieveRequiredService<INodeHostBootstrap>().GetElements();
+                    var allElements = _acDomain.RetrieveRequiredService<INodeHostBootstrap>().GetElements();
                     foreach (var element in allElements)
                     {
                         if (_elementDicById.ContainsKey(element.Id)) continue;
-                        var descriptor = new ElementDescriptor(_host, ElementState.Create(_host, element), element.Id);
+                        var descriptor = new ElementDescriptor(_acDomain, ElementState.Create(_acDomain, element), element.Id);
                         _elementDicById.Add(element.Id, descriptor);
                         OntologyDescriptor ontology;
-                        _host.NodeHost.Ontologies.TryGetOntology(element.OntologyId, out ontology);
+                        _acDomain.NodeHost.Ontologies.TryGetOntology(element.OntologyId, out ontology);
                         if (!_elementDicByOntology.ContainsKey(ontology))
                         {
                             _elementDicByOntology.Add(ontology, new Dictionary<string, ElementDescriptor>(StringComparer.OrdinalIgnoreCase));
@@ -825,10 +825,10 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 public void Register()
                 {
-                    var messageDispatcher = _set._host.MessageDispatcher;
+                    var messageDispatcher = _set._acDomain.MessageDispatcher;
                     if (messageDispatcher == null)
                     {
-                        throw new ArgumentNullException("messageDispatcher has not be set of host:{0}".Fmt(_set._host.Name));
+                        throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(_set._acDomain.Name));
                     }
                     messageDispatcher.Register((IHandler<AddElementCommand>)this);
                     messageDispatcher.Register((IHandler<AddSystemElementCommand>)this);
@@ -838,8 +838,8 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 public void Handle(AddElementCommand message)
                 {
-                    var host = _set._host;
-                    var elementRepository = host.RetrieveRequiredService<IRepository<Element>>();
+                    var acDomain = _set._acDomain;
+                    var elementRepository = acDomain.RetrieveRequiredService<IRepository<Element>>();
                     if (string.IsNullOrEmpty(message.Input.Code))
                     {
                         throw new ValidationException("编码不能为空");
@@ -849,12 +849,12 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                         throw new ValidationException("标识是必须的");
                     }
                     ElementDescriptor element;
-                    if (host.NodeHost.Ontologies.TryGetElement(message.Input.Id.Value, out element))
+                    if (acDomain.NodeHost.Ontologies.TryGetElement(message.Input.Id.Value, out element))
                     {
                         throw new ValidationException("给定的标识标识的记录已经存在");
                     }
                     OntologyDescriptor ontology;
-                    if (!host.NodeHost.Ontologies.TryGetOntology(message.Input.OntologyId, out ontology))
+                    if (!acDomain.NodeHost.Ontologies.TryGetOntology(message.Input.OntologyId, out ontology))
                     {
                         throw new ValidationException("意外的本体标识" + message.Input.OntologyId);
                     }
@@ -867,7 +867,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                     lock (_set._locker)
                     {
-                        var descriptor = new ElementDescriptor(host, ElementState.Create(host, entity), entity.Id);
+                        var descriptor = new ElementDescriptor(acDomain, ElementState.Create(acDomain, entity), entity.Id);
                         _set._elementDicById.Add(entity.Id, descriptor);
                         if (!_set._elementDicByOntology.ContainsKey(ontology))
                         {
@@ -890,15 +890,15 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                             throw;
                         }
                     }
-                    _set._host.PublishEvent(new ElementAddedEvent(message.AcSession, entity));
-                    _set._host.CommitEventBus();
+                    _set._acDomain.PublishEvent(new ElementAddedEvent(message.AcSession, entity));
+                    _set._acDomain.CommitEventBus();
                 }
 
                 public void Handle(AddSystemElementCommand message)
                 {
                     // 配置运行时本体元素
                     var elementEntities = new List<ElementCreateInput>();
-                    foreach (var ontology in _set._host.NodeHost.Ontologies)
+                    foreach (var ontology in _set._acDomain.NodeHost.Ontologies)
                     {
                         foreach (var item in ElementDescriptor.SystemElementCodes)
                         {
@@ -911,7 +911,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     {
                         foreach (var entity in elementEntities)
                         {
-                            _set._host.Handle(new AddElementCommand(message.AcSession, entity));
+                            _set._acDomain.Handle(new AddElementCommand(message.AcSession, entity));
                         }
                     }
                 }
@@ -1028,14 +1028,14 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 public void Handle(UpdateElementCommand message)
                 {
-                    var host = _set._host;
-                    var elementRepository = host.RetrieveRequiredService<IRepository<Element>>();
+                    var acDomain = _set._acDomain;
+                    var elementRepository = acDomain.RetrieveRequiredService<IRepository<Element>>();
                     if (string.IsNullOrEmpty(message.Input.Code))
                     {
                         throw new ValidationException("编码不能为空");
                     }
                     ElementDescriptor element;
-                    if (!host.NodeHost.Ontologies.TryGetElement(message.Input.Id, out element))
+                    if (!acDomain.NodeHost.Ontologies.TryGetElement(message.Input.Id, out element))
                     {
                         throw new NotExistException();
                     }
@@ -1052,7 +1052,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                     entity.Update(message.Input);
 
-                    var newState = new ElementDescriptor(host, ElementState.Create(host, entity), entity.Id);
+                    var newState = new ElementDescriptor(acDomain, ElementState.Create(acDomain, entity), entity.Id);
                     bool stateChanged = newState != bkState;
                     lock (_set._locker)
                     {
@@ -1076,8 +1076,8 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                         }
                         if (stateChanged)
                         {
-                            _set._host.PublishEvent(new ElementUpdatedEvent(message.AcSession, entity));
-                            _set._host.CommitEventBus();
+                            _set._acDomain.PublishEvent(new ElementUpdatedEvent(message.AcSession, entity));
+                            _set._acDomain.CommitEventBus();
                         }
                     }
                 }
@@ -1099,10 +1099,10 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 public void Handle(RemoveElementCommand message)
                 {
-                    var host = _set._host;
-                    var elementRepository = host.RetrieveRequiredService<IRepository<Element>>();
+                    var acDomain = _set._acDomain;
+                    var elementRepository = acDomain.RetrieveRequiredService<IRepository<Element>>();
                     ElementDescriptor element;
-                    if (!host.NodeHost.Ontologies.TryGetElement(message.EntityId, out element))
+                    if (!acDomain.NodeHost.Ontologies.TryGetElement(message.EntityId, out element))
                     {
                         return;
                     }
@@ -1129,8 +1129,8 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                             throw;
                         }
                     }
-                    _set._host.PublishEvent(new ElementRemovedEvent(message.AcSession, entity));
-                    _set._host.CommitEventBus();
+                    _set._acDomain.PublishEvent(new ElementRemovedEvent(message.AcSession, entity));
+                    _set._acDomain.CommitEventBus();
                 }
             }
             #endregion
@@ -1146,24 +1146,24 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             private bool _initialized = false;
             private readonly object _locker = new object();
             private readonly Guid _id = Guid.NewGuid();
-            private readonly IAcDomain _host;
+            private readonly IAcDomain _acDomain;
 
             public Guid Id
             {
                 get { return _id; }
             }
 
-            internal ActionSet(IAcDomain host)
+            internal ActionSet(IAcDomain acDomain)
             {
-                if (host == null)
+                if (acDomain == null)
                 {
-                    throw new ArgumentNullException("host");
+                    throw new ArgumentNullException("acDomain");
                 }
-                if (host.Equals(EmptyAcDomain.SingleInstance))
+                if (acDomain.Equals(EmptyAcDomain.SingleInstance))
                 {
                     _initialized = true;
                 }
-                this._host = host;
+                this._acDomain = acDomain;
                 new ActionMessageHandler(this).Register();
             }
 
@@ -1217,8 +1217,8 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     if (_initialized) return;
                     _actionDicByVerb.Clear();
                     _actionsById.Clear();
-                    var actions = _host.RetrieveRequiredService<INodeHostBootstrap>().GetActions();
-                    foreach (var ontology in _host.NodeHost.Ontologies)
+                    var actions = _acDomain.RetrieveRequiredService<INodeHostBootstrap>().GetActions();
+                    foreach (var ontology in _acDomain.NodeHost.Ontologies)
                     {
                         if (!_actionDicByVerb.ContainsKey(ontology))
                         {
@@ -1256,10 +1256,10 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 public void Register()
                 {
-                    var messageDispatcher = _set._host.MessageDispatcher;
+                    var messageDispatcher = _set._acDomain.MessageDispatcher;
                     if (messageDispatcher == null)
                     {
-                        throw new ArgumentNullException("messageDispatcher has not be set of host:{0}".Fmt(_set._host.Name));
+                        throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(_set._acDomain.Name));
                     }
                     messageDispatcher.Register((IHandler<AddActionCommand>)this);
                     messageDispatcher.Register((IHandler<UpdateActionCommand>)this);
@@ -1268,8 +1268,8 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 public void Handle(AddActionCommand message)
                 {
-                    var host = _set._host;
-                    var ontologyRepository = host.RetrieveRequiredService<IRepository<Ontology>>();
+                    var acDomain = _set._acDomain;
+                    var ontologyRepository = acDomain.RetrieveRequiredService<IRepository<Ontology>>();
                     if (string.IsNullOrEmpty(message.Input.HecpVerb))
                     {
                         throw new ValidationException("编码不能为空");
@@ -1283,7 +1283,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                         throw new ValidationException("给定的标识标识的记录已经存在");
                     }
                     OntologyDescriptor ontology;
-                    if (!_set._host.NodeHost.Ontologies.TryGetOntology(message.Input.OntologyId, out ontology))
+                    if (!_set._acDomain.NodeHost.Ontologies.TryGetOntology(message.Input.OntologyId, out ontology))
                     {
                         throw new ValidationException("非法的本体标识");
                     }
@@ -1312,21 +1312,21 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                             throw;
                         }
                     }
-                    host.PublishEvent(new ActionAddedEvent(message.AcSession, entity));
-                    host.CommitEventBus();
+                    acDomain.PublishEvent(new ActionAddedEvent(message.AcSession, entity));
+                    acDomain.CommitEventBus();
                 }
 
                 public void Handle(UpdateActionCommand message)
                 {
-                    var host = _set._host;
-                    var ontologyRepository = host.RetrieveRequiredService<IRepository<Ontology>>();
+                    var acDomain = _set._acDomain;
+                    var ontologyRepository = acDomain.RetrieveRequiredService<IRepository<Ontology>>();
                     if (string.IsNullOrEmpty(message.Input.HecpVerb))
                     {
                         throw new ValidationException("编码不能为空");
                     }
                     bool exist = false;
                     OntologyDescriptor ontology = null;
-                    foreach (var item in host.NodeHost.Ontologies)
+                    foreach (var item in acDomain.NodeHost.Ontologies)
                     {
                         if (item.Actions.Values.Any(a => a.Id == message.Input.Id))
                         {
@@ -1378,14 +1378,14 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                     if (stateChanged)
                     {
-                        _set._host.PublishEvent(new ActionUpdatedEvent(message.AcSession, entity));
-                        _set._host.CommitEventBus();
+                        _set._acDomain.PublishEvent(new ActionUpdatedEvent(message.AcSession, entity));
+                        _set._acDomain.CommitEventBus();
                     }
                 }
 
                 private void Update(ActionState state)
                 {
-                    var ontology = _set._host.NodeHost.Ontologies[state.OntologyId];
+                    var ontology = _set._acDomain.NodeHost.Ontologies[state.OntologyId];
                     var newVerb = state.ActionVerb;
                     var oldVerb = _set._actionsById[state.Id].ActionVerb;
                     _set._actionsById[state.Id] = state;
@@ -1402,11 +1402,11 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 public void Handle(RemoveActionCommand message)
                 {
-                    var host = _set._host;
-                    var ontologyRepository = host.RetrieveRequiredService<IRepository<Ontology>>();
+                    var acDomain = _set._acDomain;
+                    var ontologyRepository = acDomain.RetrieveRequiredService<IRepository<Ontology>>();
                     bool exist = false;
                     OntologyDescriptor ontology = null;
-                    foreach (var item in host.NodeHost.Ontologies)
+                    foreach (var item in acDomain.NodeHost.Ontologies)
                     {
                         if (item.Actions.Values.Any(a => a.Id == message.EntityId))
                         {
@@ -1442,8 +1442,8 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                             throw;
                         }
                     }
-                    host.PublishEvent(new ActionRemovedEvent(message.AcSession, entity));
-                    host.CommitEventBus();
+                    acDomain.PublishEvent(new ActionRemovedEvent(message.AcSession, entity));
+                    acDomain.CommitEventBus();
                 }
             }
             #endregion
@@ -1459,24 +1459,24 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             private bool _initialized = false;
             private readonly object _locker = new object();
             private readonly Guid _id = new Guid();
-            private readonly IAcDomain _host;
+            private readonly IAcDomain _acDomain;
 
             public Guid Id
             {
                 get { return _id; }
             }
 
-            internal InfoGroupSet(IAcDomain host)
+            internal InfoGroupSet(IAcDomain acDomain)
             {
-                if (host == null)
+                if (acDomain == null)
                 {
-                    throw new ArgumentNullException("host");
+                    throw new ArgumentNullException("acDomain");
                 }
-                if (host.Equals(EmptyAcDomain.SingleInstance))
+                if (acDomain.Equals(EmptyAcDomain.SingleInstance))
                 {
                     _initialized = true;
                 }
-                this._host = host;
+                this._acDomain = acDomain;
                 new InfoGroupMessageHandler(this).Register();
             }
 
@@ -1510,8 +1510,8 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                         if (!_initialized)
                         {
                             _dic.Clear();
-                            var infoGroups = _host.RetrieveRequiredService<INodeHostBootstrap>().GetInfoGroups().OrderBy(a => a.SortCode);
-                            foreach (var ontology in _host.NodeHost.Ontologies)
+                            var infoGroups = _acDomain.RetrieveRequiredService<INodeHostBootstrap>().GetInfoGroups().OrderBy(a => a.SortCode);
+                            foreach (var ontology in _acDomain.NodeHost.Ontologies)
                             {
                                 _dic.Add(ontology, new List<InfoGroupState>());
                                 foreach (var infoGroup in infoGroups.Where(a => a.OntologyId == ontology.Ontology.Id))
@@ -1541,10 +1541,10 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 public void Register()
                 {
-                    var messageDispatcher = _set._host.MessageDispatcher;
+                    var messageDispatcher = _set._acDomain.MessageDispatcher;
                     if (messageDispatcher == null)
                     {
-                        throw new ArgumentNullException("messageDispatcher has not be set of host:{0}".Fmt(_set._host.Name));
+                        throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(_set._acDomain.Name));
                     }
                     messageDispatcher.Register((IHandler<AddInfoGroupCommand>)this);
                     messageDispatcher.Register((IHandler<UpdateInfoGroupCommand>)this);
@@ -1553,8 +1553,8 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 public void Handle(AddInfoGroupCommand message)
                 {
-                    var host = _set._host;
-                    var ontologyRepository = host.RetrieveRequiredService<IRepository<Ontology>>();
+                    var acDomain = _set._acDomain;
+                    var ontologyRepository = acDomain.RetrieveRequiredService<IRepository<Ontology>>();
                     if (string.IsNullOrEmpty(message.Input.Code))
                     {
                         throw new ValidationException("编码不能为空");
@@ -1564,7 +1564,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                         throw new ValidationException("标识是必须的");
                     }
                     OntologyDescriptor ontology;
-                    if (!host.NodeHost.Ontologies.TryGetOntology(message.Input.OntologyId, out ontology))
+                    if (!acDomain.NodeHost.Ontologies.TryGetOntology(message.Input.OntologyId, out ontology))
                     {
                         throw new ValidationException("非法的本体标识" + message.Input.OntologyId);
                     }
@@ -1608,14 +1608,14 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                             throw;
                         }
                     }
-                    _set._host.PublishEvent(new InfoGroupAddedEvent(message.AcSession, entity));
-                    _set._host.CommitEventBus();
+                    _set._acDomain.PublishEvent(new InfoGroupAddedEvent(message.AcSession, entity));
+                    _set._acDomain.CommitEventBus();
                 }
 
                 public void Handle(UpdateInfoGroupCommand message)
                 {
-                    var host = _set._host;
-                    var ontologyRepository = host.RetrieveRequiredService<IRepository<Ontology>>();
+                    var acDomain = _set._acDomain;
+                    var ontologyRepository = acDomain.RetrieveRequiredService<IRepository<Ontology>>();
                     if (string.IsNullOrEmpty(message.Input.Code))
                     {
                         throw new ValidationException("编码不能为空");
@@ -1630,7 +1630,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                             throw new NotExistException();
                         }
                         OntologyDescriptor ontology;
-                        if (!_set._host.NodeHost.Ontologies.TryGetOntology(entity.OntologyId, out ontology))
+                        if (!_set._acDomain.NodeHost.Ontologies.TryGetOntology(entity.OntologyId, out ontology))
                         {
                             throw new ValidationException("非法的本体标识" + entity.OntologyId);
                         }
@@ -1666,14 +1666,14 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                     if (stateChanged)
                     {
-                        _set._host.PublishEvent(new InfoGroupUpdatedEvent(message.AcSession, entity));
-                        _set._host.CommitEventBus();
+                        _set._acDomain.PublishEvent(new InfoGroupUpdatedEvent(message.AcSession, entity));
+                        _set._acDomain.CommitEventBus();
                     }
                 }
 
                 private void Update(InfoGroupState state)
                 {
-                    OntologyDescriptor ontology = _set._host.NodeHost.Ontologies[state.OntologyId];
+                    OntologyDescriptor ontology = _set._acDomain.NodeHost.Ontologies[state.OntologyId];
                     var item = _set._dic[ontology].First(a => a.Id == state.Id);
                     _set._dic[ontology].Remove(item);
                     _set._dic[ontology].Add(state);
@@ -1681,8 +1681,8 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 public void Handle(RemoveInfoGroupCommand message)
                 {
-                    var host = _set._host;
-                    var ontologyRepository = host.RetrieveRequiredService<IRepository<Ontology>>();
+                    var acDomain = _set._acDomain;
+                    var ontologyRepository = acDomain.RetrieveRequiredService<IRepository<Ontology>>();
                     InfoGroup entity = ontologyRepository.Context.Query<InfoGroup>().FirstOrDefault(a => a.Id == message.EntityId);
                     if (entity == null)
                     {
@@ -1693,19 +1693,19 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     {
                         try
                         {
-                            _set._dic[host.NodeHost.Ontologies[bkState.OntologyId]].Remove(bkState);
+                            _set._dic[acDomain.NodeHost.Ontologies[bkState.OntologyId]].Remove(bkState);
                             ontologyRepository.Context.RegisterDeleted(entity);
                             ontologyRepository.Context.Commit();
                         }
                         catch
                         {
-                            _set._dic[host.NodeHost.Ontologies[bkState.OntologyId]].Add(bkState);
+                            _set._dic[acDomain.NodeHost.Ontologies[bkState.OntologyId]].Add(bkState);
                             ontologyRepository.Context.Rollback();
                             throw;
                         }
                     }
-                    _set._host.PublishEvent(new InfoGroupRemovedEvent(message.AcSession, entity));
-                    _set._host.CommitEventBus();
+                    _set._acDomain.PublishEvent(new InfoGroupRemovedEvent(message.AcSession, entity));
+                    _set._acDomain.CommitEventBus();
                 }
             }
             #endregion
@@ -1721,24 +1721,24 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             private bool _initialized = false;
             private readonly object _locker = new object();
             private readonly Guid _id = Guid.NewGuid();
-            private readonly IAcDomain _host;
+            private readonly IAcDomain _acDomain;
 
             public Guid Id
             {
                 get { return _id; }
             }
 
-            internal OntologyCatalogSet(IAcDomain host)
+            internal OntologyCatalogSet(IAcDomain acDomain)
             {
-                if (host == null)
+                if (acDomain == null)
                 {
-                    throw new ArgumentNullException("host");
+                    throw new ArgumentNullException("acDomain");
                 }
-                if (host.Equals(EmptyAcDomain.SingleInstance))
+                if (acDomain.Equals(EmptyAcDomain.SingleInstance))
                 {
                     _initialized = true;
                 }
-                this._host = host;
+                this._acDomain = acDomain;
                 new OntologyCatalogMessageHandler(this).Register();
             }
 
@@ -1771,22 +1771,22 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 {
                     if (_initialized) return;
                     _dic.Clear();
-                    var ontologyOrgs = _host.RetrieveRequiredService<INodeHostBootstrap>().GetOntologyCatalogs();
+                    var ontologyOrgs = _acDomain.RetrieveRequiredService<INodeHostBootstrap>().GetOntologyCatalogs();
                     foreach (var ontologyOrg in ontologyOrgs)
                     {
                         CatalogState org;
                         OntologyDescriptor ontology;
-                        if (!_host.NodeHost.Ontologies.TryGetOntology(ontologyOrg.OntologyId, out ontology))
+                        if (!_acDomain.NodeHost.Ontologies.TryGetOntology(ontologyOrg.OntologyId, out ontology))
                         {
                             throw new AnycmdException("意外的本体目录本体标识" + ontologyOrg.OntologyId);
                         }
-                        if (_host.CatalogSet.TryGetCatalog(ontologyOrg.CatalogId, out org))
+                        if (_acDomain.CatalogSet.TryGetCatalog(ontologyOrg.CatalogId, out org))
                         {
                             if (!_dic.ContainsKey(ontology))
                             {
                                 _dic.Add(ontology, new Dictionary<CatalogState, OntologyCatalogState>());
                             }
-                            var ontologyOrgState = OntologyCatalogState.Create(_host, ontologyOrg);
+                            var ontologyOrgState = OntologyCatalogState.Create(_acDomain, ontologyOrg);
                             if (!_dic[ontology].ContainsKey(org))
                             {
                                 _dic[ontology].Add(org, ontologyOrgState);
@@ -1822,10 +1822,10 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 public void Register()
                 {
-                    var messageDispatcher = set._host.MessageDispatcher;
+                    var messageDispatcher = set._acDomain.MessageDispatcher;
                     if (messageDispatcher == null)
                     {
-                        throw new ArgumentNullException("messageDispatcher has not be set of host:{0}".Fmt(set._host.Name));
+                        throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(set._acDomain.Name));
                     }
                     messageDispatcher.Register((IHandler<AddOntologyCatalogCommand>)this);
                     messageDispatcher.Register((IHandler<OntologyCatalogAddedEvent>)this);
@@ -1854,15 +1854,15 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 private void Handle(IAcSession acSession, IOntologyCatalogCreateIo input, bool isCommand)
                 {
                     var _dic = set._dic;
-                    var host = set._host;
-                    var repository = host.RetrieveRequiredService<IRepository<OntologyCatalog>>();
+                    var acDomain = set._acDomain;
+                    var repository = acDomain.RetrieveRequiredService<IRepository<OntologyCatalog>>();
                     OntologyDescriptor ontology;
-                    if (!host.NodeHost.Ontologies.TryGetOntology(input.OntologyId, out ontology))
+                    if (!acDomain.NodeHost.Ontologies.TryGetOntology(input.OntologyId, out ontology))
                     {
                         throw new AnycmdException("意外的本体标识" + input.OntologyId);
                     }
                     CatalogState org;
-                    if (!host.CatalogSet.TryGetCatalog(input.CatalogId, out org))
+                    if (!acDomain.CatalogSet.TryGetCatalog(input.CatalogId, out org))
                     {
                         throw new AnycmdException("意外的目录标识" + input.CatalogId);
                     }
@@ -1880,7 +1880,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                             CatalogId = input.CatalogId,
                             Actions = null
                         };
-                        var ontologyOrgState = OntologyCatalogState.Create(host, entity);
+                        var ontologyOrgState = OntologyCatalogState.Create(acDomain, entity);
                         if (!_dic.ContainsKey(ontology))
                         {
                             _dic.Add(ontology, new Dictionary<CatalogState, OntologyCatalogState>());
@@ -1903,7 +1903,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                     if (isCommand)
                     {
-                        host.MessageDispatcher.DispatchMessage(new PrivateOntologyCatalogAddedEvent(acSession, entity, input));
+                        acDomain.MessageDispatcher.DispatchMessage(new PrivateOntologyCatalogAddedEvent(acSession, entity, input));
                     }
                 }
 
@@ -1934,10 +1934,10 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 private void Handle(IAcSession acSession, Guid ontologyId, Guid catalogId, bool isCommand)
                 {
                     var dic = set._dic;
-                    var host = set._host;
-                    var repository = host.RetrieveRequiredService<IRepository<OntologyCatalog>>();
+                    var acDomain = set._acDomain;
+                    var repository = acDomain.RetrieveRequiredService<IRepository<OntologyCatalog>>();
                     OntologyDescriptor ontology;
-                    if (!host.NodeHost.Ontologies.TryGetOntology(ontologyId, out ontology))
+                    if (!acDomain.NodeHost.Ontologies.TryGetOntology(ontologyId, out ontology))
                     {
                         throw new ValidationException("意外的本体标识" + ontologyId);
                     }
@@ -1989,7 +1989,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                     if (isCommand)
                     {
-                        host.MessageDispatcher.DispatchMessage(new PrivateOntologyCatalogRemovedEvent(acSession, entity));
+                        acDomain.MessageDispatcher.DispatchMessage(new PrivateOntologyCatalogRemovedEvent(acSession, entity));
                     }
                 }
 
@@ -2041,24 +2041,24 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             private bool _initialized = false;
             private readonly object _locker = new object();
             private readonly Guid _id = Guid.NewGuid();
-            private readonly IAcDomain _host;
+            private readonly IAcDomain _acDomain;
 
             public Guid Id
             {
                 get { return _id; }
             }
 
-            internal TopicSet(IAcDomain host)
+            internal TopicSet(IAcDomain acDomain)
             {
-                if (host == null)
+                if (acDomain == null)
                 {
-                    throw new ArgumentNullException("host");
+                    throw new ArgumentNullException("acDomain");
                 }
-                if (host.Equals(EmptyAcDomain.SingleInstance))
+                if (acDomain.Equals(EmptyAcDomain.SingleInstance))
                 {
                     _initialized = true;
                 }
-                this._host = host;
+                this._acDomain = acDomain;
                 new TopicMessageHandler(this).Register();
             }
 
@@ -2100,15 +2100,15 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                         if (!_initialized)
                         {
                             _dic.Clear();
-                            var list = _host.RetrieveRequiredService<INodeHostBootstrap>().GetTopics();
+                            var list = _acDomain.RetrieveRequiredService<INodeHostBootstrap>().GetTopics();
                             foreach (var item in list)
                             {
-                                var ontology = _host.NodeHost.Ontologies[item.OntologyId];
+                                var ontology = _acDomain.NodeHost.Ontologies[item.OntologyId];
                                 if (!_dic.ContainsKey(ontology))
                                 {
                                     _dic.Add(ontology, new Dictionary<topicCode, TopicState>(StringComparer.OrdinalIgnoreCase));
                                 }
-                                var state = TopicState.Create(_host, item);
+                                var state = TopicState.Create(_acDomain, item);
                                 _dic[ontology].Add(item.Code, state);
                             }
                             _initialized = true;
@@ -2133,10 +2133,10 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 public void Register()
                 {
-                    var messageDispatcher = _set._host.MessageDispatcher;
+                    var messageDispatcher = _set._acDomain.MessageDispatcher;
                     if (messageDispatcher == null)
                     {
-                        throw new ArgumentNullException("messageDispatcher has not be set of host:{0}".Fmt(_set._host.Name));
+                        throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(_set._acDomain.Name));
                     }
                     messageDispatcher.Register((IHandler<AddTopicCommand>)this);
                     messageDispatcher.Register((IHandler<UpdateTopicCommand>)this);
@@ -2145,8 +2145,8 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 public void Handle(AddTopicCommand message)
                 {
-                    var host = _set._host;
-                    var ontologyRepository = host.RetrieveRequiredService<IRepository<Ontology>>();
+                    var acDomain = _set._acDomain;
+                    var ontologyRepository = acDomain.RetrieveRequiredService<IRepository<Ontology>>();
                     if (string.IsNullOrEmpty(message.Input.Code))
                     {
                         throw new ValidationException("编码不能为空");
@@ -2156,7 +2156,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                         throw new ValidationException("标识是必须的");
                     }
                     OntologyDescriptor ontology;
-                    if (!host.NodeHost.Ontologies.TryGetOntology(message.Input.OntologyId, out ontology))
+                    if (!acDomain.NodeHost.Ontologies.TryGetOntology(message.Input.OntologyId, out ontology))
                     {
                         throw new ValidationException("非法的本体标识" + message.Input.OntologyId);
                     }
@@ -2173,7 +2173,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     {
                         try
                         {
-                            _set._dic[ontology].Add(entity.Code, TopicState.Create(host, entity));
+                            _set._dic[ontology].Add(entity.Code, TopicState.Create(acDomain, entity));
                             ontologyRepository.Context.RegisterNew(entity);
                             ontologyRepository.Context.Commit();
                         }
@@ -2184,14 +2184,14 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                             throw;
                         }
                     }
-                    _set._host.PublishEvent(new TopicAddedEvent(message.AcSession, entity));
-                    _set._host.CommitEventBus();
+                    _set._acDomain.PublishEvent(new TopicAddedEvent(message.AcSession, entity));
+                    _set._acDomain.CommitEventBus();
                 }
 
                 public void Handle(UpdateTopicCommand message)
                 {
-                    var host = _set._host;
-                    var ontologyRepository = host.RetrieveRequiredService<IRepository<Ontology>>();
+                    var acDomain = _set._acDomain;
+                    var ontologyRepository = acDomain.RetrieveRequiredService<IRepository<Ontology>>();
                     if (string.IsNullOrEmpty(message.Input.Code))
                     {
                         throw new ValidationException("编码不能为空");
@@ -2223,9 +2223,9 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     {
                         throw new NotExistException();
                     }
-                    var bkState = TopicState.Create(host, entity);
+                    var bkState = TopicState.Create(acDomain, entity);
                     entity.Update(message.Input);
-                    var newState = TopicState.Create(host, entity);
+                    var newState = TopicState.Create(acDomain, entity);
                     bool stateChanged = newState != bkState;
                     lock (_set._locker)
                     {
@@ -2264,14 +2264,14 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                             throw;
                         }
                     }
-                    _set._host.PublishEvent(new TopicUpdatedEvent(message.AcSession, entity));
-                    _set._host.CommitEventBus();
+                    _set._acDomain.PublishEvent(new TopicUpdatedEvent(message.AcSession, entity));
+                    _set._acDomain.CommitEventBus();
                 }
 
                 public void Handle(RemoveTopicCommand message)
                 {
-                    var host = _set._host;
-                    var ontologyRepository = host.RetrieveRequiredService<IRepository<Ontology>>();
+                    var acDomain = _set._acDomain;
+                    var ontologyRepository = acDomain.RetrieveRequiredService<IRepository<Ontology>>();
                     TopicState topic = null;
                     OntologyDescriptor ontology = null;
                     foreach (var item in _set._dic)
@@ -2295,7 +2295,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     {
                         return;
                     }
-                    var bkState = TopicState.Create(host, entity);
+                    var bkState = TopicState.Create(acDomain, entity);
                     lock (_set._locker)
                     {
                         try
@@ -2314,8 +2314,8 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                             throw;
                         }
                     }
-                    _set._host.PublishEvent(new TopicRemovedEvent(message.AcSession, entity));
-                    _set._host.CommitEventBus();
+                    _set._acDomain.PublishEvent(new TopicRemovedEvent(message.AcSession, entity));
+                    _set._acDomain.CommitEventBus();
                 }
             }
             #endregion
@@ -2331,7 +2331,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             private bool _initialized = false;
             private readonly object _locker = new object();
             private readonly Guid _id = Guid.NewGuid();
-            private readonly IAcDomain _host;
+            private readonly IAcDomain _acDomain;
 
             public Guid Id
             {
@@ -2341,17 +2341,17 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             /// <summary>
             /// 构造并接入总线
             /// </summary>
-            internal ArchiveSet(IAcDomain host)
+            internal ArchiveSet(IAcDomain acDomain)
             {
-                if (host == null)
+                if (acDomain == null)
                 {
-                    throw new ArgumentNullException("host");
+                    throw new ArgumentNullException("acDomain");
                 }
-                if (host.Equals(EmptyAcDomain.SingleInstance))
+                if (acDomain.Equals(EmptyAcDomain.SingleInstance))
                 {
                     _initialized = true;
                 }
-                this._host = host;
+                this._acDomain = acDomain;
                 new ArchiveMessageHandler(this).Register();
             }
 
@@ -2402,10 +2402,10 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     if (_initialized) return;
                     _dicById.Clear();
                     _dicByOntology.Clear();
-                    var list = _host.RetrieveRequiredService<INodeHostBootstrap>().GetArchives();
+                    var list = _acDomain.RetrieveRequiredService<INodeHostBootstrap>().GetArchives();
                     foreach (var entity in list)
                     {
-                        var archive = ArchiveState.Create(_host, entity);
+                        var archive = ArchiveState.Create(_acDomain, entity);
                         _dicById.Add(entity.Id, archive);
                         if (!_dicByOntology.ContainsKey(archive.Ontology))
                         {
@@ -2432,10 +2432,10 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 public void Register()
                 {
-                    var messageDispatcher = _set._host.MessageDispatcher;
+                    var messageDispatcher = _set._acDomain.MessageDispatcher;
                     if (messageDispatcher == null)
                     {
-                        throw new ArgumentNullException("messageDispatcher has not be set of host:{0}".Fmt(_set._host.Name));
+                        throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(_set._acDomain.Name));
                     }
                     messageDispatcher.Register((IHandler<AddArchiveCommand>)this);
                     messageDispatcher.Register((IHandler<UpdateArchiveCommand>)this);
@@ -2444,19 +2444,19 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 public void Handle(AddArchiveCommand message)
                 {
-                    var host = _set._host;
-                    var archiveRepository = host.RetrieveRequiredService<IRepository<Archive>>();
+                    var acDomain = _set._acDomain;
+                    var archiveRepository = acDomain.RetrieveRequiredService<IRepository<Archive>>();
                     if (!message.Input.Id.HasValue)
                     {
                         throw new ValidationException("标识是必须的");
                     }
                     ArchiveState archive;
-                    if (host.NodeHost.Ontologies.TryGetArchive(message.Input.Id.Value, out archive))
+                    if (acDomain.NodeHost.Ontologies.TryGetArchive(message.Input.Id.Value, out archive))
                     {
                         throw new ValidationException("给定标识的归档记录已经存在");
                     }
                     OntologyDescriptor ontology;
-                    if (!host.NodeHost.Ontologies.TryGetOntology(message.Input.OntologyId, out ontology))
+                    if (!acDomain.NodeHost.Ontologies.TryGetOntology(message.Input.OntologyId, out ontology))
                     {
                         throw new ValidationException("意外的本体标识" + message.Input.OntologyId);
                     }
@@ -2472,7 +2472,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     {
                         try
                         {
-                            var state = ArchiveState.Create(host, entity);
+                            var state = ArchiveState.Create(acDomain, entity);
                             state.Archive(numberId);
                             entity.ArchiveOn = state.ArchiveOn;
                             entity.NumberId = state.NumberId;
@@ -2507,16 +2507,16 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                             throw;
                         }
                     }
-                    _set._host.PublishEvent(new ArchivedEvent(message.AcSession, entity));
-                    _set._host.CommitEventBus();
+                    _set._acDomain.PublishEvent(new ArchivedEvent(message.AcSession, entity));
+                    _set._acDomain.CommitEventBus();
                 }
 
                 public void Handle(UpdateArchiveCommand message)
                 {
-                    var host = _set._host;
-                    var archiveRepository = host.RetrieveRequiredService<IRepository<Archive>>();
+                    var acDomain = _set._acDomain;
+                    var archiveRepository = acDomain.RetrieveRequiredService<IRepository<Archive>>();
                     ArchiveState archive;
-                    if (!host.NodeHost.Ontologies.TryGetArchive(message.Input.Id, out archive))
+                    if (!acDomain.NodeHost.Ontologies.TryGetArchive(message.Input.Id, out archive))
                     {
                         throw new NotExistException();
                     }
@@ -2525,11 +2525,11 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     {
                         throw new NotExistException();
                     }
-                    var bkState = ArchiveState.Create(host, entity);
+                    var bkState = ArchiveState.Create(acDomain, entity);
 
                     entity.Update(message.Input);
 
-                    var newState = ArchiveState.Create(host, entity);
+                    var newState = ArchiveState.Create(acDomain, entity);
                     bool stateChanged = newState != bkState;
                     lock (_set._locker)
                     {
@@ -2554,15 +2554,15 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                     if (stateChanged)
                     {
-                        _set._host.PublishEvent(new ArchiveUpdatedEvent(message.AcSession, entity));
-                        _set._host.CommitEventBus();
+                        _set._acDomain.PublishEvent(new ArchiveUpdatedEvent(message.AcSession, entity));
+                        _set._acDomain.CommitEventBus();
                     }
                 }
 
                 private void Update(ArchiveState state)
                 {
                     OntologyDescriptor ontology;
-                    if (!_set._host.NodeHost.Ontologies.TryGetOntology(state.OntologyId, out ontology))
+                    if (!_set._acDomain.NodeHost.Ontologies.TryGetOntology(state.OntologyId, out ontology))
                     {
                         throw new AnycmdException("意外的归档本体标识" + state.OntologyId);
                     }
@@ -2577,10 +2577,10 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 public void Handle(RemoveArchiveCommand message)
                 {
-                    var host = _set._host;
-                    var archiveRepository = host.RetrieveRequiredService<IRepository<Archive>>();
+                    var acDomain = _set._acDomain;
+                    var archiveRepository = acDomain.RetrieveRequiredService<IRepository<Archive>>();
                     ArchiveState archive;
-                    if (!host.NodeHost.Ontologies.TryGetArchive(message.EntityId, out archive))
+                    if (!acDomain.NodeHost.Ontologies.TryGetArchive(message.EntityId, out archive))
                     {
                         return;
                     }
@@ -2589,7 +2589,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     {
                         return;
                     }
-                    var bkState = ArchiveState.Create(host, entity);
+                    var bkState = ArchiveState.Create(acDomain, entity);
                     lock (_set._locker)
                     {
                         try
@@ -2623,8 +2623,8 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                             throw;
                         }
                     }
-                    _set._host.CommandBus.Publish(new ArchiveDeletedEvent(message.AcSession, entity));
-                    _set._host.CommandBus.Commit();
+                    _set._acDomain.CommandBus.Publish(new ArchiveDeletedEvent(message.AcSession, entity));
+                    _set._acDomain.CommandBus.Commit();
                 }
             }
             #endregion

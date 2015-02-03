@@ -10,11 +10,11 @@ namespace Anycmd.Ac.ViewModels.Infra.UIViewViewModels
     /// </summary>
     public class UiViewTr
     {
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
-        private UiViewTr(IAcDomain host)
+        private UiViewTr(IAcDomain acDomain)
         {
-            this._host = host;
+            this._acDomain = acDomain;
         }
 
         public static UiViewTr Create(UiViewState view)
@@ -88,7 +88,7 @@ namespace Anycmd.Ac.ViewModels.Infra.UIViewViewModels
             get
             {
                 AccountState developer;
-                if (!_host.SysUserSet.TryGetDevAccount(this.DeveloperId, out developer))
+                if (!_acDomain.SysUserSet.TryGetDevAccount(this.DeveloperId, out developer))
                 {
                     throw new ValidationException("意外的开发人员标识" + this.DeveloperId);
                 }

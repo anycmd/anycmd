@@ -14,8 +14,8 @@ namespace Anycmd.Ac.Queries.Ef
     /// </summary>
     public sealed class PrivilegeQuery : QueryBase, IPrivilegeQuery
     {
-        public PrivilegeQuery(IAcDomain host)
-            : base(host, "AcEntities")
+        public PrivilegeQuery(IAcDomain acDomain)
+            : base(acDomain, "AcEntities")
         {
         }
 

@@ -26,11 +26,11 @@ namespace Anycmd.Engine.Rdb
         /// </summary>
         public string BootConnString { get { return _bootConnString; } }
 
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
-        public SqlServerMetaDataService(IAcDomain host)
+        public SqlServerMetaDataService(IAcDomain acDomain)
         {
-            this._host = host;
+            this._acDomain = acDomain;
         }
 
         #region GetTableSpaces
@@ -198,7 +198,7 @@ ORDER BY " + sortField + " " + sortOrder +
         /// <returns></returns>
         public IList<DbTable> GetDbTables(RdbDescriptor db)
         {
-            var sql = _host.Config.SqlServerTablesSelect;
+            var sql = _acDomain.Config.SqlServerTablesSelect;
             var tables = new List<DbTable>();
             using (var reader = db.ExecuteReader(sql, null))
             {
@@ -221,7 +221,7 @@ ORDER BY " + sortField + " " + sortOrder +
         /// <returns></returns>
         public IList<DbView> GetDbViews(RdbDescriptor db)
         {
-            var queryString = _host.Config.SqlServerViewsSelect;
+            var queryString = _acDomain.Config.SqlServerViewsSelect;
             var views = new List<DbView>();
             using (var reader = db.ExecuteReader(queryString, null))
             {
@@ -244,7 +244,7 @@ ORDER BY " + sortField + " " + sortOrder +
         /// <returns></returns>
         public IList<DbTableColumn> GetTableColumns(RdbDescriptor db)
         {
-            var sql = _host.Config.SqlServerTableColumnsSelect;
+            var sql = _acDomain.Config.SqlServerTableColumnsSelect;
             IList<DbTableColumn> list = new List<DbTableColumn>();
             using (var reader = db.ExecuteReader(sql, null))
             {
@@ -267,7 +267,7 @@ ORDER BY " + sortField + " " + sortOrder +
         /// <returns></returns>
         public IList<DbViewColumn> GetViewColumns(RdbDescriptor db)
         {
-            var sql = _host.Config.SqlServerViewColumnsSelect;
+            var sql = _acDomain.Config.SqlServerViewColumnsSelect;
             IList<DbViewColumn> list = new List<DbViewColumn>();
             using (var reader = db.ExecuteReader(sql, null))
             {

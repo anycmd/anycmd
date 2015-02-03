@@ -13,20 +13,20 @@ namespace Anycmd.Engine.Edi
     public sealed class NodeOntologyCatalogState : StateObject<NodeOntologyCatalogState>, INodeOntologyCatalog
     {
         private Dictionary<Verb, INodeCatalogAction> _nodeOrgActionDic;
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
-        private NodeOntologyCatalogState(IAcDomain host, Guid id) : base(id)
+        private NodeOntologyCatalogState(IAcDomain acDomain, Guid id) : base(id)
         {
-            this._host = host;
+            this._acDomain = acDomain;
         }
 
-        public static NodeOntologyCatalogState Create(IAcDomain host, INodeOntologyCatalog nodeOntologyOrg)
+        public static NodeOntologyCatalogState Create(IAcDomain acDomain, INodeOntologyCatalog nodeOntologyOrg)
         {
             if (nodeOntologyOrg == null)
             {
                 throw new ArgumentNullException("nodeOntologyOrg");
             }
-            var data = new NodeOntologyCatalogState(host, nodeOntologyOrg.Id)
+            var data = new NodeOntologyCatalogState(acDomain, nodeOntologyOrg.Id)
             {
                 Actions = nodeOntologyOrg.Actions,
                 NodeId = nodeOntologyOrg.NodeId,
@@ -37,27 +37,27 @@ namespace Anycmd.Engine.Edi
             data._nodeOrgActionDic = nodeOrgActionDic;
             if (data.Actions != null)
             {
-                var nodeOrgActions = host.JsonSerializer.Deserialize<NodeCatalogAction[]>(data.Actions);
+                var nodeOrgActions = acDomain.JsonSerializer.Deserialize<NodeCatalogAction[]>(data.Actions);
                 if (nodeOrgActions != null)
                 {
                     foreach (var orgAction in nodeOrgActions)
                     {
-                        var action = host.NodeHost.Ontologies.GetAction(orgAction.ActionId);
+                        var action = acDomain.NodeHost.Ontologies.GetAction(orgAction.ActionId);
                         if (action == null)
                         {
                             throw new AnycmdException("意外的目录动作标识" + orgAction.ActionId);
                         }
                         OntologyDescriptor ontology;
-                        if (!host.NodeHost.Ontologies.TryGetOntology(action.OntologyId, out ontology))
+                        if (!acDomain.NodeHost.Ontologies.TryGetOntology(action.OntologyId, out ontology))
                         {
                             throw new AnycmdException("意外的本体元素本体标识" + action.OntologyId);
                         }
                         CatalogState org;
-                        if (!host.CatalogSet.TryGetCatalog(orgAction.CatalogId, out org))
+                        if (!acDomain.CatalogSet.TryGetCatalog(orgAction.CatalogId, out org))
                         {
                             throw new AnycmdException("意外的目录动作目录标识" + orgAction.CatalogId);
                         }
-                        var actionDic = host.NodeHost.Ontologies.GetActons(ontology);
+                        var actionDic = acDomain.NodeHost.Ontologies.GetActons(ontology);
                         var verb = actionDic.Where(a => a.Value.Id == orgAction.ActionId).Select(a => a.Key).FirstOrDefault();
                         if (verb == null)
                         {

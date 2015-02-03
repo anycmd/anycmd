@@ -100,20 +100,20 @@ namespace Anycmd.Engine.Edi
 			{ModifiedCommandIdCode.Name,ModifiedCommandIdCode}
 		};
 
-		private readonly IAcDomain _host;
+		private readonly IAcDomain _acDomain;
 
 		#region Ctor
 
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="host"></param>
+		/// <param name="acDomain"></param>
 		/// <param name="element"></param>
 		/// <param name="id"></param>
-		public ElementDescriptor(IAcDomain host, ElementState element, Guid id)
+		public ElementDescriptor(IAcDomain acDomain, ElementState element, Guid id)
 			: base(id)
 		{
-			this._host = host;
+			this._acDomain = acDomain;
 			if (element == null)
 			{
 				throw new ArgumentNullException("element");
@@ -135,7 +135,7 @@ namespace Anycmd.Engine.Edi
 
 		public IAcDomain Host
 		{
-			get { return _host; }
+			get { return _acDomain; }
 		}
 
 		/// <summary>

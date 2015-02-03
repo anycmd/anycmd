@@ -12,7 +12,7 @@ namespace Anycmd.Edi.ViewModels.OntologyViewModels
     {
         public OntologyInfo() { }
 
-        public OntologyInfo(IAcDomain host, Dictionary<string, object> dic)
+        public OntologyInfo(IAcDomain acDomain, Dictionary<string, object> dic)
         {
             if (dic == null)
             {
@@ -24,19 +24,19 @@ namespace Anycmd.Edi.ViewModels.OntologyViewModels
             }
             if (!this.ContainsKey("DeletionStateName"))
             {
-                this.Add("DeletionStateName", host.Translate("Edi", "Ontology", "DeletionStateName", (int)this["DeletionStateCode"]));
+                this.Add("DeletionStateName", acDomain.Translate("Edi", "Ontology", "DeletionStateName", (int)this["DeletionStateCode"]));
             }
             if (!this.ContainsKey("IsEnabledName"))
             {
-                this.Add("IsEnabledName", host.Translate("Edi", "Ontology", "IsEnabledName", (int)this["IsEnabled"]));
+                this.Add("IsEnabledName", acDomain.Translate("Edi", "Ontology", "IsEnabledName", (int)this["IsEnabled"]));
             }
             if (!this.ContainsKey("IsCataloguedEntityName"))
             {
-                this.Add("IsCataloguedEntityName", host.Translate("Edi", "Ontology", "IsCataloguedEntityName", (bool)this["IsCataloguedEntity"]));
+                this.Add("IsCataloguedEntityName", acDomain.Translate("Edi", "Ontology", "IsCataloguedEntityName", (bool)this["IsCataloguedEntity"]));
             }
             if (!this.ContainsKey("IsLogicalDeletionEntityName"))
             {
-                this.Add("IsLogicalDeletionEntityName", host.Translate("Edi", "Ontology", "IsLogicalDeletionEntityName", (bool)this["IsLogicalDeletionEntity"]));
+                this.Add("IsLogicalDeletionEntityName", acDomain.Translate("Edi", "Ontology", "IsLogicalDeletionEntityName", (bool)this["IsLogicalDeletionEntity"]));
             }
         }
     }

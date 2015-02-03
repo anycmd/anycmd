@@ -375,19 +375,19 @@ namespace Anycmd.Web.Mvc
         /// <returns></returns>
         public static UiViewViewModel GetRuntimeUivIew(this HtmlHelper html, string action, string controller)
         {
-            var host = html.CurrentHost();
+            var acDomain = html.CurrentHost();
             ResourceTypeState resource;
-            if (!host.ResourceTypeSet.TryGetResource(host.AppSystemSet.SelfAppSystem, controller, out resource))
+            if (!acDomain.ResourceTypeSet.TryGetResource(acDomain.AppSystemSet.SelfAppSystem, controller, out resource))
             {
                 return new UiViewViewModel(UiViewState.Empty, "未知页面");
             }
             FunctionState function;
-            if (!host.FunctionSet.TryGetFunction(resource, action, out function))
+            if (!acDomain.FunctionSet.TryGetFunction(resource, action, out function))
             {
                 return new UiViewViewModel(UiViewState.Empty, "未知页面");
             }
             UiViewState page;
-            if (!host.UiViewSet.TryGetUiView(function, out page))
+            if (!acDomain.UiViewSet.TryGetUiView(function, out page))
             {
                 return new UiViewViewModel(UiViewState.Empty, "未知页面");
             }
@@ -531,13 +531,13 @@ namespace Anycmd.Web.Mvc
             var obj = html.ViewData[key];
             if (obj == null)
             {
-                var host = html.CurrentHost();
+                var acDomain = html.CurrentHost();
                 EntityTypeState entityType;
-                if (!host.EntityTypeSet.TryGetEntityType(new Coder(codespace, entityTypeCode), out entityType))
+                if (!acDomain.EntityTypeSet.TryGetEntityType(new Coder(codespace, entityTypeCode), out entityType))
                 {
                     throw new AnycmdException("意外的实体类型" + codespace + entityTypeCode);
                 }
-                var propertyDic = host.EntityTypeSet.GetProperties(entityType);
+                var propertyDic = acDomain.EntityTypeSet.GetProperties(entityType);
                 html.ViewData.Add(key, propertyDic);
 
                 return propertyDic;
@@ -573,19 +573,19 @@ namespace Anycmd.Web.Mvc
         #region GetOperationLogEntityType
         public static UiViewViewModel GetOperationLogEntityType(this WebViewPage webPage)
         {
-            var host = CurrentHost(webPage.Html);
+            var acDomain = CurrentHost(webPage.Html);
             ResourceTypeState resource;
-            if (!host.ResourceTypeSet.TryGetResource(host.AppSystemSet.SelfAppSystem, "OperationLog", out resource))
+            if (!acDomain.ResourceTypeSet.TryGetResource(acDomain.AppSystemSet.SelfAppSystem, "OperationLog", out resource))
             {
                 return UiViewViewModel.Empty;
             }
             FunctionState function;
-            if (!host.FunctionSet.TryGetFunction(resource, "OperationLogs", out function))
+            if (!acDomain.FunctionSet.TryGetFunction(resource, "OperationLogs", out function))
             {
                 return UiViewViewModel.Empty;
             }
             UiViewState page;
-            if (!host.UiViewSet.TryGetUiView(function, out page))
+            if (!acDomain.UiViewSet.TryGetUiView(function, out page))
             {
                 return UiViewViewModel.Empty;
             }
@@ -998,19 +998,19 @@ namespace Anycmd.Web.Mvc
 
         private static IAcDomain GetAcDomain()
         {
-            var host = (HttpContext.Current.Application[Constants.ApplicationRuntime.AcDomainCacheKey] as IAcDomain);
-            if (host == null)
+            var acDomain = (HttpContext.Current.Application[Constants.ApplicationRuntime.AcDomainCacheKey] as IAcDomain);
+            if (acDomain == null)
             {
                 throw new AnycmdException("");
             }
-            return host;
+            return acDomain;
         }
 
         private static IAcSession GetAcSession()
         {
-            var host = GetAcDomain();
-            var storage = host.GetRequiredService<IAcSessionStorage>();
-            var user = storage.GetData(host.Config.CurrentAcSessionCacheKey) as IAcSession;
+            var acDomain = GetAcDomain();
+            var storage = acDomain.GetRequiredService<IAcSessionStorage>();
+            var user = storage.GetData(acDomain.Config.CurrentAcSessionCacheKey) as IAcSession;
             if (user == null)
             {
                 return AcSessionState.Empty;

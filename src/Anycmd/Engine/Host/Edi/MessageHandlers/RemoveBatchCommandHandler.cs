@@ -8,16 +8,16 @@ namespace Anycmd.Engine.Host.Edi.MessageHandlers
 
     public class RemoveBatchCommandHandler : CommandHandler<RemoveBatchCommand>
     {
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
-        public RemoveBatchCommandHandler(IAcDomain host)
+        public RemoveBatchCommandHandler(IAcDomain acDomain)
         {
-            this._host = host;
+            this._acDomain = acDomain;
         }
 
         public override void Handle(RemoveBatchCommand command)
         {
-            var batchRepository = _host.RetrieveRequiredService<IRepository<Batch>>();
+            var batchRepository = _acDomain.RetrieveRequiredService<IRepository<Batch>>();
             var entity = batchRepository.GetByKey(command.EntityId);
             if (entity == null)
             {
@@ -26,8 +26,8 @@ namespace Anycmd.Engine.Host.Edi.MessageHandlers
             batchRepository.Remove(entity);
             batchRepository.Context.Commit();
 
-            _host.PublishEvent(new BatchRemovedEvent(command.AcSession, entity));
-            _host.CommitEventBus();
+            _acDomain.PublishEvent(new BatchRemovedEvent(command.AcSession, entity));
+            _acDomain.CommitEventBus();
         }
     }
 }

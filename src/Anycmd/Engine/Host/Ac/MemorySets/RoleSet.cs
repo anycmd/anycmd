@@ -28,7 +28,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
         private bool _initialized = false;
 
         private readonly Guid _id = Guid.NewGuid();
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
         public Guid Id
         {
@@ -36,17 +36,17 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
         }
 
         #region Ctor
-        internal RoleSet(IAcDomain host)
+        internal RoleSet(IAcDomain acDomain)
         {
-            if (host == null)
+            if (acDomain == null)
             {
-                throw new ArgumentNullException("host");
+                throw new ArgumentNullException("acDomain");
             }
-            if (host.Equals(EmptyAcDomain.SingleInstance))
+            if (acDomain.Equals(EmptyAcDomain.SingleInstance))
             {
                 _initialized = true;
             }
-            this._host = host;
+            this._acDomain = acDomain;
             new MessageHandler(this).Register();
         }
         #endregion
@@ -123,10 +123,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             lock (this)
             {
                 if (_initialized) return;
-                _host.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
+                _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
                 _roleDic.Clear();
                 _descendantRoles.Clear();
-                var roles = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllRoles();
+                var roles = _acDomain.RetrieveRequiredService<IOriginalHostStateReader>().GetAllRoles();
                 foreach (var role in roles)
                 {
                     var roleState = RoleState.Create(role);
@@ -142,18 +142,18 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     _descendantRoles.Add(role.Value, children);
                 }
                 _initialized = true;
-                _host.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
+                _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
             }
         }
 
         private void RecAncestorRoles(RoleState childRole, List<RoleState> ancestors)
         {
-            foreach (var item in _host.PrivilegeSet.Where(a => a.SubjectType == AcElementType.Role && a.ObjectType == AcElementType.Role))
+            foreach (var item in _acDomain.PrivilegeSet.Where(a => a.SubjectType == AcElementType.Role && a.ObjectType == AcElementType.Role))
             {
                 if (item.ObjectInstanceId == childRole.Id)
                 {
                     RoleState role;
-                    if (_host.RoleSet.TryGetRole(item.SubjectInstanceId, out role))
+                    if (_acDomain.RoleSet.TryGetRole(item.SubjectInstanceId, out role))
                     {
                         RecAncestorRoles(role, ancestors);
                         ancestors.Add(role);
@@ -164,9 +164,9 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
         private static void RecDescendantRoles(RoleSet set, RoleState parentRole, List<RoleState> children)
         {
-            var host = set._host;
+            var acDomain = set._acDomain;
             var roleDic = set._roleDic;
-            foreach (var item in host.PrivilegeSet.Where(a => a.SubjectType == AcElementType.Role && a.ObjectType == AcElementType.Role))
+            foreach (var item in acDomain.PrivilegeSet.Where(a => a.SubjectType == AcElementType.Role && a.ObjectType == AcElementType.Role))
             {
                 if (item.SubjectInstanceId == parentRole.Id)
                 {
@@ -200,10 +200,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Register()
             {
-                var messageDispatcher = _set._host.MessageDispatcher;
+                var messageDispatcher = _set._acDomain.MessageDispatcher;
                 if (messageDispatcher == null)
                 {
-                    throw new ArgumentNullException("messageDispatcher has not be set of host:{0}".Fmt(_set._host.Name));
+                    throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(_set._acDomain.Name));
                 }
                 messageDispatcher.Register((IHandler<AddRoleCommand>)this);
                 messageDispatcher.Register((IHandler<RoleAddedEvent>)this);
@@ -231,9 +231,9 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Handle(IAcSession acSession, IRoleCreateIo input, bool isCommand)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var roleDic = _set._roleDic;
-                var roleRepository = host.RetrieveRequiredService<IRepository<Role>>();
+                var roleRepository = acDomain.RetrieveRequiredService<IRepository<Role>>();
                 if (!input.Id.HasValue)
                 {
                     throw new ValidationException("标识是必须的");
@@ -242,11 +242,11 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 lock (this)
                 {
                     RoleState role;
-                    if (host.RoleSet.TryGetRole(input.Id.Value, out role))
+                    if (acDomain.RoleSet.TryGetRole(input.Id.Value, out role))
                     {
                         throw new ValidationException("已经存在");
                     }
-                    if (host.RoleSet.Any(a => string.Equals(a.Name, input.Name, StringComparison.OrdinalIgnoreCase)))
+                    if (acDomain.RoleSet.Any(a => string.Equals(a.Name, input.Name, StringComparison.OrdinalIgnoreCase)))
                     {
                         throw new ValidationException("同名的角色已经存在");
                     }
@@ -278,7 +278,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateRoleAddedEvent(acSession, entity, input));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivateRoleAddedEvent(acSession, entity, input));
                 }
             }
 
@@ -306,11 +306,11 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Handle(IAcSession acSession, IRoleUpdateIo input, bool isCommand)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var roleDic = _set._roleDic;
-                var roleRepository = host.RetrieveRequiredService<IRepository<Role>>();
+                var roleRepository = acDomain.RetrieveRequiredService<IRepository<Role>>();
                 RoleState bkState;
-                if (!host.RoleSet.TryGetRole(input.Id, out bkState))
+                if (!acDomain.RoleSet.TryGetRole(input.Id, out bkState))
                 {
                     throw new NotExistException();
                 }
@@ -319,11 +319,11 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 lock (bkState)
                 {
                     RoleState oldState;
-                    if (!host.RoleSet.TryGetRole(input.Id, out oldState))
+                    if (!acDomain.RoleSet.TryGetRole(input.Id, out oldState))
                     {
                         throw new NotExistException();
                     }
-                    if (host.RoleSet.Any(a => string.Equals(a.Name, input.Name, StringComparison.OrdinalIgnoreCase) && a.Id != input.Id))
+                    if (acDomain.RoleSet.Any(a => string.Equals(a.Name, input.Name, StringComparison.OrdinalIgnoreCase) && a.Id != input.Id))
                     {
                         throw new ValidationException("角色名称重复");
                     }
@@ -361,7 +361,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateRoleUpdatedEvent(acSession, entity, input));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivateRoleUpdatedEvent(acSession, entity, input));
                 }
             }
 
@@ -395,11 +395,11 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Handle(IAcSession acSession, Guid roleId, bool isCommand)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var roleDic = _set._roleDic;
-                var roleRepository = host.RetrieveRequiredService<IRepository<Role>>();
+                var roleRepository = acDomain.RetrieveRequiredService<IRepository<Role>>();
                 RoleState bkState;
-                if (!host.RoleSet.TryGetRole(roleId, out bkState))
+                if (!acDomain.RoleSet.TryGetRole(roleId, out bkState))
                 {
                     return;
                 }
@@ -407,7 +407,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 lock (bkState)
                 {
                     RoleState state;
-                    if (!host.RoleSet.TryGetRole(roleId, out state))
+                    if (!acDomain.RoleSet.TryGetRole(roleId, out state))
                     {
                         return;
                     }
@@ -420,7 +420,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     {
                         if (isCommand)
                         {
-                            host.MessageDispatcher.DispatchMessage(new RoleRemovingEvent(acSession, entity));
+                            acDomain.MessageDispatcher.DispatchMessage(new RoleRemovingEvent(acSession, entity));
                         }
                         roleDic.Remove(bkState.Id);
                     }
@@ -444,7 +444,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateRoleRemovedEvent(acSession, entity));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivateRoleRemovedEvent(acSession, entity));
                 }
             }
 

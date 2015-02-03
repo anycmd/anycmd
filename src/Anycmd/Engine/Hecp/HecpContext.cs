@@ -19,23 +19,23 @@ namespace Anycmd.Engine.Hecp
         private int _actsCount = 0;
         private string _stackTrace = null;
         private IStackTraceFormater _stackTraceFormater = null;
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
         #region Ctor
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="host"></param>
+        /// <param name="acDomain"></param>
         /// <param name="request"></param>
-        public HecpContext(IAcDomain host, HecpRequest request)
+        public HecpContext(IAcDomain acDomain, HecpRequest request)
         {
-            if (host == null)
+            if (acDomain == null)
             {
-                throw new ArgumentNullException("host");
+                throw new ArgumentNullException("acDomain");
             }
             this.Request = request;
-            this._host = host;
+            this._acDomain = acDomain;
             if (request == null)
             {
                 _isValidated = true;
@@ -50,7 +50,7 @@ namespace Anycmd.Engine.Hecp
         }
         #endregion
 
-        public IAcDomain AcDomain { get { return _host; } }
+        public IAcDomain AcDomain { get { return _acDomain; } }
 
         /// <summary>
         /// 请求
@@ -143,7 +143,7 @@ namespace Anycmd.Engine.Hecp
             {
                 if (_stackTraceFormater == null)
                 {
-                    _stackTraceFormater = _host.RetrieveRequiredService<IStackTraceFormater>();
+                    _stackTraceFormater = _acDomain.RetrieveRequiredService<IStackTraceFormater>();
                 }
                 if (_actsCount == _acts.Count) return _stackTrace;
                 _actsCount = _acts.Count;

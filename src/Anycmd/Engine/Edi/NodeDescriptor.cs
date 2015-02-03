@@ -20,12 +20,12 @@ namespace Anycmd.Engine.Edi
         private IMessageTransfer _transfer = null;
 
         private readonly object _locker = new object();
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
         #region Ctor
-        public NodeDescriptor(IAcDomain host, NodeState node)
+        public NodeDescriptor(IAcDomain acDomain, NodeState node)
         {
-            this._host = host;
+            this._acDomain = acDomain;
             if (node == null)
             {
                 throw new ArgumentNullException("node");
@@ -37,7 +37,7 @@ namespace Anycmd.Engine.Edi
         #region Public Properties
         public IAcDomain AcDomain
         {
-            get { return _host; }
+            get { return _acDomain; }
         }
         /// <summary>
         /// 

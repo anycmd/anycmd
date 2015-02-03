@@ -12,11 +12,11 @@ namespace Anycmd.Engine.Host.Ac.MessageHandlers
 
     public class AccountLoginedEventHandler : IHandler<AccountLoginedEvent>
     {
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
-        public AccountLoginedEventHandler(IAcDomain host)
+        public AccountLoginedEventHandler(IAcDomain acDomain)
         {
-            this._host = host;
+            this._acDomain = acDomain;
         }
 
         public void Handle(AccountLoginedEvent message)
@@ -25,7 +25,7 @@ namespace Anycmd.Engine.Host.Ac.MessageHandlers
             Debug.Assert(entity != null, "entity != null");
             var dbId = new Guid("67E6CBF4-B481-4DDD-9FD9-1F0E06E9E1CB");
             RdbDescriptor db;
-            if (!_host.Rdbs.TryDb(dbId, out db))
+            if (!_acDomain.Rdbs.TryDb(dbId, out db))
             {
                 //throw new CoreException("意外的数据库标识" + dbId);
                 return;

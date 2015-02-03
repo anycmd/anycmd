@@ -10,7 +10,7 @@ namespace Anycmd.Edi.ViewModels.InfoDicViewModels
     /// </summary>
     public partial class InfoDicItemInfo : Dictionary<string, object>
     {
-        public InfoDicItemInfo(IAcDomain host, Dictionary<string, object> dic)
+        public InfoDicItemInfo(IAcDomain acDomain, Dictionary<string, object> dic)
         {
             if (dic == null)
             {
@@ -22,11 +22,11 @@ namespace Anycmd.Edi.ViewModels.InfoDicViewModels
             }
             if (!this.ContainsKey("DeletionStateName"))
             {
-                this.Add("DeletionStateName", host.Translate("Edi", "InfoDic", "DeletionStateName", (int)this["DeletionStateCode"]));
+                this.Add("DeletionStateName", acDomain.Translate("Edi", "InfoDic", "DeletionStateName", (int)this["DeletionStateCode"]));
             }
             if (!this.ContainsKey("IsEnabledName"))
             {
-                this.Add("IsEnabledName", host.Translate("Edi", "InfoDic", "IsEnabledName", (int)this["IsEnabled"]));
+                this.Add("IsEnabledName", acDomain.Translate("Edi", "InfoDic", "IsEnabledName", (int)this["IsEnabled"]));
             }
         }
     }

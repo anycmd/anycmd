@@ -38,7 +38,7 @@ namespace Anycmd.Engine.Ac
         private PropertyState(Guid id) : base(id) { }
 
         #region 工厂方法
-        public static PropertyState Create(IAcDomain host, PropertyBase property)
+        public static PropertyState Create(IAcDomain acDomain, PropertyBase property)
         {
             if (property == null)
             {
@@ -49,7 +49,7 @@ namespace Anycmd.Engine.Ac
                 throw new AnycmdException("实体属性必须属于某个实体类型");
             }
             EntityTypeState entityType;
-            if (!host.EntityTypeSet.TryGetEntityType(property.EntityTypeId, out entityType))
+            if (!acDomain.EntityTypeSet.TryGetEntityType(property.EntityTypeId, out entityType))
             {
                 throw new AnycmdException("意外的实体类型标识" + property.EntityTypeId);
             }
@@ -60,14 +60,14 @@ namespace Anycmd.Engine.Ac
             }
             if (dicId.HasValue)
             {
-                if (!host.DicSet.ContainsDic(dicId.Value))
+                if (!acDomain.DicSet.ContainsDic(dicId.Value))
                 {
                     throw new ValidationException("意外的字典标识" + dicId);
                 }
             }
             return new PropertyState(property.Id)
             {
-                _acDomain = host,
+                _acDomain = acDomain,
                 _entityTypeId = property.EntityTypeId,
                 _foreignPropertyId = property.ForeignPropertyId,
                 _code = property.Code,

@@ -11,13 +11,13 @@ namespace Anycmd.Engine.Host.Edi
 
     public class FastNodeHostBootstrap : INodeHostBootstrap
     {
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
         private readonly Guid _dbId = new Guid("A6FDCDC1-E12B-4D92-938F-59FC7D86DF49");
         private RdbDescriptor _db;
 
-        public FastNodeHostBootstrap(IAcDomain host)
+        public FastNodeHostBootstrap(IAcDomain acDomain)
         {
-            this._host = host;
+            this._acDomain = acDomain;
         }
 
         public RdbDescriptor Db
@@ -26,7 +26,7 @@ namespace Anycmd.Engine.Host.Edi
             {
                 if (_db == null)
                 {
-                    if (!_host.Rdbs.TryDb(_dbId, out _db))
+                    if (!_acDomain.Rdbs.TryDb(_dbId, out _db))
                     {
                         throw new AnycmdException("意外的数据库标识" + _dbId);
                     }

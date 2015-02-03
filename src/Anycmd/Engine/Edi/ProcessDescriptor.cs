@@ -15,23 +15,23 @@ namespace Anycmd.Engine.Edi
     {
         private OntologyDescriptor _ontology;
         ProcessType _type;
-        private string _hostName;
+        private string _acDomainName;
         private string _webApiBaseAddress;
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="host"></param>
+        /// <param name="acDomain"></param>
         /// <param name="process"></param>
         /// <param name="id"></param>
-        public ProcessDescriptor(IAcDomain host, ProcessState process, Guid id)
+        public ProcessDescriptor(IAcDomain acDomain, ProcessState process, Guid id)
             : base(id)
         {
             if (process == null)
             {
                 throw new ArgumentNullException("process");
             }
-            this.AcDomain = host;
+            this.AcDomain = acDomain;
             this.Process = process;
             if (!process.Type.TryParse(out _type))
             {
@@ -108,11 +108,11 @@ namespace Anycmd.Engine.Edi
         {
             get
             {
-                if (_hostName == null)
+                if (_acDomainName == null)
                 {
-                    _hostName = this.Ontology.EntityProvider.GetEntityDataSource(this.Ontology);
+                    _acDomainName = this.Ontology.EntityProvider.GetEntityDataSource(this.Ontology);
                 }
-                return _hostName;
+                return _acDomainName;
             }
         }
 

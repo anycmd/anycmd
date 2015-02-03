@@ -11,16 +11,16 @@ namespace Anycmd.Engine.Host.Ac.MessageHandlers
 
     public class UpdateAccountCommandHandler : CommandHandler<UpdateAccountCommand>
     {
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
-        public UpdateAccountCommandHandler(IAcDomain host)
+        public UpdateAccountCommandHandler(IAcDomain acDomain)
         {
-            this._host = host;
+            this._acDomain = acDomain;
         }
 
         public override void Handle(UpdateAccountCommand command)
         {
-            var accountRepository = _host.RetrieveRequiredService<IRepository<Account>>();
+            var accountRepository = _acDomain.RetrieveRequiredService<IRepository<Account>>();
             if (accountRepository.AsQueryable().Any(a => a.Code == command.Input.Code && a.Id != command.Input.Id))
             {
                 throw new ValidationException("用户编码重复");
@@ -31,7 +31,7 @@ namespace Anycmd.Engine.Host.Ac.MessageHandlers
                 throw new NotExistException();
             }
             AccountState devAccount;
-            if (_host.SysUserSet.TryGetDevAccount(entity.Id, out devAccount))
+            if (_acDomain.SysUserSet.TryGetDevAccount(entity.Id, out devAccount))
             {
                 if (!command.AcSession.IsDeveloper())
                 {
@@ -49,7 +49,7 @@ namespace Anycmd.Engine.Host.Ac.MessageHandlers
                     throw new AnycmdException("用户必须属于一个目录");
                 }
                 CatalogState catalog;
-                if (!_host.CatalogSet.TryGetCatalog(command.Input.CatalogCode, out catalog))
+                if (!_acDomain.CatalogSet.TryGetCatalog(command.Input.CatalogCode, out catalog))
                 {
                     throw new AnycmdException("意外的目录码" + command.Input.CatalogCode);
                 }
@@ -57,12 +57,12 @@ namespace Anycmd.Engine.Host.Ac.MessageHandlers
             entity.Update(command.Input);
             accountRepository.Update(entity);
             accountRepository.Context.Commit();
-            if (_host.SysUserSet.TryGetDevAccount(entity.Id, out devAccount))
+            if (_acDomain.SysUserSet.TryGetDevAccount(entity.Id, out devAccount))
             {
-                _host.EventBus.Publish(new DeveloperUpdatedEvent(command.AcSession, entity));
+                _acDomain.EventBus.Publish(new DeveloperUpdatedEvent(command.AcSession, entity));
             }
-            _host.EventBus.Publish(new AccountUpdatedEvent(command.AcSession, entity));
-            _host.EventBus.Commit();
+            _acDomain.EventBus.Publish(new AccountUpdatedEvent(command.AcSession, entity));
+            _acDomain.EventBus.Commit();
         }
     }
 }

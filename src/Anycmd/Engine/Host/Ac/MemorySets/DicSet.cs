@@ -26,7 +26,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
         private readonly Dictionary<string, DicState> _dicByCode = new Dictionary<string, DicState>(StringComparer.OrdinalIgnoreCase);
         private bool _initialized;
 
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
         private readonly DicItemSet _dicItemSet;
         private readonly Guid _id = Guid.NewGuid();
 
@@ -36,18 +36,18 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
         }
 
         #region Ctor
-        internal DicSet(IAcDomain host)
+        internal DicSet(IAcDomain acDomain)
         {
-            if (host == null)
+            if (acDomain == null)
             {
-                throw new ArgumentNullException("host");
+                throw new ArgumentNullException("acDomain");
             }
-            if (host.Equals(EmptyAcDomain.SingleInstance))
+            if (acDomain.Equals(EmptyAcDomain.SingleInstance))
             {
                 _initialized = true;
             }
-            _host = host;
-            _dicItemSet = new DicItemSet(host);
+            _acDomain = acDomain;
+            _dicItemSet = new DicItemSet(acDomain);
             new DicMessageHandler(this).Register();
         }
         #endregion
@@ -173,10 +173,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             lock (this)
             {
                 if (_initialized) return;
-                _host.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
+                _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
                 _dicById.Clear();
                 _dicByCode.Clear();
-                var dics = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllDics().ToList();
+                var dics = _acDomain.RetrieveRequiredService<IOriginalHostStateReader>().GetAllDics().ToList();
                 foreach (var dic in dics)
                 {
                     if (_dicById.ContainsKey(dic.Id))
@@ -192,7 +192,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     _dicByCode.Add(dic.Code, dicState);
                 }
                 _initialized = true;
-                _host.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
+                _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
             }
         }
 
@@ -216,10 +216,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Register()
             {
-                var messageDispatcher = _set._host.MessageDispatcher;
+                var messageDispatcher = _set._acDomain.MessageDispatcher;
                 if (messageDispatcher == null)
                 {
-                    throw new ArgumentNullException("messageDispatcher has not be set of host:{0}".Fmt(_set._host.Name));
+                    throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(_set._acDomain.Name));
                 }
                 messageDispatcher.Register((IHandler<AddDicCommand>)this);
                 messageDispatcher.Register((IHandler<DicAddedEvent>)this);
@@ -245,10 +245,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Handle(IAcSession acSession, IDicCreateIo input, bool isCommand)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var dicById = _set._dicById;
                 var dicByCode = _set._dicByCode;
-                var dicRepository = host.RetrieveRequiredService<IRepository<Dic>>();
+                var dicRepository = acDomain.RetrieveRequiredService<IRepository<Dic>>();
                 if (string.IsNullOrEmpty(input.Code))
                 {
                     throw new ValidationException("编码不能为空");
@@ -260,11 +260,11 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 Dic entity;
                 lock (this)
                 {
-                    if (host.DicSet.ContainsDic(input.Id.Value))
+                    if (acDomain.DicSet.ContainsDic(input.Id.Value))
                     {
                         throw new AnycmdException("记录已经存在");
                     }
-                    if (host.DicSet.ContainsDic(input.Code))
+                    if (acDomain.DicSet.ContainsDic(input.Code))
                     {
                         throw new ValidationException("重复的字典编码" + input.Code);
                     }
@@ -304,7 +304,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateDicAddedEvent(acSession, entity, input));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivateDicAddedEvent(acSession, entity, input));
                 }
             }
 
@@ -332,19 +332,19 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Handle(IAcSession acSession, IDicUpdateIo input, bool isCommand)
             {
-                var host = _set._host;
-                var dicRepository = host.RetrieveRequiredService<IRepository<Dic>>();
+                var acDomain = _set._acDomain;
+                var dicRepository = acDomain.RetrieveRequiredService<IRepository<Dic>>();
                 if (string.IsNullOrEmpty(input.Code))
                 {
                     throw new ValidationException("编码不能为空");
                 }
                 DicState dic;
-                if (host.DicSet.TryGetDic(input.Code, out dic) && dic.Id != input.Id)
+                if (acDomain.DicSet.TryGetDic(input.Code, out dic) && dic.Id != input.Id)
                 {
                     throw new ValidationException("重复的字典编码" + input.Code);
                 }
                 DicState bkState;
-                if (!host.DicSet.TryGetDic(input.Id, out bkState))
+                if (!acDomain.DicSet.TryGetDic(input.Id, out bkState))
                 {
                     throw new NotExistException("记录在内存数据集中不存在" + input.Id);
                 }
@@ -386,13 +386,13 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateDicUpdatedEvent(acSession, entity, input));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivateDicUpdatedEvent(acSession, entity, input));
                 }
             }
 
             private void Update(DicState state)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var dicById = _set._dicById;
                 var dicByCode = _set._dicByCode;
                 var oldKey = dicById[state.Id].Code;
@@ -434,21 +434,21 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Handle(IAcSession acSession, Guid dicId, bool isCommand)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var dicById = _set._dicById;
                 var dicByCode = _set._dicByCode;
-                var dicRepository = host.RetrieveRequiredService<IRepository<Dic>>();
+                var dicRepository = acDomain.RetrieveRequiredService<IRepository<Dic>>();
                 DicState bkState;
-                if (!host.DicSet.TryGetDic(dicId, out bkState))
+                if (!acDomain.DicSet.TryGetDic(dicId, out bkState))
                 {
                     return;
                 }
-                var dicItems = host.DicSet.GetDicItems(bkState);
+                var dicItems = acDomain.DicSet.GetDicItems(bkState);
                 if (dicItems != null && dicItems.Count > 0)
                 {
                     throw new ValidationException("系统字典下有字典项时不能删除");
                 }
-                var properties = host.EntityTypeSet.GetProperties().Where(a => a.DicId.HasValue && a.DicId.Value == dicId).ToList();
+                var properties = acDomain.EntityTypeSet.GetProperties().Where(a => a.DicId.HasValue && a.DicId.Value == dicId).ToList();
                 if (properties.Count > 0)
                 {
                     var sb = new StringBuilder();
@@ -459,7 +459,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                             sb.Append("、");
                         }
                         EntityTypeState entityType;
-                        host.EntityTypeSet.TryGetEntityType(property.EntityTypeId, out entityType);
+                        acDomain.EntityTypeSet.TryGetEntityType(property.EntityTypeId, out entityType);
                         sb.Append(entityType.Code + "." + property.Code);
                     }
                     throw new ValidationException("系统字典被实体属性关联后不能删除：" + sb.ToString());
@@ -476,7 +476,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     {
                         if (isCommand)
                         {
-                            host.MessageDispatcher.DispatchMessage(new DicRemovingEvent(acSession, entity));
+                            acDomain.MessageDispatcher.DispatchMessage(new DicRemovingEvent(acSession, entity));
                         }
                         dicById.Remove(bkState.Id);
                     }
@@ -508,7 +508,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateDicRemovedEvent(acSession, entity));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivateDicRemovedEvent(acSession, entity));
                 }
             }
 
@@ -525,24 +525,24 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             private readonly Dictionary<DicState, Dictionary<string, DicItemState>> _dicItemsByCode = new Dictionary<DicState, Dictionary<string, DicItemState>>();
             private readonly Dictionary<Guid, DicItemState> _dicItemById = new Dictionary<Guid, DicItemState>();
             private bool _initialized = false;
-            private readonly IAcDomain _host;
+            private readonly IAcDomain _acDomain;
 
             #region Ctor
-            internal DicItemSet(IAcDomain host)
+            internal DicItemSet(IAcDomain acDomain)
             {
-                if (host == null)
+                if (acDomain == null)
                 {
-                    throw new ArgumentNullException("host");
+                    throw new ArgumentNullException("acDomain");
                 }
-                if (host.Equals(EmptyAcDomain.SingleInstance))
+                if (acDomain.Equals(EmptyAcDomain.SingleInstance))
                 {
                     _initialized = true;
                 }
-                _host = host;
-                var messageDispatcher = host.MessageDispatcher;
+                _acDomain = acDomain;
+                var messageDispatcher = acDomain.MessageDispatcher;
                 if (messageDispatcher == null)
                 {
-                    throw new ArgumentNullException("messageDispatcher has not be set of host:{0}".Fmt(host.Name));
+                    throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(acDomain.Name));
                 }
                 var handles = new DicItemMessageHandler(this);
                 messageDispatcher.Register((IHandler<AddDicItemCommand>)handles);
@@ -615,11 +615,11 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     if (_initialized) return;
                     _dicItemsByCode.Clear();
                     _dicItemById.Clear();
-                    var dicItems = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllDicItems().OrderBy(di => di.SortCode);
+                    var dicItems = _acDomain.RetrieveRequiredService<IOriginalHostStateReader>().GetAllDicItems().OrderBy(di => di.SortCode);
                     foreach (var dicItem in dicItems)
                     {
                         DicState dic;
-                        if (!_host.DicSet.TryGetDic(dicItem.DicId, out dic))
+                        if (!_acDomain.DicSet.TryGetDic(dicItem.DicId, out dic))
                         {
                             throw new AnycmdException("意外的字典项字典标识" + dicItem.DicId);
                         }
@@ -636,7 +636,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                         {
                             throw new AnycmdException("意外重复的字典项编码" + dicItem.Code);
                         }
-                        var dicItemState = DicItemState.Create(_host, dicItem);
+                        var dicItemState = DicItemState.Create(_acDomain, dicItem);
                         _dicItemsByCode[dic].Add(dicItem.Code, dicItemState);
                         _dicItemById.Add(dicItem.Id, dicItemState);
                     }
@@ -666,10 +666,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 public void Handle(DicUpdatedEvent message)
                 {
-                    var host = _set._host;
+                    var acDomain = _set._acDomain;
                     var dicItemsByCode = _set._dicItemsByCode;
                     DicState newKey;
-                    if (!host.DicSet.TryGetDic(message.Source.Id, out newKey))
+                    if (!acDomain.DicSet.TryGetDic(message.Source.Id, out newKey))
                     {
                         throw new AnycmdException("意外的字典标识" + message.Source.Id);
                     }
@@ -707,10 +707,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 private void Handle(IAcSession acSession, IDicItemCreateIo input, bool isCommand)
                 {
-                    var host = _set._host;
+                    var acDomain = _set._acDomain;
                     var dicItemsByCode = _set._dicItemsByCode;
                     var dicItemById = _set._dicItemById;
-                    var dicItemRepository = host.RetrieveRequiredService<IRepository<DicItem>>();
+                    var dicItemRepository = acDomain.RetrieveRequiredService<IRepository<DicItem>>();
                     if (string.IsNullOrEmpty(input.Code))
                     {
                         throw new ValidationException("编码不能为空");
@@ -719,11 +719,11 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     lock (this)
                     {
                         DicState dicState;
-                        if (!host.DicSet.TryGetDic(input.DicId, out dicState))
+                        if (!acDomain.DicSet.TryGetDic(input.DicId, out dicState))
                         {
                             throw new ValidationException("意外的字典项字典标识" + input.DicId);
                         }
-                        if (host.DicSet.ContainsDicItem(dicState, input.Code))
+                        if (acDomain.DicSet.ContainsDicItem(dicState, input.Code))
                         {
                             throw new ValidationException("重复的字典项编码" + input.Code);
                         }
@@ -731,14 +731,14 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                         {
                             throw new ValidationException("标识为空");
                         }
-                        if (host.DicSet.ContainsDicItem(input.Id.Value))
+                        if (acDomain.DicSet.ContainsDicItem(input.Id.Value))
                         {
                             throw new AnycmdException("重复的字典项标识" + input.Id);
                         }
 
                         entity = DicItem.Create(input);
 
-                        var dicItemState = DicItemState.Create(host, entity);
+                        var dicItemState = DicItemState.Create(acDomain, entity);
                         if (!dicItemById.ContainsKey(dicItemState.Id))
                         {
                             dicItemById.Add(dicItemState.Id, dicItemState);
@@ -776,7 +776,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                     if (isCommand)
                     {
-                        host.MessageDispatcher.DispatchMessage(new PrivateDicItemAddedEvent(acSession, entity, input));
+                        acDomain.MessageDispatcher.DispatchMessage(new PrivateDicItemAddedEvent(acSession, entity, input));
                     }
                 }
 
@@ -805,14 +805,14 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 private void Handle(IAcSession acSession, IDicItemUpdateIo input, bool isCommand)
                 {
-                    var host = _set._host;
-                    var dicItemRepository = host.RetrieveRequiredService<IRepository<DicItem>>();
+                    var acDomain = _set._acDomain;
+                    var dicItemRepository = acDomain.RetrieveRequiredService<IRepository<DicItem>>();
                     if (string.IsNullOrEmpty(input.Code))
                     {
                         throw new ValidationException("编码不能为空");
                     }
                     DicItemState bkState;
-                    if (!host.DicSet.TryGetDicItem(input.Id, out bkState))
+                    if (!acDomain.DicSet.TryGetDicItem(input.Id, out bkState))
                     {
                         throw new NotExistException();
                     }
@@ -821,12 +821,12 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     lock (bkState)
                     {
                         DicState dicState;
-                        if (!host.DicSet.TryGetDic(bkState.DicId, out dicState))
+                        if (!acDomain.DicSet.TryGetDic(bkState.DicId, out dicState))
                         {
                             throw new AnycmdException("意外的字典项字典标识" + bkState.DicId);
                         }
                         DicItemState dicItemState;
-                        if (host.DicSet.TryGetDicItem(dicState, input.Code, out dicItemState) && dicItemState.Id != input.Id)
+                        if (acDomain.DicSet.TryGetDicItem(dicState, input.Code, out dicItemState) && dicItemState.Id != input.Id)
                         {
                             throw new ValidationException("重复的字典项编码" + input.Code);
                         }
@@ -838,7 +838,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                         entity.Update(input);
 
-                        var newState = DicItemState.Create(host, entity);
+                        var newState = DicItemState.Create(acDomain, entity);
                         stateChanged = newState != bkState;
                         if (stateChanged)
                         {
@@ -864,17 +864,17 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                     if (isCommand && stateChanged)
                     {
-                        host.MessageDispatcher.DispatchMessage(new PrivateDicItemUpdatedEvent(acSession, entity, input));
+                        acDomain.MessageDispatcher.DispatchMessage(new PrivateDicItemUpdatedEvent(acSession, entity, input));
                     }
                 }
 
                 private void Update(DicItemState state)
                 {
-                    var host = _set._host;
+                    var acDomain = _set._acDomain;
                     var dicItemsByCode = _set._dicItemsByCode;
                     var dicItemById = _set._dicItemById;
                     DicState dicState;
-                    if (!host.DicSet.TryGetDic(dicItemById[state.Id].DicId, out dicState))
+                    if (!acDomain.DicSet.TryGetDic(dicItemById[state.Id].DicId, out dicState))
                     {
                         throw new ValidationException("意外的字典项字典标识");
                     }
@@ -918,12 +918,12 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 private void Handle(IAcSession acSession, Guid dicItemId, bool isCommand)
                 {
-                    var host = _set._host;
+                    var acDomain = _set._acDomain;
                     var dicItemsByCode = _set._dicItemsByCode;
                     var dicItemById = _set._dicItemById;
-                    var dicItemRepository = host.RetrieveRequiredService<IRepository<DicItem>>();
+                    var dicItemRepository = acDomain.RetrieveRequiredService<IRepository<DicItem>>();
                     DicItemState bkState;
-                    if (!host.DicSet.TryGetDicItem(dicItemId, out bkState))
+                    if (!acDomain.DicSet.TryGetDicItem(dicItemId, out bkState))
                     {
                         return;
                     }
@@ -938,7 +938,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                         if (dicItemById.ContainsKey(bkState.Id))
                         {
                             DicState dic;
-                            if (!host.DicSet.TryGetDic(bkState.DicId, out dic))
+                            if (!acDomain.DicSet.TryGetDic(bkState.DicId, out dic))
                             {
                                 throw new AnycmdException("意外的字典标识" + bkState.DicId);
                             }
@@ -960,7 +960,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                                 if (!dicItemById.ContainsKey(bkState.Id))
                                 {
                                     DicState dic;
-                                    if (!host.DicSet.TryGetDic(bkState.DicId, out dic))
+                                    if (!acDomain.DicSet.TryGetDic(bkState.DicId, out dic))
                                     {
                                         throw new AnycmdException("意外的字典标识" + bkState.DicId);
                                     }
@@ -982,7 +982,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                     if (isCommand)
                     {
-                        host.MessageDispatcher.DispatchMessage(new PrivateDicItemRemovedEvent(acSession, entity));
+                        acDomain.MessageDispatcher.DispatchMessage(new PrivateDicItemRemovedEvent(acSession, entity));
                     }
                 }
 

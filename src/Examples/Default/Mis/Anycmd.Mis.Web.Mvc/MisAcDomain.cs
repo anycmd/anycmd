@@ -62,19 +62,19 @@ namespace Anycmd.Mis.Web.Mvc
             IHandler<OntologyUpdatedEvent>,
             IHandler<OntologyRemovedEvent>
         {
-            private readonly IAcDomain _host;
+            private readonly IAcDomain _acDomain;
 
-            public OntologyMessageHandler(IAcDomain host)
+            public OntologyMessageHandler(IAcDomain acDomain)
             {
-                this._host = host;
+                this._acDomain = acDomain;
             }
 
             public void Register()
             {
-                var messageDispatcher = _host.MessageDispatcher;
+                var messageDispatcher = _acDomain.MessageDispatcher;
                 if (messageDispatcher == null)
                 {
-                    throw new ArgumentNullException("messageDispatcher has not be set of host:{0}".Fmt(_host.Name));
+                    throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(_acDomain.Name));
                 }
                 messageDispatcher.Register((IHandler<OntologyAddedEvent>)this);
                 messageDispatcher.Register((IHandler<OntologyUpdatedEvent>)this);
@@ -91,26 +91,26 @@ namespace Anycmd.Mis.Web.Mvc
                     Name = "实体管理",
                     Url = string.Empty,
                     Icon = string.Empty,
-                    AppSystemId = _host.AppSystemSet.SelfAppSystem.Id,
+                    AppSystemId = _acDomain.AppSystemSet.SelfAppSystem.Id,
                     Description = string.Empty,
                     SortCode = 0
                 };
                 MenuState parentMenu;
-                if (!_host.MenuSet.TryGetMenu(entityMenuId, out parentMenu))
+                if (!_acDomain.MenuSet.TryGetMenu(entityMenuId, out parentMenu))
                 {
-                    _host.Handle(new AddMenuCommand(message.AcSession, entityMenu));
+                    _acDomain.Handle(new AddMenuCommand(message.AcSession, entityMenu));
                 }
                 OntologyDescriptor ontology;
-                if (_host.NodeHost.Ontologies.TryGetOntology(message.Source.Id, out ontology))
+                if (_acDomain.NodeHost.Ontologies.TryGetOntology(message.Source.Id, out ontology))
                 {
-                    _host.Handle(new AddMenuCommand(message.AcSession, new MenuCreateInput
+                    _acDomain.Handle(new AddMenuCommand(message.AcSession, new MenuCreateInput
                     {
                         Id = ontology.Ontology.Id,// 约定
                         ParentId = entityMenu.Id,
                         Name = ontology.Ontology.Name + "管理",
                         Url = string.Format("Edi/Entity/Index?ontologyCode={0}&ontologyID={1}", ontology.Ontology.Code, ontology.Ontology.Id),
                         Icon = ontology.Ontology.Icon,
-                        AppSystemId = _host.AppSystemSet.SelfAppSystem.Id,
+                        AppSystemId = _acDomain.AppSystemSet.SelfAppSystem.Id,
                         Description = string.Empty,
                         SortCode = ontology.Ontology.SortCode
                     }));
@@ -120,12 +120,12 @@ namespace Anycmd.Mis.Web.Mvc
             public void Handle(OntologyUpdatedEvent message)
             {
                 OntologyDescriptor ontology;
-                if (_host.NodeHost.Ontologies.TryGetOntology(message.Source.Id, out ontology))
+                if (_acDomain.NodeHost.Ontologies.TryGetOntology(message.Source.Id, out ontology))
                 {
                     MenuState menu;
-                    if (_host.MenuSet.TryGetMenu(ontology.Ontology.Id, out menu))
+                    if (_acDomain.MenuSet.TryGetMenu(ontology.Ontology.Id, out menu))
                     {
-                        _host.Handle(new UpdateMenuCommand(message.AcSession, new MenuUpdateInput
+                        _acDomain.Handle(new UpdateMenuCommand(message.AcSession, new MenuUpdateInput
                         {
                             Id = ontology.Ontology.Id,
                             AppSystemId = menu.AppSystemId,
@@ -142,12 +142,12 @@ namespace Anycmd.Mis.Web.Mvc
             public void Handle(OntologyRemovedEvent message)
             {
                 OntologyDescriptor ontology;
-                if (_host.NodeHost.Ontologies.TryGetOntology(message.Source.Id, out ontology))
+                if (_acDomain.NodeHost.Ontologies.TryGetOntology(message.Source.Id, out ontology))
                 {
                     MenuState menu;
-                    if (_host.MenuSet.TryGetMenu(ontology.Ontology.Id, out menu))
+                    if (_acDomain.MenuSet.TryGetMenu(ontology.Ontology.Id, out menu))
                     {
-                        _host.Handle(new RemoveMenuCommand(message.AcSession, ontology.Ontology.Id));
+                        _acDomain.Handle(new RemoveMenuCommand(message.AcSession, ontology.Ontology.Id));
                     }
                 }
             }

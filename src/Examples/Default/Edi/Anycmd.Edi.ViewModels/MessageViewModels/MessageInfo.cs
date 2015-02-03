@@ -8,8 +8,8 @@ namespace Anycmd.Edi.ViewModels.MessageViewModels
     /// </summary>
     public class MessageInfo : MessageTr
     {
-        protected internal MessageInfo(IAcDomain host)
-            : base(host)
+        protected internal MessageInfo(IAcDomain acDomain)
+            : base(acDomain)
         {
         }
     }

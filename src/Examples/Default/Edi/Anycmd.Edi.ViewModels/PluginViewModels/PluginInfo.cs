@@ -9,7 +9,7 @@ namespace Anycmd.Edi.ViewModels.PluginViewModels
     {
         public PluginInfo() { }
 
-        public PluginInfo(IAcDomain host, Dictionary<string, object> dic)
+        public PluginInfo(IAcDomain acDomain, Dictionary<string, object> dic)
         {
             if (dic == null)
             {
@@ -21,7 +21,7 @@ namespace Anycmd.Edi.ViewModels.PluginViewModels
             }
             if (!this.ContainsKey("IsEnabledName"))
             {
-                this.Add("IsEnabledName", host.Translate("Edi", "InfoDic", "IsEnabledName", (int)this["IsEnabled"]));
+                this.Add("IsEnabledName", acDomain.Translate("Edi", "InfoDic", "IsEnabledName", (int)this["IsEnabled"]));
             }
         }
     }

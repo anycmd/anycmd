@@ -18,11 +18,11 @@ namespace Anycmd.Engine.Host.Rdb.MemorySets
             _dic = new Dictionary<RdbDescriptor, Dictionary<DbView, Dictionary<string, DbViewColumn>>>();
         private readonly Dictionary<RdbDescriptor, Dictionary<string, DbViewColumn>> _dicById = new Dictionary<RdbDescriptor, Dictionary<string, DbViewColumn>>();
         private bool _initialized = false;
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
-        public DbViewColumns(IAcDomain host)
+        public DbViewColumns(IAcDomain acDomain)
         {
-            this._host = host;
+            this._acDomain = acDomain;
             // TODO:接入总线
         }
 
@@ -67,11 +67,11 @@ namespace Anycmd.Engine.Host.Rdb.MemorySets
                     {
                         _dic.Clear();
                         _dicById.Clear();
-                        foreach (var database in _host.Rdbs)
+                        foreach (var database in _acDomain.Rdbs)
                         {
                             _dic.Add(database, new Dictionary<DbView, Dictionary<string, DbViewColumn>>());
                             _dicById.Add(database, new Dictionary<string, DbViewColumn>(StringComparer.OrdinalIgnoreCase));
-                            var columns = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetViewColumns(database);
+                            var columns = _acDomain.RetrieveRequiredService<IOriginalHostStateReader>().GetViewColumns(database);
                             foreach (var view in database.DbViews.Values)
                             {
                                 if (_dic[database].ContainsKey(view))

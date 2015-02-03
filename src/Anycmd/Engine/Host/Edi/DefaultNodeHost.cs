@@ -7,20 +7,20 @@ namespace Anycmd.Engine.Host.Edi
 
     public class DefaultNodeHost : NodeHost
     {
-        public DefaultNodeHost(IAcDomain host)
+        public DefaultNodeHost(IAcDomain acDomain)
         {
-            this.StateCodes = new StateCodeSet(host);
+            this.StateCodes = new StateCodeSet(acDomain);
             this.HecpHandler = new HecpHandler();
             this.MessageProducer = new DefaultMessageProducer();
-            this.Ontologies = new OntologySet(host);
-            this.Processs = new ProcesseSet(host);
-            this.Nodes = new NodeSet(host);
-            this.InfoDics = new InfoDicSet(host);
-            this.InfoStringConverters = new InfoStringConverterSet(host);
-            this.InfoRules = new InfoRuleSet(host);
-            this.MessageProviders = new MessageProviderSet(host);
-            this.EntityProviders = new EntityProviderSet(host);
-            this.Transfers = new MessageTransferSet(host);
+            this.Ontologies = new OntologySet(acDomain);
+            this.Processs = new ProcesseSet(acDomain);
+            this.Nodes = new NodeSet(acDomain);
+            this.InfoDics = new InfoDicSet(acDomain);
+            this.InfoStringConverters = new InfoStringConverterSet(acDomain);
+            this.InfoRules = new InfoRuleSet(acDomain);
+            this.MessageProviders = new MessageProviderSet(acDomain);
+            this.EntityProviders = new EntityProviderSet(acDomain);
+            this.Transfers = new MessageTransferSet(acDomain);
         }
     }
 }

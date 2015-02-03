@@ -25,24 +25,24 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
         private readonly object _locker = new object();
 
         private readonly Guid _id = Guid.NewGuid();
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
         public Guid Id
         {
             get { return _id; }
         }
 
-        public ProcesseSet(IAcDomain host)
+        public ProcesseSet(IAcDomain acDomain)
         {
-            if (host == null)
+            if (acDomain == null)
             {
-                throw new ArgumentNullException("host");
+                throw new ArgumentNullException("acDomain");
             }
-            if (host.Equals(EmptyAcDomain.SingleInstance))
+            if (acDomain.Equals(EmptyAcDomain.SingleInstance))
             {
                 _initialized = true;
             }
-            this._host = host;
+            this._acDomain = acDomain;
             new MessageHandler(this).Register();
         }
 
@@ -132,15 +132,15 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             lock (_locker)
             {
                 if (_initialized) return;
-                _host.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
+                _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
                 _dic.Clear();
-                var processes = _host.RetrieveRequiredService<INodeHostBootstrap>().GetProcesses();
+                var processes = _acDomain.RetrieveRequiredService<INodeHostBootstrap>().GetProcesses();
                 foreach (var process in processes)
                 {
-                    _dic.Add(process.Id, new ProcessDescriptor(_host, ProcessState.Create(process), process.Id));
+                    _dic.Add(process.Id, new ProcessDescriptor(_acDomain, ProcessState.Create(process), process.Id));
                 }
                 _initialized = true;
-                _host.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
+                _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
             }
         }
 
@@ -161,10 +161,10 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
             public void Register()
             {
-                var messageDispatcher = _set._host.MessageDispatcher;
+                var messageDispatcher = _set._acDomain.MessageDispatcher;
                 if (messageDispatcher == null)
                 {
-                    throw new ArgumentNullException("messageDispatcher has not be set of host:{0}".Fmt(_set._host.Name));
+                    throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(_set._acDomain.Name));
                 }
                 messageDispatcher.Register((IHandler<AddProcessCommand>)this);
                 messageDispatcher.Register((IHandler<UpdateProcessCommand>)this);
@@ -175,13 +175,13 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
             public void Handle(AddProcessCommand message)
             {
-                var host = _set._host;
-                var processRepository = _set._host.RetrieveRequiredService<IRepository<Process>>();
+                var acDomain = _set._acDomain;
+                var processRepository = _set._acDomain.RetrieveRequiredService<IRepository<Process>>();
                 if (!message.Input.Id.HasValue)
                 {
                     throw new ValidationException("标识是必须的");
                 }
-                if (host.NodeHost.Processs.ContainsProcess(message.Input.Id.Value))
+                if (acDomain.NodeHost.Processs.ContainsProcess(message.Input.Id.Value))
                 {
                     throw new ValidationException("给定标识标识的记录已经存在");
                 }
@@ -192,7 +192,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 {
                     if (!_set._dic.ContainsKey(entity.Id))
                     {
-                        _set._dic.Add(entity.Id, new ProcessDescriptor(host, ProcessState.Create(entity), entity.Id));
+                        _set._dic.Add(entity.Id, new ProcessDescriptor(acDomain, ProcessState.Create(entity), entity.Id));
                     }
                     try
                     {
@@ -209,15 +209,15 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                         throw;
                     }
                 }
-                _set._host.PublishEvent(new ProcessAddedEvent(message.AcSession, entity));
-                _set._host.CommitEventBus();
+                _set._acDomain.PublishEvent(new ProcessAddedEvent(message.AcSession, entity));
+                _set._acDomain.CommitEventBus();
             }
 
             public void Handle(UpdateProcessCommand message)
             {
-                var host = _set._host;
-                var processRepository = _set._host.RetrieveRequiredService<IRepository<Process>>();
-                if (!host.NodeHost.Processs.ContainsProcess(message.Input.Id))
+                var acDomain = _set._acDomain;
+                var processRepository = _set._acDomain.RetrieveRequiredService<IRepository<Process>>();
+                if (!acDomain.NodeHost.Processs.ContainsProcess(message.Input.Id))
                 {
                     throw new NotExistException();
                 }
@@ -230,7 +230,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 entity.Update(message.Input);
 
-                var newState = new ProcessDescriptor(host, ProcessState.Create(entity), entity.Id);
+                var newState = new ProcessDescriptor(acDomain, ProcessState.Create(entity), entity.Id);
                 bool stateChanged = newState != bkState;
                 lock (_set._locker)
                 {
@@ -255,8 +255,8 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
                 if (stateChanged)
                 {
-                    _set._host.PublishEvent(new ProcessUpdatedEvent(message.AcSession, entity));
-                    _set._host.CommitEventBus();
+                    _set._acDomain.PublishEvent(new ProcessUpdatedEvent(message.AcSession, entity));
+                    _set._acDomain.CommitEventBus();
                 }
             }
 

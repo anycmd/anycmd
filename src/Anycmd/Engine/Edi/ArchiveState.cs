@@ -29,7 +29,7 @@ namespace Anycmd.Engine.Edi
 
         private ArchiveState(Guid id) : base(id) { }
 
-        public static ArchiveState Create(IAcDomain host, ArchiveBase archive)
+        public static ArchiveState Create(IAcDomain acDomain, ArchiveBase archive)
         {
             if (archive == null)
             {
@@ -37,7 +37,7 @@ namespace Anycmd.Engine.Edi
             }
             var data = new ArchiveState(archive.Id)
             {
-                AcDomain = host,
+                AcDomain = acDomain,
                 ArchiveOn = archive.ArchiveOn,
                 CreateBy = archive.CreateBy,
                 CreateOn = archive.CreateOn,

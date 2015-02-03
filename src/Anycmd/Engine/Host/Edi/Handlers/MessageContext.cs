@@ -39,7 +39,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers
         private int _actsCount = 0;
         private string _stackTrace = null;
         private IStackTraceFormater _stackTraceFormater = null;
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
         #endregion
 
         #region Ctor
@@ -47,17 +47,17 @@ namespace Anycmd.Engine.Host.Edi.Handlers
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="host"></param>
+        /// <param name="acDomain"></param>
         /// <param name="command"></param>
         /// <exception cref="ArgumentNullException"></exception>
-        public MessageContext(IAcDomain host, MessageBase command)
+        public MessageContext(IAcDomain acDomain, MessageBase command)
         {
             if (command == null)
             {
                 this.Exception = new ArgumentNullException("command");
                 throw this.Exception;
             }
-            this._host = host;
+            this._acDomain = acDomain;
             this.Command = command;
             this.Result = new QueryResult(command) {ResultDataItems = new List<DataItem>()};
         }
@@ -65,15 +65,15 @@ namespace Anycmd.Engine.Host.Edi.Handlers
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="host"></param>
+        /// <param name="acDomain"></param>
         /// <param name="context"></param>
-        public static MessageContext Create(IAcDomain host, HecpContext context)
+        public static MessageContext Create(IAcDomain acDomain, HecpContext context)
         {
             if (context == null)
             {
                 throw new ArgumentNullException("context");
             }
-            var commandContext = new MessageContext(host, AnyMessage.Create(context.Request, host.NodeHost.Nodes.ThisNode));
+            var commandContext = new MessageContext(acDomain, AnyMessage.Create(context.Request, acDomain.NodeHost.Nodes.ThisNode));
             foreach (var act in context)
             {
                 commandContext.Trace(act);
@@ -85,7 +85,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers
         #region public Properties
         public IAcDomain Host
         {
-            get { return _host; }
+            get { return _acDomain; }
 
         }
         /// <summary>
@@ -127,7 +127,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers
                 selectElements.Add(this.Ontology.EntityAclPolicyElement);
                 if (this.Command.Verb == Verb.Update)
                 {
-                    foreach (var node in _host.NodeHost.Nodes)
+                    foreach (var node in _acDomain.NodeHost.Nodes)
                     {
                         if (node.Node.IsEnabled == 1 && node.Node.IsProduceEnabled && node.IsCareForOntology(this.Ontology))
                         {
@@ -177,7 +177,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers
                 if (this._isValidated) return this._isValid;
                 this._isValidated = true;
                 #region 输入验证
-                var inputValidator = _host.RetrieveRequiredService<IInputValidator>();
+                var inputValidator = _acDomain.RetrieveRequiredService<IInputValidator>();
                 if (inputValidator == null)
                 {
                     throw new AnycmdException("没有配置命令输入验证器");
@@ -190,7 +190,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers
                     return false;
                 }
                 #endregion
-                var permissionValidator = _host.RetrieveRequiredService<IPermissionValidator>();
+                var permissionValidator = _acDomain.RetrieveRequiredService<IPermissionValidator>();
                 if (permissionValidator == null)
                 {
                     throw new AnycmdException("没有配置权限验证器");
@@ -203,7 +203,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers
                     return false;
                 }
                 #region 检验信息标识标识的实体的存在性
-                using (var act = new WfAct(_host, this, this.Ontology.EntityProvider, "检验信息标识标识的实体的存在性"))
+                using (var act = new WfAct(_acDomain, this, this.Ontology.EntityProvider, "检验信息标识标识的实体的存在性"))
                 {
                     if (this.TowInfoTuple == null)
                     {
@@ -289,7 +289,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers
                 if (!this._isAuditDetected)
                 {
                     this._isAuditDetected = true;
-                    var auditDiscriminator = _host.RetrieveRequiredService<IAuditDiscriminator>();
+                    var auditDiscriminator = _acDomain.RetrieveRequiredService<IAuditDiscriminator>();
                     if (auditDiscriminator == null)
                     {
                         throw new AnycmdException("未配置命令审核鉴别器");
@@ -318,7 +318,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers
             {
                 if (this._clientAgent == null)
                 {
-                    _host.NodeHost.Nodes.TryGetNodeById(this.Command.ClientId, out this._clientAgent);
+                    _acDomain.NodeHost.Nodes.TryGetNodeById(this.Command.ClientId, out this._clientAgent);
                 }
                 return this._clientAgent;
             }
@@ -336,7 +336,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers
             {
                 if (this._ontology == null)
                 {
-                    _host.NodeHost.Ontologies.TryGetOntology(this.Command.Ontology, out this._ontology);
+                    _acDomain.NodeHost.Ontologies.TryGetOntology(this.Command.Ontology, out this._ontology);
                 }
                 return this._ontology;
             }
@@ -409,8 +409,8 @@ namespace Anycmd.Engine.Host.Edi.Handlers
                     }
                     else if (string.IsNullOrEmpty(this.Command.LocalEntityId))
                     {
-                        bool thisNodeIsCenterNode = _host.NodeHost.Nodes.ThisNode == _host.NodeHost.Nodes.CenterNode;
-                        bool requestNodeIsCenterNode = this.ClientAgent == _host.NodeHost.Nodes.CenterNode;
+                        bool thisNodeIsCenterNode = _acDomain.NodeHost.Nodes.ThisNode == _acDomain.NodeHost.Nodes.CenterNode;
+                        bool requestNodeIsCenterNode = this.ClientAgent == _acDomain.NodeHost.Nodes.CenterNode;
                         if (thisNodeIsCenterNode || requestNodeIsCenterNode)
                         {
                             if (this.InfoTuplePair.IsSingleGuid)
@@ -531,7 +531,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers
                 }
                 if (_stackTraceFormater == null)
                 {
-                    _stackTraceFormater = _host.RetrieveRequiredService<IStackTraceFormater>();
+                    _stackTraceFormater = _acDomain.RetrieveRequiredService<IStackTraceFormater>();
                 }
                 _actsCount = _acts.Count;
                 _stackTrace = _stackTrace + _stackTraceFormater.Format(_acts);
@@ -611,7 +611,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers
                 org = CatalogState.Empty;
                 return new ProcessResult(false, Status.InvalidCatalog, "目录码为空");
             }
-            if (!_host.CatalogSet.TryGetCatalog(this.CatalogCode, out org))
+            if (!_acDomain.CatalogSet.TryGetCatalog(this.CatalogCode, out org))
             {
                 return new ProcessResult(false, Status.InvalidCatalog, string.Format("非法的目录码{0}", this.CatalogCode));
             }
@@ -621,7 +621,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers
                 return new ProcessResult(false, Status.InvalidCatalog, string.Format("对于{0}来说{1}是非法的目录码", this.Ontology.Ontology.Name, org.Code));
             }
             var orgCode = org.Code;
-            return _host.CatalogSet.Any(o => orgCode.Equals(o.ParentCode, StringComparison.OrdinalIgnoreCase)) ? new ProcessResult(false, Status.InvalidCatalog, string.Format("{0}不是叶节点，不能容纳" + this.Ontology.Ontology.Name, org.Name)) : ProcessResult.Ok;
+            return _acDomain.CatalogSet.Any(o => orgCode.Equals(o.ParentCode, StringComparison.OrdinalIgnoreCase)) ? new ProcessResult(false, Status.InvalidCatalog, string.Format("{0}不是叶节点，不能容纳" + this.Ontology.Ontology.Name, org.Name)) : ProcessResult.Ok;
 
         }
         #endregion

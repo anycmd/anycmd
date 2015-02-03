@@ -8,21 +8,21 @@ namespace Anycmd.Engine.Host.Rdb.MessageHandlers
 
     public class UpdateDbViewColumnCommandHandler : CommandHandler<UpdateDbViewColumnCommand>
     {
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
-        public UpdateDbViewColumnCommandHandler(IAcDomain host)
+        public UpdateDbViewColumnCommandHandler(IAcDomain acDomain)
         {
-            this._host = host;
+            this._acDomain = acDomain;
         }
 
         public override void Handle(UpdateDbViewColumnCommand command)
         {
             RdbDescriptor db;
-            if (!_host.Rdbs.TryDb(command.Input.DatabaseId, out db))
+            if (!_acDomain.Rdbs.TryDb(command.Input.DatabaseId, out db))
             {
                 throw new ValidationException("意外的数据库Id");
             }
-            _host.GetRequiredService<IRdbMetaDataService>().CrudDescription(db, RDbMetaDataType.ViewColumn, command.Input.Id, command.Input.Description);
+            _acDomain.GetRequiredService<IRdbMetaDataService>().CrudDescription(db, RDbMetaDataType.ViewColumn, command.Input.Id, command.Input.Description);
         }
     }
 }

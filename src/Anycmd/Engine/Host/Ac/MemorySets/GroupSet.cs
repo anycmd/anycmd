@@ -25,23 +25,23 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
         private bool _initialized = false;
 
         private readonly Guid _id = Guid.NewGuid();
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
         public Guid Id
         {
             get { return _id; }
         }
 
-        internal GroupSet(IAcDomain host)
+        internal GroupSet(IAcDomain acDomain)
         {
-            if (host == null)
+            if (acDomain == null)
             {
-                throw new ArgumentNullException("host");
+                throw new ArgumentNullException("acDomain");
             }
-            if (host.Equals(EmptyAcDomain.SingleInstance))
+            if (acDomain.Equals(EmptyAcDomain.SingleInstance))
             {
                 _initialized = true;
             }
-            this._host = host;
+            this._acDomain = acDomain;
             new MessageHandler(this).Register();
         }
 
@@ -78,9 +78,9 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             lock (this)
             {
                 if (_initialized) return;
-                _host.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
+                _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
                 _groupDic.Clear();
-                var groups = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllGroups();
+                var groups = _acDomain.RetrieveRequiredService<IOriginalHostStateReader>().GetAllGroups();
                 foreach (var group in groups)
                 {
                     if (!_groupDic.ContainsKey(@group.Id))
@@ -89,7 +89,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                 }
                 _initialized = true;
-                _host.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
+                _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
             }
         }
 
@@ -118,10 +118,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Register()
             {
-                var messageDispatcher = _set._host.MessageDispatcher;
+                var messageDispatcher = _set._acDomain.MessageDispatcher;
                 if (messageDispatcher == null)
                 {
-                    throw new ArgumentNullException("messageDispatcher has not be set of host:{0}".Fmt(_set._host.Name));
+                    throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(_set._acDomain.Name));
                 }
                 messageDispatcher.Register((IHandler<AddGroupCommand>)this);
                 messageDispatcher.Register((IHandler<GroupAddedEvent>)this);
@@ -150,7 +150,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 foreach (var groupId in groupIds)
                 {
-                    _set._host.Handle(new RemovePositionCommand(message.AcSession, groupId));
+                    _set._acDomain.Handle(new RemovePositionCommand(message.AcSession, groupId));
                 }
             }
 
@@ -184,9 +184,9 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Handle(IAcSession acSession, IGroupCreateIo input, bool isCommand)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var groupDic = _set._groupDic;
-                var groupRepository = host.RetrieveRequiredService<IRepository<Group>>();
+                var groupRepository = acDomain.RetrieveRequiredService<IRepository<Group>>();
                 if (!input.Id.HasValue)
                 {
                     throw new ValidationException("标识是必须的");
@@ -197,11 +197,11 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 lock (this)
                 {
                     GroupState group;
-                    if (host.GroupSet.TryGetGroup(entity.Id, out group))
+                    if (acDomain.GroupSet.TryGetGroup(entity.Id, out group))
                     {
                         throw new AnycmdException("意外的重复标识");
                     }
-                    if (host.GroupSet.Any(a => a.Name.Equals(input.Name, StringComparison.OrdinalIgnoreCase)))
+                    if (acDomain.GroupSet.Any(a => a.Name.Equals(input.Name, StringComparison.OrdinalIgnoreCase)))
                     {
                         throw new ValidationException("重复的工作组名");
                     }
@@ -229,15 +229,15 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateGroupAddedEvent(acSession, entity, input));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivateGroupAddedEvent(acSession, entity, input));
                 }
             }
 
             private void Handle(IAcSession acSession, IPositionCreateIo input, bool isCommand)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var groupDic = _set._groupDic;
-                var groupRepository = host.RetrieveRequiredService<IRepository<Group>>();
+                var groupRepository = acDomain.RetrieveRequiredService<IRepository<Group>>();
                 if (!input.Id.HasValue)
                 {
                     throw new ValidationException("标识是必须的");
@@ -247,7 +247,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     throw new ValidationException("目录码不能为空");
                 }
                 CatalogState org;
-                if (!host.CatalogSet.TryGetCatalog(input.CatalogCode, out org))
+                if (!acDomain.CatalogSet.TryGetCatalog(input.CatalogCode, out org))
                 {
                     throw new ValidationException("非法的目录码" + input.CatalogCode);
                 }
@@ -257,11 +257,11 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 lock (this)
                 {
                     GroupState group;
-                    if (host.GroupSet.TryGetGroup(entity.Id, out group))
+                    if (acDomain.GroupSet.TryGetGroup(entity.Id, out group))
                     {
                         throw new AnycmdException("意外的重复标识");
                     }
-                    if (host.GroupSet.Any(a => input.CatalogCode.Equals(a.CatalogCode, StringComparison.OrdinalIgnoreCase) && a.Name.Equals(input.Name, StringComparison.OrdinalIgnoreCase)))
+                    if (acDomain.GroupSet.Any(a => input.CatalogCode.Equals(a.CatalogCode, StringComparison.OrdinalIgnoreCase) && a.Name.Equals(input.Name, StringComparison.OrdinalIgnoreCase)))
                     {
                         throw new ValidationException("重复的岗位名");
                     }
@@ -289,7 +289,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivatePositionAddedEvent(acSession, entity, input));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivatePositionAddedEvent(acSession, entity, input));
                 }
             }
 
@@ -340,10 +340,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Handle(IAcSession acSession, IGroupUpdateIo input, bool isCommand)
             {
-                var host = _set._host;
-                var groupRepository = host.RetrieveRequiredService<IRepository<Group>>();
+                var acDomain = _set._acDomain;
+                var groupRepository = acDomain.RetrieveRequiredService<IRepository<Group>>();
                 GroupState bkState;
-                if (!host.GroupSet.TryGetGroup(input.Id, out bkState))
+                if (!acDomain.GroupSet.TryGetGroup(input.Id, out bkState))
                 {
                     throw new NotExistException();
                 }
@@ -352,11 +352,11 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 lock (bkState)
                 {
                     GroupState oldState;
-                    if (!host.GroupSet.TryGetGroup(input.Id, out oldState))
+                    if (!acDomain.GroupSet.TryGetGroup(input.Id, out oldState))
                     {
                         throw new NotExistException();
                     }
-                    if (host.GroupSet.Any(a => a.Name.Equals(input.Name, StringComparison.OrdinalIgnoreCase) && a.Id != input.Id))
+                    if (acDomain.GroupSet.Any(a => a.Name.Equals(input.Name, StringComparison.OrdinalIgnoreCase) && a.Id != input.Id))
                     {
                         throw new ValidationException("重复的工作组名");
                     }
@@ -394,16 +394,16 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateGroupUpdatedEvent(acSession, entity, input));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivateGroupUpdatedEvent(acSession, entity, input));
                 }
             }
 
             private void Handle(IAcSession acSession, IPositionUpdateIo input, bool isCommand)
             {
-                var host = _set._host;
-                var groupRepository = host.RetrieveRequiredService<IRepository<Group>>();
+                var acDomain = _set._acDomain;
+                var groupRepository = acDomain.RetrieveRequiredService<IRepository<Group>>();
                 GroupState bkState;
-                if (!host.GroupSet.TryGetGroup(input.Id, out bkState))
+                if (!acDomain.GroupSet.TryGetGroup(input.Id, out bkState))
                 {
                     throw new NotExistException();
                 }
@@ -416,11 +416,11 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 lock (bkState)
                 {
                     GroupState oldState;
-                    if (!host.GroupSet.TryGetGroup(input.Id, out oldState))
+                    if (!acDomain.GroupSet.TryGetGroup(input.Id, out oldState))
                     {
                         throw new NotExistException();
                     }
-                    if (host.GroupSet.Any(a => bkState.CatalogCode.Equals(a.CatalogCode, StringComparison.OrdinalIgnoreCase) && a.Name.Equals(input.Name, StringComparison.OrdinalIgnoreCase) && a.Id != input.Id))
+                    if (acDomain.GroupSet.Any(a => bkState.CatalogCode.Equals(a.CatalogCode, StringComparison.OrdinalIgnoreCase) && a.Name.Equals(input.Name, StringComparison.OrdinalIgnoreCase) && a.Id != input.Id))
                     {
                         throw new ValidationException("重复的岗位名");
                     }
@@ -458,7 +458,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivatePositionUpdatedEvent(acSession, entity, input));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivatePositionUpdatedEvent(acSession, entity, input));
                 }
             }
 
@@ -516,11 +516,11 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Handle(IAcSession acSession, Guid groupId, bool isCommand)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var groupDic = _set._groupDic;
-                var groupRepository = host.RetrieveRequiredService<IRepository<Group>>();
+                var groupRepository = acDomain.RetrieveRequiredService<IRepository<Group>>();
                 GroupState bkState;
-                if (!host.GroupSet.TryGetGroup(groupId, out bkState))
+                if (!acDomain.GroupSet.TryGetGroup(groupId, out bkState))
                 {
                     return;
                 }
@@ -528,7 +528,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 lock (bkState)
                 {
                     GroupState state;
-                    if (!host.GroupSet.TryGetGroup(groupId, out state))
+                    if (!acDomain.GroupSet.TryGetGroup(groupId, out state))
                     {
                         return;
                     }
@@ -541,7 +541,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     {
                         if (isCommand)
                         {
-                            host.MessageDispatcher.DispatchMessage(new GroupRemovingEvent(acSession, entity));
+                            acDomain.MessageDispatcher.DispatchMessage(new GroupRemovingEvent(acSession, entity));
                         }
                         groupDic.Remove(bkState.Id);
                     }
@@ -565,10 +565,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateGroupRemovedEvent(acSession, entity));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivateGroupRemovedEvent(acSession, entity));
                     if (!string.IsNullOrEmpty(bkState.CatalogCode))
                     {
-                        host.MessageDispatcher.DispatchMessage(new PrivatePositionRemovedEvent(acSession, entity));
+                        acDomain.MessageDispatcher.DispatchMessage(new PrivatePositionRemovedEvent(acSession, entity));
                     }
                 }
             }

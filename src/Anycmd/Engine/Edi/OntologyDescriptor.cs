@@ -42,13 +42,13 @@ namespace Anycmd.Engine.Edi
 		private ElementDescriptor _modifiedCommandId = null;
 		#endregion
 
-		private readonly IAcDomain _host;
+		private readonly IAcDomain _acDomain;
 
 		#region Ctor
-		public OntologyDescriptor(IAcDomain host, OntologyState ontology, Guid id)
+		public OntologyDescriptor(IAcDomain acDomain, OntologyState ontology, Guid id)
 			: base(id)
 		{
-			this._host = host;
+			this._acDomain = acDomain;
 			this.Ontology = ontology;
 		}
 		#endregion
@@ -56,7 +56,7 @@ namespace Anycmd.Engine.Edi
 		#region public Properties
 		public IAcDomain Host
 		{
-			get { return _host; }
+			get { return _acDomain; }
 		}
 
 		/// <summary>

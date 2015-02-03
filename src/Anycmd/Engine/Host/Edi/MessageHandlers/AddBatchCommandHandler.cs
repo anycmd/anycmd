@@ -20,18 +20,18 @@ namespace Anycmd.Engine.Host.Edi.MessageHandlers
 
     public class AddBatchCommandHandler : CommandHandler<AddBatchCommand>
     {
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
-        public AddBatchCommandHandler(IAcDomain host)
+        public AddBatchCommandHandler(IAcDomain acDomain)
         {
-            this._host = host;
+            this._acDomain = acDomain;
         }
 
         public override void Handle(AddBatchCommand command)
         {
-            var batchRepository = _host.RetrieveRequiredService<IRepository<Batch>>();
+            var batchRepository = _acDomain.RetrieveRequiredService<IRepository<Batch>>();
             OntologyDescriptor ontology;
-            if (!_host.NodeHost.Ontologies.TryGetOntology(command.Input.OntologyId, out ontology))
+            if (!_acDomain.NodeHost.Ontologies.TryGetOntology(command.Input.OntologyId, out ontology))
             {
                 throw new ValidationException("非法的本体标识" + command.Input.OntologyId);
             }
@@ -43,17 +43,17 @@ namespace Anycmd.Engine.Host.Edi.MessageHandlers
             
             var entity = Batch.Create(command.Input);
 
-            var descriptor = new BatchDescriptor(_host, entity);
+            var descriptor = new BatchDescriptor(_acDomain, entity);
             const int pageSize = 1000;
             const int pageIndex = 0;
             bool includeDescendants = entity.IncludeDescendants.HasValue && entity.IncludeDescendants.Value;
             NodeDescriptor toNode = null;
-            if (!_host.NodeHost.Nodes.TryGetNodeById(entity.NodeId.ToString(), out toNode))
+            if (!_acDomain.NodeHost.Nodes.TryGetNodeById(entity.NodeId.ToString(), out toNode))
             {
                 throw new AnycmdException("意外的节点标识" + entity.NodeId);
             }
 
-            string thisNodeId = _host.NodeHost.Nodes.ThisNode.Node.Id.ToString();
+            string thisNodeId = _acDomain.NodeHost.Nodes.ThisNode.Node.Id.ToString();
             Verb actionCode;
             switch (descriptor.Type)
             {
@@ -69,7 +69,7 @@ namespace Anycmd.Engine.Host.Edi.MessageHandlers
                 default:
                     throw new AnycmdException("意外的批类型" + entity.Type);
             }
-            var commandFactory = _host.NodeHost.MessageProducer;
+            var commandFactory = _acDomain.NodeHost.MessageProducer;
             bool goOn = true;
             int count = 0;
             var pagingData = new PagingInput(pageIndex, pageSize, ontology.IncrementIdElement.Element.Code, "asc");
@@ -126,11 +126,11 @@ namespace Anycmd.Engine.Host.Edi.MessageHandlers
                                 valueItems[i - 1] = InfoItem.Create(entities.Columns[i], item[i].ToString());
                             }
                         }
-                        var commandContext = new MessageContext(_host,
+                        var commandContext = new MessageContext(_acDomain,
                                 new MessageRecord(
                                     MessageTypeKind.Received,
                                     Guid.NewGuid(),
-                                    DataItemsTuple.Create(_host, idItems, valueItems, null, "json"))
+                                    DataItemsTuple.Create(_acDomain, idItems, valueItems, null, "json"))
                                     {
                                         Verb = actionCode,
                                         ClientId = thisNodeId,
@@ -168,8 +168,8 @@ namespace Anycmd.Engine.Host.Edi.MessageHandlers
             batchRepository.Add(entity);
             batchRepository.Context.Commit();
 
-            _host.PublishEvent(new BatchAddedEvent(command.AcSession, entity));
-            _host.CommitEventBus();
+            _acDomain.PublishEvent(new BatchAddedEvent(command.AcSession, entity));
+            _acDomain.CommitEventBus();
         }
 
         #region MessageRecord

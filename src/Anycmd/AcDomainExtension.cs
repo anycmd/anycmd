@@ -11,12 +11,12 @@ namespace Anycmd
     {
         private static readonly HashSet<EntityTypeMap> EntityTypeMaps = new HashSet<EntityTypeMap>();
 
-        public static void Map(this IAcDomain host, EntityTypeMap map)
+        public static void Map(this IAcDomain acDomain, EntityTypeMap map)
         {
             EntityTypeMaps.Add(map);
         }
 
-        public static IEnumerable<EntityTypeMap> GetEntityTypeMaps(this IAcDomain host)
+        public static IEnumerable<EntityTypeMap> GetEntityTypeMaps(this IAcDomain acDomain)
         {
             return EntityTypeMaps;
         }
@@ -35,9 +35,9 @@ namespace Anycmd
         /// <summary>
         /// 提交命令总线
         /// </summary>
-        public static void CommitEventBus(this IAcDomain host)
+        public static void CommitEventBus(this IAcDomain acDomain)
         {
-            host.EventBus.Commit();
+            acDomain.EventBus.Commit();
         }
 
         /// <summary>

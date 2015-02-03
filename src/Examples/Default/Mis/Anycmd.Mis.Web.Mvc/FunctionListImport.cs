@@ -29,7 +29,7 @@ namespace Anycmd.Mis.Web.Mvc
         private static readonly object Locker = new object();
         private static bool _isChanged = true;
 
-        public void Import(IAcDomain host, IAcSession acSession, string appSystemCode)
+        public void Import(IAcDomain acDomain, IAcSession acSession, string appSystemCode)
         {
             if (_isChanged)
             {
@@ -37,13 +37,13 @@ namespace Anycmd.Mis.Web.Mvc
                 {
                     if (_isChanged)
                     {
-                        var privilegeBigramRepository = host.RetrieveRequiredService<IRepository<Privilege>>();
+                        var privilegeBigramRepository = acDomain.RetrieveRequiredService<IRepository<Privilege>>();
                         if (string.IsNullOrEmpty(appSystemCode))
                         {
                             throw new ArgumentNullException("appSystemCode");
                         }
                         AppSystemState appSystem;
-                        if (!host.AppSystemSet.TryGetAppSystem(appSystemCode, out appSystem))
+                        if (!acDomain.AppSystemSet.TryGetAppSystem(appSystemCode, out appSystem))
                         {
                             throw new ValidationException("意外的应用系统码" + appSystemCode);
                         }
@@ -54,8 +54,8 @@ namespace Anycmd.Mis.Web.Mvc
                             "Anycmd.Mis.Web.Mvc"
                         };
                         var dlls = assemblyStrings.Select(Assembly.Load).ToList();
-                        var oldPages = host.UiViewSet;
-                        var oldFunctions = host.FunctionSet.Cast<IFunction>().ToList();
+                        var oldPages = acDomain.UiViewSet;
+                        var oldFunctions = acDomain.FunctionSet.Cast<IFunction>().ToList();
                         var reflectionFunctions = new List<FunctionId>();
                         #region 通过反射程序集初始化功能和页面列表
                         foreach (var dll in dlls)
@@ -112,7 +112,7 @@ namespace Anycmd.Mis.Web.Mvc
                                     {
                                         string loginName = ((ByAttribute) byAttrs[0]).DeveloperCode;
                                         AccountState developer;
-                                        if (!host.SysUserSet.TryGetDevAccount(loginName, out developer))
+                                        if (!acDomain.SysUserSet.TryGetDevAccount(loginName, out developer))
                                         {
                                             throw new ValidationException("意外的开发人员" + loginName + "在" + controllerType.FullName + "在" + method.Name);
                                         }
@@ -123,7 +123,7 @@ namespace Anycmd.Mis.Web.Mvc
                                         throw new ValidationException(type.FullName + method.Name);
                                     }
 
-                                    if (!host.ResourceTypeSet.TryGetResource(appSystem, resourceCode, out resource))
+                                    if (!acDomain.ResourceTypeSet.TryGetResource(appSystem, resourceCode, out resource))
                                     {
                                         throw new ValidationException("意外的资源码" + resourceCode);
                                     }
@@ -139,7 +139,7 @@ namespace Anycmd.Mis.Web.Mvc
                                             throw new ValidationException("同一Controller下不能有命名相同的Action。" + method.DeclaringType.FullName + "." + method.Name);
                                         }
                                         reflectionFunctions.Add(function);
-                                        host.Handle(new FunctionCreateInput()
+                                        acDomain.Handle(new FunctionCreateInput()
                                         {
                                             Description = description,
                                             DeveloperId = developerId,
@@ -152,7 +152,7 @@ namespace Anycmd.Mis.Web.Mvc
                                         }.ToCommand(acSession));
                                         if (isPage)
                                         {
-                                            host.Handle(new UiViewCreateInput
+                                            acDomain.Handle(new UiViewCreateInput
                                             {
                                                 Id = function.Id
                                             }.ToCommand(acSession));
@@ -164,7 +164,7 @@ namespace Anycmd.Mis.Web.Mvc
                                         // 更新作者
                                         if (oldFunction.DeveloperId != developerId)
                                         {
-                                            host.Handle(new FunctionUpdateInput
+                                            acDomain.Handle(new FunctionUpdateInput
                                             {
                                                 Code = oldFunction.Code,
                                                 Description = oldFunction.Description,
@@ -178,7 +178,7 @@ namespace Anycmd.Mis.Web.Mvc
                                         {
                                             if (oldPages.All(a => a.Id != oldFunction.Id))
                                             {
-                                                host.Handle(new UiViewCreateInput
+                                                acDomain.Handle(new UiViewCreateInput
                                                 {
                                                     Id = oldFunction.Id
                                                 }.ToCommand(acSession));
@@ -189,7 +189,7 @@ namespace Anycmd.Mis.Web.Mvc
                                             // 删除废弃的页面
                                             if (oldPages.All(a => a.Id != oldFunction.Id))
                                             {
-                                                host.Handle(new RemoveUiViewCommand(acSession, oldFunction.Id));
+                                                acDomain.Handle(new RemoveUiViewCommand(acSession, oldFunction.Id));
                                             }
                                         }
                                     }
@@ -208,11 +208,11 @@ namespace Anycmd.Mis.Web.Mvc
                                 foreach (var rolePrivilege in privilegeBigramRepository.AsQueryable().Where(a => privilegeType == a.ObjectType && a.ObjectInstanceId == oldFunction.Id).ToList())
                                 {
                                     privilegeBigramRepository.Remove(rolePrivilege);
-                                    host.EventBus.Publish(new PrivilegeRemovedEvent(acSession, rolePrivilege));
+                                    acDomain.EventBus.Publish(new PrivilegeRemovedEvent(acSession, rolePrivilege));
                                 }
-                                host.EventBus.Commit();
+                                acDomain.EventBus.Commit();
                                 privilegeBigramRepository.Context.Commit();
-                                host.Handle(new RemoveFunctionCommand(acSession, oldFunction.Id));
+                                acDomain.Handle(new RemoveFunctionCommand(acSession, oldFunction.Id));
                             }
                         }
                         #endregion

@@ -20,9 +20,9 @@ namespace Anycmd.Tests
         [TestMethod]
         public void PageSet()
         {
-            var host = TestHelper.GetAcDomain();
-            Assert.AreEqual(0, host.UiViewSet.Count());
-            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
+            var acDomain = TestHelper.GetAcDomain();
+            Assert.AreEqual(0, acDomain.UiViewSet.Count());
+            AcSessionState.AcMethod.SignIn(acDomain, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -30,38 +30,38 @@ namespace Anycmd.Tests
             });
             var entityId = Guid.NewGuid();
 
-            host.Handle(new FunctionCreateInput
+            acDomain.Handle(new FunctionCreateInput
             {
                 Id = entityId,
                 Code = "fun1",
                 Description = string.Empty,
-                DeveloperId = host.SysUserSet.GetDevAccounts().First().Id,
+                DeveloperId = acDomain.SysUserSet.GetDevAccounts().First().Id,
                 IsEnabled = 1,
                 IsManaged = true,
-                ResourceTypeId = host.ResourceTypeSet.First().Id,
+                ResourceTypeId = acDomain.ResourceTypeSet.First().Id,
                 SortCode = 10
-            }.ToCommand(host.GetAcSession()));
+            }.ToCommand(acDomain.GetAcSession()));
             FunctionState functionById;
-            Assert.AreEqual(1, host.FunctionSet.Count());
-            Assert.IsTrue(host.FunctionSet.TryGetFunction(entityId, out functionById));
+            Assert.AreEqual(1, acDomain.FunctionSet.Count());
+            Assert.IsTrue(acDomain.FunctionSet.TryGetFunction(entityId, out functionById));
             UiViewState pageById;
-            host.Handle(new UiViewCreateInput
+            acDomain.Handle(new UiViewCreateInput
             {
                 Id = entityId,
                 Icon = null,
                 Tooltip = null
-            }.ToCommand(host.GetAcSession()));
-            Assert.AreEqual(1, host.UiViewSet.Count());
-            Assert.IsTrue(host.UiViewSet.TryGetUiView(entityId, out pageById));
+            }.ToCommand(acDomain.GetAcSession()));
+            Assert.AreEqual(1, acDomain.UiViewSet.Count());
+            Assert.IsTrue(acDomain.UiViewSet.TryGetUiView(entityId, out pageById));
             bool catched = false;
             try
             {
-                host.Handle(new UiViewCreateInput
+                acDomain.Handle(new UiViewCreateInput
                 {
                     Id = Guid.NewGuid(),
                     Icon = null,
                     Tooltip = null
-                }.ToCommand(host.GetAcSession()));
+                }.ToCommand(acDomain.GetAcSession()));
             }
             catch (Exception)
             {
@@ -71,18 +71,18 @@ namespace Anycmd.Tests
             {
                 Assert.IsTrue(catched);
             }
-            host.Handle(new UiViewUpdateInput
+            acDomain.Handle(new UiViewUpdateInput
             {
                 Id = entityId,
                 Icon = null,
                 Tooltip = null
-            }.ToCommand(host.GetAcSession()));
-            Assert.AreEqual(1, host.UiViewSet.Count());
-            Assert.IsTrue(host.UiViewSet.TryGetUiView(entityId, out pageById));
+            }.ToCommand(acDomain.GetAcSession()));
+            Assert.AreEqual(1, acDomain.UiViewSet.Count());
+            Assert.IsTrue(acDomain.UiViewSet.TryGetUiView(entityId, out pageById));
 
-            host.Handle(new RemoveUiViewCommand(host.GetAcSession(), entityId));
-            Assert.IsFalse(host.UiViewSet.TryGetUiView(entityId, out pageById));
-            Assert.AreEqual(0, host.UiViewSet.Count());
+            acDomain.Handle(new RemoveUiViewCommand(acDomain.GetAcSession(), entityId));
+            Assert.IsFalse(acDomain.UiViewSet.TryGetUiView(entityId, out pageById));
+            Assert.AreEqual(0, acDomain.UiViewSet.Count());
         }
         #endregion
 
@@ -90,16 +90,16 @@ namespace Anycmd.Tests
         [TestMethod]
         public void PageSetShouldRollbackedWhenPersistFailed()
         {
-            var host = TestHelper.GetAcDomain();
-            Assert.AreEqual(0, host.UiViewSet.Count());
-            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
+            var acDomain = TestHelper.GetAcDomain();
+            Assert.AreEqual(0, acDomain.UiViewSet.Count());
+            AcSessionState.AcMethod.SignIn(acDomain, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
                 {"rememberMe", "rememberMe"}
             });
-            host.RemoveService(typeof(IRepository<UiView>));
-            var moPageRepository = host.GetMoqRepository<UiView, IRepository<UiView>>();
+            acDomain.RemoveService(typeof(IRepository<UiView>));
+            var moPageRepository = acDomain.GetMoqRepository<UiView, IRepository<UiView>>();
             var entityId1 = Guid.NewGuid();
             var entityId2 = Guid.NewGuid();
             moPageRepository.Setup(a => a.Add(It.Is<UiView>(b => b.Id == entityId1))).Throws(new DbException(entityId1.ToString()));
@@ -107,42 +107,42 @@ namespace Anycmd.Tests
             moPageRepository.Setup(a => a.Remove(It.Is<UiView>(b => b.Id == entityId2))).Throws(new DbException(entityId2.ToString()));
             moPageRepository.Setup<UiView>(a => a.GetByKey(entityId1)).Returns(new UiView { Id = entityId1 });
             moPageRepository.Setup<UiView>(a => a.GetByKey(entityId2)).Returns(new UiView { Id = entityId2 });
-            host.AddService(typeof(IRepository<UiView>), moPageRepository.Object);
+            acDomain.AddService(typeof(IRepository<UiView>), moPageRepository.Object);
 
-            host.Handle(new FunctionCreateInput
+            acDomain.Handle(new FunctionCreateInput
             {
                 Id = entityId1,
                 Code = "fun1",
                 Description = string.Empty,
-                DeveloperId = host.SysUserSet.GetDevAccounts().First().Id,
+                DeveloperId = acDomain.SysUserSet.GetDevAccounts().First().Id,
                 IsEnabled = 1,
                 IsManaged = true,
-                ResourceTypeId = host.ResourceTypeSet.First().Id,
+                ResourceTypeId = acDomain.ResourceTypeSet.First().Id,
                 SortCode = 10
-            }.ToCommand(host.GetAcSession()));
-            host.Handle(new FunctionCreateInput
+            }.ToCommand(acDomain.GetAcSession()));
+            acDomain.Handle(new FunctionCreateInput
             {
                 Id = entityId2,
                 Code = "fun2",
                 Description = string.Empty,
-                DeveloperId = host.SysUserSet.GetDevAccounts().First().Id,
+                DeveloperId = acDomain.SysUserSet.GetDevAccounts().First().Id,
                 IsEnabled = 1,
                 IsManaged = true,
-                ResourceTypeId = host.ResourceTypeSet.First().Id,
+                ResourceTypeId = acDomain.ResourceTypeSet.First().Id,
                 SortCode = 10
-            }.ToCommand(host.GetAcSession()));
+            }.ToCommand(acDomain.GetAcSession()));
             FunctionState functionById;
-            Assert.AreEqual(2, host.FunctionSet.Count());
-            Assert.IsTrue(host.FunctionSet.TryGetFunction(entityId1, out functionById));
-            Assert.IsTrue(host.FunctionSet.TryGetFunction(entityId2, out functionById));
+            Assert.AreEqual(2, acDomain.FunctionSet.Count());
+            Assert.IsTrue(acDomain.FunctionSet.TryGetFunction(entityId1, out functionById));
+            Assert.IsTrue(acDomain.FunctionSet.TryGetFunction(entityId2, out functionById));
 
             bool catched = false;
             try
             {
-                host.Handle(new UiViewCreateInput
+                acDomain.Handle(new UiViewCreateInput
                 {
                     Id = entityId1
-                }.ToCommand(host.GetAcSession()));
+                }.ToCommand(acDomain.GetAcSession()));
             }
             catch (Exception e)
             {
@@ -153,22 +153,22 @@ namespace Anycmd.Tests
             finally
             {
                 Assert.IsTrue(catched);
-                Assert.AreEqual(0, host.UiViewSet.Count());
+                Assert.AreEqual(0, acDomain.UiViewSet.Count());
             }
 
-            host.Handle(new UiViewCreateInput
+            acDomain.Handle(new UiViewCreateInput
             {
                 Id = entityId2
-            }.ToCommand(host.GetAcSession()));
-            Assert.AreEqual(1, host.UiViewSet.Count());
+            }.ToCommand(acDomain.GetAcSession()));
+            Assert.AreEqual(1, acDomain.UiViewSet.Count());
 
             catched = false;
             try
             {
-                host.Handle(new UiViewUpdateInput
+                acDomain.Handle(new UiViewUpdateInput
                 {
                     Id = entityId2
-                }.ToCommand(host.GetAcSession()));
+                }.ToCommand(acDomain.GetAcSession()));
             }
             catch (Exception e)
             {
@@ -179,15 +179,15 @@ namespace Anycmd.Tests
             finally
             {
                 Assert.IsTrue(catched);
-                Assert.AreEqual(1, host.UiViewSet.Count());
+                Assert.AreEqual(1, acDomain.UiViewSet.Count());
                 UiViewState page;
-                Assert.IsTrue(host.UiViewSet.TryGetUiView(entityId2, out page));
+                Assert.IsTrue(acDomain.UiViewSet.TryGetUiView(entityId2, out page));
             }
 
             catched = false;
             try
             {
-                host.Handle(new RemoveUiViewCommand(host.GetAcSession(), entityId2));
+                acDomain.Handle(new RemoveUiViewCommand(acDomain.GetAcSession(), entityId2));
             }
             catch (Exception e)
             {
@@ -199,8 +199,8 @@ namespace Anycmd.Tests
             {
                 Assert.IsTrue(catched);
                 UiViewState page;
-                Assert.IsTrue(host.UiViewSet.TryGetUiView(entityId2, out page));
-                Assert.AreEqual(1, host.UiViewSet.Count());
+                Assert.IsTrue(acDomain.UiViewSet.TryGetUiView(entityId2, out page));
+                Assert.AreEqual(1, acDomain.UiViewSet.Count());
             }
         }
         #endregion

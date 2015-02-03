@@ -15,11 +15,11 @@ namespace Anycmd.Engine.Host.Ac.MessageHandlers
     public class OperatedEventHandler : IDomainEventHandler<OperatedEvent>
     {
         readonly Guid _operationLogDbId = new Guid("67E6CBF4-B481-4DDD-9FD9-1F0E06E9E1CB");
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
-        public OperatedEventHandler(IAcDomain host)
+        public OperatedEventHandler(IAcDomain acDomain)
         {
-            this._host = host;
+            this._acDomain = acDomain;
         }
 
 
@@ -36,7 +36,7 @@ namespace Anycmd.Engine.Host.Ac.MessageHandlers
                 return;
             }
             RdbDescriptor db;
-            if (!_host.Rdbs.TryDb(_operationLogDbId, out db))
+            if (!_acDomain.Rdbs.TryDb(_operationLogDbId, out db))
             {
                 throw new AnycmdException("意外的数据库标识");
             }

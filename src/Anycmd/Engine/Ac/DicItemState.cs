@@ -30,13 +30,13 @@ namespace Anycmd.Engine.Ac
 
         private DicItemState(Guid id) : base(id) { }
 
-        public static DicItemState Create(IAcDomain host, DicItemBase dicItem)
+        public static DicItemState Create(IAcDomain acDomain, DicItemBase dicItem)
         {
             if (dicItem == null)
             {
                 throw new ArgumentNullException("dicItem");
             }
-            if (!host.DicSet.ContainsDic(dicItem.DicId))
+            if (!acDomain.DicSet.ContainsDic(dicItem.DicId))
             {
                 throw new AnycmdException("意外的字典" + dicItem.DicId);
             }

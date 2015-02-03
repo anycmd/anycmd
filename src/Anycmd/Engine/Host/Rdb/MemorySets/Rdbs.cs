@@ -15,17 +15,17 @@ namespace Anycmd.Engine.Host.Rdb.MemorySets
 
         private readonly Dictionary<Guid, RdbDescriptor> _dicById = new Dictionary<Guid, RdbDescriptor>();
         private bool _initialized;
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
         private readonly IDbTableColumns _dbTableColumns;
         private readonly IDbTables _dbTables;
         private readonly IDbViewColumns _dbViewColumns;
         private readonly IDbViews _dbViews;
 
-        public Rdbs(IAcDomain host, IDbTables dbTables, IDbViews dbViews, IDbTableColumns dbTableColumns, IDbViewColumns dbViewColumns)
+        public Rdbs(IAcDomain acDomain, IDbTables dbTables, IDbViews dbViews, IDbTableColumns dbTableColumns, IDbViewColumns dbViewColumns)
         {
-            if (host == null)
+            if (acDomain == null)
             {
-                throw new ArgumentNullException("host");
+                throw new ArgumentNullException("acDomain");
             }
             if (dbTables == null)
             {
@@ -43,7 +43,7 @@ namespace Anycmd.Engine.Host.Rdb.MemorySets
             {
                 throw new ArgumentNullException("dbViewColumns");
             }
-            _host = host;
+            _acDomain = acDomain;
             _dbTables = dbTables;
             _dbViews = dbViews;
             _dbTableColumns = dbTableColumns;
@@ -124,10 +124,10 @@ namespace Anycmd.Engine.Host.Rdb.MemorySets
             {
                 if (_initialized) return;
                 _dicById.Clear();
-                var list = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllRDatabases();
+                var list = _acDomain.RetrieveRequiredService<IOriginalHostStateReader>().GetAllRDatabases();
                 foreach (var item in list)
                 {
-                    _dicById.Add(item.Id, new RdbDescriptor(_host, item));
+                    _dicById.Add(item.Id, new RdbDescriptor(_acDomain, item));
                 }
                 _initialized = true;
             }

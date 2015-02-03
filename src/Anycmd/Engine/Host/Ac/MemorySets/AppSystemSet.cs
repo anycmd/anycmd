@@ -26,24 +26,24 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
         private readonly Dictionary<Guid, AppSystemState> _dicById = new Dictionary<Guid, AppSystemState>();
         private bool _initialized;
         private readonly Guid _id = Guid.NewGuid();
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
         public Guid Id
         {
             get { return _id; }
         }
 
-        internal AppSystemSet(IAcDomain host)
+        internal AppSystemSet(IAcDomain acDomain)
         {
-            if (host == null)
+            if (acDomain == null)
             {
-                throw new ArgumentNullException("host");
+                throw new ArgumentNullException("acDomain");
             }
-            if (host.Equals(EmptyAcDomain.SingleInstance))
+            if (acDomain.Equals(EmptyAcDomain.SingleInstance))
             {
                 _initialized = true;
             }
-            _host = host;
+            _acDomain = acDomain;
             new MessageHandler(this).Register();
         }
 
@@ -55,9 +55,9 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     Init();
                 }
-                if (_dicByCode.ContainsKey(_host.Config.SelfAppSystemCode))
+                if (_dicByCode.ContainsKey(_acDomain.Config.SelfAppSystemCode))
                 {
-                    return _dicByCode[_host.Config.SelfAppSystemCode];
+                    return _dicByCode[_acDomain.Config.SelfAppSystemCode];
                 }
                 throw new AnycmdException("尚未配置SelfAppSystemCode");
             }
@@ -140,10 +140,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             lock (this)
             {
                 if (_initialized) return;
-                _host.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
+                _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
                 _dicByCode.Clear();
                 _dicById.Clear();
-                var appSystems = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllAppSystems();
+                var appSystems = _acDomain.RetrieveRequiredService<IOriginalHostStateReader>().GetAllAppSystems();
                 foreach (var appSystem in appSystems)
                 {
                     Debug.Assert(appSystem != null, "appSystem != null");
@@ -155,12 +155,12 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     {
                         throw new AnycmdException("意外重复的应用系统标识" + appSystem.Id);
                     }
-                    var value = AppSystemState.Create(_host, appSystem);
+                    var value = AppSystemState.Create(_acDomain, appSystem);
                     _dicByCode.Add(appSystem.Code, value);
                     _dicById.Add(appSystem.Id, value);
                 }
                 _initialized = true;
-                _host.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
+                _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
             }
         }
 
@@ -169,10 +169,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
         #region MessageHandler
         private class MessageHandler :
             IHandler<AppSystemUpdatedEvent>,
-            IHandler<AppSystemRemovedEvent>, 
-            IHandler<AddAppSystemCommand>, 
-            IHandler<AppSystemAddedEvent>, 
-            IHandler<UpdateAppSystemCommand>, 
+            IHandler<AppSystemRemovedEvent>,
+            IHandler<AddAppSystemCommand>,
+            IHandler<AppSystemAddedEvent>,
+            IHandler<UpdateAppSystemCommand>,
             IHandler<RemoveAppSystemCommand>
         {
             private readonly AppSystemSet _set;
@@ -184,10 +184,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Register()
             {
-                var messageDispatcher = _set._host.MessageDispatcher;
+                var messageDispatcher = _set._acDomain.MessageDispatcher;
                 if (messageDispatcher == null)
                 {
-                    throw new ArgumentNullException("messageDispatcher has not be set of host:{0}".Fmt(_set._host.Name));
+                    throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(_set._acDomain.Name));
                 }
                 messageDispatcher.Register((IHandler<AddAppSystemCommand>)this);
                 messageDispatcher.Register((IHandler<AppSystemAddedEvent>)this);
@@ -215,32 +215,36 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 var dicByCode = _set._dicByCode;
                 var dicById = _set._dicById;
-                var host = _set._host;
-                var repository = host.RetrieveRequiredService<IRepository<AppSystem>>();
+                var acDomain = _set._acDomain;
+                var repository = acDomain.RetrieveRequiredService<IRepository<AppSystem>>();
                 if (string.IsNullOrEmpty(input.Code))
                 {
                     throw new ValidationException("编码不能为空");
                 }
+                if (!input.Id.HasValue)
+                {
+                    throw new AnycmdException("标识是必须的");
+                }
                 AppSystem entity;
                 lock (this)
                 {
-                    if (host.AppSystemSet.ContainsAppSystem(input.Code))
+                    if (acDomain.AppSystemSet.ContainsAppSystem(input.Id.Value))
+                    {
+                        throw new AnycmdException("给定标识的记录已经存在" + input.Id);
+                    }
+                    if (acDomain.AppSystemSet.ContainsAppSystem(input.Code))
                     {
                         throw new ValidationException("重复的应用系统编码" + input.Code);
                     }
-                    if (!input.Id.HasValue || host.AppSystemSet.ContainsAppSystem(input.Id.Value))
-                    {
-                        throw new AnycmdException("意外的应用系统标识");
-                    }
                     AccountState principal;
-                    if (!host.SysUserSet.TryGetDevAccount(input.PrincipalId, out principal))
+                    if (!acDomain.SysUserSet.TryGetDevAccount(input.PrincipalId, out principal))
                     {
                         throw new ValidationException("意外的应用系统负责人，业务系统负责人必须是开发人员");
                     }
 
                     entity = AppSystem.Create(input);
 
-                    var state = AppSystemState.Create(host, entity);
+                    var state = AppSystemState.Create(acDomain, entity);
                     if (!dicByCode.ContainsKey(state.Code))
                     {
                         dicByCode.Add(state.Code, state);
@@ -275,7 +279,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 // 如果是命令则分发事件
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateAppSystemAddedEvent(acSession, entity, input));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivateAppSystemAddedEvent(acSession, entity, input));
                 }
             }
 
@@ -302,14 +306,14 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Handle(IAcSession acSession, IAppSystemUpdateIo input, bool isCommand)
             {
-                var host = _set._host;
-                var repository = host.RetrieveRequiredService<IRepository<AppSystem>>();
+                var acDomain = _set._acDomain;
+                var repository = acDomain.RetrieveRequiredService<IRepository<AppSystem>>();
                 if (string.IsNullOrEmpty(input.Code))
                 {
                     throw new ValidationException("编码不能为空");
                 }
                 AppSystemState bkState;
-                if (!host.AppSystemSet.TryGetAppSystem(input.Id, out bkState))
+                if (!acDomain.AppSystemSet.TryGetAppSystem(input.Id, out bkState))
                 {
                     throw new NotExistException("意外的应用系统标识" + input.Id);
                 }
@@ -318,12 +322,12 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 lock (bkState)
                 {
                     AppSystemState oldState;
-                    if (!host.AppSystemSet.TryGetAppSystem(input.Id, out oldState))
+                    if (!acDomain.AppSystemSet.TryGetAppSystem(input.Id, out oldState))
                     {
                         throw new NotExistException("意外的应用系统标识" + input.Id);
                     }
                     AppSystemState outAppSystem;
-                    if (host.AppSystemSet.TryGetAppSystem(input.Code, out outAppSystem) && outAppSystem.Id != input.Id)
+                    if (acDomain.AppSystemSet.TryGetAppSystem(input.Code, out outAppSystem) && outAppSystem.Id != input.Id)
                     {
                         throw new ValidationException("重复的应用系统编码" + input.Code);
                     }
@@ -335,7 +339,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                     entity.Update(input);
 
-                    var newState = AppSystemState.Create(host, entity);
+                    var newState = AppSystemState.Create(acDomain, entity);
                     stateChanged = newState != bkState;
                     if (stateChanged)
                     {
@@ -361,7 +365,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateAppSystemUpdatedEvent(acSession, entity, input));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivateAppSystemUpdatedEvent(acSession, entity, input));
                 }
             }
 
@@ -411,18 +415,18 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 var dicByCode = _set._dicByCode;
                 var dicById = _set._dicById;
-                var host = _set._host;
-                var repository = host.RetrieveRequiredService<IRepository<AppSystem>>();
+                var acDomain = _set._acDomain;
+                var repository = acDomain.RetrieveRequiredService<IRepository<AppSystem>>();
                 AppSystemState bkState;
-                if (!host.AppSystemSet.TryGetAppSystem(appSystemId, out bkState))
+                if (!acDomain.AppSystemSet.TryGetAppSystem(appSystemId, out bkState))
                 {
                     return;
                 }
-                if (host.ResourceTypeSet.Any(a => a.AppSystemId == appSystemId))
+                if (acDomain.ResourceTypeSet.Any(a => a.AppSystemId == appSystemId))
                 {
                     throw new ValidationException("应用系统下有资源类型时不能删除应用系统。");
                 }
-                if (host.MenuSet.Any(a => a.AppSystemId == appSystemId))
+                if (acDomain.MenuSet.Any(a => a.AppSystemId == appSystemId))
                 {
                     throw new ValidationException("应用系统下有菜单时不能删除应用系统");
                 }
@@ -430,7 +434,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 lock (bkState)
                 {
                     AppSystemState state;
-                    if (!host.AppSystemSet.TryGetAppSystem(appSystemId, out state))
+                    if (!acDomain.AppSystemSet.TryGetAppSystem(appSystemId, out state))
                     {
                         return;
                     }
@@ -443,7 +447,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     {
                         if (isCommand)
                         {
-                            host.MessageDispatcher.DispatchMessage(new AppSystemRemovingEvent(acSession, entity));
+                            acDomain.MessageDispatcher.DispatchMessage(new AppSystemRemovingEvent(acSession, entity));
                         }
                         if (dicByCode.ContainsKey(bkState.Code))
                         {
@@ -475,7 +479,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateAppSystemRemovedEvent(acSession, entity));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivateAppSystemRemovedEvent(acSession, entity));
                 }
             }
 

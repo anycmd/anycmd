@@ -34,7 +34,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
         private readonly object _locker = new object();
 
         private readonly Guid _id = Guid.NewGuid();
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
         public Guid Id
         {
@@ -44,17 +44,17 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
         /// <summary>
         /// 构造并接入总线
         /// </summary>
-        internal InfoDicSet(IAcDomain host)
+        internal InfoDicSet(IAcDomain acDomain)
         {
-            if (host == null)
+            if (acDomain == null)
             {
-                throw new ArgumentNullException("host");
+                throw new ArgumentNullException("acDomain");
             }
-            if (host.Equals(EmptyAcDomain.SingleInstance))
+            if (acDomain.Equals(EmptyAcDomain.SingleInstance))
             {
                 _initialized = true;
             }
-            this._host = host;
+            this._acDomain = acDomain;
             new MessageHandler(this).Register();
         }
 
@@ -176,20 +176,20 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             lock (_locker)
             {
                 if (_initialized) return;
-                _host.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
+                _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
                 _infoDicDicById.Clear();
                 _infoDicDicByCode.Clear();
                 _infoDicItemByDic.Clear();
                 _infoDicItemDic.Clear();
-                var allInfoDics = _host.RetrieveRequiredService<INodeHostBootstrap>().GetInfoDics();
+                var allInfoDics = _acDomain.RetrieveRequiredService<INodeHostBootstrap>().GetInfoDics();
                 foreach (var infoDic in allInfoDics)
                 {
-                    var infoDicState = InfoDicState.Create(_host, infoDic);
+                    var infoDicState = InfoDicState.Create(_acDomain, infoDic);
                     _infoDicDicById.Add(infoDic.Id, infoDicState);
                     _infoDicDicByCode.Add(infoDic.Code, infoDicState);
                     _infoDicItemByDic.Add(infoDicState, new Dictionary<string, InfoDicItemState>(StringComparer.OrdinalIgnoreCase));
                 }
-                var allDicItems = _host.RetrieveRequiredService<INodeHostBootstrap>().GetInfoDicItems();
+                var allDicItems = _acDomain.RetrieveRequiredService<INodeHostBootstrap>().GetInfoDicItems();
 
                 foreach (var infoDicItem in allDicItems)
                 {
@@ -199,7 +199,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     _infoDicItemDic.Add(infoDicItem.Id, infoDicItemState);
                 }
                 _initialized = true;
-                _host.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
+                _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
             }
         }
 
@@ -227,10 +227,10 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
             public void Register()
             {
-                var messageDispatcher = _set._host.MessageDispatcher;
+                var messageDispatcher = _set._acDomain.MessageDispatcher;
                 if (messageDispatcher == null)
                 {
-                    throw new ArgumentNullException("messageDispatcher has not be set of host:{0}".Fmt(_set._host.Name));
+                    throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(_set._acDomain.Name));
                 }
                 messageDispatcher.Register((IHandler<AddInfoDicCommand>)this);
                 messageDispatcher.Register((IHandler<InfoDicAddedEvent>)this);
@@ -262,11 +262,11 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
             private void Handle(IAcSession acSession, IInfoDicCreateIo input, bool isCommand)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var locker = _set._locker;
                 var infoDicDicById = _set._infoDicDicById;
                 var infoDicDicByCode = _set._infoDicDicByCode;
-                var infoDicRepository = host.RetrieveRequiredService<IRepository<InfoDic>>();
+                var infoDicRepository = acDomain.RetrieveRequiredService<IRepository<InfoDic>>();
                 if (string.IsNullOrEmpty(input.Code))
                 {
                     throw new ValidationException("编码不能为空");
@@ -279,18 +279,18 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 lock (locker)
                 {
                     InfoDicState infoDic;
-                    if (host.NodeHost.InfoDics.TryGetInfoDic(input.Id.Value, out infoDic))
+                    if (acDomain.NodeHost.InfoDics.TryGetInfoDic(input.Id.Value, out infoDic))
                     {
                         throw new ValidationException("给定标识标识的记录已经存在");
                     }
-                    if (host.NodeHost.InfoDics.TryGetInfoDic(input.Code, out infoDic) && infoDic.Id != input.Id.Value)
+                    if (acDomain.NodeHost.InfoDics.TryGetInfoDic(input.Code, out infoDic) && infoDic.Id != input.Id.Value)
                     {
                         throw new ValidationException("重复的编码");
                     }
 
                     entity = InfoDic.Create(input);
 
-                    var state = InfoDicState.Create(host, entity);
+                    var state = InfoDicState.Create(acDomain, entity);
                     if (!infoDicDicById.ContainsKey(entity.Id))
                     {
                         infoDicDicById.Add(entity.Id, state);
@@ -324,7 +324,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateInfoDicAddedEvent(acSession, entity, input));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivateInfoDicAddedEvent(acSession, entity, input));
                 }
             }
 
@@ -352,19 +352,19 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
             private void Handle(IAcSession acSession, IInfoDicUpdateIo input, bool isCommand)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var locker = _set._locker;
-                var infoDicRepository = host.RetrieveRequiredService<IRepository<InfoDic>>();
+                var infoDicRepository = acDomain.RetrieveRequiredService<IRepository<InfoDic>>();
                 if (string.IsNullOrEmpty(input.Code))
                 {
                     throw new ValidationException("编码不能为空");
                 }
                 InfoDicState infoDic;
-                if (!host.NodeHost.InfoDics.TryGetInfoDic(input.Id, out infoDic))
+                if (!acDomain.NodeHost.InfoDics.TryGetInfoDic(input.Id, out infoDic))
                 {
                     throw new NotExistException();
                 }
-                if (host.NodeHost.InfoDics.TryGetInfoDic(input.Code, out infoDic) && infoDic.Id != input.Id)
+                if (acDomain.NodeHost.InfoDics.TryGetInfoDic(input.Code, out infoDic) && infoDic.Id != input.Id)
                 {
                     throw new ValidationException("重复的编码");
                 }
@@ -373,11 +373,11 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 {
                     throw new NotExistException();
                 }
-                var bkState = InfoDicState.Create(host, entity);
+                var bkState = InfoDicState.Create(acDomain, entity);
 
                 entity.Update(input);
 
-                var newState = InfoDicState.Create(host, entity);
+                var newState = InfoDicState.Create(acDomain, entity);
                 bool stateChanged = newState != bkState;
                 lock (locker)
                 {
@@ -405,7 +405,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateInfoDicUpdatedEvent(acSession, entity, input));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivateInfoDicUpdatedEvent(acSession, entity, input));
                 }
             }
 
@@ -451,17 +451,17 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
             private void Handle(IAcSession acSession, Guid infoDicId, bool isCommand)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var locker = _set._locker;
                 var infoDicDicById = _set._infoDicDicById;
                 var infoDicDicByCode = _set._infoDicDicByCode;
-                var infoDicRepository = host.RetrieveRequiredService<IRepository<InfoDic>>();
+                var infoDicRepository = acDomain.RetrieveRequiredService<IRepository<InfoDic>>();
                 InfoDicState infoDic;
-                if (!host.NodeHost.InfoDics.TryGetInfoDic(infoDicId, out infoDic))
+                if (!acDomain.NodeHost.InfoDics.TryGetInfoDic(infoDicId, out infoDic))
                 {
                     return;
                 }
-                var infoDicItems = host.NodeHost.InfoDics.GetInfoDicItems(infoDic);
+                var infoDicItems = acDomain.NodeHost.InfoDics.GetInfoDicItems(infoDic);
                 if (infoDicItems != null && infoDicItems.Count > 0)
                 {
                     throw new ValidationException("信息字典下有信息字典项时不能删除");
@@ -471,7 +471,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 {
                     return;
                 }
-                var bkState = InfoDicState.Create(host, entity);
+                var bkState = InfoDicState.Create(acDomain, entity);
                 lock (locker)
                 {
                     if (infoDicDicById.ContainsKey(entity.Id))
@@ -506,7 +506,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateInfoDicRemovedEvent(acSession, entity));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivateInfoDicRemovedEvent(acSession, entity));
                 }
             }
 
@@ -534,11 +534,11 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
             private void Handle(IAcSession acSession, IInfoDicItemCreateIo input, bool isCommand)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var locker = _set._locker;
                 var infoDicItemDic = _set._infoDicItemDic;
                 var infoDicItemByDic = _set._infoDicItemByDic;
-                var infoDicItemRepository = host.RetrieveRequiredService<IRepository<InfoDicItem>>();
+                var infoDicItemRepository = acDomain.RetrieveRequiredService<IRepository<InfoDicItem>>();
                 if (string.IsNullOrEmpty(input.Code))
                 {
                     throw new ValidationException("编码不能为空");
@@ -548,16 +548,16 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     throw new ValidationException("标识是必须的");
                 }
                 InfoDicState infoDic;
-                if (!host.NodeHost.InfoDics.TryGetInfoDic(input.InfoDicId, out infoDic))
+                if (!acDomain.NodeHost.InfoDics.TryGetInfoDic(input.InfoDicId, out infoDic))
                 {
                     throw new ValidationException("意外的信息字典标识");
                 }
                 InfoDicItemState infoDicItem;
-                if (host.NodeHost.InfoDics.TryGetInfoDicItem(input.Id.Value, out infoDicItem))
+                if (acDomain.NodeHost.InfoDics.TryGetInfoDicItem(input.Id.Value, out infoDicItem))
                 {
                     throw new ValidationException("给定的标识标识的记录已经存在");
                 }
-                if (host.NodeHost.InfoDics.TryGetInfoDicItem(infoDic, input.Code, out infoDicItem))
+                if (acDomain.NodeHost.InfoDics.TryGetInfoDicItem(infoDic, input.Code, out infoDicItem))
                 {
                     throw new ValidationException("重复的编码");
                 }
@@ -603,7 +603,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateInfoDicItemAddedEvent(acSession, entity, input));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivateInfoDicItemAddedEvent(acSession, entity, input));
                 }
             }
 
@@ -631,24 +631,24 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
             private void Handle(IAcSession acSession, IInfoDicItemUpdateIo input, bool isCommand)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var locker = _set._locker;
-                var infoDicItemRepository = host.RetrieveRequiredService<IRepository<InfoDicItem>>();
+                var infoDicItemRepository = acDomain.RetrieveRequiredService<IRepository<InfoDicItem>>();
                 if (string.IsNullOrEmpty(input.Code))
                 {
                     throw new ValidationException("编码不能为空");
                 }
                 InfoDicState infoDic;
-                if (!host.NodeHost.InfoDics.TryGetInfoDic(input.InfoDicId, out infoDic))
+                if (!acDomain.NodeHost.InfoDics.TryGetInfoDic(input.InfoDicId, out infoDic))
                 {
                     throw new ValidationException("意外的信息字典项字典标识");
                 }
                 InfoDicItemState infoDicItem;
-                if (!host.NodeHost.InfoDics.TryGetInfoDicItem(input.Id, out infoDicItem))
+                if (!acDomain.NodeHost.InfoDics.TryGetInfoDicItem(input.Id, out infoDicItem))
                 {
                     throw new NotExistException();
                 }
-                if (host.NodeHost.InfoDics.TryGetInfoDicItem(infoDic, input.Code, out infoDicItem) && infoDicItem.Id != input.Id)
+                if (acDomain.NodeHost.InfoDics.TryGetInfoDicItem(infoDic, input.Code, out infoDicItem) && infoDicItem.Id != input.Id)
                 {
                     throw new ValidationException("重复的编码");
                 }
@@ -689,20 +689,20 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateInfoDicItemUpdatedEvent(acSession, entity, input));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivateInfoDicItemUpdatedEvent(acSession, entity, input));
                 }
             }
 
             private void Update(InfoDicItemState state)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var infoDicItemDic = _set._infoDicItemDic;
                 var infoDicItemByDic = _set._infoDicItemByDic;
                 var oldState = infoDicItemDic[state.Id];
                 var newKey = state.Code;
                 var oldKey = oldState.Code;
                 InfoDicState infoDic;
-                if (!host.NodeHost.InfoDics.TryGetInfoDic(oldState.InfoDicId, out infoDic))
+                if (!acDomain.NodeHost.InfoDics.TryGetInfoDic(oldState.InfoDicId, out infoDic))
                 {
                     throw new AnycmdException("意外的信息字典标识" + oldState.InfoDicId);
                 }
@@ -743,18 +743,18 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
             private void HandleItem(IAcSession acSession, Guid infoDicItemId, bool isCommand)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var locker = _set._locker;
                 var infoDicItemDic = _set._infoDicItemDic;
                 var infoDicItemByDic = _set._infoDicItemByDic;
-                var infoDicItemRepository = host.RetrieveRequiredService<IRepository<InfoDicItem>>();
+                var infoDicItemRepository = acDomain.RetrieveRequiredService<IRepository<InfoDicItem>>();
                 InfoDicItemState infoDicItem;
-                if (!host.NodeHost.InfoDics.TryGetInfoDicItem(infoDicItemId, out infoDicItem))
+                if (!acDomain.NodeHost.InfoDics.TryGetInfoDicItem(infoDicItemId, out infoDicItem))
                 {
                     return;
                 }
                 InfoDicState infoDic;
-                if (!host.NodeHost.InfoDics.TryGetInfoDic(infoDicItem.InfoDicId, out infoDic))
+                if (!acDomain.NodeHost.InfoDics.TryGetInfoDic(infoDicItem.InfoDicId, out infoDic))
                 {
                     throw new AnycmdException("意外的信息字典项字典标识");
                 }
@@ -802,7 +802,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateInfoDicItemRemovedEvent(acSession, entity));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivateInfoDicItemRemovedEvent(acSession, entity));
                 }
             }
 

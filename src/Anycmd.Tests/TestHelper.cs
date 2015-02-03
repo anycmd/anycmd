@@ -18,13 +18,13 @@ namespace Anycmd.Tests
             return acDomain;
         }
 
-        public static Mock<TRepository> GetMoqRepository<TEntity, TRepository>(this IAcDomain host)
+        public static Mock<TRepository> GetMoqRepository<TEntity, TRepository>(this IAcDomain acDomain)
             where TEntity : class, IAggregateRoot
             where TRepository : class, IRepository<TEntity>
         {
 
             var moRepository = new Mock<TRepository>();
-            var context = new MoqRepositoryContext(host);
+            var context = new MoqRepositoryContext(acDomain);
             moRepository.Setup(a => a.Context).Returns(context);
             moRepository.Setup(a => a.Add(It.IsAny<TEntity>()));
             moRepository.Setup(a => a.Remove(It.IsAny<TEntity>()));
@@ -35,7 +35,7 @@ namespace Anycmd.Tests
             return moRepository;
         }
 
-        public static void RegisterRepository(this IAcDomain host, params Assembly[] assemblies)
+        public static void RegisterRepository(this IAcDomain acDomain, params Assembly[] assemblies)
         {
             foreach (var assembly in assemblies)
             {
@@ -47,8 +47,8 @@ namespace Anycmd.Tests
                         var genericInterface = typeof(IRepository<>);
                         repositoryType = repositoryType.MakeGenericType(type);
                         genericInterface = genericInterface.MakeGenericType(type);
-                        var repository = Activator.CreateInstance(repositoryType, host);
-                        host.AddService(genericInterface, repository);
+                        var repository = Activator.CreateInstance(repositoryType, acDomain);
+                        acDomain.AddService(genericInterface, repository);
                     }
                 }
             }

@@ -20,17 +20,17 @@ namespace Anycmd.Ef
         private readonly string _efDbContextName;
         private DbContext _efContext;
         private readonly object _sync = new object();
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
         public string EfDbContextName
         {
             get { return _efDbContextName; }
         }
 
-        public EfRepositoryContext(IAcDomain host, string efDbContextName)
+        public EfRepositoryContext(IAcDomain acDomain, string efDbContextName)
         {
             CheckConfig(efDbContextName);
-            this._host = host;
+            this._acDomain = acDomain;
             this._efDbContextName = efDbContextName;
         }
 
@@ -45,7 +45,7 @@ namespace Anycmd.Ef
 
         public DbContext DbContext
         {
-            get { return _efContext ?? (_efContext = EfContext.CreateDbContext(_host, _efDbContextName)); }
+            get { return _efContext ?? (_efContext = EfContext.CreateDbContext(_acDomain, _efDbContextName)); }
         }
 
         #region Protected Methods
@@ -95,8 +95,8 @@ namespace Anycmd.Ef
                 var entity = (obj as IEntityBase);
                 if (entity.CreateUserId == null)
                 {
-                    var storage = _host.GetRequiredService<IAcSessionStorage>();
-                    var user = storage.GetData(_host.Config.CurrentAcSessionCacheKey) as IAcSession;
+                    var storage = _acDomain.GetRequiredService<IAcSessionStorage>();
+                    var user = storage.GetData(_acDomain.Config.CurrentAcSessionCacheKey) as IAcSession;
                     if (user != null && user.Identity.IsAuthenticated)
                     {
                         if (string.IsNullOrEmpty(entity.CreateBy))
@@ -129,8 +129,8 @@ namespace Anycmd.Ef
                 var entity = (obj as IEntityBase);
                 if (entity.ModifiedUserId == null)
                 {
-                    var storage = _host.GetRequiredService<IAcSessionStorage>();
-                    var user = storage.GetData(_host.Config.CurrentAcSessionCacheKey) as IAcSession;
+                    var storage = _acDomain.GetRequiredService<IAcSessionStorage>();
+                    var user = storage.GetData(_acDomain.Config.CurrentAcSessionCacheKey) as IAcSession;
                     if (user != null && user.Identity.IsAuthenticated)
                     {
                         if (string.IsNullOrEmpty(entity.ModifiedBy))

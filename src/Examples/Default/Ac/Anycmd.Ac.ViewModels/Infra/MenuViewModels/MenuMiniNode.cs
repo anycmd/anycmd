@@ -10,16 +10,16 @@ namespace Anycmd.Ac.ViewModels.Infra.MenuViewModels
     /// </summary>
     public class MenuMiniNode
     {
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
-        public MenuMiniNode(IAcDomain host)
+        public MenuMiniNode(IAcDomain acDomain)
         {
-            this._host = host;
+            this._acDomain = acDomain;
         }
 
-        public static MenuMiniNode Create(IAcDomain host, IMenu menu)
+        public static MenuMiniNode Create(IAcDomain acDomain, IMenu menu)
         {
-            return new MenuMiniNode(host)
+            return new MenuMiniNode(acDomain)
             {
                 Id = menu.Id,
                 expanded = false,
@@ -47,7 +47,7 @@ namespace Anycmd.Ac.ViewModels.Infra.MenuViewModels
         {
             get
             {
-                return _host.MenuSet.All(a => a.ParentId != this.Id);
+                return _acDomain.MenuSet.All(a => a.ParentId != this.Id);
             }
         }
         /// <summary>

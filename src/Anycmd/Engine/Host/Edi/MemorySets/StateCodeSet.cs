@@ -20,19 +20,19 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
         private static bool _initialized = false;
         private static readonly object Locker = new object();
         private readonly Guid _id = Guid.NewGuid();
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
-        public StateCodeSet(IAcDomain host)
+        public StateCodeSet(IAcDomain acDomain)
         {
-            if (host == null)
+            if (acDomain == null)
             {
-                throw new ArgumentNullException("host");
+                throw new ArgumentNullException("acDomain");
             }
-            if (host.Equals(EmptyAcDomain.SingleInstance))
+            if (acDomain.Equals(EmptyAcDomain.SingleInstance))
             {
                 _initialized = true;
             }
-            this._host = host;
+            this._acDomain = acDomain;
         }
 
         public Guid Id
@@ -57,7 +57,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             lock (Locker)
             {
                 if (_initialized) return;
-                _host.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
+                _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
                 List.Clear();
                 var stateCodeEnumType = typeof(Status);
                 var members = stateCodeEnumType.GetFields();
@@ -86,7 +86,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     List.Add(item);
                 }
                 _initialized = true;
-                _host.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
+                _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
             }
         }
 

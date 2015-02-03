@@ -8,7 +8,7 @@ namespace Anycmd.Engine.Edi
     {
         private InfoDicState(Guid id) : base(id) { }
 
-        public static InfoDicState Create(IAcDomain host, IInfoDic infoDic)
+        public static InfoDicState Create(IAcDomain acDomain, IInfoDic infoDic)
         {
             if (infoDic == null)
             {
@@ -16,7 +16,7 @@ namespace Anycmd.Engine.Edi
             }
             return new InfoDicState(infoDic.Id)
             {
-                AcDomain = host,
+                AcDomain = acDomain,
                 Code = infoDic.Code,
                 CreateOn = infoDic.CreateOn,
                 IsEnabled = infoDic.IsEnabled,

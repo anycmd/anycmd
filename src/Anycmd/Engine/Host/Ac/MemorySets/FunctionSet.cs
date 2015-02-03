@@ -28,24 +28,24 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
         private bool _initialized = false;
 
         private readonly Guid _id = Guid.NewGuid();
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
         public Guid Id
         {
             get { return _id; }
         }
 
-        internal FunctionSet(IAcDomain host)
+        internal FunctionSet(IAcDomain acDomain)
         {
-            if (host == null)
+            if (acDomain == null)
             {
-                throw new ArgumentNullException("host");
+                throw new ArgumentNullException("acDomain");
             }
-            if (host.Equals(EmptyAcDomain.SingleInstance))
+            if (acDomain.Equals(EmptyAcDomain.SingleInstance))
             {
                 _initialized = true;
             }
-            this._host = host;
+            this._acDomain = acDomain;
             new MessageHandler(this).Register();
         }
 
@@ -110,13 +110,13 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             lock (this)
             {
                 if (_initialized) return;
-                _host.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
+                _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
                 _dicByCode.Clear();
                 _dicById.Clear();
-                var functions = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllFunctions();
+                var functions = _acDomain.RetrieveRequiredService<IOriginalHostStateReader>().GetAllFunctions();
                 foreach (var entity in functions)
                 {
-                    var function = FunctionState.Create(_host, entity);
+                    var function = FunctionState.Create(_acDomain, entity);
                     _dicById.Add(function.Id, function);
                     if (!_dicByCode.ContainsKey(function.Resource))
                     {
@@ -128,7 +128,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                 }
                 _initialized = true;
-                _host.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
+                _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
             }
         }
 
@@ -154,10 +154,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Register()
             {
-                var messageDispatcher = _set._host.MessageDispatcher;
+                var messageDispatcher = _set._acDomain.MessageDispatcher;
                 if (messageDispatcher == null)
                 {
-                    throw new ArgumentNullException("messageDispatcher has not be set of host:{0}".Fmt(_set._host.Name));
+                    throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(_set._acDomain.Name));
                 }
                 messageDispatcher.Register((IHandler<AddFunctionCommand>)this);
                 messageDispatcher.Register((IHandler<FunctionAddedEvent>)this);
@@ -171,10 +171,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(ResourceTypeUpdatedEvent message)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var dicByCode = _set._dicByCode;
                 ResourceTypeState newKey;
-                if (!host.ResourceTypeSet.TryGetResource(message.Source.Id, out newKey))
+                if (!acDomain.ResourceTypeSet.TryGetResource(message.Source.Id, out newKey))
                 {
                     throw new AnycmdException("意外的资源标识" + message.Source.Id);
                 }
@@ -188,7 +188,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(ResourceTypeRemovedEvent message)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var dicByCode = _set._dicByCode;
                 var key = dicByCode.Keys.FirstOrDefault(a => a.Id == message.Source.Id);
                 if (key != null)
@@ -213,10 +213,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Handle(IAcSession acSession, IFunctionCreateIo input, bool isCommand)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var dicByCode = _set._dicByCode;
                 var dicById = _set._dicById;
-                var functionRepository = host.RetrieveRequiredService<IRepository<Function>>();
+                var functionRepository = acDomain.RetrieveRequiredService<IRepository<Function>>();
                 if (string.IsNullOrEmpty(input.Code))
                 {
                     throw new ValidationException("编码不能为空");
@@ -226,7 +226,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     throw new ValidationException("标识是必须的");
                 }
                 ResourceTypeState resource;
-                if (!host.ResourceTypeSet.TryGetResource(input.ResourceTypeId, out resource))
+                if (!acDomain.ResourceTypeSet.TryGetResource(input.ResourceTypeId, out resource))
                 {
                     throw new ValidationException("意外的功能资源标识" + input.ResourceTypeId);
                 }
@@ -236,12 +236,12 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 lock (this)
                 {
                     FunctionState functionState;
-                    if (host.FunctionSet.TryGetFunction(input.Id.Value, out functionState))
+                    if (acDomain.FunctionSet.TryGetFunction(input.Id.Value, out functionState))
                     {
                         throw new AnycmdException("记录已经存在");
                     }
-                    var state = FunctionState.Create(host, entity);
-                    if (host.FunctionSet.TryGetFunction(resource, input.Code, out functionState))
+                    var state = FunctionState.Create(acDomain, entity);
+                    if (acDomain.FunctionSet.TryGetFunction(resource, input.Code, out functionState))
                     {
                         throw new ValidationException("重复的编码");
                     }
@@ -281,7 +281,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateFunctionAddedEvent(acSession, entity, input));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivateFunctionAddedEvent(acSession, entity, input));
                 }
             }
 
@@ -306,19 +306,19 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Handle(IAcSession acSession, IFunctionUpdateIo input, bool isCommand)
             {
-                var host = _set._host;
-                var functionRepository = host.RetrieveRequiredService<IRepository<Function>>();
+                var acDomain = _set._acDomain;
+                var functionRepository = acDomain.RetrieveRequiredService<IRepository<Function>>();
                 if (string.IsNullOrEmpty(input.Code))
                 {
                     throw new ValidationException("编码不能为空");
                 }
                 FunctionState bkState;
-                if (!host.FunctionSet.TryGetFunction(input.Id, out bkState))
+                if (!acDomain.FunctionSet.TryGetFunction(input.Id, out bkState))
                 {
                     throw new NotExistException();
                 }
                 ResourceTypeState resource;
-                if (!host.ResourceTypeSet.TryGetResource(bkState.ResourceTypeId, out resource))
+                if (!acDomain.ResourceTypeSet.TryGetResource(bkState.ResourceTypeId, out resource))
                 {
                     throw new ValidationException("意外的功能资源标识" + bkState.ResourceTypeId);
                 }
@@ -327,12 +327,12 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 lock (bkState)
                 {
                     FunctionState oldState;
-                    if (!host.FunctionSet.TryGetFunction(input.Id, out oldState))
+                    if (!acDomain.FunctionSet.TryGetFunction(input.Id, out oldState))
                     {
                         throw new NotExistException();
                     }
                     FunctionState functionState;
-                    if (host.FunctionSet.TryGetFunction(resource, input.Code, out functionState) && functionState.Id != input.Id)
+                    if (acDomain.FunctionSet.TryGetFunction(resource, input.Code, out functionState) && functionState.Id != input.Id)
                     {
                         throw new ValidationException("重复的编码");
                     }
@@ -344,7 +344,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                     entity.Update(input);
 
-                    var newState = FunctionState.Create(host, entity);
+                    var newState = FunctionState.Create(acDomain, entity);
                     stateChanged = newState != bkState;
                     if (stateChanged)
                     {
@@ -370,13 +370,13 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateFunctionUpdatedEvent(acSession, entity, input));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivateFunctionUpdatedEvent(acSession, entity, input));
                 }
             }
 
             private void Update(FunctionState state)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var dicByCode = _set._dicByCode;
                 var dicById = _set._dicById;
                 var oldState = dicById[state.Id];
@@ -384,7 +384,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 string newKey = state.Code;
                 dicById[state.Id] = state;
                 ResourceTypeState resource;
-                if (!host.ResourceTypeSet.TryGetResource(oldState.ResourceTypeId, out resource))
+                if (!acDomain.ResourceTypeSet.TryGetResource(oldState.ResourceTypeId, out resource))
                 {
                     throw new ValidationException("意外的功能资源标识" + oldState.ResourceTypeId);
                 }
@@ -423,14 +423,14 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Handle(IAcSession acSession, Guid functionId, bool isCommand)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var dicByCode = _set._dicByCode;
                 var dicById = _set._dicById;
-                var functionRepository = host.RetrieveRequiredService<IRepository<Function>>();
-                var operationHelpRepository = host.RetrieveRequiredService<IRepository<OperationHelp>>();
+                var functionRepository = acDomain.RetrieveRequiredService<IRepository<Function>>();
+                var operationHelpRepository = acDomain.RetrieveRequiredService<IRepository<OperationHelp>>();
 
                 FunctionState bkState;
-                if (!host.FunctionSet.TryGetFunction(functionId, out bkState))
+                if (!acDomain.FunctionSet.TryGetFunction(functionId, out bkState))
                 {
                     return;
                 }
@@ -438,7 +438,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 lock (bkState)
                 {
                     FunctionState state;
-                    if (!host.FunctionSet.TryGetFunction(functionId, out state))
+                    if (!acDomain.FunctionSet.TryGetFunction(functionId, out state))
                     {
                         return;
                     }
@@ -451,7 +451,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     {
                         if (isCommand)
                         {
-                            host.MessageDispatcher.DispatchMessage(new FunctionRemovingEvent(acSession, entity));
+                            acDomain.MessageDispatcher.DispatchMessage(new FunctionRemovingEvent(acSession, entity));
                         }
                         if (dicByCode.ContainsKey(bkState.Resource)
                             && dicByCode[bkState.Resource].ContainsKey(bkState.Code))
@@ -496,7 +496,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateFunctionRemovedEvent(acSession, entity));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivateFunctionRemovedEvent(acSession, entity));
                 }
             }
 

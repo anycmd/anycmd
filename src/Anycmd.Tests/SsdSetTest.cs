@@ -23,9 +23,9 @@ namespace Anycmd.Tests
         [TestMethod]
         public void SsdSet()
         {
-            var host = TestHelper.GetAcDomain();
-            Assert.AreEqual(0, host.SsdSetSet.Count());
-            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
+            var acDomain = TestHelper.GetAcDomain();
+            Assert.AreEqual(0, acDomain.SsdSetSet.Count());
+            AcSessionState.AcMethod.SignIn(acDomain, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -34,7 +34,7 @@ namespace Anycmd.Tests
             var entityId = Guid.NewGuid();
 
             SsdSetState ssdSetById;
-            host.Handle(new AddSsdSetCommand(host.GetAcSession(), new SsdSetCreateIo
+            acDomain.Handle(new AddSsdSetCommand(acDomain.GetAcSession(), new SsdSetCreateIo
             {
                 Id = entityId,
                 Name = "测试1",
@@ -42,10 +42,10 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SsdCard = 2
             }));
-            Assert.AreEqual(1, host.SsdSetSet.Count());
-            Assert.IsTrue(host.SsdSetSet.TryGetSsdSet(entityId, out ssdSetById));
+            Assert.AreEqual(1, acDomain.SsdSetSet.Count());
+            Assert.IsTrue(acDomain.SsdSetSet.TryGetSsdSet(entityId, out ssdSetById));
 
-            host.Handle(new UpdateSsdSetCommand(host.GetAcSession(), new SsdSetUpdateIo
+            acDomain.Handle(new UpdateSsdSetCommand(acDomain.GetAcSession(), new SsdSetUpdateIo
             {
                 Id = entityId,
                 Name = "test2",
@@ -53,21 +53,21 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SsdCard = 2
             }));
-            Assert.AreEqual(1, host.SsdSetSet.Count());
-            Assert.IsTrue(host.SsdSetSet.TryGetSsdSet(entityId, out ssdSetById));
+            Assert.AreEqual(1, acDomain.SsdSetSet.Count());
+            Assert.IsTrue(acDomain.SsdSetSet.TryGetSsdSet(entityId, out ssdSetById));
             Assert.AreEqual("test2", ssdSetById.Name);
 
-            host.Handle(new RemoveSsdSetCommand(host.GetAcSession(), entityId));
-            Assert.IsFalse(host.SsdSetSet.TryGetSsdSet(entityId, out ssdSetById));
-            Assert.AreEqual(0, host.SsdSetSet.Count());
+            acDomain.Handle(new RemoveSsdSetCommand(acDomain.GetAcSession(), entityId));
+            Assert.IsFalse(acDomain.SsdSetSet.TryGetSsdSet(entityId, out ssdSetById));
+            Assert.AreEqual(0, acDomain.SsdSetSet.Count());
         }
 
         [TestMethod]
         public void TestSsdRole()
         {
-            var host = TestHelper.GetAcDomain();
-            Assert.AreEqual(0, host.SsdSetSet.Count());
-            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
+            var acDomain = TestHelper.GetAcDomain();
+            Assert.AreEqual(0, acDomain.SsdSetSet.Count());
+            AcSessionState.AcMethod.SignIn(acDomain, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -76,7 +76,7 @@ namespace Anycmd.Tests
             var ssdSetId = Guid.NewGuid();
 
             SsdSetState ssdSetById;
-            host.Handle(new AddSsdSetCommand(host.GetAcSession(), new SsdSetCreateIo
+            acDomain.Handle(new AddSsdSetCommand(acDomain.GetAcSession(), new SsdSetCreateIo
             {
                 Id = ssdSetId,
                 Name = "测试1",
@@ -84,13 +84,13 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SsdCard = 2
             }));
-            Assert.AreEqual(1, host.SsdSetSet.Count());
-            Assert.IsTrue(host.SsdSetSet.TryGetSsdSet(ssdSetId, out ssdSetById));
+            Assert.AreEqual(1, acDomain.SsdSetSet.Count());
+            Assert.IsTrue(acDomain.SsdSetSet.TryGetSsdSet(ssdSetId, out ssdSetById));
 
-            Assert.AreEqual(0, host.SsdSetSet.GetSsdRoles(ssdSetById).Count);
+            Assert.AreEqual(0, acDomain.SsdSetSet.GetSsdRoles(ssdSetById).Count);
             RoleState roleById;
             var roleId = Guid.NewGuid();
-            host.Handle(new RoleCreateInput
+            acDomain.Handle(new RoleCreateInput
             {
                 Id = roleId,
                 Name = "测试1",
@@ -99,27 +99,27 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }.ToCommand(host.GetAcSession()));
-            Assert.AreEqual(1, host.RoleSet.Count());
-            Assert.IsTrue(host.RoleSet.TryGetRole(roleId, out roleById));
+            }.ToCommand(acDomain.GetAcSession()));
+            Assert.AreEqual(1, acDomain.RoleSet.Count());
+            Assert.IsTrue(acDomain.RoleSet.TryGetRole(roleId, out roleById));
             var entityId = Guid.NewGuid();
-            host.Handle(new AddSsdRoleCommand(host.GetAcSession(), new SsdRoleCreateIo
+            acDomain.Handle(new AddSsdRoleCommand(acDomain.GetAcSession(), new SsdRoleCreateIo
             {
                 Id = entityId,
                 RoleId = roleId,
                 SsdSetId = ssdSetId
             }));
-            Assert.AreEqual(1, host.SsdSetSet.GetSsdRoles(ssdSetById).Count);
-            host.Handle(new RemoveSsdRoleCommand(host.GetAcSession(), entityId));
-            Assert.AreEqual(0, host.SsdSetSet.GetSsdRoles(ssdSetById).Count);
+            Assert.AreEqual(1, acDomain.SsdSetSet.GetSsdRoles(ssdSetById).Count);
+            acDomain.Handle(new RemoveSsdRoleCommand(acDomain.GetAcSession(), entityId));
+            Assert.AreEqual(0, acDomain.SsdSetSet.GetSsdRoles(ssdSetById).Count);
         }
 
         [TestMethod]
         public void CheckSsdSetRoles()
         {
-            var host = TestHelper.GetAcDomain();
-            Assert.AreEqual(0, host.SsdSetSet.Count());
-            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
+            var acDomain = TestHelper.GetAcDomain();
+            Assert.AreEqual(0, acDomain.SsdSetSet.Count());
+            AcSessionState.AcMethod.SignIn(acDomain, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -128,7 +128,7 @@ namespace Anycmd.Tests
             var ssdSetId = Guid.NewGuid();
 
             SsdSetState ssdSetById;
-            host.Handle(new AddSsdSetCommand(host.GetAcSession(), new SsdSetCreateIo
+            acDomain.Handle(new AddSsdSetCommand(acDomain.GetAcSession(), new SsdSetCreateIo
             {
                 Id = ssdSetId,
                 Name = "测试1",
@@ -136,12 +136,12 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SsdCard = 2
             }));
-            Assert.AreEqual(1, host.SsdSetSet.Count());
-            Assert.IsTrue(host.SsdSetSet.TryGetSsdSet(ssdSetId, out ssdSetById));
+            Assert.AreEqual(1, acDomain.SsdSetSet.Count());
+            Assert.IsTrue(acDomain.SsdSetSet.TryGetSsdSet(ssdSetId, out ssdSetById));
 
-            Assert.AreEqual(0, host.SsdSetSet.GetSsdRoles(ssdSetById).Count);
+            Assert.AreEqual(0, acDomain.SsdSetSet.GetSsdRoles(ssdSetById).Count);
             var roleId1 = Guid.NewGuid();
-            host.Handle(new RoleCreateInput
+            acDomain.Handle(new RoleCreateInput
             {
                 Id = roleId1,
                 Name = "测试1",
@@ -150,16 +150,16 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }.ToCommand(host.GetAcSession()));
+            }.ToCommand(acDomain.GetAcSession()));
             Guid entityId = Guid.NewGuid();
-            host.Handle(new AddSsdRoleCommand(host.GetAcSession(), new SsdRoleCreateIo
+            acDomain.Handle(new AddSsdRoleCommand(acDomain.GetAcSession(), new SsdRoleCreateIo
             {
                 Id = entityId,
                 RoleId = roleId1,
                 SsdSetId = ssdSetId
             }));
             var roleId2 = Guid.NewGuid();
-            host.Handle(new RoleCreateInput
+            acDomain.Handle(new RoleCreateInput
             {
                 Id = roleId2,
                 Name = "测试2",
@@ -168,16 +168,16 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }.ToCommand(host.GetAcSession()));
+            }.ToCommand(acDomain.GetAcSession()));
             entityId = Guid.NewGuid();
-            host.Handle(new AddSsdRoleCommand(host.GetAcSession(), new SsdRoleCreateIo
+            acDomain.Handle(new AddSsdRoleCommand(acDomain.GetAcSession(), new SsdRoleCreateIo
             {
                 Id = entityId,
                 RoleId = roleId2,
                 SsdSetId = ssdSetId
             }));
             var roleId3 = Guid.NewGuid();
-            host.Handle(new RoleCreateInput
+            acDomain.Handle(new RoleCreateInput
             {
                 Id = roleId3,
                 Name = "测试3",
@@ -186,19 +186,19 @@ namespace Anycmd.Tests
                 IsEnabled = 1,
                 SortCode = 10,
                 Icon = null
-            }.ToCommand(host.GetAcSession()));
+            }.ToCommand(acDomain.GetAcSession()));
             entityId = Guid.NewGuid();
-            host.Handle(new AddSsdRoleCommand(host.GetAcSession(), new SsdRoleCreateIo
+            acDomain.Handle(new AddSsdRoleCommand(acDomain.GetAcSession(), new SsdRoleCreateIo
             {
                 Id = entityId,
                 RoleId = roleId3,
                 SsdSetId = ssdSetId
             }));
-            Assert.AreEqual(3, host.RoleSet.Count());
-            Assert.AreEqual(3, host.SsdSetSet.GetSsdRoles(ssdSetById).Count);
+            Assert.AreEqual(3, acDomain.RoleSet.Count());
+            Assert.AreEqual(3, acDomain.SsdSetSet.GetSsdRoles(ssdSetById).Count);
             var orgId = Guid.NewGuid();
 
-            host.Handle(new CatalogCreateInput
+            acDomain.Handle(new CatalogCreateInput
             {
                 Id = orgId,
                 Code = "100",
@@ -206,9 +206,9 @@ namespace Anycmd.Tests
                 Description = "test",
                 SortCode = 10,
                 Icon = null,
-            }.ToCommand(host.GetAcSession()));
+            }.ToCommand(acDomain.GetAcSession()));
             Guid accountId = Guid.NewGuid();
-            host.Handle(new AccountCreateInput
+            acDomain.Handle(new AccountCreateInput
             {
                 Id = accountId,
                 Code = "test1",
@@ -218,17 +218,17 @@ namespace Anycmd.Tests
                 CatalogCode = "100",
                 IsEnabled = 1,
                 AuditState = "auditPass"
-            }.ToCommand(host.GetAcSession()));
-            Assert.IsNotNull(host.RetrieveRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
-            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
+            }.ToCommand(acDomain.GetAcSession()));
+            Assert.IsNotNull(acDomain.RetrieveRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
+            AcSessionState.AcMethod.SignIn(acDomain, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
                 {"rememberMe", "rememberMe"}
             });
-            Assert.IsTrue(host.GetAcSession().Identity.IsAuthenticated);
-            Assert.AreEqual(0, host.GetAcSession().AccountPrivilege.Roles.Count);
-            host.Handle(new AddPrivilegeCommand(host.GetAcSession(), new PrivilegeCreateIo
+            Assert.IsTrue(acDomain.GetAcSession().Identity.IsAuthenticated);
+            Assert.AreEqual(0, acDomain.GetAcSession().AccountPrivilege.Roles.Count);
+            acDomain.Handle(new AddPrivilegeCommand(acDomain.GetAcSession(), new PrivilegeCreateIo
             {
                 Id = Guid.NewGuid(),
                 SubjectInstanceId = accountId,
@@ -238,7 +238,7 @@ namespace Anycmd.Tests
                 ObjectInstanceId = roleId1,
                 ObjectType = AcElementType.Role.ToString()
             }));
-            host.Handle(new AddPrivilegeCommand(host.GetAcSession(), new PrivilegeCreateIo
+            acDomain.Handle(new AddPrivilegeCommand(acDomain.GetAcSession(), new PrivilegeCreateIo
             {
                 Id = Guid.NewGuid(),
                 SubjectInstanceId = accountId,
@@ -251,7 +251,7 @@ namespace Anycmd.Tests
             var catched = false;
             try
             {
-                host.Handle(new AddPrivilegeCommand(host.GetAcSession(), new PrivilegeCreateIo
+                acDomain.Handle(new AddPrivilegeCommand(acDomain.GetAcSession(), new PrivilegeCreateIo
                 {
                     Id = Guid.NewGuid(),
                     SubjectInstanceId = accountId,

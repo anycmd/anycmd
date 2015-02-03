@@ -11,16 +11,16 @@ namespace Anycmd.Engine.Info
         readonly IInfoStringConverter _converter;
         private string _getElementString;
         private string[] _getElement;
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
         private DataItemsTuple(
-            IAcDomain host,
+            IAcDomain acDomain,
             DataItem[] dataIdItems, string idString,
             DataItem[] dataValueItems, string valueString,
             string[] getElement, string getElementString,
             string infoFormat)
         {
-            this._host = host;
+            this._acDomain = acDomain;
             if (dataIdItems == null && idString == null)
             {
                 dataIdItems = new DataItem[0];
@@ -33,7 +33,7 @@ namespace Anycmd.Engine.Info
             {
                 throw new AnycmdException("infoFormat不能为空");
             }
-            if (!host.NodeHost.InfoStringConverters.TryGetInfoStringConverter(infoFormat, out _converter))
+            if (!acDomain.NodeHost.InfoStringConverters.TryGetInfoStringConverter(infoFormat, out _converter))
             {
                 throw new AnycmdException("意外的信息格式" + infoFormat);
             }
@@ -48,44 +48,44 @@ namespace Anycmd.Engine.Info
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="host"></param>
+        /// <param name="acDomain"></param>
         /// <param name="dataIdItems"></param>
         /// <param name="dataValueItems"></param>
         /// <param name = "getElement"></param>
         /// <param name="infoFormat"></param>
         /// <returns></returns>
         public static DataItemsTuple Create(
-            IAcDomain host,
+            IAcDomain acDomain,
             DataItem[] dataIdItems,
             DataItem[] dataValueItems,
             string[] getElement,
             string infoFormat)
         {
-            return new DataItemsTuple(host, dataIdItems, null, dataValueItems, null, getElement, null, infoFormat);
+            return new DataItemsTuple(acDomain, dataIdItems, null, dataValueItems, null, getElement, null, infoFormat);
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="host"></param>
+        /// <param name="acDomain"></param>
         /// <param name="idString"></param>
         /// <param name="valueString"></param>
         /// <param name = "getElementString"></param>
         /// <param name="infoFormat"></param>
         /// <returns></returns>
         public static DataItemsTuple Create(
-            IAcDomain host,
+            IAcDomain acDomain,
             string idString,
             string valueString,
             string getElementString,
             string infoFormat)
         {
-            return new DataItemsTuple(host, null, idString, null, valueString, null, getElementString, infoFormat);
+            return new DataItemsTuple(acDomain, null, idString, null, valueString, null, getElementString, infoFormat);
         }
 
         public IAcDomain Host
         {
-            get { return _host; }
+            get { return _acDomain; }
         }
 
         /// <summary>

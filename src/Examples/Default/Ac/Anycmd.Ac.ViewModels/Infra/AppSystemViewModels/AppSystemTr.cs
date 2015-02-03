@@ -12,16 +12,16 @@ namespace Anycmd.Ac.ViewModels.Infra.AppSystemViewModels
     public class AppSystemTr
     {
         private AccountState _principal;
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
-        private AppSystemTr(IAcDomain host)
+        private AppSystemTr(IAcDomain acDomain)
         {
-            this._host = host;
+            this._acDomain = acDomain;
         }
 
-        public static AppSystemTr Create(IAcDomain host, AppSystemState appSystem)
+        public static AppSystemTr Create(IAcDomain acDomain, AppSystemState appSystem)
         {
-            return new AppSystemTr(host)
+            return new AppSystemTr(acDomain)
             {
                 Code = appSystem.Code,
                 CreateOn = appSystem.CreateOn,
@@ -95,7 +95,7 @@ namespace Anycmd.Ac.ViewModels.Infra.AppSystemViewModels
             get
             {
                 if (!this.PrincipalId.HasValue) return null;
-                if (!_host.SysUserSet.TryGetDevAccount(this.PrincipalId.Value, out _principal))
+                if (!_acDomain.SysUserSet.TryGetDevAccount(this.PrincipalId.Value, out _principal))
                 {
                     throw new ValidationException("意外的开发人员标识" + this.PrincipalId);
                 }

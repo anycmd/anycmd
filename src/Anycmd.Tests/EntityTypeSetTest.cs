@@ -21,9 +21,9 @@ namespace Anycmd.Tests
         [TestMethod]
         public void EntityTypeSet()
         {
-            var host = TestHelper.GetAcDomain();
-            Assert.AreEqual(0, host.EntityTypeSet.Count());
-            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
+            var acDomain = TestHelper.GetAcDomain();
+            Assert.AreEqual(0, acDomain.EntityTypeSet.Count());
+            AcSessionState.AcMethod.SignIn(acDomain, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -35,79 +35,79 @@ namespace Anycmd.Tests
 
             EntityTypeState entityTypeById;
             EntityTypeState entityTypeByCode;
-            host.Handle(new EntityTypeCreateInput
+            acDomain.Handle(new EntityTypeCreateInput
             {
                 Id = entityTypeId,
                 Code = "EntityType1",
                 Name = "测试1",
                 Codespace = codespace,
-                DatabaseId = host.Rdbs.First().Database.Id,
+                DatabaseId = acDomain.Rdbs.First().Database.Id,
                 Description = string.Empty,
-                DeveloperId = host.SysUserSet.GetDevAccounts().First().Id,
+                DeveloperId = acDomain.SysUserSet.GetDevAccounts().First().Id,
                 EditHeight = 100,
                 EditWidth = 100,
                 IsCatalogued = false,
                 SchemaName = string.Empty,
                 SortCode = 10,
                 TableName = string.Empty
-            }.ToCommand(host.GetAcSession()));
-            Assert.AreEqual(1, host.EntityTypeSet.Count());
-            Assert.IsTrue(host.EntityTypeSet.TryGetEntityType(entityTypeId, out entityTypeById));
-            Assert.IsTrue(host.EntityTypeSet.TryGetEntityType(new Coder(codespace, "EntityType1"), out entityTypeByCode));
+            }.ToCommand(acDomain.GetAcSession()));
+            Assert.AreEqual(1, acDomain.EntityTypeSet.Count());
+            Assert.IsTrue(acDomain.EntityTypeSet.TryGetEntityType(entityTypeId, out entityTypeById));
+            Assert.IsTrue(acDomain.EntityTypeSet.TryGetEntityType(new Coder(codespace, "EntityType1"), out entityTypeByCode));
             Assert.AreEqual(entityTypeByCode, entityTypeById);
             Assert.IsTrue(ReferenceEquals(entityTypeById, entityTypeByCode));
 
-            host.Handle(new EntityTypeUpdateInput
+            acDomain.Handle(new EntityTypeUpdateInput
             {
                 Id = entityTypeId,
                 Name = "test2",
                 Code = "EntityType2",
                 Codespace = "test",
-                DatabaseId = host.Rdbs.First().Database.Id,
+                DatabaseId = acDomain.Rdbs.First().Database.Id,
                 Description = string.Empty,
-                DeveloperId = host.SysUserSet.GetDevAccounts().First().Id,
+                DeveloperId = acDomain.SysUserSet.GetDevAccounts().First().Id,
                 EditWidth = 100,
                 EditHeight = 100,
                 IsCatalogued = false,
                 SchemaName = string.Empty,
                 SortCode = 100,
                 TableName = string.Empty
-            }.ToCommand(host.GetAcSession()));
-            Assert.AreEqual(1, host.EntityTypeSet.Count());
-            Assert.IsTrue(host.EntityTypeSet.TryGetEntityType(entityTypeId, out entityTypeById));
-            Assert.IsTrue(host.EntityTypeSet.TryGetEntityType(new Coder(codespace, "EntityType2"), out entityTypeByCode));
+            }.ToCommand(acDomain.GetAcSession()));
+            Assert.AreEqual(1, acDomain.EntityTypeSet.Count());
+            Assert.IsTrue(acDomain.EntityTypeSet.TryGetEntityType(entityTypeId, out entityTypeById));
+            Assert.IsTrue(acDomain.EntityTypeSet.TryGetEntityType(new Coder(codespace, "EntityType2"), out entityTypeByCode));
             Assert.AreEqual(entityTypeByCode, entityTypeById);
             Assert.IsTrue(ReferenceEquals(entityTypeById, entityTypeByCode));
             Assert.AreEqual("test2", entityTypeById.Name);
             Assert.AreEqual("EntityType2", entityTypeById.Code);
 
-            host.Handle(new RemoveEntityTypeCommand(host.GetAcSession(), entityTypeId));
-            Assert.IsFalse(host.EntityTypeSet.TryGetEntityType(entityTypeId, out entityTypeById));
-            Assert.IsFalse(host.EntityTypeSet.TryGetEntityType(new Coder(codespace, "EntityType2"), out entityTypeByCode));
-            Assert.AreEqual(0, host.EntityTypeSet.Count());
+            acDomain.Handle(new RemoveEntityTypeCommand(acDomain.GetAcSession(), entityTypeId));
+            Assert.IsFalse(acDomain.EntityTypeSet.TryGetEntityType(entityTypeId, out entityTypeById));
+            Assert.IsFalse(acDomain.EntityTypeSet.TryGetEntityType(new Coder(codespace, "EntityType2"), out entityTypeByCode));
+            Assert.AreEqual(0, acDomain.EntityTypeSet.Count());
 
             // 开始测试Property
-            host.Handle(new EntityTypeCreateInput
+            acDomain.Handle(new EntityTypeCreateInput
             {
                 Id = entityTypeId,
                 Code = "EntityType1",
                 Name = "测试1",
                 Codespace = codespace,
-                DatabaseId = host.Rdbs.First().Database.Id,
+                DatabaseId = acDomain.Rdbs.First().Database.Id,
                 Description = string.Empty,
-                DeveloperId = host.SysUserSet.GetDevAccounts().First().Id,
+                DeveloperId = acDomain.SysUserSet.GetDevAccounts().First().Id,
                 EditHeight = 100,
                 EditWidth = 100,
                 IsCatalogued = false,
                 SchemaName = string.Empty,
                 SortCode = 10,
                 TableName = string.Empty
-            }.ToCommand(host.GetAcSession()));
-            Assert.AreEqual(1, host.EntityTypeSet.Count());
-            Assert.IsTrue(host.EntityTypeSet.TryGetEntityType(entityTypeId, out entityTypeById));
+            }.ToCommand(acDomain.GetAcSession()));
+            Assert.AreEqual(1, acDomain.EntityTypeSet.Count());
+            Assert.IsTrue(acDomain.EntityTypeSet.TryGetEntityType(entityTypeId, out entityTypeById));
             PropertyState propertyById;
             PropertyState propertyByCode;
-            host.Handle(new PropertyCreateInput
+            acDomain.Handle(new PropertyCreateInput
             {
                 Id = propertyId,
                 DicId = null,
@@ -125,31 +125,31 @@ namespace Anycmd.Tests
                 Description = string.Empty,
                 Code = "Property1",
                 Name = "测试1"
-            }.ToCommand(host.GetAcSession()));
-            Assert.AreEqual(1, host.EntityTypeSet.GetProperties(entityTypeById).Count());
-            Assert.IsTrue(host.EntityTypeSet.TryGetProperty(propertyId, out propertyById));
-            Assert.IsTrue(host.EntityTypeSet.TryGetProperty(entityTypeById, "Property1", out propertyByCode));
+            }.ToCommand(acDomain.GetAcSession()));
+            Assert.AreEqual(1, acDomain.EntityTypeSet.GetProperties(entityTypeById).Count());
+            Assert.IsTrue(acDomain.EntityTypeSet.TryGetProperty(propertyId, out propertyById));
+            Assert.IsTrue(acDomain.EntityTypeSet.TryGetProperty(entityTypeById, "Property1", out propertyByCode));
             Assert.AreEqual(propertyByCode, propertyById);
             Assert.IsTrue(ReferenceEquals(propertyById, propertyByCode));
 
-            host.Handle(new PropertyUpdateInput
+            acDomain.Handle(new PropertyUpdateInput
             {
                 Id = propertyId,
                 Name = "test2",
                 Code = "Property2"
-            }.ToCommand(host.GetAcSession()));
-            Assert.AreEqual(1, host.EntityTypeSet.GetProperties(entityTypeById).Count);
-            Assert.IsTrue(host.EntityTypeSet.TryGetProperty(propertyId, out propertyById));
-            Assert.IsTrue(host.EntityTypeSet.TryGetProperty(entityTypeById, "Property2", out propertyByCode));
+            }.ToCommand(acDomain.GetAcSession()));
+            Assert.AreEqual(1, acDomain.EntityTypeSet.GetProperties(entityTypeById).Count);
+            Assert.IsTrue(acDomain.EntityTypeSet.TryGetProperty(propertyId, out propertyById));
+            Assert.IsTrue(acDomain.EntityTypeSet.TryGetProperty(entityTypeById, "Property2", out propertyByCode));
             Assert.AreEqual(propertyByCode, propertyById);
             Assert.IsTrue(ReferenceEquals(propertyById, propertyByCode));
             Assert.AreEqual("test2", propertyById.Name);
             Assert.AreEqual("Property2", propertyById.Code);
 
-            host.Handle(new RemovePropertyCommand(host.GetAcSession(), propertyId));
-            Assert.IsFalse(host.EntityTypeSet.TryGetProperty(propertyId, out propertyById));
-            Assert.IsFalse(host.EntityTypeSet.TryGetProperty(entityTypeById, "Property2", out propertyByCode));
-            Assert.AreEqual(0, host.EntityTypeSet.GetProperties(entityTypeById).Count);
+            acDomain.Handle(new RemovePropertyCommand(acDomain.GetAcSession(), propertyId));
+            Assert.IsFalse(acDomain.EntityTypeSet.TryGetProperty(propertyId, out propertyById));
+            Assert.IsFalse(acDomain.EntityTypeSet.TryGetProperty(entityTypeById, "Property2", out propertyByCode));
+            Assert.AreEqual(0, acDomain.EntityTypeSet.GetProperties(entityTypeById).Count);
         }
         #endregion
 
@@ -157,9 +157,9 @@ namespace Anycmd.Tests
         [TestMethod]
         public void CanNotDeleteEntityTypeWhenItHasProperties()
         {
-            var host = TestHelper.GetAcDomain();
-            Assert.AreEqual(0, host.EntityTypeSet.Count());
-            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
+            var acDomain = TestHelper.GetAcDomain();
+            Assert.AreEqual(0, acDomain.EntityTypeSet.Count());
+            AcSessionState.AcMethod.SignIn(acDomain, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -167,25 +167,25 @@ namespace Anycmd.Tests
             });
             var entityTypeId = Guid.NewGuid();
 
-            host.Handle(new EntityTypeCreateInput
+            acDomain.Handle(new EntityTypeCreateInput
             {
                 Id = entityTypeId,
                 Code = "EntityType1",
                 Name = "测试1",
                 Codespace = "Test",
-                DatabaseId = host.Rdbs.First().Database.Id,
+                DatabaseId = acDomain.Rdbs.First().Database.Id,
                 Description = string.Empty,
-                DeveloperId = host.SysUserSet.GetDevAccounts().First().Id,
+                DeveloperId = acDomain.SysUserSet.GetDevAccounts().First().Id,
                 EditHeight = 100,
                 EditWidth = 100,
                 IsCatalogued = false,
                 SchemaName = string.Empty,
                 SortCode = 10,
                 TableName = string.Empty
-            }.ToCommand(host.GetAcSession()));
-            Assert.AreEqual(1, host.EntityTypeSet.Count());
+            }.ToCommand(acDomain.GetAcSession()));
+            Assert.AreEqual(1, acDomain.EntityTypeSet.Count());
 
-            host.Handle(new PropertyCreateInput
+            acDomain.Handle(new PropertyCreateInput
             {
                 Id = Guid.NewGuid(),
                 DicId = null,
@@ -203,12 +203,12 @@ namespace Anycmd.Tests
                 Description = string.Empty,
                 Code = "Property1",
                 Name = "测试1"
-            }.ToCommand(host.GetAcSession()));
+            }.ToCommand(acDomain.GetAcSession()));
 
             bool catched = false;
             try
             {
-                host.Handle(new RemoveEntityTypeCommand(host.GetAcSession(), entityTypeId));
+                acDomain.Handle(new RemoveEntityTypeCommand(acDomain.GetAcSession(), entityTypeId));
             }
             catch (ValidationException)
             {
@@ -218,7 +218,7 @@ namespace Anycmd.Tests
             {
                 Assert.IsTrue(catched);
                 EntityTypeState entityType;
-                Assert.IsTrue(host.EntityTypeSet.TryGetEntityType(entityTypeId, out entityType));
+                Assert.IsTrue(acDomain.EntityTypeSet.TryGetEntityType(entityTypeId, out entityType));
             }
         }
         #endregion
@@ -227,16 +227,16 @@ namespace Anycmd.Tests
         [TestMethod]
         public void EntityTypeSetShouldRollbackedWhenPersistFailed()
         {
-            var host = TestHelper.GetAcDomain();
-            Assert.AreEqual(0, host.EntityTypeSet.Count());
-            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
+            var acDomain = TestHelper.GetAcDomain();
+            Assert.AreEqual(0, acDomain.EntityTypeSet.Count());
+            AcSessionState.AcMethod.SignIn(acDomain, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
                 {"rememberMe", "rememberMe"}
             });
-            host.RemoveService(typeof(IRepository<EntityType>));
-            var moEntityTypeRepository = host.GetMoqRepository<EntityType, IRepository<EntityType>>();
+            acDomain.RemoveService(typeof(IRepository<EntityType>));
+            var moEntityTypeRepository = acDomain.GetMoqRepository<EntityType, IRepository<EntityType>>();
             var entityId1 = Guid.NewGuid();
             var entityId2 = Guid.NewGuid();
             moEntityTypeRepository.Setup(a => a.Add(It.Is<EntityType>(b => b.Id == entityId1))).Throws(new DbException(entityId1.ToString()));
@@ -248,9 +248,9 @@ namespace Anycmd.Tests
                 Name = "test1",
                 Code = "EntityType1",
                 Codespace = "test",
-                DatabaseId = host.Rdbs.First().Database.Id,
+                DatabaseId = acDomain.Rdbs.First().Database.Id,
                 Description = string.Empty,
-                DeveloperId = host.SysUserSet.GetDevAccounts().First().Id,
+                DeveloperId = acDomain.SysUserSet.GetDevAccounts().First().Id,
                 EditWidth = 100,
                 EditHeight = 100,
                 IsCatalogued = false,
@@ -264,9 +264,9 @@ namespace Anycmd.Tests
                 Name = "test2",
                 Code = "EntityType2",
                 Codespace = "test",
-                DatabaseId = host.Rdbs.First().Database.Id,
+                DatabaseId = acDomain.Rdbs.First().Database.Id,
                 Description = string.Empty,
-                DeveloperId = host.SysUserSet.GetDevAccounts().First().Id,
+                DeveloperId = acDomain.SysUserSet.GetDevAccounts().First().Id,
                 EditWidth = 100,
                 EditHeight = 100,
                 IsCatalogued = false,
@@ -274,28 +274,28 @@ namespace Anycmd.Tests
                 SortCode = 100,
                 TableName = string.Empty
             });
-            host.AddService(typeof(IRepository<EntityType>), moEntityTypeRepository.Object);
+            acDomain.AddService(typeof(IRepository<EntityType>), moEntityTypeRepository.Object);
 
 
             bool catched = false;
             try
             {
-                host.Handle(new EntityTypeCreateInput
+                acDomain.Handle(new EntityTypeCreateInput
                 {
                     Id = entityId1,
                     Code = "EntityType1",
                     Name = "测试1",
                     Codespace = "Test",
-                    DatabaseId = host.Rdbs.First().Database.Id,
+                    DatabaseId = acDomain.Rdbs.First().Database.Id,
                     Description = string.Empty,
-                    DeveloperId = host.SysUserSet.GetDevAccounts().First().Id,
+                    DeveloperId = acDomain.SysUserSet.GetDevAccounts().First().Id,
                     EditHeight = 100,
                     EditWidth = 100,
                     IsCatalogued = false,
                     SchemaName = string.Empty,
                     SortCode = 10,
                     TableName = string.Empty
-                }.ToCommand(host.GetAcSession()));
+                }.ToCommand(acDomain.GetAcSession()));
             }
             catch (Exception e)
             {
@@ -306,46 +306,46 @@ namespace Anycmd.Tests
             finally
             {
                 Assert.IsTrue(catched);
-                Assert.AreEqual(0, host.EntityTypeSet.Count());
+                Assert.AreEqual(0, acDomain.EntityTypeSet.Count());
             }
 
-            host.Handle(new EntityTypeCreateInput
+            acDomain.Handle(new EntityTypeCreateInput
             {
                 Id = entityId2,
                 Code = "EntityType2",
                 Name = "测试2",
                 Codespace = "Test",
-                DatabaseId = host.Rdbs.First().Database.Id,
+                DatabaseId = acDomain.Rdbs.First().Database.Id,
                 Description = string.Empty,
-                DeveloperId = host.SysUserSet.GetDevAccounts().First().Id,
+                DeveloperId = acDomain.SysUserSet.GetDevAccounts().First().Id,
                 EditHeight = 100,
                 EditWidth = 100,
                 IsCatalogued = false,
                 SchemaName = string.Empty,
                 SortCode = 10,
                 TableName = string.Empty
-            }.ToCommand(host.GetAcSession()));
-            Assert.AreEqual(1, host.EntityTypeSet.Count());
+            }.ToCommand(acDomain.GetAcSession()));
+            Assert.AreEqual(1, acDomain.EntityTypeSet.Count());
 
             catched = false;
             try
             {
-                host.Handle(new EntityTypeUpdateInput
+                acDomain.Handle(new EntityTypeUpdateInput
                 {
                     Id = entityId2,
                     Name = "test2",
                     Code = "EntityType2",
                     Codespace = "test",
-                    DatabaseId = host.Rdbs.First().Database.Id,
+                    DatabaseId = acDomain.Rdbs.First().Database.Id,
                     Description = string.Empty,
-                    DeveloperId = host.SysUserSet.GetDevAccounts().First().Id,
+                    DeveloperId = acDomain.SysUserSet.GetDevAccounts().First().Id,
                     EditWidth = 100,
                     EditHeight = 100,
                     IsCatalogued = false,
                     SchemaName = string.Empty,
                     SortCode = 100,
                     TableName = string.Empty
-                }.ToCommand(host.GetAcSession()));
+                }.ToCommand(acDomain.GetAcSession()));
             }
             catch (Exception e)
             {
@@ -356,16 +356,16 @@ namespace Anycmd.Tests
             finally
             {
                 Assert.IsTrue(catched);
-                Assert.AreEqual(1, host.EntityTypeSet.Count());
+                Assert.AreEqual(1, acDomain.EntityTypeSet.Count());
                 EntityTypeState entityType;
-                Assert.IsTrue(host.EntityTypeSet.TryGetEntityType(entityId2, out entityType));
+                Assert.IsTrue(acDomain.EntityTypeSet.TryGetEntityType(entityId2, out entityType));
                 Assert.AreEqual("EntityType2", entityType.Code);
             }
 
             catched = false;
             try
             {
-                host.Handle(new RemoveEntityTypeCommand(host.GetAcSession(), entityId2));
+                acDomain.Handle(new RemoveEntityTypeCommand(acDomain.GetAcSession(), entityId2));
             }
             catch (Exception e)
             {
@@ -377,8 +377,8 @@ namespace Anycmd.Tests
             {
                 Assert.IsTrue(catched);
                 EntityTypeState entityType;
-                Assert.IsTrue(host.EntityTypeSet.TryGetEntityType(entityId2, out entityType));
-                Assert.AreEqual(1, host.EntityTypeSet.Count());
+                Assert.IsTrue(acDomain.EntityTypeSet.TryGetEntityType(entityId2, out entityType));
+                Assert.AreEqual(1, acDomain.EntityTypeSet.Count());
             }
         }
         #endregion

@@ -13,7 +13,7 @@ namespace Anycmd.Tests
         [TestMethod]
         public void StateObjectEquals()
         {
-            var host = TestHelper.GetAcDomain();
+            var acDomain = TestHelper.GetAcDomain();
             var entity = new AppSystem
             {
                 Id = Guid.NewGuid(),
@@ -22,12 +22,12 @@ namespace Anycmd.Tests
                 Description = string.Empty,
                 Icon = string.Empty,
                 IsEnabled = 1,
-                PrincipalId = host.SysUserSet.GetDevAccounts().First().Id,
+                PrincipalId = acDomain.SysUserSet.GetDevAccounts().First().Id,
                 SortCode = 10,
                 SsoAuthAddress = string.Empty,
                 ImageUrl = string.Empty
             };
-            var appSystem1 = AppSystemState.Create(host, entity);
+            var appSystem1 = AppSystemState.Create(acDomain, entity);
             var appSystem2 = appSystem1;
 
             Assert.AreEqual(appSystem1, appSystem1);
@@ -46,12 +46,12 @@ namespace Anycmd.Tests
                 SsoAuthAddress = string.Empty,
                 ImageUrl = string.Empty
             };
-            appSystem2 = AppSystemState.Create(host, entity);
+            appSystem2 = AppSystemState.Create(acDomain, entity);
             Assert.AreEqual(appSystem1, appSystem1);
             Assert.IsTrue(appSystem1 == appSystem2);
             Assert.IsTrue(appSystem1.Equals(appSystem2));
             entity.Code = "app";
-            appSystem2 = AppSystemState.Create(host, entity);
+            appSystem2 = AppSystemState.Create(acDomain, entity);
             Assert.AreNotEqual(appSystem1, appSystem2);
             Assert.IsFalse(appSystem1 == appSystem2);
             Assert.IsFalse(appSystem1.Equals(appSystem2));

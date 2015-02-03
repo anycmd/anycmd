@@ -11,12 +11,12 @@ namespace Anycmd.Tests
         where TAggregateRoot : class, IAggregateRoot
     {
         private readonly MoqRepositoryContext _context;
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
-        public MoqCommonRepository(IAcDomain host)
+        public MoqCommonRepository(IAcDomain acDomain)
         {
-            this._host = host;
-            _context = new MoqRepositoryContext(host);
+            this._acDomain = acDomain;
+            _context = new MoqRepositoryContext(acDomain);
         }
 
         public IRepositoryContext Context
@@ -26,42 +26,27 @@ namespace Anycmd.Tests
 
         public IQueryable<TAggregateRoot> AsQueryable()
         {
-            lock (_host)
-            {
-                return Context.Query<TAggregateRoot>();
-            }
+            return Context.Query<TAggregateRoot>();
         }
 
         public TAggregateRoot GetByKey(ValueType key)
         {
-            lock (_host)
-            {
-                return Context.Query<TAggregateRoot>().FirstOrDefault(a => a.Id == (Guid)key);
-            }
+            return Context.Query<TAggregateRoot>().FirstOrDefault(a => a.Id == (Guid)key);
         }
 
         public void Add(TAggregateRoot aggregateRoot)
         {
-            lock (_host)
-            {
-                Context.RegisterNew(aggregateRoot);
-            }
+            Context.RegisterNew(aggregateRoot);
         }
 
         public void Remove(TAggregateRoot aggregateRoot)
         {
-            lock (_host)
-            {
-                Context.RegisterDeleted(aggregateRoot);
-            }
+            Context.RegisterDeleted(aggregateRoot);
         }
 
         public void Update(TAggregateRoot aggregateRoot)
         {
-            lock (_host)
-            {
-                Context.RegisterModified(aggregateRoot);
-            }
+            Context.RegisterModified(aggregateRoot);
         }
     }
     public class MoqRepositoryContext : RepositoryContext
@@ -70,41 +55,41 @@ namespace Anycmd.Tests
 
         private static readonly Dictionary<IAcDomain, Dictionary<Type, List<IAggregateRoot>>>
             Data = new Dictionary<IAcDomain, Dictionary<Type, List<IAggregateRoot>>>();
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
-        public MoqRepositoryContext(IAcDomain host)
+        public MoqRepositoryContext(IAcDomain acDomain)
         {
-            this._host = host;
-            if (!Data.ContainsKey(host))
+            this._acDomain = acDomain;
+            if (!Data.ContainsKey(acDomain))
             {
-                Data.Add(host, new Dictionary<Type, List<IAggregateRoot>>());
+                Data.Add(acDomain, new Dictionary<Type, List<IAggregateRoot>>());
             }
         }
 
         public override void Commit()
         {
-            lock (_host)
+            lock (_acDomain)
             {
                 foreach (var item in base.NewCollection)
                 {
-                    if (!Data[_host].ContainsKey(item.GetType()))
+                    if (!Data[_acDomain].ContainsKey(item.GetType()))
                     {
-                        Data[_host].Add(item.GetType(), new List<IAggregateRoot>());
+                        Data[_acDomain].Add(item.GetType(), new List<IAggregateRoot>());
                     }
-                    if (Data[_host][item.GetType()].Any(a => a.Id == ((IAggregateRoot)item).Id))
+                    if (Data[_acDomain][item.GetType()].Any(a => a.Id == ((IAggregateRoot)item).Id))
                     {
                         throw new Exception();
                     }
-                    Data[_host][item.GetType()].Add((IAggregateRoot)item);
+                    Data[_acDomain][item.GetType()].Add((IAggregateRoot)item);
                 }
                 foreach (var item in base.ModifiedCollection)
                 {
-                    Data[_host][item.GetType()].Remove(Data[_host][item.GetType()].First(a => a.Id == ((IAggregateRoot)item).Id));
-                    Data[_host][item.GetType()].Add((IAggregateRoot)item);
+                    Data[_acDomain][item.GetType()].Remove(Data[_acDomain][item.GetType()].First(a => a.Id == ((IAggregateRoot)item).Id));
+                    Data[_acDomain][item.GetType()].Add((IAggregateRoot)item);
                 }
                 foreach (var item in DeletedCollection)
                 {
-                    Data[_host][item.GetType()].Remove(Data[_host][item.GetType()].First(a => a.Id == ((IAggregateRoot)item).Id));
+                    Data[_acDomain][item.GetType()].Remove(Data[_acDomain][item.GetType()].First(a => a.Id == ((IAggregateRoot)item).Id));
                 }
                 base.Committed = true;
                 base.ClearRegistrations();
@@ -113,19 +98,14 @@ namespace Anycmd.Tests
 
         public override void Rollback()
         {
-            lock (_host)
-            {
-                base.ClearRegistrations();
-                base.Committed = false;
-            }
+            base.ClearRegistrations();
+            base.Committed = false;
         }
 
         public override IQueryable<TEntity> Query<TEntity>()
         {
-            lock (_host)
-            {
-                return !Data[_host].ContainsKey(typeof(TEntity)) ? new List<TEntity>().AsQueryable() : Data[_host][typeof(TEntity)].Cast<TEntity>().AsQueryable<TEntity>();
-            }
+            return !Data[_acDomain].ContainsKey(typeof(TEntity)) 
+                ? new List<TEntity>().AsQueryable() : Data[_acDomain][typeof(TEntity)].Cast<TEntity>().AsQueryable<TEntity>();
         }
     }
 }

@@ -8,21 +8,21 @@ namespace Anycmd.Engine.Edi
     public sealed class TopicState : StateObject<TopicState>, ITopic, IStateObject
     {
         private Guid _ontologyId;
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
-        private TopicState(IAcDomain host, Guid id)
+        private TopicState(IAcDomain acDomain, Guid id)
             : base(id)
         {
-            this._host = host;
+            this._acDomain = acDomain;
         }
 
-        public static TopicState Create(IAcDomain host, ITopic topic)
+        public static TopicState Create(IAcDomain acDomain, ITopic topic)
         {
             if (topic == null)
             {
                 throw new ArgumentNullException("topic");
             }
-            return new TopicState(host, topic.Id)
+            return new TopicState(acDomain, topic.Id)
             {
                 Code = topic.Code,
                 CreateOn = topic.CreateOn,
@@ -39,7 +39,7 @@ namespace Anycmd.Engine.Edi
             private set
             {
                 OntologyDescriptor ontology;
-                if (!_host.NodeHost.Ontologies.TryGetOntology(value, out ontology))
+                if (!_acDomain.NodeHost.Ontologies.TryGetOntology(value, out ontology))
                 {
                     throw new ValidationException("意外的本体标识" + value);
                 }

@@ -30,11 +30,11 @@ namespace Anycmd.Edi.ViewModels.MessageViewModels
         private bool _isSelf = false;
         private bool _isCenterDetected = false;
         private bool _isCenter = false;
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
-        protected internal MessageTr(IAcDomain host)
+        protected internal MessageTr(IAcDomain acDomain)
         {
-            this._host = host;
+            this._acDomain = acDomain;
         }
 
         /// <summary>
@@ -50,12 +50,12 @@ namespace Anycmd.Edi.ViewModels.MessageViewModels
         /// 工厂方法
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="host"></param>
+        /// <param name="acDomain"></param>
         /// <param name="command"></param>
         /// <returns></returns>
-        public static MessageTr Create(IAcDomain host, MessageEntity command)
+        public static MessageTr Create(IAcDomain acDomain, MessageEntity command)
         {
-            var t = new MessageTr(host);
+            var t = new MessageTr(acDomain);
             t.Populate(command);
 
             return t;
@@ -71,7 +71,7 @@ namespace Anycmd.Edi.ViewModels.MessageViewModels
                 if (!_isSelfDetected)
                 {
                     _isSelfDetected = true;
-                    _isSelf = _host.Config.ThisNodeId.Equals(this.ClientId, StringComparison.OrdinalIgnoreCase);
+                    _isSelf = _acDomain.Config.ThisNodeId.Equals(this.ClientId, StringComparison.OrdinalIgnoreCase);
                 }
                 return _isSelf;
             }
@@ -87,7 +87,7 @@ namespace Anycmd.Edi.ViewModels.MessageViewModels
                 if (!_isCenterDetected)
                 {
                     _isCenterDetected = true;
-                    _isCenter = _host.Config.CenterNodeId.Equals(this.ClientId, StringComparison.OrdinalIgnoreCase);
+                    _isCenter = _acDomain.Config.CenterNodeId.Equals(this.ClientId, StringComparison.OrdinalIgnoreCase);
                 }
                 return _isCenter;
             }
@@ -128,7 +128,7 @@ namespace Anycmd.Edi.ViewModels.MessageViewModels
                 if (_catalogName == null)
                 {
                     CatalogState org;
-                    if (_host.CatalogSet.TryGetCatalog(this.CatalogCode, out org))
+                    if (_acDomain.CatalogSet.TryGetCatalog(this.CatalogCode, out org))
                     {
                         _catalogName = org.Name;
                     }
@@ -153,7 +153,7 @@ namespace Anycmd.Edi.ViewModels.MessageViewModels
                 if (_clientName == null)
                 {
                     NodeDescriptor node;
-                    if (_host.NodeHost.Nodes.TryGetNodeById(this.ClientId, out node))
+                    if (_acDomain.NodeHost.Nodes.TryGetNodeById(this.ClientId, out node))
                     {
                         _clientName = node.Node.Name;
                     }
@@ -237,7 +237,7 @@ namespace Anycmd.Edi.ViewModels.MessageViewModels
             get
             {
                 if (_ontology != null) return _ontology;
-                if (!_host.NodeHost.Ontologies.TryGetOntology(this.Ontology, out _ontology))
+                if (!_acDomain.NodeHost.Ontologies.TryGetOntology(this.Ontology, out _ontology))
                 {
                     throw new AnycmdException("意外的本体码" + this.Ontology);
                 }
@@ -285,7 +285,7 @@ namespace Anycmd.Edi.ViewModels.MessageViewModels
                 if (_infoValueItems == null)
                 {
                     OntologyDescriptor ontology;
-                    if (!_host.NodeHost.Ontologies.TryGetOntology(this.Ontology, out ontology))
+                    if (!_acDomain.NodeHost.Ontologies.TryGetOntology(this.Ontology, out ontology))
                     {
                         return EmptyInfoValueItems;
                     }

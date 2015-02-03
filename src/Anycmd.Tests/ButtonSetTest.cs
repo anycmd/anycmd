@@ -23,9 +23,9 @@ namespace Anycmd.Tests
         [TestMethod]
         public void ButtonSet()
         {
-            var host = TestHelper.GetAcDomain();
-            Assert.AreEqual(0, host.ButtonSet.Count());
-            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
+            var acDomain = TestHelper.GetAcDomain();
+            Assert.AreEqual(0, acDomain.ButtonSet.Count());
+            AcSessionState.AcMethod.SignIn(acDomain, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -35,42 +35,42 @@ namespace Anycmd.Tests
 
             ButtonState buttonById;
             ButtonState buttonByCode;
-            host.Handle(new ButtonCreateInput
+            acDomain.Handle(new ButtonCreateInput
             {
                 Id = entityId,
                 Code = "btn1",
                 Name = "测试1"
-            }.ToCommand(host.GetAcSession()));
-            Assert.AreEqual(1, host.ButtonSet.Count());
-            Assert.IsTrue(host.ButtonSet.ContainsButton(entityId));
-            Assert.IsTrue(host.ButtonSet.ContainsButton("btn1"));
-            Assert.IsTrue(host.ButtonSet.TryGetButton(entityId, out buttonById));
-            Assert.IsTrue(host.ButtonSet.TryGetButton("btn1", out buttonByCode));
+            }.ToCommand(acDomain.GetAcSession()));
+            Assert.AreEqual(1, acDomain.ButtonSet.Count());
+            Assert.IsTrue(acDomain.ButtonSet.ContainsButton(entityId));
+            Assert.IsTrue(acDomain.ButtonSet.ContainsButton("btn1"));
+            Assert.IsTrue(acDomain.ButtonSet.TryGetButton(entityId, out buttonById));
+            Assert.IsTrue(acDomain.ButtonSet.TryGetButton("btn1", out buttonByCode));
             Assert.AreEqual(buttonByCode, buttonById);
             Assert.IsTrue(ReferenceEquals(buttonById, buttonByCode));
 
-            host.Handle(new ButtonUpdateInput
+            acDomain.Handle(new ButtonUpdateInput
             {
                 Id = entityId,
                 Name = "test2",
                 Code = "btn2"
-            }.ToCommand(host.GetAcSession()));
-            Assert.AreEqual(1, host.ButtonSet.Count());
-            Assert.IsTrue(host.ButtonSet.ContainsButton(entityId));
-            Assert.IsTrue(host.ButtonSet.ContainsButton("btn2"));
-            Assert.IsTrue(host.ButtonSet.TryGetButton(entityId, out buttonById));
-            Assert.IsTrue(host.ButtonSet.TryGetButton("btn2", out buttonByCode));
+            }.ToCommand(acDomain.GetAcSession()));
+            Assert.AreEqual(1, acDomain.ButtonSet.Count());
+            Assert.IsTrue(acDomain.ButtonSet.ContainsButton(entityId));
+            Assert.IsTrue(acDomain.ButtonSet.ContainsButton("btn2"));
+            Assert.IsTrue(acDomain.ButtonSet.TryGetButton(entityId, out buttonById));
+            Assert.IsTrue(acDomain.ButtonSet.TryGetButton("btn2", out buttonByCode));
             Assert.AreEqual(buttonByCode, buttonById);
             Assert.IsTrue(ReferenceEquals(buttonById, buttonByCode));
             Assert.AreEqual("test2", buttonById.Name);
             Assert.AreEqual("btn2", buttonById.Code);
 
-            host.Handle(new RemoveButtonCommand(host.GetAcSession(), entityId));
-            Assert.IsFalse(host.ButtonSet.ContainsButton(entityId));
-            Assert.IsFalse(host.ButtonSet.ContainsButton("btn2"));
-            Assert.IsFalse(host.ButtonSet.TryGetButton(entityId, out buttonById));
-            Assert.IsFalse(host.ButtonSet.TryGetButton("btn2", out buttonByCode));
-            Assert.AreEqual(0, host.ButtonSet.Count());
+            acDomain.Handle(new RemoveButtonCommand(acDomain.GetAcSession(), entityId));
+            Assert.IsFalse(acDomain.ButtonSet.ContainsButton(entityId));
+            Assert.IsFalse(acDomain.ButtonSet.ContainsButton("btn2"));
+            Assert.IsFalse(acDomain.ButtonSet.TryGetButton(entityId, out buttonById));
+            Assert.IsFalse(acDomain.ButtonSet.TryGetButton("btn2", out buttonByCode));
+            Assert.AreEqual(0, acDomain.ButtonSet.Count());
         }
         #endregion
 
@@ -78,9 +78,9 @@ namespace Anycmd.Tests
         [TestMethod]
         public void CanNotDeleteButtonWhenItHasPageButtons()
         {
-            var host = TestHelper.GetAcDomain();
-            Assert.AreEqual(0, host.ButtonSet.Count());
-            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
+            var acDomain = TestHelper.GetAcDomain();
+            Assert.AreEqual(0, acDomain.ButtonSet.Count());
+            AcSessionState.AcMethod.SignIn(acDomain, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -92,48 +92,48 @@ namespace Anycmd.Tests
             var pageId = functionId;
             var pageButtonId = Guid.NewGuid();
 
-            host.Handle(new ButtonCreateInput
+            acDomain.Handle(new ButtonCreateInput
             {
                 Id = entityId,
                 Code = "app1",
                 Name = "测试1"
-            }.ToCommand(host.GetAcSession()));
-            Assert.AreEqual(1, host.ButtonSet.Count());
-            host.Handle(new AppSystemCreateInput
+            }.ToCommand(acDomain.GetAcSession()));
+            Assert.AreEqual(1, acDomain.ButtonSet.Count());
+            acDomain.Handle(new AppSystemCreateInput
             {
                 Id = appSystemId,
                 Code = "app1",
                 Name = "app1",
-                PrincipalId = host.SysUserSet.GetDevAccounts().First().Id
-            }.ToCommand(host.GetAcSession()));
-            host.Handle(new FunctionCreateInput
+                PrincipalId = acDomain.SysUserSet.GetDevAccounts().First().Id
+            }.ToCommand(acDomain.GetAcSession()));
+            acDomain.Handle(new FunctionCreateInput
             {
                 Id = functionId,
-                ResourceTypeId = host.ResourceTypeSet.First().Id,
-                DeveloperId = host.SysUserSet.GetDevAccounts().First().Id,
+                ResourceTypeId = acDomain.ResourceTypeSet.First().Id,
+                DeveloperId = acDomain.SysUserSet.GetDevAccounts().First().Id,
                 Description = string.Empty,
                 Code = "function1",
                 IsEnabled = 1,
                 IsManaged = true,
                 SortCode = 0
-            }.ToCommand(host.GetAcSession()));
-            host.Handle(new UiViewCreateInput
+            }.ToCommand(acDomain.GetAcSession()));
+            acDomain.Handle(new UiViewCreateInput
             {
                 Id = functionId
-            }.ToCommand(host.GetAcSession()));
-            host.Handle(new UiViewButtonCreateInput
+            }.ToCommand(acDomain.GetAcSession()));
+            acDomain.Handle(new UiViewButtonCreateInput
             {
                 Id = pageButtonId,
                 ButtonId = entityId,
                 UiViewId = pageId,
                 FunctionId = null,
                 IsEnabled = 1
-            }.ToCommand(host.GetAcSession()));
+            }.ToCommand(acDomain.GetAcSession()));
 
             bool catched = false;
             try
             {
-                host.Handle(new RemoveButtonCommand(host.GetAcSession(), entityId));
+                acDomain.Handle(new RemoveButtonCommand(acDomain.GetAcSession(), entityId));
             }
             catch (ValidationException)
             {
@@ -143,14 +143,14 @@ namespace Anycmd.Tests
             {
                 Assert.IsTrue(catched);
                 ButtonState button;
-                Assert.IsTrue(host.ButtonSet.TryGetButton(entityId, out button));
+                Assert.IsTrue(acDomain.ButtonSet.TryGetButton(entityId, out button));
             }
 
             {
-                host.Handle(new RemoveUiViewButtonCommand(host.GetAcSession(), pageButtonId));
-                host.Handle(new RemoveButtonCommand(host.GetAcSession(), entityId));
+                acDomain.Handle(new RemoveUiViewButtonCommand(acDomain.GetAcSession(), pageButtonId));
+                acDomain.Handle(new RemoveButtonCommand(acDomain.GetAcSession(), entityId));
                 ButtonState button;
-                Assert.IsFalse(host.ButtonSet.TryGetButton(entityId, out button));
+                Assert.IsFalse(acDomain.ButtonSet.TryGetButton(entityId, out button));
             }
         }
         #endregion
@@ -159,37 +159,37 @@ namespace Anycmd.Tests
         [TestMethod]
         public void ButtonSetShouldRollbackedWhenPersistFailed()
         {
-            var host = TestHelper.GetAcDomain();
-            Assert.AreEqual(0, host.ButtonSet.Count());
-            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
+            var acDomain = TestHelper.GetAcDomain();
+            Assert.AreEqual(0, acDomain.ButtonSet.Count());
+            AcSessionState.AcMethod.SignIn(acDomain, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
                 {"rememberMe", "rememberMe"}
             });
-            var moButtonRepository = host.GetMoqRepository<Button, IRepository<Button>>();
+            var moButtonRepository = acDomain.GetMoqRepository<Button, IRepository<Button>>();
             var entityId1 = Guid.NewGuid();
             var entityId2 = Guid.NewGuid();
             const string code = "btn1";
             const string name = "测试1";
-            host.RemoveService(typeof(IRepository<Button>));
+            acDomain.RemoveService(typeof(IRepository<Button>));
             moButtonRepository.Setup(a => a.Add(It.Is<Button>(b => b.Id == entityId1))).Throws(new DbException(entityId1.ToString()));
             moButtonRepository.Setup(a => a.Update(It.Is<Button>(b => b.Id == entityId2))).Throws(new DbException(entityId2.ToString()));
             moButtonRepository.Setup(a => a.Remove(It.Is<Button>(b => b.Id == entityId2))).Throws(new DbException(entityId2.ToString()));
             moButtonRepository.Setup<Button>(a => a.GetByKey(entityId1)).Returns(new Button { Id = entityId1, Code = code, Name = name });
             moButtonRepository.Setup<Button>(a => a.GetByKey(entityId2)).Returns(new Button { Id = entityId2, Code = code, Name = name });
-            host.AddService(typeof(IRepository<Button>), moButtonRepository.Object);
+            acDomain.AddService(typeof(IRepository<Button>), moButtonRepository.Object);
 
 
             bool catched = false;
             try
             {
-                host.Handle(new ButtonCreateInput
+                acDomain.Handle(new ButtonCreateInput
                 {
                     Id = entityId1,
                     Code = code,
                     Name = name
-                }.ToCommand(host.GetAcSession()));
+                }.ToCommand(acDomain.GetAcSession()));
             }
             catch (Exception e)
             {
@@ -200,26 +200,26 @@ namespace Anycmd.Tests
             finally
             {
                 Assert.IsTrue(catched);
-                Assert.AreEqual(0, host.ButtonSet.Count());
+                Assert.AreEqual(0, acDomain.ButtonSet.Count());
             }
 
-            host.Handle(new ButtonCreateInput
+            acDomain.Handle(new ButtonCreateInput
             {
                 Id = entityId2,
                 Code = code,
                 Name = name
-            }.ToCommand(host.GetAcSession()));
-            Assert.AreEqual(1, host.ButtonSet.Count());
+            }.ToCommand(acDomain.GetAcSession()));
+            Assert.AreEqual(1, acDomain.ButtonSet.Count());
 
             catched = false;
             try
             {
-                host.Handle(new ButtonUpdateInput
+                acDomain.Handle(new ButtonUpdateInput
                 {
                     Id = entityId2,
                     Name = "test2",
                     Code = "btn2"
-                }.ToCommand(host.GetAcSession()));
+                }.ToCommand(acDomain.GetAcSession()));
             }
             catch (Exception e)
             {
@@ -230,16 +230,16 @@ namespace Anycmd.Tests
             finally
             {
                 Assert.IsTrue(catched);
-                Assert.AreEqual(1, host.ButtonSet.Count());
+                Assert.AreEqual(1, acDomain.ButtonSet.Count());
                 ButtonState button;
-                Assert.IsTrue(host.ButtonSet.TryGetButton(entityId2, out button));
+                Assert.IsTrue(acDomain.ButtonSet.TryGetButton(entityId2, out button));
                 Assert.AreEqual(code, button.Code);
             }
 
             catched = false;
             try
             {
-                host.Handle(new RemoveButtonCommand(host.GetAcSession(), entityId2));
+                acDomain.Handle(new RemoveButtonCommand(acDomain.GetAcSession(), entityId2));
             }
             catch (Exception e)
             {
@@ -251,8 +251,8 @@ namespace Anycmd.Tests
             {
                 Assert.IsTrue(catched);
                 ButtonState button;
-                Assert.IsTrue(host.ButtonSet.TryGetButton(entityId2, out button));
-                Assert.AreEqual(1, host.ButtonSet.Count());
+                Assert.IsTrue(acDomain.ButtonSet.TryGetButton(entityId2, out button));
+                Assert.AreEqual(1, acDomain.ButtonSet.Count());
             }
         }
         #endregion

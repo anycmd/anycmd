@@ -30,7 +30,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
         private bool _initialized = false;
 
         private readonly Guid _id = Guid.NewGuid();
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
         public Guid Id
         {
@@ -40,17 +40,17 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
         /// <summary>
         /// 
         /// </summary>
-        internal PrivilegeSet(IAcDomain host)
+        internal PrivilegeSet(IAcDomain acDomain)
         {
-            if (host == null)
+            if (acDomain == null)
             {
-                throw new ArgumentNullException("host");
+                throw new ArgumentNullException("acDomain");
             }
-            if (host.Equals(EmptyAcDomain.SingleInstance))
+            if (acDomain.Equals(EmptyAcDomain.SingleInstance))
             {
                 _initialized = true;
             }
-            this._host = host;
+            this._acDomain = acDomain;
             new MessageHandler(this).Register();
         }
 
@@ -60,16 +60,16 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             lock (this)
             {
                 if (_initialized) return;
-                _host.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
+                _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
                 _privilegeList.Clear();
-                var rolePrivileges = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetPrivileges();
+                var rolePrivileges = _acDomain.RetrieveRequiredService<IOriginalHostStateReader>().GetPrivileges();
                 foreach (var rolePrivilege in rolePrivileges)
                 {
                     var rolePrivilegeState = PrivilegeState.Create(rolePrivilege);
                     _privilegeList.Add(rolePrivilegeState);
                 }
                 _initialized = true;
-                _host.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
+                _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
             }
         }
 
@@ -116,10 +116,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Register()
             {
-                var messageDispatcher = _set._host.MessageDispatcher;
+                var messageDispatcher = _set._acDomain.MessageDispatcher;
                 if (messageDispatcher == null)
                 {
-                    throw new ArgumentNullException("messageDispatcher has not be set of host:{0}".Fmt(_set._host.Name));
+                    throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(_set._acDomain.Name));
                 }
                 messageDispatcher.Register((IHandler<AddPrivilegeCommand>)this);
                 messageDispatcher.Register((IHandler<PrivilegeAddedEvent>)this);
@@ -138,19 +138,19 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(CatalogRemovingEvent message)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var privilegeList = _set._privilegeList;
                 foreach (var item in privilegeList.Where(a => a.ObjectType == AcElementType.Catalog && a.ObjectInstanceId == message.Source.Id))
                 {
-                    host.Handle(new RemovePrivilegeCommand(message.AcSession, item.Id));
+                    acDomain.Handle(new RemovePrivilegeCommand(message.AcSession, item.Id));
                 }
             }
 
             public void Handle(RoleRemovingEvent message)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var privilegeList = _set._privilegeList;
-                var accountPrivilegeRepository = host.RetrieveRequiredService<IRepository<Privilege>>();
+                var accountPrivilegeRepository = acDomain.RetrieveRequiredService<IRepository<Privilege>>();
                 var accountPrivileges = accountPrivilegeRepository.AsQueryable().Where(a => a.ObjectInstanceId == message.Source.Id || a.SubjectInstanceId == message.Source.Id).ToList();
                 foreach (var item in accountPrivileges)
                 {
@@ -158,15 +158,15 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 foreach (var item in privilegeList.Where(a => a.ObjectType == AcElementType.Role && a.ObjectInstanceId == message.Source.Id))
                 {
-                    host.Handle(new RemovePrivilegeCommand(message.AcSession, item.Id));
+                    acDomain.Handle(new RemovePrivilegeCommand(message.AcSession, item.Id));
                 }
             }
 
             public void Handle(FunctionRemovingEvent message)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var privilegeList = _set._privilegeList;
-                var accountPrivilegeRepository = host.RetrieveRequiredService<IRepository<Privilege>>();
+                var accountPrivilegeRepository = acDomain.RetrieveRequiredService<IRepository<Privilege>>();
                 var accountPrivileges = accountPrivilegeRepository.AsQueryable().Where(a => a.ObjectInstanceId == message.Source.Id || a.SubjectInstanceId == message.Source.Id).ToList();
                 foreach (var item in accountPrivileges)
                 {
@@ -174,15 +174,15 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 foreach (var item in privilegeList.Where(a => a.ObjectType == AcElementType.Function && a.ObjectInstanceId == message.Source.Id))
                 {
-                    host.Handle(new RemovePrivilegeCommand(message.AcSession, item.Id));
+                    acDomain.Handle(new RemovePrivilegeCommand(message.AcSession, item.Id));
                 }
             }
 
             public void Handle(MenuRemovingEvent message)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var privilegeList = _set._privilegeList;
-                var accountPrivilegeRepository = host.RetrieveRequiredService<IRepository<Privilege>>();
+                var accountPrivilegeRepository = acDomain.RetrieveRequiredService<IRepository<Privilege>>();
                 var accountPrivileges = accountPrivilegeRepository.AsQueryable().Where(a => a.ObjectInstanceId == message.Source.Id || a.SubjectInstanceId == message.Source.Id).ToList();
                 foreach (var item in accountPrivileges)
                 {
@@ -190,15 +190,15 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 foreach (var item in privilegeList.Where(a => a.ObjectType == AcElementType.Menu && a.ObjectInstanceId == message.Source.Id))
                 {
-                    host.Handle(new RemovePrivilegeCommand(message.AcSession, item.Id));
+                    acDomain.Handle(new RemovePrivilegeCommand(message.AcSession, item.Id));
                 }
             }
 
             public void Handle(GroupRemovingEvent message)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var privilegeList = _set._privilegeList;
-                var accountPrivilegeRepository = host.RetrieveRequiredService<IRepository<Privilege>>();
+                var accountPrivilegeRepository = acDomain.RetrieveRequiredService<IRepository<Privilege>>();
                 var accountPrivileges = accountPrivilegeRepository.AsQueryable().Where(a => a.ObjectInstanceId == message.Source.Id || a.SubjectInstanceId == message.Source.Id).ToList();
                 foreach (var item in accountPrivileges)
                 {
@@ -206,15 +206,15 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 foreach (var item in privilegeList.Where(a => a.ObjectType == AcElementType.Group && a.ObjectInstanceId == message.Source.Id))
                 {
-                    host.Handle(new RemovePrivilegeCommand(message.AcSession, item.Id));
+                    acDomain.Handle(new RemovePrivilegeCommand(message.AcSession, item.Id));
                 }
             }
 
             public void Handle(AppSystemRemovingEvent message)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var privilegeList = _set._privilegeList;
-                var accountPrivilegeRepository = host.RetrieveRequiredService<IRepository<Privilege>>();
+                var accountPrivilegeRepository = acDomain.RetrieveRequiredService<IRepository<Privilege>>();
                 var accountPrivileges = accountPrivilegeRepository.AsQueryable().Where(a => a.ObjectInstanceId == message.Source.Id || a.SubjectInstanceId == message.Source.Id).ToList();
                 foreach (var item in accountPrivileges)
                 {
@@ -222,15 +222,15 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 foreach (var item in privilegeList.Where(a => a.ObjectType == AcElementType.AppSystem && a.ObjectInstanceId == message.Source.Id))
                 {
-                    host.Handle(new RemovePrivilegeCommand(message.AcSession, item.Id));
+                    acDomain.Handle(new RemovePrivilegeCommand(message.AcSession, item.Id));
                 }
             }
 
             public void Handle(ResourceTypeRemovingEvent message)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var privilegeList = _set._privilegeList;
-                var accountPrivilegeRepository = host.RetrieveRequiredService<IRepository<Privilege>>();
+                var accountPrivilegeRepository = acDomain.RetrieveRequiredService<IRepository<Privilege>>();
                 var accountPrivileges = accountPrivilegeRepository.AsQueryable().Where(a => a.ObjectInstanceId == message.Source.Id || a.SubjectInstanceId == message.Source.Id).ToList();
                 foreach (var item in accountPrivileges)
                 {
@@ -238,7 +238,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 foreach (var item in privilegeList.Where(a => a.ObjectType == AcElementType.ResourceType && a.ObjectInstanceId == message.Source.Id))
                 {
-                    host.Handle(new RemovePrivilegeCommand(message.AcSession, item.Id));
+                    acDomain.Handle(new RemovePrivilegeCommand(message.AcSession, item.Id));
                 }
             }
 
@@ -258,10 +258,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Handle(IAcSession acSession, IPrivilegeCreateIo input, bool isCommand)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var privilegeList = _set._privilegeList;
-                var privilegeBigramRepository = host.RetrieveRequiredService<IRepository<Privilege>>();
-                var accountRepository = host.RetrieveRequiredService<IRepository<Account>>();
+                var privilegeBigramRepository = acDomain.RetrieveRequiredService<IRepository<Privilege>>();
+                var accountRepository = acDomain.RetrieveRequiredService<IRepository<Account>>();
                 if (!input.Id.HasValue || input.Id.Value == Guid.Empty)
                 {
                     throw new AnycmdException("意外的标识");
@@ -291,14 +291,14 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                             break;
                         case AcElementType.Role:
                             RoleState role;
-                            if (!host.RoleSet.TryGetRole(input.SubjectInstanceId, out role))
+                            if (!acDomain.RoleSet.TryGetRole(input.SubjectInstanceId, out role))
                             {
                                 throw new ValidationException("意外的角色标识" + input.SubjectInstanceId);
                             }
                             break;
                         case AcElementType.Catalog:
                             CatalogState org;
-                            if (!host.CatalogSet.TryGetCatalog(input.SubjectInstanceId, out org))
+                            if (!acDomain.CatalogSet.TryGetCatalog(input.SubjectInstanceId, out org))
                             {
                                 throw new ValidationException("意外的目录标识" + input.SubjectInstanceId);
                             }
@@ -314,48 +314,48 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                             throw new ValidationException("意外的账户权限类型" + input.SubjectType);
                         case AcElementType.Catalog:
                             CatalogState catalog;
-                            if (!host.CatalogSet.TryGetCatalog(input.ObjectInstanceId, out catalog))
+                            if (!acDomain.CatalogSet.TryGetCatalog(input.ObjectInstanceId, out catalog))
                             {
                                 throw new ValidationException("意外的目录标识" + input.ObjectInstanceId);
                             }
                             break;
                         case AcElementType.Role:
                             RoleState role;
-                            if (!host.RoleSet.TryGetRole(input.ObjectInstanceId, out role))
+                            if (!acDomain.RoleSet.TryGetRole(input.ObjectInstanceId, out role))
                             {
                                 throw new ValidationException("意外的角色标识" + input.ObjectInstanceId);
                             }
                             break;
                         case AcElementType.Group:
                             GroupState group;
-                            if (!host.GroupSet.TryGetGroup(input.ObjectInstanceId, out group))
+                            if (!acDomain.GroupSet.TryGetGroup(input.ObjectInstanceId, out group))
                             {
                                 throw new ValidationException("意外的工作组标识" + input.ObjectInstanceId);
                             }
                             break;
                         case AcElementType.Function:
                             FunctionState function;
-                            if (!host.FunctionSet.TryGetFunction(input.ObjectInstanceId, out function))
+                            if (!acDomain.FunctionSet.TryGetFunction(input.ObjectInstanceId, out function))
                             {
                                 throw new ValidationException("意外的功能标识" + input.ObjectInstanceId);
                             }
                             break;
                         case AcElementType.Menu:
                             MenuState menu;
-                            if (!host.MenuSet.TryGetMenu(input.ObjectInstanceId, out menu))
+                            if (!acDomain.MenuSet.TryGetMenu(input.ObjectInstanceId, out menu))
                             {
                                 throw new ValidationException("意外的菜单标识" + input.ObjectInstanceId);
                             }
                             break;
                         case AcElementType.AppSystem:
-                            if (!host.AppSystemSet.ContainsAppSystem(input.ObjectInstanceId))
+                            if (!acDomain.AppSystemSet.ContainsAppSystem(input.ObjectInstanceId))
                             {
                                 throw new ValidationException("意外的应用系统标识" + input.ObjectInstanceId);
                             }
                             break;
                         case AcElementType.ResourceType:
                             ResourceTypeState resource;
-                            if (!host.ResourceTypeSet.TryGetResource(input.ObjectInstanceId, out resource))
+                            if (!acDomain.ResourceTypeSet.TryGetResource(input.ObjectInstanceId, out resource))
                             {
                                 throw new ValidationException("意外的资源类型标识" + input.ObjectInstanceId);
                             }
@@ -398,13 +398,13 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                         var rolePrivileges = privilegeBigramRepository.AsQueryable().Where(a => a.SubjectType == sType && a.SubjectInstanceId == input.SubjectInstanceId && a.ObjectType == oType);
                         var roles = new HashSet<RoleState>();
                         RoleState role;
-                        if (host.RoleSet.TryGetRole(input.ObjectInstanceId, out role))
+                        if (acDomain.RoleSet.TryGetRole(input.ObjectInstanceId, out role))
                         {
                             roles.Add(role);
                         }
                         foreach (var item in rolePrivileges)
                         {
-                            if (host.RoleSet.TryGetRole(item.ObjectInstanceId, out role))
+                            if (acDomain.RoleSet.TryGetRole(item.ObjectInstanceId, out role))
                             {
                                 roles.Add(role);
                             }
@@ -416,7 +416,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                          * 那些角色是在进入这些场景、边界之后才会并入到当前账户的角色集的，离开那个边界时就会收回。也就是说可能需要在当前活动的账户进入某个Catalog、Group、和变身为某人时执行一下职责分离约束规则。
                          */
                         string msg;
-                        if (!host.SsdSetSet.CheckRoles(roles, out msg))
+                        if (!acDomain.SsdSetSet.CheckRoles(roles, out msg))
                         {
                             throw new ValidationException(msg);
                         }
@@ -434,7 +434,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                             throw new ValidationException("组织机构不能继承自己的子孙");
                         }
                     }
-                    if (host.PrivilegeSet.Any(a => a.ObjectType == acObjectType && a.ObjectInstanceId == input.ObjectInstanceId && a.SubjectType == subjectType && a.SubjectInstanceId == input.SubjectInstanceId))
+                    if (acDomain.PrivilegeSet.Any(a => a.ObjectType == acObjectType && a.ObjectInstanceId == input.ObjectInstanceId && a.SubjectType == subjectType && a.SubjectInstanceId == input.SubjectInstanceId))
                     {
                         return;
                     }
@@ -466,11 +466,11 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivatPrivilegeAddedEvent(acSession, entity, input));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivatPrivilegeAddedEvent(acSession, entity, input));
                 }
                 if (subjectType == AcElementType.Role && acObjectType == AcElementType.Role)
                 {
-                    host.MessageDispatcher.DispatchMessage(new RoleRolePrivilegeAddedEvent(acSession, entity));
+                    acDomain.MessageDispatcher.DispatchMessage(new RoleRolePrivilegeAddedEvent(acSession, entity));
                 }
             }
 
@@ -540,9 +540,9 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Handle(IAcSession acSession, IPrivilegeUpdateIo input, bool isCommand)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var privilegeList = _set._privilegeList;
-                var privilegeRepository = host.RetrieveRequiredService<IRepository<Privilege>>();
+                var privilegeRepository = acDomain.RetrieveRequiredService<IRepository<Privilege>>();
                 Privilege entity = null;
                 var stateChanged = false;
                 lock (this)
@@ -552,7 +552,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     {
                         throw new NotExistException("不存在的权限记录标识" + input.Id);
                     }
-                    var bkState = host.PrivilegeSet.FirstOrDefault(a => a.Id == input.Id);
+                    var bkState = acDomain.PrivilegeSet.FirstOrDefault(a => a.Id == input.Id);
                     bool isAccountSubjectType = string.Equals(UserAcSubjectType.Account.ToName(), entity.SubjectType);
 
                     entity.Update(input);
@@ -585,7 +585,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivatePrivilegeUpdatedEvent(acSession, entity, input));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivatePrivilegeUpdatedEvent(acSession, entity, input));
                 }
             }
 
@@ -613,15 +613,15 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Handle(IAcSession acSession, Guid privilegeId, bool isCommand)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var privilegeList = _set._privilegeList;
-                var privilegeRepository = host.RetrieveRequiredService<IRepository<Privilege>>();
+                var privilegeRepository = acDomain.RetrieveRequiredService<IRepository<Privilege>>();
                 Privilege entity;
                 UserAcSubjectType subjectType;
                 AcElementType acObjectType;
                 lock (this)
                 {
-                    var bkState = host.PrivilegeSet.FirstOrDefault(a => a.Id == privilegeId);
+                    var bkState = acDomain.PrivilegeSet.FirstOrDefault(a => a.Id == privilegeId);
                     entity = privilegeRepository.GetByKey(privilegeId);
                     bool isAccountSubjectType = bkState == null;
                     if (entity == null)
@@ -660,10 +660,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivatePrivilegeRemovedEvent(acSession, entity));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivatePrivilegeRemovedEvent(acSession, entity));
                     if (subjectType == UserAcSubjectType.Role && acObjectType == AcElementType.Role)
                     {
-                        host.MessageDispatcher.DispatchMessage(new RoleRolePrivilegeRemovedEvent(acSession, entity));
+                        acDomain.MessageDispatcher.DispatchMessage(new RoleRolePrivilegeRemovedEvent(acSession, entity));
                     }
                 }
             }

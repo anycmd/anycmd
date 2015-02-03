@@ -35,9 +35,9 @@ namespace Anycmd.Edi.Application
 
         public override ServiceStackHost Init()
         {
-            var host = base.Init();
-            host.Start(_process.WebApiBaseAddress);
-            return host;
+            var acDomain = base.Init();
+            acDomain.Start(_process.WebApiBaseAddress);
+            return acDomain;
         }
 
         public override void Configure(Container container)

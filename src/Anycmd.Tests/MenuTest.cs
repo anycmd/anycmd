@@ -19,9 +19,9 @@ namespace Anycmd.Tests
         [TestMethod]
         public void MenuSet()
         {
-            var host = TestHelper.GetAcDomain();
-            Assert.AreEqual(0, host.MenuSet.Count());
-            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
+            var acDomain = TestHelper.GetAcDomain();
+            Assert.AreEqual(0, acDomain.MenuSet.Count());
+            AcSessionState.AcMethod.SignIn(acDomain, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -30,46 +30,46 @@ namespace Anycmd.Tests
             var entityId = Guid.NewGuid();
 
             MenuState menuById;
-            host.Handle(new MenuCreateInput
+            acDomain.Handle(new MenuCreateInput
             {
                 Id = entityId,
                 Name = "测试1",
                 Description = "test",
                 SortCode = 10,
-                AppSystemId = host.AppSystemSet.First().Id,
+                AppSystemId = acDomain.AppSystemSet.First().Id,
                 Icon = null,
                 ParentId = null,
                 Url = string.Empty
-            }.ToCommand(host.GetAcSession()));
-            Assert.AreEqual(1, host.MenuSet.Count());
-            Assert.IsTrue(host.MenuSet.TryGetMenu(entityId, out menuById));
+            }.ToCommand(acDomain.GetAcSession()));
+            Assert.AreEqual(1, acDomain.MenuSet.Count());
+            Assert.IsTrue(acDomain.MenuSet.TryGetMenu(entityId, out menuById));
 
-            host.Handle(new MenuUpdateInput
+            acDomain.Handle(new MenuUpdateInput
             {
                 Id = entityId,
                 Name = "test2",
                 Description = "test",
                 SortCode = 10,
-                AppSystemId = host.AppSystemSet.First().Id,
+                AppSystemId = acDomain.AppSystemSet.First().Id,
                 Icon = null,
                 Url = string.Empty
-            }.ToCommand(host.GetAcSession()));
-            Assert.AreEqual(1, host.MenuSet.Count());
-            Assert.IsTrue(host.MenuSet.TryGetMenu(entityId, out menuById));
+            }.ToCommand(acDomain.GetAcSession()));
+            Assert.AreEqual(1, acDomain.MenuSet.Count());
+            Assert.IsTrue(acDomain.MenuSet.TryGetMenu(entityId, out menuById));
             Assert.AreEqual("test2", menuById.Name);
 
-            host.Handle(new RemoveMenuCommand(host.GetAcSession(), entityId));
-            Assert.IsFalse(host.MenuSet.TryGetMenu(entityId, out menuById));
-            Assert.AreEqual(0, host.MenuSet.Count());
+            acDomain.Handle(new RemoveMenuCommand(acDomain.GetAcSession(), entityId));
+            Assert.IsFalse(acDomain.MenuSet.TryGetMenu(entityId, out menuById));
+            Assert.AreEqual(0, acDomain.MenuSet.Count());
         }
         #endregion
 
         [TestMethod]
         public void MenuCanNotRemoveWhenItHasChildMenus()
         {
-            var host = TestHelper.GetAcDomain();
-            Assert.AreEqual(0, host.MenuSet.Count());
-            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
+            var acDomain = TestHelper.GetAcDomain();
+            Assert.AreEqual(0, acDomain.MenuSet.Count());
+            AcSessionState.AcMethod.SignIn(acDomain, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -79,37 +79,37 @@ namespace Anycmd.Tests
             var entityId2 = Guid.NewGuid();
 
             MenuState menuById;
-            host.Handle(new MenuCreateInput
+            acDomain.Handle(new MenuCreateInput
             {
                 Id = entityId,
                 Name = "测试1",
                 Description = "test",
                 SortCode = 10,
-                AppSystemId = host.AppSystemSet.First().Id,
+                AppSystemId = acDomain.AppSystemSet.First().Id,
                 Icon = null,
                 ParentId = null,
                 Url = string.Empty
-            }.ToCommand(host.GetAcSession()));
-            host.Handle(new MenuCreateInput
+            }.ToCommand(acDomain.GetAcSession()));
+            acDomain.Handle(new MenuCreateInput
             {
                 Id = entityId2,
                 Name = "测试2",
                 Description = "test",
                 SortCode = 10,
-                AppSystemId = host.AppSystemSet.First().Id,
+                AppSystemId = acDomain.AppSystemSet.First().Id,
                 Icon = null,
                 ParentId = entityId,
                 Url = string.Empty
-            }.ToCommand(host.GetAcSession()));
-            Assert.AreEqual(2, host.MenuSet.Count());
-            Assert.IsNotNull(host.RetrieveRequiredService<IRepository<Menu>>().GetByKey(entityId));
-            Assert.IsNotNull(host.RetrieveRequiredService<IRepository<Menu>>().GetByKey(entityId2));
-            Assert.AreEqual(entityId, host.RetrieveRequiredService<IRepository<Menu>>().GetByKey(entityId2).ParentId.Value);
-            Assert.IsTrue(host.MenuSet.TryGetMenu(entityId, out menuById));
+            }.ToCommand(acDomain.GetAcSession()));
+            Assert.AreEqual(2, acDomain.MenuSet.Count());
+            Assert.IsNotNull(acDomain.RetrieveRequiredService<IRepository<Menu>>().GetByKey(entityId));
+            Assert.IsNotNull(acDomain.RetrieveRequiredService<IRepository<Menu>>().GetByKey(entityId2));
+            Assert.AreEqual(entityId, acDomain.RetrieveRequiredService<IRepository<Menu>>().GetByKey(entityId2).ParentId.Value);
+            Assert.IsTrue(acDomain.MenuSet.TryGetMenu(entityId, out menuById));
             bool catched = false;
             try
             {
-                host.Handle(new RemoveMenuCommand(host.GetAcSession(), entityId));
+                acDomain.Handle(new RemoveMenuCommand(acDomain.GetAcSession(), entityId));
             }
             catch (Exception)
             {
@@ -118,7 +118,7 @@ namespace Anycmd.Tests
             finally
             {
                 Assert.IsTrue(catched);
-                Assert.AreEqual(2, host.MenuSet.Count());
+                Assert.AreEqual(2, acDomain.MenuSet.Count());
             }
         }
 
@@ -126,16 +126,16 @@ namespace Anycmd.Tests
         [TestMethod]
         public void MenuSetShouldRollbackedWhenPersistFailed()
         {
-            var host = TestHelper.GetAcDomain();
-            Assert.AreEqual(0, host.MenuSet.Count());
-            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
+            var acDomain = TestHelper.GetAcDomain();
+            Assert.AreEqual(0, acDomain.MenuSet.Count());
+            AcSessionState.AcMethod.SignIn(acDomain, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
                 {"rememberMe", "rememberMe"}
             });
-            host.RemoveService(typeof(IRepository<Menu>));
-            var moMenuRepository = host.GetMoqRepository<Menu, IRepository<Menu>>();
+            acDomain.RemoveService(typeof(IRepository<Menu>));
+            var moMenuRepository = acDomain.GetMoqRepository<Menu, IRepository<Menu>>();
             var entityId1 = Guid.NewGuid();
             var entityId2 = Guid.NewGuid();
             const string name = "测试1";
@@ -144,17 +144,17 @@ namespace Anycmd.Tests
             moMenuRepository.Setup(a => a.Remove(It.Is<Menu>(b => b.Id == entityId2))).Throws(new DbException(entityId2.ToString()));
             moMenuRepository.Setup<Menu>(a => a.GetByKey(entityId1)).Returns(new Menu { Id = entityId1, Name = name });
             moMenuRepository.Setup<Menu>(a => a.GetByKey(entityId2)).Returns(new Menu { Id = entityId2, Name = name });
-            host.AddService(typeof(IRepository<Menu>), moMenuRepository.Object);
+            acDomain.AddService(typeof(IRepository<Menu>), moMenuRepository.Object);
 
             bool catched = false;
             try
             {
-                host.Handle(new MenuCreateInput
+                acDomain.Handle(new MenuCreateInput
                 {
                     Id = entityId1,
-                    AppSystemId = host.AppSystemSet.First().Id,
+                    AppSystemId = acDomain.AppSystemSet.First().Id,
                     Name = name
-                }.ToCommand(host.GetAcSession()));
+                }.ToCommand(acDomain.GetAcSession()));
             }
             catch (Exception e)
             {
@@ -165,26 +165,26 @@ namespace Anycmd.Tests
             finally
             {
                 Assert.IsTrue(catched);
-                Assert.AreEqual(0, host.MenuSet.Count());
+                Assert.AreEqual(0, acDomain.MenuSet.Count());
             }
 
-            host.Handle(new MenuCreateInput
+            acDomain.Handle(new MenuCreateInput
             {
                 Id = entityId2,
-                AppSystemId = host.AppSystemSet.First().Id,
+                AppSystemId = acDomain.AppSystemSet.First().Id,
                 Name = name
-            }.ToCommand(host.GetAcSession()));
-            Assert.AreEqual(1, host.MenuSet.Count());
+            }.ToCommand(acDomain.GetAcSession()));
+            Assert.AreEqual(1, acDomain.MenuSet.Count());
 
             catched = false;
             try
             {
-                host.Handle(new MenuUpdateInput
+                acDomain.Handle(new MenuUpdateInput
                 {
                     Id = entityId2,
-                    AppSystemId = host.AppSystemSet.First().Id,
+                    AppSystemId = acDomain.AppSystemSet.First().Id,
                     Name = "test2"
-                }.ToCommand(host.GetAcSession()));
+                }.ToCommand(acDomain.GetAcSession()));
             }
             catch (Exception e)
             {
@@ -195,16 +195,16 @@ namespace Anycmd.Tests
             finally
             {
                 Assert.IsTrue(catched);
-                Assert.AreEqual(1, host.MenuSet.Count());
+                Assert.AreEqual(1, acDomain.MenuSet.Count());
                 MenuState menu;
-                Assert.IsTrue(host.MenuSet.TryGetMenu(entityId2, out menu));
+                Assert.IsTrue(acDomain.MenuSet.TryGetMenu(entityId2, out menu));
                 Assert.AreEqual(name, menu.Name);
             }
 
             catched = false;
             try
             {
-                host.Handle(new RemoveMenuCommand(host.GetAcSession(), entityId2));
+                acDomain.Handle(new RemoveMenuCommand(acDomain.GetAcSession(), entityId2));
             }
             catch (Exception e)
             {
@@ -216,8 +216,8 @@ namespace Anycmd.Tests
             {
                 Assert.IsTrue(catched);
                 MenuState menu;
-                Assert.IsTrue(host.MenuSet.TryGetMenu(entityId2, out menu));
-                Assert.AreEqual(1, host.MenuSet.Count());
+                Assert.IsTrue(acDomain.MenuSet.TryGetMenu(entityId2, out menu));
+                Assert.AreEqual(1, acDomain.MenuSet.Count());
             }
         }
         #endregion

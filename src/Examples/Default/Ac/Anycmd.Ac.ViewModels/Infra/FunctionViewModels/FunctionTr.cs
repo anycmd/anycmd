@@ -9,11 +9,11 @@ namespace Anycmd.Ac.ViewModels.Infra.FunctionViewModels
     /// </summary>
     public class FunctionTr
     {
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
-        private FunctionTr(IAcDomain host)
+        private FunctionTr(IAcDomain acDomain)
         {
-            this._host = host;
+            this._acDomain = acDomain;
         }
 
         public static FunctionTr Create(FunctionState function)
@@ -59,7 +59,7 @@ namespace Anycmd.Ac.ViewModels.Infra.FunctionViewModels
             get
             {
                 UiViewState view;
-                return _host.UiViewSet.TryGetUiView(this.Id, out view);
+                return _acDomain.UiViewSet.TryGetUiView(this.Id, out view);
             }
         }
 
@@ -122,7 +122,7 @@ namespace Anycmd.Ac.ViewModels.Infra.FunctionViewModels
             get
             {
                 AccountState developer;
-                if (!_host.SysUserSet.TryGetDevAccount(this.DeveloperId, out developer))
+                if (!_acDomain.SysUserSet.TryGetDevAccount(this.DeveloperId, out developer))
                 {
                     return "无效的值";
                 }

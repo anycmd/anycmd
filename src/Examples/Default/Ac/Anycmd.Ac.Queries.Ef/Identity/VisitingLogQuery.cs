@@ -14,8 +14,8 @@ namespace Anycmd.Ac.Queries.Ef.Identity
     /// </summary>
     public sealed class VisitingLogQuery : QueryBase, IVisitingLogQuery
     {
-        public VisitingLogQuery(IAcDomain host)
-            : base(host, "IdentityEntities")
+        public VisitingLogQuery(IAcDomain acDomain)
+            : base(acDomain, "IdentityEntities")
         {
         }
 

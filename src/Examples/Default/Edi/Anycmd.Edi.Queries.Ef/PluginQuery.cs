@@ -9,8 +9,8 @@ namespace Anycmd.Edi.Queries.Ef
     /// </summary>
     public class PluginQuery : QueryBase, IPluginQuery
     {
-        public PluginQuery(IAcDomain host)
-            : base(host, "EdiEntities")
+        public PluginQuery(IAcDomain acDomain)
+            : base(acDomain, "EdiEntities")
         {
         }
     }

@@ -10,11 +10,11 @@ namespace Anycmd.Edi.ViewModels.ProcessViewModels
     /// </summary>
     public class ProcessTr
     {
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
-        private ProcessTr(IAcDomain host)
+        private ProcessTr(IAcDomain acDomain)
         {
-            this._host = host;
+            this._acDomain = acDomain;
         }
 
         public static ProcessTr Create(ProcessDescriptor process)
@@ -98,7 +98,7 @@ namespace Anycmd.Edi.ViewModels.ProcessViewModels
             get
             {
                 if (_ontology != null) return _ontology;
-                if (!_host.NodeHost.Ontologies.TryGetOntology(this.OntologyId, out _ontology))
+                if (!_acDomain.NodeHost.Ontologies.TryGetOntology(this.OntologyId, out _ontology))
                 {
                     throw new ValidationException("意外的本体标识" + this.OntologyId);
                 }

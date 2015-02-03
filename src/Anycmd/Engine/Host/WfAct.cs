@@ -9,27 +9,27 @@ namespace Anycmd.Engine.Host
     /// </summary>
     public sealed class WfAct : IDisposable
     {
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="host"></param>
+        /// <param name="acDomain"></param>
         /// <param name="acts"></param>
         /// <param name="actor"></param>
         /// <param name="name"></param>
-        public WfAct(IAcDomain host, IStackTrace acts, IWfResource actor, string name)
+        public WfAct(IAcDomain acDomain, IStackTrace acts, IWfResource actor, string name)
         {
             if (actor == null)
             {
                 throw new ArgumentNullException("actor");
             }
-            if (host == null)
+            if (acDomain == null)
             {
-                throw new ArgumentNullException("host");
+                throw new ArgumentNullException("acDomain");
             }
-            this._host = host;
-            if (host.Config.TraceIsEnabled)
+            this._acDomain = acDomain;
+            if (acDomain.Config.TraceIsEnabled)
             {
                 this.ActorId = actor.Id;
                 this.ActorName = actor.Name;
@@ -75,7 +75,7 @@ namespace Anycmd.Engine.Host
         /// </summary>
         public void Dispose()
         {
-            if (_host.Config.TraceIsEnabled)
+            if (_acDomain.Config.TraceIsEnabled)
             {
                 this.ActedOn = DateTime.Now;
             }

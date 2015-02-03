@@ -12,9 +12,9 @@ namespace Anycmd.Ef
 
     public static class ServiceContainerExtension
     {
-        public static void RegisterRepository(this IAcDomain host, IEnumerable<string> efDbContextNames, params Assembly[] assemblies)
+        public static void RegisterRepository(this IAcDomain acDomain, IEnumerable<string> efDbContextNames, params Assembly[] assemblies)
         {
-            var repositoryContexts = efDbContextNames.Select(item => new EfRepositoryContext(host, item)).ToList();
+            var repositoryContexts = efDbContextNames.Select(item => new EfRepositoryContext(acDomain, item)).ToList();
             foreach (var assembly in assemblies)
             {
                 foreach (var type in assembly.GetTypes())
@@ -29,8 +29,8 @@ namespace Anycmd.Ef
                         {
                             if (TryGetType(repositoryContext, type))
                             {
-                                var repository = Activator.CreateInstance(repositoryType, host, repositoryContext.EfDbContextName);
-                                host.AddService(genericInterface, repository);
+                                var repository = Activator.CreateInstance(repositoryType, acDomain, repositoryContext.EfDbContextName);
+                                acDomain.AddService(genericInterface, repository);
                             }
                         }
                     }
@@ -41,12 +41,12 @@ namespace Anycmd.Ef
                 item.Dispose();
             }
         }
-        public static void RegisterQuery(this IAcDomain host, params Assembly[] assemblies)
+        public static void RegisterQuery(this IAcDomain acDomain, params Assembly[] assemblies)
         {
-            Register(host, "Query", assemblies);
+            Register(acDomain, "Query", assemblies);
         }
 
-        private static void Register(IAcDomain host, string endsWith, params Assembly[] assemblies)
+        private static void Register(IAcDomain acDomain, string endsWith, params Assembly[] assemblies)
         {
             foreach (var assembly in assemblies)
             {
@@ -57,7 +57,7 @@ namespace Anycmd.Ef
                         var defaultInterface = type.GetInterface("I" + type.Name);
                         if (defaultInterface != null)
                         {
-                            host.AddService(defaultInterface, Activator.CreateInstance(type, host));
+                            acDomain.AddService(defaultInterface, Activator.CreateInstance(type, acDomain));
                         }
                     }
                 }

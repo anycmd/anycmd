@@ -26,7 +26,7 @@ namespace Anycmd.Engine.Ac
 
         private UiViewState(Guid id) : base(id) { }
 
-        public static UiViewState Create(IAcDomain host, UiViewBase view)
+        public static UiViewState Create(IAcDomain acDomain, UiViewBase view)
         {
             if (view == null)
             {
@@ -35,7 +35,7 @@ namespace Anycmd.Engine.Ac
 
             return new UiViewState(view.Id)
             {
-                _acDomain = host,
+                _acDomain = acDomain,
                 _tooltip = view.Tooltip,
                 _createOn = view.CreateOn,
                 _icon = view.Icon,

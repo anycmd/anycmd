@@ -491,10 +491,11 @@ where a.Ontology=@Ontology {0}";
             /// <summary>
             /// 
             /// </summary>
+            /// <param name="acDomain"></param>
             /// <param name="commandType"></param>
             /// <param name="record"></param>
             /// <returns></returns>
-            internal static CommandRecord Create(IAcDomain host, MessageTypeKind commandType, System.Data.IDataRecord record)
+            internal static CommandRecord Create(IAcDomain acDomain, MessageTypeKind commandType, System.Data.IDataRecord record)
             {
                 MessageType requestType;
                 record.GetString(record.GetOrdinal("MessageType")).TryParse(out requestType);
@@ -503,7 +504,7 @@ where a.Ontology=@Ontology {0}";
                 return new CommandRecord(commandType,
                     record.GetGuid(record.GetOrdinal("Id")),
                     DataItemsTuple.Create(
-                        host,
+                        acDomain,
                         record.GetNullableString("InfoId"),
                         record.GetNullableString("InfoValue"),
                         record.GetNullableString("QueryList"),

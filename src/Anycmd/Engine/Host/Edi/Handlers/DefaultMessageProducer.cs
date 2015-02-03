@@ -138,11 +138,11 @@ namespace Anycmd.Engine.Host.Edi.Handlers
             return true;
         }
 
-        private IEnumerable<CommandBuilder> CommandBuilders(IAcDomain host)
+        private IEnumerable<CommandBuilder> CommandBuilders(IAcDomain acDomain)
         {
-            foreach (var node in host.NodeHost.Nodes)
+            foreach (var node in acDomain.NodeHost.Nodes)
             {
-                if (node != host.NodeHost.Nodes.ThisNode)
+                if (node != acDomain.NodeHost.Nodes.ThisNode)
                 {
                     yield return new CommandBuilder(node);
                 }

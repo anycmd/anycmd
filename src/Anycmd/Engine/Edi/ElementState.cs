@@ -19,7 +19,7 @@ namespace Anycmd.Engine.Edi
 
         private ElementState(Guid id) : base(id) { }
 
-        public static ElementState Create(IAcDomain host, ElementBase element)
+        public static ElementState Create(IAcDomain acDomain, ElementBase element)
         {
             if (element == null)
             {
@@ -27,7 +27,7 @@ namespace Anycmd.Engine.Edi
             }
             var data = new ElementState(element.Id)
             {
-                AcDomain = host,
+                AcDomain = acDomain,
                 Actions = element.Actions,
                 AllowFilter = element.AllowFilter,
                 AllowSort = element.AllowSort,
@@ -75,17 +75,17 @@ namespace Anycmd.Engine.Edi
             data._elementActionDic = elementActionDic;
             if (data.Actions != null)
             {
-                var elementActions = host.JsonSerializer.Deserialize<ElementAction[]>(data.Actions);
+                var elementActions = acDomain.JsonSerializer.Deserialize<ElementAction[]>(data.Actions);
                 if (elementActions != null)
                 {
                     foreach (var elementAction in elementActions)
                     {
                         OntologyDescriptor ontology;
-                        if (!host.NodeHost.Ontologies.TryGetOntology(data.OntologyId, out ontology))
+                        if (!acDomain.NodeHost.Ontologies.TryGetOntology(data.OntologyId, out ontology))
                         {
                             throw new AnycmdException("意外的本体元素本体标识" + data.OntologyId);
                         }
-                        var actionDic = host.NodeHost.Ontologies.GetActons(ontology);
+                        var actionDic = acDomain.NodeHost.Ontologies.GetActons(ontology);
                         var verb = actionDic.Where(a => a.Value.Id == elementAction.ActionId).Select(a => a.Key).FirstOrDefault();
                         if (verb != null)
                         {
@@ -104,15 +104,15 @@ namespace Anycmd.Engine.Edi
             data._infoRules = infoRules;
             if (data.InfoRules != null)
             {
-                var elementInfoRules = host.JsonSerializer.Deserialize<ElementInfoRule[]>(data.InfoRules);
+                var elementInfoRules = acDomain.JsonSerializer.Deserialize<ElementInfoRule[]>(data.InfoRules);
                 if (elementInfoRules != null)
                 {
                     foreach (var elementInfoRule in elementInfoRules)
                     {
                         InfoRuleState infoRule;
-                        if (host.NodeHost.InfoRules.TryGetInfoRule(elementInfoRule.InfoRuleId, out infoRule))
+                        if (acDomain.NodeHost.InfoRules.TryGetInfoRule(elementInfoRule.InfoRuleId, out infoRule))
                         {
-                            elementInfoRuleList.Add(ElementInfoRuleState.Create(host, elementInfoRule));
+                            elementInfoRuleList.Add(ElementInfoRuleState.Create(acDomain, elementInfoRule));
                             infoRules.Add(infoRule);
                         }
                     }

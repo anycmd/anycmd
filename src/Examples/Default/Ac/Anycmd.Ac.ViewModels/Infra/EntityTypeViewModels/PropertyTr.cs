@@ -10,11 +10,11 @@ namespace Anycmd.Ac.ViewModels.Infra.EntityTypeViewModels
     /// </summary>
     public partial class PropertyTr
     {
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
-        private PropertyTr(IAcDomain host)
+        private PropertyTr(IAcDomain acDomain)
         {
-            this._host = host;
+            this._acDomain = acDomain;
         }
 
         public static PropertyTr Create(PropertyState property)
@@ -106,7 +106,7 @@ namespace Anycmd.Ac.ViewModels.Infra.EntityTypeViewModels
                     return string.Empty;
                 }
                 DicState dic;
-                if (!_host.DicSet.TryGetDic(this.DicId.Value, out dic))
+                if (!_acDomain.DicSet.TryGetDic(this.DicId.Value, out dic))
                 {
                     throw new AnycmdException("意外的系统字典标识" + this.DicId);
                 }

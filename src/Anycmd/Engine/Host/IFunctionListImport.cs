@@ -10,6 +10,6 @@ namespace Anycmd.Engine.Host
         /// <summary>
         /// 导入指定程序集中的操作
         /// </summary>
-        void Import(IAcDomain host, IAcSession acSession, string appSystemCode);
+        void Import(IAcDomain acDomain, IAcSession acSession, string appSystemCode);
     }
 }

@@ -32,15 +32,15 @@ namespace Anycmd.Logging
         /// </summary>
         public string BootConnString { get { return _bootConnString; } }
 
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
         private readonly ILog _log;
 
-        public Log4NetLoggingService(IAcDomain host)
+        public Log4NetLoggingService(IAcDomain acDomain)
         {
 
-            log4net.GlobalContext.Properties["ProcessName"] = Process.GetCurrentProcess().ProcessName;
-            log4net.GlobalContext.Properties["BaseDirectory"] = AppDomain.CurrentDomain.BaseDirectory;
-            this._host = host;
+            GlobalContext.Properties["ProcessName"] = Process.GetCurrentProcess().ProcessName;
+            GlobalContext.Properties["BaseDirectory"] = AppDomain.CurrentDomain.BaseDirectory;
+            this._acDomain = acDomain;
             XmlConfigurator.ConfigureAndWatch(new FileInfo(AppDomain.CurrentDomain.SetupInformation.ConfigurationFile));
             _log = LogManager.GetLogger(typeof(Log4NetLoggingService));
         }
@@ -97,7 +97,7 @@ namespace Anycmd.Logging
         public IList<IAnyLog> GetPlistAnyLogs(List<FilterData> filters, PagingInput paging)
         {
             paging.Valid();
-            var filterStringBuilder = _host.RetrieveRequiredService<ISqlFilterStringBuilder>();
+            var filterStringBuilder = _acDomain.RetrieveRequiredService<ISqlFilterStringBuilder>();
             RdbDescriptor db = GetExceptionLogDb();
             List<SqlParameter> prams;
             var filterString = filterStringBuilder.FilterString(filters, "t", out prams);
@@ -128,7 +128,7 @@ from (SELECT ROW_NUMBER() OVER(ORDER BY {1} {2}) AS RowNumber,* FROM {3} as t"
             , List<FilterData> filters, PagingInput paging)
         {
             paging.Valid();
-            var filterStringBuilder = _host.RetrieveRequiredService<ISqlFilterStringBuilder>();
+            var filterStringBuilder = _acDomain.RetrieveRequiredService<ISqlFilterStringBuilder>();
             RdbDescriptor db = GetOperationLogDb();
             List<SqlParameter> prams;
             var filterString = filterStringBuilder.FilterString(filters, "t", out prams);
@@ -194,7 +194,7 @@ from (SELECT ROW_NUMBER() OVER(ORDER BY {1} {2}) AS RowNumber,* FROM {3} as t"
         public IList<ExceptionLog> GetPlistExceptionLogs(List<FilterData> filters, PagingInput paging)
         {
             paging.Valid();
-            var filterStringBuilder = _host.RetrieveRequiredService<ISqlFilterStringBuilder>();
+            var filterStringBuilder = _acDomain.RetrieveRequiredService<ISqlFilterStringBuilder>();
             RdbDescriptor db = GetExceptionLogDb();
             List<SqlParameter> prams;
             var filterString = filterStringBuilder.FilterString(filters, "t", out prams);
@@ -244,12 +244,12 @@ from (SELECT ROW_NUMBER() OVER(ORDER BY {1} {2}) AS RowNumber,* FROM {3} as t"
         {
 
             EntityTypeState entityType;
-            if (!_host.EntityTypeSet.TryGetEntityType(new Coder("Ac", "AnyLog"), out entityType))
+            if (!_acDomain.EntityTypeSet.TryGetEntityType(new Coder("Ac", "AnyLog"), out entityType))
             {
                 throw new Exceptions.AnycmdException("意外的实体类型码Ac.AnyLog");
             }
             RdbDescriptor db;
-            if (!_host.Rdbs.TryDb(entityType.DatabaseId, out db))
+            if (!_acDomain.Rdbs.TryDb(entityType.DatabaseId, out db))
             {
                 throw new Exceptions.AnycmdException("意外的AnyLog数据库标识" + entityType.DatabaseId);
             }
@@ -260,12 +260,12 @@ from (SELECT ROW_NUMBER() OVER(ORDER BY {1} {2}) AS RowNumber,* FROM {3} as t"
         {
 
             EntityTypeState entityType;
-            if (!_host.EntityTypeSet.TryGetEntityType(new Coder("Ac", "OperationLog"), out entityType))
+            if (!_acDomain.EntityTypeSet.TryGetEntityType(new Coder("Ac", "OperationLog"), out entityType))
             {
                 throw new Exceptions.AnycmdException("意外的实体类型码Ac.OperationLog");
             }
             RdbDescriptor db;
-            if (!_host.Rdbs.TryDb(entityType.DatabaseId, out db))
+            if (!_acDomain.Rdbs.TryDb(entityType.DatabaseId, out db))
             {
                 throw new Exceptions.AnycmdException("意外的OperationLog数据库标识" + entityType.DatabaseId);
             }
@@ -276,12 +276,12 @@ from (SELECT ROW_NUMBER() OVER(ORDER BY {1} {2}) AS RowNumber,* FROM {3} as t"
         {
 
             EntityTypeState entityType;
-            if (!_host.EntityTypeSet.TryGetEntityType(new Coder("Ac", "ExceptionLog"), out entityType))
+            if (!_acDomain.EntityTypeSet.TryGetEntityType(new Coder("Ac", "ExceptionLog"), out entityType))
             {
                 throw new Exceptions.AnycmdException("意外的实体类型码Ac.ExceptionLog");
             }
             RdbDescriptor db;
-            if (!_host.Rdbs.TryDb(entityType.DatabaseId, out db))
+            if (!_acDomain.Rdbs.TryDb(entityType.DatabaseId, out db))
             {
                 throw new Exceptions.AnycmdException("意外的ExceptionLog数据库标识" + entityType.DatabaseId);
             }

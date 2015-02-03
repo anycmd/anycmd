@@ -24,7 +24,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
         private readonly Dictionary<Guid, ButtonState> _dicById = new Dictionary<Guid, ButtonState>();
         private readonly Dictionary<string, ButtonState> _dicByCode = new Dictionary<string, ButtonState>(StringComparer.OrdinalIgnoreCase);
         private bool _initialized;
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
         private readonly Guid _id = Guid.NewGuid();
 
@@ -33,17 +33,17 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             get { return _id; }
         }
 
-        internal ButtonSet(IAcDomain host)
+        internal ButtonSet(IAcDomain acDomain)
         {
-            if (host == null)
+            if (acDomain == null)
             {
-                throw new ArgumentNullException("host");
+                throw new ArgumentNullException("acDomain");
             }
-            if (host.Equals(EmptyAcDomain.SingleInstance))
+            if (acDomain.Equals(EmptyAcDomain.SingleInstance))
             {
                 _initialized = true;
             }
-            _host = host;
+            _acDomain = acDomain;
             new MessageHandler(this).Register();
         }
 
@@ -97,10 +97,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             lock (this)
             {
                 if (_initialized) return;
-                _host.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
+                _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
                 _dicById.Clear();
                 _dicByCode.Clear();
-                var buttons = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllButtons().ToList();
+                var buttons = _acDomain.RetrieveRequiredService<IOriginalHostStateReader>().GetAllButtons().ToList();
                 foreach (var button in buttons)
                 {
                     if (_dicById.ContainsKey(button.Id))
@@ -116,7 +116,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     _dicByCode.Add(button.Code, buttonState);
                 }
                 _initialized = true;
-                _host.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
+                _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
             }
         }
 
@@ -156,10 +156,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Register()
             {
-                var messageDispatcher = _set._host.MessageDispatcher;
+                var messageDispatcher = _set._acDomain.MessageDispatcher;
                 if (messageDispatcher == null)
                 {
-                    throw new ArgumentNullException("messageDispatcher has not be set of host:{0}".Fmt(_set._host.Name));
+                    throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(_set._acDomain.Name));
                 }
                 messageDispatcher.Register((IHandler<AddButtonCommand>)this);
                 messageDispatcher.Register((IHandler<ButtonAddedEvent>)this);
@@ -185,10 +185,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Handle(IAcSession acSession, IButtonCreateIo input, bool isCommand)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var dicById = _set._dicById;
                 var dicByCode = _set._dicByCode;
-                var buttonRepository = host.RetrieveRequiredService<IRepository<Button>>();
+                var buttonRepository = acDomain.RetrieveRequiredService<IRepository<Button>>();
                 if (string.IsNullOrEmpty(input.Code))
                 {
                     throw new ValidationException("编码不能为空");
@@ -196,11 +196,11 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 Button entity;
                 lock (this)
                 {
-                    if (!input.Id.HasValue || host.ButtonSet.ContainsButton(input.Id.Value))
+                    if (!input.Id.HasValue || acDomain.ButtonSet.ContainsButton(input.Id.Value))
                     {
                         throw new AnycmdException("意外的按钮标识");
                     }
-                    if (host.ButtonSet.ContainsButton(input.Code))
+                    if (acDomain.ButtonSet.ContainsButton(input.Code))
                     {
                         throw new ValidationException("重复的按钮编码");
                     }
@@ -240,7 +240,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateButtonAddedEvent(acSession, entity, input));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivateButtonAddedEvent(acSession, entity, input));
                 }
             }
 
@@ -268,14 +268,14 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Handle(IAcSession acSession, IButtonUpdateIo input, bool isCommand)
             {
-                var host = _set._host;
-                var buttonRepository = host.RetrieveRequiredService<IRepository<Button>>();
+                var acDomain = _set._acDomain;
+                var buttonRepository = acDomain.RetrieveRequiredService<IRepository<Button>>();
                 if (string.IsNullOrEmpty(input.Code))
                 {
                     throw new ValidationException("编码不能为空");
                 }
                 ButtonState bkState;
-                if (!host.ButtonSet.TryGetButton(input.Id, out bkState))
+                if (!acDomain.ButtonSet.TryGetButton(input.Id, out bkState))
                 {
                     throw new NotExistException("意外的按钮标识" + input.Id);
                 }
@@ -284,12 +284,12 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 lock (bkState)
                 {
                     ButtonState oldState;
-                    if (!host.ButtonSet.TryGetButton(input.Id, out oldState))
+                    if (!acDomain.ButtonSet.TryGetButton(input.Id, out oldState))
                     {
                         throw new NotExistException("意外的按钮标识" + input.Id);
                     }
                     ButtonState button;
-                    if (host.ButtonSet.TryGetButton(input.Code, out button) && button.Id != input.Id)
+                    if (acDomain.ButtonSet.TryGetButton(input.Code, out button) && button.Id != input.Id)
                     {
                         throw new ValidationException("重复的按钮编码");
                     }
@@ -327,7 +327,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateButtonUpdatedEvent(acSession, entity, input));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivateButtonUpdatedEvent(acSession, entity, input));
                 }
             }
 
@@ -374,16 +374,16 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Handle(IAcSession acSession, Guid buttonId, bool isCommand)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var dicById = _set._dicById;
                 var dicByCode = _set._dicByCode;
-                var buttonRepository = host.RetrieveRequiredService<IRepository<Button>>();
+                var buttonRepository = acDomain.RetrieveRequiredService<IRepository<Button>>();
                 ButtonState bkState;
-                if (!host.ButtonSet.TryGetButton(buttonId, out bkState))
+                if (!acDomain.ButtonSet.TryGetButton(buttonId, out bkState))
                 {
                     return;
                 }
-                if (host.UiViewSet.GetUiViewButtons().Any(a => a.ButtonId == buttonId))
+                if (acDomain.UiViewSet.GetUiViewButtons().Any(a => a.ButtonId == buttonId))
                 {
                     throw new ValidationException("按钮关联界面视图后不能删除");
                 }
@@ -391,7 +391,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 lock (bkState)
                 {
                     ButtonState state;
-                    if (!host.ButtonSet.TryGetButton(buttonId, out state))
+                    if (!acDomain.ButtonSet.TryGetButton(buttonId, out state))
                     {
                         return;
                     }
@@ -404,7 +404,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     {
                         if (isCommand)
                         {
-                            host.MessageDispatcher.DispatchMessage(new ButtonRemovingEvent(acSession, entity));
+                            acDomain.MessageDispatcher.DispatchMessage(new ButtonRemovingEvent(acSession, entity));
                         }
                         dicById.Remove(bkState.Id);
                         if (dicByCode.ContainsKey(bkState.Code))
@@ -435,7 +435,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateButtonRemovedEvent(acSession, entity));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivateButtonRemovedEvent(acSession, entity));
                 }
             }
 

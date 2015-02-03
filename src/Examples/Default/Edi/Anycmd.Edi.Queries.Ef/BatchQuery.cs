@@ -9,8 +9,8 @@ namespace Anycmd.Edi.Queries.Ef
     /// </summary>
     public class BatchQuery : QueryBase, IBatchQuery
     {
-        public BatchQuery(IAcDomain host)
-            : base(host, "EdiEntities")
+        public BatchQuery(IAcDomain acDomain)
+            : base(acDomain, "EdiEntities")
         {
         }
     }

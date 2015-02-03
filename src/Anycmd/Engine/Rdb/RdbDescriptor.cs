@@ -28,26 +28,26 @@ namespace Anycmd.Engine.Rdb
         private bool _isLocalhost = false;
         private bool _isLocalhostDetected = false;
         private readonly object _thisLocker = new object();
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
         #region Ctor
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="host"></param>
+        /// <param name="acDomain"></param>
         /// <param name="database"></param>
-        public RdbDescriptor(IAcDomain host, IRDatabase database)
+        public RdbDescriptor(IAcDomain acDomain, IRDatabase database)
         {
             if (database == null)
             {
                 throw new ArgumentNullException("database");
             }
-            if (host == null)
+            if (acDomain == null)
             {
-                throw new ArgumentNullException("host");
+                throw new ArgumentNullException("acDomain");
             }
-            this._host = host;
+            this._acDomain = acDomain;
             RdbmsType rdbmsType;
             if (!database.RdbmsType.TryParse(out rdbmsType))
             {
@@ -58,7 +58,7 @@ namespace Anycmd.Engine.Rdb
         #endregion
 
         #region Public Properties
-        public IAcDomain AcDomain { get { return _host; } }
+        public IAcDomain AcDomain { get { return _acDomain; } }
 
         /// <summary>
         /// 
@@ -67,12 +67,12 @@ namespace Anycmd.Engine.Rdb
 
         public IReadOnlyDictionary<string, DbTable> DbTables
         {
-            get { return _host.Rdbs.DbTables[this]; }
+            get { return _acDomain.Rdbs.DbTables[this]; }
         }
 
         public IReadOnlyDictionary<string, DbView> DbViews
         {
-            get { return _host.Rdbs.DbViews[this]; }
+            get { return _acDomain.Rdbs.DbViews[this]; }
         }
 
         /// <summary>
@@ -139,12 +139,12 @@ namespace Anycmd.Engine.Rdb
 
         public bool TryGetDbTable(string dbTableId, out DbTable dbTable)
         {
-            return _host.Rdbs.DbTables.TryGetDbTable(this, dbTableId, out dbTable);
+            return _acDomain.Rdbs.DbTables.TryGetDbTable(this, dbTableId, out dbTable);
         }
 
         public bool TryGetDbView(string dbViewId, out DbView dbView)
         {
-            return _host.Rdbs.DbViews.TryGetDbView(this, dbViewId, out dbView);
+            return _acDomain.Rdbs.DbViews.TryGetDbView(this, dbViewId, out dbView);
         }
 
         #region GetConnection
@@ -417,7 +417,7 @@ namespace Anycmd.Engine.Rdb
                 {
                     if (_tableSchemas.ContainsKey(dbTable.Id)) return _tableSchemas[dbTable.Id];
                     IReadOnlyDictionary<string, DbTableColumn> dbTableColumns;
-                    if (!_host.Rdbs.DbTableColumns.TryGetDbTableColumns(this, dbTable, out dbTableColumns))
+                    if (!_acDomain.Rdbs.DbTableColumns.TryGetDbTableColumns(this, dbTable, out dbTableColumns))
                     {
                         throw new AnycmdException("意外的数据库表");
                     }

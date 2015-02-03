@@ -22,7 +22,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
         private bool _initialized = false;
         private readonly object _locker = new object();
         private readonly Guid _id = Guid.NewGuid();
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
         public Guid Id
         {
@@ -32,17 +32,17 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
         /// <summary>
         /// 构造并接入总线
         /// </summary>
-        internal MessageProviderSet(IAcDomain host)
+        internal MessageProviderSet(IAcDomain acDomain)
         {
-            if (host == null)
+            if (acDomain == null)
             {
-                throw new ArgumentNullException("host");
+                throw new ArgumentNullException("acDomain");
             }
-            if (host.Equals(EmptyAcDomain.SingleInstance))
+            if (acDomain.Equals(EmptyAcDomain.SingleInstance))
             {
                 _initialized = true;
             }
-            this._host = host;
+            this._acDomain = acDomain;
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             lock (_locker)
             {
                 if (_initialized) return;
-                _host.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
+                _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
                 _dic.Clear();
                 var messageProviders = GetMessageProviders();
                 if (messageProviders != null)
@@ -111,14 +111,14 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                 }
                 _initialized = true;
-                _host.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
+                _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
             }
         }
 
         private IEnumerable<IMessageProvider> GetMessageProviders()
         {
             IEnumerable<IMessageProvider> r = null;
-            using (var catalog = new DirectoryCatalog(Path.Combine(_host.GetPluginBaseDirectory(PluginType.MessageProvider), "Bin")))
+            using (var catalog = new DirectoryCatalog(Path.Combine(_acDomain.GetPluginBaseDirectory(PluginType.MessageProvider), "Bin")))
             using (var container = new CompositionContainer(catalog))
             {
                 var infoValueConverterImport = new MessageProviderImport();

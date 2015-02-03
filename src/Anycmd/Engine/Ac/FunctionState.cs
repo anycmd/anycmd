@@ -43,7 +43,7 @@ namespace Anycmd.Engine.Ac
 
         private FunctionState(Guid id) : base(id) { }
 
-        public static FunctionState Create(IAcDomain host, FunctionBase function)
+        public static FunctionState Create(IAcDomain acDomain, FunctionBase function)
         {
             if (function == null)
             {
@@ -54,13 +54,13 @@ namespace Anycmd.Engine.Ac
                 throw new AnycmdException("必须指定资源");
             }
             ResourceTypeState resource;
-            if (!host.ResourceTypeSet.TryGetResource(function.ResourceTypeId, out resource))
+            if (!acDomain.ResourceTypeSet.TryGetResource(function.ResourceTypeId, out resource))
             {
                 throw new ValidationException("非法的资源标识" + function.ResourceTypeId);
             }
             return new FunctionState(function.Id)
             {
-                _acDomain = host,
+                _acDomain = acDomain,
                 _resourceTypeId = function.ResourceTypeId,
                 _code = function.Code,
                 _guid = function.Guid,

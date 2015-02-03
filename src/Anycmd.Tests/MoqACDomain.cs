@@ -18,10 +18,6 @@ namespace Anycmd.Tests
 
     public class MoqAcDomain : DefaultAcDomain
     {
-        public MoqAcDomain()
-        {
-        }
-
         public override void Configure()
         {
             var acMethod = new DefaultAcSessionMethod();

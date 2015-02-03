@@ -21,7 +21,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
         private readonly Dictionary<Guid, IEntityProvider> _dic = new Dictionary<Guid, IEntityProvider>();
         private bool _initialized = false;
         private readonly Guid _id = Guid.NewGuid();
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
         public Guid Id
         {
@@ -34,17 +34,17 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
         /// <summary>
         /// 构造并接入总线
         /// </summary>
-        internal EntityProviderSet(IAcDomain host)
+        internal EntityProviderSet(IAcDomain acDomain)
         {
-            if (host == null)
+            if (acDomain == null)
             {
-                throw new ArgumentNullException("host");
+                throw new ArgumentNullException("acDomain");
             }
-            if (host.Equals(EmptyAcDomain.SingleInstance))
+            if (acDomain.Equals(EmptyAcDomain.SingleInstance))
             {
                 _initialized = true;
             }
-            this._host = host;
+            this._acDomain = acDomain;
         }
 
         /// <summary>
@@ -100,7 +100,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             lock (this)
             {
                 if (_initialized) return;
-                _host.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
+                _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
                 _dic.Clear();
 
                 var entityProviders = GetEntityProviders();
@@ -114,14 +114,14 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                 }
                 _initialized = true;
-                _host.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
+                _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
             }
         }
 
         private IEnumerable<IEntityProvider> GetEntityProviders()
         {
             IEnumerable<IEntityProvider> r = null;
-            using (var catalog = new DirectoryCatalog(Path.Combine(_host.GetPluginBaseDirectory(PluginType.EntityProvider), "Bin")))
+            using (var catalog = new DirectoryCatalog(Path.Combine(_acDomain.GetPluginBaseDirectory(PluginType.EntityProvider), "Bin")))
             using (var container = new CompositionContainer(catalog))
             {
                 var infoValueConverterImport = new EntityProviderImport();

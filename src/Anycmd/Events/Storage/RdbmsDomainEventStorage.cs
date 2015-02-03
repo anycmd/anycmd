@@ -20,7 +20,7 @@ namespace Anycmd.Events.Storage
         private readonly TRdbmsStorage _storage;
         private readonly string _connectionString;
         private readonly IStorageMappingResolver _mappingResolver;
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
         #endregion
 
         #region Ctor
@@ -28,18 +28,18 @@ namespace Anycmd.Events.Storage
         /// <summary>
         /// Initializes a new instance of the <c>RdbmsDomainEventStorage&lt;TRdbmsStorage&gt;</c> class.
         /// </summary>
-        /// <param name="host"></param>
+        /// <param name="acDomain"></param>
         /// <param name="connectionString">The connection string which is used when connecting
         /// to the relational database system. For more information about the connection strings
         /// for different database providers, please refer to http://www.connectionstrings.com.
         /// </param>
         /// <param name="mappingResolver">The instance of the mapping resolver which resolves the table and column mappings
         /// between data objects and the relational database system.</param>
-        protected RdbmsDomainEventStorage(IAcDomain host, string connectionString, IStorageMappingResolver mappingResolver)
+        protected RdbmsDomainEventStorage(IAcDomain acDomain, string connectionString, IStorageMappingResolver mappingResolver)
         {
             try
             {
-                this._host = host;
+                this._acDomain = acDomain;
                 this._connectionString = connectionString;
                 this._mappingResolver = mappingResolver;
                 Type storageType = typeof(TRdbmsStorage);
@@ -96,7 +96,7 @@ namespace Anycmd.Events.Storage
         {
             try
             {
-                DomainEventDataObject dataObject = _host.FromDomainEvent(domainEvent);
+                DomainEventDataObject dataObject = _acDomain.FromDomainEvent(domainEvent);
                 _storage.Insert<DomainEventDataObject>(new PropertyBag(dataObject));
             }
             catch { throw; }
@@ -115,7 +115,7 @@ namespace Anycmd.Events.Storage
                 sort.AddSort<long>("Version");
                 var aggregateRootTypeName = aggregateRootType.AssemblyQualifiedName;
                 ISpecification<DomainEventDataObject> specification = Specification<DomainEventDataObject>.Eval(p => p.SourceId == id && p.AssemblyQualifiedSourceType == aggregateRootTypeName);
-                return _storage.Select<DomainEventDataObject>(specification, sort, SortOrder.Ascending).Select(p => _host.ToDomainEvent(p));
+                return _storage.Select<DomainEventDataObject>(specification, sort, SortOrder.Ascending).Select(p => _acDomain.ToDomainEvent(p));
             }
             catch { throw; }
         }
@@ -134,7 +134,7 @@ namespace Anycmd.Events.Storage
             var aggregateRootTypeName = aggregateRootType.AssemblyQualifiedName;
             ISpecification<DomainEventDataObject> specification = Specification<DomainEventDataObject>
                 .Eval(p => p.SourceId == id && p.AssemblyQualifiedSourceType == aggregateRootTypeName && p.Version > version);
-            return _storage.Select<DomainEventDataObject>(specification, sort, SortOrder.Ascending).Select(p => _host.ToDomainEvent(p));
+            return _storage.Select<DomainEventDataObject>(specification, sort, SortOrder.Ascending).Select(p => _acDomain.ToDomainEvent(p));
         }
 
         #endregion

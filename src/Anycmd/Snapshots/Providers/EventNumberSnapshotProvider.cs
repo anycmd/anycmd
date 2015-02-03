@@ -125,7 +125,7 @@ namespace Anycmd.Snapshots.Providers
         #region Private Fields
         private readonly int _numOfEvents;
         private readonly Dictionary<EventNumberSnapshotMappingKey, ISnapshot> _snapshotMapping = new Dictionary<EventNumberSnapshotMappingKey, ISnapshot>();
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
         #endregion
 
         #region Ctor
@@ -133,15 +133,15 @@ namespace Anycmd.Snapshots.Providers
         /// <summary>
         /// Initializes a new instance of <c>EventNumberSnapshotProvider</c> class.
         /// </summary>
-        /// <param name="host"></param>
+        /// <param name="acDomain"></param>
         /// <param name="eventStorage">The instance of the event storage that is used for initializing the <c>EventNumberSnapshotProvider</c> class.</param>
         /// <param name="snapshotStorage">The instance of the snapshot storage this is used for initializing the <c>EventNumberSnapshotProvider</c> class.</param>
         /// <param name="option">The snapshot provider option.</param>
         /// <param name="numOfEvents">The maximum number of events.</param>
-        public EventNumberSnapshotProvider(IAcDomain host, IStorage eventStorage, IStorage snapshotStorage, SnapshotProviderOption option, int numOfEvents)
+        public EventNumberSnapshotProvider(IAcDomain acDomain, IStorage eventStorage, IStorage snapshotStorage, SnapshotProviderOption option, int numOfEvents)
             : base(eventStorage, snapshotStorage, option)
         {
-            this._host = host;
+            this._acDomain = acDomain;
             this._numOfEvents = numOfEvents;
         }
         #endregion
@@ -227,7 +227,7 @@ namespace Anycmd.Snapshots.Providers
         public override void CreateOrUpdateSnapshot(ISourcedAggregateRoot aggregateRoot)
         {
             var snapshot = aggregateRoot.CreateSnapshot();
-            var dataObj = _host.CreateFromAggregateRoot(aggregateRoot);
+            var dataObj = _acDomain.CreateFromAggregateRoot(aggregateRoot);
             var insertOrUpdateData = new PropertyBag(dataObj);
             var key = new EventNumberSnapshotMappingKey(aggregateRoot.GetType().AssemblyQualifiedName, aggregateRoot.Id);
 
@@ -269,7 +269,7 @@ namespace Anycmd.Snapshots.Providers
             var dataObj = this.SnapshotStorage.SelectFirstOnly<SnapshotDataObject>(spec);
             if (dataObj == null)
                 return null;
-            var snapshot = _host.ExtractSnapshot(dataObj);
+            var snapshot = _acDomain.ExtractSnapshot(dataObj);
             this._snapshotMapping.Add(key, snapshot);
             return snapshot;
         }

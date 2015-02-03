@@ -20,7 +20,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers.Distribute
         #region private fields
         private readonly Guid _id = Guid.NewGuid();
         private Thread _workThread = null;
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
         #endregion
 
         #region 事件
@@ -69,7 +69,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers.Distribute
             {
                 throw new ArgumentNullException("process");
             }
-            this._host = process.AcDomain;
+            this._acDomain = process.AcDomain;
             this.Process = process;
             this.Ontology = process.Ontology;
         }
@@ -221,7 +221,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers.Distribute
                             foreach (var item in g)
                             {
                                 NodeDescriptor responder;
-                                _host.NodeHost.Nodes.TryGetNodeById(item.ClientId, out responder);
+                                _acDomain.NodeHost.Nodes.TryGetNodeById(item.ClientId, out responder);
                                 var eArg = new DistributedEventArgs(new DistributeContext(item, responder));
                                 OnSending(eArg);
                                 MessageRequester.Instance.Request(eArg.Context);

@@ -17,9 +17,9 @@ namespace Anycmd.Engine.Edi
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="host"></param>
+        /// <param name="acDomain"></param>
         /// <param name="batch"></param>
-        public BatchDescriptor(IAcDomain host, IBatch batch)
+        public BatchDescriptor(IAcDomain acDomain, IBatch batch)
         {
             if (batch == null)
             {
@@ -27,13 +27,13 @@ namespace Anycmd.Engine.Edi
             }
             this._batch = batch;
             OntologyDescriptor ontology;
-            if (!host.NodeHost.Ontologies.TryGetOntology(batch.OntologyId, out ontology))
+            if (!acDomain.NodeHost.Ontologies.TryGetOntology(batch.OntologyId, out ontology))
             {
                 throw new AnycmdException("意外的本体标识" + batch.OntologyId);
             }
             this.Ontology = ontology;
             NodeDescriptor node;
-            if (!host.NodeHost.Nodes.TryGetNodeById(batch.NodeId.ToString(), out node))
+            if (!acDomain.NodeHost.Nodes.TryGetNodeById(batch.NodeId.ToString(), out node))
             {
                 throw new AnycmdException("意外的节点标识" + batch.NodeId);
             }

@@ -26,7 +26,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
         private bool _initialized = false;
 
         private readonly Guid _id = Guid.NewGuid();
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
         private readonly UiViewButtonSet _viewButtonSet;
 
         public Guid Id
@@ -34,18 +34,18 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             get { return _id; }
         }
 
-        internal UiViewSet(IAcDomain host)
+        internal UiViewSet(IAcDomain acDomain)
         {
-            if (host == null)
+            if (acDomain == null)
             {
-                throw new ArgumentNullException("host");
+                throw new ArgumentNullException("acDomain");
             }
-            if (host.Equals(EmptyAcDomain.SingleInstance))
+            if (acDomain.Equals(EmptyAcDomain.SingleInstance))
             {
                 _initialized = true;
             }
-            this._host = host;
-            _viewButtonSet = new UiViewButtonSet(host);
+            this._acDomain = acDomain;
+            _viewButtonSet = new UiViewButtonSet(acDomain);
             new MessageHandler(this).Register();
         }
 
@@ -118,16 +118,16 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             lock (this)
             {
                 if (_initialized) return;
-                _host.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
+                _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
                 _viewDicByFunction.Clear();
                 _viewDicById.Clear();
-                var views = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllUiViews();
+                var views = _acDomain.RetrieveRequiredService<IOriginalHostStateReader>().GetAllUiViews();
                 foreach (var view in views)
                 {
-                    var viewState = UiViewState.Create(_host, view);
+                    var viewState = UiViewState.Create(_acDomain, view);
                     _viewDicById.Add(view.Id, viewState);
                     FunctionState function;
-                    if (!_host.FunctionSet.TryGetFunction(view.Id, out function))
+                    if (!_acDomain.FunctionSet.TryGetFunction(view.Id, out function))
                     {
                         throw new NotExistException("意外的功能标识" + view.Id);
                     }
@@ -137,7 +137,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                 }
                 _initialized = true;
-                _host.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
+                _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
             }
         }
 
@@ -162,10 +162,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Register()
             {
-                var messageDispatcher = _set._host.MessageDispatcher;
+                var messageDispatcher = _set._acDomain.MessageDispatcher;
                 if (messageDispatcher == null)
                 {
-                    throw new ArgumentNullException("messageDispatcher has not be set of host:{0}".Fmt(_set._host.Name));
+                    throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(_set._acDomain.Name));
                 }
                 messageDispatcher.Register((IHandler<AddUiViewCommand>)this);
                 messageDispatcher.Register((IHandler<UiViewAddedEvent>)this);
@@ -180,10 +180,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(FunctionUpdatedEvent message)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var viewDicByFunction = _set._viewDicByFunction;
                 FunctionState newKey;
-                if (!host.FunctionSet.TryGetFunction(message.Source.Id, out newKey))
+                if (!acDomain.FunctionSet.TryGetFunction(message.Source.Id, out newKey))
                 {
                     throw new AnycmdException("意外的功能标识" + message.Source.Id);
                 }
@@ -197,11 +197,11 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(FunctionRemovingEvent message)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var viewDicById = _set._viewDicById;
                 if (viewDicById.ContainsKey(message.Source.Id))
                 {
-                    host.Handle(new RemoveUiViewCommand(message.AcSession, message.Source.Id));
+                    acDomain.Handle(new RemoveUiViewCommand(message.AcSession, message.Source.Id));
                 }
             }
 
@@ -231,10 +231,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Handle(IAcSession acSession, IUiViewCreateIo input, bool isCommand)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var viewDicByFunction = _set._viewDicByFunction;
                 var viewDicById = _set._viewDicById;
-                var viewRepository = host.RetrieveRequiredService<IRepository<UiView>>();
+                var viewRepository = acDomain.RetrieveRequiredService<IRepository<UiView>>();
                 if (!input.Id.HasValue)
                 {
                     throw new ValidationException("标识是必须的");
@@ -243,19 +243,19 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 lock (this)
                 {
                     FunctionState function;
-                    if (!host.FunctionSet.TryGetFunction(input.Id.Value, out function))
+                    if (!acDomain.FunctionSet.TryGetFunction(input.Id.Value, out function))
                     {
                         throw new ValidationException("意外的功能标识，界面视图首先是个功能。请先添加界面视图对应的功能记录。");
                     }
                     UiViewState view;
-                    if (host.UiViewSet.TryGetUiView(input.Id.Value, out view))
+                    if (acDomain.UiViewSet.TryGetUiView(input.Id.Value, out view))
                     {
                         throw new ValidationException("给定标识的界面视图已经存在");
                     }
 
                     entity = UiView.Create(input);
 
-                    var state = UiViewState.Create(host, entity);
+                    var state = UiViewState.Create(acDomain, entity);
                     if (!viewDicById.ContainsKey(state.Id))
                     {
                         viewDicById.Add(state.Id, state);
@@ -288,7 +288,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateUiViewAddedEvent(acSession, entity, input));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivateUiViewAddedEvent(acSession, entity, input));
                 }
             }
 
@@ -317,10 +317,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Handle(IAcSession acSession, IUiViewUpdateIo input, bool isCommand)
             {
-                var host = _set._host;
-                var viewRepository = host.RetrieveRequiredService<IRepository<UiView>>();
+                var acDomain = _set._acDomain;
+                var viewRepository = acDomain.RetrieveRequiredService<IRepository<UiView>>();
                 UiViewState bkState;
-                if (!host.UiViewSet.TryGetUiView(input.Id, out bkState))
+                if (!acDomain.UiViewSet.TryGetUiView(input.Id, out bkState))
                 {
                     throw new NotExistException();
                 }
@@ -329,7 +329,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 lock (bkState)
                 {
                     UiViewState state;
-                    if (!host.UiViewSet.TryGetUiView(input.Id, out state))
+                    if (!acDomain.UiViewSet.TryGetUiView(input.Id, out state))
                     {
                         throw new NotExistException();
                     }
@@ -341,7 +341,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                     entity.Update(input);
 
-                    var newState = UiViewState.Create(host, entity);
+                    var newState = UiViewState.Create(acDomain, entity);
                     stateChanged = newState != bkState;
                     if (stateChanged)
                     {
@@ -367,17 +367,17 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateUiViewUpdatedEvent(acSession, entity, input));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivateUiViewUpdatedEvent(acSession, entity, input));
                 }
             }
 
             private void Update(UiViewState state)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var viewDicByFunction = _set._viewDicByFunction;
                 var viewDicById = _set._viewDicById;
                 FunctionState function;
-                host.FunctionSet.TryGetFunction(state.Id, out function);
+                acDomain.FunctionSet.TryGetFunction(state.Id, out function);
                 viewDicById[state.Id] = state;
                 viewDicByFunction[function] = state;
             }
@@ -407,13 +407,13 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Handle(IAcSession acSession, Guid viewId, bool isCommand)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var viewDicByFunction = _set._viewDicByFunction;
                 var viewDicById = _set._viewDicById;
-                var viewRepository = host.RetrieveRequiredService<IRepository<UiView>>();
-                var viewButtonRepository = host.RetrieveRequiredService<IRepository<UiViewButton>>();
+                var viewRepository = acDomain.RetrieveRequiredService<IRepository<UiView>>();
+                var viewButtonRepository = acDomain.RetrieveRequiredService<IRepository<UiViewButton>>();
                 UiViewState bkState;
-                if (!host.UiViewSet.TryGetUiView(viewId, out bkState))
+                if (!acDomain.UiViewSet.TryGetUiView(viewId, out bkState))
                 {
                     return;
                 }
@@ -421,12 +421,12 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 lock (bkState)
                 {
                     UiViewState state;
-                    if (!host.UiViewSet.TryGetUiView(viewId, out state))
+                    if (!acDomain.UiViewSet.TryGetUiView(viewId, out state))
                     {
                         return;
                     }
                     FunctionState function;
-                    if (!host.FunctionSet.TryGetFunction(viewId, out function))
+                    if (!acDomain.FunctionSet.TryGetFunction(viewId, out function))
                     {
                         throw new NotExistException("意外的功能标识" + viewId);
                     }
@@ -443,7 +443,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     {
                         if (isCommand)
                         {
-                            host.MessageDispatcher.DispatchMessage(new UiViewRemovingEvent(acSession, entity));
+                            acDomain.MessageDispatcher.DispatchMessage(new UiViewRemovingEvent(acSession, entity));
                         }
                         viewDicById.Remove(bkState.Id);
                     }
@@ -477,7 +477,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateUiViewRemovedEvent(acSession, entity));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivateUiViewRemovedEvent(acSession, entity));
                 }
             }
 
@@ -502,15 +502,15 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             private readonly Dictionary<UiViewState, List<UiViewButtonState>> _viewButtonsByUiView = new Dictionary<UiViewState, List<UiViewButtonState>>();
             private readonly Dictionary<Guid, UiViewButtonState> _viewButtonDicById = new Dictionary<Guid, UiViewButtonState>();
             private bool _initialized = false;
-            private readonly IAcDomain _host;
+            private readonly IAcDomain _acDomain;
 
-            internal UiViewButtonSet(IAcDomain host)
+            internal UiViewButtonSet(IAcDomain acDomain)
             {
-                if (host.Equals(EmptyAcDomain.SingleInstance))
+                if (acDomain.Equals(EmptyAcDomain.SingleInstance))
                 {
                     _initialized = true;
                 }
-                this._host = host;
+                this._acDomain = acDomain;
                 new UiViewButtonMessageHandler(this).Register();
             }
 
@@ -554,10 +554,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     if (_initialized) return;
                     _viewButtonsByUiView.Clear();
                     _viewButtonDicById.Clear();
-                    var allUiViewButtons = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllUiViewButtons();
+                    var allUiViewButtons = _acDomain.RetrieveRequiredService<IOriginalHostStateReader>().GetAllUiViewButtons();
                     foreach (var viewButton in allUiViewButtons)
                     {
-                        var viewButtonState = UiViewButtonState.Create(_host, viewButton);
+                        var viewButtonState = UiViewButtonState.Create(_acDomain, viewButton);
                         if (!_viewButtonDicById.ContainsKey(viewButton.Id))
                         {
                             _viewButtonDicById.Add(viewButton.Id, viewButtonState);
@@ -598,10 +598,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 public void Register()
                 {
-                    var messageDispatcher = _set._host.MessageDispatcher;
+                    var messageDispatcher = _set._acDomain.MessageDispatcher;
                     if (messageDispatcher == null)
                     {
-                        throw new ArgumentNullException("messageDispatcher has not be set of host:{0}".Fmt(_set._host.Name));
+                        throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(_set._acDomain.Name));
                     }
                     messageDispatcher.Register((IHandler<AddUiViewButtonCommand>)this);
                     messageDispatcher.Register((IHandler<UiViewButtonAddedEvent>)this);
@@ -617,10 +617,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 public void Handle(UiViewUpdatedEvent message)
                 {
-                    var host = _set._host;
+                    var acDomain = _set._acDomain;
                     var viewButtonsByUiView = _set._viewButtonsByUiView;
                     UiViewState newKey;
-                    if (!host.UiViewSet.TryGetUiView(message.Source.Id, out newKey))
+                    if (!acDomain.UiViewSet.TryGetUiView(message.Source.Id, out newKey))
                     {
                         throw new AnycmdException("意外的界面视图标识" + message.Source.Id);
                     }
@@ -634,10 +634,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 public void Handle(UiViewRemovingEvent message)
                 {
-                    var host = _set._host;
+                    var acDomain = _set._acDomain;
                     var viewButtonsByUiView = _set._viewButtonsByUiView;
                     UiViewState key;
-                    if (!host.UiViewSet.TryGetUiView(message.Source.Id, out key))
+                    if (!acDomain.UiViewSet.TryGetUiView(message.Source.Id, out key))
                     {
                         throw new AnycmdException("意外的界面视图标识" + message.Source.Id);
                     }
@@ -650,7 +650,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                         }
                         foreach (var viewButtonId in viewButtonIds)
                         {
-                            host.Handle(new RemoveUiViewButtonCommand(message.AcSession, viewButtonId));
+                            acDomain.Handle(new RemoveUiViewButtonCommand(message.AcSession, viewButtonId));
                         }
                         viewButtonsByUiView.Remove(key);
                     }
@@ -668,7 +668,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 public void Handle(FunctionRemovingEvent message)
                 {
-                    var host = _set._host;
+                    var acDomain = _set._acDomain;
                     var viewButtonDicById = _set._viewButtonDicById;
                     var viewButtonIds = new HashSet<Guid>();
                     foreach (var item in viewButtonDicById.Values)
@@ -680,7 +680,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                     foreach (var viewButtonId in viewButtonIds)
                     {
-                        host.Handle(new RemoveUiViewButtonCommand(message.AcSession, viewButtonId));
+                        acDomain.Handle(new RemoveUiViewButtonCommand(message.AcSession, viewButtonId));
                     }
                 }
 
@@ -700,10 +700,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 private void Handle(IAcSession acSession, IUiViewButtonCreateIo input, bool isCommand)
                 {
-                    var host = _set._host;
+                    var acDomain = _set._acDomain;
                     var viewButtonsByUiView = _set._viewButtonsByUiView;
                     var viewButtonDicById = _set._viewButtonDicById;
-                    var viewButtonRepository = host.RetrieveRequiredService<IRepository<UiViewButton>>();
+                    var viewButtonRepository = acDomain.RetrieveRequiredService<IRepository<UiViewButton>>();
                     if (!input.Id.HasValue)
                     {
                         throw new ValidationException("标识是必须的");
@@ -712,31 +712,31 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     lock (this)
                     {
                         ButtonState button;
-                        if (!host.ButtonSet.TryGetButton(input.ButtonId, out button))
+                        if (!acDomain.ButtonSet.TryGetButton(input.ButtonId, out button))
                         {
                             throw new ValidationException("按钮不存在");
                         }
                         UiViewState view;
-                        if (!host.UiViewSet.TryGetUiView(input.UiViewId, out view))
+                        if (!acDomain.UiViewSet.TryGetUiView(input.UiViewId, out view))
                         {
                             throw new ValidationException("界面视图不存在");
                         }
                         if (input.FunctionId.HasValue)
                         {
                             FunctionState function;
-                            if (!host.FunctionSet.TryGetFunction(input.FunctionId.Value, out function))
+                            if (!acDomain.FunctionSet.TryGetFunction(input.FunctionId.Value, out function))
                             {
                                 throw new ValidationException("托管功能不存在");
                             }
                         }
-                        if (host.UiViewSet.GetUiViewButtons().Any(a => a.Id == input.Id.Value))
+                        if (acDomain.UiViewSet.GetUiViewButtons().Any(a => a.Id == input.Id.Value))
                         {
                             throw new ValidationException("给定标识的界面视图按钮已经存在");
                         }
 
                         entity = UiViewButton.Create(input);
 
-                        var state = UiViewButtonState.Create(host, entity);
+                        var state = UiViewButtonState.Create(acDomain, entity);
                         if (!viewButtonsByUiView.ContainsKey(view))
                         {
                             viewButtonsByUiView.Add(view, new List<UiViewButtonState>());
@@ -777,7 +777,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                     if (isCommand)
                     {
-                        host.MessageDispatcher.DispatchMessage(new PrivateUiViewButtonAddedEvent(acSession, entity, input));
+                        acDomain.MessageDispatcher.DispatchMessage(new PrivateUiViewButtonAddedEvent(acSession, entity, input));
                     }
                 }
 
@@ -818,9 +818,9 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 private void Handle(IAcSession acSession, IUiViewButtonUpdateIo input, bool isCommand)
                 {
-                    var host = _set._host;
-                    var viewButtonRepository = host.RetrieveRequiredService<IRepository<UiViewButton>>();
-                    var bkState = host.UiViewSet.GetUiViewButtons().FirstOrDefault(a => a.Id == input.Id);
+                    var acDomain = _set._acDomain;
+                    var viewButtonRepository = acDomain.RetrieveRequiredService<IRepository<UiViewButton>>();
+                    var bkState = acDomain.UiViewSet.GetUiViewButtons().FirstOrDefault(a => a.Id == input.Id);
                     if (bkState == null)
                     {
                         throw new NotExistException();
@@ -828,7 +828,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     if (input.FunctionId.HasValue)
                     {
                         FunctionState function;
-                        if (!host.FunctionSet.TryGetFunction(input.FunctionId.Value, out function))
+                        if (!acDomain.FunctionSet.TryGetFunction(input.FunctionId.Value, out function))
                         {
                             throw new ValidationException("非法的托管功能标识" + input.FunctionId);
                         }
@@ -837,7 +837,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     var stateChanged = false;
                     lock (bkState)
                     {
-                        if (host.UiViewSet.GetUiViewButtons().All(a => a.Id != input.Id))
+                        if (acDomain.UiViewSet.GetUiViewButtons().All(a => a.Id != input.Id))
                         {
                             throw new NotExistException();
                         }
@@ -849,7 +849,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                         entity.Update(input);
 
-                        var newState = UiViewButtonState.Create(host, entity);
+                        var newState = UiViewButtonState.Create(acDomain, entity);
                         stateChanged = newState != bkState;
                         if (stateChanged)
                         {
@@ -875,7 +875,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                     if (isCommand && stateChanged)
                     {
-                        host.MessageDispatcher.DispatchMessage(new PrivateUiViewButtonUpdatedEvent(acSession, entity, input));
+                        acDomain.MessageDispatcher.DispatchMessage(new PrivateUiViewButtonUpdatedEvent(acSession, entity, input));
                     }
                 }
 
@@ -904,11 +904,11 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 private void Handle(IAcSession acSession, Guid viewButtonId, bool isCommand)
                 {
-                    var host = _set._host;
+                    var acDomain = _set._acDomain;
                     var viewButtonsByUiView = _set._viewButtonsByUiView;
                     var viewButtonDicById = _set._viewButtonDicById;
-                    var viewButtonRepository = host.RetrieveRequiredService<IRepository<UiViewButton>>();
-                    var bkState = host.UiViewSet.GetUiViewButtons().FirstOrDefault(a => a.Id == viewButtonId);
+                    var viewButtonRepository = acDomain.RetrieveRequiredService<IRepository<UiViewButton>>();
+                    var bkState = acDomain.UiViewSet.GetUiViewButtons().FirstOrDefault(a => a.Id == viewButtonId);
                     if (bkState == null)
                     {
                         return;
@@ -916,7 +916,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     UiViewButton entity;
                     lock (bkState)
                     {
-                        if (host.UiViewSet.GetUiViewButtons().All(a => a.Id != viewButtonId))
+                        if (acDomain.UiViewSet.GetUiViewButtons().All(a => a.Id != viewButtonId))
                         {
                             return;
                         }
@@ -962,7 +962,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                     if (isCommand)
                     {
-                        host.MessageDispatcher.DispatchMessage(new PrivateUiViewButtonRemovedEvent(acSession, entity));
+                        acDomain.MessageDispatcher.DispatchMessage(new PrivateUiViewButtonRemovedEvent(acSession, entity));
                     }
                 }
 

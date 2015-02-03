@@ -12,22 +12,22 @@ namespace Anycmd.Engine.Host.Ac.MessageHandlers
 
     public class AddAccountCommandHandler : CommandHandler<AddAccountCommand>
     {
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
-        public AddAccountCommandHandler(IAcDomain host)
+        public AddAccountCommandHandler(IAcDomain acDomain)
         {
-            this._host = host;
+            this._acDomain = acDomain;
         }
 
         public override void Handle(AddAccountCommand command)
         {
-            var accountRepository = _host.RetrieveRequiredService<IRepository<Account>>();
+            var accountRepository = _acDomain.RetrieveRequiredService<IRepository<Account>>();
             if (string.IsNullOrEmpty(command.Input.CatalogCode))
             {
                 throw new AnycmdException("用户必须属于一个目录");
             }
             CatalogState catalog;
-            if (!_host.CatalogSet.TryGetCatalog(command.Input.CatalogCode, out catalog))
+            if (!_acDomain.CatalogSet.TryGetCatalog(command.Input.CatalogCode, out catalog))
             {
                 throw new AnycmdException("意外的目录码" + command.Input.CatalogCode);
             }
@@ -44,14 +44,14 @@ namespace Anycmd.Engine.Host.Ac.MessageHandlers
             {
                 throw new ValidationException("新密码不能为空");
             }
-            var passwordEncryptionService = _host.RetrieveRequiredService<IPasswordEncryptionService>();
+            var passwordEncryptionService = _acDomain.RetrieveRequiredService<IPasswordEncryptionService>();
             entity.Password = passwordEncryptionService.Encrypt(command.Input.Password);
             entity.LastPasswordChangeOn = DateTime.Now;
 
             accountRepository.Add(entity);
             accountRepository.Context.Commit();
-            _host.EventBus.Publish(new AccountAddedEvent(command.AcSession, entity));
-            _host.EventBus.Commit();
+            _acDomain.EventBus.Publish(new AccountAddedEvent(command.AcSession, entity));
+            _acDomain.EventBus.Commit();
         }
     }
 }

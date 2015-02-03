@@ -11,11 +11,11 @@ namespace Anycmd.Edi.ViewModels.ArchiveViewModels
     public partial class ArchiveTr
     {
         private OntologyDescriptor _ontology;
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
-        public ArchiveTr(IAcDomain host)
+        public ArchiveTr(IAcDomain acDomain)
         {
-            this._host = host;
+            this._acDomain = acDomain;
         }
 
         public static ArchiveTr Create(ArchiveState archive)
@@ -111,7 +111,7 @@ namespace Anycmd.Edi.ViewModels.ArchiveViewModels
             {
                 if (_ontology == null)
                 {
-                    if (!_host.NodeHost.Ontologies.TryGetOntology(this.OntologyId, out _ontology))
+                    if (!_acDomain.NodeHost.Ontologies.TryGetOntology(this.OntologyId, out _ontology))
                     {
                         throw new AnycmdException("意外的本体标识" + this.OntologyId);
                     }

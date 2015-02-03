@@ -5,6 +5,7 @@ namespace Anycmd.Tests
     using Query.UnifiedQueries;
     using Query.UnifiedQueries.Compilers;
     using System;
+    using System.Collections.Generic;
     using System.Linq;
 
     [TestClass]
@@ -26,7 +27,7 @@ namespace Anycmd.Tests
             }
         }
 
-        private static Customer[] GetAllCustomers()
+        private static IEnumerable<Customer> GetAllCustomers()
         {
             return new[]
                        {

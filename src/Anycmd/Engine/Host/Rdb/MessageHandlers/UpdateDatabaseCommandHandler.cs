@@ -7,16 +7,16 @@ namespace Anycmd.Engine.Host.Rdb.MessageHandlers
 
     public class UpdateDatabaseCommandHandler : CommandHandler<UpdateDatabaseCommand>
     {
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
-        public UpdateDatabaseCommandHandler(IAcDomain host)
+        public UpdateDatabaseCommandHandler(IAcDomain acDomain)
         {
-            this._host = host;
+            this._acDomain = acDomain;
         }
 
         public override void Handle(UpdateDatabaseCommand command)
         {
-            _host.GetRequiredService<IRdbMetaDataService>().UpdateDatabase(command.Input.Id, command.Input.DataSource, command.Input.Description);
+            _acDomain.GetRequiredService<IRdbMetaDataService>().UpdateDatabase(command.Input.Id, command.Input.DataSource, command.Input.Description);
         }
     }
 }

@@ -14,11 +14,11 @@ namespace Anycmd.Edi.ViewModels.ElementViewModels
     /// </summary>
     public partial class ElementInfo : Dictionary<string, object>
     {
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
-        private ElementInfo(IAcDomain host)
+        private ElementInfo(IAcDomain acDomain)
         {
-            this._host = host;
+            this._acDomain = acDomain;
         }
 
         public static ElementInfo Create(DicReader dic)
@@ -178,7 +178,7 @@ namespace Anycmd.Edi.ViewModels.ElementViewModels
             {
                 if (_dataSchema == null)
                 {
-                    _dataSchema = _host.NodeHost.Ontologies.GetElement(this.Id).DataSchema;
+                    _dataSchema = _acDomain.NodeHost.Ontologies.GetElement(this.Id).DataSchema;
                 }
 
                 return _dataSchema;

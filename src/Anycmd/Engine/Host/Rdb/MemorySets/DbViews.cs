@@ -14,11 +14,11 @@ namespace Anycmd.Engine.Host.Rdb.MemorySets
 
         private readonly Dictionary<RdbDescriptor, Dictionary<string, DbView>> _dicById = new Dictionary<RdbDescriptor, Dictionary<string, DbView>>();
         private bool _initialized = false;
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
-        public DbViews(IAcDomain host)
+        public DbViews(IAcDomain acDomain)
         {
-            this._host = host;
+            this._acDomain = acDomain;
         }
 
         /// <summary>
@@ -63,10 +63,10 @@ namespace Anycmd.Engine.Host.Rdb.MemorySets
             {
                 if (_initialized) return;
                 _dicById.Clear();
-                foreach (var db in _host.Rdbs)
+                foreach (var db in _acDomain.Rdbs)
                 {
                     _dicById.Add(db, new Dictionary<string, DbView>(StringComparer.OrdinalIgnoreCase));
-                    var views = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetDbViews(db);
+                    var views = _acDomain.RetrieveRequiredService<IOriginalHostStateReader>().GetDbViews(db);
                     foreach (var item in views)
                     {
                         _dicById[db].Add(item.Id, item);

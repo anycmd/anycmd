@@ -27,23 +27,23 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
         private bool _initialized = false;
 
         private readonly Guid _id = Guid.NewGuid();
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
         public Guid Id
         {
             get { return _id; }
         }
 
-        internal SsdSetSet(IAcDomain host)
+        internal SsdSetSet(IAcDomain acDomain)
         {
-            if (host == null)
+            if (acDomain == null)
             {
-                throw new ArgumentNullException("host");
+                throw new ArgumentNullException("acDomain");
             }
-            if (host.Equals(EmptyAcDomain.SingleInstance))
+            if (acDomain.Equals(EmptyAcDomain.SingleInstance))
             {
                 _initialized = true;
             }
-            this._host = host;
+            this._acDomain = acDomain;
             new MessageHandler(this).Register();
         }
 
@@ -131,11 +131,11 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             lock (this)
             {
                 if (_initialized) return;
-                _host.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
+                _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
                 _ssdSetDic.Clear();
                 _ssdRoleBySet.Clear();
                 _ssdRoleById.Clear();
-                var stateReder = _host.RetrieveRequiredService<IOriginalHostStateReader>();
+                var stateReder = _acDomain.RetrieveRequiredService<IOriginalHostStateReader>();
                 var ssdSets = stateReder.GetAllSsdSets();
                 foreach (var ssdSet in ssdSets)
                 {
@@ -167,7 +167,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                 }
                 _initialized = true;
-                _host.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
+                _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
             }
         }
 
@@ -193,10 +193,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Register()
             {
-                var messageDispatcher = _set._host.MessageDispatcher;
+                var messageDispatcher = _set._acDomain.MessageDispatcher;
                 if (messageDispatcher == null)
                 {
-                    throw new ArgumentNullException("messageDispatcher has not be set of host:{0}".Fmt(_set._host.Name));
+                    throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(_set._acDomain.Name));
                 }
                 messageDispatcher.Register((IHandler<AddSsdSetCommand>)this);
                 messageDispatcher.Register((IHandler<SsdSetAddedEvent>)this);
@@ -226,18 +226,18 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Handle(IAcSession acSession, ISsdSetCreateIo input, bool isCommand)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var ssdSetDic = _set._ssdSetDic;
-                var ssdSetRepository = host.RetrieveRequiredService<IRepository<SsdSet>>();
+                var ssdSetRepository = acDomain.RetrieveRequiredService<IRepository<SsdSet>>();
                 if (!input.Id.HasValue)
                 {
                     throw new ValidationException("标识是必须的");
                 }
-                if (host.SsdSetSet.Any(a => a.Id == input.Id.Value))
+                if (acDomain.SsdSetSet.Any(a => a.Id == input.Id.Value))
                 {
                     throw new AnycmdException("重复的SsdSet标识" + input.Id);
                 }
-                if (host.SsdSetSet.Any(a => a.Name.Equals(input.Name, StringComparison.OrdinalIgnoreCase)))
+                if (acDomain.SsdSetSet.Any(a => a.Name.Equals(input.Name, StringComparison.OrdinalIgnoreCase)))
                 {
                     throw new ValidationException("重复的静态责任分离角色集名称");
                 }
@@ -247,7 +247,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 lock (this)
                 {
                     SsdSetState ssdSet;
-                    if (host.SsdSetSet.TryGetSsdSet(entity.Id, out ssdSet))
+                    if (acDomain.SsdSetSet.TryGetSsdSet(entity.Id, out ssdSet))
                     {
                         throw new AnycmdException("意外的重复标识");
                     }
@@ -275,7 +275,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateSsdSetAddedEvent(acSession, entity, input));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivateSsdSetAddedEvent(acSession, entity, input));
                 }
             }
 
@@ -303,11 +303,11 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Handle(IAcSession acSession, ISsdSetUpdateIo input, bool isCommand)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var ssdSetDic = _set._ssdSetDic;
-                var ssdSetRepository = host.RetrieveRequiredService<IRepository<SsdSet>>();
+                var ssdSetRepository = acDomain.RetrieveRequiredService<IRepository<SsdSet>>();
                 SsdSetState bkState;
-                if (!host.SsdSetSet.TryGetSsdSet(input.Id, out bkState))
+                if (!acDomain.SsdSetSet.TryGetSsdSet(input.Id, out bkState))
                 {
                     throw new NotExistException();
                 }
@@ -316,11 +316,11 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 lock (bkState)
                 {
                     SsdSetState oldState;
-                    if (!host.SsdSetSet.TryGetSsdSet(input.Id, out oldState))
+                    if (!acDomain.SsdSetSet.TryGetSsdSet(input.Id, out oldState))
                     {
                         throw new NotExistException();
                     }
-                    if (host.SsdSetSet.Any(a => a.Name.Equals(input.Name, StringComparison.OrdinalIgnoreCase) && a.Id != input.Id))
+                    if (acDomain.SsdSetSet.Any(a => a.Name.Equals(input.Name, StringComparison.OrdinalIgnoreCase) && a.Id != input.Id))
                     {
                         throw new ValidationException("重复的静态责任分离角色组名");
                     }
@@ -358,13 +358,13 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateSsdSetUpdatedEvent(acSession, entity, input));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivateSsdSetUpdatedEvent(acSession, entity, input));
                 }
             }
 
             private void Update(SsdSetState state)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var ssdSetDic = _set._ssdSetDic;
                 ssdSetDic[state.Id] = state;
             }
@@ -394,11 +394,11 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Handle(IAcSession acSession, Guid ssdSetId, bool isCommand)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var ssdSetDic = _set._ssdSetDic;
-                var ssdSetRepository = host.RetrieveRequiredService<IRepository<SsdSet>>();
+                var ssdSetRepository = acDomain.RetrieveRequiredService<IRepository<SsdSet>>();
                 SsdSetState bkState;
-                if (!host.SsdSetSet.TryGetSsdSet(ssdSetId, out bkState))
+                if (!acDomain.SsdSetSet.TryGetSsdSet(ssdSetId, out bkState))
                 {
                     return;
                 }
@@ -406,7 +406,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 lock (bkState)
                 {
                     SsdSetState state;
-                    if (!host.SsdSetSet.TryGetSsdSet(ssdSetId, out state))
+                    if (!acDomain.SsdSetSet.TryGetSsdSet(ssdSetId, out state))
                     {
                         return;
                     }
@@ -439,7 +439,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateSsdSetRemovedEvent(acSession, entity));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivateSsdSetRemovedEvent(acSession, entity));
                 }
             }
 
@@ -467,10 +467,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Handle(IAcSession acSession, ISsdRoleCreateIo input, bool isCommand)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var ssdRoleBySet = _set._ssdRoleBySet;
                 var ssdRoleById = _set._ssdRoleById;
-                var ssdRoleRepository = host.RetrieveRequiredService<IRepository<SsdRole>>();
+                var ssdRoleRepository = acDomain.RetrieveRequiredService<IRepository<SsdRole>>();
                 if (!input.Id.HasValue)
                 {
                     throw new ValidationException("标识是必须的");
@@ -480,7 +480,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     throw new ValidationException("重复的记录");
                 }
                 SsdSetState ssdSet;
-                if (!host.SsdSetSet.TryGetSsdSet(input.SsdSetId, out ssdSet))
+                if (!acDomain.SsdSetSet.TryGetSsdSet(input.SsdSetId, out ssdSet))
                 {
                     throw new ValidationException("意外的静态责任分离角色集标识" + input.SsdSetId);
                 }
@@ -493,7 +493,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     {
                         throw new ValidationException("重复的记录");
                     }
-                    if (!host.SsdSetSet.TryGetSsdSet(input.SsdSetId, out ssdSet))
+                    if (!acDomain.SsdSetSet.TryGetSsdSet(input.SsdSetId, out ssdSet))
                     {
                         throw new ValidationException("意外的静态责任分离角色集标识" + input.SsdSetId);
                     }
@@ -528,7 +528,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateSsdRoleAddedEvent(acSession, entity, input));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivateSsdRoleAddedEvent(acSession, entity, input));
                 }
             }
 
@@ -557,11 +557,11 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void HandleSsdRole(IAcSession acSession, Guid ssdRoleId, bool isCommand)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var ssdSetDic = _set._ssdSetDic;
                 var ssdRoleBySet = _set._ssdRoleBySet;
                 var ssdRoleById = _set._ssdRoleById;
-                var ssdRoleRepository = host.RetrieveRequiredService<IRepository<SsdRole>>();
+                var ssdRoleRepository = acDomain.RetrieveRequiredService<IRepository<SsdRole>>();
                 SsdRoleState bkState;
                 if (!ssdRoleById.TryGetValue(ssdRoleId, out bkState))
                 {
@@ -613,7 +613,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateSsdRoleRemovedEvent(acSession, entity));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivateSsdRoleRemovedEvent(acSession, entity));
                 }
             }
 

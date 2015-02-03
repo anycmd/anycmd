@@ -13,16 +13,16 @@ namespace Anycmd.Engine.Host.Ac.MessageHandlers
 
     public class AssignPasswordCommandHandler : CommandHandler<AssignPasswordCommand>
     {
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
-        public AssignPasswordCommandHandler(IAcDomain host)
+        public AssignPasswordCommandHandler(IAcDomain acDomain)
         {
-            this._host = host;
+            this._acDomain = acDomain;
         }
 
         public override void Handle(AssignPasswordCommand command)
         {
-            var accountRepository = _host.RetrieveRequiredService<IRepository<Account>>();
+            var accountRepository = _acDomain.RetrieveRequiredService<IRepository<Account>>();
             if (string.IsNullOrEmpty(command.Input.LoginName))
             {
                 throw new ValidationException("登录名不能为空");
@@ -42,7 +42,7 @@ namespace Anycmd.Engine.Host.Ac.MessageHandlers
             }
             bool loginNameChanged = !string.Equals(command.Input.LoginName, entity.LoginName);
             AccountState developer;
-            if (_host.SysUserSet.TryGetDevAccount(command.Input.Id, out developer))
+            if (_acDomain.SysUserSet.TryGetDevAccount(command.Input.Id, out developer))
             {
                 if (!command.AcSession.IsDeveloper())
                 {
@@ -71,7 +71,7 @@ namespace Anycmd.Engine.Host.Ac.MessageHandlers
             {
                 throw new ValidationException("新密码不能为空");
             }
-            var passwordEncryptionService = _host.RetrieveRequiredService<IPasswordEncryptionService>();
+            var passwordEncryptionService = _acDomain.RetrieveRequiredService<IPasswordEncryptionService>();
             var newPassword = passwordEncryptionService.Encrypt(command.Input.Password);
             entity.Password = newPassword;
             entity.LastPasswordChangeOn = DateTime.Now;
@@ -79,14 +79,14 @@ namespace Anycmd.Engine.Host.Ac.MessageHandlers
             accountRepository.Context.Commit();
             if (loginNameChanged)
             {
-                _host.EventBus.Publish(new LoginNameChangedEvent(command.AcSession, entity));
-                if (_host.SysUserSet.TryGetDevAccount(entity.Id, out developer))
+                _acDomain.EventBus.Publish(new LoginNameChangedEvent(command.AcSession, entity));
+                if (_acDomain.SysUserSet.TryGetDevAccount(entity.Id, out developer))
                 {
-                    _host.MessageDispatcher.DispatchMessage(new DeveloperUpdatedEvent(command.AcSession, entity));
+                    _acDomain.MessageDispatcher.DispatchMessage(new DeveloperUpdatedEvent(command.AcSession, entity));
                 }
             }
-            _host.EventBus.Publish(new PasswordUpdatedEvent(command.AcSession, entity));
-            _host.EventBus.Commit();
+            _acDomain.EventBus.Publish(new PasswordUpdatedEvent(command.AcSession, entity));
+            _acDomain.EventBus.Commit();
         }
     }
 }

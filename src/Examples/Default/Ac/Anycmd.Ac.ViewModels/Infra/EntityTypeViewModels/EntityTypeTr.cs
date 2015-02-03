@@ -9,11 +9,11 @@ namespace Anycmd.Ac.ViewModels.Infra.EntityTypeViewModels
     /// </summary>
     public class EntityTypeTr
     {
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
-        private EntityTypeTr(IAcDomain host)
+        private EntityTypeTr(IAcDomain acDomain)
         {
-            this._host = host;
+            this._acDomain = acDomain;
         }
 
         public static EntityTypeTr Create(EntityTypeState entityType)
@@ -89,7 +89,7 @@ namespace Anycmd.Ac.ViewModels.Infra.EntityTypeViewModels
             get
             {
                 AccountState developer;
-                if (!_host.SysUserSet.TryGetDevAccount(this.DeveloperId, out developer))
+                if (!_acDomain.SysUserSet.TryGetDevAccount(this.DeveloperId, out developer))
                 {
                     return "无效值";
                 }

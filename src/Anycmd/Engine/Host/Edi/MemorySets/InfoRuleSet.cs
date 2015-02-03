@@ -29,7 +29,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
         private bool _initialized = false;
         private readonly object _locker = new object();
         private readonly Guid _id = Guid.NewGuid();
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
         public Guid Id
         {
@@ -39,21 +39,21 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
         /// <summary>
         /// 构造并接入总线
         /// </summary>
-        internal InfoRuleSet(IAcDomain host)
+        internal InfoRuleSet(IAcDomain acDomain)
         {
-            if (host == null)
+            if (acDomain == null)
             {
-                throw new ArgumentNullException("host");
+                throw new ArgumentNullException("acDomain");
             }
-            if (host.Equals(EmptyAcDomain.SingleInstance))
+            if (acDomain.Equals(EmptyAcDomain.SingleInstance))
             {
                 _initialized = true;
             }
-            this._host = host;
-            var messageDispatcher = host.MessageDispatcher;
+            this._acDomain = acDomain;
+            var messageDispatcher = acDomain.MessageDispatcher;
             if (messageDispatcher == null)
             {
-                throw new ArgumentNullException("messageDispatcher has not be set of host:{0}".Fmt(host.Name));
+                throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(acDomain.Name));
             }
         }
 
@@ -104,7 +104,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             lock (_locker)
             {
                 if (_initialized) return;
-                _host.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
+                _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
                 foreach (var item in _infoRuleEntities)
                 {
                     item.Value.InfoRule.Dispose();
@@ -122,14 +122,14 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
 
                 _initialized = true;
-                _host.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
+                _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
             }
         }
 
         private IEnumerable<InfoRuleState> GetInfoRules()
         {
             IEnumerable<IInfoRule> validatorPlugs = null;
-            using (var catalog = new DirectoryCatalog(Path.Combine(_host.GetPluginBaseDirectory(PluginType.InfoConstraint), "Bin")))
+            using (var catalog = new DirectoryCatalog(Path.Combine(_acDomain.GetPluginBaseDirectory(PluginType.InfoConstraint), "Bin")))
             {
                 using (var container = new CompositionContainer(catalog))
                 {
@@ -142,7 +142,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
             }
 
-            var infoRuleRepository = _host.RetrieveRequiredService<IRepository<InfoRule>>();
+            var infoRuleRepository = _acDomain.RetrieveRequiredService<IRepository<InfoRule>>();
             var oldEntities = infoRuleRepository.AsQueryable().ToList();
             var deleteList = new List<InfoRule>();
             var newList = new List<InfoRule>();
@@ -208,7 +208,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             }
             if (saveChanges)
             {
-                using (var coordinator = TransactionCoordinatorFactory.Create(infoRuleRepository.Context, _host.EventBus))
+                using (var coordinator = TransactionCoordinatorFactory.Create(infoRuleRepository.Context, _acDomain.EventBus))
                 {
                     coordinator.Commit();
                 }

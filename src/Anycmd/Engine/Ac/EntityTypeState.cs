@@ -47,20 +47,20 @@ namespace Anycmd.Engine.Ac
 
         private EntityTypeState(Guid id) : base(id) { }
 
-        public static EntityTypeState Create(IAcDomain host, EntityTypeBase entityType, EntityTypeMap map)
+        public static EntityTypeState Create(IAcDomain acDomain, EntityTypeBase entityType, EntityTypeMap map)
         {
             if (entityType == null)
             {
                 throw new ArgumentNullException("entityType");
             }
-            if (!host.Rdbs.ContainsDb(entityType.DatabaseId))
+            if (!acDomain.Rdbs.ContainsDb(entityType.DatabaseId))
             {
                 throw new AnycmdException("意外的数据库" + entityType.DatabaseId);
             }
 
             return new EntityTypeState(entityType.Id)
             {
-                _acDomain = host,
+                _acDomain = acDomain,
                 _map = map,
                 _codespace = entityType.Codespace,
                 _code = entityType.Code,

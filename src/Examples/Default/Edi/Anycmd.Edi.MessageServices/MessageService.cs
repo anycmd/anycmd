@@ -23,7 +23,7 @@ namespace Anycmd.Edi.MessageServices
         }
         #endregion
 
-        private IAcDomain host
+        private IAcDomain acDomain
         {
             get
             {
@@ -81,14 +81,14 @@ namespace Anycmd.Edi.MessageServices
         {
             try
             {
-                var context = new HecpContext(host, HecpRequest.Create(host, request));
-                host.NodeHost.HecpHandler.Process(context);
+                var context = new HecpContext(acDomain, HecpRequest.Create(acDomain, request));
+                acDomain.NodeHost.HecpHandler.Process(context);
 
                 return context.Response.ToMessage();
             }
             catch (Exception ex)
             {
-                host.LoggingService.Error(ex);
+                acDomain.LoggingService.Error(ex);
                 var r = new Message
                 {
                     MessageType = MessageType.Event.ToName(),

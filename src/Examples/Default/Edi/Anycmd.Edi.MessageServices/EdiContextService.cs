@@ -19,7 +19,7 @@ namespace Anycmd.Edi.MessageServices
         {
         }
 
-        private IAcDomain host
+        private IAcDomain acDomain
         {
             get
             {
@@ -46,7 +46,7 @@ namespace Anycmd.Edi.MessageServices
                 response.Description = "非法的版本号" + request.Version;
                 return response;
             }
-            foreach (var stateCode in host.NodeHost.StateCodes)
+            foreach (var stateCode in acDomain.NodeHost.StateCodes)
             {
                 response.StateCodes.Add(new StateCodeData
                 {
@@ -63,7 +63,7 @@ namespace Anycmd.Edi.MessageServices
         #region GetAllOntologies
         public GetAllOntologiesResponse Any(GetAllOntologies request)
         {
-            var ontologies = host.NodeHost.Ontologies;
+            var ontologies = acDomain.NodeHost.Ontologies;
             var response = new GetAllOntologiesResponse()
             {
                 Status = (int)Status.Ok,
@@ -95,7 +95,7 @@ namespace Anycmd.Edi.MessageServices
                 };
             }
             OntologyDescriptor ontology;
-            if (!host.NodeHost.Ontologies.TryGetOntology(request.OntologyCode, out ontology) || ontology.Ontology.IsEnabled != 1)
+            if (!acDomain.NodeHost.Ontologies.TryGetOntology(request.OntologyCode, out ontology) || ontology.Ontology.IsEnabled != 1)
             {
                 if (string.IsNullOrEmpty(request.OntologyCode))
                 {
@@ -126,7 +126,7 @@ namespace Anycmd.Edi.MessageServices
         #region GetAllInfoDics
         public GetInfoDicsResponse Any(GetAllInfoDics request)
         {
-            var infoDics = host.NodeHost.InfoDics;
+            var infoDics = acDomain.NodeHost.InfoDics;
             var infoDicsData = new GetInfoDicsResponse()
             {
                 Status = (int)Status.Ok,
@@ -154,7 +154,7 @@ namespace Anycmd.Edi.MessageServices
                 };
             }
             InfoDicState infoDic;
-            if (!host.NodeHost.InfoDics.TryGetInfoDic(request.DicCode, out infoDic) || infoDic.IsEnabled != 1)
+            if (!acDomain.NodeHost.InfoDics.TryGetInfoDic(request.DicCode, out infoDic) || infoDic.IsEnabled != 1)
             {
                 if (string.IsNullOrEmpty(request.DicCode))
                 {
@@ -190,9 +190,9 @@ namespace Anycmd.Edi.MessageServices
                 Status = (int)Status.Ok,
                 ReasonPhrase = Status.Ok.ToName()
             };
-            if (host.CatalogSet != null)
+            if (acDomain.CatalogSet != null)
             {
-                foreach (var item in host.CatalogSet)
+                foreach (var item in acDomain.CatalogSet)
                 {
                     var serializableCatalog = new CatalogData()
                     {

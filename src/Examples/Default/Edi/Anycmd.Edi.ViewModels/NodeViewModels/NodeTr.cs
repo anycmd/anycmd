@@ -13,11 +13,11 @@ namespace Anycmd.Edi.ViewModels.NodeViewModels
         private bool _isSelf = false;
         private bool _isCenterDetected = false;
         private bool _isCenter = false;
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
-        private NodeTr(IAcDomain host)
+        private NodeTr(IAcDomain acDomain)
         {
-            this._host = host;
+            this._acDomain = acDomain;
         }
 
         public static NodeTr Create(NodeDescriptor node)
@@ -148,7 +148,7 @@ namespace Anycmd.Edi.ViewModels.NodeViewModels
                 if (!_isSelfDetected)
                 {
                     _isSelfDetected = true;
-                    _isSelf = this.Id == _host.NodeHost.Nodes.ThisNode.Node.Id;
+                    _isSelf = this.Id == _acDomain.NodeHost.Nodes.ThisNode.Node.Id;
                 }
                 return _isSelf;
             }
@@ -164,7 +164,7 @@ namespace Anycmd.Edi.ViewModels.NodeViewModels
                 if (!_isCenterDetected)
                 {
                     _isCenterDetected = true;
-                    _isCenter = this.Id == _host.NodeHost.Nodes.CenterNode.Node.Id;
+                    _isCenter = this.Id == _acDomain.NodeHost.Nodes.CenterNode.Node.Id;
                 }
                 return _isCenter;
             }

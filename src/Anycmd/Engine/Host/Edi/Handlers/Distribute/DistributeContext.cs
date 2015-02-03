@@ -14,7 +14,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers.Distribute
     {
         private NodeDescriptor _clientAgent;
         private OntologyDescriptor _ontology;
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
         /// <summary>
         /// 命令分发上下文。单条命令
@@ -31,7 +31,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers.Distribute
             {
                 throw new ArgumentNullException("responder");
             }
-            this._host = responder.AcDomain;
+            this._acDomain = responder.AcDomain;
             this.Command = command;
             this.Responder = responder;
             #region 如果是head命令类型去掉信息值以减小体积
@@ -107,7 +107,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers.Distribute
             {
                 if (_ontology == null)
                 {
-                    if (!_host.NodeHost.Ontologies.TryGetOntology(this.Command.Ontology, out _ontology))
+                    if (!_acDomain.NodeHost.Ontologies.TryGetOntology(this.Command.Ontology, out _ontology))
                     {
                         throw new AnycmdException("意外的本体码");
                     }

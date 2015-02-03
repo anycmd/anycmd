@@ -42,7 +42,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
         private readonly NodeElementActionSet _actionSet;
         private readonly CatalogSet _catalogSet;
 
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
         public Guid Id
         {
@@ -52,20 +52,20 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
         /// <summary>
         /// 构造并接入总线
         /// </summary>
-        internal NodeSet(IAcDomain host)
+        internal NodeSet(IAcDomain acDomain)
         {
-            if (host == null)
+            if (acDomain == null)
             {
-                throw new ArgumentNullException("host");
+                throw new ArgumentNullException("acDomain");
             }
-            if (host.Equals(EmptyAcDomain.SingleInstance))
+            if (acDomain.Equals(EmptyAcDomain.SingleInstance))
             {
                 _initialized = true;
             }
-            this._host = host;
-            this._nodeCareSet = new NodeCareSet(host);
-            this._actionSet = new NodeElementActionSet(host);
-            this._catalogSet = new CatalogSet(host);
+            this._acDomain = acDomain;
+            this._nodeCareSet = new NodeCareSet(acDomain);
+            this._actionSet = new NodeElementActionSet(acDomain);
+            this._catalogSet = new CatalogSet(acDomain);
             new MessageHandler(this).Register();
         }
 
@@ -323,31 +323,31 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             lock (_locker)
             {
                 if (_initialized) return;
-                _host.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
+                _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
                 _allNodesById.Clear();
                 _allNodesByPublicKey.Clear();
-                var allNodes = _host.RetrieveRequiredService<INodeHostBootstrap>().GetNodes();
+                var allNodes = _acDomain.RetrieveRequiredService<INodeHostBootstrap>().GetNodes();
                 foreach (var node in allNodes)
                 {
-                    var nodeState = NodeState.Create(_host, node);
-                    var descriptor = new NodeDescriptor(_host, nodeState);
+                    var nodeState = NodeState.Create(_acDomain, node);
+                    var descriptor = new NodeDescriptor(_acDomain, nodeState);
                     _allNodesById.Add(node.Id.ToString(), descriptor);
                     if (_allNodesByPublicKey.ContainsKey(node.PublicKey))
                     {
                         throw new AnycmdException("重复的公钥" + node.PublicKey);
                     }
                     _allNodesByPublicKey.Add(node.PublicKey, descriptor);
-                    if (node.Id.ToString().Equals(_host.Config.ThisNodeId, StringComparison.OrdinalIgnoreCase))
+                    if (node.Id.ToString().Equals(_acDomain.Config.ThisNodeId, StringComparison.OrdinalIgnoreCase))
                     {
                         _selfNode = descriptor;
                     }
-                    if (node.Id.ToString().Equals(_host.Config.CenterNodeId, StringComparison.OrdinalIgnoreCase))
+                    if (node.Id.ToString().Equals(_acDomain.Config.CenterNodeId, StringComparison.OrdinalIgnoreCase))
                     {
                         _centerNode = descriptor;
                     }
                 }
                 _initialized = true;
-                _host.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
+                _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
             }
         }
 
@@ -369,10 +369,10 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
             public void Register()
             {
-                var messageDispatcher = _set._host.MessageDispatcher;
+                var messageDispatcher = _set._acDomain.MessageDispatcher;
                 if (messageDispatcher == null)
                 {
-                    throw new ArgumentNullException("messageDispatcher has not be set of host:{0}".Fmt(_set._host.Name));
+                    throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(_set._acDomain.Name));
                 }
                 messageDispatcher.Register((IHandler<AddNodeCommand>)this);
                 messageDispatcher.Register((IHandler<NodeAddedEvent>)this);
@@ -398,11 +398,11 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
             private void Handle(IAcSession acSession, INodeCreateIo input, bool isCommand)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var locker = _set._locker;
                 var allNodesById = _set._allNodesById;
                 var allNodesByPublicKey = _set._allNodesByPublicKey;
-                var nodeRepository = host.RetrieveRequiredService<IRepository<Node>>();
+                var nodeRepository = acDomain.RetrieveRequiredService<IRepository<Node>>();
                 if (string.IsNullOrEmpty(input.Code))
                 {
                     throw new ValidationException("编码不能为空");
@@ -416,18 +416,18 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 {
                     NodeDescriptor node;
                     Debug.Assert(input.Id != null, "input.Id != null");
-                    if (host.NodeHost.Nodes.TryGetNodeById(input.Id.Value.ToString(), out node))
+                    if (acDomain.NodeHost.Nodes.TryGetNodeById(input.Id.Value.ToString(), out node))
                     {
                         throw new ValidationException("已经存在");
                     }
-                    if (host.NodeHost.Nodes.Any(a => a.Node.Code.Equals(input.Code)))
+                    if (acDomain.NodeHost.Nodes.Any(a => a.Node.Code.Equals(input.Code)))
                     {
                         throw new ValidationException("重复的编码");
                     }
 
                     entity = Node.Create(input);
 
-                    var state = new NodeDescriptor(host, NodeState.Create(host, entity));
+                    var state = new NodeDescriptor(acDomain, NodeState.Create(acDomain, entity));
                     allNodesById.Add(entity.Id.ToString(), state);
                     allNodesByPublicKey.Add(entity.PublicKey, state);
                     if (isCommand)
@@ -448,7 +448,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateNodeAddedEvent(acSession, entity, input));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivateNodeAddedEvent(acSession, entity, input));
                 }
             }
 
@@ -476,14 +476,14 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
             private void Handle(IAcSession acSession, INodeUpdateIo input, bool isCommand)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var locker = _set._locker;
-                var nodeRepository = host.RetrieveRequiredService<IRepository<Node>>();
+                var nodeRepository = acDomain.RetrieveRequiredService<IRepository<Node>>();
                 if (string.IsNullOrEmpty(input.Code))
                 {
                     throw new ValidationException("编码不能为空");
                 }
-                if (host.NodeHost.Nodes.Any(a => a.Node.Code.Equals(input.Code) && a.Node.Id != input.Id))
+                if (acDomain.NodeHost.Nodes.Any(a => a.Node.Code.Equals(input.Code) && a.Node.Id != input.Id))
                 {
                     throw new ValidationException("重复的编码");
                 }
@@ -492,7 +492,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 lock (locker)
                 {
                     NodeDescriptor node;
-                    if (!host.NodeHost.Nodes.TryGetNodeById(input.Id.ToString(), out node))
+                    if (!acDomain.NodeHost.Nodes.TryGetNodeById(input.Id.ToString(), out node))
                     {
                         throw new NotExistException();
                     }
@@ -501,11 +501,11 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     {
                         throw new NotExistException();
                     }
-                    var bkState = new NodeDescriptor(host, NodeState.Create(host, entity));
+                    var bkState = new NodeDescriptor(acDomain, NodeState.Create(acDomain, entity));
 
                     entity.Update(input);
 
-                    var newState = new NodeDescriptor(host, NodeState.Create(host, entity));
+                    var newState = new NodeDescriptor(acDomain, NodeState.Create(acDomain, entity));
                     stateChanged = newState != bkState;
                     if (stateChanged)
                     {
@@ -531,7 +531,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateNodeUpdatedEvent(acSession, entity, input));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivateNodeUpdatedEvent(acSession, entity, input));
                 }
             }
 
@@ -577,13 +577,13 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
             private void Handle(IAcSession acSession, Guid nodeId, bool isCommand)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var locker = _set._locker;
                 var allNodesById = _set._allNodesById;
                 var allNodesByPublicKey = _set._allNodesByPublicKey;
-                var nodeRepository = host.RetrieveRequiredService<IRepository<Node>>();
+                var nodeRepository = acDomain.RetrieveRequiredService<IRepository<Node>>();
                 NodeDescriptor bkState;
-                if (!host.NodeHost.Nodes.TryGetNodeById(nodeId.ToString(), out bkState))
+                if (!acDomain.NodeHost.Nodes.TryGetNodeById(nodeId.ToString(), out bkState))
                 {
                     return;
                 }
@@ -615,7 +615,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateNodeRemovedEvent(acSession, entity));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivateNodeRemovedEvent(acSession, entity));
                 }
             }
 
@@ -638,24 +638,24 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             private bool _initialized = false;
 
             private readonly Guid _id = Guid.NewGuid();
-            private readonly IAcDomain _host;
+            private readonly IAcDomain _acDomain;
 
             public Guid Id
             {
                 get { return _id; }
             }
 
-            internal NodeElementActionSet(IAcDomain host)
+            internal NodeElementActionSet(IAcDomain acDomain)
             {
-                if (host == null)
+                if (acDomain == null)
                 {
-                    throw new ArgumentNullException("host");
+                    throw new ArgumentNullException("acDomain");
                 }
-                if (host.Equals(EmptyAcDomain.SingleInstance))
+                if (acDomain.Equals(EmptyAcDomain.SingleInstance))
                 {
                     _initialized = true;
                 }
-                this._host = host;
+                this._acDomain = acDomain;
                 new NodeElementActionMessageHandler(this).Register();
             }
 
@@ -705,12 +705,12 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 {
                     if (_initialized) return;
                     _nodeElementActionDic.Clear();
-                    var nodeElementActions = _host.RetrieveRequiredService<INodeHostBootstrap>().GetNodeElementActions();
+                    var nodeElementActions = _acDomain.RetrieveRequiredService<INodeHostBootstrap>().GetNodeElementActions();
                     foreach (var item in nodeElementActions)
                     {
                         NodeDescriptor node;
-                        _host.NodeHost.Nodes.TryGetNodeById(item.NodeId.ToString(), out node);
-                        ElementDescriptor element = _host.NodeHost.Ontologies.GetElement(item.ElementId);
+                        _acDomain.NodeHost.Nodes.TryGetNodeById(item.NodeId.ToString(), out node);
+                        ElementDescriptor element = _acDomain.NodeHost.Ontologies.GetElement(item.ElementId);
                         if (!_nodeElementActionDic.ContainsKey(node))
                         {
                             _nodeElementActionDic.Add(node, new Dictionary<ElementDescriptor, Dictionary<Verb, NodeElementActionState>>());
@@ -745,10 +745,10 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 public void Register()
                 {
-                    var messageDispatcher = _set._host.MessageDispatcher;
+                    var messageDispatcher = _set._acDomain.MessageDispatcher;
                     if (messageDispatcher == null)
                     {
-                        throw new ArgumentNullException("messageDispatcher has not be set of host:{0}".Fmt(_set._host.Name));
+                        throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(_set._acDomain.Name));
                     }
                     messageDispatcher.Register((IHandler<AddNodeElementActionCommand>)this);
                     messageDispatcher.Register((IHandler<NodeElementActionAddedEvent>)this);
@@ -772,19 +772,19 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 private void Handle(IAcSession acSession, INodeElementActionCreateIo input, bool isCommand)
                 {
-                    var host = _set._host;
+                    var acDomain = _set._acDomain;
                     var nodeElementActionDic = _set._nodeElementActionDic;
-                    var repository = host.RetrieveRequiredService<IRepository<NodeElementAction>>();
+                    var repository = acDomain.RetrieveRequiredService<IRepository<NodeElementAction>>();
                     NodeElementAction entity;
                     lock (this)
                     {
                         NodeDescriptor node;
-                        if (!host.NodeHost.Nodes.TryGetNodeById(input.NodeId.ToString(), out node))
+                        if (!acDomain.NodeHost.Nodes.TryGetNodeById(input.NodeId.ToString(), out node))
                         {
                             throw new ValidationException("意外的节点标识" + input.NodeId);
                         }
                         ElementDescriptor element;
-                        if (!host.NodeHost.Ontologies.TryGetElement(input.ElementId, out element))
+                        if (!acDomain.NodeHost.Ontologies.TryGetElement(input.ElementId, out element))
                         {
                             throw new ValidationException("意外的本体元素标识" + input.ElementId);
                         }
@@ -833,7 +833,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                     if (isCommand)
                     {
-                        host.MessageDispatcher.DispatchMessage(new PrivateNodeElementActionAddedEvent(acSession, entity, input));
+                        acDomain.MessageDispatcher.DispatchMessage(new PrivateNodeElementActionAddedEvent(acSession, entity, input));
                     }
                 }
 
@@ -862,9 +862,9 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 private void Handle(IAcSession acSession, Guid nodeElementActionId, bool isCommand)
                 {
-                    var host = _set._host;
+                    var acDomain = _set._acDomain;
                     var nodeElementActionDic = _set._nodeElementActionDic;
-                    var repository = host.RetrieveRequiredService<IRepository<NodeElementAction>>();
+                    var repository = acDomain.RetrieveRequiredService<IRepository<NodeElementAction>>();
                     NodeElementAction entity;
                     lock (this)
                     {
@@ -932,7 +932,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                     if (isCommand)
                     {
-                        host.MessageDispatcher.DispatchMessage(new PrivateNodeElementActionRemovedEvent(acSession, entity));
+                        acDomain.MessageDispatcher.DispatchMessage(new PrivateNodeElementActionRemovedEvent(acSession, entity));
                     }
                 }
 
@@ -964,24 +964,24 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             private bool _initialized = false;
             private readonly object _locker = new object();
             private readonly Guid _id = Guid.NewGuid();
-            private readonly IAcDomain _host;
+            private readonly IAcDomain _acDomain;
 
             public Guid Id
             {
                 get { return _id; }
             }
 
-            internal NodeCareSet(IAcDomain host)
+            internal NodeCareSet(IAcDomain acDomain)
             {
-                if (host == null)
+                if (acDomain == null)
                 {
-                    throw new ArgumentNullException("host");
+                    throw new ArgumentNullException("acDomain");
                 }
-                if (host.Equals(EmptyAcDomain.SingleInstance))
+                if (acDomain.Equals(EmptyAcDomain.SingleInstance))
                 {
                     _initialized = true;
                 }
-                this._host = host;
+                this._acDomain = acDomain;
                 new NodeCareMessageHandler(this).Register();
             }
 
@@ -1143,9 +1143,9 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     _nodeOntologyCareList.Clear();
                     _nodeElementCareList.Clear();
                     _nodeInfoIdElements.Clear();
-                    var nodeOntologyCareStates = _host.RetrieveRequiredService<INodeHostBootstrap>().GetNodeOntologyCares().Select(NodeOntologyCareState.Create);
-                    var nodeElementCareStates = _host.RetrieveRequiredService<INodeHostBootstrap>().GetNodeElementCares().Select(NodeElementCareState.Create);
-                    foreach (var node in _host.NodeHost.Nodes)
+                    var nodeOntologyCareStates = _acDomain.RetrieveRequiredService<INodeHostBootstrap>().GetNodeOntologyCares().Select(NodeOntologyCareState.Create);
+                    var nodeElementCareStates = _acDomain.RetrieveRequiredService<INodeHostBootstrap>().GetNodeElementCares().Select(NodeElementCareState.Create);
+                    foreach (var node in _acDomain.NodeHost.Nodes)
                     {
                         var node1 = node;
                         _nodeOntologyCareList.Add(node, nodeOntologyCareStates.Where(a => a.NodeId == node1.Node.Id).ToList());
@@ -1153,11 +1153,11 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                         _nodeElementCareList.Add(node, nodeElementCareStates.Where(a => a.NodeId == node2.Node.Id).ToList());
                     }
 
-                    foreach (var ontology in _host.NodeHost.Ontologies)
+                    foreach (var ontology in _acDomain.NodeHost.Ontologies)
                     {
-                        foreach (var element in _host.NodeHost.Ontologies[ontology.Ontology.Id].Elements.Values)
+                        foreach (var element in _acDomain.NodeHost.Ontologies[ontology.Ontology.Id].Elements.Values)
                         {
-                            foreach (var node in _host.NodeHost.Nodes)
+                            foreach (var node in _acDomain.NodeHost.Nodes)
                             {
                                 if (element == null)
                                 {
@@ -1223,10 +1223,10 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 public void Register()
                 {
-                    var messageDispatcher = _set._host.MessageDispatcher;
+                    var messageDispatcher = _set._acDomain.MessageDispatcher;
                     if (messageDispatcher == null)
                     {
-                        throw new ArgumentNullException("messageDispatcher has not be set of host:{0}".Fmt(_set._host.Name));
+                        throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(_set._acDomain.Name));
                     }
                     messageDispatcher.Register((IHandler<AddNodeOntologyCareCommand>)this);
                     messageDispatcher.Register((IHandler<NodeOntologyCareAddedEvent>)this);
@@ -1256,17 +1256,17 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 private void Handle(IAcSession acSession, INodeOntologyCareCreateIo input, bool isCommand)
                 {
-                    var host = _set._host;
+                    var acDomain = _set._acDomain;
                     var nodeOntologyCareList = _set._nodeOntologyCareList;
                     var ontologyCareDic = _set._ontologyCareDic;
-                    var repository = host.RetrieveRequiredService<IRepository<NodeOntologyCare>>();
+                    var repository = acDomain.RetrieveRequiredService<IRepository<NodeOntologyCare>>();
                     NodeDescriptor bNode;
-                    if (!host.NodeHost.Nodes.TryGetNodeById(input.NodeId.ToString(), out bNode))
+                    if (!acDomain.NodeHost.Nodes.TryGetNodeById(input.NodeId.ToString(), out bNode))
                     {
                         throw new ValidationException("意外的节点标识" + input.NodeId);
                     }
                     OntologyDescriptor ontology;
-                    if (!host.NodeHost.Ontologies.TryGetOntology(input.OntologyId, out ontology))
+                    if (!acDomain.NodeHost.Ontologies.TryGetOntology(input.OntologyId, out ontology))
                     {
                         throw new ValidationException("意外的本体标识" + input.OntologyId);
                     }
@@ -1319,7 +1319,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                     if (isCommand)
                     {
-                        host.MessageDispatcher.DispatchMessage(new PrivateNodeOntologyCareAddedEvent(acSession, entity, input));
+                        acDomain.MessageDispatcher.DispatchMessage(new PrivateNodeOntologyCareAddedEvent(acSession, entity, input));
                     }
                 }
 
@@ -1348,10 +1348,10 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 private void Handle(IAcSession acSession, Guid nodeOntologyCareId, bool isCommand)
                 {
-                    var host = _set._host;
+                    var acDomain = _set._acDomain;
                     var nodeOntologyCareList = _set._nodeOntologyCareList;
                     var ontologyCareDic = _set._ontologyCareDic;
-                    var repository = host.RetrieveRequiredService<IRepository<NodeOntologyCare>>();
+                    var repository = acDomain.RetrieveRequiredService<IRepository<NodeOntologyCare>>();
                     NodeOntologyCare entity;
                     lock (this)
                     {
@@ -1402,7 +1402,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                     if (isCommand)
                     {
-                        host.MessageDispatcher.DispatchMessage(new PrivateNodeOntologyCareRemovedEvent(acSession, entity));
+                        acDomain.MessageDispatcher.DispatchMessage(new PrivateNodeOntologyCareRemovedEvent(acSession, entity));
                     }
                 }
 
@@ -1428,17 +1428,17 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 private void Handle(IAcSession acSession, INodeElementCareCreateIo input, bool isCommand)
                 {
-                    var host = _set._host;
+                    var acDomain = _set._acDomain;
                     var nodeElementCareList = _set._nodeElementCareList;
                     var elementCareDic = _set._elementCareDic;
-                    var repository = host.RetrieveRequiredService<IRepository<NodeElementCare>>();
+                    var repository = acDomain.RetrieveRequiredService<IRepository<NodeElementCare>>();
                     NodeDescriptor bNode;
-                    if (!host.NodeHost.Nodes.TryGetNodeById(input.NodeId.ToString(), out bNode))
+                    if (!acDomain.NodeHost.Nodes.TryGetNodeById(input.NodeId.ToString(), out bNode))
                     {
                         throw new ValidationException("意外的节点标识" + input.NodeId);
                     }
                     ElementDescriptor element;
-                    if (!host.NodeHost.Ontologies.TryGetElement(input.ElementId, out element))
+                    if (!acDomain.NodeHost.Ontologies.TryGetElement(input.ElementId, out element))
                     {
                         throw new ValidationException("意外的本体元素标识" + input.ElementId);
                     }
@@ -1491,7 +1491,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                     if (isCommand)
                     {
-                        host.MessageDispatcher.DispatchMessage(new PrivateNodeElementCareAddedEvent(acSession, entity, input));
+                        acDomain.MessageDispatcher.DispatchMessage(new PrivateNodeElementCareAddedEvent(acSession, entity, input));
                     }
                 }
 
@@ -1520,10 +1520,10 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 private void Handle(IAcSession acSession, Guid nodeElementCareId, bool isInfoIdItem, bool isCommand)
                 {
-                    var host = _set._host;
+                    var acDomain = _set._acDomain;
                     var nodeElementCareList = _set._nodeElementCareList;
                     var nodeInfoIdElements = _set._nodeInfoIdElements;
-                    var repository = host.RetrieveRequiredService<IRepository<NodeElementCare>>();
+                    var repository = acDomain.RetrieveRequiredService<IRepository<NodeElementCare>>();
                     NodeElementCare entity;
                     lock (this)
                     {
@@ -1554,7 +1554,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                             throw new NotExistException();
                         }
                         ElementDescriptor element;
-                        if (!host.NodeHost.Ontologies.TryGetElement(entity.ElementId, out element))
+                        if (!acDomain.NodeHost.Ontologies.TryGetElement(entity.ElementId, out element))
                         {
                             throw new ValidationException("意外的本体元素标识" + entity.ElementId);
                         }
@@ -1583,7 +1583,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                     if (isCommand)
                     {
-                        host.MessageDispatcher.DispatchMessage(new PrivateNodeElementCareUpdatedEvent(acSession, entity));
+                        acDomain.MessageDispatcher.DispatchMessage(new PrivateNodeElementCareUpdatedEvent(acSession, entity));
                     }
                 }
 
@@ -1612,11 +1612,11 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 private void HandleElement(IAcSession acSession, Guid nodeElementCareId, bool isCommand)
                 {
-                    var host = _set._host;
+                    var acDomain = _set._acDomain;
                     var nodeElementCareList = _set._nodeElementCareList;
                     var elementCareDic = _set._elementCareDic;
                     var nodeInfoIdElements = _set._nodeInfoIdElements;
-                    var repository = host.RetrieveRequiredService<IRepository<NodeElementCare>>();
+                    var repository = acDomain.RetrieveRequiredService<IRepository<NodeElementCare>>();
                     NodeElementCare entity;
                     lock (this)
                     {
@@ -1647,7 +1647,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                             return;
                         }
                         ElementDescriptor element;
-                        if (!host.NodeHost.Ontologies.TryGetElement(entity.ElementId, out element))
+                        if (!acDomain.NodeHost.Ontologies.TryGetElement(entity.ElementId, out element))
                         {
                             throw new ValidationException("意外的本体元素标识" + entity.ElementId);
                         }
@@ -1682,7 +1682,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                     if (isCommand)
                     {
-                        host.MessageDispatcher.DispatchMessage(new PrivateNodeElementCareRemovedEvent(acSession, entity));
+                        acDomain.MessageDispatcher.DispatchMessage(new PrivateNodeElementCareRemovedEvent(acSession, entity));
                     }
                 }
 
@@ -1705,28 +1705,28 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             private bool _initialized = false;
             private readonly object _locker = new object();
             private readonly Guid _id = Guid.NewGuid();
-            private readonly IAcDomain _host;
+            private readonly IAcDomain _acDomain;
 
             public Guid Id
             {
                 get { return _id; }
             }
 
-            internal CatalogSet(IAcDomain host)
+            internal CatalogSet(IAcDomain acDomain)
             {
-                if (host == null)
+                if (acDomain == null)
                 {
-                    throw new ArgumentNullException("host");
+                    throw new ArgumentNullException("acDomain");
                 }
-                if (host.Equals(EmptyAcDomain.SingleInstance))
+                if (acDomain.Equals(EmptyAcDomain.SingleInstance))
                 {
                     _initialized = true;
                 }
-                this._host = host;
-                var messageDispatcher = host.MessageDispatcher;
+                this._acDomain = acDomain;
+                var messageDispatcher = acDomain.MessageDispatcher;
                 if (messageDispatcher == null)
                 {
-                    throw new ArgumentNullException("messageDispatcher has not be set of host:{0}".Fmt(host.Name));
+                    throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(acDomain.Name));
                 }
                 new NodeOntologyCatalogMessageHandler(this).Register();
             }
@@ -1791,15 +1791,15 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 {
                     if (_initialized) return;
                     _dic.Clear();
-                    var ontologyOrgs = _host.RetrieveRequiredService<INodeHostBootstrap>().GetNodeOntologyCatalogs();
+                    var ontologyOrgs = _acDomain.RetrieveRequiredService<INodeHostBootstrap>().GetNodeOntologyCatalogs();
                     foreach (var nodeOntologyOrg in ontologyOrgs)
                     {
                         CatalogState org;
                         NodeDescriptor node;
                         OntologyDescriptor ontology;
-                        _host.NodeHost.Nodes.TryGetNodeById(nodeOntologyOrg.NodeId.ToString(), out node);
-                        _host.NodeHost.Ontologies.TryGetOntology(nodeOntologyOrg.OntologyId, out ontology);
-                        if (_host.CatalogSet.TryGetCatalog(nodeOntologyOrg.CatalogId, out org))
+                        _acDomain.NodeHost.Nodes.TryGetNodeById(nodeOntologyOrg.NodeId.ToString(), out node);
+                        _acDomain.NodeHost.Ontologies.TryGetOntology(nodeOntologyOrg.OntologyId, out ontology);
+                        if (_acDomain.CatalogSet.TryGetCatalog(nodeOntologyOrg.CatalogId, out org))
                         {
                             if (!_dic.ContainsKey(node))
                             {
@@ -1809,7 +1809,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                             {
                                 _dic[node].Add(ontology, new Dictionary<CatalogState, NodeOntologyCatalogState>());
                             }
-                            var nodeOntologyOrgState = NodeOntologyCatalogState.Create(_host, nodeOntologyOrg);
+                            var nodeOntologyOrgState = NodeOntologyCatalogState.Create(_acDomain, nodeOntologyOrg);
                             _dic[node][ontology].Add(org, nodeOntologyOrgState);
                         }
                         else
@@ -1837,10 +1837,10 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 public void Register()
                 {
-                    var messageDispatcher = _set._host.MessageDispatcher;
+                    var messageDispatcher = _set._acDomain.MessageDispatcher;
                     if (messageDispatcher == null)
                     {
-                        throw new ArgumentNullException("messageDispatcher has not be set of host:{0}".Fmt(_set._host.Name));
+                        throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(_set._acDomain.Name));
                     }
                     messageDispatcher.Register((IHandler<AddNodeOntologyCatalogCommand>)this);
                     messageDispatcher.Register((IHandler<NodeOntologyCatalogAddedEvent>)this);
@@ -1864,25 +1864,25 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 private void Handle(IAcSession acSession, INodeOntologyCatalogCreateIo input, bool isCommand)
                 {
-                    var host = _set._host;
+                    var acDomain = _set._acDomain;
                     var dic = _set._dic;
-                    var repository = host.RetrieveRequiredService<IRepository<NodeOntologyCatalog>>();
+                    var repository = acDomain.RetrieveRequiredService<IRepository<NodeOntologyCatalog>>();
                     if (!input.Id.HasValue)
                     {
                         throw new ValidationException("标识是必须的");
                     }
                     NodeDescriptor node;
-                    if (!host.NodeHost.Nodes.TryGetNodeById(input.NodeId.ToString(), out node))
+                    if (!acDomain.NodeHost.Nodes.TryGetNodeById(input.NodeId.ToString(), out node))
                     {
                         throw new ValidationException("意外的节点标识" + input.NodeId);
                     }
                     OntologyDescriptor ontology;
-                    if (!host.NodeHost.Ontologies.TryGetOntology(input.OntologyId, out ontology))
+                    if (!acDomain.NodeHost.Ontologies.TryGetOntology(input.OntologyId, out ontology))
                     {
                         throw new ValidationException("意外的本体标识" + input.OntologyId);
                     }
                     CatalogState catalog;
-                    if (!host.CatalogSet.TryGetCatalog(input.CatalogId, out catalog))
+                    if (!acDomain.CatalogSet.TryGetCatalog(input.CatalogId, out catalog))
                     {
                         throw new ValidationException("意外的目录标识" + input.CatalogId);
                     }
@@ -1902,7 +1902,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                         };
                         try
                         {
-                            var state = NodeOntologyCatalogState.Create(host, entity);
+                            var state = NodeOntologyCatalogState.Create(acDomain, entity);
                             if (!dic.ContainsKey(node))
                             {
                                 dic.Add(node, new Dictionary<OntologyDescriptor, Dictionary<CatalogState, NodeOntologyCatalogState>>());
@@ -1929,7 +1929,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                     if (isCommand)
                     {
-                        host.MessageDispatcher.DispatchMessage(new PrivateNodeOntologyCatalogAddedEvent(acSession, entity, input));
+                        acDomain.MessageDispatcher.DispatchMessage(new PrivateNodeOntologyCatalogAddedEvent(acSession, entity, input));
                     }
                 }
 
@@ -1959,21 +1959,21 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 private void Handle(IAcSession acSession, Guid nodeId, Guid ontologyId, Guid catalogId, bool isCommand)
                 {
-                    var host = _set._host;
+                    var acDomain = _set._acDomain;
                     var dic = _set._dic;
-                    var repository = host.RetrieveRequiredService<IRepository<NodeOntologyCatalog>>();
+                    var repository = acDomain.RetrieveRequiredService<IRepository<NodeOntologyCatalog>>();
                     NodeDescriptor node;
-                    if (!host.NodeHost.Nodes.TryGetNodeById(nodeId.ToString(), out node))
+                    if (!acDomain.NodeHost.Nodes.TryGetNodeById(nodeId.ToString(), out node))
                     {
                         throw new ValidationException("意外的节点标识" + nodeId);
                     }
                     OntologyDescriptor ontology;
-                    if (!host.NodeHost.Ontologies.TryGetOntology(ontologyId, out ontology))
+                    if (!acDomain.NodeHost.Ontologies.TryGetOntology(ontologyId, out ontology))
                     {
                         throw new ValidationException("意外的本体标识" + ontologyId);
                     }
                     CatalogState catalog;
-                    if (!host.CatalogSet.TryGetCatalog(catalogId, out catalog))
+                    if (!acDomain.CatalogSet.TryGetCatalog(catalogId, out catalog))
                     {
                         throw new ValidationException("意外的目录标识" + catalogId);
                     }
@@ -2003,7 +2003,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                     if (isCommand)
                     {
-                        host.MessageDispatcher.DispatchMessage(new PrivateNodeOntologyCatalogRemovedEvent(acSession, entity));
+                        acDomain.MessageDispatcher.DispatchMessage(new PrivateNodeOntologyCatalogRemovedEvent(acSession, entity));
                     }
                 }
 

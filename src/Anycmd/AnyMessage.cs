@@ -60,7 +60,7 @@ namespace Anycmd
             {
                 throw new ArgumentNullException("responseNode");
             }
-            var host = responseNode.AcDomain;
+            var acDomain = responseNode.AcDomain;
             var clientId = string.Empty;
             var credential = request.Credential;
             if (credential == null)
@@ -73,7 +73,7 @@ namespace Anycmd
                     break;
                 case ClientType.Node:
                     NodeDescriptor requester;
-                    if (host.NodeHost.Nodes.TryGetNodeByPublicKey(credential.ClientId, out requester))
+                    if (acDomain.NodeHost.Nodes.TryGetNodeByPublicKey(credential.ClientId, out requester))
                     {
                         clientId = requester.Id.ToString();
                     }
@@ -86,9 +86,9 @@ namespace Anycmd
                     break;
             }
             var dataTuple = DataItemsTuple.Create(
-                host,
+                acDomain,
                 request.InfoId,
-                request.InfoValue, request.QueryList, host.Config.InfoFormat);
+                request.InfoValue, request.QueryList, acDomain.Config.InfoFormat);
             MessageType requestType;
             request.MessageType.TryParse(out requestType);
             return new AnyMessage(MessageTypeKind.AnyCommand, Guid.NewGuid(), dataTuple, responseNode)

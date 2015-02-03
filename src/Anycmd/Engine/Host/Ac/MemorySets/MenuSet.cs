@@ -25,7 +25,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
         private bool _initialized = false;
 
         private readonly Guid _id = Guid.NewGuid();
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
         public Guid Id
         {
@@ -35,17 +35,17 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             }
         }
 
-        internal MenuSet(IAcDomain host)
+        internal MenuSet(IAcDomain acDomain)
         {
-            if (host == null)
+            if (acDomain == null)
             {
-                throw new ArgumentNullException("host");
+                throw new ArgumentNullException("acDomain");
             }
-            if (host.Equals(EmptyAcDomain.SingleInstance))
+            if (acDomain.Equals(EmptyAcDomain.SingleInstance))
             {
                 _initialized = true;
             }
-            this._host = host;
+            this._acDomain = acDomain;
             new MessageHandler(this).Register();
         }
 
@@ -82,15 +82,15 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             lock (this)
             {
                 if (_initialized) return;
-                _host.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
+                _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
                 _menuById.Clear();
-                var menus = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllMenus().OrderBy(a => a.SortCode);
+                var menus = _acDomain.RetrieveRequiredService<IOriginalHostStateReader>().GetAllMenus().OrderBy(a => a.SortCode);
                 foreach (var menu in menus)
                 {
-                    _menuById.Add(menu.Id, MenuState.Create(_host, menu));
+                    _menuById.Add(menu.Id, MenuState.Create(_acDomain, menu));
                 }
                 _initialized = true;
-                _host.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
+                _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
             }
         }
 
@@ -112,10 +112,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Register()
             {
-                var messageDispatcher = _set._host.MessageDispatcher;
+                var messageDispatcher = _set._acDomain.MessageDispatcher;
                 if (messageDispatcher == null)
                 {
-                    throw new ArgumentNullException("messageDispatcher has not be set of host:{0}".Fmt(_set._host.Name));
+                    throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(_set._acDomain.Name));
                 }
                 messageDispatcher.Register((IHandler<AddMenuCommand>)this);
                 messageDispatcher.Register((IHandler<MenuAddedEvent>)this);
@@ -141,22 +141,22 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Handle(IAcSession acSession, IMenuCreateIo input, bool isCommand)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var menuById = _set._menuById;
-                var menuRepository = host.RetrieveRequiredService<IRepository<Menu>>();
+                var menuRepository = acDomain.RetrieveRequiredService<IRepository<Menu>>();
                 if (!input.Id.HasValue)
                 {
                     throw new ValidationException("标识是必须的");
                 }
                 MenuState menu;
-                if (host.MenuSet.TryGetMenu(input.Id.Value, out menu))
+                if (acDomain.MenuSet.TryGetMenu(input.Id.Value, out menu))
                 {
                     throw new ValidationException("给定标识的实体已经存在" + input.Id);
                 }
                 if (input.ParentId.HasValue)
                 {
                     MenuState parentMenu;
-                    if (!host.MenuSet.TryGetMenu(input.ParentId.Value, out parentMenu))
+                    if (!acDomain.MenuSet.TryGetMenu(input.ParentId.Value, out parentMenu))
                     {
                         throw new NotExistException("标识为" + input.ParentId.Value + "的父菜单不存在");
                     }
@@ -171,19 +171,19 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 lock (this)
                 {
 
-                    if (host.MenuSet.TryGetMenu(input.Id.Value, out menu))
+                    if (acDomain.MenuSet.TryGetMenu(input.Id.Value, out menu))
                     {
                         throw new ValidationException("给定标识的实体已经存在" + input.Id);
                     }
                     if (input.ParentId.HasValue)
                     {
                         MenuState parentMenu;
-                        if (!host.MenuSet.TryGetMenu(input.ParentId.Value, out parentMenu))
+                        if (!acDomain.MenuSet.TryGetMenu(input.ParentId.Value, out parentMenu))
                         {
                             throw new NotExistException("标识为" + input.ParentId.Value + "的父菜单不存在");
                         }
                     }
-                    var menuState = MenuState.Create(host, entity);
+                    var menuState = MenuState.Create(acDomain, entity);
                     if (!menuById.ContainsKey(entity.Id))
                     {
                         menuById.Add(entity.Id, menuState);
@@ -208,7 +208,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateMenuAddedEvent(acSession, entity, input));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivateMenuAddedEvent(acSession, entity, input));
                 }
             }
 
@@ -236,11 +236,11 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Handle(IAcSession acSession, IMenuUpdateIo input, bool isCommand)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var menuById = _set._menuById;
-                var menuRepository = host.RetrieveRequiredService<IRepository<Menu>>();
+                var menuRepository = acDomain.RetrieveRequiredService<IRepository<Menu>>();
                 MenuState bkState;
-                if (!host.MenuSet.TryGetMenu(input.Id, out bkState))
+                if (!acDomain.MenuSet.TryGetMenu(input.Id, out bkState))
                 {
                     throw new ValidationException("给定标识的菜单不存在" + input.Id);
                 }
@@ -249,7 +249,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 lock (bkState)
                 {
                     MenuState oldState;
-                    if (!host.MenuSet.TryGetMenu(input.Id, out oldState))
+                    if (!acDomain.MenuSet.TryGetMenu(input.Id, out oldState))
                     {
                         throw new ValidationException("给定标识的菜单不存在" + input.Id);
                     }
@@ -261,7 +261,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                     entity.Update(input);
 
-                    var newState = MenuState.Create(host, entity);
+                    var newState = MenuState.Create(acDomain, entity);
                     stateChanged = newState != bkState;
                     if (stateChanged)
                     {
@@ -287,7 +287,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateMenuUpdatedEvent(acSession, entity, input));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivateMenuUpdatedEvent(acSession, entity, input));
                 }
             }
 
@@ -322,11 +322,11 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Handle(IAcSession acSession, Guid menuId, bool isCommand)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var menuById = _set._menuById;
-                var menuRepository = host.RetrieveRequiredService<IRepository<Menu>>();
+                var menuRepository = acDomain.RetrieveRequiredService<IRepository<Menu>>();
                 MenuState bkState;
-                if (!host.MenuSet.TryGetMenu(menuId, out bkState))
+                if (!acDomain.MenuSet.TryGetMenu(menuId, out bkState))
                 {
                     return;
                 }
@@ -334,7 +334,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 lock (bkState)
                 {
                     MenuState state;
-                    if (!host.MenuSet.TryGetMenu(menuId, out state))
+                    if (!acDomain.MenuSet.TryGetMenu(menuId, out state))
                     {
                         return;
                     }
@@ -351,7 +351,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     {
                         if (isCommand)
                         {
-                            host.MessageDispatcher.DispatchMessage(new MenuRemovingEvent(acSession, entity));
+                            acDomain.MessageDispatcher.DispatchMessage(new MenuRemovingEvent(acSession, entity));
                         }
                         menuById.Remove(bkState.Id);
                     }
@@ -375,7 +375,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateMenuRemovedEvent(acSession, entity));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivateMenuRemovedEvent(acSession, entity));
                 }
             }
 

@@ -26,24 +26,24 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
         private bool _initialized = false;
 
         private readonly Guid _id = Guid.NewGuid();
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
         public Guid Id
         {
             get { return _id; }
         }
 
-        internal CatalogSet(IAcDomain host)
+        internal CatalogSet(IAcDomain acDomain)
         {
-            if (host == null)
+            if (acDomain == null)
             {
-                throw new ArgumentNullException("host");
+                throw new ArgumentNullException("acDomain");
             }
-            if (host.Equals(EmptyAcDomain.SingleInstance))
+            if (acDomain.Equals(EmptyAcDomain.SingleInstance))
             {
                 _initialized = true;
             }
-            this._host = host;
+            this._acDomain = acDomain;
             new MessageHandler(this).Register();
         }
 
@@ -84,15 +84,15 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             lock (this)
             {
                 if (_initialized) return;
-                _host.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
+                _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
                 _dicByCode.Clear();
                 _dicById.Clear();
                 _dicByCode.Add(CatalogState.VirtualRoot.Code, CatalogState.VirtualRoot);
                 _dicById.Add(CatalogState.VirtualRoot.Id, CatalogState.VirtualRoot);
-                var allCatalogs = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetCatalogs().OrderBy(a => a.ParentCode);
+                var allCatalogs = _acDomain.RetrieveRequiredService<IOriginalHostStateReader>().GetCatalogs().OrderBy(a => a.ParentCode);
                 foreach (var catalog in allCatalogs)
                 {
-                    CatalogState orgState = CatalogState.Create(_host, catalog);
+                    CatalogState orgState = CatalogState.Create(_acDomain, catalog);
                     if (!_dicByCode.ContainsKey(catalog.Code))
                     {
                         _dicByCode.Add(catalog.Code, orgState);
@@ -103,7 +103,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                 }
                 _initialized = true;
-                _host.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
+                _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
             }
         }
 
@@ -143,10 +143,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Register()
             {
-                var messageDispatcher = _set._host.MessageDispatcher;
+                var messageDispatcher = _set._acDomain.MessageDispatcher;
                 if (messageDispatcher == null)
                 {
-                    throw new ArgumentNullException("messageDispatcher has not be set of host:{0}".Fmt(_set._host.Name));
+                    throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(_set._acDomain.Name));
                 }
                 messageDispatcher.Register((IHandler<AddCatalogCommand>)this);
                 messageDispatcher.Register((IHandler<CatalogAddedEvent>)this);
@@ -172,10 +172,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Handle(IAcSession acSession, ICatalogCreateIo input, bool isCommand)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var dicByCode = _set._dicByCode;
                 var dicById = _set._dicById;
-                var catalogRepository = host.RetrieveRequiredService<IRepository<Catalog>>();
+                var catalogRepository = acDomain.RetrieveRequiredService<IRepository<Catalog>>();
                 if (!input.Id.HasValue)
                 {
                     throw new ValidationException("标识是必须的");
@@ -192,18 +192,18 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 lock (this)
                 {
                     CatalogState catalog;
-                    if (host.CatalogSet.TryGetCatalog(input.Id.Value, out catalog))
+                    if (acDomain.CatalogSet.TryGetCatalog(input.Id.Value, out catalog))
                     {
                         throw new ValidationException("给定标识的目录已经存在");
                     }
-                    if (host.CatalogSet.TryGetCatalog(input.Code, out catalog))
+                    if (acDomain.CatalogSet.TryGetCatalog(input.Code, out catalog))
                     {
                         throw new ValidationException("重复的目录码");
                     }
                     if (!string.IsNullOrEmpty(input.ParentCode))
                     {
                         CatalogState parentOragnization;
-                        if (!host.CatalogSet.TryGetCatalog(input.ParentCode, out parentOragnization))
+                        if (!acDomain.CatalogSet.TryGetCatalog(input.ParentCode, out parentOragnization))
                         {
                             throw new NotExistException("标识为" + input.ParentCode + "的父目录不存在");
                         }
@@ -211,21 +211,21 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                         {
                             throw new ValidationException("子级目录的编码必须以父级目录编码为前缀");
                         }
-                        if (host.CatalogSet.Any(a => string.Equals(a.ParentCode, input.ParentCode) && string.Equals(a.Name, input.Name, StringComparison.OrdinalIgnoreCase)))
+                        if (acDomain.CatalogSet.Any(a => string.Equals(a.ParentCode, input.ParentCode) && string.Equals(a.Name, input.Name, StringComparison.OrdinalIgnoreCase)))
                         {
                             throw new ValidationException("兄弟目录间不能重名");
                         }
                     }
                     else
                     {
-                        if (host.CatalogSet.Any(a => string.IsNullOrEmpty(a.ParentCode) && string.Equals(a.Name, input.Name, StringComparison.OrdinalIgnoreCase)))
+                        if (acDomain.CatalogSet.Any(a => string.IsNullOrEmpty(a.ParentCode) && string.Equals(a.Name, input.Name, StringComparison.OrdinalIgnoreCase)))
                         {
                             throw new ValidationException("重复的目录名");
                         }
                     }
 
                     entity = Catalog.Create(input);
-                    var state = CatalogState.Create(host, entity);
+                    var state = CatalogState.Create(acDomain, entity);
                     if (!dicByCode.ContainsKey(entity.Code))
                     {
                         dicByCode.Add(entity.Code, state);
@@ -258,7 +258,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateCatalogAddedEvent(acSession, entity, input));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivateCatalogAddedEvent(acSession, entity, input));
                 }
             }
 
@@ -287,14 +287,14 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Handle(IAcSession acSession, ICatalogUpdateIo input, bool isCommand)
             {
-                var host = _set._host;
-                var catalogRepository = host.RetrieveRequiredService<IRepository<Catalog>>();
+                var acDomain = _set._acDomain;
+                var catalogRepository = acDomain.RetrieveRequiredService<IRepository<Catalog>>();
                 if (string.IsNullOrEmpty(input.Code))
                 {
                     throw new ValidationException("编码不能为空");
                 }
                 CatalogState bkState;
-                if (!host.CatalogSet.TryGetCatalog(input.Id, out bkState))
+                if (!acDomain.CatalogSet.TryGetCatalog(input.Id, out bkState))
                 {
                     throw new ValidationException("给定标识的目录不存在" + input.Id);
                 }
@@ -303,14 +303,14 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 lock (bkState)
                 {
                     CatalogState oragnization;
-                    if (host.CatalogSet.TryGetCatalog(input.Code, out oragnization) && oragnization.Id != input.Id)
+                    if (acDomain.CatalogSet.TryGetCatalog(input.Code, out oragnization) && oragnization.Id != input.Id)
                     {
                         throw new ValidationException("重复的目录码" + input.Code);
                     }
                     if (!string.IsNullOrEmpty(input.ParentCode))
                     {
                         CatalogState parentOragnization;
-                        if (!host.CatalogSet.TryGetCatalog(input.ParentCode, out parentOragnization))
+                        if (!acDomain.CatalogSet.TryGetCatalog(input.ParentCode, out parentOragnization))
                         {
                             throw new NotExistException("标识为" + input.ParentCode + "的父目录不存在");
                         }
@@ -335,7 +335,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                     entity.Update(input);
 
-                    var newState = CatalogState.Create(host, entity);
+                    var newState = CatalogState.Create(acDomain, entity);
                     stateChanged = newState != bkState;
                     if (stateChanged)
                     {
@@ -361,7 +361,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateCatalogUpdatedEvent(acSession, entity, input));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivateCatalogUpdatedEvent(acSession, entity, input));
                 }
             }
 
@@ -404,12 +404,12 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Handle(IAcSession acSession, Guid catalogId, bool isCommand)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var dicByCode = _set._dicByCode;
                 var dicById = _set._dicById;
-                var catalogRepository = host.RetrieveRequiredService<IRepository<Catalog>>();
+                var catalogRepository = acDomain.RetrieveRequiredService<IRepository<Catalog>>();
                 CatalogState bkState;
-                if (!host.CatalogSet.TryGetCatalog(catalogId, out bkState))
+                if (!acDomain.CatalogSet.TryGetCatalog(catalogId, out bkState))
                 {
                     return;
                 }
@@ -417,11 +417,11 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 lock (bkState)
                 {
                     CatalogState state;
-                    if (!host.CatalogSet.TryGetCatalog(catalogId, out state))
+                    if (!acDomain.CatalogSet.TryGetCatalog(catalogId, out state))
                     {
                         return;
                     }
-                    if (host.CatalogSet.Any(a => bkState.Code.Equals(a.ParentCode, StringComparison.OrdinalIgnoreCase)))
+                    if (acDomain.CatalogSet.Any(a => bkState.Code.Equals(a.ParentCode, StringComparison.OrdinalIgnoreCase)))
                     {
                         throw new ValidationException("目录下有子目录时不能删除");
                     }
@@ -434,7 +434,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     {
                         if (isCommand)
                         {
-                            host.MessageDispatcher.DispatchMessage(new CatalogRemovingEvent(acSession, entity));
+                            acDomain.MessageDispatcher.DispatchMessage(new CatalogRemovingEvent(acSession, entity));
                         }
                         dicById.Remove(bkState.Id);
                         dicByCode.Remove(bkState.Code);
@@ -460,7 +460,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateCatalogRemovedEvent(acSession, entity));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivateCatalogRemovedEvent(acSession, entity));
                 }
             }
 

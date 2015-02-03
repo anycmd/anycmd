@@ -224,11 +224,11 @@ namespace Anycmd.Engine.Host
 
         private class EmptyNodeHost : INodeHost
         {
-            private readonly IAcDomain _host;
+            private readonly IAcDomain _acDomain;
 
-            public EmptyNodeHost(IAcDomain host)
+            public EmptyNodeHost(IAcDomain acDomain)
             {
-                this._host = host;
+                this._acDomain = acDomain;
             }
 
             public IStateCodeSet StateCodes

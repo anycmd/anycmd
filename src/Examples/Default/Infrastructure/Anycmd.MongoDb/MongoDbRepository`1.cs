@@ -12,20 +12,20 @@ namespace Anycmd.MongoDb
         where TAggregateRoot : class, IAggregateRoot
     {
         private readonly IMongoDbRepositoryContext _context;
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
         /// <summary>
         /// Initializes a new instance of <c>MongoDBRepository[TAggregateRoot]</c> class.
         /// </summary>
-        /// <param name="host"></param>
+        /// <param name="acDomain"></param>
         /// <param name="context">The <see cref="IRepositoryContext"/> object for initializing the current repository.</param>
-        public MongoDbRepository(IAcDomain host, IMongoDbRepositoryContext context)
+        public MongoDbRepository(IAcDomain acDomain, IMongoDbRepositoryContext context)
         {
-            if (host == null)
-                throw new ArgumentNullException("host");
+            if (acDomain == null)
+                throw new ArgumentNullException("acDomain");
             if (context  == null)
                 throw new ArgumentNullException("context");
-            _host = host;
+            _acDomain = acDomain;
             _context = context;
         }
 

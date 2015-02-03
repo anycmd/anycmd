@@ -9,8 +9,8 @@ namespace Anycmd.Edi.Queries.Ef
     /// </summary>
     public class StateCodeQuery : QueryBase, IStateCodeQuery
     {
-        public StateCodeQuery(IAcDomain host)
-            : base(host, "EdiEntities")
+        public StateCodeQuery(IAcDomain acDomain)
+            : base(acDomain, "EdiEntities")
         {
         }
     }

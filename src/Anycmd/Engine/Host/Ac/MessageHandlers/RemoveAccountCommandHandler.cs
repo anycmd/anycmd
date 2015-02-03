@@ -10,18 +10,18 @@ namespace Anycmd.Engine.Host.Ac.MessageHandlers
 
     public class RemoveAccountCommandHandler : CommandHandler<RemoveAccountCommand>
     {
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
-        public RemoveAccountCommandHandler(IAcDomain host)
+        public RemoveAccountCommandHandler(IAcDomain acDomain)
         {
-            this._host = host;
+            this._acDomain = acDomain;
         }
 
         public override void Handle(RemoveAccountCommand command)
         {
-            var accountRepository = _host.RetrieveRequiredService<IRepository<Account>>();
+            var accountRepository = _acDomain.RetrieveRequiredService<IRepository<Account>>();
             AccountState developer;
-            if (_host.SysUserSet.TryGetDevAccount(command.EntityId, out developer))
+            if (_acDomain.SysUserSet.TryGetDevAccount(command.EntityId, out developer))
             {
                 throw new ValidationException("该账户是开发人员，删除该账户之前需先删除该开发人员");
             }
@@ -32,8 +32,8 @@ namespace Anycmd.Engine.Host.Ac.MessageHandlers
             }
             accountRepository.Remove(entity);
             accountRepository.Context.Commit();
-            _host.EventBus.Publish(new AccountRemovedEvent(command.AcSession, entity));
-            _host.EventBus.Commit();
+            _acDomain.EventBus.Publish(new AccountRemovedEvent(command.AcSession, entity));
+            _acDomain.EventBus.Commit();
         }
     }
 }

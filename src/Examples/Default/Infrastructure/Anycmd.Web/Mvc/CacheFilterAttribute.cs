@@ -48,8 +48,8 @@ namespace Anycmd.Web.Mvc
         /// <param name="filterContext"></param>
         public override void OnActionExecuted(ActionExecutedContext filterContext)
         {
-            var host = filterContext.HttpContext.Application[Constants.ApplicationRuntime.AcDomainCacheKey] as IAcDomain;
-            if (Enable || host.Config.EnableClientCache)
+            var acDomain = filterContext.HttpContext.Application[Constants.ApplicationRuntime.AcDomainCacheKey] as IAcDomain;
+            if (Enable || acDomain.Config.EnableClientCache)
             {
                 if (Duration <= 0) return;
 

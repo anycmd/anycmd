@@ -11,11 +11,11 @@ namespace Anycmd.Edi.ViewModels.ElementViewModels
     /// </summary>
     public partial class ElementTr
     {
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
-        public ElementTr(IAcDomain host)
+        public ElementTr(IAcDomain acDomain)
         {
-            this._host = host;
+            this._acDomain = acDomain;
         }
 
         public static ElementTr Create(ElementState element)
@@ -191,7 +191,7 @@ namespace Anycmd.Edi.ViewModels.ElementViewModels
             {
                 if (_dataSchema == null)
                 {
-                    _dataSchema = _host.NodeHost.Ontologies.GetElement(this.Id).DataSchema;
+                    _dataSchema = _acDomain.NodeHost.Ontologies.GetElement(this.Id).DataSchema;
                 }
 
                 return _dataSchema;
@@ -269,7 +269,7 @@ namespace Anycmd.Edi.ViewModels.ElementViewModels
             {
                 if (_ontology == null)
                 {
-                    if (!_host.NodeHost.Ontologies.TryGetOntology(this.OntologyId, out _ontology))
+                    if (!_acDomain.NodeHost.Ontologies.TryGetOntology(this.OntologyId, out _ontology))
                     {
                         throw new AnycmdException("意外的本体标识" + this.OntologyId);
                     }
@@ -289,7 +289,7 @@ namespace Anycmd.Edi.ViewModels.ElementViewModels
                 }
                 if (_infoDic == null)
                 {
-                    if (!_host.NodeHost.InfoDics.TryGetInfoDic(this.InfoDicId.Value, out _infoDic))
+                    if (!_acDomain.NodeHost.InfoDics.TryGetInfoDic(this.InfoDicId.Value, out _infoDic))
                     {
                         throw new AnycmdException("意外的信息字典标识" + this.InfoDicId);
                     }

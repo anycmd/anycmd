@@ -29,24 +29,24 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
         private bool _initialized = false;
 
         private readonly Guid _id = Guid.NewGuid();
-        private readonly IAcDomain _host;
+        private readonly IAcDomain _acDomain;
 
         public Guid Id
         {
             get { return _id; }
         }
 
-        internal ResourceTypeSet(IAcDomain host)
+        internal ResourceTypeSet(IAcDomain acDomain)
         {
-            if (host == null)
+            if (acDomain == null)
             {
-                throw new ArgumentNullException("host");
+                throw new ArgumentNullException("acDomain");
             }
-            if (host.Equals(EmptyAcDomain.SingleInstance))
+            if (acDomain.Equals(EmptyAcDomain.SingleInstance))
             {
                 _initialized = true;
             }
-            this._host = host;
+            this._acDomain = acDomain;
             new MessageHandler(this).Register();
         }
 
@@ -115,14 +115,14 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             lock (this)
             {
                 if (_initialized) return;
-                _host.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
+                _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
                 _dicByCode.Clear();
                 _dicById.Clear();
-                var allResources = _host.RetrieveRequiredService<IOriginalHostStateReader>().GetAllResources();
+                var allResources = _acDomain.RetrieveRequiredService<IOriginalHostStateReader>().GetAllResources();
                 foreach (var resource in allResources)
                 {
                     AppSystemState appSystem;
-                    if (!_host.AppSystemSet.TryGetAppSystem(resource.AppSystemId, out appSystem))
+                    if (!_acDomain.AppSystemSet.TryGetAppSystem(resource.AppSystemId, out appSystem))
                     {
                         throw new AnycmdException("意外的资源类型应用系统标识" + resource.AppSystemId);
                     }
@@ -143,7 +143,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     _dicById.Add(resource.Id, resourceState);
                 }
                 _initialized = true;
-                _host.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
+                _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
             }
         }
 
@@ -165,10 +165,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Register()
             {
-                var messageDispatcher = _set._host.MessageDispatcher;
+                var messageDispatcher = _set._acDomain.MessageDispatcher;
                 if (messageDispatcher == null)
                 {
-                    throw new ArgumentNullException("messageDispatcher has not be set of host:{0}".Fmt(_set._host.Name));
+                    throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(_set._acDomain.Name));
                 }
                 messageDispatcher.Register((IHandler<AddResourceCommand>)this);
                 messageDispatcher.Register((IHandler<ResourceTypeAddedEvent>)this);
@@ -194,10 +194,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Handle(IAcSession acSession, IResourceTypeCreateIo input, bool isCommand)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var dicByCode = _set._dicByCode;
                 var dicById = _set._dicById;
-                var resourceRepository = host.RetrieveRequiredService<IRepository<ResourceType>>();
+                var resourceRepository = acDomain.RetrieveRequiredService<IRepository<ResourceType>>();
                 if (string.IsNullOrEmpty(input.Code))
                 {
                     throw new ValidationException("编码不能为空");
@@ -210,16 +210,16 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 lock (this)
                 {
                     ResourceTypeState resource;
-                    if (host.ResourceTypeSet.TryGetResource(input.Id.Value, out resource))
+                    if (acDomain.ResourceTypeSet.TryGetResource(input.Id.Value, out resource))
                     {
                         throw new ValidationException("相同标识的资源已经存在" + input.Id.Value);
                     }
                     AppSystemState appSystem;
-                    if (!host.AppSystemSet.TryGetAppSystem(input.AppSystemId, out appSystem))
+                    if (!acDomain.AppSystemSet.TryGetAppSystem(input.AppSystemId, out appSystem))
                     {
                         throw new ValidationException("意外的应用系统标识" + input.AppSystemId);
                     }
-                    if (host.ResourceTypeSet.TryGetResource(appSystem, input.Code, out resource))
+                    if (acDomain.ResourceTypeSet.TryGetResource(appSystem, input.Code, out resource))
                     {
                         throw new ValidationException("重复的资源编码" + input.Code);
                     }
@@ -263,7 +263,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateResourceAddedEvent(acSession, entity, input));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivateResourceAddedEvent(acSession, entity, input));
                 }
             }
 
@@ -292,19 +292,19 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Handle(IAcSession acSession, IResourceTypeUpdateIo input, bool isCommand)
             {
-                var host = _set._host;
-                var resourceRepository = host.RetrieveRequiredService<IRepository<ResourceType>>();
+                var acDomain = _set._acDomain;
+                var resourceRepository = acDomain.RetrieveRequiredService<IRepository<ResourceType>>();
                 if (string.IsNullOrEmpty(input.Code))
                 {
                     throw new ValidationException("编码不能为空");
                 }
                 ResourceTypeState bkState;
-                if (!host.ResourceTypeSet.TryGetResource(input.Id, out bkState))
+                if (!acDomain.ResourceTypeSet.TryGetResource(input.Id, out bkState))
                 {
                     throw new NotExistException();
                 }
                 AppSystemState appSystem;
-                if (!host.AppSystemSet.TryGetAppSystem(bkState.AppSystemId, out appSystem))
+                if (!acDomain.AppSystemSet.TryGetAppSystem(bkState.AppSystemId, out appSystem))
                 {
                     throw new ValidationException("意外的应用系统标识" + bkState.AppSystemId);
                 }
@@ -313,12 +313,12 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 lock (bkState)
                 {
                     ResourceTypeState oldState;
-                    if (!host.ResourceTypeSet.TryGetResource(input.Id, out oldState))
+                    if (!acDomain.ResourceTypeSet.TryGetResource(input.Id, out oldState))
                     {
                         throw new NotExistException();
                     }
                     ResourceTypeState resource;
-                    if (host.ResourceTypeSet.TryGetResource(appSystem, input.Code, out resource) && resource.Id != input.Id)
+                    if (acDomain.ResourceTypeSet.TryGetResource(appSystem, input.Code, out resource) && resource.Id != input.Id)
                     {
                         throw new ValidationException("重复的资源编码" + input.Code);
                     }
@@ -356,17 +356,17 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateResourceUpdatedEvent(acSession, entity, input));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivateResourceUpdatedEvent(acSession, entity, input));
                 }
             }
 
             private void Update(ResourceTypeState state)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var dicByCode = _set._dicByCode;
                 var dicById = _set._dicById;
                 AppSystemState appSystem;
-                if (!host.AppSystemSet.TryGetAppSystem(state.AppSystemId, out appSystem))
+                if (!acDomain.AppSystemSet.TryGetAppSystem(state.AppSystemId, out appSystem))
                 {
                     throw new ValidationException("意外的应用系统标识" + state.AppSystemId);
                 }
@@ -413,12 +413,12 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Handle(IAcSession acSession, Guid resourceTypeId, bool isCommand)
             {
-                var host = _set._host;
+                var acDomain = _set._acDomain;
                 var dicByCode = _set._dicByCode;
                 var dicById = _set._dicById;
-                var resourceRepository = host.RetrieveRequiredService<IRepository<ResourceType>>();
+                var resourceRepository = acDomain.RetrieveRequiredService<IRepository<ResourceType>>();
                 ResourceTypeState bkState;
-                if (!host.ResourceTypeSet.TryGetResource(resourceTypeId, out bkState))
+                if (!acDomain.ResourceTypeSet.TryGetResource(resourceTypeId, out bkState))
                 {
                     return;
                 }
@@ -426,11 +426,11 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 lock (bkState)
                 {
                     ResourceTypeState state;
-                    if (!host.ResourceTypeSet.TryGetResource(resourceTypeId, out state))
+                    if (!acDomain.ResourceTypeSet.TryGetResource(resourceTypeId, out state))
                     {
                         return;
                     }
-                    if (host.FunctionSet.Any(a => a.ResourceTypeId == resourceTypeId))
+                    if (acDomain.FunctionSet.Any(a => a.ResourceTypeId == resourceTypeId))
                     {
                         throw new ValidationException("资源下定义有功能时不能删除");
                     }
@@ -443,12 +443,12 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     {
                         if (isCommand)
                         {
-                            host.MessageDispatcher.DispatchMessage(new ResourceTypeRemovingEvent(acSession, entity));
+                            acDomain.MessageDispatcher.DispatchMessage(new ResourceTypeRemovingEvent(acSession, entity));
                         }
                         dicById.Remove(bkState.Id);
                     }
                     AppSystemState appSystem;
-                    if (!host.AppSystemSet.TryGetAppSystem(state.AppSystemId, out appSystem))
+                    if (!acDomain.AppSystemSet.TryGetAppSystem(state.AppSystemId, out appSystem))
                     {
                         throw new ValidationException("意外的应用系统标识" + state.AppSystemId);
                     }
@@ -480,7 +480,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    host.MessageDispatcher.DispatchMessage(new PrivateResourceRemovedEvent(acSession, entity));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivateResourceRemovedEvent(acSession, entity));
                 }
             }
 

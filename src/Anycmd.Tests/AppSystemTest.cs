@@ -21,9 +21,9 @@ namespace Anycmd.Tests
         [TestMethod]
         public void AppSystemSet()
         {
-            var host = TestHelper.GetAcDomain();
-            Assert.AreEqual(1, host.AppSystemSet.Count());
-            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
+            var acDomain = TestHelper.GetAcDomain();
+            Assert.AreEqual(1, acDomain.AppSystemSet.Count());
+            AcSessionState.AcMethod.SignIn(acDomain, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -33,30 +33,30 @@ namespace Anycmd.Tests
 
             AppSystemState appSystemById;
             AppSystemState appSystemByCode;
-            host.Handle(new AppSystemCreateInput
+            acDomain.Handle(new AppSystemCreateInput
             {
                 Id = entityId,
                 Code = "app1",
                 Name = "测试1",
-                PrincipalId = host.SysUserSet.GetDevAccounts().First().Id
-            }.ToCommand(host.GetAcSession()));
-            Assert.AreEqual(2, host.AppSystemSet.Count());
-            Assert.IsTrue(host.AppSystemSet.TryGetAppSystem(entityId, out appSystemById));
-            Assert.IsTrue(host.AppSystemSet.TryGetAppSystem("app1", out appSystemByCode));
+                PrincipalId = acDomain.SysUserSet.GetDevAccounts().First().Id
+            }.ToCommand(acDomain.GetAcSession()));
+            Assert.AreEqual(2, acDomain.AppSystemSet.Count());
+            Assert.IsTrue(acDomain.AppSystemSet.TryGetAppSystem(entityId, out appSystemById));
+            Assert.IsTrue(acDomain.AppSystemSet.TryGetAppSystem("app1", out appSystemByCode));
             Assert.AreEqual(appSystemByCode, appSystemById);
             Assert.IsTrue(ReferenceEquals(appSystemById, appSystemByCode));
-            host.Handle(new AppSystemUpdateInput
+            acDomain.Handle(new AppSystemUpdateInput
             {
                 Id = entityId,
                 Name = "test2",
                 Code = "app2",
-                PrincipalId = host.SysUserSet.GetDevAccounts().First().Id
-            }.ToCommand(host.GetAcSession()));
+                PrincipalId = acDomain.SysUserSet.GetDevAccounts().First().Id
+            }.ToCommand(acDomain.GetAcSession()));
             AppSystemState appSystemById1;
             AppSystemState appSystemByCode1;
-            Assert.AreEqual(2, host.AppSystemSet.Count());
-            Assert.IsTrue(host.AppSystemSet.TryGetAppSystem(entityId, out appSystemById1));
-            Assert.IsTrue(host.AppSystemSet.TryGetAppSystem("app2", out appSystemByCode1));
+            Assert.AreEqual(2, acDomain.AppSystemSet.Count());
+            Assert.IsTrue(acDomain.AppSystemSet.TryGetAppSystem(entityId, out appSystemById1));
+            Assert.IsTrue(acDomain.AppSystemSet.TryGetAppSystem("app2", out appSystemByCode1));
             Assert.AreNotEqual(appSystemByCode, appSystemByCode1);
             Assert.AreNotEqual(appSystemById, appSystemById1);
             Assert.IsFalse(ReferenceEquals(appSystemById, appSystemById1));
@@ -65,11 +65,11 @@ namespace Anycmd.Tests
             Assert.AreEqual("test2", appSystemById1.Name);
             Assert.AreEqual("app2", appSystemById1.Code);
 
-            Assert.IsNotNull(host.RetrieveRequiredService<IRepository<AppSystem>>().GetByKey(entityId));
-            host.Handle(new RemoveAppSystemCommand(host.GetAcSession(), entityId));
-            Assert.IsFalse(host.AppSystemSet.TryGetAppSystem(entityId, out appSystemById1));
-            Assert.IsFalse(host.AppSystemSet.TryGetAppSystem("app2", out appSystemByCode1));
-            Assert.AreEqual(1, host.AppSystemSet.Count());
+            Assert.IsNotNull(acDomain.RetrieveRequiredService<IRepository<AppSystem>>().GetByKey(entityId));
+            acDomain.Handle(new RemoveAppSystemCommand(acDomain.GetAcSession(), entityId));
+            Assert.IsFalse(acDomain.AppSystemSet.TryGetAppSystem(entityId, out appSystemById1));
+            Assert.IsFalse(acDomain.AppSystemSet.TryGetAppSystem("app2", out appSystemByCode1));
+            Assert.AreEqual(1, acDomain.AppSystemSet.Count());
         }
         #endregion
 
@@ -77,9 +77,9 @@ namespace Anycmd.Tests
         [TestMethod]
         public void CanNotDeleteAppSystemWhenItHasMenus()
         {
-            var host = TestHelper.GetAcDomain();
-            Assert.AreEqual(1, host.AppSystemSet.Count());
-            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
+            var acDomain = TestHelper.GetAcDomain();
+            Assert.AreEqual(1, acDomain.AppSystemSet.Count());
+            AcSessionState.AcMethod.SignIn(acDomain, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
@@ -87,16 +87,16 @@ namespace Anycmd.Tests
             });
             var entityId = Guid.NewGuid();
 
-            host.Handle(new AppSystemCreateInput
+            acDomain.Handle(new AppSystemCreateInput
             {
                 Id = entityId,
                 Code = "app1",
                 Name = "测试1",
-                PrincipalId = host.SysUserSet.GetDevAccounts().First().Id
-            }.ToCommand(host.GetAcSession()));
-            Assert.AreEqual(2, host.AppSystemSet.Count());
+                PrincipalId = acDomain.SysUserSet.GetDevAccounts().First().Id
+            }.ToCommand(acDomain.GetAcSession()));
+            Assert.AreEqual(2, acDomain.AppSystemSet.Count());
 
-            host.Handle(new MenuCreateInput
+            acDomain.Handle(new MenuCreateInput
             {
                 Id = Guid.NewGuid(),
                 AppSystemId = entityId,
@@ -106,12 +106,12 @@ namespace Anycmd.Tests
                 Description = string.Empty,
                 Icon = string.Empty,
                 ParentId = null
-            }.ToCommand(host.GetAcSession()));
+            }.ToCommand(acDomain.GetAcSession()));
 
             bool catched = false;
             try
             {
-                host.Handle(new RemoveAppSystemCommand(host.GetAcSession(), entityId));
+                acDomain.Handle(new RemoveAppSystemCommand(acDomain.GetAcSession(), entityId));
             }
             catch (ValidationException)
             {
@@ -121,7 +121,7 @@ namespace Anycmd.Tests
             {
                 Assert.IsTrue(catched);
                 AppSystemState appSystem;
-                Assert.IsTrue(host.AppSystemSet.TryGetAppSystem(entityId, out appSystem));
+                Assert.IsTrue(acDomain.AppSystemSet.TryGetAppSystem(entityId, out appSystem));
             }
         }
         #endregion
@@ -130,37 +130,37 @@ namespace Anycmd.Tests
         [TestMethod]
         public void AppSystemSetShouldRollbackedWhenPersistFailed()
         {
-            var host = TestHelper.GetAcDomain();
-            Assert.AreEqual(1, host.AppSystemSet.Count());
-            AcSessionState.AcMethod.SignIn(host, new Dictionary<string, object>
+            var acDomain = TestHelper.GetAcDomain();
+            Assert.AreEqual(1, acDomain.AppSystemSet.Count());
+            AcSessionState.AcMethod.SignIn(acDomain, new Dictionary<string, object>
             {
                 {"loginName", "test"},
                 {"password", "111111"},
                 {"rememberMe", "rememberMe"}
             });
-            var moAppSystemRepository = host.GetMoqRepository<AppSystem, IRepository<AppSystem>>();
+            var moAppSystemRepository = acDomain.GetMoqRepository<AppSystem, IRepository<AppSystem>>();
             var entityId1 = Guid.NewGuid();
             var entityId2 = Guid.NewGuid();
             const string code = "app1";
             const string name = "测试1";
-            host.RemoveService(typeof(IRepository<AppSystem>));
+            acDomain.RemoveService(typeof(IRepository<AppSystem>));
             moAppSystemRepository.Setup(a => a.Add(It.Is<AppSystem>(b => b.Id == entityId1))).Throws(new DbException(entityId1.ToString()));
             moAppSystemRepository.Setup(a => a.Update(It.Is<AppSystem>(b => b.Id == entityId2))).Throws(new DbException(entityId2.ToString()));
             moAppSystemRepository.Setup(a => a.Remove(It.Is<AppSystem>(b => b.Id == entityId2))).Throws(new DbException(entityId2.ToString()));
             moAppSystemRepository.Setup<AppSystem>(a => a.GetByKey(entityId1)).Returns(new AppSystem { Id = entityId1, Code = code, Name = name });
             moAppSystemRepository.Setup<AppSystem>(a => a.GetByKey(entityId2)).Returns(new AppSystem { Id = entityId2, Code = code, Name = name });
-            host.AddService(typeof(IRepository<AppSystem>), moAppSystemRepository.Object);
+            acDomain.AddService(typeof(IRepository<AppSystem>), moAppSystemRepository.Object);
 
             bool catched = false;
             try
             {
-                host.Handle(new AppSystemCreateInput
+                acDomain.Handle(new AppSystemCreateInput
                 {
                     Id = entityId1,
                     Code = code,
                     Name = name,
-                    PrincipalId = host.SysUserSet.GetDevAccounts().First().Id
-                }.ToCommand(host.GetAcSession()));
+                    PrincipalId = acDomain.SysUserSet.GetDevAccounts().First().Id
+                }.ToCommand(acDomain.GetAcSession()));
             }
             catch (Exception e)
             {
@@ -171,28 +171,28 @@ namespace Anycmd.Tests
             finally
             {
                 Assert.IsTrue(catched);
-                Assert.AreEqual(1, host.AppSystemSet.Count());
+                Assert.AreEqual(1, acDomain.AppSystemSet.Count());
             }
 
-            host.Handle(new AppSystemCreateInput
+            acDomain.Handle(new AppSystemCreateInput
             {
                 Id = entityId2,
                 Code = code,
                 Name = name,
-                PrincipalId = host.SysUserSet.GetDevAccounts().First().Id
-            }.ToCommand(host.GetAcSession()));
-            Assert.AreEqual(2, host.AppSystemSet.Count());
+                PrincipalId = acDomain.SysUserSet.GetDevAccounts().First().Id
+            }.ToCommand(acDomain.GetAcSession()));
+            Assert.AreEqual(2, acDomain.AppSystemSet.Count());
 
             catched = false;
             try
             {
-                host.Handle(new AppSystemUpdateInput
+                acDomain.Handle(new AppSystemUpdateInput
                 {
                     Id = entityId2,
                     Name = "test2",
                     Code = "app2",
-                    PrincipalId = host.SysUserSet.GetDevAccounts().First().Id
-                }.ToCommand(host.GetAcSession()));
+                    PrincipalId = acDomain.SysUserSet.GetDevAccounts().First().Id
+                }.ToCommand(acDomain.GetAcSession()));
             }
             catch (Exception e)
             {
@@ -203,16 +203,16 @@ namespace Anycmd.Tests
             finally
             {
                 Assert.IsTrue(catched);
-                Assert.AreEqual(2, host.AppSystemSet.Count());
+                Assert.AreEqual(2, acDomain.AppSystemSet.Count());
                 AppSystemState appSystem;
-                Assert.IsTrue(host.AppSystemSet.TryGetAppSystem(entityId2, out appSystem));
+                Assert.IsTrue(acDomain.AppSystemSet.TryGetAppSystem(entityId2, out appSystem));
                 Assert.AreEqual(code, appSystem.Code);
             }
 
             catched = false;
             try
             {
-                host.Handle(new RemoveAppSystemCommand(host.GetAcSession(), entityId2));
+                acDomain.Handle(new RemoveAppSystemCommand(acDomain.GetAcSession(), entityId2));
             }
             catch (Exception e)
             {
@@ -224,8 +224,8 @@ namespace Anycmd.Tests
             {
                 Assert.IsTrue(catched);
                 AppSystemState appSystem;
-                Assert.IsTrue(host.AppSystemSet.TryGetAppSystem(entityId2, out appSystem));
-                Assert.AreEqual(2, host.AppSystemSet.Count());
+                Assert.IsTrue(acDomain.AppSystemSet.TryGetAppSystem(entityId2, out appSystem));
+                Assert.AreEqual(2, acDomain.AppSystemSet.Count());
             }
         }
         #endregion

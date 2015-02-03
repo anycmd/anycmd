@@ -59,7 +59,7 @@ namespace Anycmd.Engine.Ac
 
         private CatalogState(Guid id) : base(id) { }
 
-        public static CatalogState Create(IAcDomain host, CatalogBase catalog)
+        public static CatalogState Create(IAcDomain acDomain, CatalogBase catalog)
         {
             if (catalog == null)
             {
@@ -67,7 +67,7 @@ namespace Anycmd.Engine.Ac
             }
             return new CatalogState(catalog.Id)
             {
-                _acDomain = host,
+                _acDomain = acDomain,
                 _categoryCode = catalog.CategoryCode,
                 _code = catalog.Code,
                 _createOn = catalog.CreateOn,
