@@ -2,17 +2,18 @@
 namespace Anycmd.Edi.Service.Tests
 {
     using Engine.Host.Edi;
-    using Xunit;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+    [TestClass]
     public class EnumTest
     {
-        [Fact]
+        [TestMethod]
         public void EnumToStringTest()
         {
-            Assert.Equal(Status.InvalidClientId.ToString(), "InvalidClientId");
-            Assert.Equal(Status.InvalidClientId.ToName(), "InvalidClientId");
+            Assert.AreEqual(Status.InvalidClientId.ToString(), "InvalidClientId");
+            Assert.AreEqual(Status.InvalidClientId.ToName(), "InvalidClientId");
             Status stateCode;
-            Assert.False(0.TryParse(out stateCode));
+            Assert.IsFalse(0.TryParse(out stateCode));
             var sb = new System.Text.StringBuilder();
         }
     }

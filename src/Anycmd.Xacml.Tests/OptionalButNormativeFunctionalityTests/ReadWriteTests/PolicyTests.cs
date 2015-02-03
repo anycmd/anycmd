@@ -1,18 +1,19 @@
 ﻿
 namespace Anycmd.Xacml.Tests.OptionalButNormativeFunctionalityTests.ReadWriteTests
 {
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Policy;
     using System.IO;
     using System.Xml;
-    using Xunit;
 
+    [TestClass]
     public class PolicyTests
     {
         public PolicyTests()
         {
         }
 
-        [Fact]
+        [TestMethod]
         public void IIA001()
         {
             string[] files = new string[] { "2.IIA001Policy.xml" };
@@ -44,11 +45,11 @@ namespace Anycmd.Xacml.Tests.OptionalButNormativeFunctionalityTests.ReadWriteTes
 
                     if (newPd.Policy == null)
                     {
-                        Assert.Equal(newPd.PolicySet.Description, policyDocument.PolicySet.Description);
+                        Assert.AreEqual(newPd.PolicySet.Description, policyDocument.PolicySet.Description);
                     }
                     else
                     {
-                        Assert.Equal(newPd.Policy.Description, policyDocument.Policy.Description);
+                        Assert.AreEqual(newPd.Policy.Description, policyDocument.Policy.Description);
                     }
                 }
             }

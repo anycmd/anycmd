@@ -2,17 +2,18 @@
 namespace Anycmd.Xacml.Tests.OptionalButNormativeFunctionalityTests.ReadWriteTests
 {
     using Context;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System.IO;
     using System.Xml;
-    using Xunit;
 
+    [TestClass]
     public class ContextTests
     {
         public ContextTests()
         {
         }
 
-        [Fact]
+        [TestMethod]
         public void IIA001()
         {
             string[] files = new string[] { "2.IIA001Request.xml" };
@@ -36,7 +37,7 @@ namespace Anycmd.Xacml.Tests.OptionalButNormativeFunctionalityTests.ReadWriteTes
                 {
                     ContextDocument newCon = (ContextDocument)ContextLoader.LoadContextDocument(fs1, XacmlVersion.Version20);
 
-                    Assert.Equal(newCon.Request.Action.Attributes[0].AttributeId, contextDocument.Request.Action.Attributes[0].AttributeId);
+                    Assert.AreEqual(newCon.Request.Action.Attributes[0].AttributeId, contextDocument.Request.Action.Attributes[0].AttributeId);
                 }
             }
         }

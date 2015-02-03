@@ -12,6 +12,7 @@ namespace Anycmd.Edi.Service.Tests
     using Engine.Host.Impl;
     using Engine.Info;
     using Logging;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using ServiceModel.Operations;
     using ServiceStack;
     using System;
@@ -19,8 +20,6 @@ namespace Anycmd.Edi.Service.Tests
     using System.Linq;
     using System.Threading.Tasks;
     using Util;
-    using Web;
-    using Xunit;
 
     /// <summary>
     /// 在Web服务器上对外提供有一个AnyMessage接口，该接口采用两种方式提供：一种基于soap/webservice，一种基于原生的http协议。
@@ -31,6 +30,7 @@ namespace Anycmd.Edi.Service.Tests
     /// 注意：因暂不支持配置同步，所以改变配置需重启服务应用程序。
     /// </remarks>
     /// </summary>
+    [TestClass]
     public class ApiTest
     {
         private static readonly DefaultAcDomain AcDomain = new DefaultAcDomain();
@@ -52,7 +52,7 @@ namespace Anycmd.Edi.Service.Tests
         }
 
         #region IsAlive
-        [Fact]
+        [TestMethod]
         public async Task IsAlive()
         {
             var client = new JsonServiceClient(AcDomain.NodeHost.Nodes.ThisNode.Node.AnycmdApiAddress);
@@ -61,16 +61,16 @@ namespace Anycmd.Edi.Service.Tests
                 Version = "v1"
             };
             var response = await client.GetAsync(isAlive);
-            Assert.True(response.IsAlive);
+            Assert.IsTrue(response.IsAlive);
             isAlive.Version = "version2";
             response = await client.GetAsync(isAlive);
-            Assert.False(response.IsAlive);
-            Assert.True(Status.InvalidApiVersion.ToName() == response.ReasonPhrase, response.Description);
+            Assert.IsFalse(response.IsAlive);
+            Assert.IsTrue(Status.InvalidApiVersion.ToName() == response.ReasonPhrase, response.Description);
         }
         #endregion
 
         #region Should_Get_InvalidVersion
-        [Fact]
+        [TestMethod]
         public void Should_Get_InvalidVersion()
         {
             var infoValue = new KeyValueBuilder().Append("XM", "测试").Append("ZZJGM", "11011421005").ToArray();
@@ -86,15 +86,15 @@ namespace Anycmd.Edi.Service.Tests
                 TimeStamp = DateTime.UtcNow.Ticks
             }.JspxToken();
             var response = request.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
-            Assert.True((int)Status.InvalidApiVersion == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.InvalidApiVersion == response.Body.Event.Status, response.Body.Event.Description);
             request.IsDumb = false;
             response = request.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
-            Assert.True((int)Status.InvalidApiVersion == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.InvalidApiVersion == response.Body.Event.Status, response.Body.Event.Description);
         }
         #endregion
 
         #region Should_Get_InvalidMessageType
-        [Fact]
+        [TestMethod]
         public void Should_Get_InvalidMessageType()
         {
             var infoValue = new KeyValueBuilder().Append("XM", "测试").Append("ZZJGM", "11011421005").ToArray();
@@ -109,15 +109,15 @@ namespace Anycmd.Edi.Service.Tests
                 Body = new BodyData(new KeyValueBuilder().Append("Id", "010C1D7A-9BA5-4AEA-9D4B-290476A79D12").ToArray(), infoValue)
             }.JspxToken();
             var response = request.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
-            Assert.True((int)Status.InvalidMessageType == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.InvalidMessageType == response.Body.Event.Status, response.Body.Event.Description);
             request.IsDumb = false;
             response = request.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
-            Assert.True((int)Status.InvalidMessageType == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.InvalidMessageType == response.Body.Event.Status, response.Body.Event.Description);
         }
         #endregion
 
         #region Action_Create_Dumb
-        [Fact]
+        [TestMethod]
         public void Action_Create_Dumb()
         {
             var xm = System.Guid.NewGuid().ToString();
@@ -141,16 +141,16 @@ namespace Anycmd.Edi.Service.Tests
                 TimeStamp = DateTime.UtcNow.Ticks
             }.JspxSignature();
             var response = request.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
-            Assert.True((int)Status.ExecuteOk == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.ExecuteOk == response.Body.Event.Status, response.Body.Event.Description);
             request.Verb = "Get";
             request.JspxSignature();// 重新签名
             response = request.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
-            Assert.True((int)Status.NotExist == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.NotExist == response.Body.Event.Status, response.Body.Event.Description);
         }
         #endregion
 
         #region NotAuthorized
-        [Fact]
+        [TestMethod]
         public void NotAuthorized()
         {
             var xm = NewXM();
@@ -183,16 +183,16 @@ namespace Anycmd.Edi.Service.Tests
                 TimeStamp = DateTime.UtcNow.Ticks
             };
             var response = client.Get(request);
-            Assert.True(Status.NotAuthorized.ToName() == response.Body.Event.ReasonPhrase, response.Body.Event.Description);
+            Assert.IsTrue(Status.NotAuthorized.ToName() == response.Body.Event.ReasonPhrase, response.Body.Event.Description);
             request.Verb = "Get";
             request.JspxSignature();// 签名
             var result = request.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
-            Assert.True((int)Status.NotExist == result.Body.Event.Status, result.Body.Event.Description);
+            Assert.IsTrue((int)Status.NotExist == result.Body.Event.Status, result.Body.Event.Description);
         }
         #endregion
 
         #region Action_Create
-        [Fact]
+        [TestMethod]
         public void Action_Create()
         {
             var xm = NewXM();
@@ -216,24 +216,24 @@ namespace Anycmd.Edi.Service.Tests
             }.JspxToken();
             //var response = request.RequestNode(acDomain.NodeHost.Nodes.CenterNode);
             var response = AnyMessage.Create(HecpRequest.Create(AcDomain, request), AcDomain.NodeHost.Nodes.ThisNode).Response();
-            Assert.True((int)Status.ExecuteOk == response.Body.Event.Status, response.Body.Event.Description);
-            Assert.True((int)Status.ExecuteOk == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.ExecuteOk == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.ExecuteOk == response.Body.Event.Status, response.Body.Event.Description);
             request.JspxSignature();// 签名
             response = request.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
-            Assert.True((int)Status.ExecuteOk == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.ExecuteOk == response.Body.Event.Status, response.Body.Event.Description);
             request.IsDumb = false;
             request.JspxSignature();// 命令对象有更改则需重新签名
             response = request.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
-            Assert.True((int)Status.ExecuteOk == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.ExecuteOk == response.Body.Event.Status, response.Body.Event.Description);
             request.Verb = "Delete";
             request.JspxSignature();// 命令对象有更改则需重新签名
             response = request.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
-            Assert.True((int)Status.ExecuteOk == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.ExecuteOk == response.Body.Event.Status, response.Body.Event.Description);
         }
         #endregion
 
         #region Action_Delete
-        [Fact]
+        [TestMethod]
         public void Action_Delete()
         {
             var xm = NewXM();
@@ -256,19 +256,19 @@ namespace Anycmd.Edi.Service.Tests
                 TimeStamp = DateTime.UtcNow.Ticks
             }.JspxToken();
             var response = request.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
-            Assert.True((int)Status.ExecuteOk == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.ExecuteOk == response.Body.Event.Status, response.Body.Event.Description);
             request.IsDumb = false;
             response = request.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
-            Assert.True((int)Status.ExecuteOk == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.ExecuteOk == response.Body.Event.Status, response.Body.Event.Description);
             request.Verb = "delete";
             response = request.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
-            Assert.True((int)Status.ExecuteOk == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.ExecuteOk == response.Body.Event.Status, response.Body.Event.Description);
 
         }
         #endregion
 
         #region Command_Create
-        [Fact]
+        [TestMethod]
         public void Command_Create()
         {
             var xm = System.Guid.NewGuid().ToString();
@@ -289,15 +289,15 @@ namespace Anycmd.Edi.Service.Tests
                 TimeStamp = DateTime.UtcNow.Ticks
             }.JspxToken();
             var response = request.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
-            Assert.True((int)Status.ReceiveOk == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.ReceiveOk == response.Body.Event.Status, response.Body.Event.Description);
             request.IsDumb = false;
             response = request.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
-            Assert.True((int)Status.ReceiveOk == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.ReceiveOk == response.Body.Event.Status, response.Body.Event.Description);
         }
         #endregion
 
         #region Command_MessageID_CanNotBeNullOrEmpty
-        [Fact]
+        [TestMethod]
         public void Command_MessageID_CanNotBeNullOrEmpty()
         {
             var xm = System.Guid.NewGuid().ToString();
@@ -317,15 +317,15 @@ namespace Anycmd.Edi.Service.Tests
                 TimeStamp = DateTime.UtcNow.Ticks
             }.JspxToken();
             var response = request.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
-            Assert.True((int)Status.InvalidArgument == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.InvalidArgument == response.Body.Event.Status, response.Body.Event.Description);
             request.IsDumb = false;
             response = request.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
-            Assert.True((int)Status.InvalidArgument == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.InvalidArgument == response.Body.Event.Status, response.Body.Event.Description);
         }
         #endregion
 
         #region Event_MessageIDNotExist
-        [Fact]
+        [TestMethod]
         public void Event_MessageIDNotExist()
         {
             var infoValue = new KeyValueBuilder(new Dictionary<string, string> {
@@ -353,15 +353,15 @@ namespace Anycmd.Edi.Service.Tests
                 },
             }.JspxToken();
             var response = request.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
-            Assert.True((int)Status.NotExist == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.NotExist == response.Body.Event.Status, response.Body.Event.Description);
             request.IsDumb = false;
             response = request.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
-            Assert.True((int)Status.NotExist == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.NotExist == response.Body.Event.Status, response.Body.Event.Description);
         }
         #endregion
 
         #region Command_Event_NotExist
-        [Fact]
+        [TestMethod]
         public void Command_Event_NotExist()
         {
             var xm = System.Guid.NewGuid().ToString();
@@ -391,15 +391,15 @@ namespace Anycmd.Edi.Service.Tests
             }.JspxToken();
             // var response = dto.RequestNode(acDomain.NodeHost.Nodes.CenterNode);
             var response = AnyMessage.Create(HecpRequest.Create(AcDomain, dto), AcDomain.NodeHost.Nodes.ThisNode).Response();
-            Assert.True((int)Status.NotExist == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.NotExist == response.Body.Event.Status, response.Body.Event.Description);
             dto.IsDumb = false;
             response = dto.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
-            Assert.True((int)Status.NotExist == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.NotExist == response.Body.Event.Status, response.Body.Event.Description);
         }
         #endregion
 
         #region Command_Event_NotExist2
-        [Fact]
+        [TestMethod]
         public void Command_Event_NotExist2()
         {
             var xm = System.Guid.NewGuid().ToString();
@@ -427,15 +427,15 @@ namespace Anycmd.Edi.Service.Tests
                 }
             }.JspxToken();
             var response = request.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
-            Assert.True((int)Status.NotExist == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.NotExist == response.Body.Event.Status, response.Body.Event.Description);
             request.IsDumb = false;
             response = request.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
-            Assert.True((int)Status.NotExist == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.NotExist == response.Body.Event.Status, response.Body.Event.Description);
         }
         #endregion
 
         #region Entity_Event_ReceiveOk
-        [Fact]
+        [TestMethod]
         public void Entity_Event_ReceiveOk()
         {
             var xm = System.Guid.NewGuid().ToString();
@@ -464,15 +464,15 @@ namespace Anycmd.Edi.Service.Tests
                 }
             }.JspxToken();
             var response = request.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
-            Assert.True((int)Status.Nonsupport == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.Nonsupport == response.Body.Event.Status, response.Body.Event.Description);
             request.IsDumb = false;
             response = request.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
-            Assert.True((int)Status.Nonsupport == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.Nonsupport == response.Body.Event.Status, response.Body.Event.Description);
         }
         #endregion
 
         #region Entity_Event_InvalidStateCode
-        [Fact]
+        [TestMethod]
         public void Entity_Event_InvalidStateCode()
         {
             var xm = System.Guid.NewGuid().ToString();
@@ -500,15 +500,15 @@ namespace Anycmd.Edi.Service.Tests
             }.JspxToken();
             //var response = request.RequestNode(acDomain.NodeHost.Nodes.CenterNode);
             var response = AnyMessage.Create(HecpRequest.Create(AcDomain, request), AcDomain.NodeHost.Nodes.CenterNode).Response();
-            Assert.True((int)Status.InvalidStatus == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.InvalidStatus == response.Body.Event.Status, response.Body.Event.Description);
             request.IsDumb = false;
             response = request.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
-            Assert.True((int)Status.InvalidStatus == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.InvalidStatus == response.Body.Event.Status, response.Body.Event.Description);
         }
         #endregion
 
         #region Ticks_TimeOut
-        [Fact]
+        [TestMethod]
         public void Ticks_TimeOut()
         {
             var infoValue = new KeyValueBuilder(new Dictionary<string, string> {
@@ -528,15 +528,15 @@ namespace Anycmd.Edi.Service.Tests
                 TimeStamp = DateTime.UtcNow.Ticks
             }.TimeOutToken();
             var response = client.Get(request);
-            Assert.True(Status.NotAuthorized.ToName() == response.Body.Event.ReasonPhrase, response.Body.Event.Description);
+            Assert.IsTrue(Status.NotAuthorized.ToName() == response.Body.Event.ReasonPhrase, response.Body.Event.Description);
             request.IsDumb = false;
             response = client.Get(request);
-            Assert.True(Status.NotAuthorized.ToName() == response.Body.Event.ReasonPhrase, response.Body.Event.Description);
+            Assert.IsTrue(Status.NotAuthorized.ToName() == response.Body.Event.ReasonPhrase, response.Body.Event.Description);
         }
         #endregion
 
         #region Action_Create_Must_Gave_XM_And_ZZJGM
-        [Fact]
+        [TestMethod]
         public void Action_Create_Must_Gave_XM_And_ZZJGM()
         {
             var infoValue = new KeyValueBuilder().Append("XM", "test").ToArray();
@@ -555,15 +555,15 @@ namespace Anycmd.Edi.Service.Tests
                 TimeStamp = DateTime.UtcNow.Ticks
             }.JspxToken();
             var response = request.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
-            Assert.True((int)Status.InvalidInfoId == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.InvalidInfoId == response.Body.Event.Status, response.Body.Event.Description);
             request.IsDumb = false;
             response = request.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
-            Assert.True((int)Status.InvalidInfoId == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.InvalidInfoId == response.Body.Event.Status, response.Body.Event.Description);
         }
         #endregion
 
         #region Command_Create_Must_Gave_XM_And_ZZJGM
-        [Fact]
+        [TestMethod]
         public void Command_Create_Must_Gave_XM_And_ZZJGM()
         {
             var infoValue = new KeyValueBuilder(new Dictionary<string, string> {
@@ -581,15 +581,15 @@ namespace Anycmd.Edi.Service.Tests
                 TimeStamp = DateTime.UtcNow.Ticks,
             }.JspxToken();
             var response = request.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
-            Assert.True((int)Status.InvalidInfoId == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.InvalidInfoId == response.Body.Event.Status, response.Body.Event.Description);
             request.IsDumb = false;
             response = request.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
-            Assert.True((int)Status.InvalidInfoId == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.InvalidInfoId == response.Body.Event.Status, response.Body.Event.Description);
         }
         #endregion
 
         #region Command_Action_Update
-        [Fact]
+        [TestMethod]
         public void Command_Action_Update()
         {
             // 首先使用一个Create型命令准备测试数据。然后测试Command和Action，最后打扫现场删除测试数据。
@@ -610,7 +610,7 @@ namespace Anycmd.Edi.Service.Tests
                 TimeStamp = DateTime.UtcNow.Ticks
             }.JspxToken();
             var response = request.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
-            Assert.True((int)Status.ExecuteOk == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.ExecuteOk == response.Body.Event.Status, response.Body.Event.Description);
             // 从配置文件中读取或者从数据库表的列名读取
             KeyValue[] infoId = new KeyValueBuilder(new Dictionary<string, string> {
                 {"XBM",(DateTime.Now.Ticks % 3).ToString()}
@@ -623,26 +623,26 @@ namespace Anycmd.Edi.Service.Tests
             request.IsDumb = true;
             //response = request.RequestNode(acDomain.NodeHost.Nodes.CenterNode);
             response = AnyMessage.Create(HecpRequest.Create(AcDomain, request), AcDomain.NodeHost.Nodes.CenterNode).Response();
-            Assert.True((int)Status.ReceiveOk == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.ReceiveOk == response.Body.Event.Status, response.Body.Event.Description);
             request.MessageType = "action";
             response = request.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
-            Assert.True((int)Status.ExecuteOk == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.ExecuteOk == response.Body.Event.Status, response.Body.Event.Description);
 
             request.MessageType = "command";
             request.IsDumb = false;
             response = request.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
-            Assert.True((int)Status.ReceiveOk == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.ReceiveOk == response.Body.Event.Status, response.Body.Event.Description);
             request.MessageType = "action";
             response = request.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
-            Assert.True((int)Status.ExecuteOk == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.ExecuteOk == response.Body.Event.Status, response.Body.Event.Description);
             request.Verb = "delete";
             response = request.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
-            Assert.True((int)Status.ExecuteOk == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.ExecuteOk == response.Body.Event.Status, response.Body.Event.Description);
         }
         #endregion
 
         #region Action_Update
-        [Fact]
+        [TestMethod]
         public void Action_Update()
         {
             var xm = NewXM();
@@ -662,7 +662,7 @@ namespace Anycmd.Edi.Service.Tests
                 TimeStamp = DateTime.UtcNow.Ticks
             }.JspxToken();
             var response = request.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
-            Assert.True((int)Status.ExecuteOk == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.ExecuteOk == response.Body.Event.Status, response.Body.Event.Description);
             request.MessageId = Guid.NewGuid().ToString();
             request.Verb = "Update";
             request.TimeStamp = DateTime.UtcNow.Ticks;
@@ -671,17 +671,17 @@ namespace Anycmd.Edi.Service.Tests
             request.Body.InfoValue[0].Value = xm;
             request.Body.InfoValue[1].Value = "11011421005";
             response = request.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
-            Assert.True((int)Status.ExecuteOk == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.ExecuteOk == response.Body.Event.Status, response.Body.Event.Description);
             request.Body.InfoId = new KeyValueBuilder().Append("XM", xm).Append("ZZJGM", "11011421005").ToArray();
             request.Verb = "delete";
             response = request.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
-            Assert.True((int)Status.ExecuteOk == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.ExecuteOk == response.Body.Event.Status, response.Body.Event.Description);
         }
         #endregion
 
         #region Catalog_Must_IsLeaf
         // 目录必须是叶子节点
-        [Fact]
+        [TestMethod]
         public void Catalog_Must_IsLeaf()
         {
             var infoValue = new KeyValueBuilder(new Dictionary<string, string> {
@@ -700,15 +700,15 @@ namespace Anycmd.Edi.Service.Tests
                 TimeStamp = DateTime.UtcNow.Ticks
             }.JspxToken();
             var response = request.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
-            Assert.True((int)Status.InvalidCatalog == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.InvalidCatalog == response.Body.Event.Status, response.Body.Event.Description);
             request.IsDumb = false;
             response = request.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
-            Assert.True((int)Status.InvalidCatalog == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.InvalidCatalog == response.Body.Event.Status, response.Body.Event.Description);
         }
         #endregion
 
         #region Action_Update_OutOfLength
-        [Fact]
+        [TestMethod]
         public void Action_Update_OutOfLength()
         {
             var infoValue = new KeyValueBuilder(new Dictionary<string, string> {
@@ -726,15 +726,15 @@ namespace Anycmd.Edi.Service.Tests
                 Body = new BodyData(new KeyValueBuilder().Append("Id", "010C1D7A-9BA5-4AEA-9D4B-290476A79D12").ToArray(), infoValue),
             }.JspxToken();
             var response = request.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
-            Assert.True((int)Status.OutOfLength == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.OutOfLength == response.Body.Event.Status, response.Body.Event.Description);
             request.IsDumb = false;
             response = request.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
-            Assert.True((int)Status.OutOfLength == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.OutOfLength == response.Body.Event.Status, response.Body.Event.Description);
         }
         #endregion
 
         #region Action_Get
-        [Fact]
+        [TestMethod]
         public void Action_Get()
         {
             var request = new Message
@@ -752,17 +752,17 @@ namespace Anycmd.Edi.Service.Tests
                 TimeStamp = DateTime.UtcNow.Ticks
             }.JspxToken();
             var response = request.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
-            Assert.True((int)Status.ExecuteOk == response.Body.Event.Status, response.Body.Event.Description);
-            Assert.False(string.IsNullOrEmpty(response.Body.InfoValue[0].Key));
+            Assert.IsTrue((int)Status.ExecuteOk == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsFalse(string.IsNullOrEmpty(response.Body.InfoValue[0].Key));
             request.IsDumb = false;
             response = request.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
-            Assert.True((int)Status.ExecuteOk == response.Body.Event.Status, response.Body.Event.Description);
-            Assert.False(string.IsNullOrEmpty(response.Body.InfoValue[0].Key));
+            Assert.IsTrue((int)Status.ExecuteOk == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsFalse(string.IsNullOrEmpty(response.Body.InfoValue[0].Key));
         }
         #endregion
 
         #region Action_Get_Performance
-        [Fact]
+        [TestMethod]
         public async Task Action_Get_PerformanceAsync()
         {
             var client = new JsonServiceClient(AcDomain.NodeHost.Nodes.ThisNode.Node.AnycmdApiAddress);
@@ -783,7 +783,7 @@ namespace Anycmd.Edi.Service.Tests
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void Action_Get_Performance()
         {
             var client = new JsonServiceClient(AcDomain.NodeHost.Nodes.ThisNode.Node.AnycmdApiAddress);
@@ -806,7 +806,7 @@ namespace Anycmd.Edi.Service.Tests
         #endregion
 
         #region Action_Get_IncrementId
-        [Fact]
+        [TestMethod]
         public void Action_Get_IncrementId()
         {
             var request = new Message
@@ -821,17 +821,17 @@ namespace Anycmd.Edi.Service.Tests
                 TimeStamp = DateTime.UtcNow.Ticks
             }.UiaToken();
             var response = request.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
-            Assert.True((int)Status.ExecuteOk == response.Body.Event.Status, response.Body.Event.Description);
-            Assert.False(string.IsNullOrEmpty(response.Body.InfoValue[0].Key));
+            Assert.IsTrue((int)Status.ExecuteOk == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsFalse(string.IsNullOrEmpty(response.Body.InfoValue[0].Key));
             request.IsDumb = false;
             response = request.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
-            Assert.True((int)Status.ExecuteOk == response.Body.Event.Status, response.Body.Event.Description);
-            Assert.True(response.Body.InfoValue.Any(a => a.Key.Equals("IncrementId", StringComparison.OrdinalIgnoreCase)));
+            Assert.IsTrue((int)Status.ExecuteOk == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue(response.Body.InfoValue.Any(a => a.Key.Equals("IncrementId", StringComparison.OrdinalIgnoreCase)));
         }
         #endregion
 
         #region Action_Get2
-        [Fact]
+        [TestMethod]
         public void Action_Get2()
         {
             var request = new Message
@@ -846,21 +846,21 @@ namespace Anycmd.Edi.Service.Tests
                 TimeStamp = DateTime.UtcNow.Ticks
             }.JspxToken();
             var response = request.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
-            Assert.True((int)Status.ExecuteOk == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.ExecuteOk == response.Body.Event.Status, response.Body.Event.Description);
             var xm = response.Body.InfoValue.FirstOrDefault(a => a.Key.Equals("XM", StringComparison.OrdinalIgnoreCase));
-            Assert.True(xm != null);
-            Assert.True(response.Body.InfoValue.Any(a => a.Key.Equals("ZZJGM", StringComparison.OrdinalIgnoreCase)));
+            Assert.IsTrue(xm != null);
+            Assert.IsTrue(response.Body.InfoValue.Any(a => a.Key.Equals("ZZJGM", StringComparison.OrdinalIgnoreCase)));
             request.IsDumb = false;
             response = request.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
-            Assert.True((int)Status.ExecuteOk == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.ExecuteOk == response.Body.Event.Status, response.Body.Event.Description);
             xm = response.Body.InfoValue.FirstOrDefault(a => a.Key.Equals("XM", StringComparison.OrdinalIgnoreCase));
-            Assert.True(xm != null);
-            Assert.True(response.Body.InfoValue.Any(a => a.Key.Equals("ZZJGM", StringComparison.OrdinalIgnoreCase)));
+            Assert.IsTrue(xm != null);
+            Assert.IsTrue(response.Body.InfoValue.Any(a => a.Key.Equals("ZZJGM", StringComparison.OrdinalIgnoreCase)));
         }
         #endregion
 
         #region Command_Get
-        [Fact]
+        [TestMethod]
         public void Command_Get()
         {
             var request = new Message
@@ -875,17 +875,17 @@ namespace Anycmd.Edi.Service.Tests
                 TimeStamp = DateTime.UtcNow.Ticks
             }.JspxToken();
             var response = request.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
-            Assert.True((int)Status.ReceiveOk == response.Body.Event.Status, response.Body.Event.Description);
-            Assert.False(string.IsNullOrEmpty(response.Body.InfoValue[0].Key));
+            Assert.IsTrue((int)Status.ReceiveOk == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsFalse(string.IsNullOrEmpty(response.Body.InfoValue[0].Key));
             request.IsDumb = false;
             response = request.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
-            Assert.True((int)Status.ReceiveOk == response.Body.Event.Status, response.Body.Event.Description);
-            Assert.False(string.IsNullOrEmpty(response.Body.InfoValue[0].Key));
+            Assert.IsTrue((int)Status.ReceiveOk == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsFalse(string.IsNullOrEmpty(response.Body.InfoValue[0].Key));
         }
         #endregion
 
         #region Action_Head
-        [Fact]
+        [TestMethod]
         public void Action_Head()
         {
             var infoValue = new KeyValueBuilder(new Dictionary<string, string> {
@@ -903,15 +903,15 @@ namespace Anycmd.Edi.Service.Tests
                 TimeStamp = DateTime.UtcNow.Ticks
             }.JspxToken();
             var response = request.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
-            Assert.True((int)Status.ExecuteOk == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.ExecuteOk == response.Body.Event.Status, response.Body.Event.Description);
             request.IsDumb = false;
             response = request.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
-            Assert.True((int)Status.ExecuteOk == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.ExecuteOk == response.Body.Event.Status, response.Body.Event.Description);
         }
         #endregion
 
         #region Command_Head
-        [Fact]
+        [TestMethod]
         public void Command_Head()
         {
             var infoValue = new KeyValueBuilder(new Dictionary<string, string> {
@@ -929,15 +929,15 @@ namespace Anycmd.Edi.Service.Tests
                 TimeStamp = DateTime.UtcNow.Ticks
             }.JspxToken();
             var response = request.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
-            Assert.True((int)Status.ReceiveOk == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.ReceiveOk == response.Body.Event.Status, response.Body.Event.Description);
             request.IsDumb = false;
             response = request.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
-            Assert.True((int)Status.ReceiveOk == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.ReceiveOk == response.Body.Event.Status, response.Body.Event.Description);
         }
         #endregion
 
         #region Permission
-        [Fact]
+        [TestMethod]
         public void Permission()
         {
             var infoId = new KeyValueBuilder(new Dictionary<string, string> {
@@ -958,61 +958,61 @@ namespace Anycmd.Edi.Service.Tests
             }.JspxToken();
             var response = cmdDto.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
             //var response = AnyMessage.Create(HecpRequest.Create(request, Credential.Create(request))).Response();
-            Assert.True((int)Status.NoPermission == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.NoPermission == response.Body.Event.Status, response.Body.Event.Description);
             cmdDto.IsDumb = false;
             //response = request.RequestNode(acDomain.NodeHost.Nodes.CenterNode);
             // 使用下面这行可以绕过网络传输从而易于调试，而上面那行需要网络传输
             response = AnyMessage.Create(HecpRequest.Create(AcDomain, cmdDto), AcDomain.NodeHost.Nodes.ThisNode).Response();
-            Assert.True((int)Status.NoPermission == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.NoPermission == response.Body.Event.Status, response.Body.Event.Description);
 
             cmdDto.MessageType = "Command";
             response = cmdDto.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
             //var response = AnyMessage.Create(HecpRequest.Create(request, Credential.Create(request))).Response();
-            Assert.True((int)Status.NoPermission == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.NoPermission == response.Body.Event.Status, response.Body.Event.Description);
             cmdDto.IsDumb = false;
             //response = request.RequestNode(acDomain.NodeHost.Nodes.CenterNode);
             // 使用下面这行可以绕过网络传输从而易于调试，而上面那行需要网络传输
             response = AnyMessage.Create(HecpRequest.Create(AcDomain, cmdDto), AcDomain.NodeHost.Nodes.ThisNode).Response();
-            Assert.True((int)Status.NoPermission == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.NoPermission == response.Body.Event.Status, response.Body.Event.Description);
         }
 
-        [Fact]
+        [TestMethod]
         public void Permission_Level1Action()
         {
 
         }
 
-        [Fact]
+        [TestMethod]
         public void Permission_Level2ElementAction()
         {
 
         }
 
-        [Fact]
+        [TestMethod]
         public void Permission_Level3ClientAction()
         {
 
         }
 
-        [Fact]
+        [TestMethod]
         public void Permission_Level4ClientElementAction()
         {
 
         }
 
-        [Fact]
+        [TestMethod]
         public void Permission_Level5CatalogAction()
         {
 
         }
 
-        [Fact]
+        [TestMethod]
         public void Permission_Level6EntityAction()
         {
 
         }
 
-        [Fact]
+        [TestMethod]
         public void Permission_Level7EntityElementAction()
         {
 
@@ -1020,32 +1020,32 @@ namespace Anycmd.Edi.Service.Tests
         #endregion
 
         #region Audit
-        [Fact]
+        [TestMethod]
         public void Audit_Level1Action()
         {
 
         }
 
-        [Fact]
+        [TestMethod]
         public void Audit_Level2ElementAction()
         {
 
         }
 
-        [Fact]
+        [TestMethod]
         public void Audit_Level3ClientAction()
         {
 
         }
 
-        [Fact]
+        [TestMethod]
         public void Audit_Level4ClientElementAction()
         {
 
         }
 
         #region Audit_Level5CatalogAction
-        [Fact]
+        [TestMethod]
         public void Audit_Level5CatalogAction()
         {
             var xm = NewXM();
@@ -1065,23 +1065,23 @@ namespace Anycmd.Edi.Service.Tests
                 TimeStamp = DateTime.UtcNow.Ticks
             }.JspxToken();
             var response = request.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
-            Assert.True((int)Status.ToAudit == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.ToAudit == response.Body.Event.Status, response.Body.Event.Description);
             request.IsDumb = false;
             response = request.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
-            Assert.True((int)Status.ToAudit == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.ToAudit == response.Body.Event.Status, response.Body.Event.Description);
             request.Verb = "update";
             response = request.RequestNode(AcDomain.NodeHost.Nodes.CenterNode);
-            Assert.True((int)Status.NotExist == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.NotExist == response.Body.Event.Status, response.Body.Event.Description);
         }
         #endregion
 
-        [Fact]
+        [TestMethod]
         public void Audit_Level6EntityAction()
         {
 
         }
 
-        [Fact]
+        [TestMethod]
         public void Audit_Level7EntityElementAction()
         {
 
@@ -1089,7 +1089,7 @@ namespace Anycmd.Edi.Service.Tests
         #endregion
 
         #region UpdateLoginName
-        [Fact]
+        [TestMethod]
         public void UpdateLoginName()
         {
             var localEntityId = Guid.NewGuid().ToString();
@@ -1111,15 +1111,15 @@ namespace Anycmd.Edi.Service.Tests
                 Body = new BodyData(infoValue, infoValue),
             }.UiaSignature();
             var response = AnyMessage.Create(HecpRequest.Create(AcDomain, request), AcDomain.NodeHost.Nodes.ThisNode).Response();
-            Assert.True((int)Status.ExecuteOk == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.ExecuteOk == response.Body.Event.Status, response.Body.Event.Description);
             request.Body.InfoId = response.Body.InfoValue;
             request.Verb = "update";
             request.Body.InfoValue = new KeyValue[] { new KeyValue("LoginName", DateTime.Now.Ticks.ToString()) };
             response = AnyMessage.Create(HecpRequest.Create(AcDomain, request), AcDomain.NodeHost.Nodes.ThisNode).Response();
-            Assert.True((int)Status.ExecuteOk == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.ExecuteOk == response.Body.Event.Status, response.Body.Event.Description);
             request.Verb = "delete";
             response = AnyMessage.Create(HecpRequest.Create(AcDomain, request), AcDomain.NodeHost.Nodes.ThisNode).Response();
-            Assert.True((int)Status.ExecuteOk == response.Body.Event.Status, response.Body.Event.Description);
+            Assert.IsTrue((int)Status.ExecuteOk == response.Body.Event.Status, response.Body.Event.Description);
         }
         #endregion
 

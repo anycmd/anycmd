@@ -1,25 +1,26 @@
 ﻿
 namespace Anycmd.Edi.Service.Tests
 {
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using ServiceStack;
     using System;
-    using Xunit;
 
+    [TestClass]
     public class TempTest
     {
-        [Fact]
+        [TestMethod]
         public void StructTest()
         {
             Guid id = Guid.NewGuid();
             StructValue s = StructValue.Create(id, "Name1");
             StructValue s1 = new StructValue().PopulateWith(s);
-            Assert.Equal(Guid.Empty, s1.Id);
-            Assert.Equal(null, s1.Name);
+            Assert.AreEqual(Guid.Empty, s1.Id);
+            Assert.AreEqual(null, s1.Name);
             var nameProperty = s1.GetType().GetProperty("Name");
             nameProperty.SetValue(s1, "Name1");
-            Assert.Equal(null, s1.Name);
+            Assert.AreEqual(null, s1.Name);
             s1.Name = "Name1";
-            Assert.Equal("Name1", s1.Name);
+            Assert.AreEqual("Name1", s1.Name);
         }
 
         public struct StructValue

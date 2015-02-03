@@ -4,12 +4,13 @@ namespace Anycmd.JintEngine.Tests
     using Engine.Ac;
     using Engine.Host.Ac.Identity;
     using Jint;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
-    using Xunit;
 
+    [TestClass]
     public class HelloTest
     {
-        [Fact]
+        [TestMethod]
         public void FuncTest()
         {
             var engine = new Engine()
@@ -21,13 +22,13 @@ namespace Anycmd.JintEngine.Tests
 
       getWord('Hello World');");
             var value = engine.GetCompletionValue().ToObject();
-            Assert.Equal("Hello World", value);
+            Assert.AreEqual("Hello World", value);
             engine.Execute("getWord('worldbye')");
             value = engine.GetCompletionValue().ToObject();
-            Assert.Equal("worldbye", value);
+            Assert.AreEqual("worldbye", value);
         }
 
-        [Fact]
+        [TestMethod]
         public void ActionTest()
         {
             var engine = new Engine()
@@ -43,7 +44,7 @@ namespace Anycmd.JintEngine.Tests
             ");
         }
 
-        [Fact]
+        [TestMethod]
         public void VarTest()
         {
             var square = new Engine()
@@ -52,10 +53,10 @@ namespace Anycmd.JintEngine.Tests
                 .GetCompletionValue() // get the latest statement completion value
                 .ToObject() // converts the value to .NET
                 ;
-            Assert.Equal(9.0, square);
+            Assert.AreEqual(9.0, square);
         }
 
-        [Fact]
+        [TestMethod]
         public void EntityTest()
         {
             var account = new Account
@@ -67,14 +68,14 @@ namespace Anycmd.JintEngine.Tests
                 .SetValue("p", account)
                 .Execute("p.Name = '薛兴帅'")
                 ;
-            Assert.Equal("薛兴帅", account.Name);
+            Assert.AreEqual("薛兴帅", account.Name);
         }
 
         /*
          * 后缀为State的类的写法有一点调整，因为这些对象后续会通过类似Jint这样的.NET javascript引擎发布出来，
          * 使用javascript面向这些对象书写安全策略。为了防止外部的javascript修改.NET对象的状态，所有属性的set访问器方法需去掉。
          */
-        [Fact]
+        [TestMethod]
         public void StateTest()
         {
             var account = AccountState.Create(new Account { Name = "xuefly" });
@@ -83,7 +84,7 @@ namespace Anycmd.JintEngine.Tests
                 .SetValue("p", account)
                 .Execute("p.Name = '薛兴帅'")
                 ;
-            Assert.Equal("xuefly", account.Name);
+            Assert.AreEqual("xuefly", account.Name);
         }
     }
 }

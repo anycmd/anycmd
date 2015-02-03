@@ -10,7 +10,6 @@ namespace Anycmd.Tests
     using Ac.ViewModels.PrivilegeViewModels;
     using Ac.ViewModels.RoleViewModels;
     using Engine.Ac;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Engine.Ac.Abstractions;
     using Engine.Ac.Messages;
     using Engine.Ac.Messages.Infra;
