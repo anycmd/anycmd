@@ -60,6 +60,20 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             return _roleDic.TryGetValue(roleId, out role);
         }
 
+        public RoleState GetRole(Guid roleId)
+        {
+            if (!_initialized)
+            {
+                Init();
+            }
+            RoleState role;
+            if (!_roleDic.TryGetValue(roleId, out role))
+            {
+                throw new NotExistException("给定的标识" + roleId + "标识的角色不存在");
+            }
+            return role;
+        }
+
         public IReadOnlyCollection<RoleState> GetDescendantRoles(RoleState role)
         {
             if (!_initialized)
@@ -81,7 +95,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             }
             var ancestors = new List<RoleState>();
             RecAncestorRoles(role, ancestors);
-            
+
             return ancestors;
         }
 
@@ -131,7 +145,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 _host.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
             }
         }
-        
+
         private void RecAncestorRoles(RoleState childRole, List<RoleState> ancestors)
         {
             foreach (var item in _host.PrivilegeSet.Where(a => a.SubjectType == AcElementType.Role && a.ObjectType == AcElementType.Role))

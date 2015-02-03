@@ -233,6 +233,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     throw new ValidationException("标识是必须的");
                 }
+                if (host.SsdSetSet.Any(a => a.Id == input.Id.Value))
+                {
+                    throw new AnycmdException("重复的SsdSet标识" + input.Id);
+                }
                 if (host.SsdSetSet.Any(a => a.Name.Equals(input.Name, StringComparison.OrdinalIgnoreCase)))
                 {
                     throw new ValidationException("重复的静态责任分离角色集名称");

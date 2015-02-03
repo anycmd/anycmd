@@ -277,32 +277,26 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 throw new ValidationException("非法的静态职责分离角色集标识" + requestData.SsdSetId);
             }
             var data = new List<SsdSetAssignRoleTr>();
-            var privilegeType = AcElementType.Role.ToName();
             var ssdSetRoles = AcDomain.SsdSetSet.GetSsdRoles(ssdSet);
             if (requestData.IsAssigned.HasValue)
             {
                 if (requestData.IsAssigned.Value)
                 {
-                    foreach (var ar in ssdSetRoles)
-                    {
-                        RoleState role;
-                        if (!AcDomain.RoleSet.TryGetRole(ar.RoleId, out role))
-                        {
-                            throw new AnycmdException("意外的角色标识" + ar.RoleId);
-                        }
-                        data.Add(new SsdSetAssignRoleTr
-                        {
-                            SsdSetId = requestData.SsdSetId,
-                            IsAssigned = true,
-                            RoleId = ar.RoleId,
-                            Id = ar.Id,
-                            IsEnabled = role.IsEnabled,
-                            CategoryCode = role.CategoryCode,
-                            Name = role.Name,
-                            SortCode = role.SortCode,
-                            Icon = role.Icon
-                        });
-                    }
+                    data.AddRange(from ssdSetRole in ssdSetRoles
+                                  let role = AcDomain.RoleSet.GetRole(ssdSetRole.RoleId)
+                                  select new SsdSetAssignRoleTr
+                                  {
+                                      Id = ssdSetRole.Id,
+                                      SsdSetId = requestData.SsdSetId,
+                                      IsAssigned = requestData.IsAssigned.Value,
+                                      RoleId = ssdSetRole.RoleId,
+                                      IsEnabled = role.IsEnabled,
+                                      CategoryCode = role.CategoryCode,
+                                      Name = role.Name,
+                                      SortCode = role.SortCode,
+                                      Icon = role.Icon,
+                                      CreateOn = ssdSetRole.CreateOn
+                                  });
                 }
                 else
                 {
@@ -310,11 +304,11 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                                   where ssdSetRoles.All(a => a.RoleId != role.Id)
                                   select new SsdSetAssignRoleTr
                                   {
+                                      Id = Guid.NewGuid(),
                                       SsdSetId = requestData.SsdSetId,
-                                      IsAssigned = false,
+                                      IsAssigned = requestData.IsAssigned.Value,
                                       RoleId = role.Id,
                                       CreateOn = null,
-                                      Id = Guid.NewGuid(),
                                       IsEnabled = role.IsEnabled,
                                       CategoryCode = role.CategoryCode,
                                       Name = role.Name,
@@ -327,16 +321,16 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 foreach (var role in AcDomain.RoleSet)
                 {
-                    var ar = ssdSetRoles.FirstOrDefault(a => a.RoleId == role.Id);
-                    if (ar == null)
+                    var ssdRole = ssdSetRoles.FirstOrDefault(a => a.RoleId == role.Id);
+                    if (ssdRole == null)
                     {
                         data.Add(new SsdSetAssignRoleTr
                         {
+                            Id = Guid.NewGuid(),
                             SsdSetId = requestData.SsdSetId,
                             IsAssigned = false,
                             RoleId = role.Id,
                             CreateOn = null,
-                            Id = Guid.NewGuid(),
                             IsEnabled = role.IsEnabled,
                             CategoryCode = role.CategoryCode,
                             Name = role.Name,
@@ -348,11 +342,11 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                     {
                         data.Add(new SsdSetAssignRoleTr
                         {
+                            Id = ssdRole.Id,
                             SsdSetId = requestData.SsdSetId,
                             IsAssigned = true,
-                            RoleId = ar.RoleId,
-                            CreateOn = ar.CreateOn,
-                            Id = ar.Id,
+                            RoleId = ssdRole.RoleId,
+                            CreateOn = ssdRole.CreateOn,
                             IsEnabled = role.IsEnabled,
                             CategoryCode = role.CategoryCode,
                             Name = role.Name,
@@ -362,8 +356,8 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                     }
                 }
             }
-            int pageIndex = requestData.PageIndex;
-            int pageSize = requestData.PageSize;
+            var pageIndex = requestData.PageIndex;
+            var pageSize = requestData.PageSize;
             var queryable = data.AsQueryable();
             if (!string.IsNullOrEmpty(requestData.Key))
             {

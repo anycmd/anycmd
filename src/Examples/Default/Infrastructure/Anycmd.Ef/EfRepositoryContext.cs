@@ -177,7 +177,7 @@ namespace Anycmd.Ef
             {
                 lock (_sync)
                 {
-                    ((IObjectContextAdapter)DbContext).ObjectContext.SaveChanges(SaveOptions.DetectChangesBeforeSave);
+                    ((IObjectContextAdapter)DbContext).ObjectContext.SaveChanges(SaveOptions.AcceptAllChangesAfterSave);
                 }
                 Committed = true;
             }
