@@ -36,6 +36,6 @@ namespace Anycmd.Engine.Ac.Abstractions
         /// <param name="roles"></param>
         /// <param name="msg"></param>
         /// <returns></returns>
-        bool CheckRoles(IEnumerable<RoleState> roles, out string msg);
+        bool CheckRoles(HashSet<RoleState> roles, out string msg);
     }
 }

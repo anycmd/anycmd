@@ -14,6 +14,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using Util;
     using functionCode = System.String;
@@ -49,23 +50,24 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             new MessageHandler(this).Register();
         }
 
-        public bool TryGetFunction(ResourceTypeState resource, string functionCode, out FunctionState function)
+        public bool TryGetFunction(ResourceTypeState resourceType, string functionCode, out FunctionState function)
         {
             if (!_initialized)
             {
                 Init();
             }
-            if (!_dicByCode.ContainsKey(resource))
+            if (resourceType == null)
             {
-                function = FunctionState.Empty;
-                return false;
+                throw new ArgumentNullException("resourceType");
             }
-            if (functionCode == null)
+            if (string.IsNullOrEmpty(functionCode))
             {
-                function = FunctionState.Empty;
-                return false;
+                throw new ArgumentNullException("functionCode");
             }
-            return _dicByCode[resource].TryGetValue(functionCode, out function);
+            if (_dicByCode.ContainsKey(resourceType))
+                return _dicByCode[resourceType].TryGetValue(functionCode, out function);
+            function = FunctionState.Empty;
+            return false;
         }
 
         public bool TryGetFunction(Guid functionId, out FunctionState function)
@@ -74,6 +76,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 Init();
             }
+            Debug.Assert(functionId != Guid.Empty);
+
             return _dicById.TryGetValue(functionId, out function);
         }
 
@@ -324,7 +328,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 Function entity;
                 bool stateChanged = false;
-                lock (bkState)
+                lock (this)
                 {
                     FunctionState oldState;
                     if (!acDomain.FunctionSet.TryGetFunction(input.Id, out oldState))
@@ -436,7 +440,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     return;
                 }
                 Function entity;
-                lock (bkState)
+                lock (this)
                 {
                     FunctionState state;
                     if (!acDomain.FunctionSet.TryGetFunction(functionId, out state))

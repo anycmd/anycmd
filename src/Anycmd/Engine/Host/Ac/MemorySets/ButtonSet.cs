@@ -53,6 +53,11 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 Init();
             }
+            if (buttonId == Guid.Empty)
+            {
+                throw new ArgumentException("传入的buttonId不应为Guid.Empty。");
+            }
+
             return _dicById.ContainsKey(buttonId);
         }
 
@@ -62,6 +67,11 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 Init();
             }
+            if (string.IsNullOrEmpty(buttonCode))
+            {
+                throw new ArgumentNullException("buttonCode");
+            }
+
             return _dicByCode.ContainsKey(buttonCode);
         }
 
@@ -71,16 +81,26 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 Init();
             }
+            if (buttonId == Guid.Empty)
+            {
+                throw new ArgumentException("传入的buttonId不应为Guid.Empty。");
+            }
+
             return _dicById.TryGetValue(buttonId, out button);
         }
 
-        public bool TryGetButton(string code, out ButtonState button)
+        public bool TryGetButton(string buttonCode, out ButtonState button)
         {
             if (!_initialized)
             {
                 Init();
             }
-            return _dicByCode.TryGetValue(code, out button);
+            if (string.IsNullOrEmpty(buttonCode))
+            {
+                throw new ArgumentNullException("buttonCode");
+            }
+
+            return _dicByCode.TryGetValue(buttonCode, out button);
         }
 
         internal void Refresh()
@@ -140,11 +160,11 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
         #region MessageHandler
         private class MessageHandler :
-            IHandler<UpdateButtonCommand>, 
-            IHandler<AddButtonCommand>, 
-            IHandler<ButtonAddedEvent>, 
-            IHandler<ButtonUpdatedEvent>, 
-            IHandler<RemoveButtonCommand>, 
+            IHandler<UpdateButtonCommand>,
+            IHandler<AddButtonCommand>,
+            IHandler<ButtonAddedEvent>,
+            IHandler<ButtonUpdatedEvent>,
+            IHandler<RemoveButtonCommand>,
             IHandler<ButtonRemovedEvent>
         {
             private readonly ButtonSet _set;
@@ -189,6 +209,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 var dicById = _set._dicById;
                 var dicByCode = _set._dicByCode;
                 var buttonRepository = acDomain.RetrieveRequiredService<IRepository<Button>>();
+                if (!input.Id.HasValue)
+                {
+                    throw new AnycmdException("标识是必须的");
+                }
                 if (string.IsNullOrEmpty(input.Code))
                 {
                     throw new ValidationException("编码不能为空");
@@ -196,9 +220,9 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 Button entity;
                 lock (this)
                 {
-                    if (!input.Id.HasValue || acDomain.ButtonSet.ContainsButton(input.Id.Value))
+                    if (acDomain.ButtonSet.ContainsButton(input.Id.Value))
                     {
-                        throw new AnycmdException("意外的按钮标识");
+                        throw new AnycmdException("给定标识的记录已经存在" + input.Id);
                     }
                     if (acDomain.ButtonSet.ContainsButton(input.Code))
                     {
@@ -282,7 +306,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 Button entity;
                 var stateChanged = false;
-                lock (bkState)
+                lock (this)
                 {
                     ButtonState oldState;
                     if (!acDomain.ButtonSet.TryGetButton(input.Id, out oldState))
@@ -390,7 +414,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     throw new ValidationException("按钮关联界面视图后不能删除");
                 }
                 Button entity;
-                lock (bkState)
+                lock (this)
                 {
                     ButtonState state;
                     if (!acDomain.ButtonSet.TryGetButton(buttonId, out state))

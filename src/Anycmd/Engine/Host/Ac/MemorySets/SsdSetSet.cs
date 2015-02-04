@@ -14,6 +14,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using Util;
 
@@ -53,6 +54,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 Init();
             }
+            Debug.Assert(ssdSetId != Guid.Empty);
+
             return _ssdSetDic.TryGetValue(ssdSetId, out ssdSet);
         }
 
@@ -66,11 +69,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 throw new ArgumentNullException("ssdSet");
             }
-            if (!_ssdRoleBySet.ContainsKey(ssdSet))
-            {
-                return new List<SsdRoleState>();
-            }
-            return _ssdRoleBySet[ssdSet];
+
+            return !_ssdRoleBySet.ContainsKey(ssdSet) ? new List<SsdRoleState>() : _ssdRoleBySet[ssdSet];
         }
 
         public IReadOnlyCollection<SsdRoleState> GetSsdRoles()
@@ -83,7 +83,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             return _ssdRoleById.Select(item => item.Value).ToList();
         }
 
-        public bool CheckRoles(IEnumerable<RoleState> roles, out string msg)
+        public bool CheckRoles(HashSet<RoleState> roles, out string msg)
         {
             if (roles == null)
             {
@@ -313,7 +313,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 SsdSet entity;
                 var stateChanged = false;
-                lock (bkState)
+                lock (this)
                 {
                     SsdSetState oldState;
                     if (!acDomain.SsdSetSet.TryGetSsdSet(input.Id, out oldState))
@@ -403,7 +403,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     return;
                 }
                 SsdSet entity;
-                lock (bkState)
+                lock (this)
                 {
                     SsdSetState state;
                     if (!acDomain.SsdSetSet.TryGetSsdSet(ssdSetId, out state))
@@ -568,7 +568,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     return;
                 }
                 SsdRole entity;
-                lock (bkState)
+                lock (this)
                 {
                     SsdRoleState state;
                     if (!ssdRoleById.TryGetValue(ssdRoleId, out state))

@@ -14,6 +14,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using Util;
 
@@ -53,6 +54,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 Init();
             }
+            Debug.Assert(dsdSetId != Guid.Empty);
+
             return _dsdSetDic.TryGetValue(dsdSetId, out dsdSet);
         }
 
@@ -66,6 +69,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 throw new ArgumentNullException("dsdSet");
             }
+
             return !_dsdRoleBySet.ContainsKey(dsdSet) ? new List<DsdRoleState>() : _dsdRoleBySet[dsdSet];
         }
 
@@ -79,7 +83,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             return _dsdRoleById.Select(item => item.Value).ToList();
         }
 
-        public bool CheckRoles(IEnumerable<RoleState> roles, out string msg)
+        public bool CheckRoles(IList<RoleState> roles, out string msg)
         {
             if (roles == null)
             {
@@ -304,7 +308,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 DsdSet entity;
                 bool stateChanged;
-                lock (bkState)
+                lock (this)
                 {
                     DsdSetState oldState;
                     if (!acDomain.DsdSetSet.TryGetDsdSet(input.Id, out oldState))
@@ -355,7 +359,6 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Update(DsdSetState state)
             {
-                var acDomain = _set._acDomain;
                 var dsdSetDic = _set._dsdSetDic;
                 var dsdRoleBySet = _set._dsdRoleBySet;
                 var oldState = dsdSetDic[state.Id];
@@ -401,7 +404,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     return;
                 }
                 DsdSet entity;
-                lock (bkState)
+                lock (this)
                 {
                     DsdSetState state;
                     if (!acDomain.DsdSetSet.TryGetDsdSet(dsdSetId, out state))
@@ -566,7 +569,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     return;
                 }
                 DsdRole entity;
-                lock (bkState)
+                lock (this)
                 {
                     DsdRoleState state;
                     if (!dsdRoleById.TryGetValue(dsdRoleId, out state))

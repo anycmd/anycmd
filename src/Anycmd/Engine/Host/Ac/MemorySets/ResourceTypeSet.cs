@@ -14,6 +14,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using Util;
 
@@ -60,7 +61,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 throw new ArgumentNullException("appSystem");
             }
-            if (resourceTypeCode == null)
+            if (string.IsNullOrEmpty(resourceTypeCode))
             {
                 throw new ArgumentNullException("resourceTypeCode");
             }
@@ -79,6 +80,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 Init();
             }
+            Debug.Assert(resourceTypeId != Guid.Empty);
 
             return _dicById.TryGetValue(resourceTypeId, out resource);
         }
@@ -309,8 +311,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     throw new ValidationException("意外的应用系统标识" + bkState.AppSystemId);
                 }
                 ResourceType entity;
-                bool stateChanged = false;
-                lock (bkState)
+                var stateChanged = false;
+                lock (this)
                 {
                     ResourceTypeState oldState;
                     if (!acDomain.ResourceTypeSet.TryGetResource(input.Id, out oldState))
@@ -424,7 +426,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     return;
                 }
                 ResourceType entity;
-                lock (bkState)
+                lock (this)
                 {
                     ResourceTypeState state;
                     if (!acDomain.ResourceTypeSet.TryGetResource(resourceTypeId, out state))

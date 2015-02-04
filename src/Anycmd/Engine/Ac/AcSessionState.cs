@@ -6,6 +6,8 @@ namespace Anycmd.Engine.Ac
     using Host;
     using Host.Impl;
     using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Security.Principal;
 
     /// <summary>
@@ -97,7 +99,9 @@ namespace Anycmd.Engine.Ac
                 if (_accountPrivilege != null) return _accountPrivilege;
                 _accountPrivilege = new AccountPrivilege(this.AcDomain, this);
                 string msg;
-                if (!AcDomain.DsdSetSet.CheckRoles(_accountPrivilege.AuthorizedRoles, out msg))
+                var authorizedRoleList = _accountPrivilege.AuthorizedRoles as IList<RoleState>;
+                Debug.Assert(authorizedRoleList != null);
+                if (!AcDomain.DsdSetSet.CheckRoles(authorizedRoleList, out msg))
                 {
                     throw new ValidationException(msg);
                 }

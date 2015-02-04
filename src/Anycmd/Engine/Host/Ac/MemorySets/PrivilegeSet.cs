@@ -481,7 +481,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     parentIds = new HashSet<Guid>();
                 }
                 var privilegeList = _set._privilegeList;
-                foreach (var item in privilegeList.Where(a => a.SubjectType == AcElementType.Role && a.SubjectInstanceId == roleId && a.ObjectType == AcElementType.Role))
+                foreach (var item in privilegeList.Where(a => a.AcRecordType == AcRecordType.RoleRole && a.SubjectInstanceId == roleId))
                 {
                     RecDescendantRoles(item.ObjectInstanceId, parentIds);
                     parentIds.Add(item.ObjectInstanceId);
@@ -495,7 +495,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     parentIds = new HashSet<Guid>();
                 }
                 var privilegeList = _set._privilegeList;
-                foreach (var item in privilegeList.Where(a => a.SubjectType == AcElementType.Catalog && a.SubjectInstanceId == catalogId && a.ObjectType == AcElementType.Catalog))
+                foreach (var item in privilegeList.Where(a => a.AcRecordType == AcRecordType.CatalogCatalog && a.SubjectInstanceId == catalogId))
                 {
                     RecDescendantRoles(item.ObjectInstanceId, parentIds);
                     parentIds.Add(item.ObjectInstanceId);
@@ -509,7 +509,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     parentIds = new HashSet<Guid>();
                 }
                 var privilegeList = _set._privilegeList;
-                foreach (var item in privilegeList.Where(a => a.SubjectType == AcElementType.Account && a.SubjectInstanceId == accountId && a.ObjectType == AcElementType.Account))
+                foreach (var item in privilegeList.Where(a => a.AcRecordType == AcRecordType.AccountAccount && a.SubjectInstanceId == accountId))
                 {
                     RecDescendantRoles(item.ObjectInstanceId, parentIds);
                     parentIds.Add(item.ObjectInstanceId);

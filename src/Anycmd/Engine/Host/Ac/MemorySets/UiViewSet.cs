@@ -14,6 +14,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using Util;
 
@@ -55,6 +56,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 Init();
             }
+            if (function == null || function == FunctionState.Empty)
+            {
+                throw new ArgumentNullException("function");
+            }
 
             return _viewDicByFunction.TryGetValue(function, out view);
         }
@@ -65,6 +70,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 Init();
             }
+            Debug.Assert(viewId != Guid.Empty);
+
             return _viewDicById.TryGetValue(viewId, out view);
         }
 
@@ -74,6 +81,11 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 Init();
             }
+            if (view == null || view == UiViewState.Empty)
+            {
+                throw new ArgumentNullException("view");
+            }
+
             return _viewButtonSet.GetUiViewButtons(view);
         }
 
@@ -142,15 +154,15 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
         }
 
         #region MessageHandler
-        private class MessageHandler:
+        private class MessageHandler :
             IHandler<AddUiViewCommand>,
             IHandler<UiViewUpdatedEvent>,
             IHandler<RemoveUiViewCommand>,
             IHandler<FunctionUpdatedEvent>,
             IHandler<FunctionRemovingEvent>,
-            IHandler<FunctionRemovedEvent>, 
-            IHandler<UiViewAddedEvent>, 
-            IHandler<UpdateUiViewCommand>, 
+            IHandler<FunctionRemovedEvent>,
+            IHandler<UiViewAddedEvent>,
+            IHandler<UpdateUiViewCommand>,
             IHandler<UiViewRemovedEvent>
         {
             private readonly UiViewSet _set;
@@ -326,7 +338,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 UiView entity;
                 var stateChanged = false;
-                lock (bkState)
+                lock (this)
                 {
                     UiViewState state;
                     if (!acDomain.UiViewSet.TryGetUiView(input.Id, out state))
@@ -418,7 +430,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     return;
                 }
                 UiView entity;
-                lock (bkState)
+                lock (this)
                 {
                     UiViewState state;
                     if (!acDomain.UiViewSet.TryGetUiView(viewId, out state))
@@ -520,12 +532,12 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     Init();
                 }
-                if (!_viewButtonsByUiView.ContainsKey(view))
+                if (view == null || view == UiViewState.Empty)
                 {
-                    return new List<UiViewButtonState>();
+                    throw new ArgumentNullException("view");
                 }
 
-                return _viewButtonsByUiView[view];
+                return !_viewButtonsByUiView.ContainsKey(view) ? new List<UiViewButtonState>() : _viewButtonsByUiView[view];
             }
 
             public IEnumerator<UiViewButtonState> GetEnumerator()
@@ -534,7 +546,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     Init();
                 }
-                return ((IEnumerable<UiViewButtonState>) _viewButtonDicById.Values).GetEnumerator();
+
+                return ((IEnumerable<UiViewButtonState>)_viewButtonDicById.Values).GetEnumerator();
             }
 
             IEnumerator IEnumerable.GetEnumerator()
@@ -577,7 +590,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             }
 
             #region UiViewButtonMessageHandler
-            private class UiViewButtonMessageHandler:
+            private class UiViewButtonMessageHandler :
                 IHandler<UiViewButtonAddedEvent>,
                 IHandler<UiViewButtonUpdatedEvent>,
                 IHandler<RemoveUiViewButtonCommand>,
@@ -835,7 +848,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                     UiViewButton entity;
                     var stateChanged = false;
-                    lock (bkState)
+                    lock (this)
                     {
                         if (acDomain.UiViewSet.GetUiViewButtons().All(a => a.Id != input.Id))
                         {
@@ -914,7 +927,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                         return;
                     }
                     UiViewButton entity;
-                    lock (bkState)
+                    lock (this)
                     {
                         if (acDomain.UiViewSet.GetUiViewButtons().All(a => a.Id != viewButtonId))
                         {

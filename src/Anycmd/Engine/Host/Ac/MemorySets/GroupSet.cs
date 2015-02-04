@@ -14,6 +14,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using Util;
 
@@ -51,6 +52,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 Init();
             }
+            Debug.Assert(groupId != Guid.Empty);
+
             return _groupDic.TryGetValue(groupId, out group);
         }
 
@@ -350,7 +353,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 Group entity;
                 var stateChanged = false;
-                lock (bkState)
+                lock (this)
                 {
                     GroupState oldState;
                     if (!acDomain.GroupSet.TryGetGroup(input.Id, out oldState))
@@ -414,7 +417,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 Group entity;
                 var stateChanged = false;
-                lock (bkState)
+                lock (this)
                 {
                     GroupState oldState;
                     if (!acDomain.GroupSet.TryGetGroup(input.Id, out oldState))
@@ -526,7 +529,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     return;
                 }
                 Group entity;
-                lock (bkState)
+                lock (this)
                 {
                     GroupState state;
                     if (!acDomain.GroupSet.TryGetGroup(groupId, out state))

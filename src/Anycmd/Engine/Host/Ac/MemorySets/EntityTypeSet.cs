@@ -14,6 +14,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using Util;
     using codespace = System.String;
@@ -71,26 +72,16 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 throw new ArgumentNullException("code");
             }
-            var codespace = code.Codespace;
-            var entityTypeCode = code.Code;
-            if (codespace == null)
-            {
-                throw new ArgumentNullException("codespace");
-            }
-            if (entityTypeCode == null)
-            {
-                throw new ArgumentNullException("entityTypeCode");
-            }
             if (!_initialized)
             {
                 Init();
             }
-            if (!_dicByCode.ContainsKey(codespace))
+            if (!_dicByCode.ContainsKey(code.Codespace))
             {
                 entityType = EntityTypeState.Empty;
                 return false;
             }
-            return _dicByCode[codespace].TryGetValue(entityTypeCode, out entityType);
+            return _dicByCode[code.Codespace].TryGetValue(code.Code, out entityType);
         }
 
         public bool TryGetProperty(Guid propertyId, out PropertyState property)
@@ -99,6 +90,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 Init();
             }
+            Debug.Assert(propertyId != Guid.Empty);
+
             return _propertySet.TryGetProperty(propertyId, out property);
         }
 
@@ -108,10 +101,15 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 Init();
             }
-            if (propertyCode == null)
+            if (entityType == null || entityType == EntityTypeState.Empty)
+            {
+                throw new ArgumentNullException("entityType");
+            }
+            if (string.IsNullOrEmpty(propertyCode))
             {
                 throw new ArgumentNullException("propertyCode");
             }
+
             return _propertySet.TryGetProperty(entityType, propertyCode, out property);
         }
 
@@ -126,6 +124,11 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 Init();
             }
+            if (entityType == null || entityType == EntityTypeState.Empty)
+            {
+                throw new ArgumentNullException("entityType");
+            }
+
             return _propertySet.GetProperties(entityType);
         }
 
@@ -355,7 +358,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 EntityType entity;
                 bool stateChanged;
-                lock (bkState)
+                lock (this)
                 {
                     EntityTypeState entityType;
                     if (acDomain.EntityTypeSet.TryGetEntityType(new Coder(input.Codespace, input.Code), out entityType) && entityType.Id != input.Id)
@@ -466,7 +469,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     return;
                 }
                 EntityType entity;
-                lock (bkState)
+                lock (this)
                 {
                     entity = entityTypeRepository.GetByKey(entityTypeId);
                     if (entity == null)
@@ -574,7 +577,11 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     Init();
                 }
-                if (propertyCode == null)
+                if (entityType == null || entityType == EntityTypeState.Empty)
+                {
+                    throw new ArgumentNullException("entityType");
+                }
+                if (string.IsNullOrEmpty(propertyCode))
                 {
                     throw new AnycmdException("属性编码为空");
                 }
@@ -594,6 +601,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     Init();
                 }
+                Debug.Assert(propertyId != Guid.Empty);
+
                 return _dicById.TryGetValue(propertyId, out property);
             }
 
@@ -602,6 +611,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 if (!_initialized)
                 {
                     Init();
+                }
+                if (entityType == null || entityType == EntityTypeState.Empty)
+                {
+                    throw new ArgumentNullException("entityType");
                 }
                 if (!_dicByCode.ContainsKey(entityType))
                 {
@@ -1154,7 +1167,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                     Property entity;
                     bool stateChanged = false;
-                    lock (bkState)
+                    lock (this)
                     {
                         EntityTypeState entityType;
                         PropertyState property;
@@ -1197,10 +1210,6 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                                 propertyRepository.Context.Rollback();
                                 throw;
                             }
-                        }
-                        if (!stateChanged)
-                        {
-                            return;
                         }
                     }
                     if (isCommand && stateChanged)
@@ -1269,7 +1278,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                         return;
                     }
                     Property entity;
-                    lock (bkState)
+                    lock (this)
                     {
                         entity = propertyRepository.GetByKey(propertyId);
                         if (entity == null)

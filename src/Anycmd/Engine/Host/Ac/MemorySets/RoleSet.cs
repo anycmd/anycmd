@@ -57,6 +57,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 Init();
             }
+            Debug.Assert(roleId != Guid.Empty);
+
             return _roleDic.TryGetValue(roleId, out role);
         }
 
@@ -66,11 +68,13 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 Init();
             }
+            Debug.Assert(roleId != Guid.Empty);
             RoleState role;
             if (!_roleDic.TryGetValue(roleId, out role))
             {
                 throw new NotExistException("给定的标识" + roleId + "标识的角色不存在");
             }
+
             return role;
         }
 
@@ -80,11 +84,12 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 Init();
             }
-            if (!_descendantRoles.ContainsKey(role))
+            if (role == null)
             {
-                return new List<RoleState>();
+                throw new ArgumentNullException("role");
             }
-            return _descendantRoles[role];
+
+            return !_descendantRoles.ContainsKey(role) ? new List<RoleState>() : _descendantRoles[role];
         }
 
         public IReadOnlyCollection<RoleState> GetAscendantRoles(RoleState role)
@@ -92,6 +97,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             if (!_initialized)
             {
                 Init();
+            }
+            if (role == null)
+            {
+                throw new ArgumentNullException("role");
             }
             var ancestors = new List<RoleState>();
             RecAncestorRoles(role, ancestors);
@@ -317,7 +326,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 Role entity;
                 bool stateChanged = false;
-                lock (bkState)
+                lock (this)
                 {
                     RoleState oldState;
                     if (!acDomain.RoleSet.TryGetRole(input.Id, out oldState))
@@ -406,7 +415,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     return;
                 }
                 Role entity;
-                lock (bkState)
+                lock (this)
                 {
                     RoleState state;
                     if (!acDomain.RoleSet.TryGetRole(roleId, out state))
@@ -464,46 +473,44 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 var roleDic = _set._roleDic;
                 var descendantRoles = _set._descendantRoles;
                 var entity = message.Source as PrivilegeBase;
-                RoleState parentRole;
                 Debug.Assert(entity != null, "entity != null");
-                if (roleDic.TryGetValue(entity.SubjectInstanceId, out parentRole))
+                lock (this)
                 {
-                    lock (descendantRoles)
+                    RoleState parentRole;
+                    if (!roleDic.TryGetValue(entity.SubjectInstanceId, out parentRole)) return;
+                    List<RoleState> value;
+                    if (!descendantRoles.TryGetValue(parentRole, out value))
                     {
-                        List<RoleState> value;
-                        if (!descendantRoles.TryGetValue(parentRole, out value))
+                        value = new List<RoleState>();
+                        descendantRoles.Add(parentRole, value);
+                    }
+                    RoleState roleObject;
+                    if (roleDic.TryGetValue(entity.ObjectInstanceId, out roleObject))
+                    {
+                        var children = new List<RoleState>();
+                        RecDescendantRoles(_set, roleObject, children);
+                        children.Add(roleObject);
+                        foreach (var role in children)
                         {
-                            value = new List<RoleState>();
-                            descendantRoles.Add(parentRole, value);
+                            if (value.All(a => a.Id != role.Id))
+                            {
+                                value.Add(role);
+                            }
                         }
-                        RoleState roleObject;
-                        if (roleDic.TryGetValue(entity.ObjectInstanceId, out roleObject))
+                        var ancestorRoles = new List<RoleState>();
+                        _set.RecAncestorRoles(parentRole, ancestorRoles);
+                        foreach (var item in ancestorRoles)
                         {
-                            var children = new List<RoleState>();
-                            RecDescendantRoles(_set, roleObject, children);
-                            children.Add(roleObject);
+                            if (!descendantRoles.TryGetValue(item, out value))
+                            {
+                                value = new List<RoleState>();
+                                descendantRoles.Add(item, value);
+                            }
                             foreach (var role in children)
                             {
                                 if (value.All(a => a.Id != role.Id))
                                 {
                                     value.Add(role);
-                                }
-                            }
-                            var ancestorRoles = new List<RoleState>();
-                            _set.RecAncestorRoles(parentRole, ancestorRoles);
-                            foreach (var item in ancestorRoles)
-                            {
-                                if (!descendantRoles.TryGetValue(item, out value))
-                                {
-                                    value = new List<RoleState>();
-                                    descendantRoles.Add(item, value);
-                                }
-                                foreach (var role in children)
-                                {
-                                    if (value.All(a => a.Id != role.Id))
-                                    {
-                                        value.Add(role);
-                                    }
                                 }
                             }
                         }
@@ -516,11 +523,12 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 var roleDic = _set._roleDic;
                 var descendantRoles = _set._descendantRoles;
                 var entity = message.Source as PrivilegeBase;
-                RoleState parentRole;
                 Debug.Assert(entity != null, "entity != null");
-                if (roleDic.TryGetValue(entity.SubjectInstanceId, out parentRole))
+                Debug.Assert(entity.SubjectInstanceId != Guid.Empty);
+                lock (this)
                 {
-                    lock (descendantRoles)
+                    RoleState parentRole;
+                    if (roleDic.TryGetValue(entity.SubjectInstanceId, out parentRole))
                     {
                         List<RoleState> value;
                         if (descendantRoles.TryGetValue(parentRole, out value))
@@ -529,6 +537,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                             {
                                 descendantRoles[parentRole].Remove(roleDic[entity.ObjectInstanceId]);
                             }
+                        }
+                        else
+                        {
+                            throw new AnycmdException();
                         }
                         RoleState roleObject;
                         if (roleDic.TryGetValue(entity.ObjectInstanceId, out roleObject))

@@ -14,6 +14,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using Util;
 
@@ -55,6 +56,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 Init();
             }
+            Debug.Assert(menuId != Guid.Empty);
+
             return _menuById.TryGetValue(menuId, out menu);
         }
 
@@ -247,7 +250,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 Menu entity;
                 var stateChanged = false;
-                lock (bkState)
+                lock (this)
                 {
                     MenuState oldState;
                     if (!acDomain.MenuSet.TryGetMenu(input.Id, out oldState))
@@ -332,7 +335,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     return;
                 }
                 Menu entity;
-                lock (bkState)
+                lock (this)
                 {
                     MenuState state;
                     if (!acDomain.MenuSet.TryGetMenu(menuId, out state))

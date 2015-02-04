@@ -55,9 +55,13 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     Init();
                 }
-                if (string.IsNullOrEmpty(_acDomain.Config.SelfAppSystemCode) || !_dicByCode.ContainsKey(_acDomain.Config.SelfAppSystemCode))
+                if (string.IsNullOrEmpty(_acDomain.Config.SelfAppSystemCode))
                 {
                     throw new AnycmdException("尚未配置SelfAppSystemCode，在AcDomain初始化时由传入的IAppConfig对象配置。");
+                }
+                else if (!_dicByCode.ContainsKey(_acDomain.Config.SelfAppSystemCode))
+                {
+                    throw new AnycmdException("意外的SelfAppSystemCode：" + _acDomain.Config.SelfAppSystemCode);
                 }
                 else
                 {
@@ -76,6 +80,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 throw new ArgumentNullException("appSystemCode");
             }
+
             return _dicByCode.TryGetValue(appSystemCode, out appSystem);
         }
 
@@ -89,6 +94,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 throw new ArgumentException("传入的appSystemId不应为Guid.Empty。");
             }
+
             return _dicById.TryGetValue(appSystemId, out appSystem);
         }
 
@@ -102,6 +108,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 throw new ArgumentException("传入的appSystemId不应为Guid.Empty。");
             }
+
             return _dicById.ContainsKey(appSystemId);
         }
 
@@ -133,6 +140,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 Init();
             }
+
             return _dicByCode.Values.GetEnumerator();
         }
 
@@ -142,6 +150,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 Init();
             }
+
             return _dicByCode.Values.GetEnumerator();
         }
 
@@ -333,7 +342,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 AppSystem entity;
                 var stateChanged = false;
-                lock (bkState)
+                lock (this)
                 {
                     AppSystemState oldState;
                     if (!acDomain.AppSystemSet.TryGetAppSystem(input.Id, out oldState))
@@ -446,7 +455,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     throw new ValidationException("应用系统下有菜单时不能删除应用系统");
                 }
                 AppSystem entity;
-                lock (bkState)
+                lock (this)
                 {
                     AppSystemState state;
                     if (!acDomain.AppSystemSet.TryGetAppSystem(appSystemId, out state))

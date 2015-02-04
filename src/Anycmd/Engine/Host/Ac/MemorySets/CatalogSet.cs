@@ -14,6 +14,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using Util;
 
@@ -53,6 +54,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 Init();
             }
+            Debug.Assert(catalogId != Guid.Empty, "传入的catalogId值不应该是Guid.Empty");
+
             return _dicById.TryGetValue(catalogId, out oragnization);
         }
 
@@ -62,11 +65,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 Init();
             }
-            if (catalogCode == null)
-            {
-                catalog = CatalogState.Empty;
-                return false;
-            }
+            Debug.Assert(!string.IsNullOrEmpty(catalogCode), "catalogCode不能为空，编码为空的目录对应的可能是Catalog.Empty目录，请在应用层做判断。");
+
             return _dicByCode.TryGetValue(catalogCode, out catalog);
         }
 
@@ -113,6 +113,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 Init();
             }
+
             return _dicById.Values.GetEnumerator();
         }
 
@@ -122,6 +123,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 Init();
             }
+
             return _dicById.Values.GetEnumerator();
         }
 
@@ -300,7 +302,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 Catalog entity;
                 var stateChanged = false;
-                lock (bkState)
+                lock (this)
                 {
                     CatalogState oragnization;
                     if (acDomain.CatalogSet.TryGetCatalog(input.Code, out oragnization) && oragnization.Id != input.Id)
@@ -414,7 +416,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     return;
                 }
                 Catalog entity;
-                lock (bkState)
+                lock (this)
                 {
                     CatalogState state;
                     if (!acDomain.CatalogSet.TryGetCatalog(catalogId, out state))

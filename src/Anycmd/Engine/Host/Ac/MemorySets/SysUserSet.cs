@@ -13,6 +13,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using Util;
     using loginName = System.String;
 
@@ -62,10 +63,9 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 Init();
             }
-            if (developerCode == null)
+            if (string.IsNullOrEmpty(developerCode))
             {
-                developer = null;
-                return false;
+                throw new ArgumentNullException("developerCode");
             }
 
             return _devAccountByLoginName.TryGetValue(developerCode, out developer);
@@ -77,6 +77,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 Init();
             }
+            Debug.Assert(accountId != Guid.Empty);
 
             return _devAccountById.TryGetValue(accountId, out developer);
         }
@@ -279,7 +280,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 var bkState = devAccountById[accountId];
                 DeveloperId entity;
-                lock (bkState)
+                lock (this)
                 {
                     if (!devAccountById.ContainsKey(accountId))
                     {
