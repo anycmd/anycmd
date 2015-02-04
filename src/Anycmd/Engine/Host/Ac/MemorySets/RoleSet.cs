@@ -203,7 +203,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 var messageDispatcher = _set._acDomain.MessageDispatcher;
                 if (messageDispatcher == null)
                 {
-                    throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(_set._acDomain.Name));
+                    throw new ArgumentNullException("AcDomain对象'{0}'尚未设置MessageDispatcher。".Fmt(_set._acDomain.Name));
                 }
                 messageDispatcher.Register((IHandler<AddRoleCommand>)this);
                 messageDispatcher.Register((IHandler<RoleAddedEvent>)this);
@@ -282,7 +282,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
             }
 
-            private class PrivateRoleAddedEvent : RoleAddedEvent
+            private class PrivateRoleAddedEvent : RoleAddedEvent, IPrivateEvent
             {
                 internal PrivateRoleAddedEvent(IAcSession acSession, RoleBase source, IRoleCreateIo input)
                     : base(acSession, source, input)
@@ -290,6 +290,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 }
             }
+
             public void Handle(UpdateRoleCommand message)
             {
                 this.Handle(message.AcSession, message.Input, true);
@@ -371,7 +372,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 roleDic[state.Id] = state;
             }
 
-            private class PrivateRoleUpdatedEvent : RoleUpdatedEvent
+            private class PrivateRoleUpdatedEvent : RoleUpdatedEvent, IPrivateEvent
             {
                 internal PrivateRoleUpdatedEvent(IAcSession acSession, RoleBase source, IRoleUpdateIo input)
                     : base(acSession, source, input)
@@ -379,6 +380,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 }
             }
+
             public void Handle(RemoveRoleCommand message)
             {
                 this.Handle(message.AcSession, message.EntityId, true);
@@ -448,7 +450,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
             }
 
-            private class PrivateRoleRemovedEvent : RoleRemovedEvent
+            private class PrivateRoleRemovedEvent : RoleRemovedEvent, IPrivateEvent
             {
                 internal PrivateRoleRemovedEvent(IAcSession acSession, RoleBase source)
                     : base(acSession, source)

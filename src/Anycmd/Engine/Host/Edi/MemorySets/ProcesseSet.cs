@@ -164,7 +164,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 var messageDispatcher = _set._acDomain.MessageDispatcher;
                 if (messageDispatcher == null)
                 {
-                    throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(_set._acDomain.Name));
+                    throw new ArgumentNullException("AcDomain对象'{0}'尚未设置MessageDispatcher。".Fmt(_set._acDomain.Name));
                 }
                 messageDispatcher.Register((IHandler<AddProcessCommand>)this);
                 messageDispatcher.Register((IHandler<UpdateProcessCommand>)this);

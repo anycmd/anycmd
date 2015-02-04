@@ -222,7 +222,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 var messageDispatcher = _set._acDomain.MessageDispatcher;
                 if (messageDispatcher == null)
                 {
-                    throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(_set._acDomain.Name));
+                    throw new ArgumentNullException("AcDomain对象'{0}'尚未设置MessageDispatcher。".Fmt(_set._acDomain.Name));
                 }
                 messageDispatcher.Register((IHandler<AddEntityTypeCommand>)this);
                 messageDispatcher.Register((IHandler<EntityTypeAddedEvent>)this);
@@ -317,7 +317,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
             }
 
-            private class PrivateEntityTypeAddedEvent : EntityTypeAddedEvent
+            private class PrivateEntityTypeAddedEvent : EntityTypeAddedEvent, IPrivateEvent
             {
                 internal PrivateEntityTypeAddedEvent(IAcSession acSession, EntityTypeBase source, IEntityTypeCreateIo input)
                     : base(acSession, source, input)
@@ -431,7 +431,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
             }
 
-            private class PrivateEntityTypeUpdatedEvent : EntityTypeUpdatedEvent
+            private class PrivateEntityTypeUpdatedEvent : EntityTypeUpdatedEvent, IPrivateEvent
             {
                 internal PrivateEntityTypeUpdatedEvent(IAcSession acSession, EntityTypeBase source, IEntityTypeUpdateIo input)
                     : base(acSession, source, input)
@@ -523,7 +523,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
             }
 
-            private class PrivateEntityTypeRemovedEvent : EntityTypeRemovedEvent
+            private class PrivateEntityTypeRemovedEvent : EntityTypeRemovedEvent, IPrivateEvent
             {
                 internal PrivateEntityTypeRemovedEvent(IAcSession acSession, EntityTypeBase source)
                     : base(acSession, source)
@@ -698,7 +698,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     var messageDispatcher = _set._acDomain.MessageDispatcher;
                     if (messageDispatcher == null)
                     {
-                        throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(_set._acDomain.Name));
+                        throw new ArgumentNullException("AcDomain对象'{0}'尚未设置MessageDispatcher。".Fmt(_set._acDomain.Name));
                     }
                     messageDispatcher.Register((IHandler<AddPropertyCommand>)this);
                     messageDispatcher.Register((IHandler<PropertyAddedEvent>)this);
@@ -830,7 +830,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                 }
 
-                private class PrivatePropertyAddedEvent : PropertyAddedEvent
+                private class PrivatePropertyAddedEvent : PropertyAddedEvent, IPrivateEvent
                 {
                     internal PrivatePropertyAddedEvent(IAcSession acSession, PropertyBase source, IPropertyCreateIo input)
                         : base(acSession, source, input)
@@ -1234,7 +1234,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                 }
 
-                private class PrivatePropertyUpdatedEvent : PropertyUpdatedEvent
+                private class PrivatePropertyUpdatedEvent : PropertyUpdatedEvent, IPrivateEvent
                 {
                     internal PrivatePropertyUpdatedEvent(IAcSession acSession, PropertyBase source, IPropertyUpdateIo input)
                         : base(acSession, source, input)
@@ -1321,7 +1321,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                 }
 
-                private class PrivatePropertyRemovedEvent : PropertyRemovedEvent
+                private class PrivatePropertyRemovedEvent : PropertyRemovedEvent, IPrivateEvent
                 {
                     internal PrivatePropertyRemovedEvent(IAcSession acSession, PropertyBase source)
                         : base(acSession, source)

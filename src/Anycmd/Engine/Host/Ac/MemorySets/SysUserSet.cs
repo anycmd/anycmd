@@ -153,7 +153,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 var messageDispatcher = _set._acDomain.MessageDispatcher;
                 if (messageDispatcher == null)
                 {
-                    throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(_set._acDomain.Name));
+                    throw new ArgumentNullException("AcDomain对象'{0}'尚未设置MessageDispatcher。".Fmt(_set._acDomain.Name));
                 }
                 messageDispatcher.Register((IHandler<AddDeveloperCommand>)this);
                 messageDispatcher.Register((IHandler<DeveloperAddedEvent>)this);
@@ -225,7 +225,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
             }
 
-            private class PrivateDeveloperAddedEvent : DeveloperAddedEvent
+            private class PrivateDeveloperAddedEvent : DeveloperAddedEvent, IPrivateEvent
             {
                 internal PrivateDeveloperAddedEvent(IAcSession acSession, DeveloperId source) : base(acSession, source) { }
             }
@@ -314,7 +314,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
             }
 
-            private class PrivateDeveloperRemovedEvent : DeveloperRemovedEvent
+            private class PrivateDeveloperRemovedEvent : DeveloperRemovedEvent, IPrivateEvent
             {
                 internal PrivateDeveloperRemovedEvent(IAcSession acSession, DeveloperId source) : base(acSession, source) { }
             }

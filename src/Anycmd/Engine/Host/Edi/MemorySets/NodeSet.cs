@@ -372,7 +372,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 var messageDispatcher = _set._acDomain.MessageDispatcher;
                 if (messageDispatcher == null)
                 {
-                    throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(_set._acDomain.Name));
+                    throw new ArgumentNullException("AcDomain对象'{0}'尚未设置MessageDispatcher。".Fmt(_set._acDomain.Name));
                 }
                 messageDispatcher.Register((IHandler<AddNodeCommand>)this);
                 messageDispatcher.Register((IHandler<NodeAddedEvent>)this);
@@ -452,7 +452,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
             }
 
-            private class PrivateNodeAddedEvent : NodeAddedEvent
+            private class PrivateNodeAddedEvent : NodeAddedEvent, IPrivateEvent
             {
                 internal PrivateNodeAddedEvent(IAcSession acSession, NodeBase source, INodeCreateIo input)
                     : base(acSession, source, input)
@@ -552,7 +552,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
             }
 
-            private class PrivateNodeUpdatedEvent : NodeUpdatedEvent
+            private class PrivateNodeUpdatedEvent : NodeUpdatedEvent, IPrivateEvent
             {
                 internal PrivateNodeUpdatedEvent(IAcSession acSession, NodeBase source, INodeUpdateIo input)
                     : base(acSession, source, input)
@@ -619,7 +619,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
             }
 
-            private class PrivateNodeRemovedEvent : NodeRemovedEvent
+            private class PrivateNodeRemovedEvent : NodeRemovedEvent, IPrivateEvent
             {
                 internal PrivateNodeRemovedEvent(IAcSession acSession, NodeBase source)
                     : base(acSession, source)
@@ -748,7 +748,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     var messageDispatcher = _set._acDomain.MessageDispatcher;
                     if (messageDispatcher == null)
                     {
-                        throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(_set._acDomain.Name));
+                        throw new ArgumentNullException("AcDomain对象'{0}'尚未设置MessageDispatcher。".Fmt(_set._acDomain.Name));
                     }
                     messageDispatcher.Register((IHandler<AddNodeElementActionCommand>)this);
                     messageDispatcher.Register((IHandler<NodeElementActionAddedEvent>)this);
@@ -837,7 +837,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                 }
 
-                private class PrivateNodeElementActionAddedEvent : NodeElementActionAddedEvent
+                private class PrivateNodeElementActionAddedEvent : NodeElementActionAddedEvent, IPrivateEvent
                 {
                     internal PrivateNodeElementActionAddedEvent(IAcSession acSession, NodeElementActionBase source, INodeElementActionCreateIo input)
                         : base(acSession, source, input)
@@ -936,7 +936,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                 }
 
-                private class PrivateNodeElementActionRemovedEvent : NodeElementActionRemovedEvent
+                private class PrivateNodeElementActionRemovedEvent : NodeElementActionRemovedEvent, IPrivateEvent
                 {
                     public PrivateNodeElementActionRemovedEvent(IAcSession acSession, NodeElementAction source)
                         : base(acSession, source)
@@ -1226,7 +1226,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     var messageDispatcher = _set._acDomain.MessageDispatcher;
                     if (messageDispatcher == null)
                     {
-                        throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(_set._acDomain.Name));
+                        throw new ArgumentNullException("AcDomain对象'{0}'尚未设置MessageDispatcher。".Fmt(_set._acDomain.Name));
                     }
                     messageDispatcher.Register((IHandler<AddNodeOntologyCareCommand>)this);
                     messageDispatcher.Register((IHandler<NodeOntologyCareAddedEvent>)this);
@@ -1323,7 +1323,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                 }
 
-                private class PrivateNodeOntologyCareAddedEvent : NodeOntologyCareAddedEvent
+                private class PrivateNodeOntologyCareAddedEvent : NodeOntologyCareAddedEvent, IPrivateEvent
                 {
                     internal PrivateNodeOntologyCareAddedEvent(IAcSession acSession, NodeOntologyCareBase source, INodeOntologyCareCreateIo input)
                         : base(acSession, source, input)
@@ -1406,7 +1406,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                 }
 
-                private class PrivateNodeOntologyCareRemovedEvent : NodeOntologyCareRemovedEvent
+                private class PrivateNodeOntologyCareRemovedEvent : NodeOntologyCareRemovedEvent, IPrivateEvent
                 {
                     internal PrivateNodeOntologyCareRemovedEvent(IAcSession acSession, NodeOntologyCareBase source) : base(acSession, source) { }
 
@@ -1495,7 +1495,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                 }
 
-                private class PrivateNodeElementCareAddedEvent : NodeElementCareAddedEvent
+                private class PrivateNodeElementCareAddedEvent : NodeElementCareAddedEvent, IPrivateEvent
                 {
                     internal PrivateNodeElementCareAddedEvent(IAcSession acSession, NodeElementCareBase source, INodeElementCareCreateIo input)
                         : base(acSession, source, input)
@@ -1587,7 +1587,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                 }
 
-                private class PrivateNodeElementCareUpdatedEvent : NodeElementCareUpdatedEvent
+                private class PrivateNodeElementCareUpdatedEvent : NodeElementCareUpdatedEvent, IPrivateEvent
                 {
                     internal PrivateNodeElementCareUpdatedEvent(IAcSession acSession, NodeElementCareBase source)
                         : base(acSession, source)
@@ -1686,7 +1686,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                 }
 
-                private class PrivateNodeElementCareRemovedEvent : NodeElementCareRemovedEvent
+                private class PrivateNodeElementCareRemovedEvent : NodeElementCareRemovedEvent, IPrivateEvent
                 {
                     internal PrivateNodeElementCareRemovedEvent(IAcSession acSession, NodeElementCareBase source) : base(acSession, source) { }
 
@@ -1726,7 +1726,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 var messageDispatcher = acDomain.MessageDispatcher;
                 if (messageDispatcher == null)
                 {
-                    throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(acDomain.Name));
+                    throw new ArgumentNullException("AcDomain对象'{0}'尚未设置MessageDispatcher。".Fmt(acDomain.Name));
                 }
                 new NodeOntologyCatalogMessageHandler(this).Register();
             }
@@ -1840,7 +1840,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     var messageDispatcher = _set._acDomain.MessageDispatcher;
                     if (messageDispatcher == null)
                     {
-                        throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(_set._acDomain.Name));
+                        throw new ArgumentNullException("AcDomain对象'{0}'尚未设置MessageDispatcher。".Fmt(_set._acDomain.Name));
                     }
                     messageDispatcher.Register((IHandler<AddNodeOntologyCatalogCommand>)this);
                     messageDispatcher.Register((IHandler<NodeOntologyCatalogAddedEvent>)this);
@@ -1933,7 +1933,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                 }
 
-                private class PrivateNodeOntologyCatalogAddedEvent : NodeOntologyCatalogAddedEvent
+                private class PrivateNodeOntologyCatalogAddedEvent : NodeOntologyCatalogAddedEvent, IPrivateEvent
                 {
                     internal PrivateNodeOntologyCatalogAddedEvent(IAcSession acSession, NodeOntologyCatalogBase source, INodeOntologyCatalogCreateIo input)
                         : base(acSession, source, input)
@@ -2007,7 +2007,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                 }
 
-                private class PrivateNodeOntologyCatalogRemovedEvent : NodeOntologyCatalogRemovedEvent
+                private class PrivateNodeOntologyCatalogRemovedEvent : NodeOntologyCatalogRemovedEvent, IPrivateEvent
                 {
                     internal PrivateNodeOntologyCatalogRemovedEvent(IAcSession acSession, NodeOntologyCatalogBase source) : base(acSession, source) { }
                 }

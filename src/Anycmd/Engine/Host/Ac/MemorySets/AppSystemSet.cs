@@ -55,11 +55,14 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     Init();
                 }
-                if (_dicByCode.ContainsKey(_acDomain.Config.SelfAppSystemCode))
+                if (string.IsNullOrEmpty(_acDomain.Config.SelfAppSystemCode) || !_dicByCode.ContainsKey(_acDomain.Config.SelfAppSystemCode))
+                {
+                    throw new AnycmdException("尚未配置SelfAppSystemCode，在AcDomain初始化时由传入的IAppConfig对象配置。");
+                }
+                else
                 {
                     return _dicByCode[_acDomain.Config.SelfAppSystemCode];
                 }
-                throw new AnycmdException("尚未配置SelfAppSystemCode");
             }
         }
 
@@ -69,9 +72,11 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 Init();
             }
-            if (appSystemCode != null) return _dicByCode.TryGetValue(appSystemCode, out appSystem);
-            appSystem = AppSystemState.Empty;
-            return false;
+            if (string.IsNullOrEmpty(appSystemCode))
+            {
+                throw new ArgumentNullException("appSystemCode");
+            }
+            return _dicByCode.TryGetValue(appSystemCode, out appSystem);
         }
 
         public bool TryGetAppSystem(Guid appSystemId, out AppSystemState appSystem)
@@ -79,6 +84,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             if (!_initialized)
             {
                 Init();
+            }
+            if (appSystemId == Guid.Empty)
+            {
+                throw new ArgumentException("传入的appSystemId不应为Guid.Empty。");
             }
             return _dicById.TryGetValue(appSystemId, out appSystem);
         }
@@ -89,7 +98,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 Init();
             }
-
+            if (appSystemId == Guid.Empty)
+            {
+                throw new ArgumentException("传入的appSystemId不应为Guid.Empty。");
+            }
             return _dicById.ContainsKey(appSystemId);
         }
 
@@ -99,7 +111,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             {
                 Init();
             }
-            if (appSystemCode == null)
+            if (string.IsNullOrEmpty(appSystemCode))
             {
                 throw new ArgumentNullException("appSystemCode");
             }
@@ -187,7 +199,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 var messageDispatcher = _set._acDomain.MessageDispatcher;
                 if (messageDispatcher == null)
                 {
-                    throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(_set._acDomain.Name));
+                    throw new ArgumentNullException("AcDomain对象'{0}'尚未设置MessageDispatcher。".Fmt(_set._acDomain.Name));
                 }
                 messageDispatcher.Register((IHandler<AddAppSystemCommand>)this);
                 messageDispatcher.Register((IHandler<AppSystemAddedEvent>)this);
@@ -237,6 +249,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                         throw new ValidationException("重复的应用系统编码" + input.Code);
                     }
                     AccountState principal;
+                    // TODO:考虑将AppSystem.PrincipalId重命名为AppSystem.DevPrincipalId，从而与业务负责人分开。
                     if (!acDomain.SysUserSet.TryGetDevAccount(input.PrincipalId, out principal))
                     {
                         throw new ValidationException("意外的应用系统负责人，业务系统负责人必须是开发人员");
@@ -283,13 +296,14 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
             }
 
-            private class PrivateAppSystemAddedEvent : AppSystemAddedEvent
+            private class PrivateAppSystemAddedEvent : AppSystemAddedEvent, IPrivateEvent
             {
                 internal PrivateAppSystemAddedEvent(IAcSession acSession, AppSystemBase source, IAppSystemCreateIo input)
                     : base(acSession, source, input)
                 {
                 }
             }
+
             public void Handle(UpdateAppSystemCommand message)
             {
                 Handle(message.AcSession, message.Input, true);
@@ -389,7 +403,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
             }
 
-            private class PrivateAppSystemUpdatedEvent : AppSystemUpdatedEvent
+            private class PrivateAppSystemUpdatedEvent : AppSystemUpdatedEvent, IPrivateEvent
             {
                 internal PrivateAppSystemUpdatedEvent(IAcSession acSession, AppSystemBase source, IAppSystemUpdateIo input)
                     : base(acSession, source, input)
@@ -397,6 +411,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 }
             }
+
             public void Handle(RemoveAppSystemCommand message)
             {
                 Handle(message.AcSession, message.EntityId, true);
@@ -483,7 +498,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
             }
 
-            private class PrivateAppSystemRemovedEvent : AppSystemRemovedEvent
+            private class PrivateAppSystemRemovedEvent : AppSystemRemovedEvent, IPrivateEvent
             {
                 internal PrivateAppSystemRemovedEvent(IAcSession acSession, AppSystemBase source) : base(acSession, source) { }
             }

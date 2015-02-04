@@ -196,7 +196,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 var messageDispatcher = _set._acDomain.MessageDispatcher;
                 if (messageDispatcher == null)
                 {
-                    throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(_set._acDomain.Name));
+                    throw new ArgumentNullException("AcDomain对象'{0}'尚未设置MessageDispatcher。".Fmt(_set._acDomain.Name));
                 }
                 messageDispatcher.Register((IHandler<AddSsdSetCommand>)this);
                 messageDispatcher.Register((IHandler<SsdSetAddedEvent>)this);
@@ -279,7 +279,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
             }
 
-            private class PrivateSsdSetAddedEvent : SsdSetAddedEvent
+            private class PrivateSsdSetAddedEvent : SsdSetAddedEvent, IPrivateEvent
             {
                 internal PrivateSsdSetAddedEvent(IAcSession acSession, SsdSetBase source, ISsdSetCreateIo input)
                     : base(acSession, source, input)
@@ -369,7 +369,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 ssdSetDic[state.Id] = state;
             }
 
-            private class PrivateSsdSetUpdatedEvent : SsdSetUpdatedEvent
+            private class PrivateSsdSetUpdatedEvent : SsdSetUpdatedEvent, IPrivateEvent
             {
                 internal PrivateSsdSetUpdatedEvent(IAcSession acSession, SsdSetBase source, ISsdSetUpdateIo input)
                     : base(acSession, source, input)
@@ -443,7 +443,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
             }
 
-            private class PrivateSsdSetRemovedEvent : SsdSetRemovedEvent
+            private class PrivateSsdSetRemovedEvent : SsdSetRemovedEvent, IPrivateEvent
             {
                 internal PrivateSsdSetRemovedEvent(IAcSession acSession, SsdSetBase source)
                     : base(acSession, source)
@@ -532,7 +532,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
             }
 
-            private class PrivateSsdRoleAddedEvent : SsdRoleAddedEvent
+            private class PrivateSsdRoleAddedEvent : SsdRoleAddedEvent, IPrivateEvent
             {
                 internal PrivateSsdRoleAddedEvent(IAcSession acSession, SsdRoleBase source, ISsdRoleCreateIo input)
                     : base(acSession, source, input)
@@ -617,7 +617,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
             }
 
-            private class PrivateSsdRoleRemovedEvent : SsdRoleRemovedEvent
+            private class PrivateSsdRoleRemovedEvent : SsdRoleRemovedEvent, IPrivateEvent
             {
                 internal PrivateSsdRoleRemovedEvent(IAcSession acSession, SsdRoleBase source)
                     : base(acSession, source)

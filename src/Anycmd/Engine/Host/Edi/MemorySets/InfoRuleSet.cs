@@ -53,7 +53,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             var messageDispatcher = acDomain.MessageDispatcher;
             if (messageDispatcher == null)
             {
-                throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(acDomain.Name));
+                throw new ArgumentNullException("AcDomain对象'{0}'尚未设置MessageDispatcher。".Fmt(acDomain.Name));
             }
         }
 

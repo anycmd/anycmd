@@ -159,7 +159,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 var messageDispatcher = _set._acDomain.MessageDispatcher;
                 if (messageDispatcher == null)
                 {
-                    throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(_set._acDomain.Name));
+                    throw new ArgumentNullException("AcDomain对象'{0}'尚未设置MessageDispatcher。".Fmt(_set._acDomain.Name));
                 }
                 messageDispatcher.Register((IHandler<AddButtonCommand>)this);
                 messageDispatcher.Register((IHandler<ButtonAddedEvent>)this);
@@ -244,7 +244,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
             }
 
-            private class PrivateButtonAddedEvent : ButtonAddedEvent
+            private class PrivateButtonAddedEvent : ButtonAddedEvent, IPrivateEvent
             {
                 internal PrivateButtonAddedEvent(IAcSession acSession, ButtonBase source, IButtonCreateIo input)
                     : base(acSession, source, input)
@@ -252,6 +252,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 }
             }
+
             public void Handle(UpdateButtonCommand message)
             {
                 Handle(message.AcSession, message.Input, isCommand: true);
@@ -350,7 +351,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
             }
 
-            private class PrivateButtonUpdatedEvent : ButtonUpdatedEvent
+            private class PrivateButtonUpdatedEvent : ButtonUpdatedEvent, IPrivateEvent
             {
                 internal PrivateButtonUpdatedEvent(IAcSession acSession, ButtonBase source, IButtonUpdateIo input)
                     : base(acSession, source, input)
@@ -358,6 +359,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 }
             }
+
             public void Handle(RemoveButtonCommand message)
             {
                 Handle(message.AcSession, message.EntityId, isCommand: true);
@@ -439,7 +441,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
             }
 
-            private class PrivateButtonRemovedEvent : ButtonRemovedEvent
+            private class PrivateButtonRemovedEvent : ButtonRemovedEvent, IPrivateEvent
             {
                 internal PrivateButtonRemovedEvent(IAcSession acSession, ButtonBase source)
                     : base(acSession, source)

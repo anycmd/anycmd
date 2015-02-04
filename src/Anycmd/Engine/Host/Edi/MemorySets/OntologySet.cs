@@ -381,7 +381,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 var messageDispatcher = _set._acDomain.MessageDispatcher;
                 if (messageDispatcher == null)
                 {
-                    throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(_set._acDomain.Name));
+                    throw new ArgumentNullException("AcDomain对象'{0}'尚未设置MessageDispatcher。".Fmt(_set._acDomain.Name));
                 }
                 messageDispatcher.Register((IHandler<AddOntologyCommand>)this);
                 messageDispatcher.Register((IHandler<OntologyAddedEvent>)this);
@@ -465,7 +465,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
             }
 
-            private class PrivateOntologyAddedEvent : OntologyAddedEvent
+            private class PrivateOntologyAddedEvent : OntologyAddedEvent, IPrivateEvent
             {
                 public PrivateOntologyAddedEvent(IAcSession acSession, OntologyBase source, IOntologyCreateIo input)
                     : base(acSession, source, input)
@@ -567,7 +567,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
             }
 
-            private class PrivateOntologyUpdatedEvent : OntologyUpdatedEvent
+            private class PrivateOntologyUpdatedEvent : OntologyUpdatedEvent, IPrivateEvent
             {
                 public PrivateOntologyUpdatedEvent(IAcSession acSession, OntologyBase source, IOntologyUpdateIo input)
                     : base(acSession, source, input)
@@ -680,7 +680,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
             }
 
-            private class PrivateOntologyRemovedEvent : OntologyRemovedEvent
+            private class PrivateOntologyRemovedEvent : OntologyRemovedEvent, IPrivateEvent
             {
                 public PrivateOntologyRemovedEvent(IAcSession acSession, OntologyBase source) : base(acSession, source) { }
             }
@@ -828,7 +828,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     var messageDispatcher = _set._acDomain.MessageDispatcher;
                     if (messageDispatcher == null)
                     {
-                        throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(_set._acDomain.Name));
+                        throw new ArgumentNullException("AcDomain对象'{0}'尚未设置MessageDispatcher。".Fmt(_set._acDomain.Name));
                     }
                     messageDispatcher.Register((IHandler<AddElementCommand>)this);
                     messageDispatcher.Register((IHandler<AddSystemElementCommand>)this);
@@ -1259,7 +1259,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     var messageDispatcher = _set._acDomain.MessageDispatcher;
                     if (messageDispatcher == null)
                     {
-                        throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(_set._acDomain.Name));
+                        throw new ArgumentNullException("AcDomain对象'{0}'尚未设置MessageDispatcher。".Fmt(_set._acDomain.Name));
                     }
                     messageDispatcher.Register((IHandler<AddActionCommand>)this);
                     messageDispatcher.Register((IHandler<UpdateActionCommand>)this);
@@ -1544,7 +1544,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     var messageDispatcher = _set._acDomain.MessageDispatcher;
                     if (messageDispatcher == null)
                     {
-                        throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(_set._acDomain.Name));
+                        throw new ArgumentNullException("AcDomain对象'{0}'尚未设置MessageDispatcher。".Fmt(_set._acDomain.Name));
                     }
                     messageDispatcher.Register((IHandler<AddInfoGroupCommand>)this);
                     messageDispatcher.Register((IHandler<UpdateInfoGroupCommand>)this);
@@ -1825,7 +1825,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     var messageDispatcher = set._acDomain.MessageDispatcher;
                     if (messageDispatcher == null)
                     {
-                        throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(set._acDomain.Name));
+                        throw new ArgumentNullException("AcDomain对象'{0}'尚未设置MessageDispatcher。".Fmt(set._acDomain.Name));
                     }
                     messageDispatcher.Register((IHandler<AddOntologyCatalogCommand>)this);
                     messageDispatcher.Register((IHandler<OntologyCatalogAddedEvent>)this);
@@ -1907,7 +1907,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                 }
 
-                private class PrivateOntologyCatalogAddedEvent : OntologyCatalogAddedEvent
+                private class PrivateOntologyCatalogAddedEvent : OntologyCatalogAddedEvent, IPrivateEvent
                 {
                     public PrivateOntologyCatalogAddedEvent(IAcSession acSession, OntologyCatalogBase source, IOntologyCatalogCreateIo input)
                         : base(acSession, source, input)
@@ -1993,7 +1993,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                 }
 
-                private class PrivateOntologyCatalogRemovedEvent : OntologyCatalogRemovedEvent
+                private class PrivateOntologyCatalogRemovedEvent : OntologyCatalogRemovedEvent, IPrivateEvent
                 {
                     public PrivateOntologyCatalogRemovedEvent(IAcSession acSession, OntologyCatalogBase source) : base(acSession, source) { }
                 }
@@ -2136,7 +2136,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     var messageDispatcher = _set._acDomain.MessageDispatcher;
                     if (messageDispatcher == null)
                     {
-                        throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(_set._acDomain.Name));
+                        throw new ArgumentNullException("AcDomain对象'{0}'尚未设置MessageDispatcher。".Fmt(_set._acDomain.Name));
                     }
                     messageDispatcher.Register((IHandler<AddTopicCommand>)this);
                     messageDispatcher.Register((IHandler<UpdateTopicCommand>)this);
@@ -2435,7 +2435,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     var messageDispatcher = _set._acDomain.MessageDispatcher;
                     if (messageDispatcher == null)
                     {
-                        throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(_set._acDomain.Name));
+                        throw new ArgumentNullException("AcDomain对象'{0}'尚未设置MessageDispatcher。".Fmt(_set._acDomain.Name));
                     }
                     messageDispatcher.Register((IHandler<AddArchiveCommand>)this);
                     messageDispatcher.Register((IHandler<UpdateArchiveCommand>)this);

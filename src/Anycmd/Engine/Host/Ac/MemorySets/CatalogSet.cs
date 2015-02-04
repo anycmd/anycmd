@@ -146,7 +146,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 var messageDispatcher = _set._acDomain.MessageDispatcher;
                 if (messageDispatcher == null)
                 {
-                    throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(_set._acDomain.Name));
+                    throw new ArgumentNullException("AcDomain对象'{0}'尚未设置MessageDispatcher。".Fmt(_set._acDomain.Name));
                 }
                 messageDispatcher.Register((IHandler<AddCatalogCommand>)this);
                 messageDispatcher.Register((IHandler<CatalogAddedEvent>)this);
@@ -262,7 +262,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
             }
 
-            private class PrivateCatalogAddedEvent : CatalogAddedEvent
+            private class PrivateCatalogAddedEvent : CatalogAddedEvent, IPrivateEvent
             {
                 internal PrivateCatalogAddedEvent(IAcSession acSession, CatalogBase source, ICatalogCreateIo input)
                     : base(acSession, source, input)
@@ -383,7 +383,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
             }
 
-            private class PrivateCatalogUpdatedEvent : CatalogUpdatedEvent
+            private class PrivateCatalogUpdatedEvent : CatalogUpdatedEvent, IPrivateEvent
             {
                 internal PrivateCatalogUpdatedEvent(IAcSession acSession, CatalogBase source, ICatalogUpdateIo input) : base(acSession, source, input) { }
             }
@@ -464,7 +464,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
             }
 
-            private class PrivateCatalogRemovedEvent : CatalogRemovedEvent
+            private class PrivateCatalogRemovedEvent : CatalogRemovedEvent, IPrivateEvent
             {
                 internal PrivateCatalogRemovedEvent(IAcSession acSession, CatalogBase source)
                     : base(acSession, source)

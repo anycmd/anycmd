@@ -230,7 +230,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 var messageDispatcher = _set._acDomain.MessageDispatcher;
                 if (messageDispatcher == null)
                 {
-                    throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(_set._acDomain.Name));
+                    throw new ArgumentNullException("AcDomain对象'{0}'尚未设置MessageDispatcher。".Fmt(_set._acDomain.Name));
                 }
                 messageDispatcher.Register((IHandler<AddInfoDicCommand>)this);
                 messageDispatcher.Register((IHandler<InfoDicAddedEvent>)this);
@@ -328,7 +328,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
             }
 
-            private class PrivateInfoDicAddedEvent : InfoDicAddedEvent
+            private class PrivateInfoDicAddedEvent : InfoDicAddedEvent, IPrivateEvent
             {
                 public PrivateInfoDicAddedEvent(IAcSession acSession, InfoDicBase source, IInfoDicCreateIo input)
                     : base(acSession, source, input)
@@ -427,7 +427,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
             }
 
-            private class PrivateInfoDicUpdatedEvent : InfoDicUpdatedEvent
+            private class PrivateInfoDicUpdatedEvent : InfoDicUpdatedEvent, IPrivateEvent
             {
                 public PrivateInfoDicUpdatedEvent(IAcSession acSession, InfoDicBase source, IInfoDicUpdateIo input)
                     : base(acSession, source, input)
@@ -510,7 +510,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
             }
 
-            private class PrivateInfoDicRemovedEvent : InfoDicRemovedEvent
+            private class PrivateInfoDicRemovedEvent : InfoDicRemovedEvent, IPrivateEvent
             {
                 internal PrivateInfoDicRemovedEvent(IAcSession acSession, InfoDicBase source)
                     : base(acSession, source)
@@ -607,7 +607,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
             }
 
-            private class PrivateInfoDicItemAddedEvent : InfoDicItemAddedEvent
+            private class PrivateInfoDicItemAddedEvent : InfoDicItemAddedEvent, IPrivateEvent
             {
                 internal PrivateInfoDicItemAddedEvent(IAcSession acSession, InfoDicItemBase source, IInfoDicItemCreateIo input)
                     : base(acSession, source, input)
@@ -718,7 +718,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
             }
 
-            private class PrivateInfoDicItemUpdatedEvent : InfoDicItemUpdatedEvent
+            private class PrivateInfoDicItemUpdatedEvent : InfoDicItemUpdatedEvent, IPrivateEvent
             {
                 internal PrivateInfoDicItemUpdatedEvent(IAcSession acSession, InfoDicItemBase source, IInfoDicItemUpdateIo input)
                     : base(acSession, source, input)
@@ -806,7 +806,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
             }
 
-            private class PrivateInfoDicItemRemovedEvent : InfoDicItemRemovedEvent
+            private class PrivateInfoDicItemRemovedEvent : InfoDicItemRemovedEvent, IPrivateEvent
             {
                 internal PrivateInfoDicItemRemovedEvent(IAcSession acSession, InfoDicItemBase source)
                     : base(acSession, source)

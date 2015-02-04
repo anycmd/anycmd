@@ -165,7 +165,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 var messageDispatcher = _set._acDomain.MessageDispatcher;
                 if (messageDispatcher == null)
                 {
-                    throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(_set._acDomain.Name));
+                    throw new ArgumentNullException("AcDomain对象'{0}'尚未设置MessageDispatcher。".Fmt(_set._acDomain.Name));
                 }
                 messageDispatcher.Register((IHandler<AddUiViewCommand>)this);
                 messageDispatcher.Register((IHandler<UiViewAddedEvent>)this);
@@ -292,7 +292,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
             }
 
-            private class PrivateUiViewAddedEvent : UiViewAddedEvent
+            private class PrivateUiViewAddedEvent : UiViewAddedEvent, IPrivateEvent
             {
                 internal PrivateUiViewAddedEvent(IAcSession acSession, UiViewBase source, IUiViewCreateIo input)
                     : base(acSession, source, input)
@@ -382,7 +382,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 viewDicByFunction[function] = state;
             }
 
-            private class PrivateUiViewUpdatedEvent : UiViewUpdatedEvent
+            private class PrivateUiViewUpdatedEvent : UiViewUpdatedEvent, IPrivateEvent
             {
                 internal PrivateUiViewUpdatedEvent(IAcSession acSession, UiViewBase source, IUiViewUpdateIo input)
                     : base(acSession, source, input)
@@ -481,7 +481,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
             }
 
-            private class PrivateUiViewRemovedEvent : UiViewRemovedEvent
+            private class PrivateUiViewRemovedEvent : UiViewRemovedEvent, IPrivateEvent
             {
                 internal PrivateUiViewRemovedEvent(IAcSession acSession, UiViewBase source)
                     : base(acSession, source)
@@ -601,7 +601,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     var messageDispatcher = _set._acDomain.MessageDispatcher;
                     if (messageDispatcher == null)
                     {
-                        throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(_set._acDomain.Name));
+                        throw new ArgumentNullException("AcDomain对象'{0}'尚未设置MessageDispatcher。".Fmt(_set._acDomain.Name));
                     }
                     messageDispatcher.Register((IHandler<AddUiViewButtonCommand>)this);
                     messageDispatcher.Register((IHandler<UiViewButtonAddedEvent>)this);
@@ -781,7 +781,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                 }
 
-                private class PrivateUiViewButtonAddedEvent : UiViewButtonAddedEvent
+                private class PrivateUiViewButtonAddedEvent : UiViewButtonAddedEvent, IPrivateEvent
                 {
                     internal PrivateUiViewButtonAddedEvent(IAcSession acSession, UiViewButtonBase source, IUiViewButtonCreateIo input) : base(acSession, source, input) { }
                 }
@@ -879,7 +879,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                 }
 
-                private class PrivateUiViewButtonUpdatedEvent : UiViewButtonUpdatedEvent
+                private class PrivateUiViewButtonUpdatedEvent : UiViewButtonUpdatedEvent, IPrivateEvent
                 {
                     internal PrivateUiViewButtonUpdatedEvent(IAcSession acSession, UiViewButtonBase source, IUiViewButtonUpdateIo input)
                         : base(acSession, source, input)
@@ -966,7 +966,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                 }
 
-                private class PrivateUiViewButtonRemovedEvent : UiViewButtonRemovedEvent
+                private class PrivateUiViewButtonRemovedEvent : UiViewButtonRemovedEvent, IPrivateEvent
                 {
                     internal PrivateUiViewButtonRemovedEvent(IAcSession acSession, UiViewButtonBase source)
                         : base(acSession, source)

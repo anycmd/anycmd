@@ -219,7 +219,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 var messageDispatcher = _set._acDomain.MessageDispatcher;
                 if (messageDispatcher == null)
                 {
-                    throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(_set._acDomain.Name));
+                    throw new ArgumentNullException("AcDomain对象'{0}'尚未设置MessageDispatcher。".Fmt(_set._acDomain.Name));
                 }
                 messageDispatcher.Register((IHandler<AddDicCommand>)this);
                 messageDispatcher.Register((IHandler<DicAddedEvent>)this);
@@ -308,7 +308,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
             }
 
-            private class PrivateDicAddedEvent : DicAddedEvent
+            private class PrivateDicAddedEvent : DicAddedEvent, IPrivateEvent
             {
                 internal PrivateDicAddedEvent(IAcSession acSession, DicBase source, IDicCreateIo input)
                     : base(acSession, source, input)
@@ -316,6 +316,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 }
             }
+
             public void Handle(UpdateDicCommand message)
             {
                 Handle(message.AcSession, message.Input, true);
@@ -410,7 +411,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
             }
 
-            private class PrivateDicUpdatedEvent : DicUpdatedEvent
+            private class PrivateDicUpdatedEvent : DicUpdatedEvent, IPrivateEvent
             {
                 internal PrivateDicUpdatedEvent(IAcSession acSession, DicBase source, IDicUpdateIo input)
                     : base(acSession, source, input)
@@ -418,6 +419,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 }
             }
+
             public void Handle(RemoveDicCommand message)
             {
                 Handle(message.AcSession, message.EntityId, true);
@@ -512,7 +514,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
             }
 
-            private class PrivateDicRemovedEvent : DicRemovedEvent
+            private class PrivateDicRemovedEvent : DicRemovedEvent, IPrivateEvent
             {
                 internal PrivateDicRemovedEvent(IAcSession acSession, DicBase dic) : base(acSession, dic) { }
             }
@@ -542,7 +544,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 var messageDispatcher = acDomain.MessageDispatcher;
                 if (messageDispatcher == null)
                 {
-                    throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(acDomain.Name));
+                    throw new ArgumentNullException("AcDomain对象'{0}'尚未设置MessageDispatcher。".Fmt(acDomain.Name));
                 }
                 var handles = new DicItemMessageHandler(this);
                 messageDispatcher.Register((IHandler<AddDicItemCommand>)handles);
@@ -780,7 +782,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                 }
 
-                private class PrivateDicItemAddedEvent : DicItemAddedEvent
+                private class PrivateDicItemAddedEvent : DicItemAddedEvent, IPrivateEvent
                 {
                     internal PrivateDicItemAddedEvent(IAcSession acSession, DicItemBase source, IDicItemCreateIo input)
                         : base(acSession, source, input)
@@ -893,7 +895,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                 }
 
-                private class PrivateDicItemUpdatedEvent : DicItemUpdatedEvent
+                private class PrivateDicItemUpdatedEvent : DicItemUpdatedEvent, IPrivateEvent
                 {
                     internal PrivateDicItemUpdatedEvent(IAcSession acSession, DicItemBase source, IDicItemUpdateIo input)
                         : base(acSession, source, input)
@@ -986,7 +988,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                 }
 
-                private class PrivateDicItemRemovedEvent : DicItemRemovedEvent
+                private class PrivateDicItemRemovedEvent : DicItemRemovedEvent, IPrivateEvent
                 {
                     internal PrivateDicItemRemovedEvent(IAcSession acSession, DicItemBase source)
                         : base(acSession, source)

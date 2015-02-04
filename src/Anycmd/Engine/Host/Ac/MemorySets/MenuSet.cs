@@ -115,7 +115,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 var messageDispatcher = _set._acDomain.MessageDispatcher;
                 if (messageDispatcher == null)
                 {
-                    throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(_set._acDomain.Name));
+                    throw new ArgumentNullException("AcDomain对象'{0}'尚未设置MessageDispatcher。".Fmt(_set._acDomain.Name));
                 }
                 messageDispatcher.Register((IHandler<AddMenuCommand>)this);
                 messageDispatcher.Register((IHandler<MenuAddedEvent>)this);
@@ -212,7 +212,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
             }
 
-            private class PrivateMenuAddedEvent : MenuAddedEvent
+            private class PrivateMenuAddedEvent : MenuAddedEvent, IPrivateEvent
             {
                 internal PrivateMenuAddedEvent(IAcSession acSession, MenuBase source, IMenuCreateIo input)
                     : base(acSession, source, input)
@@ -220,6 +220,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 }
             }
+
             public void Handle(UpdateMenuCommand message)
             {
                 this.Handle(message.AcSession, message.Input, true);
@@ -291,7 +292,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
             }
 
-            private class PrivateMenuUpdatedEvent : MenuUpdatedEvent
+            private class PrivateMenuUpdatedEvent : MenuUpdatedEvent, IPrivateEvent
             {
                 internal PrivateMenuUpdatedEvent(IAcSession acSession, MenuBase source, IMenuUpdateIo input)
                     : base(acSession, source, input)
@@ -379,7 +380,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
             }
 
-            private class PrivateMenuRemovedEvent : MenuRemovedEvent
+            private class PrivateMenuRemovedEvent : MenuRemovedEvent, IPrivateEvent
             {
                 internal PrivateMenuRemovedEvent(IAcSession acSession, MenuBase source)
                     : base(acSession, source)

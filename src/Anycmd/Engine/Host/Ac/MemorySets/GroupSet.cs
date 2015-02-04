@@ -121,7 +121,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 var messageDispatcher = _set._acDomain.MessageDispatcher;
                 if (messageDispatcher == null)
                 {
-                    throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(_set._acDomain.Name));
+                    throw new ArgumentNullException("AcDomain对象'{0}'尚未设置MessageDispatcher。".Fmt(_set._acDomain.Name));
                 }
                 messageDispatcher.Register((IHandler<AddGroupCommand>)this);
                 messageDispatcher.Register((IHandler<GroupAddedEvent>)this);
@@ -293,7 +293,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
             }
 
-            private class PrivateGroupAddedEvent : GroupAddedEvent
+            private class PrivateGroupAddedEvent : GroupAddedEvent, IPrivateEvent
             {
                 internal PrivateGroupAddedEvent(IAcSession acSession, GroupBase source, IGroupCreateIo input)
                     : base(acSession, source, input)
@@ -301,7 +301,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 }
             }
-            private class PrivatePositionAddedEvent : PositionAddedEvent
+
+            private class PrivatePositionAddedEvent : PositionAddedEvent, IPrivateEvent
             {
                 internal PrivatePositionAddedEvent(IAcSession acSession, GroupBase source, IPositionCreateIo input)
                     : base(acSession, source, input)
@@ -468,7 +469,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 groupDic[state.Id] = state;
             }
 
-            private class PrivateGroupUpdatedEvent : GroupUpdatedEvent
+            private class PrivateGroupUpdatedEvent : GroupUpdatedEvent, IPrivateEvent
             {
                 internal PrivateGroupUpdatedEvent(IAcSession acSession, GroupBase source, IGroupUpdateIo input)
                     : base(acSession, source, input)
@@ -477,7 +478,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
             }
 
-            private class PrivatePositionUpdatedEvent : PositionUpdatedEvent
+            private class PrivatePositionUpdatedEvent : PositionUpdatedEvent, IPrivateEvent
             {
                 internal PrivatePositionUpdatedEvent(IAcSession acSession, GroupBase source, IPositionUpdateIo input)
                     : base(acSession, source, input)
@@ -573,7 +574,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
             }
 
-            private class PrivateGroupRemovedEvent : GroupRemovedEvent
+            private class PrivateGroupRemovedEvent : GroupRemovedEvent, IPrivateEvent
             {
                 internal PrivateGroupRemovedEvent(IAcSession acSession, GroupBase source)
                     : base(acSession, source)
@@ -582,7 +583,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
             }
 
-            private class PrivatePositionRemovedEvent : PositionRemovedEvent
+            private class PrivatePositionRemovedEvent : PositionRemovedEvent, IPrivateEvent
             {
                 internal PrivatePositionRemovedEvent(IAcSession acSession, GroupBase source)
                     : base(acSession, source)

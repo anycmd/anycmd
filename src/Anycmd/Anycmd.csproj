@@ -121,6 +121,7 @@
     <Compile Include="Engine\Host\Edi\MessageHandlers\UpdateStateCodeCommandHandler.cs" />
     <Compile Include="Engine\Host\IMemorySet.cs" />
     <Compile Include="Engine\Host\Impl\DefaultAcSessionMethod.cs" />
+    <Compile Include="Engine\Host\IPrivateEvent.cs" />
     <Compile Include="Engine\Host\MemorySetInitializedEvent.cs" />
     <Compile Include="Engine\Host\MemorySetInitingEvent.cs" />
     <Compile Include="Engine\Host\Rdb\MessageHandlers\UpdateDatabaseCommandHandler.cs" />

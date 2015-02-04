@@ -168,7 +168,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 var messageDispatcher = _set._acDomain.MessageDispatcher;
                 if (messageDispatcher == null)
                 {
-                    throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(_set._acDomain.Name));
+                    throw new ArgumentNullException("AcDomain对象'{0}'尚未设置MessageDispatcher。".Fmt(_set._acDomain.Name));
                 }
                 messageDispatcher.Register((IHandler<AddResourceCommand>)this);
                 messageDispatcher.Register((IHandler<ResourceTypeAddedEvent>)this);
@@ -267,7 +267,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
             }
 
-            private class PrivateResourceAddedEvent : ResourceTypeAddedEvent
+            private class PrivateResourceAddedEvent : ResourceTypeAddedEvent, IPrivateEvent
             {
                 internal PrivateResourceAddedEvent(IAcSession acSession, ResourceTypeBase source, IResourceTypeCreateIo input)
                     : base(acSession, source, input)
@@ -389,7 +389,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
             }
 
-            private class PrivateResourceUpdatedEvent : ResourceTypeUpdatedEvent
+            private class PrivateResourceUpdatedEvent : ResourceTypeUpdatedEvent, IPrivateEvent
             {
                 internal PrivateResourceUpdatedEvent(IAcSession acSession, ResourceTypeBase source, IResourceTypeUpdateIo input)
                     : base(acSession, source, input)
@@ -397,6 +397,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 }
             }
+
             public void Handle(RemoveResourceTypeCommand message)
             {
                 this.Handle(message.AcSession, message.EntityId, true);
@@ -484,7 +485,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
             }
 
-            private class PrivateResourceRemovedEvent : ResourceTypeRemovedEvent
+            private class PrivateResourceRemovedEvent : ResourceTypeRemovedEvent, IPrivateEvent
             {
                 internal PrivateResourceRemovedEvent(IAcSession acSession, ResourceTypeBase source)
                     : base(acSession, source)

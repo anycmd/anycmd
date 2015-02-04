@@ -192,7 +192,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 var messageDispatcher = _set._acDomain.MessageDispatcher;
                 if (messageDispatcher == null)
                 {
-                    throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(_set._acDomain.Name));
+                    throw new ArgumentNullException("AcDomain对象'{0}'尚未设置MessageDispatcher。".Fmt(_set._acDomain.Name));
                 }
                 messageDispatcher.Register((IHandler<AddDsdSetCommand>)this);
                 messageDispatcher.Register((IHandler<DsdSetAddedEvent>)this);
@@ -271,7 +271,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
             }
 
-            private class PrivateDsdSetAddedEvent : DsdSetAddedEvent
+            private class PrivateDsdSetAddedEvent : DsdSetAddedEvent, IPrivateEvent
             {
                 internal PrivateDsdSetAddedEvent(IAcSession acSession, DsdSetBase source, IDsdSetCreateIo input)
                     : base(acSession, source, input)
@@ -367,7 +367,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
             }
 
-            private class PrivateDsdSetUpdatedEvent : DsdSetUpdatedEvent
+            private class PrivateDsdSetUpdatedEvent : DsdSetUpdatedEvent, IPrivateEvent
             {
                 internal PrivateDsdSetUpdatedEvent(IAcSession acSession, DsdSetBase source, IDsdSetUpdateIo input)
                     : base(acSession, source, input)
@@ -441,7 +441,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
             }
 
-            private class PrivateDsdSetRemovedEvent : DsdSetRemovedEvent
+            private class PrivateDsdSetRemovedEvent : DsdSetRemovedEvent, IPrivateEvent
             {
                 internal PrivateDsdSetRemovedEvent(IAcSession acSession, DsdSetBase source)
                     : base(acSession, source)
@@ -530,7 +530,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
             }
 
-            private class PrivateDsdRoleAddedEvent : DsdRoleAddedEvent
+            private class PrivateDsdRoleAddedEvent : DsdRoleAddedEvent, IPrivateEvent
             {
                 internal PrivateDsdRoleAddedEvent(IAcSession acSession, DsdRoleBase source, IDsdRoleCreateIo input)
                     : base(acSession, source, input)
@@ -615,7 +615,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
             }
 
-            private class PrivateDsdRoleRemovedEvent : DsdRoleRemovedEvent
+            private class PrivateDsdRoleRemovedEvent : DsdRoleRemovedEvent, IPrivateEvent
             {
                 internal PrivateDsdRoleRemovedEvent(IAcSession acSession, DsdRoleBase source)
                     : base(acSession, source)

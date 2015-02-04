@@ -119,7 +119,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 var messageDispatcher = _set._acDomain.MessageDispatcher;
                 if (messageDispatcher == null)
                 {
-                    throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(_set._acDomain.Name));
+                    throw new ArgumentNullException("AcDomain对象'{0}'尚未设置MessageDispatcher。".Fmt(_set._acDomain.Name));
                 }
                 messageDispatcher.Register((IHandler<AddPrivilegeCommand>)this);
                 messageDispatcher.Register((IHandler<PrivilegeAddedEvent>)this);
@@ -589,7 +589,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
             }
 
-            private class PrivatePrivilegeUpdatedEvent : PrivilegeUpdatedEvent
+            private class PrivatePrivilegeUpdatedEvent : PrivilegeUpdatedEvent, IPrivateEvent
             {
                 internal PrivatePrivilegeUpdatedEvent(IAcSession acSession, PrivilegeBase source, IPrivilegeUpdateIo input)
                     : base(acSession, source, input)
@@ -597,6 +597,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 }
             }
+
             public void Handle(RemovePrivilegeCommand message)
             {
                 this.Handle(message.AcSession, message.EntityId, true);
@@ -668,7 +669,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
             }
 
-            private class PrivatePrivilegeRemovedEvent : PrivilegeRemovedEvent
+            private class PrivatePrivilegeRemovedEvent : PrivilegeRemovedEvent, IPrivateEvent
             {
                 internal PrivatePrivilegeRemovedEvent(IAcSession acSession, PrivilegeBase source)
                     : base(acSession, source)

@@ -157,7 +157,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 var messageDispatcher = _set._acDomain.MessageDispatcher;
                 if (messageDispatcher == null)
                 {
-                    throw new ArgumentNullException("messageDispatcher has not be set of acDomain:{0}".Fmt(_set._acDomain.Name));
+                    throw new ArgumentNullException("AcDomain对象'{0}'尚未设置MessageDispatcher。".Fmt(_set._acDomain.Name));
                 }
                 messageDispatcher.Register((IHandler<AddFunctionCommand>)this);
                 messageDispatcher.Register((IHandler<FunctionAddedEvent>)this);
@@ -285,7 +285,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
             }
 
-            private class PrivateFunctionAddedEvent : FunctionAddedEvent
+            private class PrivateFunctionAddedEvent : FunctionAddedEvent, IPrivateEvent
             {
                 public PrivateFunctionAddedEvent(IAcSession acSession, FunctionBase source, IFunctionCreateIo input) : base(acSession, source, input) { }
             }
@@ -399,7 +399,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
             }
 
-            private class PrivateFunctionUpdatedEvent : FunctionUpdatedEvent
+            private class PrivateFunctionUpdatedEvent : FunctionUpdatedEvent, IPrivateEvent
             {
                 internal PrivateFunctionUpdatedEvent(IAcSession acSession, FunctionBase source, IFunctionUpdateIo input)
                     : base(acSession, source, input)
@@ -407,6 +407,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 }
             }
+
             public void Handle(RemoveFunctionCommand message)
             {
                 this.Handle(message.AcSession, message.EntityId, true);
@@ -500,7 +501,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
             }
 
-            private class PrivateFunctionRemovedEvent : FunctionRemovedEvent
+            private class PrivateFunctionRemovedEvent : FunctionRemovedEvent, IPrivateEvent
             {
                 internal PrivateFunctionRemovedEvent(IAcSession acSession, FunctionBase function)
                     : base(acSession, function)
