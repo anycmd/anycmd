@@ -2,6 +2,7 @@
 namespace Anycmd.Tests
 {
     using Ac.ViewModels.Identity.AccountViewModels;
+    using Ac.ViewModels.Infra.CatalogViewModels;
     using Engine.Ac;
     using Engine.Ac.Messages.Identity;
     using Engine.Host.Ac.Identity;
@@ -73,9 +74,7 @@ namespace Anycmd.Tests
                 {"password", "111111"},
                 {"rememberMe", "rememberMe"}
             });
-            acDomain.RemoveService(typeof(IRepository<Account>));
             acDomain.RemoveService(typeof(IRepository<DeveloperId>));
-            var moAccountRepository = acDomain.GetMoqRepository<Account, IRepository<Account>>();
             var moDeveloperRepository = acDomain.GetMoqRepository<DeveloperId, IRepository<DeveloperId>>();
             var entityId1 = Guid.NewGuid();
             var entityId2 = Guid.NewGuid();
@@ -84,28 +83,40 @@ namespace Anycmd.Tests
             const string loginName2 = "anycmd2";
             moDeveloperRepository.Setup(a => a.Add(It.Is<DeveloperId>(b => b.Id == entityId1))).Throws(new DbException(entityId1.ToString()));
             moDeveloperRepository.Setup(a => a.Remove(It.Is<DeveloperId>(b => b.Id == entityId2))).Throws(new DbException(entityId2.ToString()));
-            moAccountRepository.Setup<Account>(a => a.GetByKey(entityId1)).Returns(new Account { Id = entityId1, Name = name, LoginName = loginName1 });
-            moAccountRepository.Setup<Account>(a => a.GetByKey(entityId2)).Returns(new Account { Id = entityId2, Name = name, LoginName = loginName2 });
             moDeveloperRepository.Setup<DeveloperId>(a => a.GetByKey(entityId1)).Returns(new DeveloperId { Id = entityId1 });
             moDeveloperRepository.Setup<DeveloperId>(a => a.GetByKey(entityId2)).Returns(new DeveloperId { Id = entityId2 });
-            acDomain.AddService(typeof(IRepository<Account>), moAccountRepository.Object);
             acDomain.AddService(typeof(IRepository<DeveloperId>), moDeveloperRepository.Object);
-
-            acDomain.RetrieveRequiredService<IRepository<Account>>().Add(new Account
+            acDomain.Handle(new CatalogCreateInput
+            {
+                Id = Guid.NewGuid(),
+                Code = "100",
+                Name = "测试1",
+                Description = "test",
+                SortCode = 10,
+                Icon = null,
+            }.ToCommand(acDomain.GetAcSession()));
+            acDomain.Handle(new AddAccountCommand(acDomain.GetAcSession(), new AccountCreateInput()
             {
                 Id = entityId1,
+                CatalogCode = "100",
                 Code = "test",
                 Name = "test",
-                LoginName = loginName1
-            });
-            acDomain.RetrieveRequiredService<IRepository<Account>>().Add(new Account
+                AuditState = "auditPass",
+                LoginName = loginName1,
+                Password = "111111",
+                IsEnabled = 1
+            }));
+            acDomain.Handle(new AddAccountCommand(acDomain.GetAcSession(), new AccountCreateInput()
             {
                 Id = entityId2,
+                CatalogCode = "100",
                 Code = "tes2t",
                 Name = "test2",
+                AuditState = "auditPass",
                 LoginName = loginName2,
-                Password = "111111"
-            });
+                Password = "111111",
+                IsEnabled = 1
+            }));
             acDomain.RetrieveRequiredService<IRepository<Account>>().Context.Commit();
             Assert.IsNotNull(acDomain.RetrieveRequiredService<IRepository<Account>>().GetByKey(entityId2));
             Assert.IsNotNull(AcSessionState.AcMethod.GetAccountById(acDomain, entityId2));
@@ -140,6 +151,7 @@ namespace Anycmd.Tests
             });
             acDomain.Handle(new AccountUpdateInput
             {
+                CatalogCode = "100",
                 Id = entityId2,
                 Name = "test2"
             }.ToCommand(acDomain.GetAcSession()));
