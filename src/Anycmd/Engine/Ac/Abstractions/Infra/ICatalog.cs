@@ -70,11 +70,6 @@ namespace Anycmd.Engine.Ac.Abstractions.Infra
         string Name { get; }
 
         /// <summary>
-        /// 简称
-        /// </summary>
-        string ShortName { get; }
-
-        /// <summary>
         /// 父目录编码
         /// <remarks>
         /// 设计通过以父级目录编码为前缀来表现层级关系而不记录ParentId也不记录层级的Level。
@@ -87,11 +82,6 @@ namespace Anycmd.Engine.Ac.Abstractions.Infra
         /// 目录分类。
         /// </summary>
         string CategoryCode { get; }
-
-        /// <summary>
-        /// 包工头标识
-        /// </summary>
-        Guid? ContractorId { get; }
 
         /// <summary>
         /// 说明

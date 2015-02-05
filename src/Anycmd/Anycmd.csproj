@@ -62,9 +62,7 @@
     <Compile Include="Document\BsonType.cs" />
     <Compile Include="Document\BsonValue.cs" />
     <Compile Include="Engine\Ac\Abstractions\AcRecordType.cs" />
-    <Compile Include="Engine\Ac\Abstractions\Infra\FieldBase.cs" />
     <Compile Include="Engine\Ac\Abstractions\IAcElement.cs" />
-    <Compile Include="Engine\Ac\Abstractions\Infra\IField.cs" />
     <Compile Include="Engine\Ac\Abstractions\Rbac\IAcSessionEntity.cs" />
     <Compile Include="Engine\Ac\Abstractions\SysAcSubjectType.cs" />
     <Compile Include="Engine\Ac\Abstractions\UserAcSubjectType.cs" />
@@ -98,7 +96,6 @@
     <Compile Include="Engine\Edi\Messages\InfoRuleUpdatedEvent.cs" />
     <Compile Include="Engine\Edi\Messages\UpdateInfoRuleCommand.cs" />
     <Compile Include="Engine\Edi\Messages\UpdateStateCodeCommand.cs" />
-    <Compile Include="Engine\Host\Ac\Infra\Field.cs" />
     <Compile Include="Engine\Host\Ac\MemorySets\AppSystemSet.cs" />
     <Compile Include="Engine\Host\Ac\MemorySets\ButtonSet.cs" />
     <Compile Include="Engine\Host\Ac\MemorySets\DicSet.cs" />

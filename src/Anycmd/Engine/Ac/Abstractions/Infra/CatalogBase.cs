@@ -3,7 +3,6 @@ namespace Anycmd.Engine.Ac.Abstractions.Infra
 {
     using Exceptions;
     using Model;
-    using System;
 
     /// <summary>
     /// 目录基类<see cref="ICatalog"/>
@@ -46,11 +45,6 @@ namespace Anycmd.Engine.Ac.Abstractions.Infra
         /// <summary>
         /// 
         /// </summary>
-        public string ShortName { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
         public string Name
         {
             get { return _name; }
@@ -63,11 +57,6 @@ namespace Anycmd.Engine.Ac.Abstractions.Infra
                 _name = value;
             }
         }
-
-        /// <summary>
-        /// 包工头标识
-        /// </summary>
-        public Guid? ContractorId { get; set; }
 
         /// <summary>
         /// 说明
@@ -83,41 +72,6 @@ namespace Anycmd.Engine.Ac.Abstractions.Infra
         /// 
         /// </summary>
         public string CategoryCode { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public string OuterPhone { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public string InnerPhone { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public string Fax { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public string Postalcode { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public string Address { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public string WebPage { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public string Icon { get; set; }
 
         /// <summary>
         /// 

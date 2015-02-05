@@ -22,10 +22,8 @@ namespace Anycmd.Engine.Ac
             _isEnabled = 1,
             _modifiedOn = null,
             _name = "虚拟根",
-            _shortName = "根",
             _parentCode = null,
-            _sortCode = 0,
-            _contractorId = null
+            _sortCode = 0
         };
 
         public static readonly CatalogState Empty = new CatalogState(Guid.Empty)
@@ -38,19 +36,15 @@ namespace Anycmd.Engine.Ac
             _isEnabled = 1,
             _modifiedOn = null,
             _name = "无",
-            _shortName = "无",
             _parentCode = null,
-            _contractorId = null,
             _sortCode = 0
         };
 
         private IAcDomain _acDomain;
         private string _code;
         private string _name;
-        private string _shortName;
         private string _parentCode;
         private string _categoryCode;
-        private Guid? _contractorId;
         private DateTime? _createOn;
         private DateTime? _modifiedOn;
         private string _description;
@@ -75,10 +69,8 @@ namespace Anycmd.Engine.Ac
                 _isEnabled = catalog.IsEnabled,
                 _modifiedOn = catalog.ModifiedOn,
                 _name = catalog.Name,
-                _shortName = catalog.ShortName,
                 _parentCode = catalog.ParentCode,
-                _sortCode = catalog.SortCode,
-                _contractorId = catalog.ContractorId
+                _sortCode = catalog.SortCode
             };
         }
 
@@ -132,11 +124,6 @@ namespace Anycmd.Engine.Ac
             get { return _name; }
         }
 
-        public string ShortName
-        {
-            get { return _shortName; }
-        }
-
         public string ParentCode
         {
             get { return _parentCode; }
@@ -145,14 +132,6 @@ namespace Anycmd.Engine.Ac
         public string CategoryCode
         {
             get { return _categoryCode; }
-        }
-
-        /// <summary>
-        /// 包工头
-        /// </summary>
-        public Guid? ContractorId
-        {
-            get { return _contractorId; }
         }
 
         public DateTime? CreateOn
@@ -180,35 +159,14 @@ namespace Anycmd.Engine.Ac
             get { return _sortCode; }
         }
 
-        public override string ToString()
-        {
-            return string.Format(
-@"{{
-    Id:'{0}',
-    Code:'{1}',
-    Name:'{2}',
-    ShortName:'{3}',
-    ParentCode:'{4}',
-    CategoryCode:'{5}',
-    ContractorId:'{6}'，
-    CreateOn:'{7}',
-    ModifiedOn:'{8}',
-    Description:'{9}',
-    IsEnabled:{10},
-    SortCode:{11}
-}}", Id, Code, Name, ShortName, ParentCode, CategoryCode, ContractorId, CreateOn, ModifiedOn, Description, IsEnabled, SortCode);
-        }
-
         protected override bool DoEquals(CatalogState other)
         {
             return Id == other.Id &&
                 Code == other.Code &&
                 Name == other.Name &&
-                ShortName == other.ShortName &&
                 ParentCode == other.ParentCode &&
                 CategoryCode == other.CategoryCode &&
                 IsEnabled == other.IsEnabled &&
-                ContractorId == other.ContractorId &&
                 SortCode == other.SortCode &&
                 Description == other.Description;
         }

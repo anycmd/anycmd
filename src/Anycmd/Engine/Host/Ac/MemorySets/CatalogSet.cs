@@ -207,7 +207,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                         CatalogState parentOragnization;
                         if (!acDomain.CatalogSet.TryGetCatalog(input.ParentCode, out parentOragnization))
                         {
-                            throw new NotExistException("标识为" + input.ParentCode + "的父目录不存在");
+                            throw new ValidationException("标识为" + input.ParentCode + "的父目录不存在");
                         }
                         if (string.Equals(input.Code, input.ParentCode) || !input.Code.StartsWith(parentOragnization.Code, StringComparison.OrdinalIgnoreCase))
                         {
@@ -314,7 +314,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                         CatalogState parentOragnization;
                         if (!acDomain.CatalogSet.TryGetCatalog(input.ParentCode, out parentOragnization))
                         {
-                            throw new NotExistException("标识为" + input.ParentCode + "的父目录不存在");
+                            throw new ValidationException("标识为" + input.ParentCode + "的父目录不存在");
                         }
                         if (input.ParentCode.Equals(input.Code, StringComparison.OrdinalIgnoreCase))
                         {

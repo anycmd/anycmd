@@ -141,17 +141,9 @@ namespace Anycmd.Engine.Host.Impl
                     ParentCode = row["ParentCode"] == DBNull.Value ? null : row["ParentCode"].ToString(),
                     CategoryCode = row["CategoryCode"] == DBNull.Value ? null : row["CategoryCode"].ToString(),
                     Code = (string)row["Code"],
-                    ShortName = row["ShortName"] == DBNull.Value ? null : row["ShortName"].ToString(),
                     Name = (string)row["Name"],
-                    OuterPhone = row["OuterPhone"] == DBNull.Value ? null : row["OuterPhone"].ToString(),
-                    InnerPhone = row["InnerPhone"] == DBNull.Value ? null : row["InnerPhone"].ToString(),
-                    Fax = row["Fax"] == DBNull.Value ? null : row["Fax"].ToString(),
-                    Postalcode = row["Postalcode"] == DBNull.Value ? null : row["Postalcode"].ToString(),
-                    Address = row["Address"] == DBNull.Value ? null : row["Address"].ToString(),
-                    WebPage = row["WebPage"] == DBNull.Value ? null : row["WebPage"].ToString(),
                     DeletionStateCode = (int)row["DeletionStateCode"],
                     IsEnabled = (int)row["IsEnabled"],
-                    Icon = row["Icon"] == DBNull.Value ? null : row["Icon"].ToString(),
                     SortCode = (int)row["SortCode"],
                     Description = row["Description"] == DBNull.Value ? null : row["Description"].ToString()
                 };
