@@ -56,6 +56,11 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="AcDomainExtension.cs" />
+    <Compile Include="Document\BsonArray.cs" />
+    <Compile Include="Document\BsonDocument.cs" />
+    <Compile Include="Document\BsonObject.cs" />
+    <Compile Include="Document\BsonType.cs" />
+    <Compile Include="Document\BsonValue.cs" />
     <Compile Include="Engine\Ac\Abstractions\AcRecordType.cs" />
     <Compile Include="Engine\Ac\Abstractions\Infra\FieldBase.cs" />
     <Compile Include="Engine\Ac\Abstractions\IAcElement.cs" />
@@ -266,6 +271,7 @@
     <Compile Include="Snapshots\AcDomainExtension.cs" />
     <Compile Include="StringIdAttribute.cs" />
     <Compile Include="Util\Coder.cs" />
+    <Compile Include="Util\DictionaryExtensions.cs" />
     <Compile Include="Util\IDAttribute.cs" />
     <Compile Include="Engine\StateObject`1.cs" />
     <Compile Include="Engine\Ac\AcSessionState.cs" />
