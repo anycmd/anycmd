@@ -13,6 +13,8 @@ namespace Anycmd.Engine.Ac
     /// </summary>
     public sealed class EntityTypeState : StateObject<EntityTypeState>, IEntityType
     {
+        public const string DefaultCodespace = "Default";
+
         public static readonly EntityTypeState Empty = new EntityTypeState(Guid.Empty)
         {
             _acDomain = EmptyAcDomain.SingleInstance,

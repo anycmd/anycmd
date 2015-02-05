@@ -86,7 +86,7 @@ namespace Anycmd.Web.Mvc
             #region 权限验证
             // 注意：数据约定
             var area = filterContext.RouteData.DataTokens["area"];
-            var codespace = area == null ? string.Empty : area.ToString();
+            var codespace = area == null ? EntityTypeState.DefaultCodespace : area.ToString();
             var entityTypeCode = controller;
             var modelAttrs = filterContext.ActionDescriptor.GetCustomAttributes(typeof(ModelAttribute), inherit: true);
             if (modelAttrs.Length == 1)
