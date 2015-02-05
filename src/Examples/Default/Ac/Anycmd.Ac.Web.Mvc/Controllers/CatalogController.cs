@@ -1,4 +1,6 @@
 ﻿
+using Anycmd.Engine.Host.Edi.Entities;
+
 namespace Anycmd.Ac.Web.Mvc.Controllers
 {
     using Anycmd.Web.Mvc;
@@ -164,7 +166,8 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 if (AcSession.IsDeveloper())
                 {
-                    return this.JsonResult(AcDomain.CatalogSet.Where(a => a != CatalogState.VirtualRoot && a.ParentCode == null).OrderBy(a => a.SortCode).Select(a => new CatalogMiniNode
+                    var nodeList = new List<CatalogMiniNode>();
+                    nodeList.AddRange(AcDomain.CatalogSet.Where(a => a != CatalogState.VirtualRoot && a.ParentCode == null).OrderBy(a => a.SortCode).Select(a => new CatalogMiniNode
                     {
                         CategoryCode = a.CategoryCode,
                         Code = a.Code,
@@ -176,6 +179,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                         ParentId = a.Parent.Id.ToString(),
                         SortCode = a.SortCode.ToString()
                     }));
+                    return this.JsonResult(nodeList);
                 }
                 else
                 {
@@ -196,12 +200,13 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             else
             {
                 var pid = parentId.Value;
-                CatalogState parentOrg;
-                if (!AcDomain.CatalogSet.TryGetCatalog(pid, out parentOrg))
+                CatalogState parentCatalog;
+                if (!AcDomain.CatalogSet.TryGetCatalog(pid, out parentCatalog))
                 {
                     throw new ValidationException("意外的目录标识" + pid);
                 }
-                return this.JsonResult(AcDomain.CatalogSet.Where(a => parentOrg.Code.Equals(a.ParentCode, StringComparison.OrdinalIgnoreCase)).OrderBy(a => a.SortCode).Select(a => new CatalogMiniNode
+                var nodeList = new List<CatalogMiniNode>();
+                nodeList.AddRange(AcDomain.CatalogSet.Where(a => parentCatalog.Code.Equals(a.ParentCode, StringComparison.OrdinalIgnoreCase)).OrderBy(a => a.SortCode).Select(a => new CatalogMiniNode
                 {
                     CategoryCode = a.CategoryCode,
                     Code = a.Code,
@@ -213,6 +218,19 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                     ParentId = a.Parent.Id.ToString(),
                     SortCode = a.SortCode.ToString()
                 }));
+                nodeList.AddRange(AcDomain.FunctionSet.Where(a => a.ResourceTypeId == pid).OrderBy(a => a.SortCode).Select(a => new CatalogMiniNode
+                {
+                    CategoryCode = "operation",
+                    Code = a.Code,
+                    expanded = false,
+                    Id = a.Id.ToString(),
+                    isLeaf = true,
+                    Name = a.Description,
+                    ParentCode = parentCatalog.Code,
+                    ParentId = pid.ToString(),
+                    SortCode = a.SortCode.ToString()
+                }));
+                return this.JsonResult(nodeList);
             }
         }
 
