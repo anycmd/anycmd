@@ -104,10 +104,6 @@ namespace Anycmd
         /// </summary>
         IPrivilegeSet PrivilegeSet { get; }
         /// <summary>
-        /// 资源类型数据集
-        /// </summary>
-        IResourceTypeSet ResourceTypeSet { get; }
-        /// <summary>
         /// 角色数据集
         /// </summary>
         IRoleSet RoleSet { get; }

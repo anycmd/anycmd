@@ -458,8 +458,6 @@ namespace Anycmd.Engine.Ac
                             }
                             break;
                         }
-                    case AcElementType.ResourceType:
-                        break;
                     case AcElementType.Privilege:
                         break;
                     default:

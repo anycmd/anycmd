@@ -5,6 +5,28 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="AcTableModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AcSession">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="AuthenticationType" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="IsAuthenticated" Type="bit" Nullable="false" />
+          <Property Name="LoginName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="AccountId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="IsEnabled" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="200" />
+          <Property Name="AcContentType" Type="varchar" MaxLength="50" />
+          <Property Name="AcContent" Type="varchar" MaxLength="2000" />
+          <Property Name="CreateOn" Type="datetime" />
+          <Property Name="CreateUserId" Type="uniqueidentifier" />
+          <Property Name="CreateBy" Type="varchar" MaxLength="50" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="ModifiedUserId" Type="uniqueidentifier" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" />
+          <Property Name="RowGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Etag" Type="timestamp" StoreGeneratedPattern="Computed" />
+        </EntityType>
         <EntityType Name="DsdRole">
           <Key>
             <PropertyRef Name="Id" />
@@ -124,36 +146,14 @@
           <Property Name="RowGuid" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Etag" Type="timestamp" StoreGeneratedPattern="Computed" />
         </EntityType>
-        <EntityType Name="AcSession">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="AuthenticationType" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="IsAuthenticated" Type="bit" Nullable="false" />
-          <Property Name="LoginName" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="AccountId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="IsEnabled" Type="int" Nullable="false" />
-          <Property Name="Description" Type="nvarchar" MaxLength="200" />
-          <Property Name="AcContentType" Type="varchar" MaxLength="50" />
-          <Property Name="AcContent" Type="varchar" MaxLength="2000" />
-          <Property Name="CreateOn" Type="datetime" />
-          <Property Name="CreateUserId" Type="uniqueidentifier" />
-          <Property Name="CreateBy" Type="varchar" MaxLength="50" />
-          <Property Name="ModifiedOn" Type="datetime" />
-          <Property Name="ModifiedUserId" Type="uniqueidentifier" />
-          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" />
-          <Property Name="RowGuid" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Etag" Type="timestamp" StoreGeneratedPattern="Computed" />
-        </EntityType>
         <EntityContainer Name="AcTableModelStoreContainer">
+          <EntitySet Name="AcSession" EntityType="Self.AcSession" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DsdRole" EntityType="Self.DsdRole" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DsdSet" EntityType="Self.DsdSet" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Privilege" EntityType="Self.Privilege" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SsdRole" EntityType="Self.SsdRole" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SsdSet" EntityType="Self.SsdSet" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="AcSession" EntityType="Self.AcSession" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->

@@ -233,7 +233,6 @@
     <Content Include="Areas\Ac\Views\RDatabase\ViewDefinition.cshtml" />
     <Content Include="Areas\Edi\Views\Element\Checks.cshtml" />
     <Content Include="Areas\Ac\Views\UIView\Partials\Index.cshtml" />
-    <Content Include="Areas\Ac\Views\ResourceType\Partials\Index.cshtml" />
     <Content Include="Areas\Ac\Views\Function\Partials\Index.cshtml" />
     <Content Include="Areas\Ac\Views\Property\Partials\Index.cshtml" />
     <Content Include="Areas\Edi\Views\InfoDicItem\Partials\Index.cshtml" />
@@ -1051,7 +1050,6 @@
     <Content Include="Scripts\Areas\Ac\Group\Roles.cshtml.js" />
     <Content Include="Scripts\Areas\Ac\Help\Index.cshtml.js" />
     <Content Include="Scripts\Views\Home\Index.cshtml.js" />
-    <Content Include="Scripts\Areas\Ac\ResourceType\Index.cshtml.js" />
     <Content Include="Scripts\Areas\Ac\Menu\Children.cshtml.js" />
     <Content Include="Scripts\Areas\Ac\Catalog\Children.cshtml.js" />
     <Content Include="Scripts\Areas\Ac\Account\Roles.cshtml.js" />
@@ -1110,9 +1108,6 @@
     <Content Include="Areas\Ac\Views\Group\Index.cshtml" />
     <Content Include="Areas\Ac\Views\Group\Accounts.cshtml" />
     <Content Include="Areas\Ac\Views\Group\Roles.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Ac\Views\ResourceType\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Ac\Views\AppSystem\Index.cshtml" />
@@ -1324,9 +1319,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Ac\Views\UIView\UIViewButtons.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Ac\Views\ResourceType\Partials\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Scripts\kindeditor\asp.net\file_manager_json.ashx" />

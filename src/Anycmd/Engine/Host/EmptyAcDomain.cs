@@ -173,11 +173,6 @@ namespace Anycmd.Engine.Host
             get { return Rdb.MemorySets.Rdbs.Empty; }
         }
 
-        public IResourceTypeSet ResourceTypeSet
-        {
-            get { return Ac.MemorySets.ResourceTypeSet.Empty; }
-        }
-
         public IRoleSet RoleSet
         {
             get { return Ac.MemorySets.RoleSet.Empty; }

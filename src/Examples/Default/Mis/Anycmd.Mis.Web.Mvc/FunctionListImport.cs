@@ -85,7 +85,7 @@ namespace Anycmd.Mis.Web.Mvc
                                     bool isAction = isPage || actionResultType.IsAssignableFrom(method.ReturnType);
                                     string action = method.Name;
 
-                                    ResourceTypeState resource;
+                                    CatalogState resource;
                                     string description;
                                     Guid developerId;
                                     // 跳过不是Action的方法
@@ -123,7 +123,7 @@ namespace Anycmd.Mis.Web.Mvc
                                         throw new ValidationException(type.FullName + method.Name);
                                     }
 
-                                    if (!acDomain.ResourceTypeSet.TryGetResource(appSystem, resourceCode, out resource))
+                                    if (!acDomain.CatalogSet.TryGetCatalog(appSystem.Code + resourceCode, out resource))
                                     {
                                         throw new ValidationException("意外的资源码" + resourceCode);
                                     }

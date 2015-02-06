@@ -28,10 +28,6 @@ namespace Anycmd.Engine.Ac.Abstractions
         /// </summary>
         AppSystem = 0x0040,
         /// <summary>
-        /// 资源类型客体类型。
-        /// </summary>
-        ResourceType = 0x0080,
-        /// <summary>
         /// 暂不支持，该取值的存在是为了概念完整性。组成授权路由链表。如同面向对象机制中类的“继承”。
         /// </summary>
         Privilege = 0x1fff

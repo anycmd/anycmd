@@ -129,12 +129,6 @@ namespace Anycmd.Engine.Host
         /// 
         /// </summary>
         /// <returns></returns>
-        IList<ResourceType> GetAllResources();
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
         IList<Role> GetAllRoles();
 
         /// <summary>

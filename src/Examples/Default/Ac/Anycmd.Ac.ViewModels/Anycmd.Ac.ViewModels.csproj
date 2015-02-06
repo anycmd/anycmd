@@ -116,10 +116,6 @@
     <Compile Include="Infra\UiViewViewModels\UiViewCreateInput.cs" />
     <Compile Include="Infra\UiViewViewModels\UiViewTr.cs" />
     <Compile Include="Infra\UiViewViewModels\UiViewUpdateInput.cs" />
-    <Compile Include="Infra\ResourceViewModels\GetPlistAreaResourceTypes.cs" />
-    <Compile Include="Infra\ResourceViewModels\ResourceTypeCreateInput.cs" />
-    <Compile Include="Infra\ResourceViewModels\ResourceTypeTr.cs" />
-    <Compile Include="Infra\ResourceViewModels\ResourceTypeUpdateInput.cs" />
     <Compile Include="GroupViewModels\GroupCreateInput.cs" />
     <Compile Include="GroupViewModels\GroupUpdateInput.cs" />
     <Compile Include="ModelExtension.cs" />

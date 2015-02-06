@@ -44,8 +44,8 @@ namespace Anycmd.Web.Mvc
             {
                 throw new AnycmdException("");
             }
-            ResourceTypeState resource;
-            if (!acDomain.ResourceTypeSet.TryGetResource(acDomain.AppSystemSet.SelfAppSystem, resourceCode, out resource))
+            CatalogState resource;
+            if (!acDomain.CatalogSet.TryGetCatalog(acDomain.AppSystemSet.SelfAppSystem.Code +"." + resourceCode, out resource))
             {
                 throw new ValidationException("意外的资源码" + resourceCode);
             }

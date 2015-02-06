@@ -21,7 +21,7 @@ namespace Anycmd.Engine.Ac.Abstractions
         /// <param name="functionCode"></param>
         /// <param name="function"></param>
         /// <returns></returns>
-        bool TryGetFunction(ResourceTypeState resource, string functionCode, out FunctionState function);
+        bool TryGetFunction(CatalogState resource, string functionCode, out FunctionState function);
 
         /// <summary>
         /// 

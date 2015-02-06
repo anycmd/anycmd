@@ -68,8 +68,8 @@ namespace Anycmd.Engine.Ac
         public static bool Permit(this IAcSession user, string resourceCode, string functionCode)
         {
             var securityService = user.AcDomain.RetrieveRequiredService<ISecurityService>();
-            ResourceTypeState resource;
-            if (!user.AcDomain.ResourceTypeSet.TryGetResource(user.AcDomain.AppSystemSet.SelfAppSystem, resourceCode, out resource))
+            CatalogState resource;
+            if (!user.AcDomain.CatalogSet.TryGetCatalog(user.AcDomain.AppSystemSet.SelfAppSystem.Code +"." + resourceCode, out resource))
             {
                 throw new ValidationException("意外的资源码" + resourceCode);
             }
@@ -86,8 +86,8 @@ namespace Anycmd.Engine.Ac
             where TInput : IManagedPropertyValues
         {
             var securityService = user.AcDomain.RetrieveRequiredService<ISecurityService>();
-            ResourceTypeState resource;
-            if (!user.AcDomain.ResourceTypeSet.TryGetResource(user.AcDomain.AppSystemSet.SelfAppSystem, resourceCode, out resource))
+            CatalogState resource;
+            if (!user.AcDomain.CatalogSet.TryGetCatalog(user.AcDomain.AppSystemSet.SelfAppSystem.Code +"." + resourceCode, out resource))
             {
                 throw new ValidationException("意外的资源码" + resourceCode);
             }

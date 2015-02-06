@@ -36,12 +36,12 @@
                     <a id="btnSubmit" class="mini-button" type="submit">上传</a>
                     <a id="btnTemplate" class="mini-button" @Html.IsEnabled("Entity", "DownloadTemplate")>模板</a>
                     @{
-                        ResourceTypeState r;
-                        if (!Html.CurrentHost().ResourceTypeSet.TryGetResource(Html.CurrentHost().AppSystemSet.SelfAppSystem, "InfoDic", out r)) {
+                        CatalogState r;
+                        if (!Html.CurrentHost().CatalogSet.TryGetCatalog(Html.CurrentHost().AppSystemSet.SelfAppSystem.Code +"." + "InfoDic", out r)) {
                             throw new Anycmd.Exceptions.AnycmdException("意外的资源码");
                         }
                     }
-                    <a id="btnInfoDicItem" class="mini-button" target="_blank" iconStyle="background: url(/content/icons/16x16/@r.Icon) no-repeat;" plain="true">
+                    <a id="btnInfoDicItem" class="mini-button" target="_blank" plain="true">
                         @r.Name
                     </a>
                 </form>

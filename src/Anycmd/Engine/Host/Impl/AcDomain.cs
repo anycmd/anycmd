@@ -181,11 +181,6 @@ namespace Anycmd.Engine.Host.Impl
         public IUiViewSet UiViewSet { get; protected set; }
 
         /// <summary>
-        /// 系统资源
-        /// </summary>
-        public IResourceTypeSet ResourceTypeSet { get; protected set; }
-
-        /// <summary>
         /// 权限集
         /// </summary>
         public IPrivilegeSet PrivilegeSet { get; protected set; }

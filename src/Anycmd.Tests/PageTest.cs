@@ -38,7 +38,7 @@ namespace Anycmd.Tests
                 DeveloperId = acDomain.SysUserSet.GetDevAccounts().First().Id,
                 IsEnabled = 1,
                 IsManaged = true,
-                ResourceTypeId = acDomain.ResourceTypeSet.First().Id,
+                ResourceTypeId = acDomain.CatalogSet.First().Id,
                 SortCode = 10
             }.ToCommand(acDomain.GetAcSession()));
             FunctionState functionById;
@@ -117,7 +117,7 @@ namespace Anycmd.Tests
                 DeveloperId = acDomain.SysUserSet.GetDevAccounts().First().Id,
                 IsEnabled = 1,
                 IsManaged = true,
-                ResourceTypeId = acDomain.ResourceTypeSet.First().Id,
+                ResourceTypeId = acDomain.CatalogSet.First().Id,
                 SortCode = 10
             }.ToCommand(acDomain.GetAcSession()));
             acDomain.Handle(new FunctionCreateInput
@@ -128,7 +128,7 @@ namespace Anycmd.Tests
                 DeveloperId = acDomain.SysUserSet.GetDevAccounts().First().Id,
                 IsEnabled = 1,
                 IsManaged = true,
-                ResourceTypeId = acDomain.ResourceTypeSet.First().Id,
+                ResourceTypeId = acDomain.CatalogSet.First().Id,
                 SortCode = 10
             }.ToCommand(acDomain.GetAcSession()));
             FunctionState functionById;

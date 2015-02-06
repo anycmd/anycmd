@@ -267,8 +267,8 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
         [Guid("9675FCEE-1E6A-4DA7-9E93-48B5D0775D59")]
         public ActionResult GetManagedFunctions(Guid? appSystemId, string viewController)
         {
-            ResourceTypeState resource;
-            if (!AcDomain.ResourceTypeSet.TryGetResource(AcDomain.AppSystemSet.SelfAppSystem, viewController, out resource))
+            CatalogState resource;
+            if (!AcDomain.CatalogSet.TryGetCatalog(AcDomain.AppSystemSet.SelfAppSystem.Code +"." +viewController, out resource))
             {
                 throw new ValidationException("意外的资源码" + viewController);
             }

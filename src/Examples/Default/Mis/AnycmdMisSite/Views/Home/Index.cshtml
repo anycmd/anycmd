@@ -21,14 +21,7 @@
                 <a id="btnAbout" tooltip="关于" class="mini-button" plain="true">Anycmd <span style="font-size:14px;">About</span></a>
             </div>
             <a href="Ac/Catalog/Index" tooltip="目录" class="mini-button topMenu" plain="true" style="float: left; margin-top: 2px;">
-                @{
-                    ResourceTypeState catalog;
-                    if (Html.CurrentHost().ResourceTypeSet.TryGetResource(Html.CurrentHost().AppSystemSet.SelfAppSystem, "Catalog", out catalog))
-                    {
-                        <img src="@Url.Content("~/content/icons/16x16/" + catalog.Icon)" style="border:0px;" />
-                    }
-                    <span>目录</span>
-                }
+                <span>目录</span>
             </a>
             <a href="http://git.oschina.net/anycmd/anycmd" target="_blank" plain="true" style="float: left; margin-top: 2px; color: red;">源码</a>
             <div style="float: right; margin-right: 5px; margin-top: 8px;">

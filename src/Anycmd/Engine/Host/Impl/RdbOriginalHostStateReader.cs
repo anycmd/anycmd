@@ -53,7 +53,6 @@ namespace Anycmd.Engine.Host.Impl
                             conn.Open();
                         }
                         var sb = new StringBuilder();
-                        Append(sb, "ResourceType", "select * from [ResourceType];");
                         Append(sb, "AppSystem", "select * from [AppSystem];");
                         Append(sb, "Function", "select * from [Function];");
                         Append(sb, "Dic", "select * from [Dic];");
@@ -508,35 +507,6 @@ namespace Anycmd.Engine.Host.Impl
                     AcContentType = row["AcContentType"] == DBNull.Value ? null : row["AcContentType"].ToString(),
                     AcContent = row["AcContent"] == DBNull.Value ? null : row["AcContent"].ToString(),
                     Etag = (byte[])row["Etag"]
-                };
-                var entity = item as IEntityBase;
-                entity.CreateBy = row["CreateBy"] == DBNull.Value ? null : row["CreateBy"].ToString();
-                entity.CreateOn = row["CreateOn"] == DBNull.Value ? null : (DateTime?)row["CreateOn"];
-                entity.CreateUserId = row["CreateUserId"] == DBNull.Value ? null : (Guid?)row["CreateUserId"];
-                entity.ModifiedBy = row["ModifiedBy"] == DBNull.Value ? null : row["ModifiedBy"].ToString();
-                entity.ModifiedOn = row["ModifiedOn"] == DBNull.Value ? null : (DateTime?)row["ModifiedOn"];
-                entity.ModifiedUserId = row["ModifiedUserId"] == DBNull.Value ? null : (Guid?)row["ModifiedUserId"];
-
-                list.Add(item);
-            }
-            return list;
-        }
-
-        public IList<ResourceType> GetAllResources()
-        {
-            var list = new List<ResourceType>();
-            foreach (DataRow row in this["ResourceType"].Rows)
-            {
-                var item = new ResourceType
-                {
-                    Id = (Guid)row["Id"],
-                    Code = (string)row["Code"],
-                    Description = row["Description"] == DBNull.Value ? null : row["Description"].ToString(),
-                    Icon = row["Icon"] == DBNull.Value ? null : row["Icon"].ToString(),
-                    Name = row["Name"] == DBNull.Value ? null : row["Name"].ToString(),
-                    Etag = (byte[])row["Etag"],
-                    SortCode = (int)row["SortCode"],
-                    AppSystemId = (Guid)row["AppSystemId"]
                 };
                 var entity = item as IEntityBase;
                 entity.CreateBy = row["CreateBy"] == DBNull.Value ? null : row["CreateBy"].ToString();

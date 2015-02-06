@@ -14,7 +14,6 @@ namespace Anycmd.Ac.ViewModels
     using Infra.DicViewModels;
     using Infra.EntityTypeViewModels;
     using Infra.FunctionViewModels;
-    using Infra.ResourceViewModels;
     using Infra.UIViewViewModels;
     using PrivilegeViewModels;
     using RdbViewModels;
@@ -547,8 +546,8 @@ namespace Anycmd.Ac.ViewModels
             }
             if (requestData.ResourceTypeId.HasValue)
             {
-                ResourceTypeState resource;
-                if (!acDomain.ResourceTypeSet.TryGetResource(requestData.ResourceTypeId.Value, out resource))
+                CatalogState resource;
+                if (!acDomain.CatalogSet.TryGetCatalog(requestData.ResourceTypeId.Value, out resource))
                 {
                     throw new ValidationException("意外的资源标识" + requestData.ResourceTypeId);
                 }
@@ -806,72 +805,6 @@ namespace Anycmd.Ac.ViewModels
             int pageIndex = requestModel.PageIndex;
             int pageSize = requestModel.PageSize;
             var queryable = acDomain.EntityTypeSet.GetProperties(entityType).Select(a => PropertyTr.Create(a.Value)).AsQueryable();
-            foreach (var filter in requestModel.Filters)
-            {
-                queryable = queryable.Where(filter.ToPredicate(), filter.value);
-            }
-            if (!string.IsNullOrEmpty(requestModel.Key))
-            {
-                queryable = queryable.Where(a => a.Code.ToLower().Contains(requestModel.Key) || a.Name.ToLower().Contains(requestModel.Key));
-            }
-            requestModel.Total = queryable.Count();
-
-            return queryable.OrderBy(requestModel.SortField + " " + requestModel.SortOrder).Skip(pageIndex * pageSize).Take(pageSize);
-        }
-        #endregion
-
-        #region GetPlistResources
-        public static IQueryable<ResourceTypeTr> GetPlistResources(this IAcDomain acDomain, GetPlistResult requestModel)
-        {
-            EntityTypeState entityType = acDomain.GetEntityType(new Coder("Ac", "ResourceType"));
-            foreach (var filter in requestModel.Filters)
-            {
-                PropertyState property;
-                if (!entityType.TryGetProperty(filter.field, out property))
-                {
-                    throw new ValidationException("意外的Resource实体类型属性" + filter.field);
-                }
-            }
-            int pageIndex = requestModel.PageIndex;
-            int pageSize = requestModel.PageSize;
-            var queryable = acDomain.ResourceTypeSet.Select(ResourceTypeTr.Create).AsQueryable();
-            foreach (var filter in requestModel.Filters)
-            {
-                queryable = queryable.Where(filter.ToPredicate(), filter.value);
-            }
-            requestModel.Total = queryable.Count();
-
-            return queryable.OrderBy(requestModel.SortField + " " + requestModel.SortOrder).Skip(pageIndex * pageSize).Take(pageSize);
-        }
-        #endregion
-
-        #region GetPlistAppSystemResources
-        public static IQueryable<ResourceTypeTr> GetPlistAppSystemResources(this IAcDomain acDomain, GetPlistAreaResourceTypes requestModel)
-        {
-            if (!acDomain.AppSystemSet.ContainsAppSystem(requestModel.AppSystemId))
-            {
-                throw new AnycmdException("意外的应用系统标识" + requestModel.AppSystemId);
-            }
-            IEnumerable<Guid> resourceTypeIDs = acDomain.FunctionSet.Where(a => a.AppSystem.Id == requestModel.AppSystemId).Select(a => a.ResourceTypeId).Distinct();
-            var resources = new List<ResourceTypeState>();
-            foreach (var resourceTypeId in resourceTypeIDs)
-            {
-                ResourceTypeState resource;
-                acDomain.ResourceTypeSet.TryGetResource(resourceTypeId, out resource);
-                resources.Add(resource);
-            }
-            EntityTypeState entityType = acDomain.GetEntityType(new Coder("Ac", "ResourceType"));
-            foreach (var filter in requestModel.Filters)
-            {
-                PropertyState property;
-                if (!entityType.TryGetProperty(filter.field, out property))
-                {
-                    throw new ValidationException("意外的Resource实体类型属性" + filter.field);
-                }
-            }
-            int pageIndex = requestModel.PageIndex;
-            int pageSize = requestModel.PageSize;
-            var queryable = resources.Select(ResourceTypeTr.Create).AsQueryable();
             foreach (var filter in requestModel.Filters)
             {
                 queryable = queryable.Where(filter.ToPredicate(), filter.value);

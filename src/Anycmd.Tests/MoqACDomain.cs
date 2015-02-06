@@ -101,17 +101,15 @@ namespace Anycmd.Tests
                 PrincipalId = this.GetRequiredService<IRepository<Account>>().AsQueryable().First().Id
             });
             this.GetRequiredService<IRepository<AppSystem>>().Context.Commit();
-            this.GetRequiredService<IRepository<ResourceType>>().Add(new ResourceType
+            this.GetRequiredService<IRepository<Catalog>>().Add(new Catalog
             {
-                Code = "Resource1",
+                Code = "test.Resource1",
                 Id = Guid.NewGuid(),
-                Icon = string.Empty,
                 Description = string.Empty,
                 Name = "测试1",
-                SortCode = 10,
-                AppSystemId = appSystemId
+                SortCode = 10
             });
-            this.GetRequiredService<IRepository<ResourceType>>().Context.Commit();
+            this.GetRequiredService<IRepository<Catalog>>().Context.Commit();
             RemoveService(typeof(IOriginalHostStateReader));
             var moAcDomainBootstrap = new Mock<IOriginalHostStateReader>();
             moAcDomainBootstrap.Setup<IList<RDatabase>>(a => a.GetAllRDatabases()).Returns(new List<RDatabase>
@@ -147,7 +145,6 @@ namespace Anycmd.Tests
             moAcDomainBootstrap.Setup<IList<UiView>>(a => a.GetAllUiViews()).Returns(this.GetRequiredService<IRepository<UiView>>().AsQueryable().ToList());
             moAcDomainBootstrap.Setup<IList<UiViewButton>>(a => a.GetAllUiViewButtons()).Returns(this.GetRequiredService<IRepository<UiViewButton>>().AsQueryable().ToList());
             moAcDomainBootstrap.Setup<IList<Privilege>>(a => a.GetPrivileges()).Returns(this.GetRequiredService<IRepository<Privilege>>().AsQueryable().ToList());
-            moAcDomainBootstrap.Setup<IList<ResourceType>>(a => a.GetAllResources()).Returns(this.GetRequiredService<IRepository<ResourceType>>().AsQueryable().ToList());
             moAcDomainBootstrap.Setup<IList<Role>>(a => a.GetAllRoles()).Returns(this.GetRequiredService<IRepository<Role>>().AsQueryable().ToList());
             moAcDomainBootstrap.Setup<IList<SsdSet>>(a => a.GetAllSsdSets()).Returns(this.GetRequiredService<IRepository<SsdSet>>().AsQueryable().ToList());
             moAcDomainBootstrap.Setup<IList<DsdSet>>(a => a.GetAllDsdSets()).Returns(this.GetRequiredService<IRepository<DsdSet>>().AsQueryable().ToList());

@@ -446,7 +446,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     return;
                 }
-                if (acDomain.ResourceTypeSet.Any(a => a.AppSystemId == appSystemId))
+                if (acDomain.CatalogSet.Any(a => a.Code.StartsWith(bkState.Code)))
                 {
                     throw new ValidationException("应用系统下有资源类型时不能删除应用系统。");
                 }

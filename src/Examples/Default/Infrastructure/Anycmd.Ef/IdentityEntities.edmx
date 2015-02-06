@@ -379,7 +379,7 @@
     </Options>
     <!-- Diagram content (shape and connector positions) -->
     <Diagrams>
-      <Diagram DiagramId="dce53fc955e54231a2f6984595181a49" Name="Diagram1" ZoomLevel="87">
+      <Diagram DiagramId="dce53fc955e54231a2f6984595181a49" Name="Diagram1" ZoomLevel="77">
         <EntityTypeShape EntityType="AnycmdModel.Account" Width="2.125" PointX="0.5" PointY="0.5" />
         <EntityTypeShape EntityType="AnycmdModel.DeveloperId" Width="1.75" PointX="3.5" PointY="6" />
         <EntityTypeShape EntityType="AnycmdModel.VisitingLog" Width="1.75" PointX="3.5" PointY="2.125" />

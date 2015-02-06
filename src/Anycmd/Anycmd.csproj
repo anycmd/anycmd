@@ -106,14 +106,12 @@
     <Compile Include="Engine\Host\Ac\MemorySets\MenuSet.cs" />
     <Compile Include="Engine\Host\Ac\MemorySets\CatalogSet.cs" />
     <Compile Include="Engine\Host\Ac\MemorySets\PrivilegeSet.cs" />
-    <Compile Include="Engine\Host\Ac\MemorySets\ResourceTypeSet.cs" />
     <Compile Include="Engine\Host\Ac\MemorySets\RoleSet.cs" />
     <Compile Include="Engine\Host\Ac\MemorySets\SsdSetSet.cs" />
     <Compile Include="Engine\Host\Ac\MemorySets\SysUserSet.cs" />
     <Compile Include="Engine\Host\Ac\MemorySets\UiViewSet.cs" />
     <Compile Include="Engine\Ac\Abstractions\ICatalogSet.cs" />
     <Compile Include="Engine\Ac\Abstractions\IPrivilegeSet.cs" />
-    <Compile Include="Engine\Ac\Abstractions\IResourceTypeSet.cs" />
     <Compile Include="Engine\Ac\Abstractions\IRoleSet.cs" />
     <Compile Include="Engine\Ac\Abstractions\ISsdSetSet.cs" />
     <Compile Include="Engine\Ac\Abstractions\ISysUserSet.cs" />
@@ -183,8 +181,6 @@
     <Compile Include="Engine\Ac\InOuts\IPrivilegeUpdateIo.cs" />
     <Compile Include="Engine\Ac\InOuts\IPropertyCreateIo.cs" />
     <Compile Include="Engine\Ac\InOuts\IPropertyUpdateIo.cs" />
-    <Compile Include="Engine\Ac\InOuts\IResourceTypeCreateIo.cs" />
-    <Compile Include="Engine\Ac\InOuts\IResourceTypeUpdateIo.cs" />
     <Compile Include="Engine\Ac\InOuts\IRoleCreateIo.cs" />
     <Compile Include="Engine\Ac\InOuts\IRoleUpdateIo.cs" />
     <Compile Include="Engine\Ac\InOuts\ISsdRoleCreateIo.cs" />
@@ -716,13 +712,6 @@
     <Compile Include="Engine\Ac\Messages\PrivilegeRemovedEvent.cs" />
     <Compile Include="Engine\Ac\Messages\PrivilegeUpdatedEvent.cs" />
     <Compile Include="Engine\Ac\Messages\UpdatePrivilegeCommand.cs" />
-    <Compile Include="Engine\Ac\Messages\Infra\AddResourceCommand.cs" />
-    <Compile Include="Engine\Ac\Messages\Infra\RemoveResourceTypeCommand.cs" />
-    <Compile Include="Engine\Ac\Messages\Infra\ResourceTypeAddedEvent.cs" />
-    <Compile Include="Engine\Ac\Messages\Infra\ResourceTypeRemovedEvent.cs" />
-    <Compile Include="Engine\Ac\Messages\Infra\ResourceTypeRemovingEvent.cs" />
-    <Compile Include="Engine\Ac\Messages\Infra\ResourceTypeUpdatedEvent.cs" />
-    <Compile Include="Engine\Ac\Messages\Infra\UpdateResourceCommand.cs" />
     <Compile Include="Engine\Ac\Messages\Rbac\AddRoleCommand.cs" />
     <Compile Include="Engine\Ac\Messages\Rbac\RemoveRoleCommand.cs" />
     <Compile Include="Engine\Ac\Messages\Rbac\RoleAddedEvent.cs" />
@@ -771,7 +760,6 @@
     <Compile Include="Engine\Host\Ac\Infra\UiView.cs" />
     <Compile Include="Engine\Host\Ac\Infra\UiViewButton.cs" />
     <Compile Include="Engine\Host\Ac\Infra\Property.cs" />
-    <Compile Include="Engine\Host\Ac\Infra\ResourceType.cs" />
     <Compile Include="Engine\Host\Rdb\MemorySets\DbTableColumns.cs" />
     <Compile Include="Engine\Host\Rdb\MemorySets\DbTables.cs" />
     <Compile Include="Engine\Host\Rdb\MemorySets\DbViewColumns.cs" />
@@ -866,7 +854,6 @@
     <Compile Include="Engine\Ac\UiViewButtonState.cs" />
     <Compile Include="Engine\Ac\UiViewState.cs" />
     <Compile Include="Engine\Ac\PropertyState.cs" />
-    <Compile Include="Engine\Ac\ResourceTypeState.cs" />
     <Compile Include="Model\ISourcedAggregateRoot.cs" />
     <Compile Include="IAcSession.cs" />
     <Compile Include="Logging\ExceptionLog.cs" />
@@ -997,7 +984,6 @@
     <Compile Include="Engine\Ac\Abstractions\Infra\CatalogBase.cs" />
     <Compile Include="Engine\Ac\Abstractions\Infra\UiViewBase.cs" />
     <Compile Include="Engine\Ac\Abstractions\Infra\UiViewButtonBase.cs" />
-    <Compile Include="Engine\Ac\Abstractions\Infra\ResourceTypeBase.cs" />
     <Compile Include="Engine\Ac\Abstractions\Rbac\RoleBase.cs" />
     <Compile Include="Logging\VisitingLogBase.cs" />
     <Compile Include="Engine\Ac\Abstractions\Infra\IDic.cs" />
@@ -1032,7 +1018,6 @@
     <Compile Include="Engine\Ac\Abstractions\Infra\IGroup.cs" />
     <Compile Include="Engine\Ac\Abstractions\Infra\ICatalog.cs" />
     <Compile Include="Engine\Ac\Abstractions\Rbac\IRole.cs" />
-    <Compile Include="Engine\Ac\Abstractions\Infra\IResourceType.cs" />
     <Compile Include="Engine\Host\IAcSessionStorage.cs" />
     <Compile Include="Engine\Ac\Abstractions\Infra\IButton.cs" />
     <Compile Include="Engine\Ac\Abstractions\Infra\IDicItem.cs" />

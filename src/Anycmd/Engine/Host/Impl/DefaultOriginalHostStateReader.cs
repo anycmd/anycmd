@@ -175,15 +175,6 @@ namespace Anycmd.Engine.Host.Impl
             }
         }
 
-        public IList<ResourceType> GetAllResources()
-        {
-            var repository = _acDomain.RetrieveRequiredService<IRepository<ResourceType>>();
-            using (var context = repository.Context)
-            {
-                return repository.AsQueryable().ToList();
-            }
-        }
-
         public IList<Role> GetAllRoles()
         {
             var repository = _acDomain.RetrieveRequiredService<IRepository<Role>>();

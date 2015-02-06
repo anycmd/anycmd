@@ -291,28 +291,6 @@
           <Property Name="RowGuid" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Etag" Type="timestamp" StoreGeneratedPattern="Computed" />
         </EntityType>
-        <EntityType Name="ResourceType">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="AppSystemId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Code" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="Description" Type="nvarchar" MaxLength="500" />
-          <Property Name="Icon" Type="varchar" MaxLength="200" />
-          <Property Name="SortCode" Type="int" Nullable="false" />
-          <Property Name="AcContentType" Type="varchar" MaxLength="50" />
-          <Property Name="AcContent" Type="varchar" MaxLength="2000" />
-          <Property Name="CreateOn" Type="datetime" />
-          <Property Name="CreateUserId" Type="uniqueidentifier" />
-          <Property Name="CreateBy" Type="varchar" MaxLength="50" />
-          <Property Name="ModifiedOn" Type="datetime" />
-          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" />
-          <Property Name="ModifiedUserId" Type="uniqueidentifier" />
-          <Property Name="RowGuid" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Etag" Type="timestamp" StoreGeneratedPattern="Computed" />
-        </EntityType>
         <EntityType Name="UiView">
           <Key>
             <PropertyRef Name="Id" />
@@ -365,10 +343,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Function_ResourceType">
-          <End Role="ResourceType" Type="Self.ResourceType" Multiplicity="1" />
+          <End Role="Catalog" Type="Self.Catalog" Multiplicity="1" />
           <End Role="Function" Type="Self.Function" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="ResourceType">
+            <Principal Role="Catalog">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Function">
@@ -460,18 +438,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ResourceType_AppSystem">
-          <End Role="AppSystem" Type="Self.AppSystem" Multiplicity="1" />
-          <End Role="ResourceType" Type="Self.ResourceType" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AppSystem">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ResourceType">
-              <PropertyRef Name="AppSystemId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_UiView_Function">
           <End Role="Function" Type="Self.Function" Multiplicity="1" />
           <End Role="UiView" Type="Self.UiView" Multiplicity="0..1" />
@@ -533,7 +499,6 @@
           <EntitySet Name="Menu" EntityType="Self.Menu" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OperationHelp" EntityType="Self.OperationHelp" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Property" EntityType="Self.Property" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ResourceType" EntityType="Self.ResourceType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UiView" EntityType="Self.UiView" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UiViewButton" EntityType="Self.UiViewButton" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_DicItem_Dic" Association="Self.FK_DicItem_Dic">
@@ -541,7 +506,7 @@
             <End Role="DicItem" EntitySet="DicItem" />
           </AssociationSet>
           <AssociationSet Name="FK_Function_ResourceType" Association="Self.FK_Function_ResourceType">
-            <End Role="ResourceType" EntitySet="ResourceType" />
+            <End Role="Catalog" EntitySet="Catalog" />
             <End Role="Function" EntitySet="Function" />
           </AssociationSet>
           <AssociationSet Name="FK_FunctionIo_Function" Association="Self.FK_FunctionIo_Function">
@@ -571,10 +536,6 @@
           <AssociationSet Name="FK_Property_Property" Association="Self.FK_Property_Property">
             <End Role="Property" EntitySet="Property" />
             <End Role="Property1" EntitySet="Property" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ResourceType_AppSystem" Association="Self.FK_ResourceType_AppSystem">
-            <End Role="AppSystem" EntitySet="AppSystem" />
-            <End Role="ResourceType" EntitySet="ResourceType" />
           </AssociationSet>
           <AssociationSet Name="FK_UiView_Function" Association="Self.FK_UiView_Function">
             <End Role="Function" EntitySet="Function" />
@@ -739,6 +700,7 @@
           <Property Name="RowGuid" Type="Guid" Nullable="false" />
           <Property Name="AcContentType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="AcContent" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Catalog" Relationship="AnycmdModel.FK_Function_ResourceType" FromRole="Function" ToRole="Catalog" />
         </EntityType>
         <EntityType Name="Menu">
           <Key>
@@ -804,6 +766,7 @@
           <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="RowGuid" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="Functions" Relationship="AnycmdModel.FK_Function_ResourceType" FromRole="Catalog" ToRole="Function" />
         </EntityType>
         <EntityType Name="UiView">
           <Key>
@@ -1066,68 +1029,17 @@
             <End Role="Property" EntitySet="Properties" />
             <End Role="Property1" EntitySet="Properties" />
           </AssociationSet>
-          <EntitySet Name="ResourceTypes" EntityType="AnycmdModel.ResourceType" />
-          <AssociationSet Name="FK_Resource_AppSystem" Association="AnycmdModel.FK_Resource_AppSystem">
-            <End Role="AppSystem" EntitySet="AppSystems" />
-            <End Role="ResourceType" EntitySet="ResourceTypes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Function_Resource" Association="AnycmdModel.FK_Function_Resource">
-            <End Role="ResourceType" EntitySet="ResourceTypes" />
-            <End Role="Function" EntitySet="Functions" />
-          </AssociationSet>
           <EntitySet Name="FunctionIos" EntityType="AnycmdModel.FunctionIo" />
           <AssociationSet Name="FK_FunctionIo_Function" Association="AnycmdModel.FK_FunctionIo_Function">
             <End Role="Function" EntitySet="Functions" />
             <End Role="FunctionIo" EntitySet="FunctionIos" />
           </AssociationSet>
           <EntitySet Name="Groups" EntityType="AnycmdModel.Group" />
+          <AssociationSet Name="FK_Function_ResourceType" Association="AnycmdModel.FK_Function_ResourceType">
+            <End Role="Catalog" EntitySet="Catalogs" />
+            <End Role="Function" EntitySet="Functions" />
+          </AssociationSet>
         </EntityContainer>
-        <EntityType Name="ResourceType">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Guid" Nullable="false" />
-          <Property Name="AppSystemId" Type="Guid" Nullable="false" />
-          <Property Name="Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="Icon" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="SortCode" Type="Int32" Nullable="false" />
-          <Property Name="CreateOn" Type="DateTime" Precision="3" />
-          <Property Name="CreateUserId" Type="Guid" />
-          <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
-          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ModifiedUserId" Type="Guid" />
-          <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
-          <Property Name="RowGuid" Type="Guid" Nullable="false" />
-          <Property Name="AcContentType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="AcContent" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <Association Name="FK_Resource_AppSystem">
-          <End Type="AnycmdModel.AppSystem" Role="AppSystem" Multiplicity="1" />
-          <End Type="AnycmdModel.ResourceType" Role="ResourceType" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AppSystem">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ResourceType">
-              <PropertyRef Name="AppSystemId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Function_Resource">
-          <End Type="AnycmdModel.ResourceType" Role="ResourceType" Multiplicity="1" />
-          <End Type="AnycmdModel.Function" Role="Function" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ResourceType">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Function">
-              <PropertyRef Name="ResourceTypeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="FunctionIo">
           <Key>
             <PropertyRef Name="Id" />
@@ -1185,6 +1097,18 @@
           <Property Name="RowGuid" Type="Guid" Nullable="false" />
           <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
         </EntityType>
+        <Association Name="FK_Function_ResourceType">
+          <End Type="AnycmdModel.Catalog" Role="Catalog" Multiplicity="1" />
+          <End Type="AnycmdModel.Function" Role="Function" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Catalog">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Function">
+              <PropertyRef Name="ResourceTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1483,29 +1407,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ResourceTypes">
-            <EntityTypeMapping TypeName="AnycmdModel.ResourceType">
-              <MappingFragment StoreEntitySet="ResourceType">
-                <ScalarProperty Name="AcContent" ColumnName="AcContent" />
-                <ScalarProperty Name="AcContentType" ColumnName="AcContentType" />
-                <ScalarProperty Name="RowGuid" ColumnName="RowGuid" />
-                <ScalarProperty Name="Etag" ColumnName="Etag" />
-                <ScalarProperty Name="ModifiedUserId" ColumnName="ModifiedUserId" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
-                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
-                <ScalarProperty Name="CreateUserId" ColumnName="CreateUserId" />
-                <ScalarProperty Name="CreateOn" ColumnName="CreateOn" />
-                <ScalarProperty Name="SortCode" ColumnName="SortCode" />
-                <ScalarProperty Name="Icon" ColumnName="Icon" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
-                <ScalarProperty Name="AppSystemId" ColumnName="AppSystemId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="FunctionIos">
             <EntityTypeMapping TypeName="AnycmdModel.FunctionIo">
               <MappingFragment StoreEntitySet="FunctionIo">
@@ -1576,18 +1477,18 @@
     <!-- Diagram content (shape and connector positions) -->
     <Diagrams>
       <Diagram DiagramId="027e1892ab0543529a35ea0861bcf6a7" Name="Diagram1" ZoomLevel="95">
-        <EntityTypeShape EntityType="AnycmdModel.AppSystem" Width="1.75" PointX="0.75" PointY="8.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="AnycmdModel.Button" Width="1.625" PointX="8" PointY="16" IsExpanded="true" />
-        <EntityTypeShape EntityType="AnycmdModel.Dic" Width="1.625" PointX="10.75" PointY="15.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="AnycmdModel.DicItem" Width="1.625" PointX="13.125" PointY="15.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="AnycmdModel.EntityType" Width="1.625" PointX="13.75" PointY="9.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="AnycmdModel.Function" Width="1.625" PointX="5.625" PointY="5.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="AnycmdModel.Menu" Width="1.625" PointX="3.25" PointY="15" IsExpanded="true" />
-        <EntityTypeShape EntityType="AnycmdModel.OperationHelp" Width="1.625" PointX="8" PointY="2" IsExpanded="true" />
-        <EntityTypeShape EntityType="AnycmdModel.Catalog" Width="1.875" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="AnycmdModel.UiView" Width="1.625" PointX="8" PointY="6.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="AnycmdModel.UiViewButton" Width="1.625" PointX="10.375" PointY="6.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="AnycmdModel.Property" Width="1.75" PointX="16.125" PointY="14.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AnycmdModel.AppSystem" Width="1.75" PointX="8.75" PointY="13.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="AnycmdModel.Button" Width="1.625" PointX="5.75" PointY="18.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="AnycmdModel.Dic" Width="1.625" PointX="10.75" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AnycmdModel.DicItem" Width="1.625" PointX="13.125" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="AnycmdModel.EntityType" Width="1.625" PointX="13.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AnycmdModel.Function" Width="1.625" PointX="3.375" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="AnycmdModel.Menu" Width="1.625" PointX="11.25" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AnycmdModel.OperationHelp" Width="1.625" PointX="5.75" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="AnycmdModel.Catalog" Width="1.875" PointX="0.75" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="AnycmdModel.UiView" Width="1.625" PointX="5.75" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AnycmdModel.UiViewButton" Width="1.625" PointX="8.125" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AnycmdModel.Property" Width="1.75" PointX="16.125" PointY="6.25" IsExpanded="true" />
         <AssociationConnector Association="AnycmdModel.FK_Menu_AppSystem" ManuallyRouted="false" />
         <AssociationConnector Association="AnycmdModel.FK_UiViewButton_Button" ManuallyRouted="false" />
         <AssociationConnector Association="AnycmdModel.FK_DicItem_Dic" ManuallyRouted="false" />
@@ -1599,12 +1500,10 @@
         <AssociationConnector Association="AnycmdModel.FK_Menu_Parent" ManuallyRouted="false" />
         <AssociationConnector Association="AnycmdModel.FK_UiViewButton_UiView" ManuallyRouted="false" />
         <AssociationConnector Association="AnycmdModel.FK_Property_Property" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="AnycmdModel.ResourceType" Width="1.625" PointX="3.25" PointY="6" />
-        <AssociationConnector Association="AnycmdModel.FK_Resource_AppSystem" />
-        <AssociationConnector Association="AnycmdModel.FK_Function_Resource" />
-        <EntityTypeShape EntityType="AnycmdModel.FunctionIo" Width="1.5" PointX="8" PointY="10.25" />
+        <EntityTypeShape EntityType="AnycmdModel.FunctionIo" Width="1.5" PointX="5.75" PointY="12.5" />
         <AssociationConnector Association="AnycmdModel.FK_FunctionIo_Function" />
-        <EntityTypeShape EntityType="AnycmdModel.Group" Width="1.75" PointX="10.75" PointY="0.75" />
+        <EntityTypeShape EntityType="AnycmdModel.Group" Width="1.75" PointX="0.75" PointY="14.25" />
+        <AssociationConnector Association="AnycmdModel.FK_Function_ResourceType" />
       </Diagram>
     </Diagrams>
   </Designer>

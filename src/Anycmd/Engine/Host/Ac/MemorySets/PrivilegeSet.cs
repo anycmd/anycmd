@@ -104,8 +104,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             IHandler<FunctionRemovingEvent>,
             IHandler<MenuRemovingEvent>,
             IHandler<GroupRemovingEvent>,
-            IHandler<AppSystemRemovingEvent>,
-            IHandler<ResourceTypeRemovingEvent>
+            IHandler<AppSystemRemovingEvent>
         {
             private readonly PrivilegeSet _set;
 
@@ -133,13 +132,22 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 messageDispatcher.Register((IHandler<MenuRemovingEvent>)this);
                 messageDispatcher.Register((IHandler<GroupRemovingEvent>)this);
                 messageDispatcher.Register((IHandler<AppSystemRemovingEvent>)this);
-                messageDispatcher.Register((IHandler<ResourceTypeRemovingEvent>)this);
             }
 
             public void Handle(CatalogRemovingEvent message)
             {
                 var acDomain = _set._acDomain;
                 var privilegeList = _set._privilegeList;
+                foreach (var item in privilegeList.Where(a => a.ObjectType == AcElementType.Catalog && a.ObjectInstanceId == message.Source.Id))
+                {
+                    acDomain.Handle(new RemovePrivilegeCommand(message.AcSession, item.Id));
+                }
+                var accountPrivilegeRepository = acDomain.RetrieveRequiredService<IRepository<Privilege>>();
+                var accountPrivileges = accountPrivilegeRepository.AsQueryable().Where(a => a.ObjectInstanceId == message.Source.Id || a.SubjectInstanceId == message.Source.Id).ToList();
+                foreach (var item in accountPrivileges)
+                {
+                    accountPrivilegeRepository.Remove(item);
+                }
                 foreach (var item in privilegeList.Where(a => a.ObjectType == AcElementType.Catalog && a.ObjectInstanceId == message.Source.Id))
                 {
                     acDomain.Handle(new RemovePrivilegeCommand(message.AcSession, item.Id));
@@ -221,22 +229,6 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     accountPrivilegeRepository.Remove(item);
                 }
                 foreach (var item in privilegeList.Where(a => a.ObjectType == AcElementType.AppSystem && a.ObjectInstanceId == message.Source.Id))
-                {
-                    acDomain.Handle(new RemovePrivilegeCommand(message.AcSession, item.Id));
-                }
-            }
-
-            public void Handle(ResourceTypeRemovingEvent message)
-            {
-                var acDomain = _set._acDomain;
-                var privilegeList = _set._privilegeList;
-                var accountPrivilegeRepository = acDomain.RetrieveRequiredService<IRepository<Privilege>>();
-                var accountPrivileges = accountPrivilegeRepository.AsQueryable().Where(a => a.ObjectInstanceId == message.Source.Id || a.SubjectInstanceId == message.Source.Id).ToList();
-                foreach (var item in accountPrivileges)
-                {
-                    accountPrivilegeRepository.Remove(item);
-                }
-                foreach (var item in privilegeList.Where(a => a.ObjectType == AcElementType.ResourceType && a.ObjectInstanceId == message.Source.Id))
                 {
                     acDomain.Handle(new RemovePrivilegeCommand(message.AcSession, item.Id));
                 }
@@ -351,13 +343,6 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                             if (!acDomain.AppSystemSet.ContainsAppSystem(input.ObjectInstanceId))
                             {
                                 throw new ValidationException("意外的应用系统标识" + input.ObjectInstanceId);
-                            }
-                            break;
-                        case AcElementType.ResourceType:
-                            ResourceTypeState resource;
-                            if (!acDomain.ResourceTypeSet.TryGetResource(input.ObjectInstanceId, out resource))
-                            {
-                                throw new ValidationException("意外的资源类型标识" + input.ObjectInstanceId);
                             }
                             break;
                         case AcElementType.Privilege:

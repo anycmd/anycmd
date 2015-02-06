@@ -32,8 +32,8 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 {
                     throw new ValidationException("意外的应用系统码" + appSystemCode);
                 }
-                ResourceTypeState resource;
-                if (!AcDomain.ResourceTypeSet.TryGetResource(AcDomain.AppSystemSet.SelfAppSystem, resourceCode, out resource))
+                CatalogState resource;
+                if (!AcDomain.CatalogSet.TryGetCatalog(AcDomain.AppSystemSet.SelfAppSystem.Code +"." +resourceCode, out resource))
                 {
                     throw new ValidationException("意外的资源码" + resourceCode);
                 }
@@ -86,8 +86,8 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 {
                     throw new ValidationException("意外的应用系统码" + appSystemCode);
                 }
-                ResourceTypeState resource;
-                if (!AcDomain.ResourceTypeSet.TryGetResource(AcDomain.AppSystemSet.SelfAppSystem, resourceCode, out resource))
+                CatalogState resource;
+                if (!AcDomain.CatalogSet.TryGetCatalog(AcDomain.AppSystemSet.SelfAppSystem.Code +"." +resourceCode, out resource))
                 {
                     throw new ValidationException("意外的资源码" + resourceCode);
                 }
@@ -124,8 +124,8 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 {
                     throw new ValidationException("意外的应用系统码" + appSystemCode);
                 }
-                ResourceTypeState resource;
-                if (!AcDomain.ResourceTypeSet.TryGetResource(AcDomain.AppSystemSet.SelfAppSystem, resourceCode, out resource))
+                CatalogState resource;
+                if (!AcDomain.CatalogSet.TryGetCatalog(AcDomain.AppSystemSet.SelfAppSystem.Code +"." +resourceCode, out resource))
                 {
                     throw new ValidationException("意外的资源码" + resourceCode);
                 }

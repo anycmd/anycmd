@@ -23,13 +23,13 @@ namespace Anycmd.Ac.ViewModels.Infra.FunctionViewModels
             {
                 data.Add(item.Key, item.Value);
             }
-            ResourceTypeState resource;
-            if (!dic.AcDomain.ResourceTypeSet.TryGetResource((Guid)data["ResourceTypeId"], out resource))
+            CatalogState resource;
+            if (!dic.AcDomain.CatalogSet.TryGetCatalog((Guid)data["ResourceTypeId"], out resource))
             {
                 throw new AnycmdException("意外的资源标识" + data["ResourceTypeId"]);
             }
             AppSystemState appSystem;
-            if (!dic.AcDomain.AppSystemSet.TryGetAppSystem(resource.AppSystemId, out appSystem))
+            if (!dic.AcDomain.AppSystemSet.TryGetAppSystem(resource.Code.Substring(0, resource.Code.IndexOf('.')), out appSystem))
             {
                 throw new AnycmdException("意外的区域应用系统标识");
             }

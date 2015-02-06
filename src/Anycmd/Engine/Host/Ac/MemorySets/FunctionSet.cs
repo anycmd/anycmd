@@ -23,8 +23,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     {
         public static readonly IFunctionSet Empty = new FunctionSet(EmptyAcDomain.SingleInstance);
 
-        private readonly Dictionary<ResourceTypeState, Dictionary<functionCode, FunctionState>>
-            _dicByCode = new Dictionary<ResourceTypeState, Dictionary<functionCode, FunctionState>>();
+        private readonly Dictionary<CatalogState, Dictionary<functionCode, FunctionState>>
+            _dicByCode = new Dictionary<CatalogState, Dictionary<functionCode, FunctionState>>();
         private readonly Dictionary<Guid, FunctionState> _dicById = new Dictionary<Guid, FunctionState>();
         private bool _initialized = false;
 
@@ -50,7 +50,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             new MessageHandler(this).Register();
         }
 
-        public bool TryGetFunction(ResourceTypeState resourceType, string functionCode, out FunctionState function)
+        public bool TryGetFunction(CatalogState resourceType, string functionCode, out FunctionState function)
         {
             if (!_initialized)
             {
@@ -145,9 +145,9 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             IHandler<AddFunctionCommand>, 
             IHandler<UpdateFunctionCommand>, 
             IHandler<FunctionUpdatedEvent>, 
-            IHandler<RemoveFunctionCommand>, 
-            IHandler<ResourceTypeUpdatedEvent>, 
-            IHandler<ResourceTypeRemovedEvent>
+            IHandler<RemoveFunctionCommand>,
+            IHandler<CatalogUpdatedEvent>,
+            IHandler<CatalogRemovedEvent>
         {
             private readonly FunctionSet _set;
 
@@ -169,16 +169,16 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 messageDispatcher.Register((IHandler<FunctionUpdatedEvent>)this);
                 messageDispatcher.Register((IHandler<RemoveFunctionCommand>)this);
                 messageDispatcher.Register((IHandler<FunctionRemovedEvent>)this);
-                messageDispatcher.Register((IHandler<ResourceTypeUpdatedEvent>)this);
-                messageDispatcher.Register((IHandler<ResourceTypeRemovedEvent>)this);
+                messageDispatcher.Register((IHandler<CatalogUpdatedEvent>)this);
+                messageDispatcher.Register((IHandler<CatalogRemovedEvent>)this);
             }
 
-            public void Handle(ResourceTypeUpdatedEvent message)
+            public void Handle(CatalogUpdatedEvent message)
             {
                 var acDomain = _set._acDomain;
                 var dicByCode = _set._dicByCode;
-                ResourceTypeState newKey;
-                if (!acDomain.ResourceTypeSet.TryGetResource(message.Source.Id, out newKey))
+                CatalogState newKey;
+                if (!acDomain.CatalogSet.TryGetCatalog(message.Source.Id, out newKey))
                 {
                     throw new AnycmdException("意外的资源标识" + message.Source.Id);
                 }
@@ -190,7 +190,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
             }
 
-            public void Handle(ResourceTypeRemovedEvent message)
+            public void Handle(CatalogRemovedEvent message)
             {
                 var acDomain = _set._acDomain;
                 var dicByCode = _set._dicByCode;
@@ -229,8 +229,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     throw new ValidationException("标识是必须的");
                 }
-                ResourceTypeState resource;
-                if (!acDomain.ResourceTypeSet.TryGetResource(input.ResourceTypeId, out resource))
+                CatalogState resource;
+                if (!acDomain.CatalogSet.TryGetCatalog(input.ResourceTypeId, out resource))
                 {
                     throw new ValidationException("意外的功能资源标识" + input.ResourceTypeId);
                 }
@@ -321,8 +321,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     throw new NotExistException();
                 }
-                ResourceTypeState resource;
-                if (!acDomain.ResourceTypeSet.TryGetResource(bkState.ResourceTypeId, out resource))
+                CatalogState resource;
+                if (!acDomain.CatalogSet.TryGetCatalog(bkState.ResourceTypeId, out resource))
                 {
                     throw new ValidationException("意外的功能资源标识" + bkState.ResourceTypeId);
                 }
@@ -387,8 +387,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 string oldKey = oldState.Code;
                 string newKey = state.Code;
                 dicById[state.Id] = state;
-                ResourceTypeState resource;
-                if (!acDomain.ResourceTypeSet.TryGetResource(oldState.ResourceTypeId, out resource))
+                CatalogState resource;
+                if (!acDomain.CatalogSet.TryGetCatalog(oldState.ResourceTypeId, out resource))
                 {
                     throw new ValidationException("意外的功能资源标识" + oldState.ResourceTypeId);
                 }

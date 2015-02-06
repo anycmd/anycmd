@@ -376,8 +376,8 @@ namespace Anycmd.Web.Mvc
         public static UiViewViewModel GetRuntimeUivIew(this HtmlHelper html, string action, string controller)
         {
             var acDomain = html.CurrentHost();
-            ResourceTypeState resource;
-            if (!acDomain.ResourceTypeSet.TryGetResource(acDomain.AppSystemSet.SelfAppSystem, controller, out resource))
+            CatalogState resource;
+            if (!acDomain.CatalogSet.TryGetCatalog(acDomain.AppSystemSet.SelfAppSystem.Code +"." + controller, out resource))
             {
                 return new UiViewViewModel(UiViewState.Empty, "未知页面");
             }
@@ -574,8 +574,8 @@ namespace Anycmd.Web.Mvc
         public static UiViewViewModel GetOperationLogEntityType(this WebViewPage webPage)
         {
             var acDomain = CurrentHost(webPage.Html);
-            ResourceTypeState resource;
-            if (!acDomain.ResourceTypeSet.TryGetResource(acDomain.AppSystemSet.SelfAppSystem, "OperationLog", out resource))
+            CatalogState resource;
+            if (!acDomain.CatalogSet.TryGetCatalog(acDomain.AppSystemSet.SelfAppSystem.Code +"." + "OperationLog", out resource))
             {
                 return UiViewViewModel.Empty;
             }

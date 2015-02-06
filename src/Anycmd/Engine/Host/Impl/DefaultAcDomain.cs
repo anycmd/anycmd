@@ -56,7 +56,6 @@ namespace Anycmd.Engine.Host.Impl
             base.FunctionSet = new FunctionSet(this);
             base.CatalogSet = new CatalogSet(this);
             base.UiViewSet = new UiViewSet(this);
-            base.ResourceTypeSet = new ResourceTypeSet(this);
             base.PrivilegeSet = new PrivilegeSet(this);
             base.MenuSet = new MenuSet(this);
             base.RoleSet = new RoleSet(this);
@@ -169,7 +168,6 @@ namespace Anycmd.Engine.Host.Impl
             this.Map(EntityTypeMap.Create<UiView>("Ac"));
             this.Map(EntityTypeMap.Create<UiViewButton>("Ac"));
             this.Map(EntityTypeMap.Create<Property>("Ac"));
-            this.Map(EntityTypeMap.Create<ResourceType>("Ac"));
 
             this.Map(EntityTypeMap.Create<Account>("Ac"));
             this.Map(EntityTypeMap.Create<DeveloperId>("Ac"));

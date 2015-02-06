@@ -53,8 +53,8 @@ namespace Anycmd.Engine.Ac
             {
                 throw new AnycmdException("必须指定资源");
             }
-            ResourceTypeState resource;
-            if (!acDomain.ResourceTypeSet.TryGetResource(function.ResourceTypeId, out resource))
+            CatalogState resource;
+            if (!acDomain.CatalogSet.TryGetCatalog(function.ResourceTypeId, out resource))
             {
                 throw new ValidationException("非法的资源标识" + function.ResourceTypeId);
             }
@@ -92,7 +92,7 @@ namespace Anycmd.Engine.Ac
                     return AppSystemState.Empty;
                 }
                 AppSystemState appSystem;
-                if (!AcDomain.AppSystemSet.TryGetAppSystem(this.Resource.AppSystemId, out appSystem))
+                if (!AcDomain.AppSystemSet.TryGetAppSystem(this.Resource.Code.Substring(0, this.Resource.Code.IndexOf('.')), out appSystem))
                 {
                     throw new AnycmdException("意外的应用系统标识");
                 }
@@ -100,16 +100,16 @@ namespace Anycmd.Engine.Ac
             }
         }
 
-        public ResourceTypeState Resource
+        public CatalogState Resource
         {
             get
             {
                 if (this == Empty)
                 {
-                    return ResourceTypeState.Empty;
+                    return CatalogState.Empty;
                 }
-                ResourceTypeState resource;
-                if (!AcDomain.ResourceTypeSet.TryGetResource(this.ResourceTypeId, out resource))
+                CatalogState resource;
+                if (!AcDomain.CatalogSet.TryGetCatalog(this.ResourceTypeId, out resource))
                 {
                     throw new AnycmdException("意外的资源标识");
                 }

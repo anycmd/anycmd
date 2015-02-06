@@ -39,11 +39,11 @@ namespace Anycmd.Tests
                 DeveloperId = acDomain.SysUserSet.GetDevAccounts().First().Id,
                 IsEnabled = 1,
                 IsManaged = true,
-                ResourceTypeId = acDomain.ResourceTypeSet.First().Id,
+                ResourceTypeId = acDomain.CatalogSet.First().Id,
                 SortCode = 10
             }.ToCommand(acDomain.GetAcSession()));
-            ResourceTypeState resource;
-            Assert.IsTrue(acDomain.ResourceTypeSet.TryGetResource(acDomain.ResourceTypeSet.First().Id, out resource));
+            CatalogState resource;
+            Assert.IsTrue(acDomain.CatalogSet.TryGetCatalog(acDomain.CatalogSet.First().Id, out resource));
             Assert.AreEqual(1, acDomain.FunctionSet.Count());
             Assert.IsTrue(acDomain.FunctionSet.TryGetFunction(entityId, out functionById));
 
@@ -90,11 +90,11 @@ namespace Anycmd.Tests
                 DeveloperId = acDomain.SysUserSet.GetDevAccounts().First().Id,
                 IsEnabled = 1,
                 IsManaged = true,
-                ResourceTypeId = acDomain.ResourceTypeSet.First().Id,
+                ResourceTypeId = acDomain.CatalogSet.First().Id,
                 SortCode = 10
             }.ToCommand(acDomain.GetAcSession()));
-            ResourceTypeState resource;
-            Assert.IsTrue(acDomain.ResourceTypeSet.TryGetResource(acDomain.ResourceTypeSet.First().Id, out resource));
+            CatalogState resource;
+            Assert.IsTrue(acDomain.CatalogSet.TryGetCatalog(acDomain.CatalogSet.First().Id, out resource));
             Assert.AreEqual(1, acDomain.FunctionSet.Count());
             Assert.IsTrue(acDomain.FunctionSet.TryGetFunction(entityId, out functionById));
             bool catched = false;
@@ -108,7 +108,7 @@ namespace Anycmd.Tests
                     DeveloperId = acDomain.SysUserSet.GetDevAccounts().First().Id,
                     IsEnabled = 1,
                     IsManaged = true,
-                    ResourceTypeId = acDomain.ResourceTypeSet.First().Id,
+                    ResourceTypeId = acDomain.CatalogSet.First().Id,
                     SortCode = 10
                 }.ToCommand(acDomain.GetAcSession()));
             }
@@ -145,13 +145,13 @@ namespace Anycmd.Tests
             moFunctionRepository.Setup<Function>(a => a.GetByKey(entityId1)).Returns(new Function
             {
                 Id = entityId1,
-                ResourceTypeId = acDomain.ResourceTypeSet.First().Id,
+                ResourceTypeId = acDomain.CatalogSet.First().Id,
                 DeveloperId = acDomain.SysUserSet.GetDevAccounts().First().Id
             });
             moFunctionRepository.Setup<Function>(a => a.GetByKey(entityId2)).Returns(new Function
             {
                 Id = entityId2,
-                ResourceTypeId = acDomain.ResourceTypeSet.First().Id,
+                ResourceTypeId = acDomain.CatalogSet.First().Id,
                 DeveloperId = acDomain.SysUserSet.GetDevAccounts().First().Id
             });
             acDomain.AddService(typeof(IRepository<Function>), moFunctionRepository.Object);
@@ -175,7 +175,7 @@ namespace Anycmd.Tests
                     DeveloperId = acDomain.SysUserSet.GetDevAccounts().First().Id,
                     IsEnabled = 1,
                     IsManaged = true,
-                    ResourceTypeId = acDomain.ResourceTypeSet.First().Id,
+                    ResourceTypeId = acDomain.CatalogSet.First().Id,
                     SortCode = 10
                 }.ToCommand(acDomain.GetAcSession()));
             }
@@ -199,7 +199,7 @@ namespace Anycmd.Tests
                 DeveloperId = acDomain.SysUserSet.GetDevAccounts().First().Id,
                 IsEnabled = 1,
                 IsManaged = true,
-                ResourceTypeId = acDomain.ResourceTypeSet.First().Id,
+                ResourceTypeId = acDomain.CatalogSet.First().Id,
                 SortCode = 10
             }.ToCommand(acDomain.GetAcSession()));
             Assert.AreEqual(1, acDomain.FunctionSet.Count());

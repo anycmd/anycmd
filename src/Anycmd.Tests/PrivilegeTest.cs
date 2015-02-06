@@ -123,11 +123,11 @@ namespace Anycmd.Tests
                 DeveloperId = acDomain.SysUserSet.GetDevAccounts().First().Id,
                 IsEnabled = 1,
                 IsManaged = true,
-                ResourceTypeId = acDomain.ResourceTypeSet.First().Id,
+                ResourceTypeId = acDomain.CatalogSet.First().Id,
                 SortCode = 10
             }.ToCommand(acDomain.GetAcSession()));
-            ResourceTypeState resource;
-            Assert.IsTrue(acDomain.ResourceTypeSet.TryGetResource(acDomain.ResourceTypeSet.First().Id, out resource));
+            CatalogState resource;
+            Assert.IsTrue(acDomain.CatalogSet.TryGetCatalog(acDomain.CatalogSet.First().Id, out resource));
             Assert.AreEqual(1, acDomain.FunctionSet.Count());
             Assert.IsTrue(acDomain.FunctionSet.TryGetFunction(functionId, out functionById));
             var entityId = Guid.NewGuid();
