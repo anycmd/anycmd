@@ -11,6 +11,8 @@ namespace Anycmd.Tests
 
     public static class TestHelper
     {
+        public static readonly Guid TestCatalogNodeId = new Guid("7C801EA5-05A8-4F16-A92C-BB89DDCA5A3D");
+
         public static IAcDomain GetAcDomain()
         {
             var acDomain = new MoqAcDomain().Init();

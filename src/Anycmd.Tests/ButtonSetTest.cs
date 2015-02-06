@@ -109,7 +109,7 @@ namespace Anycmd.Tests
             acDomain.Handle(new FunctionCreateInput
             {
                 Id = functionId,
-                ResourceTypeId = acDomain.CatalogSet.First().Id,
+                ResourceTypeId = TestHelper.TestCatalogNodeId,
                 DeveloperId = acDomain.SysUserSet.GetDevAccounts().First().Id,
                 Description = string.Empty,
                 Code = "function1",

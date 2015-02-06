@@ -700,7 +700,6 @@
           <Property Name="RowGuid" Type="Guid" Nullable="false" />
           <Property Name="AcContentType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="AcContent" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Catalog" Relationship="AnycmdModel.FK_Function_ResourceType" FromRole="Function" ToRole="Catalog" />
         </EntityType>
         <EntityType Name="Menu">
           <Key>
@@ -766,7 +765,6 @@
           <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Etag" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="RowGuid" Type="Guid" Nullable="false" />
-          <NavigationProperty Name="Functions" Relationship="AnycmdModel.FK_Function_ResourceType" FromRole="Catalog" ToRole="Function" />
         </EntityType>
         <EntityType Name="UiView">
           <Key>
@@ -1482,10 +1480,10 @@
         <EntityTypeShape EntityType="AnycmdModel.Dic" Width="1.625" PointX="10.75" PointY="7.375" IsExpanded="true" />
         <EntityTypeShape EntityType="AnycmdModel.DicItem" Width="1.625" PointX="13.125" PointY="7.25" IsExpanded="true" />
         <EntityTypeShape EntityType="AnycmdModel.EntityType" Width="1.625" PointX="13.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="AnycmdModel.Function" Width="1.625" PointX="3.375" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="AnycmdModel.Function" Width="1.625" PointX="3.375" PointY="8.125" IsExpanded="true" />
         <EntityTypeShape EntityType="AnycmdModel.Menu" Width="1.625" PointX="11.25" PointY="13.75" IsExpanded="true" />
         <EntityTypeShape EntityType="AnycmdModel.OperationHelp" Width="1.625" PointX="5.75" PointY="4.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="AnycmdModel.Catalog" Width="1.875" PointX="0.75" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="AnycmdModel.Catalog" Width="1.875" PointX="0.75" PointY="8.125" IsExpanded="true" />
         <EntityTypeShape EntityType="AnycmdModel.UiView" Width="1.625" PointX="5.75" PointY="8.375" IsExpanded="true" />
         <EntityTypeShape EntityType="AnycmdModel.UiViewButton" Width="1.625" PointX="8.125" PointY="8.375" IsExpanded="true" />
         <EntityTypeShape EntityType="AnycmdModel.Property" Width="1.75" PointX="16.125" PointY="6.25" IsExpanded="true" />

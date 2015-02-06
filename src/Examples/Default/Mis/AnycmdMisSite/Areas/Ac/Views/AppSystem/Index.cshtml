@@ -2,7 +2,6 @@
     Layout = "~/Views/Shared/_Index.cshtml";
     var infoTabView = Html.GetRuntimeUivIew("Details");
     var uiViewTabView = Html.GetRuntimeUivIew("Index", "UIVIew");
-    var resourceTabView = Html.GetRuntimeUivIew("Index", "ResourceType");
     var functionTabView = Html.GetRuntimeUivIew("Index", "Function");
     var menuTabView = Html.GetRuntimeUivIew("Index", "Menu");
     var prifix = "Ac_AppSystem_Index_";
@@ -51,8 +50,6 @@
                 <div id="@(prifix)tabs1" class="mini-tabs" style="width: 100%; height: 100%;display:none;"
                      activeindex="0" bodystyle="padding:0;border:0;">
                     <div name="infoTab" bodycls="inner" title="@infoTabView.Title" iconstyle="background:url(/content/icons/16x16/@infoTabView.Icon)">
-                    </div>
-                    <div name="resourceTab" bodycls="inner" title="@resourceTabView.Title" iconstyle="background:url(/content/icons/16x16/@resourceTabView.Icon)">
                     </div>
                     <div name="functionTab" bodycls="inner" title="@functionTabView.Title" iconstyle="background:url(/content/icons/16x16/@functionTabView.Icon)">
                     </div>

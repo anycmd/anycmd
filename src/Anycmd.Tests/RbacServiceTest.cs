@@ -298,7 +298,7 @@ namespace Anycmd.Tests
                 DeveloperId = acDomain.SysUserSet.GetDevAccounts().First().Id,
                 IsEnabled = 1,
                 IsManaged = true,
-                ResourceTypeId = acDomain.CatalogSet.First().Id,
+                ResourceTypeId = TestHelper.TestCatalogNodeId,
                 SortCode = 10
             }.ToCommand(acDomain.GetAcSession()));
             rbacService.GrantPermission(acDomain.GetAcSession(), functionId, roleId);
@@ -341,7 +341,7 @@ namespace Anycmd.Tests
                 DeveloperId = acDomain.SysUserSet.GetDevAccounts().First().Id,
                 IsEnabled = 1,
                 IsManaged = true,
-                ResourceTypeId = acDomain.CatalogSet.First().Id,
+                ResourceTypeId = TestHelper.TestCatalogNodeId,
                 SortCode = 10
             }.ToCommand(acDomain.GetAcSession()));
             rbacService.GrantPermission(acDomain.GetAcSession(), functionId, roleId);
@@ -697,7 +697,7 @@ namespace Anycmd.Tests
                 DeveloperId = acDomain.SysUserSet.GetDevAccounts().First().Id,
                 IsEnabled = 1,
                 IsManaged = true,
-                ResourceTypeId = acDomain.CatalogSet.First().Id,
+                ResourceTypeId = TestHelper.TestCatalogNodeId,
                 SortCode = 10
             }.ToCommand(acDomain.GetAcSession()));
             Guid entityId = Guid.NewGuid();
@@ -734,7 +734,7 @@ namespace Anycmd.Tests
                 DeveloperId = acDomain.SysUserSet.GetDevAccounts().First().Id,
                 IsEnabled = 1,
                 IsManaged = true,
-                ResourceTypeId = acDomain.CatalogSet.First().Id,
+                ResourceTypeId = TestHelper.TestCatalogNodeId,
                 SortCode = 10
             }.ToCommand(acDomain.GetAcSession()));
             acDomain.Handle(new AddPrivilegeCommand(acDomain.GetAcSession(), new PrivilegeCreateIo
@@ -1024,7 +1024,7 @@ namespace Anycmd.Tests
                 DeveloperId = acDomain.SysUserSet.GetDevAccounts().First().Id,
                 IsEnabled = 1,
                 IsManaged = true,
-                ResourceTypeId = acDomain.CatalogSet.First().Id,
+                ResourceTypeId = TestHelper.TestCatalogNodeId,
                 SortCode = 10
             }.ToCommand(acDomain.GetAcSession()));
             rbacService.GrantPermission(acDomain.GetAcSession(), functionId, roleId);

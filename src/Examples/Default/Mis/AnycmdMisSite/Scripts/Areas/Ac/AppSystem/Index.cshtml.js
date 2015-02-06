@@ -21,11 +21,6 @@
             params: [{ "pName": 'id', "pValue": "Id" }],
             namespace: "AppSystem.Details"
         },
-        resourceTab: {
-            url: bootPATH + "../Ac/ResourceType/Index",
-            params: [{ "pName": 'appSystemCode', "pValue": "Code" }, { "pName": 'appSystemId', "pValue": "Id" }],
-            namespace: "Ac.ResourceType.Index"
-        },
         functionTab: {
             url: bootPATH + "../Ac/Function/Index",
             params: [{ "pName": 'appSystemCode', "pValue": "Code" }, { "pName": 'appSystemId', "pValue": "Id" }],

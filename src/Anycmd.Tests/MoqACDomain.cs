@@ -104,9 +104,9 @@ namespace Anycmd.Tests
             this.GetRequiredService<IRepository<Catalog>>().Add(new Catalog
             {
                 Code = "test.Resource1",
-                Id = Guid.NewGuid(),
+                Id = TestHelper.TestCatalogNodeId,
                 Description = string.Empty,
-                Name = "测试1",
+                Name = "test.Resource1",
                 SortCode = 10
             });
             this.GetRequiredService<IRepository<Catalog>>().Context.Commit();

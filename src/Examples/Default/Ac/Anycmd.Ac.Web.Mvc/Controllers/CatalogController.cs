@@ -225,7 +225,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                     expanded = false,
                     Id = a.Id.ToString(),
                     isLeaf = true,
-                    Name = a.Description,
+                    Name = string.Format("<span style='color:red;'>{0}</span>", a.Description),
                     ParentCode = parentCatalog.Code,
                     ParentId = pid.ToString(),
                     SortCode = a.SortCode.ToString()
