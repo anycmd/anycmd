@@ -18,8 +18,6 @@
     window.removeChildNode = removeChildNode;
 
     var currentNode;
-    var contentWindowWith = 480;
-    var contentWindowHeight = 220;
     var gridChildrenInitialized = false;
     var detailsInitialized = false;
     var managerInitialized = false;
@@ -95,16 +93,13 @@
     }
     
     function onNodeSelect(e) {
-        var tree = e.sender;
         var node = e.node;
-        var isLeaf = e.isLeaf;
         currentNode = node;
         $("#" + self.prifix + "tabs1").show();
         loadTabData("refresh", tabs1.getTab(tabs1.activeIndex));
     }
 
     function onTreeBeforeload(e) {
-        var tree = e.sender;
         var node = e.node;
         var params = e.params;
 

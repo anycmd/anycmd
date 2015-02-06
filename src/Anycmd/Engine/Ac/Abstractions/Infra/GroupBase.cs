@@ -37,8 +37,6 @@ namespace Anycmd.Engine.Ac.Abstractions.Infra
             }
         }
 
-        public string CatalogCode { get; set; }
-
         /// <summary>
         /// 
         /// </summary>

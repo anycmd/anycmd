@@ -157,8 +157,8 @@
     helper.index.allInOne(
         null,
         grid,
-        bootPATH + "../Ac/Catalog/AddAccountCatalogPrivilege",
-        bootPATH + "../Ac/Catalog/UpdateAccountCatalogPrivilege",
-        bootPATH + "../Ac/Catalog/RemoveAccountCatalogPrivileges",
+        bootPATH + "../Ac/Catalog/AddAccountCatalog",
+        bootPATH + "../Ac/Catalog/UpdateAccountCatalog",
+        bootPATH + "../Ac/Catalog/RemoveAccountCatalogs",
         self);
 })(window);

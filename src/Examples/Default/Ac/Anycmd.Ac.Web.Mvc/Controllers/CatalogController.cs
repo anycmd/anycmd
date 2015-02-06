@@ -1,4 +1,6 @@
 ﻿
+using Anycmd.Ac.ViewModels.Infra.AppSystemViewModels;
+using Anycmd.Ac.ViewModels.Infra.FunctionViewModels;
 using Anycmd.Engine.Host.Edi.Entities;
 
 namespace Anycmd.Ac.Web.Mvc.Controllers
@@ -111,45 +113,68 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
         {
             if (id.HasValue)
             {
-                return this.JsonResult(CatalogInfo.Create(base.EntityType.GetData(id.Value)));
+                FunctionState function;
+                if (AcDomain.FunctionSet.TryGetFunction(id.Value, out function))
+                {
+                    EntityTypeState functionEntityType;
+                    if (!AcDomain.EntityTypeSet.TryGetEntityType(new Coder("Ac", "Function"), out functionEntityType))
+                    {
+                        throw new AnycmdException();
+                    }
+                    var functionInfo = FunctionInfo.Create(functionEntityType.GetData(id.Value));
+                    functionInfo.Add("Name", functionInfo["Description"]);
+                    CatalogState parentCatalog;
+                    if (!AcDomain.CatalogSet.TryGetCatalog((Guid)functionInfo["ResourceTypeId"], out parentCatalog))
+                    {
+                        throw new AnycmdException();
+                    }
+                    functionInfo.Add("ParentCode", parentCatalog.Code);
+                    functionInfo.Add("ParentName", parentCatalog.Name);
+                    functionInfo.Add("CategoryCode", "operation");
+                    functionInfo.Add("CategoryName", "绑定在资源类型上的操作");
+                    return this.JsonResult(functionInfo);
+                }
+                var recordInfo = CatalogInfo.Create(base.EntityType.GetData(id.Value));
+                if (recordInfo == null)
+                {
+                    return this.JsonResult(GetEmptyCatalogInfo());
+                }
+                AppSystemState appSystem;
+                if (AcDomain.AppSystemSet.TryGetAppSystem(id.Value, out appSystem))
+                {
+                    EntityTypeState appSystemEntityType;
+                    if (!AcDomain.EntityTypeSet.TryGetEntityType(new Coder("Ac", "AppSystem"), out appSystemEntityType))
+                    {
+                        throw new AnycmdException();
+                    }
+                    recordInfo.Add("data", AppSystemInfo.Create(appSystemEntityType.GetData(id.Value)));
+                }
+                return this.JsonResult(recordInfo);
             }
             else
             {
-                return this.JsonResult(new Dictionary<string, object> {
-                    {"AccountingId", Guid.Empty},
-                    {"Address", string.Empty},
-                    {"AssistantLeadershipId", Guid.Empty},
-                    {"AssistantManagerId", Guid.Empty},
-                    {"Bank", string.Empty},
-                    {"BankAccount", string.Empty},
-                    {"CashierId", Guid.Empty},
-                    {"CategoryName", string.Empty},
-                    {"Code", string.Empty},
-                    {"CreateBy", string.Empty},
-                    {"CreateOn", DateTime.MinValue},
-                    {"CreateUserId", Guid.Empty},
-                    {"Description", string.Empty},
-                    {"Fax", string.Empty},
-                    {"FinancialId", Guid.Empty},
-                    {"Icon", string.Empty},
-                    {"InnerPhone", string.Empty},
-                    {"LeadershipId", Guid.Empty},
-                    {"ManagerId", Guid.Empty},
-                    {"ModifiedBy", string.Empty},
-                    {"ModifiedOn", DateTime.MinValue},
-                    {"ModifiedUserId", Guid.Empty},
-                    {"Name", string.Empty},
-                    {"OuterPhone", string.Empty},
-                    {"ParentCode", string.Empty},
-                    {"ParentId", Guid.Empty},
-                    {"ParentName", string.Empty},
-                    {"Postalcode", string.Empty},
-                    {"PrincipalId", Guid.Empty},
-                    {"PrincipalName", string.Empty},
-                    {"ShortName", string.Empty},
-                    {"WebPage", string.Empty}
-                });
+                return this.JsonResult(GetEmptyCatalogInfo());
             }
+        }
+
+        private Dictionary<string, object> GetEmptyCatalogInfo()
+        {
+            return new Dictionary<string, object>
+            {
+                {"CategoryName", string.Empty},
+                {"Code", string.Empty},
+                {"CreateBy", string.Empty},
+                {"CreateOn", DateTime.MinValue},
+                {"CreateUserId", Guid.Empty},
+                {"Description", string.Empty},
+                {"ModifiedBy", string.Empty},
+                {"ModifiedOn", DateTime.MinValue},
+                {"ModifiedUserId", Guid.Empty},
+                {"Name", string.Empty},
+                {"ParentId", Guid.Empty},
+                {"ParentName", string.Empty},
+                {"Postalcode", string.Empty}
+            };
         }
 
         // TODO:重构 因为方法太长

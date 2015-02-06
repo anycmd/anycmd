@@ -268,7 +268,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
         public ActionResult GetManagedFunctions(Guid? appSystemId, string viewController)
         {
             CatalogState resource;
-            if (!AcDomain.CatalogSet.TryGetCatalog(AcDomain.AppSystemSet.SelfAppSystem.Code +"." +viewController, out resource))
+            if (!AcDomain.CatalogSet.TryGetCatalog(viewController, out resource))
             {
                 throw new ValidationException("意外的资源码" + viewController);
             }

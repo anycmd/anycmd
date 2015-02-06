@@ -200,7 +200,6 @@
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="CategoryCode" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="TypeCode" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="CatalogCode" Type="varchar" MaxLength="50" />
           <Property Name="ShortName" Type="nvarchar" MaxLength="50" />
           <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="IsEnabled" Type="int" Nullable="false" />
@@ -1078,7 +1077,6 @@
           <Property Name="Id" Type="Guid" Nullable="false" />
           <Property Name="CategoryCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TypeCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CatalogCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ShortName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="IsEnabled" Type="Int32" Nullable="false" />
@@ -1445,7 +1443,6 @@
                 <ScalarProperty Name="IsEnabled" ColumnName="IsEnabled" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ShortName" ColumnName="ShortName" />
-                <ScalarProperty Name="CatalogCode" ColumnName="CatalogCode" />
                 <ScalarProperty Name="TypeCode" ColumnName="TypeCode" />
                 <ScalarProperty Name="CategoryCode" ColumnName="CategoryCode" />
                 <ScalarProperty Name="Id" ColumnName="Id" />

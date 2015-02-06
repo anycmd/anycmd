@@ -53,8 +53,6 @@
     <Compile Include="DsdViewModels\DsdSetCreateIo.cs" />
     <Compile Include="DsdViewModels\DsdSetUpdateIo.cs" />
     <Compile Include="GroupViewModels\GetPlistRoleGroups.cs" />
-    <Compile Include="GroupViewModels\PositionCreateInput.cs" />
-    <Compile Include="GroupViewModels\PositionUpdateInput.cs" />
     <Compile Include="Identity\AccountViewModels\AccountCreateInput.cs" />
     <Compile Include="Identity\AccountViewModels\AccountUpdateInput.cs" />
     <Compile Include="Identity\AccountViewModels\GetPlistAccounts.cs" />

@@ -2,7 +2,6 @@
 namespace Anycmd.Tests
 {
     using Ac.ViewModels.GroupViewModels;
-    using Ac.ViewModels.Infra.CatalogViewModels;
     using Engine.Ac;
     using Engine.Ac.Messages.Infra;
     using Engine.Host.Ac.Infra;
@@ -163,45 +162,5 @@ namespace Anycmd.Tests
             }
         }
         #endregion
-
-        [TestMethod]
-        public void TestPosition()
-        {
-            var acDomain = TestHelper.GetAcDomain();
-            Assert.AreEqual(0, acDomain.GroupSet.Count());
-            AcSessionState.AcMethod.SignIn(acDomain, new Dictionary<string, object>
-            {
-                {"loginName", "test"},
-                {"password", "111111"},
-                {"rememberMe", "rememberMe"}
-            });
-            acDomain.Handle(new CatalogCreateInput
-            {
-                Id = Guid.NewGuid(),
-                Code = "100",
-                Name = "测试1",
-                Description = "test",
-                SortCode = 10,
-                Icon = null,
-            }.ToCommand(acDomain.GetAcSession()));
-            var entityId = Guid.NewGuid();
-
-            GroupState groupById;
-            acDomain.Handle(new PositionCreateInput
-            {
-                Id = entityId,
-                Name = "测试1",
-                CategoryCode = "test",
-                Description = "test",
-                IsEnabled = 1,
-                ShortName = "",
-                SortCode = 10,
-                CatalogCode = "100"
-            }.ToCommand(acDomain.GetAcSession()));
-            Assert.AreEqual(1, acDomain.GroupSet.Count());
-            Assert.IsTrue(acDomain.GroupSet.TryGetGroup(entityId, out groupById));
-            acDomain.Handle(new RemovePositionCommand(acDomain.GetAcSession(), entityId));
-            Assert.AreEqual(0, acDomain.GroupSet.Count());
-        }
     }
 }

@@ -175,8 +175,6 @@
     <Compile Include="Engine\Ac\InOuts\ICatalogUpdateIo.cs" />
     <Compile Include="Engine\Ac\InOuts\IPasswordAssignIo.cs" />
     <Compile Include="Engine\Ac\InOuts\IPasswordChangeIo.cs" />
-    <Compile Include="Engine\Ac\InOuts\IPositionCreateIo.cs" />
-    <Compile Include="Engine\Ac\InOuts\IPositionUpdateIo.cs" />
     <Compile Include="Engine\Ac\InOuts\IPrivilegeCreateIo.cs" />
     <Compile Include="Engine\Ac\InOuts\IPrivilegeUpdateIo.cs" />
     <Compile Include="Engine\Ac\InOuts\IPropertyCreateIo.cs" />
@@ -201,7 +199,6 @@
     <Compile Include="Engine\Edi\InOuts\INodeOntologyCatalogCreateIo.cs" />
     <Compile Include="Engine\Ac\FunctionIoState.cs" />
     <Compile Include="Engine\Host\Impl\HostConvention.cs" />
-    <Compile Include="Engine\Ac\Messages\Infra\AddPositionCommand.cs" />
     <Compile Include="Engine\Ac\Messages\Rbac\AddDsdRoleCommand.cs" />
     <Compile Include="Engine\Ac\Messages\Rbac\AddDsdSetCommand.cs" />
     <Compile Include="Engine\Ac\Messages\Rbac\AddSsdRoleCommand.cs" />
@@ -211,12 +208,8 @@
     <Compile Include="Engine\Ac\Messages\Rbac\DsdSetAddedEvent.cs" />
     <Compile Include="Engine\Ac\Messages\Rbac\DsdSetRemovedEvent.cs" />
     <Compile Include="Engine\Ac\Messages\Rbac\DsdSetUpdatedEvent.cs" />
-    <Compile Include="Engine\Ac\Messages\Infra\PositionAddedEvent.cs" />
-    <Compile Include="Engine\Ac\Messages\Infra\PositionRemovedEvent.cs" />
-    <Compile Include="Engine\Ac\Messages\Infra\PositionUpdatedEvent.cs" />
     <Compile Include="Engine\Ac\Messages\Rbac\RemoveDsdRoleCommand.cs" />
     <Compile Include="Engine\Ac\Messages\Rbac\RemoveDsdSetCommand.cs" />
-    <Compile Include="Engine\Ac\Messages\Infra\RemovePositionCommand.cs" />
     <Compile Include="Engine\Ac\Messages\Rbac\RemoveSsdRoleCommand.cs" />
     <Compile Include="Engine\Ac\Messages\Rbac\RemoveSsdSetCommand.cs" />
     <Compile Include="Engine\Ac\Messages\Rbac\RoleRolePrivilegeAddedEvent.cs" />
@@ -226,7 +219,6 @@
     <Compile Include="Engine\Ac\Messages\Rbac\SsdSetRemovedEvent.cs" />
     <Compile Include="Engine\Ac\Messages\Rbac\SsdSetUpdatedEvent.cs" />
     <Compile Include="Engine\Ac\Messages\Rbac\UpdateDsdSetCommand.cs" />
-    <Compile Include="Engine\Ac\Messages\Infra\UpdatePositionCommand.cs" />
     <Compile Include="Engine\Ac\Messages\Rbac\UpdateSsdSetCommand.cs" />
     <Compile Include="Engine\Host\Ac\Rbac\AcSession.cs" />
     <Compile Include="Engine\Ac\DsdRoleState.cs" />

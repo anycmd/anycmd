@@ -99,18 +99,11 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
         #region MessageHandler
         private class MessageHandler :
             IHandler<AddGroupCommand>,
-            IHandler<AddPositionCommand>,
             IHandler<GroupAddedEvent>,
-            IHandler<PositionAddedEvent>,
             IHandler<UpdateGroupCommand>,
-            IHandler<UpdatePositionCommand>,
             IHandler<GroupUpdatedEvent>,
-            IHandler<PositionUpdatedEvent>,
             IHandler<RemoveGroupCommand>, 
-            IHandler<RemovePositionCommand>, 
-            IHandler<GroupRemovedEvent>,
-            IHandler<PositionRemovedEvent>,
-            IHandler<CatalogRemovedEvent>
+            IHandler<GroupRemovedEvent>
         {
             private readonly GroupSet _set;
 
@@ -128,33 +121,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 messageDispatcher.Register((IHandler<AddGroupCommand>)this);
                 messageDispatcher.Register((IHandler<GroupAddedEvent>)this);
-                messageDispatcher.Register((IHandler<AddPositionCommand>)this);
-                messageDispatcher.Register((IHandler<PositionAddedEvent>)this);
                 messageDispatcher.Register((IHandler<UpdateGroupCommand>)this);
                 messageDispatcher.Register((IHandler<GroupUpdatedEvent>)this);
-                messageDispatcher.Register((IHandler<UpdatePositionCommand>)this);
-                messageDispatcher.Register((IHandler<PositionUpdatedEvent>)this);
                 messageDispatcher.Register((IHandler<RemoveGroupCommand>)this);
                 messageDispatcher.Register((IHandler<GroupRemovedEvent>)this);
-                messageDispatcher.Register((IHandler<RemovePositionCommand>)this);
-                messageDispatcher.Register((IHandler<PositionRemovedEvent>)this);
-            }
-
-            public void Handle(CatalogRemovedEvent message)
-            {
-                var catalogCode = message.CatalogCode;
-                var groupIds = new HashSet<Guid>();
-                foreach (var item in _set._groupDic.Values)
-                {
-                    if (!string.IsNullOrEmpty(item.CatalogCode) && item.CatalogCode.Equals(catalogCode, StringComparison.OrdinalIgnoreCase))
-                    {
-                        groupIds.Add(item.Id);
-                    }
-                }
-                foreach (var groupId in groupIds)
-                {
-                    _set._acDomain.Handle(new RemovePositionCommand(message.AcSession, groupId));
-                }
             }
 
             public void Handle(AddGroupCommand message)
@@ -165,20 +135,6 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             public void Handle(GroupAddedEvent message)
             {
                 if (message.GetType() == typeof(PrivateGroupAddedEvent))
-                {
-                    return;
-                }
-                this.Handle(message.AcSession, message.Output, false);
-            }
-
-            public void Handle(AddPositionCommand message)
-            {
-                this.Handle(message.AcSession, message.Input, true);
-            }
-
-            public void Handle(PositionAddedEvent message)
-            {
-                if (message.GetType() == typeof(PrivatePositionAddedEvent))
                 {
                     return;
                 }
@@ -236,78 +192,9 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
             }
 
-            private void Handle(IAcSession acSession, IPositionCreateIo input, bool isCommand)
-            {
-                var acDomain = _set._acDomain;
-                var groupDic = _set._groupDic;
-                var groupRepository = acDomain.RetrieveRequiredService<IRepository<Group>>();
-                if (!input.Id.HasValue)
-                {
-                    throw new ValidationException("标识是必须的");
-                }
-                if (string.IsNullOrEmpty(input.CatalogCode))
-                {
-                    throw new ValidationException("目录码不能为空");
-                }
-                CatalogState org;
-                if (!acDomain.CatalogSet.TryGetCatalog(input.CatalogCode, out org))
-                {
-                    throw new ValidationException("非法的目录码" + input.CatalogCode);
-                }
-
-                var entity = Group.Create(input);
-
-                lock (this)
-                {
-                    GroupState group;
-                    if (acDomain.GroupSet.TryGetGroup(entity.Id, out group))
-                    {
-                        throw new AnycmdException("意外的重复标识");
-                    }
-                    if (acDomain.GroupSet.Any(a => input.CatalogCode.Equals(a.CatalogCode, StringComparison.OrdinalIgnoreCase) && a.Name.Equals(input.Name, StringComparison.OrdinalIgnoreCase)))
-                    {
-                        throw new ValidationException("重复的岗位名");
-                    }
-                    if (!groupDic.ContainsKey(entity.Id))
-                    {
-                        groupDic.Add(entity.Id, GroupState.Create(entity));
-                    }
-                    if (isCommand)
-                    {
-                        try
-                        {
-                            groupRepository.Add(entity);
-                            groupRepository.Context.Commit();
-                        }
-                        catch
-                        {
-                            if (groupDic.ContainsKey(entity.Id))
-                            {
-                                groupDic.Remove(entity.Id);
-                            }
-                            groupRepository.Context.Rollback();
-                            throw;
-                        }
-                    }
-                }
-                if (isCommand)
-                {
-                    acDomain.MessageDispatcher.DispatchMessage(new PrivatePositionAddedEvent(acSession, entity, input));
-                }
-            }
-
             private class PrivateGroupAddedEvent : GroupAddedEvent, IPrivateEvent
             {
                 internal PrivateGroupAddedEvent(IAcSession acSession, GroupBase source, IGroupCreateIo input)
-                    : base(acSession, source, input)
-                {
-
-                }
-            }
-
-            private class PrivatePositionAddedEvent : PositionAddedEvent, IPrivateEvent
-            {
-                internal PrivatePositionAddedEvent(IAcSession acSession, GroupBase source, IPositionCreateIo input)
                     : base(acSession, source, input)
                 {
 
@@ -322,20 +209,6 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             public void Handle(GroupUpdatedEvent message)
             {
                 if (message.GetType() == typeof(PrivateGroupUpdatedEvent))
-                {
-                    return;
-                }
-                this.Handle(message.AcSession, message.Output, false);
-            }
-
-            public void Handle(UpdatePositionCommand message)
-            {
-                this.Handle(message.AcSession, message.Input, true);
-            }
-
-            public void Handle(PositionUpdatedEvent message)
-            {
-                if (message.GetType() == typeof(PrivatePositionUpdatedEvent))
                 {
                     return;
                 }
@@ -402,70 +275,6 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
             }
 
-            private void Handle(IAcSession acSession, IPositionUpdateIo input, bool isCommand)
-            {
-                var acDomain = _set._acDomain;
-                var groupRepository = acDomain.RetrieveRequiredService<IRepository<Group>>();
-                GroupState bkState;
-                if (!acDomain.GroupSet.TryGetGroup(input.Id, out bkState))
-                {
-                    throw new NotExistException();
-                }
-                if (string.IsNullOrEmpty(bkState.CatalogCode))
-                {
-                    throw new AnycmdException("目录码为空");
-                }
-                Group entity;
-                var stateChanged = false;
-                lock (this)
-                {
-                    GroupState oldState;
-                    if (!acDomain.GroupSet.TryGetGroup(input.Id, out oldState))
-                    {
-                        throw new NotExistException();
-                    }
-                    if (acDomain.GroupSet.Any(a => bkState.CatalogCode.Equals(a.CatalogCode, StringComparison.OrdinalIgnoreCase) && a.Name.Equals(input.Name, StringComparison.OrdinalIgnoreCase) && a.Id != input.Id))
-                    {
-                        throw new ValidationException("重复的岗位名");
-                    }
-                    entity = groupRepository.GetByKey(input.Id);
-                    if (entity == null)
-                    {
-                        throw new NotExistException();
-                    }
-
-                    entity.Update(input);
-
-                    var newState = GroupState.Create(entity);
-                    stateChanged = newState != bkState;
-                    if (stateChanged)
-                    {
-                        Update(newState);
-                    }
-                    if (isCommand)
-                    {
-                        try
-                        {
-                            groupRepository.Update(entity);
-                            groupRepository.Context.Commit();
-                        }
-                        catch
-                        {
-                            if (stateChanged)
-                            {
-                                Update(bkState);
-                            }
-                            groupRepository.Context.Rollback();
-                            throw;
-                        }
-                    }
-                }
-                if (isCommand && stateChanged)
-                {
-                    acDomain.MessageDispatcher.DispatchMessage(new PrivatePositionUpdatedEvent(acSession, entity, input));
-                }
-            }
-
             private void Update(GroupState state)
             {
                 var groupDic = _set._groupDic;
@@ -481,15 +290,6 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
             }
 
-            private class PrivatePositionUpdatedEvent : PositionUpdatedEvent, IPrivateEvent
-            {
-                internal PrivatePositionUpdatedEvent(IAcSession acSession, GroupBase source, IPositionUpdateIo input)
-                    : base(acSession, source, input)
-                {
-
-                }
-            }
-
             public void Handle(RemoveGroupCommand message)
             {
                 this.Handle(message.AcSession, message.EntityId, true);
@@ -498,20 +298,6 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             public void Handle(GroupRemovedEvent message)
             {
                 if (message.GetType() == typeof(PrivateGroupRemovedEvent))
-                {
-                    return;
-                }
-                this.Handle(message.AcSession, message.Source.Id, false);
-            }
-
-            public void Handle(RemovePositionCommand message)
-            {
-                this.Handle(message.AcSession, message.EntityId, true);
-            }
-
-            public void Handle(PositionRemovedEvent message)
-            {
-                if (message.GetType() == typeof(PrivatePositionRemovedEvent))
                 {
                     return;
                 }
@@ -570,25 +356,12 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 if (isCommand)
                 {
                     acDomain.MessageDispatcher.DispatchMessage(new PrivateGroupRemovedEvent(acSession, entity));
-                    if (!string.IsNullOrEmpty(bkState.CatalogCode))
-                    {
-                        acDomain.MessageDispatcher.DispatchMessage(new PrivatePositionRemovedEvent(acSession, entity));
-                    }
                 }
             }
 
             private class PrivateGroupRemovedEvent : GroupRemovedEvent, IPrivateEvent
             {
                 internal PrivateGroupRemovedEvent(IAcSession acSession, GroupBase source)
-                    : base(acSession, source)
-                {
-
-                }
-            }
-
-            private class PrivatePositionRemovedEvent : PositionRemovedEvent, IPrivateEvent
-            {
-                internal PrivatePositionRemovedEvent(IAcSession acSession, GroupBase source)
                     : base(acSession, source)
                 {
 

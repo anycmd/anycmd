@@ -41,32 +41,5 @@ namespace Anycmd.Engine.Host.Ac.Infra
             this.ShortName = input.ShortName;
             this.SortCode = input.SortCode;
         }
-
-        public static Group Create(IPositionCreateIo input)
-        {
-            Debug.Assert(input.Id != null, "input.Id != null");
-            return new Group
-            {
-                Id = input.Id.Value,
-                CategoryCode = input.CategoryCode,
-                Description = input.Description,
-                IsEnabled = input.IsEnabled,
-                Name = input.Name,
-                ShortName = input.ShortName,
-                SortCode = input.SortCode,
-                TypeCode = "Ac",
-                CatalogCode = input.CatalogCode
-            };
-        }
-
-        public void Update(IPositionUpdateIo input)
-        {
-            this.CategoryCode = input.CategoryCode;
-            this.Description = input.Description;
-            this.IsEnabled = input.IsEnabled;
-            this.Name = input.Name;
-            this.ShortName = input.ShortName;
-            this.SortCode = input.SortCode;
-        }
     }
 }

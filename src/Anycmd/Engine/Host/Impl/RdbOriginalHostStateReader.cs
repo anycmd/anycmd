@@ -394,7 +394,6 @@ namespace Anycmd.Engine.Host.Impl
                     Etag = (byte[])row["Etag"],
                     SortCode = (int)row["SortCode"],
                     CategoryCode = row["CategoryCode"] == DBNull.Value ? null : row["CategoryCode"].ToString(),
-                    CatalogCode = row["CatalogCode"] == DBNull.Value ? null : row["CatalogCode"].ToString(),
                     TypeCode = (string)row["TypeCode"]
                 };
                 var entity = item as IEntityBase;

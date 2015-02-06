@@ -21,13 +21,6 @@ namespace Anycmd.Engine.Ac.Abstractions.Infra
         /// </summary>
         Guid Id { get; }
         /// <summary>
-        /// 组所属目录，如果该属性有指向目录的值的话该组就是绑定了目录的，比如岗位就属于绑定了目录的组。绑定了目录的工作组中的资源只能来自于这个目录和其子目录。
-        /// <remarks>
-        /// 工作组是组中有主体的组。工作组是跨目录的资源组，组中的资源不只来自一个目录。
-        /// </remarks>
-        /// </summary>
-        string CatalogCode { get; }
-        /// <summary>
         /// 
         /// </summary>
         string Name { get; }

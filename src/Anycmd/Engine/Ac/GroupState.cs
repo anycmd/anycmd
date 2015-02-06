@@ -11,7 +11,6 @@ namespace Anycmd.Engine.Ac
     public sealed class GroupState : StateObject<GroupState>, IGroup, IAcElement
     {
         private string _name;
-        private string _catalogCode;
         private string _categoryCode;
         private int _sortCode;
         private int _isEnabled;
@@ -28,7 +27,6 @@ namespace Anycmd.Engine.Ac
             return new GroupState(group.Id)
             {
                 _name = group.Name,
-                _catalogCode = group.CatalogCode,
                 _categoryCode = group.CategoryCode,
                 _sortCode = group.SortCode,
                 _isEnabled = group.IsEnabled,
@@ -44,17 +42,6 @@ namespace Anycmd.Engine.Ac
         public string Name
         {
             get { return _name; }
-        }
-
-        /// <summary>
-        /// 组所属目录，如果该属性有指向目录的值的话该组就是绑定了目录的，比如岗位就属于绑定了目录的组。绑定了目录的工作组中的资源只能来自于这个目录和其子目录。
-        /// <remarks>
-        /// 工作组是组中有主体的组。工作组是跨目录的资源组，组中的资源不只来自一个目录。
-        /// </remarks>
-        /// </summary>
-        public string CatalogCode
-        {
-            get { return _catalogCode; }
         }
 
         public string CategoryCode
@@ -77,25 +64,10 @@ namespace Anycmd.Engine.Ac
             get { return _createOn; }
         }
 
-        public override string ToString()
-        {
-            return string.Format(
-@"{{
-    Id:'{0}',
-    Name:'{1}',
-    CatalogCode:'{2}',
-    CategoryCode:'{3}',
-    SortCodeP:{4},
-    IsEnabled:{5},
-    CreateOn:'{6}'
-}}", Id, Name, CatalogCode, CategoryCode, SortCode, IsEnabled, CreateOn);
-        }
-
         protected override bool DoEquals(GroupState other)
         {
             return Id == other.Id &&
                 Name == other.Name &&
-                CatalogCode == other.CatalogCode &&
                 CategoryCode == other.CategoryCode &&
                 SortCode == other.SortCode &&
                 IsEnabled == other.IsEnabled;

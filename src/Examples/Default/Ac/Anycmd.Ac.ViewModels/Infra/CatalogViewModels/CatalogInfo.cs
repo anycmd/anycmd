@@ -23,6 +23,10 @@ namespace Anycmd.Ac.ViewModels.Infra.CatalogViewModels
             {
                 data.Add(item.Key, item.Value);
             }
+            if (!data.ContainsKey("IsEnabledName"))
+            {
+                data.Add("IsEnabledName", dic.AcDomain.Translate("Ac", "Catalog", "IsEnabledName", data["IsEnabled"].ToString()));
+            }
             if (!data.ContainsKey("CategoryName"))
             {
                 data.Add("CategoryName", dic.AcDomain.Translate("Ac", "Catalog", "CategoryName", data["CategoryCode"].ToString()));
