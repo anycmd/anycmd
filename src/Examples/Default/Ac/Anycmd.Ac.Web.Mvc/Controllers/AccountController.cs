@@ -106,22 +106,20 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             if (AcSession.Identity.IsAuthenticated)
             {
                 var account = AcSession.Account;
-                var menuList = AcSession.AccountPrivilege.AuthorizedMenus.Cast<IMenu>().ToList();
-                var menus = menuList.Select(m => new
-                {
-                    id = m.Id,
-                    text = m.Name,
-                    pid = m.ParentId,
-                    url = m.Url,
-                    img = m.Icon
-                });
                 return this.JsonResult(new
                 {
                     isLogined = AcSession.Identity.IsAuthenticated,
                     loginName = AcSession.IsDeveloper() ? string.Format("{0}(开发人员)", account.LoginName) : account.LoginName,
                     wallpaper = string.Empty,
                     backColor = string.Empty,
-                    menus,
+                    menus = AcSession.AccountPrivilege.AuthorizedMenus.Cast<IMenu>().ToList().Select(m => new
+                    {
+                        id = m.Id,
+                        text = m.Name,
+                        pid = m.ParentId,
+                        url = m.Url,
+                        img = m.Icon
+                    }),
                     roles = AcSession.AccountPrivilege.Roles,
                     groups = AcSession.AccountPrivilege.Groups
                 });
@@ -230,15 +228,10 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            EntityTypeState entityType;
-            if (!AcDomain.EntityTypeSet.TryGetEntityType(new Coder("Ac", "Account"), out entityType))
-            {
-                throw new AnycmdException("意外的实体类型Ac.Account");
-            }
             foreach (var filter in input.Filters)
             {
                 PropertyState property;
-                if (!AcDomain.EntityTypeSet.TryGetProperty(entityType, filter.field, out property))
+                if (!AcDomain.EntityTypeSet.TryGetProperty(base.EntityType, filter.field, out property))
                 {
                     throw new ValidationException("意外的Account实体类型属性" + filter.field);
                 }
@@ -255,13 +248,13 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 else
                 {
                     userAccountTrs = GetRequiredService<IAccountQuery>().GetPlistAccountTrs(input.Filters, input.CatalogCode
-                , input.IncludeDescendants.Value, input);
+                        , input.IncludeDescendants.Value, input);
                 }
             }
             else
             {
                 userAccountTrs = GetRequiredService<IAccountQuery>().GetPlistAccountTrs(input.Filters, input.CatalogCode
-                , input.IncludeDescendants.Value, input);
+                    , input.IncludeDescendants.Value, input);
             }
             Debug.Assert(input.Total != null, "requestModel.total != null");
             var data = new MiniGrid<Dictionary<string, object>> { total = input.Total.Value, data = userAccountTrs };
@@ -496,9 +489,9 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
         #endregion
 
         [By("xuexs")]
-        [Description("根据目录ID分页获取数据集管理员")]
+        [Description("根据目录ID分页获取账户")]
         [Guid("B4183494-8E10-484D-A536-0905A3EB37BE")]
-        public ActionResult GetPlistAccountCatalogPrivileges(GetPlistAccountCatalogPrivileges input)
+        public ActionResult GetPlistCatalogAccounts(GetPlistCatalogAccounts input)
         {
             if (!ModelState.IsValid)
             {
@@ -526,42 +519,6 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
 
             Debug.Assert(input.Total != null, "requestData.total != null");
             return this.JsonResult(new MiniGrid<Dictionary<string, object>> { total = input.Total.Value, data = data });
-        }
-
-        [By("xuexs")]
-        [Description("分页获取包工头")]
-        [Guid("5602D2C4-BFDA-4698-A6F4-A54E5953BBF3")]
-        public ActionResult GetPlistContractors(GetPlistContractors input)
-        {
-            if (!ModelState.IsValid)
-            {
-                return ModelState.ToJsonResult();
-            }
-            input.IncludeDescendants = input.IncludeDescendants ?? false;
-            List<DicReader> userTrs = null;
-            // 如果组织机构为空则需要检测是否是超级管理员，因为只有超级管理员才可以看到全部包工头
-            if (string.IsNullOrEmpty(input.CatalogCode))
-            {
-                if (!AcSession.IsDeveloper())
-                {
-                    throw new ValidationException("对不起，您没有查看全部包工头的权限");
-                }
-                else
-                {
-                    userTrs = GetRequiredService<IAccountQuery>().GetPlistContractorTrs(
-                        input.Filters, input.CatalogCode, input.IncludeDescendants.Value, input);
-                }
-            }
-            else
-            {
-                userTrs = GetRequiredService<IAccountQuery>().GetPlistContractorTrs(
-                    input.Filters, input.CatalogCode, input.IncludeDescendants.Value, input);
-            }
-
-            Debug.Assert(input.Total != null, "requestData.total != null");
-            var data = new MiniGrid<Dictionary<string, object>> { total = input.Total.Value, data = userTrs };
-
-            return this.JsonResult(data);
         }
     }
 }

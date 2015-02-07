@@ -140,7 +140,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Controllers\Controllers.cd" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

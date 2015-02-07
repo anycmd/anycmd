@@ -13,6 +13,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Data.SqlClient;
+    using System.Diagnostics;
     using System.Linq;
     using System.Web.Mvc;
     using Util;
@@ -151,6 +152,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                 return new SqlFilter(filterString, ps.ToArray());
             }, pagingData);
 
+            Debug.Assert(pagingData.Total != null, "pagingData.Total != null");
             return this.JsonResult(new MiniGrid<BatchTr> { total = pagingData.Total.Value, data = data.Select(a => new BatchTr(a)) });
         }
 

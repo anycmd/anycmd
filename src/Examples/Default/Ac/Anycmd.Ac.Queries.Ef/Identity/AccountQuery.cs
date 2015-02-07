@@ -99,48 +99,5 @@ namespace Anycmd.Ac.Queries.Ef.Identity
 			return base.GetPlist("GroupAccountTr", filter, paging);
 		}
 		#endregion
-
-		public List<DicReader> GetPlistContractorTrs(List<FilterData> filters, string catalogCode, bool includeOrgChild, PagingInput paging)
-		{
-			paging.Valid();
-			bool byOrgCode = !string.IsNullOrEmpty(catalogCode);
-			Func<SqlFilter> filter = () =>
-			{
-				List<SqlParameter> parameters;
-				var filterString = new SqlFilterStringBuilder().FilterString(filters, "a", out parameters);
-				if (!string.IsNullOrEmpty(filterString))
-				{
-					filterString = " where 1=1 and " + filterString;
-				}
-				else
-				{
-					filterString = " where 1=1 ";
-				}
-				if (!includeOrgChild)
-				{
-					if (byOrgCode)
-					{
-						if (!string.IsNullOrEmpty(catalogCode))
-						{
-							parameters.Add(new SqlParameter("CatalogCode", catalogCode));
-							filterString += " and a.CatalogCode=@CatalogCode";
-						}
-					}
-				}
-				else
-				{
-					if (byOrgCode)
-					{
-						if (!string.IsNullOrEmpty(catalogCode))
-						{
-							parameters.Add(new SqlParameter("CatalogCode", catalogCode + "%"));
-							filterString += " and a.CatalogCode like @CatalogCode";
-						}
-					}
-				}
-				return new SqlFilter(filterString, parameters.ToArray());
-			};
-			return base.GetPlist("AccountTr", filter, paging);
-		}
 	}
 }

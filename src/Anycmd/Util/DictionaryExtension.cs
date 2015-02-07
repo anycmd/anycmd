@@ -4,7 +4,7 @@ namespace Anycmd.Util
     using Document;
     using System.Collections.Generic;
 
-    internal static class DictionaryExtensions
+    internal static class DictionaryExtension
     {
         public static ushort NextIndex<T>(this Dictionary<ushort, T> dict)
         {

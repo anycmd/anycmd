@@ -64,7 +64,6 @@
     <Compile Include="Identity\AccountViewModels\IVisitingLogQuery.cs" />
     <Compile Include="Identity\AccountViewModels\PasswordChangeInput.cs" />
     <Compile Include="Identity\AccountViewModels\PasswordAssignInput.cs" />
-    <Compile Include="Identity\AccountViewModels\GetPlistContractors.cs" />
     <Compile Include="Infra\AppSystemViewModels\AppSystemCreateInput.cs" />
     <Compile Include="Infra\AppSystemViewModels\AppSystemInfo.cs" />
     <Compile Include="Infra\AppSystemViewModels\AppSystemTr.cs" />
@@ -117,7 +116,7 @@
     <Compile Include="GroupViewModels\GroupCreateInput.cs" />
     <Compile Include="GroupViewModels\GroupUpdateInput.cs" />
     <Compile Include="ModelExtension.cs" />
-    <Compile Include="PrivilegeViewModels\GetPlistAccountCatalogPrivileges.cs" />
+    <Compile Include="PrivilegeViewModels\GetPlistCatalogAccounts.cs" />
     <Compile Include="PrivilegeViewModels\GetPlistFunctionByRoleId.cs" />
     <Compile Include="PrivilegeViewModels\IPrivilegeQuery.cs" />
     <Compile Include="PrivilegeViewModels\PrivilegeCreateIo.cs" />

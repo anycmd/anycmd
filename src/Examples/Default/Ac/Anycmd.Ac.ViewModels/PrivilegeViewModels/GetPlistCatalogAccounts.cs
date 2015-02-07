@@ -1,13 +1,17 @@
 ﻿
-namespace Anycmd.Ac.ViewModels.Identity.AccountViewModels
+namespace Anycmd.Ac.ViewModels.PrivilegeViewModels
 {
     using ViewModel;
 
     /// <summary>
     /// 
     /// </summary>
-    public class GetPlistContractors : GetPlistResult
+    public class GetPlistCatalogAccounts : GetPlistResult
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        public string Key { get; set; }
         /// <summary>
         /// 
         /// </summary>

@@ -1,12 +1,11 @@
 ﻿
-using System.Linq;
-
 namespace Anycmd.Util
 {
     using Engine.Host;
     using Serialization;
     using System;
     using System.Diagnostics;
+    using System.Linq;
     using System.Linq.Expressions;
     using System.Reflection;
     using System.Security.Cryptography;
@@ -169,15 +168,12 @@ namespace Anycmd.Util
         public static string GetUniqueIdentifier(int length)
         {
             var maxSize = length;
-            var chars = new char[62];
-            string a;
-            a = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-            chars = a.ToCharArray();
+            const string a = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+            char[] chars = a.ToCharArray();
             var size = maxSize;
             var data = new byte[1];
             var crypto = new RNGCryptoServiceProvider();
             crypto.GetNonZeroBytes(data);
-            size = maxSize;
             data = new byte[size];
             crypto.GetNonZeroBytes(data);
             var result = new StringBuilder(size);

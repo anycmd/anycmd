@@ -1,4 +1,5 @@
-﻿
+﻿using System.Diagnostics;
+
 namespace Anycmd.Edi.Web.Mvc.Controllers
 {
     using Anycmd.Web.Mvc;
@@ -158,6 +159,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             }
             AcDomain.Handle(input.ToCommand(AcSession));
 
+            Debug.Assert(input.Id != null, "input.Id != null");
             return this.JsonResult(new ResponseData { success = true, id = input.Id.Value });
         }
 

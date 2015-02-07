@@ -6,8 +6,8 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 	using DataContracts;
 	using Engine.Ac;
 	using Engine.Edi;
-	using Engine.Host.Edi;
 	using Engine.Hecp;
+	using Engine.Host.Edi;
 	using Engine.Info;
 	using Exceptions;
 	using MiniUI;
@@ -22,6 +22,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 	using System.Collections.Generic;
 	using System.Collections.Specialized;
 	using System.ComponentModel;
+	using System.Diagnostics;
 	using System.IO;
 	using System.Linq;
 	using System.Web;
@@ -50,7 +51,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 	[Guid("E768C201-C59A-4A96-8D36-29F224B2B11D")]
 	public class EntityController : AnycmdController
 	{
-		private const string RESULT_SHEET_NAME = "Result";
+		private const string ResultSheetName = "Result";
 
 		#region ViewResults
 		/// <summary>
@@ -155,7 +156,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 			else
 			{
 				ArchiveState archive;
-				if (!archiveId.HasValue || !AcDomain.NodeHost.Ontologies.TryGetArchive(archiveId.Value, out archive))
+				if (!AcDomain.NodeHost.Ontologies.TryGetArchive(archiveId.Value, out archive))
 				{
 					throw new ValidationException("意外的归档Id");
 				}
@@ -224,7 +225,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 			else
 			{
 				ArchiveState archive;
-				if (!archiveId.HasValue || !AcDomain.NodeHost.Ontologies.TryGetArchive(archiveId.Value, out archive))
+				if (!AcDomain.NodeHost.Ontologies.TryGetArchive(archiveId.Value, out archive))
 				{
 					throw new ValidationException("意外的归档Id");
 				}
@@ -295,8 +296,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 			{
 				throw new ValidationException("selectElements为空");
 			}
-			IDataTuples infoValues;
-			infoValues = !requestModel.ArchiveId.HasValue ? GetInfoValues(requestModel, selectElements) : GetArchivedInfoValues(requestModel);
+			IDataTuples infoValues = !requestModel.ArchiveId.HasValue ? GetInfoValues(requestModel, selectElements) : GetArchivedInfoValues(requestModel);
 			var data = new List<Dictionary<string, string>>();
 			foreach (var row in infoValues.Tuples)
 			{
@@ -317,6 +317,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 				data.Add(dic);
 			}
 
+			Debug.Assert(requestModel.Total != null, "requestModel.Total != null");
 			return this.JsonResult(new MiniGrid { total = requestModel.Total.Value, data = data });
 		}
 		#endregion
@@ -376,7 +377,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 			HSSFWorkbook hssfworkbook = commandModel.Workbook;
 			var filestream = new MemoryStream(); //内存文件流(应该可以写成普通的文件流)
 			hssfworkbook.Write(filestream); //把文件读到内存流里面
-			string contentType = "application/vnd.ms-excel";
+			const string contentType = "application/vnd.ms-excel";
 			string fileName = ontology.Ontology.Name + "模板.xls";
 			if (Request.Browser.Type.IndexOf("IE", StringComparison.OrdinalIgnoreCase) > -1)
 			{
@@ -416,7 +417,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 			IWorkbook workbook = new HSSFWorkbook(fs);//从流内容创建Workbook对象
 			fs.Close();
 
-			ISheet sheet = workbook.GetSheet(RESULT_SHEET_NAME);
+			ISheet sheet = workbook.GetSheet(ResultSheetName);
 			var sheetIndex = workbook.GetSheetIndex(sheet);
 			for (int i = 0; i < workbook.NumberOfSheets; i++)
 			{
@@ -535,13 +536,13 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 			{
 				throw new ValidationException("$InfoValueKeys单元格无值");
 			}
-			string infoIDKeys = headRow1.GetCell(infoIdKeysIndex).SafeToStringTrim();
-			if (string.IsNullOrEmpty(infoIDKeys))
+			string infoIdKeys = headRow1.GetCell(infoIdKeysIndex).SafeToStringTrim();
+			if (string.IsNullOrEmpty(infoIdKeys))
 			{
 				throw new ValidationException("$InfoIDKeys单元格无值");
 			}
 			var selectKeys = new List<string>();
-			string[] keys = infoIDKeys.Split(',');
+			string[] keys = infoIdKeys.Split(',');
 			if (keys == null || keys.Length == 0)
 			{
 				throw new ValidationException("$InfoIDKeys单元格内的值格式错误");
@@ -625,10 +626,10 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 			IFont font = workbook.CreateFont();
 			font.FontHeightInPoints = 14;
 			helderStyle.SetFont(font);
-			helderStyle.BorderBottom = NPOI.SS.UserModel.BorderStyle.Thin;
-			helderStyle.BorderLeft = NPOI.SS.UserModel.BorderStyle.Thin;
-			helderStyle.BorderRight = NPOI.SS.UserModel.BorderStyle.Thin;
-			helderStyle.BorderTop = NPOI.SS.UserModel.BorderStyle.Thin;
+			helderStyle.BorderBottom = BorderStyle.Thin;
+			helderStyle.BorderLeft = BorderStyle.Thin;
+			helderStyle.BorderRight = BorderStyle.Thin;
+			helderStyle.BorderTop = BorderStyle.Thin;
 			helderStyle.FillForegroundColor = HSSFColor.LightGreen.Index;
 			helderStyle.FillPattern = FillPattern.SolidForeground;
 			int cellIndex = 0;
@@ -707,10 +708,10 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 			#endregion
 			var filestream = new MemoryStream(); //内存文件流(应该可以写成普通的文件流)
 			workbook.Write(filestream); //把文件读到内存流里面
-			string contentType = "application/vnd.ms-excel";
+			const string contentType = "application/vnd.ms-excel";
 			fileName = fileName.Substring(0, fileName.Length - 36 - ".xls".Length);
 			fileName += "_result";
-			if (Request.Browser.Type.IndexOf("IE") > -1)
+			if (Request.Browser.Type.IndexOf("IE", StringComparison.OrdinalIgnoreCase) > -1)
 			{
 				fileName = HttpUtility.UrlEncode(fileName, System.Text.Encoding.UTF8);
 			}
@@ -793,14 +794,14 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 				FileStream fs = System.IO.File.OpenRead(fullName);
 				IWorkbook workbook = new HSSFWorkbook(fs);//从流内容创建Workbook对象
 				fs.Close();
-				ISheet sheet = workbook.GetSheet(RESULT_SHEET_NAME);//获取结果工作表
+				ISheet sheet = workbook.GetSheet(ResultSheetName);//获取结果工作表
 				if (sheet == null)
 				{
-					throw new AnycmdException(fullName + "中没有名称为" + RESULT_SHEET_NAME + "的sheet");
+					throw new AnycmdException(fullName + "中没有名称为" + ResultSheetName + "的sheet");
 				}
 				IRow headRow1 = sheet.GetRow(0);
-				var list = new List<MiniGridColumn>();
-				list.Add(new MiniGridColumn { field = "", header = "", type = "indexcolumn", width = 60 });
+				var list = new List<MiniGridColumn> {new MiniGridColumn {field = "", header = "", type = "indexcolumn", width = 60}};
+
 				#region 提取列索引
 				for (int i = 0; i < headRow1.Cells.Count; i++)
 				{
@@ -851,7 +852,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 			IWorkbook workbook = new HSSFWorkbook(fs);//从流内容创建Workbook对象
 			fs.Close();
 
-			ISheet sheet = workbook.GetSheet(RESULT_SHEET_NAME);
+			ISheet sheet = workbook.GetSheet(ResultSheetName);
 			IRow headRow1 = sheet.GetRow(0);
 			var data = new List<Dictionary<string, string>>();
 			for (int i = 1; i <= sheet.LastRowNum; i++)
@@ -907,6 +908,10 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 				throw new ValidationException("错误:请上传文件!");
 			}
 			HttpPostedFileBase file = Request.Files[0];
+			if (file == null)
+			{
+				throw new ValidationException("错误:请上传文件!");
+			}
 			string fileName = file.FileName;
 			if (string.IsNullOrEmpty(fileName) || file.ContentLength == 0)
 			{
@@ -915,7 +920,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 			else
 			{
 				bool isSave = true;
-				string fileType = fileName.Substring(fileName.LastIndexOf(".")).ToLower();
+				string fileType = fileName.Substring(fileName.LastIndexOf('.')).ToLower();
 				fileName = fileName.Substring(0, fileName.Length - fileType.Length);
 				if (file.ContentLength > 1024 * 1024 * 10)
 				{
@@ -930,28 +935,32 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 				if (isSave)
 				{
 					string dirPath = Server.MapPath("~/Content/Import/Excel/" + ontology.Ontology.Code + "/" + AcSession.Account.Id);
-					DirectoryInfo dirInfo;
-					dirInfo = !Directory.Exists(dirPath) ? Directory.CreateDirectory(dirPath) : new DirectoryInfo(dirPath);
+					if (!Directory.Exists(dirPath))
+					{
+						Directory.CreateDirectory(dirPath);
+					}
 					string fullName = Path.Combine(dirPath, fileName + Guid.NewGuid().ToString() + fileType);
 					file.SaveAs(fullName);
-					try
+				    int successSum = 0;
+				    int failSum = 0;
+				    try
 					{
 						FileStream fs = System.IO.File.OpenRead(fullName);
 						IWorkbook workbook = new HSSFWorkbook(fs);//从流内容创建Workbook对象
 						fs.Close();
 						ICellStyle failStyle = workbook.CreateCellStyle();
 						ICellStyle successStyle = workbook.CreateCellStyle();
-						failStyle.BorderBottom = NPOI.SS.UserModel.BorderStyle.Thin;
-						failStyle.BorderLeft = NPOI.SS.UserModel.BorderStyle.Thin;
-						failStyle.BorderRight = NPOI.SS.UserModel.BorderStyle.Thin;
-						failStyle.BorderTop = NPOI.SS.UserModel.BorderStyle.Thin;
+						failStyle.BorderBottom = BorderStyle.Thin;
+						failStyle.BorderLeft = BorderStyle.Thin;
+						failStyle.BorderRight = BorderStyle.Thin;
+						failStyle.BorderTop = BorderStyle.Thin;
 						failStyle.FillForegroundColor = HSSFColor.LightOrange.Index;
 						failStyle.FillPattern = FillPattern.SolidForeground;
 
-						successStyle.BorderBottom = NPOI.SS.UserModel.BorderStyle.Thin;
-						successStyle.BorderLeft = NPOI.SS.UserModel.BorderStyle.Thin;
-						successStyle.BorderRight = NPOI.SS.UserModel.BorderStyle.Thin;
-						successStyle.BorderTop = NPOI.SS.UserModel.BorderStyle.Thin;
+						successStyle.BorderBottom = BorderStyle.Thin;
+						successStyle.BorderLeft = BorderStyle.Thin;
+						successStyle.BorderRight = BorderStyle.Thin;
+						successStyle.BorderTop = BorderStyle.Thin;
 						successStyle.FillForegroundColor = HSSFColor.LightGreen.Index;
 						successStyle.FillPattern = FillPattern.SolidForeground;
 
@@ -978,7 +987,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 							throw new ValidationException("没有名称为'" + ontology.Ontology.Code + "'或'" + ontology.Ontology.Name + "'或'工作表'的sheet");
 						}
 						int sheetIndex = workbook.GetSheetIndex(sheet);
-						workbook.SetSheetName(sheetIndex, RESULT_SHEET_NAME);
+						workbook.SetSheetName(sheetIndex, ResultSheetName);
 						for (int i = 0; i < workbook.NumberOfSheets; i++)
 						{
 							if (i != sheetIndex)
@@ -1118,9 +1127,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 						}
 						#endregion
 						int responsedSum = 0;
-						int successSum = 0;
-						int failSum = 0;
-						var commands = new Dictionary<int, Message>();
+					    var commands = new Dictionary<int, Message>();
 						#region 检测Excel中的每一行是否合法
 						for (int i = rowIndex; i <= sheet.LastRowNum; i++)
 						{
@@ -1218,15 +1225,15 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 										throw new ApplicationException("eventStateCode值设置错误");
 									}
 								}
-								long timeStamp = 0;
-								if (!string.IsNullOrEmpty(row.GetCell(timeStampIndex).SafeToStringTrim()))
+							    if (!string.IsNullOrEmpty(row.GetCell(timeStampIndex).SafeToStringTrim()))
 								{
-									if (!long.TryParse(row.GetCell(timeStampIndex).SafeToStringTrim(), out timeStamp))
+								    long timeStamp = 0;
+								    if (!long.TryParse(row.GetCell(timeStampIndex).SafeToStringTrim(), out timeStamp))
 									{
 										throw new ApplicationException("timeStamp值设置错误");
 									}
 								}
-								responsedSum++;
+							    responsedSum++;
 								var ticks = DateTime.UtcNow.Ticks;
 								var command = new Message()
 								{
@@ -1269,7 +1276,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 							foreach (var command in commands)
 							{
 								// 检测合法性的进度，未展示进度条
-								decimal percent = (decimal)(((decimal)100 * command.Key) / commands.Count);
+								var percent = (decimal)(((decimal)100 * command.Key) / commands.Count);
 								var result = AnyMessage.Create(HecpRequest.Create(AcDomain, command.Value), AcDomain.NodeHost.Nodes.ThisNode).Response();
 								if (result.Body.Event.Status < 200)
 								{
@@ -1280,7 +1287,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 								var reasonPhraseCell = row.CreateCell(reasonPhraseIndex);
 								var descriptionCell = row.CreateCell(descriptionIndex);
 								var serverTicksCell = row.CreateCell(serverTicksIndex);
-								var localEntityIDCell = row.CreateCell(localEntityIdIndex);
+								var localEntityIdCell = row.CreateCell(localEntityIdIndex);
 								if (result.Body.Event.Status < 200 || result.Body.Event.Status >= 300)
 								{
 									failSum++;
@@ -1301,10 +1308,10 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 								serverTicksCell.SetCellValue(DateTime.Now.ToString());
 								if (result.Body.InfoValue != null)
 								{
-									var idItem = result.Body.InfoValue.Where(a => a.Key.Equals("Id", StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
+									var idItem = result.Body.InfoValue.FirstOrDefault(a => a.Key.Equals("Id", StringComparison.OrdinalIgnoreCase));
 									if (idItem != null)
 									{
-										localEntityIDCell.SetCellValue(idItem.Value);
+										localEntityIdCell.SetCellValue(idItem.Value);
 									}
 								}
 							}
@@ -1453,11 +1460,10 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 					requestModel.PageSize = size;
 				}
 			}
-			IDataTuples infoValues;
-			infoValues = !requestModel.ArchiveId.HasValue ? GetInfoValues(requestModel, selectElements) : GetArchivedInfoValues(requestModel);
-			string contentType = "application/vnd.ms-excel";
+		    IDataTuples infoValues = !requestModel.ArchiveId.HasValue ? GetInfoValues(requestModel, selectElements) : GetArchivedInfoValues(requestModel);
+			const string contentType = "application/vnd.ms-excel";
 			string fileName = org.Name + ontology.Ontology.Name + ".xls";
-			if (Request.Browser.Type.IndexOf("IE") > -1)
+			if (Request.Browser.Type.IndexOf("IE", StringComparison.OrdinalIgnoreCase) > -1)
 			{
 				fileName = HttpUtility.UrlEncode(fileName, System.Text.Encoding.UTF8);
 			}
@@ -1475,10 +1481,10 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 			IFont font = hssfworkbook.CreateFont();
 			font.FontHeightInPoints = 14;
 			helderStyle.SetFont(font);
-			helderStyle.BorderBottom = NPOI.SS.UserModel.BorderStyle.Thin;
-			helderStyle.BorderLeft = NPOI.SS.UserModel.BorderStyle.Thin;
-			helderStyle.BorderRight = NPOI.SS.UserModel.BorderStyle.Thin;
-			helderStyle.BorderTop = NPOI.SS.UserModel.BorderStyle.Thin;
+			helderStyle.BorderBottom = BorderStyle.Thin;
+			helderStyle.BorderLeft = BorderStyle.Thin;
+			helderStyle.BorderRight = BorderStyle.Thin;
+			helderStyle.BorderTop = BorderStyle.Thin;
 			helderStyle.FillForegroundColor = HSSFColor.LightGreen.Index;
 			helderStyle.FillPattern = FillPattern.SolidForeground;
 			int i = 0;
@@ -1544,17 +1550,17 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 			#region orgSheet 目录字典
 			ISheet orgSheet = hssfworkbook.CreateSheet("目录字典"); //创建一个sheet
 			ICellStyle invalidOrgCodeStyle = hssfworkbook.CreateCellStyle();
-			invalidOrgCodeStyle.BorderBottom = NPOI.SS.UserModel.BorderStyle.Thin;
-			invalidOrgCodeStyle.BorderLeft = NPOI.SS.UserModel.BorderStyle.Thin;
-			invalidOrgCodeStyle.BorderRight = NPOI.SS.UserModel.BorderStyle.Thin;
-			invalidOrgCodeStyle.BorderTop = NPOI.SS.UserModel.BorderStyle.Thin;
+			invalidOrgCodeStyle.BorderBottom = BorderStyle.Thin;
+			invalidOrgCodeStyle.BorderLeft = BorderStyle.Thin;
+			invalidOrgCodeStyle.BorderRight = BorderStyle.Thin;
+			invalidOrgCodeStyle.BorderTop = BorderStyle.Thin;
 			invalidOrgCodeStyle.FillForegroundColor = HSSFColor.LightOrange.Index;
 			invalidOrgCodeStyle.FillPattern = FillPattern.SolidForeground;
 			ICellStyle invalidParentOrgStyle = hssfworkbook.CreateCellStyle();
-			invalidParentOrgStyle.BorderBottom = NPOI.SS.UserModel.BorderStyle.Thin;
-			invalidParentOrgStyle.BorderLeft = NPOI.SS.UserModel.BorderStyle.Thin;
-			invalidParentOrgStyle.BorderRight = NPOI.SS.UserModel.BorderStyle.Thin;
-			invalidParentOrgStyle.BorderTop = NPOI.SS.UserModel.BorderStyle.Thin;
+			invalidParentOrgStyle.BorderBottom = BorderStyle.Thin;
+			invalidParentOrgStyle.BorderLeft = BorderStyle.Thin;
+			invalidParentOrgStyle.BorderRight = BorderStyle.Thin;
+			invalidParentOrgStyle.BorderTop = BorderStyle.Thin;
 			invalidParentOrgStyle.FillForegroundColor = HSSFColor.LightYellow.Index;
 			invalidParentOrgStyle.FillPattern = FillPattern.SolidForeground;
 			rowIndex = 0;
@@ -1891,7 +1897,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 			{
 				if (ontology.Ontology.IsCataloguedEntity && !string.IsNullOrEmpty(requestModel.CatalogCode))
 				{
-					if (requestModel.Includedescendants.HasValue && requestModel.Includedescendants.Value)
+					if (requestModel.Includedescendants.Value)
 					{
 						requestModel.Filters.Add(FilterData.Like("ZZJGM", requestModel.CatalogCode + "%"));
 					}
@@ -1938,7 +1944,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 			{
 				if (ontology.Ontology.IsCataloguedEntity && !string.IsNullOrEmpty(requestModel.CatalogCode))
 				{
-					if (requestModel.Includedescendants.HasValue && requestModel.Includedescendants.Value)
+					if (requestModel.Includedescendants.Value)
 					{
 						requestModel.Filters.Add(FilterData.Like("ZZJGM", requestModel.CatalogCode + "%"));
 					}
@@ -2006,11 +2012,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 		/// <returns></returns>
 		private IMessageDto DeleteEntity(OntologyDescriptor ontology, Guid id)
 		{
-			var actionCode = "delete";
-			var infoFormat = AcDomain.Config.InfoFormat;
-			var infoIdDic = new List<InfoItem> {
-				InfoItem.Create(ontology.IdElement, id.ToString())
-			};
+			const string actionCode = "delete";
 			var node = AcDomain.NodeHost.Nodes.ThisNode;
 			var ticks = DateTime.UtcNow.Ticks;
 			var cmd = new Message()
@@ -2113,7 +2115,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 				}
 			};
 			var result = AnyMessage.Create(HecpRequest.Create(AcDomain, cmd), AcDomain.NodeHost.Nodes.ThisNode).Response();
-			id = result.Body.InfoValue.Where(a => a.Key.Equals("Id", StringComparison.OrdinalIgnoreCase)).Single().Value;
+			id = result.Body.InfoValue.Single(a => a.Key.Equals("Id", StringComparison.OrdinalIgnoreCase)).Value;
 
 			return result;
 		}

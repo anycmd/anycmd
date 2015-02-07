@@ -256,7 +256,7 @@
     <Compile Include="Snapshots\AcDomainExtension.cs" />
     <Compile Include="StringIdAttribute.cs" />
     <Compile Include="Util\Coder.cs" />
-    <Compile Include="Util\DictionaryExtensions.cs" />
+    <Compile Include="Util\DictionaryExtension.cs" />
     <Compile Include="Util\IDAttribute.cs" />
     <Compile Include="Engine\StateObject`1.cs" />
     <Compile Include="Engine\Ac\AcSessionState.cs" />
@@ -1019,7 +1019,6 @@
     <Compile Include="Engine\Ac\Abstractions\Infra\IUiViewButton.cs" />
     <Compile Include="Util\SystemTime.cs" />
     <Compile Include="Util\TokenObject.cs" />
-    <Compile Include="Util\AppSettingsHelper.cs" />
     <Compile Include="Query\FilterData.cs" />
     <Compile Include="Exceptions\AnycmdException.cs" />
     <Compile Include="Util\EncryptionHelper.cs" />

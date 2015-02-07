@@ -16,6 +16,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
     using System.Collections;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Diagnostics;
     using System.Linq;
     using System.Web.Mvc;
     using Util;
@@ -983,6 +984,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                     }
                     else
                     {
+                        Debug.Assert(inputModel.Id != null, "inputModel.Id != null");
                         entity = new NodeOntologyCare
                         {
                             OntologyId = inputModel.OntologyId,

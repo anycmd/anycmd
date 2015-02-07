@@ -1,6 +1,4 @@
 ﻿
-using System.Diagnostics;
-
 namespace Anycmd.Edi.Web.Mvc.Controllers
 {
     using Anycmd.Web.Mvc;
@@ -14,6 +12,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Data.SqlClient;
+    using System.Diagnostics;
     using System.Web.Mvc;
     using Util;
     using ViewModel;

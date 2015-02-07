@@ -37,15 +37,5 @@ namespace Anycmd.Ac.ViewModels.Identity.AccountViewModels
         /// <param name="paging"></param>
         /// <returns></returns>
         List<DicReader> GetPlistGroupAccountTrs(string key, Guid groupId, PagingInput paging);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="filters"></param>
-        /// <param name="catalogCode"></param>
-        /// <param name="includeDescendants"></param>
-        /// <param name="paging"></param>
-        /// <returns></returns>
-        List<DicReader> GetPlistContractorTrs(List<FilterData> filters, string catalogCode, bool includeDescendants, PagingInput paging);
     }
 }

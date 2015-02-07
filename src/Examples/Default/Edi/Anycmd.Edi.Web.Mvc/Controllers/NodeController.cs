@@ -273,14 +273,12 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
                 }
                 var nodeElementActions = AcDomain.NodeHost.Nodes.GetNodeElementActions(node, element).Values;
                 var id = Guid.NewGuid();
-                DateTime? createOn = null;
                 bool isAllowed = false;
                 bool isAudit = false;
                 var nodeElementAction = nodeElementActions.FirstOrDefault(a => a.NodeId == node.Node.Id && a.ElementId == element.Element.Id && a.ActionId == action.Id);
                 if (nodeElementAction != null)
                 {
                     id = nodeElementAction.Id;
-                    createOn = nodeElementAction.CreateOn;
                     isAllowed = nodeElementAction.IsAllowed;
                     isAudit = nodeElementAction.IsAudit;
                 }

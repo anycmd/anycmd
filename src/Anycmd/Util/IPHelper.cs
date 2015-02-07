@@ -131,7 +131,7 @@ namespace Anycmd.Util
             try
             {
                 var ping = new Ping();
-                var reply = ping.Send(strIp, 1000);
+                ping.Send(strIp, 1000);
                 return true;
             }
             catch
