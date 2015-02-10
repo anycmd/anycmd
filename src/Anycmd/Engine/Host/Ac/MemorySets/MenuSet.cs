@@ -21,6 +21,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     internal sealed class MenuSet : IMenuSet, IMemorySet
     {
         public static readonly IMenuSet Empty = new MenuSet(EmptyAcDomain.SingleInstance);
+        private static readonly object Locker = new object();
 
         private readonly Dictionary<Guid, MenuState> _menuById = new Dictionary<Guid, MenuState>();
         private bool _initialized = false;
@@ -82,7 +83,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
         private void Init()
         {
             if (_initialized) return;
-            lock (this)
+            lock (Locker)
             {
                 if (_initialized) return;
                 _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
@@ -171,7 +172,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 var entity = Menu.Create(input);
 
-                lock (this)
+                lock (Locker)
                 {
 
                     if (acDomain.MenuSet.TryGetMenu(input.Id.Value, out menu))
@@ -250,7 +251,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 Menu entity;
                 var stateChanged = false;
-                lock (this)
+                lock (Locker)
                 {
                     MenuState oldState;
                     if (!acDomain.MenuSet.TryGetMenu(input.Id, out oldState))
@@ -335,7 +336,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     return;
                 }
                 Menu entity;
-                lock (this)
+                lock (Locker)
                 {
                     MenuState state;
                     if (!acDomain.MenuSet.TryGetMenu(menuId, out state))

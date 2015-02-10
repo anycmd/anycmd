@@ -22,7 +22,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
         private readonly Dictionary<Guid, ProcessDescriptor> _dic = new Dictionary<Guid, ProcessDescriptor>();
         private bool _initialized = false;
-        private readonly object _locker = new object();
+        private static readonly object Locker = new object();
 
         private readonly Guid _id = Guid.NewGuid();
         private readonly IAcDomain _acDomain;
@@ -129,7 +129,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
         private void Init()
         {
             if (_initialized) return;
-            lock (_locker)
+            lock (Locker)
             {
                 if (_initialized) return;
                 _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
@@ -188,7 +188,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 var entity = Process.Create(message.Input);
 
-                lock (_set._locker)
+                lock (Locker)
                 {
                     if (!_set._dic.ContainsKey(entity.Id))
                     {
@@ -232,7 +232,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 var newState = new ProcessDescriptor(acDomain, ProcessState.Create(entity), entity.Id);
                 bool stateChanged = newState != bkState;
-                lock (_set._locker)
+                lock (Locker)
                 {
                     if (stateChanged)
                     {

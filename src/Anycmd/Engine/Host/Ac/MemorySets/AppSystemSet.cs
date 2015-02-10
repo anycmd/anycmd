@@ -21,6 +21,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     internal sealed class AppSystemSet : IAppSystemSet, IMemorySet
     {
         public static readonly IAppSystemSet Empty = new AppSystemSet(EmptyAcDomain.SingleInstance);
+        private static readonly object Locker = new object();
 
         private readonly Dictionary<string, AppSystemState> _dicByCode = new Dictionary<string, AppSystemState>(StringComparer.OrdinalIgnoreCase);
         private readonly Dictionary<Guid, AppSystemState> _dicById = new Dictionary<Guid, AppSystemState>();
@@ -158,7 +159,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
         private void Init()
         {
             if (_initialized) return;
-            lock (this)
+            lock (Locker)
             {
                 if (_initialized) return;
                 _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
@@ -196,6 +197,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             IHandler<UpdateAppSystemCommand>,
             IHandler<RemoveAppSystemCommand>
         {
+            private static readonly object MessageLocker = new object();
             private readonly AppSystemSet _set;
 
             internal MessageHandler(AppSystemSet set)
@@ -247,7 +249,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     throw new AnycmdException("标识是必须的");
                 }
                 AppSystem entity;
-                lock (this)
+                lock (MessageLocker)
                 {
                     if (acDomain.AppSystemSet.ContainsAppSystem(input.Id.Value))
                     {
@@ -342,7 +344,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 AppSystem entity;
                 var stateChanged = false;
-                lock (this)
+                lock (MessageLocker)
                 {
                     AppSystemState oldState;
                     if (!acDomain.AppSystemSet.TryGetAppSystem(input.Id, out oldState))
@@ -455,7 +457,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     throw new ValidationException("应用系统下有菜单时不能删除应用系统");
                 }
                 AppSystem entity;
-                lock (this)
+                lock (MessageLocker)
                 {
                     AppSystemState state;
                     if (!acDomain.AppSystemSet.TryGetAppSystem(appSystemId, out state))

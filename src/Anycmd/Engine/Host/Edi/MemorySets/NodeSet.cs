@@ -27,6 +27,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
     internal sealed class NodeSet : INodeSet, IMemorySet
     {
         public static readonly INodeSet Empty = new NodeSet(EmptyAcDomain.SingleInstance);
+        private static readonly object Locker = new object();
 
         private readonly Dictionary<string, NodeDescriptor>
             _allNodesById = new Dictionary<string, NodeDescriptor>(StringComparer.OrdinalIgnoreCase);
@@ -35,7 +36,6 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
         private NodeDescriptor _selfNode = null;
         private NodeDescriptor _centerNode = null;
         private bool _initialized = false;
-        private readonly object _locker = new object();
 
         private readonly Guid _id = Guid.NewGuid();
         private readonly NodeCareSet _nodeCareSet;
@@ -320,7 +320,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
         private void Init()
         {
             if (_initialized) return;
-            lock (_locker)
+            lock (Locker)
             {
                 if (_initialized) return;
                 _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
@@ -399,7 +399,6 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             private void Handle(IAcSession acSession, INodeCreateIo input, bool isCommand)
             {
                 var acDomain = _set._acDomain;
-                var locker = _set._locker;
                 var allNodesById = _set._allNodesById;
                 var allNodesByPublicKey = _set._allNodesByPublicKey;
                 var nodeRepository = acDomain.RetrieveRequiredService<IRepository<Node>>();
@@ -412,7 +411,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     throw new ValidationException("标识是必须的");
                 }
                 Node entity;
-                lock (locker)
+                lock (Locker)
                 {
                     NodeDescriptor node;
                     Debug.Assert(input.Id != null, "input.Id != null");
@@ -477,7 +476,6 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             private void Handle(IAcSession acSession, INodeUpdateIo input, bool isCommand)
             {
                 var acDomain = _set._acDomain;
-                var locker = _set._locker;
                 var nodeRepository = acDomain.RetrieveRequiredService<IRepository<Node>>();
                 if (string.IsNullOrEmpty(input.Code))
                 {
@@ -489,7 +487,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
                 Node entity;
                 bool stateChanged = false;
-                lock (locker)
+                lock (Locker)
                 {
                     NodeDescriptor node;
                     if (!acDomain.NodeHost.Nodes.TryGetNodeById(input.Id.ToString(), out node))
@@ -578,7 +576,6 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             private void Handle(IAcSession acSession, Guid nodeId, bool isCommand)
             {
                 var acDomain = _set._acDomain;
-                var locker = _set._locker;
                 var allNodesById = _set._allNodesById;
                 var allNodesByPublicKey = _set._allNodesByPublicKey;
                 var nodeRepository = acDomain.RetrieveRequiredService<IRepository<Node>>();
@@ -588,7 +585,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     return;
                 }
                 Node entity;
-                lock (locker)
+                lock (Locker)
                 {
                     entity = nodeRepository.GetByKey(nodeId);
                     if (entity == null)
@@ -634,6 +631,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
         #region NodeElementActionSet
         private sealed class NodeElementActionSet
         {
+            private static readonly object NodeElementActionSetLocker = new object();
             private readonly Dictionary<NodeDescriptor, Dictionary<ElementDescriptor, Dictionary<Verb, NodeElementActionState>>> _nodeElementActionDic = new Dictionary<NodeDescriptor, Dictionary<ElementDescriptor, Dictionary<Verb, NodeElementActionState>>>();
             private bool _initialized = false;
 
@@ -701,7 +699,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             private void Init()
             {
                 if (_initialized) return;
-                lock (this)
+                lock (NodeElementActionSetLocker)
                 {
                     if (_initialized) return;
                     _nodeElementActionDic.Clear();
@@ -776,7 +774,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     var nodeElementActionDic = _set._nodeElementActionDic;
                     var repository = acDomain.RetrieveRequiredService<IRepository<NodeElementAction>>();
                     NodeElementAction entity;
-                    lock (this)
+                    lock (NodeElementActionSetLocker)
                     {
                         NodeDescriptor node;
                         if (!acDomain.NodeHost.Nodes.TryGetNodeById(input.NodeId.ToString(), out node))
@@ -866,7 +864,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     var nodeElementActionDic = _set._nodeElementActionDic;
                     var repository = acDomain.RetrieveRequiredService<IRepository<NodeElementAction>>();
                     NodeElementAction entity;
-                    lock (this)
+                    lock (NodeElementActionSetLocker)
                     {
                         bool exist = false;
                         NodeElementActionState bkState = null;
@@ -962,7 +960,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             private readonly Dictionary<NodeDescriptor, List<NodeElementCareState>> _nodeElementCareList = new Dictionary<NodeDescriptor, List<NodeElementCareState>>();
             private readonly Dictionary<NodeDescriptor, HashSet<ElementDescriptor>> _nodeInfoIdElements = new Dictionary<NodeDescriptor, HashSet<ElementDescriptor>>();
             private bool _initialized = false;
-            private readonly object _locker = new object();
+            private static readonly object NodeCareLocker = new object();
             private readonly Guid _id = Guid.NewGuid();
             private readonly IAcDomain _acDomain;
 
@@ -1135,7 +1133,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             private void Init()
             {
                 if (_initialized) return;
-                lock (_locker)
+                lock (NodeCareLocker)
                 {
                     if (_initialized) return;
                     _ontologyCareDic.Clear();
@@ -1271,7 +1269,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                         throw new ValidationException("意外的本体标识" + input.OntologyId);
                     }
                     NodeOntologyCare entity;
-                    lock (this)
+                    lock (NodeCareLocker)
                     {
                         if (nodeOntologyCareList[bNode].Any(a => a.OntologyId == input.OntologyId && a.NodeId == input.NodeId))
                         {
@@ -1353,7 +1351,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     var ontologyCareDic = _set._ontologyCareDic;
                     var repository = acDomain.RetrieveRequiredService<IRepository<NodeOntologyCare>>();
                     NodeOntologyCare entity;
-                    lock (this)
+                    lock (NodeCareLocker)
                     {
                         NodeOntologyCareState bkState = null;
                         NodeDescriptor bNode = null;
@@ -1443,7 +1441,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                         throw new ValidationException("意外的本体元素标识" + input.ElementId);
                     }
                     NodeElementCare entity;
-                    lock (this)
+                    lock (NodeCareLocker)
                     {
                         if (nodeElementCareList[bNode].Any(a => a.ElementId == input.ElementId && a.NodeId == input.NodeId))
                         {
@@ -1525,7 +1523,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     var nodeInfoIdElements = _set._nodeInfoIdElements;
                     var repository = acDomain.RetrieveRequiredService<IRepository<NodeElementCare>>();
                     NodeElementCare entity;
-                    lock (this)
+                    lock (NodeCareLocker)
                     {
                         NodeElementCareState bkState = null;
                         NodeDescriptor bNode = null;
@@ -1618,7 +1616,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     var nodeInfoIdElements = _set._nodeInfoIdElements;
                     var repository = acDomain.RetrieveRequiredService<IRepository<NodeElementCare>>();
                     NodeElementCare entity;
-                    lock (this)
+                    lock (NodeCareLocker)
                     {
                         NodeElementCareState bkState = null;
                         NodeDescriptor bNode = null;
@@ -1703,7 +1701,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             private readonly Dictionary<NodeDescriptor, Dictionary<OntologyDescriptor, Dictionary<CatalogState, NodeOntologyCatalogState>>>
                 _dic = new Dictionary<NodeDescriptor, Dictionary<OntologyDescriptor, Dictionary<CatalogState, NodeOntologyCatalogState>>>();
             private bool _initialized = false;
-            private readonly object _locker = new object();
+            private static readonly object CatalogSetLocker = new object();
             private readonly Guid _id = Guid.NewGuid();
             private readonly IAcDomain _acDomain;
 
@@ -1787,7 +1785,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             private void Init()
             {
                 if (_initialized) return;
-                lock (_locker)
+                lock (CatalogSetLocker)
                 {
                     if (_initialized) return;
                     _dic.Clear();
@@ -1887,7 +1885,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                         throw new ValidationException("意外的目录标识" + input.CatalogId);
                     }
                     NodeOntologyCatalog entity;
-                    lock (_set._locker)
+                    lock (CatalogSetLocker)
                     {
                         if (dic.ContainsKey(node) && dic[node].ContainsKey(ontology) && dic[node][ontology].ContainsKey(catalog))
                         {

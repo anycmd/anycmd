@@ -22,6 +22,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     internal sealed class FunctionSet : IFunctionSet, IMemorySet
     {
         public static readonly IFunctionSet Empty = new FunctionSet(EmptyAcDomain.SingleInstance);
+        private static readonly object Locker = new object();
 
         private readonly Dictionary<CatalogState, Dictionary<functionCode, FunctionState>>
             _dicByCode = new Dictionary<CatalogState, Dictionary<functionCode, FunctionState>>();
@@ -111,7 +112,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
         private void Init()
         {
             if (_initialized) return;
-            lock (this)
+            lock (Locker)
             {
                 if (_initialized) return;
                 _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
@@ -237,7 +238,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 var entity = Function.Create(input);
 
-                lock (this)
+                lock (Locker)
                 {
                     FunctionState functionState;
                     if (acDomain.FunctionSet.TryGetFunction(input.Id.Value, out functionState))
@@ -328,7 +329,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 Function entity;
                 bool stateChanged = false;
-                lock (this)
+                lock (Locker)
                 {
                     FunctionState oldState;
                     if (!acDomain.FunctionSet.TryGetFunction(input.Id, out oldState))
@@ -440,7 +441,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     return;
                 }
                 Function entity;
-                lock (this)
+                lock (Locker)
                 {
                     FunctionState state;
                     if (!acDomain.FunctionSet.TryGetFunction(functionId, out state))

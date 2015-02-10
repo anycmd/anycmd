@@ -19,7 +19,7 @@ namespace Anycmd.Engine.Edi
         private DateTime _lastIsAliveRequestOn = SystemTime.MinDate;
         private IMessageTransfer _transfer = null;
 
-        private readonly object _locker = new object();
+        private static readonly object Locker = new object();
         private readonly IAcDomain _acDomain;
 
         #region Ctor
@@ -326,7 +326,7 @@ namespace Anycmd.Engine.Edi
         #region Private Method IsAlive
         private void IsAlive()
         {
-            lock (_locker)
+            lock (Locker)
             {
                 if (_lastIsAliveRequestOn.AddMinutes(this.BeatPeriod) < DateTime.Now)
                 {

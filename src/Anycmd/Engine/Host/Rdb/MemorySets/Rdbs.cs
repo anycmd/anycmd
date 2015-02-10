@@ -12,6 +12,7 @@ namespace Anycmd.Engine.Host.Rdb.MemorySets
     public sealed class Rdbs : IRdbs
     {
         public static readonly IRdbs Empty = new Rdbs(EmptyAcDomain.SingleInstance, MemorySets.DbTables.Empty, MemorySets.DbViews.Empty, MemorySets.DbTableColumns.Empty, MemorySets.DbViewColumns.Empty);
+        private static readonly object Locker = new object();
 
         private readonly Dictionary<Guid, RdbDescriptor> _dicById = new Dictionary<Guid, RdbDescriptor>();
         private bool _initialized;
@@ -117,22 +118,6 @@ namespace Anycmd.Engine.Host.Rdb.MemorySets
             }
         }
 
-        private void Init()
-        {
-            if (_initialized) return;
-            lock (this)
-            {
-                if (_initialized) return;
-                _dicById.Clear();
-                var list = _acDomain.RetrieveRequiredService<IOriginalHostStateReader>().GetAllRDatabases();
-                foreach (var item in list)
-                {
-                    _dicById.Add(item.Id, new RdbDescriptor(_acDomain, item));
-                }
-                _initialized = true;
-            }
-        }
-
         public IEnumerator<RdbDescriptor> GetEnumerator()
         {
             if (!_initialized)
@@ -149,6 +134,22 @@ namespace Anycmd.Engine.Host.Rdb.MemorySets
                 Init();
             }
             return _dicById.Values.GetEnumerator();
+        }
+
+        private void Init()
+        {
+            if (_initialized) return;
+            lock (Locker)
+            {
+                if (_initialized) return;
+                _dicById.Clear();
+                var list = _acDomain.RetrieveRequiredService<IOriginalHostStateReader>().GetAllRDatabases();
+                foreach (var item in list)
+                {
+                    _dicById.Add(item.Id, new RdbDescriptor(_acDomain, item));
+                }
+                _initialized = true;
+            }
         }
     }
 }

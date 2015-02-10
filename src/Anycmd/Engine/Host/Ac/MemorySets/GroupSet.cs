@@ -21,6 +21,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     internal sealed class GroupSet : IGroupSet, IMemorySet
     {
         public static readonly IGroupSet Empty = new GroupSet(EmptyAcDomain.SingleInstance);
+        private static readonly object Locker = new object();
 
         private readonly Dictionary<Guid, GroupState> _groupDic = new Dictionary<Guid, GroupState>();
         private bool _initialized = false;
@@ -78,7 +79,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
         private void Init()
         {
             if (_initialized) return;
-            lock (this)
+            lock (Locker)
             {
                 if (_initialized) return;
                 _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
@@ -153,7 +154,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 var entity = Group.Create(input);
 
-                lock (this)
+                lock (Locker)
                 {
                     GroupState group;
                     if (acDomain.GroupSet.TryGetGroup(entity.Id, out group))
@@ -226,7 +227,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 Group entity;
                 var stateChanged = false;
-                lock (this)
+                lock (Locker)
                 {
                     GroupState oldState;
                     if (!acDomain.GroupSet.TryGetGroup(input.Id, out oldState))
@@ -315,7 +316,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     return;
                 }
                 Group entity;
-                lock (this)
+                lock (Locker)
                 {
                     GroupState state;
                     if (!acDomain.GroupSet.TryGetGroup(groupId, out state))

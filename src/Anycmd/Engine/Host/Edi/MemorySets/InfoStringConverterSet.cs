@@ -22,7 +22,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
         private readonly Dictionary<string, IInfoStringConverter>
             _dic = new Dictionary<string, IInfoStringConverter>(StringComparer.OrdinalIgnoreCase);
         private bool _initialized = false;
-        private readonly object _locker = new object();
+        private static readonly object Locker = new object();
         private readonly Guid _id = Guid.NewGuid();
         private readonly IAcDomain _acDomain;
 
@@ -107,7 +107,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
         private void Init()
         {
             if (_initialized) return;
-            lock (_locker)
+            lock (Locker)
             {
                 if (_initialized) return;
                 _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));

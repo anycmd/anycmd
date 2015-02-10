@@ -25,6 +25,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     internal sealed class PrivilegeSet : IPrivilegeSet, IMemorySet
     {
         public static readonly IPrivilegeSet Empty = new PrivilegeSet(EmptyAcDomain.SingleInstance);
+        private static readonly object Locker = new object();
 
         private readonly List<PrivilegeState> _privilegeList = new List<PrivilegeState>();
         private bool _initialized = false;
@@ -54,25 +55,6 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             new MessageHandler(this).Register();
         }
 
-        private void Init()
-        {
-            if (_initialized) return;
-            lock (this)
-            {
-                if (_initialized) return;
-                _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
-                _privilegeList.Clear();
-                var rolePrivileges = _acDomain.RetrieveRequiredService<IOriginalHostStateReader>().GetPrivileges();
-                foreach (var rolePrivilege in rolePrivileges)
-                {
-                    var rolePrivilegeState = PrivilegeState.Create(rolePrivilege);
-                    _privilegeList.Add(rolePrivilegeState);
-                }
-                _initialized = true;
-                _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
-            }
-        }
-
         public IEnumerator<PrivilegeState> GetEnumerator()
         {
             if (!_initialized)
@@ -89,6 +71,25 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 Init();
             }
             return _privilegeList.GetEnumerator();
+        }
+
+        private void Init()
+        {
+            if (_initialized) return;
+            lock (Locker)
+            {
+                if (_initialized) return;
+                _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
+                _privilegeList.Clear();
+                var rolePrivileges = _acDomain.RetrieveRequiredService<IOriginalHostStateReader>().GetPrivileges();
+                foreach (var rolePrivilege in rolePrivileges)
+                {
+                    var rolePrivilegeState = PrivilegeState.Create(rolePrivilege);
+                    _privilegeList.Add(rolePrivilegeState);
+                }
+                _initialized = true;
+                _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitializedEvent(this));
+            }
         }
 
         #region MessageHandler
@@ -269,7 +270,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     throw new ValidationException("非法的客体类型" + input.ObjectType);
                 }
                 Privilege entity;
-                lock (this)
+                lock (Locker)
                 {
                     switch (subjectType)
                     {
@@ -530,7 +531,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 var privilegeRepository = acDomain.RetrieveRequiredService<IRepository<Privilege>>();
                 Privilege entity = null;
                 var stateChanged = false;
-                lock (this)
+                lock (Locker)
                 {
                     entity = privilegeRepository.GetByKey(input.Id);
                     if (entity == null)
@@ -605,7 +606,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 Privilege entity;
                 UserAcSubjectType subjectType;
                 AcElementType acObjectType;
-                lock (this)
+                lock (Locker)
                 {
                     var bkState = acDomain.PrivilegeSet.FirstOrDefault(a => a.Id == privilegeId);
                     entity = privilegeRepository.GetByKey(privilegeId);

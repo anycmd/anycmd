@@ -21,6 +21,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     internal sealed class UiViewSet : IUiViewSet, IMemorySet
     {
         public static readonly IUiViewSet Empty = new UiViewSet(EmptyAcDomain.SingleInstance);
+        private static readonly object Locker = new object();
 
         private readonly Dictionary<FunctionState, UiViewState> _viewDicByFunction = new Dictionary<FunctionState, UiViewState>();
         private readonly Dictionary<Guid, UiViewState> _viewDicById = new Dictionary<Guid, UiViewState>();
@@ -127,7 +128,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
         private void Init()
         {
             if (_initialized) return;
-            lock (this)
+            lock (Locker)
             {
                 if (_initialized) return;
                 _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
@@ -252,7 +253,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     throw new ValidationException("标识是必须的");
                 }
                 UiView entity;
-                lock (this)
+                lock (Locker)
                 {
                     FunctionState function;
                     if (!acDomain.FunctionSet.TryGetFunction(input.Id.Value, out function))
@@ -338,7 +339,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 UiView entity;
                 var stateChanged = false;
-                lock (this)
+                lock (Locker)
                 {
                     UiViewState state;
                     if (!acDomain.UiViewSet.TryGetUiView(input.Id, out state))
@@ -430,7 +431,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     return;
                 }
                 UiView entity;
-                lock (this)
+                lock (Locker)
                 {
                     UiViewState state;
                     if (!acDomain.UiViewSet.TryGetUiView(viewId, out state))
@@ -562,7 +563,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             private void Init()
             {
                 if (_initialized) return;
-                lock (this)
+                lock (Locker)
                 {
                     if (_initialized) return;
                     _viewButtonsByUiView.Clear();
@@ -722,7 +723,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                         throw new ValidationException("标识是必须的");
                     }
                     UiViewButton entity;
-                    lock (this)
+                    lock (Locker)
                     {
                         ButtonState button;
                         if (!acDomain.ButtonSet.TryGetButton(input.ButtonId, out button))
@@ -848,7 +849,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                     UiViewButton entity;
                     var stateChanged = false;
-                    lock (this)
+                    lock (Locker)
                     {
                         if (acDomain.UiViewSet.GetUiViewButtons().All(a => a.Id != input.Id))
                         {
@@ -927,7 +928,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                         return;
                     }
                     UiViewButton entity;
-                    lock (this)
+                    lock (Locker)
                     {
                         if (acDomain.UiViewSet.GetUiViewButtons().All(a => a.Id != viewButtonId))
                         {

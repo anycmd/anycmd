@@ -20,6 +20,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     internal sealed class SysUserSet : ISysUserSet, IMemorySet
     {
         public static readonly ISysUserSet Empty = new SysUserSet(EmptyAcDomain.SingleInstance);
+        private static readonly object Locker = new object();
 
         private readonly Dictionary<Guid, AccountState> _devAccountById = new Dictionary<Guid, AccountState>();
         private readonly Dictionary<loginName, AccountState> _devAccountByLoginName = new Dictionary<loginName, AccountState>(StringComparer.OrdinalIgnoreCase);
@@ -111,7 +112,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
         private void Init()
         {
             if (_initialized) return;
-            lock (this)
+            lock (Locker)
             {
                 if (_initialized) return;
                 _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
@@ -186,7 +187,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 var accountRepository = acDomain.RetrieveRequiredService<IRepository<Account>>();
                 var developerRepository = acDomain.RetrieveRequiredService<IRepository<DeveloperId>>();
                 DeveloperId entity;
-                lock (this)
+                lock (Locker)
                 {
                     var account = accountRepository.GetByKey(accountId);
                     if (account == null)
@@ -280,7 +281,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 var bkState = devAccountById[accountId];
                 DeveloperId entity;
-                lock (this)
+                lock (Locker)
                 {
                     if (!devAccountById.ContainsKey(accountId))
                     {

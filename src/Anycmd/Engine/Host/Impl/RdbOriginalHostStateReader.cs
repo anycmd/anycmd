@@ -18,6 +18,7 @@ namespace Anycmd.Engine.Host.Impl
 
     public class RdbOriginalHostStateReader : IOriginalHostStateReader
     {
+        private static readonly object Locker = new object();
         /// <summary>
         /// 数据库连接字符串引导库连接字符串
         /// </summary>
@@ -42,7 +43,7 @@ namespace Anycmd.Engine.Host.Impl
             get
             {
                 if (ds != null) return ds.Tables[_tableNames.IndexOf(tableName)];
-                lock (this)
+                lock (Locker)
                 {
                     if (ds != null) return ds.Tables[_tableNames.IndexOf(tableName)];
                     ds = new DataSet();

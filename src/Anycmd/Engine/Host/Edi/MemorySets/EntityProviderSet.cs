@@ -17,6 +17,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
     internal sealed class EntityProviderSet : IEntityProviderSet, IMemorySet
     {
         public static readonly IEntityProviderSet Empty = new EntityProviderSet(EmptyAcDomain.SingleInstance);
+        private static readonly object Locker = new object();
 
         private readonly Dictionary<Guid, IEntityProvider> _dic = new Dictionary<Guid, IEntityProvider>();
         private bool _initialized = false;
@@ -97,7 +98,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
         private void Init()
         {
             if (_initialized) return;
-            lock (this)
+            lock (Locker)
             {
                 if (_initialized) return;
                 _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));

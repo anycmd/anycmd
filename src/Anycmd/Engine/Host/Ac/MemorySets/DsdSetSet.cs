@@ -21,6 +21,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     internal sealed class DsdSetSet : IDsdSetSet, IMemorySet
     {
         public static readonly IDsdSetSet Empty = new DsdSetSet(EmptyAcDomain.SingleInstance);
+        private static readonly object Locker = new object();
 
         private readonly Dictionary<Guid, DsdSetState> _dsdSetDic = new Dictionary<Guid, DsdSetState>();
         private readonly Dictionary<DsdSetState, List<DsdRoleState>> _dsdRoleBySet = new Dictionary<DsdSetState, List<DsdRoleState>>();
@@ -128,7 +129,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
         private void Init()
         {
             if (_initialized) return;
-            lock (this)
+            lock (Locker)
             {
                 if (_initialized) return;
                 _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
@@ -240,7 +241,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 var entity = DsdSet.Create(input);
 
-                lock (this)
+                lock (Locker)
                 {
                     DsdSetState dsdSet;
                     if (acDomain.DsdSetSet.TryGetDsdSet(entity.Id, out dsdSet))
@@ -308,7 +309,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 DsdSet entity;
                 bool stateChanged;
-                lock (this)
+                lock (Locker)
                 {
                     DsdSetState oldState;
                     if (!acDomain.DsdSetSet.TryGetDsdSet(input.Id, out oldState))
@@ -404,7 +405,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     return;
                 }
                 DsdSet entity;
-                lock (this)
+                lock (Locker)
                 {
                     DsdSetState state;
                     if (!acDomain.DsdSetSet.TryGetDsdSet(dsdSetId, out state))
@@ -488,7 +489,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 var entity = DsdRole.Create(input);
 
-                lock (this)
+                lock (Locker)
                 {
                     if (dsdRoleById.Any(a => a.Key == input.Id.Value || (a.Value.RoleId == input.RoleId && a.Value.DsdSetId == input.DsdSetId)))
                     {
@@ -569,7 +570,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     return;
                 }
                 DsdRole entity;
-                lock (this)
+                lock (Locker)
                 {
                     DsdRoleState state;
                     if (!dsdRoleById.TryGetValue(dsdRoleId, out state))

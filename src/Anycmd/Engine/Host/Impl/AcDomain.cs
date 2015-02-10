@@ -16,6 +16,7 @@ namespace Anycmd.Engine.Host.Impl
     /// </summary>
     public abstract class AcDomain : AnycmdServiceContainer, IAcDomain
     {
+        private static readonly object Locker = new object();
         private bool _pluginsLoaded;
         private bool _initialized;
         private readonly Guid _id = Guid.NewGuid();
@@ -66,7 +67,7 @@ namespace Anycmd.Engine.Host.Impl
             {
                 return this;
             }
-            lock (this)
+            lock (Locker)
             {
                 if (_initialized)
                 {

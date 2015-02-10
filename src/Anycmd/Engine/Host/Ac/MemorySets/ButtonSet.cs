@@ -20,6 +20,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     internal sealed class ButtonSet : IButtonSet, IMemorySet
     {
         public static readonly IButtonSet Empty = new ButtonSet(EmptyAcDomain.SingleInstance);
+        private static readonly object Locker = new object();
 
         private readonly Dictionary<Guid, ButtonState> _dicById = new Dictionary<Guid, ButtonState>();
         private readonly Dictionary<string, ButtonState> _dicByCode = new Dictionary<string, ButtonState>(StringComparer.OrdinalIgnoreCase);
@@ -114,7 +115,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
         private void Init()
         {
             if (_initialized) return;
-            lock (this)
+            lock (Locker)
             {
                 if (_initialized) return;
                 _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
@@ -167,6 +168,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             IHandler<RemoveButtonCommand>,
             IHandler<ButtonRemovedEvent>
         {
+            private static readonly object MessageLocker = new object();
             private readonly ButtonSet _set;
 
             internal MessageHandler(ButtonSet set)
@@ -218,7 +220,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     throw new ValidationException("编码不能为空");
                 }
                 Button entity;
-                lock (this)
+                lock (MessageLocker)
                 {
                     if (acDomain.ButtonSet.ContainsButton(input.Id.Value))
                     {
@@ -306,7 +308,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 Button entity;
                 var stateChanged = false;
-                lock (this)
+                lock (MessageLocker)
                 {
                     ButtonState oldState;
                     if (!acDomain.ButtonSet.TryGetButton(input.Id, out oldState))
@@ -414,7 +416,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     throw new ValidationException("按钮关联界面视图后不能删除");
                 }
                 Button entity;
-                lock (this)
+                lock (MessageLocker)
                 {
                     ButtonState state;
                     if (!acDomain.ButtonSet.TryGetButton(buttonId, out state))

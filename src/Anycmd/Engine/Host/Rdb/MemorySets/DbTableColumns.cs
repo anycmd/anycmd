@@ -13,6 +13,7 @@ namespace Anycmd.Engine.Host.Rdb.MemorySets
     public sealed class DbTableColumns : IDbTableColumns
     {
         public static readonly IDbTableColumns Empty = new DbTableColumns(EmptyAcDomain.SingleInstance);
+        private static readonly object Locker = new object();
 
         private readonly Dictionary<RdbDescriptor, Dictionary<DbTable, Dictionary<string, DbTableColumn>>>
             _dic = new Dictionary<RdbDescriptor, Dictionary<DbTable, Dictionary<string, DbTableColumn>>>();
@@ -61,7 +62,7 @@ namespace Anycmd.Engine.Host.Rdb.MemorySets
         {
             if (!_initialized)
             {
-                lock (this)
+                lock (Locker)
                 {
                     if (!_initialized)
                     {

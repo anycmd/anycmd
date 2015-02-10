@@ -22,6 +22,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     internal sealed class RoleSet : IRoleSet, IMemorySet
     {
         public static readonly IRoleSet Empty = new RoleSet(EmptyAcDomain.SingleInstance);
+        private static readonly object Locker = new object();
 
         private readonly Dictionary<roleId, RoleState> _roleDic = new Dictionary<roleId, RoleState>();
         private readonly Dictionary<RoleState, List<RoleState>> _descendantRoles = new Dictionary<RoleState, List<RoleState>>();
@@ -129,7 +130,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
         private void Init()
         {
             if (_initialized) return;
-            lock (this)
+            lock (Locker)
             {
                 if (_initialized) return;
                 _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
@@ -248,7 +249,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     throw new ValidationException("标识是必须的");
                 }
                 Role entity;
-                lock (this)
+                lock (Locker)
                 {
                     RoleState role;
                     if (acDomain.RoleSet.TryGetRole(input.Id.Value, out role))
@@ -326,7 +327,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 Role entity;
                 bool stateChanged = false;
-                lock (this)
+                lock (Locker)
                 {
                     RoleState oldState;
                     if (!acDomain.RoleSet.TryGetRole(input.Id, out oldState))
@@ -415,7 +416,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     return;
                 }
                 Role entity;
-                lock (this)
+                lock (Locker)
                 {
                     RoleState state;
                     if (!acDomain.RoleSet.TryGetRole(roleId, out state))
@@ -474,7 +475,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 var descendantRoles = _set._descendantRoles;
                 var entity = message.Source as PrivilegeBase;
                 Debug.Assert(entity != null, "entity != null");
-                lock (this)
+                lock (Locker)
                 {
                     RoleState parentRole;
                     if (!roleDic.TryGetValue(entity.SubjectInstanceId, out parentRole)) return;
@@ -525,7 +526,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 var entity = message.Source as PrivilegeBase;
                 Debug.Assert(entity != null, "entity != null");
                 Debug.Assert(entity.SubjectInstanceId != Guid.Empty);
-                lock (this)
+                lock (Locker)
                 {
                     RoleState parentRole;
                     if (roleDic.TryGetValue(entity.SubjectInstanceId, out parentRole))

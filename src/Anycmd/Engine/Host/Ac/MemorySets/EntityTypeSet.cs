@@ -26,6 +26,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     internal sealed class EntityTypeSet : IEntityTypeSet, IMemorySet
     {
         public static readonly IEntityTypeSet Empty = new EntityTypeSet(EmptyAcDomain.SingleInstance);
+        private static readonly object Locker = new object();
 
         private readonly Dictionary<entityTypeId, EntityTypeState> _dicById = new Dictionary<entityTypeId, EntityTypeState>();
         private readonly Dictionary<codespace, Dictionary<entityTypeCode, EntityTypeState>> _dicByCode = new Dictionary<codespace, Dictionary<entityTypeCode, EntityTypeState>>(StringComparer.OrdinalIgnoreCase);
@@ -171,7 +172,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
         private void Init()
         {
             if (_initialized) return;
-            lock (this)
+            lock (Locker)
             {
                 if (_initialized) return;
                 _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
@@ -264,7 +265,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     throw new ValidationException("标识不能为空");
                 }
                 EntityType entity;
-                lock (this)
+                lock (Locker)
                 {
                     EntityTypeState entityType;
                     if (acDomain.EntityTypeSet.TryGetEntityType(input.Id.Value, out entityType))
@@ -358,7 +359,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 EntityType entity;
                 bool stateChanged;
-                lock (this)
+                lock (Locker)
                 {
                     EntityTypeState entityType;
                     if (acDomain.EntityTypeSet.TryGetEntityType(new Coder(input.Codespace, input.Code), out entityType) && entityType.Id != input.Id)
@@ -469,7 +470,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     return;
                 }
                 EntityType entity;
-                lock (this)
+                lock (Locker)
                 {
                     entity = entityTypeRepository.GetByKey(entityTypeId);
                     if (entity == null)
@@ -544,6 +545,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
         /// </summary>
         private class PropertySet : IEnumerable<PropertyState>
         {
+            private static readonly object PropertyLocker = new object();
             private readonly Dictionary<EntityTypeState, Dictionary<propertyCode, PropertyState>> _dicByCode = new Dictionary<EntityTypeState, Dictionary<propertyCode, PropertyState>>();
             private readonly Dictionary<propertyId, PropertyState> _dicById = new Dictionary<propertyId, PropertyState>();
             private bool _initialized = false;
@@ -653,7 +655,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             private void Init()
             {
                 if (_initialized) return;
-                lock (this)
+                lock (PropertyLocker)
                 {
                     if (_initialized) return;
                     _dicByCode.Clear();
@@ -784,7 +786,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                         throw new AnycmdException("记录已经存在" + input.EntityTypeId);
                     }
                     Property entity;
-                    lock (this)
+                    lock (PropertyLocker)
                     {
                         PropertyState property;
                         if (acDomain.EntityTypeSet.TryGetProperty(entityType, input.Code, out property))
@@ -1167,7 +1169,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                     Property entity;
                     bool stateChanged = false;
-                    lock (this)
+                    lock (PropertyLocker)
                     {
                         EntityTypeState entityType;
                         PropertyState property;
@@ -1278,7 +1280,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                         return;
                     }
                     Property entity;
-                    lock (this)
+                    lock (PropertyLocker)
                     {
                         entity = propertyRepository.GetByKey(propertyId);
                         if (entity == null)

@@ -21,6 +21,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     internal sealed class CatalogSet : ICatalogSet, IMemorySet
     {
         public static readonly ICatalogSet Empty = new CatalogSet(EmptyAcDomain.SingleInstance);
+        private static readonly object Locker = new object();
 
         private readonly Dictionary<string, CatalogState> _dicByCode = new Dictionary<string, CatalogState>(StringComparer.OrdinalIgnoreCase);
         private readonly Dictionary<Guid, CatalogState> _dicById = new Dictionary<Guid, CatalogState>();
@@ -81,7 +82,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
         private void Init()
         {
             if (_initialized) return;
-            lock (this)
+            lock (Locker)
             {
                 if (_initialized) return;
                 _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
@@ -129,13 +130,14 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
         #region MessageHandler
         private class MessageHandler :
-            IHandler<UpdateCatalogCommand>, 
-            IHandler<AddCatalogCommand>, 
-            IHandler<CatalogAddedEvent>, 
-            IHandler<CatalogUpdatedEvent>, 
-            IHandler<RemoveCatalogCommand>, 
+            IHandler<UpdateCatalogCommand>,
+            IHandler<AddCatalogCommand>,
+            IHandler<CatalogAddedEvent>,
+            IHandler<CatalogUpdatedEvent>,
+            IHandler<RemoveCatalogCommand>,
             IHandler<CatalogRemovedEvent>
         {
+            private static readonly object MessageLocker = new object();
             private readonly CatalogSet _set;
 
             internal MessageHandler(CatalogSet set)
@@ -191,7 +193,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     throw new ValidationException("名称是必须的");
                 }
                 Catalog entity;
-                lock (this)
+                lock (MessageLocker)
                 {
                     CatalogState catalog;
                     if (acDomain.CatalogSet.TryGetCatalog(input.Id.Value, out catalog))
@@ -302,7 +304,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 Catalog entity;
                 var stateChanged = false;
-                lock (this)
+                lock (MessageLocker)
                 {
                     CatalogState oragnization;
                     if (acDomain.CatalogSet.TryGetCatalog(input.Code, out oragnization) && oragnization.Id != input.Id)
@@ -416,7 +418,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     return;
                 }
                 Catalog entity;
-                lock (this)
+                lock (MessageLocker)
                 {
                     CatalogState state;
                     if (!acDomain.CatalogSet.TryGetCatalog(catalogId, out state))

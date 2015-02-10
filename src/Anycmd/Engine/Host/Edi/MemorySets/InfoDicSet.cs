@@ -31,7 +31,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
         private readonly Dictionary<Guid, InfoDicItemState> _infoDicItemDic = new Dictionary<dicId, InfoDicItemState>();
         private readonly List<InfoDicItemState> _emptyInfoDicItems = new List<InfoDicItemState>();
         private bool _initialized = false;
-        private readonly object _locker = new object();
+        private static readonly object Locker = new object();
 
         private readonly Guid _id = Guid.NewGuid();
         private readonly IAcDomain _acDomain;
@@ -173,7 +173,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
         private void Init()
         {
             if (_initialized) return;
-            lock (_locker)
+            lock (Locker)
             {
                 if (_initialized) return;
                 _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
@@ -263,7 +263,6 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             private void Handle(IAcSession acSession, IInfoDicCreateIo input, bool isCommand)
             {
                 var acDomain = _set._acDomain;
-                var locker = _set._locker;
                 var infoDicDicById = _set._infoDicDicById;
                 var infoDicDicByCode = _set._infoDicDicByCode;
                 var infoDicRepository = acDomain.RetrieveRequiredService<IRepository<InfoDic>>();
@@ -276,7 +275,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     throw new ValidationException("标识是必须的");
                 }
                 InfoDic entity;
-                lock (locker)
+                lock (Locker)
                 {
                     InfoDicState infoDic;
                     if (acDomain.NodeHost.InfoDics.TryGetInfoDic(input.Id.Value, out infoDic))
@@ -353,7 +352,6 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             private void Handle(IAcSession acSession, IInfoDicUpdateIo input, bool isCommand)
             {
                 var acDomain = _set._acDomain;
-                var locker = _set._locker;
                 var infoDicRepository = acDomain.RetrieveRequiredService<IRepository<InfoDic>>();
                 if (string.IsNullOrEmpty(input.Code))
                 {
@@ -379,7 +377,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 var newState = InfoDicState.Create(acDomain, entity);
                 bool stateChanged = newState != bkState;
-                lock (locker)
+                lock (Locker)
                 {
                     if (stateChanged)
                     {
@@ -452,7 +450,6 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             private void Handle(IAcSession acSession, Guid infoDicId, bool isCommand)
             {
                 var acDomain = _set._acDomain;
-                var locker = _set._locker;
                 var infoDicDicById = _set._infoDicDicById;
                 var infoDicDicByCode = _set._infoDicDicByCode;
                 var infoDicRepository = acDomain.RetrieveRequiredService<IRepository<InfoDic>>();
@@ -472,7 +469,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     return;
                 }
                 var bkState = InfoDicState.Create(acDomain, entity);
-                lock (locker)
+                lock (Locker)
                 {
                     if (infoDicDicById.ContainsKey(entity.Id))
                     {
@@ -535,7 +532,6 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             private void Handle(IAcSession acSession, IInfoDicItemCreateIo input, bool isCommand)
             {
                 var acDomain = _set._acDomain;
-                var locker = _set._locker;
                 var infoDicItemDic = _set._infoDicItemDic;
                 var infoDicItemByDic = _set._infoDicItemByDic;
                 var infoDicItemRepository = acDomain.RetrieveRequiredService<IRepository<InfoDicItem>>();
@@ -564,7 +560,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 var entity = InfoDicItem.Create(input);
 
-                lock (locker)
+                lock (Locker)
                 {
                     var state = InfoDicItemState.Create(entity);
                     if (!infoDicItemDic.ContainsKey(entity.Id))
@@ -632,7 +628,6 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             private void Handle(IAcSession acSession, IInfoDicItemUpdateIo input, bool isCommand)
             {
                 var acDomain = _set._acDomain;
-                var locker = _set._locker;
                 var infoDicItemRepository = acDomain.RetrieveRequiredService<IRepository<InfoDicItem>>();
                 if (string.IsNullOrEmpty(input.Code))
                 {
@@ -663,7 +658,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 var newState = InfoDicItemState.Create(entity);
                 bool stateChanged = newState != bkState;
-                lock (locker)
+                lock (Locker)
                 {
                     if (stateChanged)
                     {
@@ -744,7 +739,6 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             private void HandleItem(IAcSession acSession, Guid infoDicItemId, bool isCommand)
             {
                 var acDomain = _set._acDomain;
-                var locker = _set._locker;
                 var infoDicItemDic = _set._infoDicItemDic;
                 var infoDicItemByDic = _set._infoDicItemByDic;
                 var infoDicItemRepository = acDomain.RetrieveRequiredService<IRepository<InfoDicItem>>();
@@ -764,7 +758,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     return;
                 }
                 var bkState = InfoDicItemState.Create(entity);
-                lock (locker)
+                lock (Locker)
                 {
                     if (infoDicItemDic.ContainsKey(entity.Id))
                     {

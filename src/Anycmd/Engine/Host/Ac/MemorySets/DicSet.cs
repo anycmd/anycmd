@@ -22,6 +22,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     internal sealed class DicSet : IDicSet, IMemorySet
     {
         public static readonly IDicSet Empty = new DicSet(EmptyAcDomain.SingleInstance);
+        private static readonly object Locker = new object();
 
         private readonly Dictionary<Guid, DicState> _dicById = new Dictionary<Guid, DicState>();
         private readonly Dictionary<string, DicState> _dicByCode = new Dictionary<string, DicState>(StringComparer.OrdinalIgnoreCase);
@@ -190,7 +191,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
         private void Init()
         {
             if (_initialized) return;
-            lock (this)
+            lock (Locker)
             {
                 if (_initialized) return;
                 _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
@@ -227,6 +228,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             IHandler<RemoveDicCommand>,
             IHandler<DicRemovedEvent>
         {
+            private static readonly object MessageLocker = new object();
             private readonly DicSet _set;
 
             internal DicMessageHandler(DicSet set)
@@ -278,7 +280,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     throw new AnycmdException("标识是必须的");
                 }
                 Dic entity;
-                lock (this)
+                lock (MessageLocker)
                 {
                     if (acDomain.DicSet.ContainsDic(input.Id.Value))
                     {
@@ -366,7 +368,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 Dic entity;
                 var stateChanged = false;
-                lock (this)
+                lock (MessageLocker)
                 {
                     DicState dic;
                     if (acDomain.DicSet.TryGetDic(input.Code, out dic) && dic.Id != input.Id)
@@ -417,7 +419,6 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             private void Update(DicState state)
             {
-                var acDomain = _set._acDomain;
                 var dicById = _set._dicById;
                 var dicByCode = _set._dicByCode;
                 var oldKey = dicById[state.Id].Code;
@@ -486,7 +487,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     throw new ValidationException("系统字典被实体属性关联后不能删除：" + sb);
                 }
                 Dic entity;
-                lock (this)
+                lock (MessageLocker)
                     lock (_set._dicItemSet)
                     {
                         var dicItems = acDomain.DicSet.GetDicItems(bkState);
@@ -552,6 +553,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
         // 内部类
         private sealed class DicItemSet
         {
+            private static readonly object DicItemSetLocker = new object();
             private readonly Dictionary<DicState, Dictionary<string, DicItemState>> _dicItemsByCode = new Dictionary<DicState, Dictionary<string, DicItemState>>();
             private readonly Dictionary<Guid, DicItemState> _dicItemById = new Dictionary<Guid, DicItemState>();
             private bool _initialized = false;
@@ -660,7 +662,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             private void Init()
             {
                 if (_initialized) return;
-                lock (this)
+                lock (DicItemSetLocker)
                 {
                     if (_initialized) return;
                     _dicItemsByCode.Clear();
@@ -766,7 +768,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                         throw new ValidationException("编码不能为空");
                     }
                     DicItem entity;
-                    lock (this)
+                    lock (DicItemSetLocker)
                     {
                         DicState dicState;
                         if (!acDomain.DicSet.TryGetDic(input.DicId, out dicState))
@@ -868,7 +870,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                     DicItem entity;
                     var stateChanged = false;
-                    lock (this)
+                    lock (DicItemSetLocker)
                     {
                         DicState dicState;
                         if (!acDomain.DicSet.TryGetDic(bkState.DicId, out dicState))
@@ -978,7 +980,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                         return;
                     }
                     DicItem entity;
-                    lock (this)
+                    lock (DicItemSetLocker)
                     {
                         entity = dicItemRepository.GetByKey(dicItemId);
                         if (entity == null)

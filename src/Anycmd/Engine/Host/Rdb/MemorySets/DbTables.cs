@@ -11,6 +11,7 @@ namespace Anycmd.Engine.Host.Rdb.MemorySets
     public sealed class DbTables : IDbTables
     {
         public static readonly IDbTables Empty = new DbTables(EmptyAcDomain.SingleInstance);
+        private static readonly object Locker = new object();
 
         private readonly Dictionary<RdbDescriptor, Dictionary<string, DbTable>> _dicById = new Dictionary<RdbDescriptor, Dictionary<string, DbTable>>();
         private bool _initialized = false;
@@ -60,7 +61,7 @@ namespace Anycmd.Engine.Host.Rdb.MemorySets
         private void Init()
         {
             if (_initialized) return;
-            lock (this)
+            lock (Locker)
             {
                 if (_initialized) return;
                 _dicById.Clear();

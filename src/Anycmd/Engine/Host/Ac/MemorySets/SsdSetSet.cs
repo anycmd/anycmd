@@ -21,6 +21,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     internal sealed class SsdSetSet : ISsdSetSet, IMemorySet
     {
         public static readonly ISsdSetSet Empty = new SsdSetSet(EmptyAcDomain.SingleInstance);
+        private static readonly object Locker = new object();
 
         private readonly Dictionary<Guid, SsdSetState> _ssdSetDic = new Dictionary<Guid, SsdSetState>();
         private readonly Dictionary<SsdSetState, List<SsdRoleState>> _ssdRoleBySet = new Dictionary<SsdSetState, List<SsdRoleState>>();
@@ -128,7 +129,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
         private void Init()
         {
             if (_initialized) return;
-            lock (this)
+            lock (Locker)
             {
                 if (_initialized) return;
                 _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
@@ -244,7 +245,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 var entity = SsdSet.Create(input);
 
-                lock (this)
+                lock (Locker)
                 {
                     SsdSetState ssdSet;
                     if (acDomain.SsdSetSet.TryGetSsdSet(entity.Id, out ssdSet))
@@ -313,7 +314,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 SsdSet entity;
                 var stateChanged = false;
-                lock (this)
+                lock (Locker)
                 {
                     SsdSetState oldState;
                     if (!acDomain.SsdSetSet.TryGetSsdSet(input.Id, out oldState))
@@ -403,7 +404,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     return;
                 }
                 SsdSet entity;
-                lock (this)
+                lock (Locker)
                 {
                     SsdSetState state;
                     if (!acDomain.SsdSetSet.TryGetSsdSet(ssdSetId, out state))
@@ -487,7 +488,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 var entity = SsdRole.Create(input);
 
-                lock (this)
+                lock (Locker)
                 {
                     if (ssdRoleById.Any(a => a.Key == input.Id.Value || (a.Value.RoleId == input.RoleId && a.Value.SsdSetId == input.SsdSetId)))
                     {
@@ -568,7 +569,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     return;
                 }
                 SsdRole entity;
-                lock (this)
+                lock (Locker)
                 {
                     SsdRoleState state;
                     if (!ssdRoleById.TryGetValue(ssdRoleId, out state))

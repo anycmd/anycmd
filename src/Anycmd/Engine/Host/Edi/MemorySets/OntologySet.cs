@@ -32,7 +32,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
         private readonly Dictionary<string, OntologyDescriptor> _ontologyDicByCode = new Dictionary<string, OntologyDescriptor>(StringComparer.OrdinalIgnoreCase);
         private readonly Dictionary<ontologyId, OntologyDescriptor> _ontologyDicById = new Dictionary<Guid, OntologyDescriptor>();
         private bool _initialized = false;
-        private readonly object _locker = new object();
+        private static readonly object Locker = new object();
 
         private readonly Guid _id = Guid.NewGuid();
         private readonly ElementSet _elementSet;
@@ -340,7 +340,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
         private void Init()
         {
             if (_initialized) return;
-            lock (_locker)
+            lock (Locker)
             {
                 if (_initialized) return;
                 _acDomain.MessageDispatcher.DispatchMessage(new MemorySetInitingEvent(this));
@@ -418,7 +418,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     throw new ValidationException("标识是必须的");
                 }
                 Ontology entity;
-                lock (this)
+                lock (Locker)
                 {
                     OntologyDescriptor ontology;
                     if (acDomain.NodeHost.Ontologies.TryGetOntology(input.Id.Value, out ontology))
@@ -503,7 +503,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
                 Ontology entity;
                 var stateChanged = false;
-                lock (bkState)
+                lock (Locker)
                 {
                     OntologyDescriptor ontology;
                     if (!acDomain.NodeHost.Ontologies.TryGetOntology(input.Id, out ontology))
@@ -645,7 +645,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     throw new ValidationException("本体下有批处理记录时不能删除");
                 }
                 var bkState = ontology;
-                lock (_set._locker)
+                lock (Locker)
                 {
                     try
                     {
@@ -691,11 +691,11 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
         #region ElementSet
         private sealed class ElementSet
         {
+            private static readonly object ElementSetLocker = new object();
             #region Private Fields
             private readonly Dictionary<Guid, ElementDescriptor> _elementDicById = new Dictionary<Guid, ElementDescriptor>();
             private readonly Dictionary<OntologyDescriptor, Dictionary<string, ElementDescriptor>> _elementDicByOntology = new Dictionary<OntologyDescriptor, Dictionary<string, ElementDescriptor>>();
             private bool _initialized = false;
-            private readonly object _locker = new object();
             private readonly Guid _id = Guid.NewGuid();
             #endregion
             private readonly IAcDomain _acDomain;
@@ -781,7 +781,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             private void Init()
             {
                 if (_initialized) return;
-                lock (_locker)
+                lock (ElementSetLocker)
                 {
                     if (_initialized) return;
                     _elementDicByOntology.Clear();
@@ -865,7 +865,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                     var entity = Element.Create(message.Input);
 
-                    lock (_set._locker)
+                    lock (ElementSetLocker)
                     {
                         var descriptor = new ElementDescriptor(acDomain, ElementState.Create(acDomain, entity), entity.Id);
                         _set._elementDicById.Add(entity.Id, descriptor);
@@ -1054,7 +1054,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                     var newState = new ElementDescriptor(acDomain, ElementState.Create(acDomain, entity), entity.Id);
                     bool stateChanged = newState != bkState;
-                    lock (_set._locker)
+                    lock (ElementSetLocker)
                     {
                         try
                         {
@@ -1112,7 +1112,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                         return;
                     }
                     var bkState = _set._elementDicById[entity.Id];
-                    lock (_set._locker)
+                    lock (ElementSetLocker)
                     {
                         try
                         {
@@ -1141,10 +1141,10 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
         #region ActionSet
         private sealed class ActionSet
         {
+            private static readonly object ActionSetLocker = new object();
             private readonly Dictionary<OntologyDescriptor, Dictionary<Verb, ActionState>> _actionDicByVerb = new Dictionary<OntologyDescriptor, Dictionary<Verb, ActionState>>();
             private readonly Dictionary<Guid, ActionState> _actionsById = new Dictionary<catalogId, ActionState>();
             private bool _initialized = false;
-            private readonly object _locker = new object();
             private readonly Guid _id = Guid.NewGuid();
             private readonly IAcDomain _acDomain;
 
@@ -1212,7 +1212,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             private void Init()
             {
                 if (_initialized) return;
-                lock (_locker)
+                lock (ActionSetLocker)
                 {
                     if (_initialized) return;
                     _actionDicByVerb.Clear();
@@ -1294,7 +1294,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                     var entity = Action.Create(message.Input);
 
-                    lock (_set._locker)
+                    lock (ActionSetLocker)
                     {
                         try
                         {
@@ -1355,7 +1355,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                     var newState = ActionState.Create(entity);
                     bool stateChanged = newState != bkState;
-                    lock (_set._locker)
+                    lock (ActionSetLocker)
                     {
                         try
                         {
@@ -1425,7 +1425,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                         return;
                     }
                     var bkState = ActionState.Create(entity);
-                    lock (_set._locker)
+                    lock (ActionSetLocker)
                     {
                         try
                         {
@@ -1454,10 +1454,10 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
         #region InfoGroupSet
         private sealed class InfoGroupSet
         {
+            private static readonly object InfoGroupSetLocker = new object();
             private readonly Dictionary<OntologyDescriptor, IList<InfoGroupState>>
                 _dic = new Dictionary<OntologyDescriptor, IList<InfoGroupState>>();
             private bool _initialized = false;
-            private readonly object _locker = new object();
             private readonly Guid _id = new Guid();
             private readonly IAcDomain _acDomain;
 
@@ -1505,7 +1505,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             {
                 if (!_initialized)
                 {
-                    lock (_locker)
+                    lock (InfoGroupSetLocker)
                     {
                         if (!_initialized)
                         {
@@ -1579,7 +1579,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                     InfoGroup entity = InfoGroup.Create(message.Input);
 
-                    lock (_set._locker)
+                    lock (InfoGroupSetLocker)
                     {
                         try
                         {
@@ -1622,7 +1622,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                     InfoGroup entity;
                     bool stateChanged = false;
-                    lock (_set._locker)
+                    lock (InfoGroupSetLocker)
                     {
                         entity = ontologyRepository.Context.Query<InfoGroup>().FirstOrDefault(a => a.Id == message.Input.Id);
                         if (entity == null)
@@ -1689,7 +1689,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                         return;
                     }
                     var bkState = InfoGroupState.Create(entity);
-                    lock (_set._locker)
+                    lock (InfoGroupSetLocker)
                     {
                         try
                         {
@@ -1719,7 +1719,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             private readonly Dictionary<OntologyDescriptor, Dictionary<CatalogState, OntologyCatalogState>>
                 _dic = new Dictionary<OntologyDescriptor, Dictionary<CatalogState, OntologyCatalogState>>();
             private bool _initialized = false;
-            private readonly object _locker = new object();
+            private static readonly object OntologyCatalogSetLocker = new object();
             private readonly Guid _id = Guid.NewGuid();
             private readonly IAcDomain _acDomain;
 
@@ -1767,7 +1767,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             private void Init()
             {
                 if (_initialized) return;
-                lock (_locker)
+                lock (OntologyCatalogSetLocker)
                 {
                     if (_initialized) return;
                     _dic.Clear();
@@ -1867,7 +1867,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                         throw new AnycmdException("意外的目录标识" + input.CatalogId);
                     }
                     OntologyCatalog entity;
-                    lock (this)
+                    lock (OntologyCatalogSetLocker)
                     {
                         if (_dic.ContainsKey(ontology) && _dic[ontology].ContainsKey(org))
                         {
@@ -1942,7 +1942,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                         throw new ValidationException("意外的本体标识" + ontologyId);
                     }
                     OntologyCatalog entity;
-                    lock (this)
+                    lock (OntologyCatalogSetLocker)
                     {
                         CatalogState org = null;
                         OntologyCatalogState bkState = null;
@@ -2039,7 +2039,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 _dic = new Dictionary<OntologyDescriptor, Dictionary<topicCode, TopicState>>();
 
             private bool _initialized = false;
-            private readonly object _locker = new object();
+            private static readonly object TopicSetLocker = new object();
             private readonly Guid _id = Guid.NewGuid();
             private readonly IAcDomain _acDomain;
 
@@ -2095,7 +2095,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             {
                 if (!_initialized)
                 {
-                    lock (_locker)
+                    lock (TopicSetLocker)
                     {
                         if (!_initialized)
                         {
@@ -2169,7 +2169,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                         throw new ValidationException("给定标识的记录已经存在");
                     }
                     Topic entity = Topic.Create(message.Input);
-                    lock (_set._locker)
+                    lock (TopicSetLocker)
                     {
                         try
                         {
@@ -2227,7 +2227,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     entity.Update(message.Input);
                     var newState = TopicState.Create(acDomain, entity);
                     bool stateChanged = newState != bkState;
-                    lock (_set._locker)
+                    lock (TopicSetLocker)
                     {
                         try
                         {
@@ -2296,7 +2296,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                         return;
                     }
                     var bkState = TopicState.Create(acDomain, entity);
-                    lock (_set._locker)
+                    lock (TopicSetLocker)
                     {
                         try
                         {
@@ -2329,7 +2329,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             private readonly Dictionary<Guid, ArchiveState> _dicById = new Dictionary<Guid, ArchiveState>();
             private readonly Dictionary<OntologyDescriptor, List<ArchiveState>> _dicByOntology = new Dictionary<OntologyDescriptor, List<ArchiveState>>();
             private bool _initialized = false;
-            private readonly object _locker = new object();
+            private static readonly object ArchiveSetLocker = new object();
             private readonly Guid _id = Guid.NewGuid();
             private readonly IAcDomain _acDomain;
 
@@ -2397,7 +2397,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             private void Init()
             {
                 if (_initialized) return;
-                lock (_locker)
+                lock (ArchiveSetLocker)
                 {
                     if (_initialized) return;
                     _dicById.Clear();
@@ -2468,7 +2468,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     {
                         entity.RdbmsType = RdbmsType.SqlServer.ToName();// 默认为SqlServer数据库
                     }
-                    lock (_set._locker)
+                    lock (ArchiveSetLocker)
                     {
                         try
                         {
@@ -2531,7 +2531,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                     var newState = ArchiveState.Create(acDomain, entity);
                     bool stateChanged = newState != bkState;
-                    lock (_set._locker)
+                    lock (ArchiveSetLocker)
                     {
                         try
                         {
@@ -2590,7 +2590,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                         return;
                     }
                     var bkState = ArchiveState.Create(acDomain, entity);
-                    lock (_set._locker)
+                    lock (ArchiveSetLocker)
                     {
                         try
                         {
