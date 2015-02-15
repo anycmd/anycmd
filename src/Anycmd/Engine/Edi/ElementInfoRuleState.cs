@@ -2,6 +2,7 @@
 namespace Anycmd.Engine.Edi
 {
     using Abstractions;
+    using Model;
     using System;
 
     public sealed class ElementInfoRuleState : StateObject<ElementInfoRuleState>, IElementInfoRule, IStateObject

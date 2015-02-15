@@ -3,6 +3,7 @@ namespace Anycmd.Engine.Ac
 {
     using Abstractions.Infra;
     using Exceptions;
+    using Model;
     using System;
 
     public sealed class UiViewButtonState : StateObject<UiViewButtonState>, IUiViewButton

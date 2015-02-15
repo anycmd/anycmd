@@ -1,5 +1,5 @@
 ﻿
-namespace Anycmd.Engine.Host.Impl
+namespace Anycmd.Engine.Host
 {
     using System;
     using System.Collections.Concurrent;

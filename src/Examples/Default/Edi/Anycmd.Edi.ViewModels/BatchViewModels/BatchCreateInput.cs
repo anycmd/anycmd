@@ -4,6 +4,7 @@ namespace Anycmd.Edi.ViewModels.BatchViewModels
     using Engine;
     using Engine.Edi.InOuts;
     using Engine.Edi.Messages;
+    using Engine.InOuts;
     using System;
     using System.ComponentModel.DataAnnotations;
 

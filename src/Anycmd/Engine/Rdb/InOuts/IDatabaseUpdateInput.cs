@@ -1,7 +1,7 @@
 ﻿
 namespace Anycmd.Engine.Rdb.InOuts
 {
-    using Engine;
+    using Engine.InOuts;
 
     public interface IDatabaseUpdateInput : IEntityUpdateInput
     {

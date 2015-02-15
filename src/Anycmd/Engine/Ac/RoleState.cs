@@ -3,6 +3,7 @@ namespace Anycmd.Engine.Ac
 {
     using Abstractions;
     using Abstractions.Rbac;
+    using Model;
     using System;
 
     /// <summary>

@@ -5,6 +5,7 @@ namespace Anycmd.Engine.Ac
     using Exceptions;
     using Host;
     using Host.Impl;
+    using Model;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;

@@ -1,5 +1,5 @@
 ﻿
-namespace Anycmd.Engine
+namespace Anycmd.Engine.InOuts
 {
     public interface IAnycmdInput : IInputModel
     {

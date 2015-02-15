@@ -4,6 +4,7 @@ namespace Anycmd.Engine.Ac
     using Abstractions.Infra;
     using Exceptions;
     using Host;
+    using Model;
     using Rdb;
     using System;
     using System.Reflection;

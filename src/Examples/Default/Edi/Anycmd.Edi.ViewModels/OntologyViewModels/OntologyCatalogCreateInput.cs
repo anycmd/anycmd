@@ -4,6 +4,7 @@ namespace Anycmd.Edi.ViewModels.OntologyViewModels
     using Engine;
     using Engine.Edi.InOuts;
     using Engine.Edi.Messages;
+    using Engine.InOuts;
     using System;
 
     public class OntologyCatalogCreateInput : EntityCreateInput, IOntologyCatalogCreateIo

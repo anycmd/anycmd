@@ -1,6 +1,7 @@
 ﻿
 namespace Anycmd.Engine.Rdb.InOuts
 {
+    using Engine.InOuts;
     using System;
 
     public interface IDbViewColumnUpdateInput : IAnycmdInput

@@ -4,6 +4,7 @@ namespace Anycmd.Ac.ViewModels.SsdViewModels
     using Engine;
     using Engine.Ac.InOuts;
     using Engine.Ac.Messages.Rbac;
+    using Engine.InOuts;
 
     /// <summary>
     /// 创建静态职责分离角色集时的输入或输出参数类型。

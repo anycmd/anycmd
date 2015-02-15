@@ -1,7 +1,7 @@
 ﻿
 namespace Anycmd.Ac.ViewModels.PrivilegeViewModels
 {
-    using Engine;
+    using Model;
     using Query;
     using System.Collections.Generic;
     using ViewModel;

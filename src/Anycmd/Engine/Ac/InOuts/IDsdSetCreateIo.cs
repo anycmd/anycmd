@@ -1,6 +1,7 @@
 ﻿
 namespace Anycmd.Engine.Ac.InOuts
 {
+    using Engine.InOuts;
 
     /// <summary>
     /// 表示该接口的实现类是创建动态职责分离角色集时的输入或输出参数类型。

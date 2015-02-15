@@ -4,6 +4,7 @@ namespace Anycmd.Ac.ViewModels.Infra.DicViewModels
     using Engine;
     using Engine.Ac.InOuts;
     using Engine.Ac.Messages.Infra;
+    using Engine.InOuts;
     using System;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;

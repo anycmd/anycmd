@@ -1,6 +1,8 @@
 ﻿
 namespace Anycmd.Engine.Ac.InOuts
 {
+    using Engine.InOuts;
+
     public interface IFieldUpdateIo : IEntityUpdateInput
     {
         string Code { get; }

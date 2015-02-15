@@ -1,8 +1,8 @@
 
 namespace Anycmd.Edi.ViewModels.NodeViewModels
 {
-    using Engine;
     using Engine.Host.Edi.Handlers;
+    using Model;
     using System;
     using System.Collections.Generic;
     using ViewModel;

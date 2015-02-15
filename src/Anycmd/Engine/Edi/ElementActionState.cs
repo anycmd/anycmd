@@ -5,6 +5,7 @@ namespace Anycmd.Engine.Edi
     using Abstractions;
     using Exceptions;
     using Host.Ac;
+    using Model;
     using Util;
 
     public sealed class ElementActionState : StateObject<ElementActionState>, IElementAction, IStateObject

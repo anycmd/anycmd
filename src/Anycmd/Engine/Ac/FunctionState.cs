@@ -5,6 +5,7 @@ namespace Anycmd.Engine.Ac
     using Abstractions.Infra;
     using Exceptions;
     using Host;
+    using Model;
     using System;
     using Util;
 

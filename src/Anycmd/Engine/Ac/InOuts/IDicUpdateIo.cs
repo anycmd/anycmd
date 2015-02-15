@@ -1,6 +1,7 @@
 ﻿
 namespace Anycmd.Engine.Ac.InOuts
 {
+    using Engine.InOuts;
 
     /// <summary>
     /// 表示该接口的实现类是更新系统字典时的输入或输出参数类型。

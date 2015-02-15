@@ -5,6 +5,7 @@ namespace Anycmd.Engine.Edi
     using Ac;
     using Exceptions;
     using Hecp;
+    using Model;
     using Serialization;
     using System;
     using System.Collections.Generic;

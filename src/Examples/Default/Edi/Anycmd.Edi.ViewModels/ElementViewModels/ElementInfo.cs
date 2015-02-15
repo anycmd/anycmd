@@ -1,10 +1,10 @@
 
 namespace Anycmd.Edi.ViewModels.ElementViewModels
 {
-    using Engine;
     using Engine.Edi;
     using Engine.Host.Ac.Infra;
     using Exceptions;
+    using Model;
     using System;
     using System.Collections.Generic;
     using ViewModel;

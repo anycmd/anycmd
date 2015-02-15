@@ -2,6 +2,7 @@
 namespace Anycmd.Engine.Ac
 {
     using Exceptions;
+    using Model;
     using Rdb;
     using System;
     using System.Data.SqlClient;

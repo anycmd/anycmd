@@ -4,6 +4,7 @@ namespace Anycmd.Engine.Edi
     using Abstractions;
     using Exceptions;
     using Hecp;
+    using Model;
     using Serialization;
     using System;
     using System.Collections.Generic;
