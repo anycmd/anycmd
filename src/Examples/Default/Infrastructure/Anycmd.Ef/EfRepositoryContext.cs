@@ -8,8 +8,7 @@ namespace Anycmd.Ef
     using System;
     using System.Configuration;
     using System.Data.Entity;
-    using System.Data.Entity.Core.Objects;
-    using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Validation;
     using System.Linq;
 
     /// <summary>
@@ -34,12 +33,12 @@ namespace Anycmd.Ef
             this._efDbContextName = efDbContextName;
         }
 
-        private void CheckConfig(string efDbContextName)
+        private static void CheckConfig(string efDbContextName)
         {
             var connSetting = ConfigurationManager.ConnectionStrings[efDbContextName];
             if (connSetting == null || string.IsNullOrEmpty(connSetting.ConnectionString))
             {
-                throw new Exceptions.AnycmdException("未配置name为" + efDbContextName + "的connectionStrings子节点");
+                throw new AnycmdException("未配置name为" + efDbContextName + "的connectionStrings子节点");
             }
         }
 
@@ -56,23 +55,13 @@ namespace Anycmd.Ef
         /// the object should be disposed explicitly.</param>
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
+            if (!disposing) return;
+            if (_efContext != null)
             {
-                // The dispose method will no longer be responsible for the commit
-                // handling. Since the object container might handle the lifetime
-                // of the repository context on the WCF per-request basis, users should
-                // handle the commit logic by themselves.
-                //if (!committed)
-                //{
-                //    Commit();
-                //}
-                if (_efContext != null)
-                {
-                    _efContext.Dispose();
-                    _efContext = null;
-                }
-                base.Dispose(true);
+                _efContext.Dispose();
+                _efContext = null;
             }
+            base.Dispose(true);
         }
         #endregion
 
@@ -83,40 +72,42 @@ namespace Anycmd.Ef
         /// <param name="obj">The object to be registered.</param>
         public override void RegisterNew(object obj)
         {
-            if (obj is IEntity)
+            var entity = obj as IEntity;
+            if (entity != null)
             {
-                if (((IEntity)obj).Id == Guid.Empty)
+                if (entity.Id == Guid.Empty)
                 {
                     throw new AnycmdException("实体标识不能为空");
                 }
             }
-            if ((obj is IEntityBase))
+            var entityBase = obj as IEntityBase;
+            if (entityBase != null)
             {
-                var entity = (obj as IEntityBase);
-                if (entity.CreateUserId == null)
+                if (entityBase.CreateUserId == null)
                 {
                     var storage = _acDomain.GetRequiredService<IAcSessionStorage>();
                     var user = storage.GetData(_acDomain.Config.CurrentAcSessionCacheKey) as IAcSession;
                     if (user != null && user.Identity.IsAuthenticated)
                     {
-                        if (string.IsNullOrEmpty(entity.CreateBy))
+                        if (string.IsNullOrEmpty(entityBase.CreateBy))
                         {
-                            entity.CreateBy = user.Account.Name;
+                            entityBase.CreateBy = user.Account.Name;
                         }
-                        if (!entity.CreateUserId.HasValue)
+                        if (!entityBase.CreateUserId.HasValue)
                         {
-                            entity.CreateUserId = user.Account.Id;
+                            entityBase.CreateUserId = user.Account.Id;
                         }
                     }
-                    if (!entity.CreateOn.HasValue)
+                    if (!entityBase.CreateOn.HasValue)
                     {
-                        entity.CreateOn = DateTime.Now;
+                        entityBase.CreateOn = DateTime.Now;
                     }
                 }
             }
             this.DbContext.Entry(obj).State = EntityState.Added;
             Committed = false;
         }
+
         /// <summary>
         /// Registers a modified object to the repository context.
         /// </summary>
@@ -124,29 +115,30 @@ namespace Anycmd.Ef
         public override void RegisterModified(object obj)
         {
             var state = this.DbContext.Entry(obj).State;
-            if ((obj is IEntityBase) && state == EntityState.Modified)
+            var entityBase = obj as IEntityBase;
+            if (entityBase != null && state == EntityState.Modified)
             {
-                var entity = (obj as IEntityBase);
-                if (entity.ModifiedUserId == null)
+                if (entityBase.ModifiedUserId == null)
                 {
                     var storage = _acDomain.GetRequiredService<IAcSessionStorage>();
                     var user = storage.GetData(_acDomain.Config.CurrentAcSessionCacheKey) as IAcSession;
                     if (user != null && user.Identity.IsAuthenticated)
                     {
-                        if (string.IsNullOrEmpty(entity.ModifiedBy))
+                        if (string.IsNullOrEmpty(entityBase.ModifiedBy))
                         {
-                            entity.ModifiedBy = user.Account.Name;
+                            entityBase.ModifiedBy = user.Account.Name;
                         }
-                        if (!entity.ModifiedUserId.HasValue)
+                        if (!entityBase.ModifiedUserId.HasValue)
                         {
-                            entity.ModifiedUserId = user.Account.Id;
+                            entityBase.ModifiedUserId = user.Account.Id;
                         }
                     }
                 }
-                entity.ModifiedOn = DateTime.Now;
+                entityBase.ModifiedOn = DateTime.Now;
             }
             Committed = false;
         }
+
         /// <summary>
         /// Registers a deleted object to the repository context.
         /// </summary>
@@ -168,20 +160,35 @@ namespace Anycmd.Ef
         {
             get { return true; }
         }
+
         /// <summary>
         /// Commits the transaction.
         /// </summary>
         public override void Commit()
         {
-            if (!Committed)
+            if (Committed) return;
+            lock (_sync)
             {
-                lock (_sync)
+                try
                 {
-                    ((IObjectContextAdapter)DbContext).ObjectContext.SaveChanges(SaveOptions.AcceptAllChangesAfterSave);
+                    DbContext.SaveChanges();
                 }
-                Committed = true;
+                catch (DbEntityValidationException dbEx)
+                {
+                    var msg = string.Empty;
+
+                    foreach (var validationErrors in dbEx.EntityValidationErrors)
+                        foreach (var validationError in validationErrors.ValidationErrors)
+                            msg += string.Format("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage) + Environment.NewLine;
+
+                    var fail = new AnycmdException(msg, dbEx);
+                    //Debug.WriteLine(fail.Message, fail);
+                    throw fail;
+                }
             }
+            Committed = true;
         }
+
         /// <summary>
         /// Rollback the transaction.
         /// </summary>

@@ -94,7 +94,7 @@
     <Compile Include="IEfContextStorage.cs" />
     <Compile Include="IEfFilterStringBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="CommonRepository`1.cs" />
+    <Compile Include="GenericRepository`1.cs" />
     <Compile Include="ServiceContainerExtension.cs" />
     <Compile Include="SimpleEfContextStorage.cs" />
     <Compile Include="WebEfContextStorage.cs" />

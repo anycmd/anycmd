@@ -7,6 +7,7 @@ namespace Anycmd.Repositories
 
     /// <summary>
     /// 表示该接口的实现类是领域聚合根实体仓储。
+    /// <returns>一次操作至多影响一个实体的状态。</returns>
     /// </summary>
     /// <typeparam name="TAggregateRoot">聚合根.NET对象类型。</typeparam>
     public interface IRepository<TAggregateRoot>
@@ -19,6 +20,7 @@ namespace Anycmd.Repositories
 
         /// <summary>
         /// 查询当前聚合根实体数据源。
+        /// <returns>尽量不要使用这个方法，查询应使用Query命名空间下的事物。</returns>
         /// </summary>
         /// <returns>对聚合根实体集进行查询计算的接口</returns>
         IQueryable<TAggregateRoot> AsQueryable();

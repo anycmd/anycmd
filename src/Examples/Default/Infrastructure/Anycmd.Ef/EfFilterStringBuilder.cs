@@ -24,7 +24,7 @@ namespace Anycmd.Ef
         /// <returns></returns>
         public string FilterString(List<FilterData> filters, string alias, out List<ObjectParameter> prams)
         {
-            bool useAlias = !string.IsNullOrEmpty(alias);
+            var useAlias = !string.IsNullOrEmpty(alias);
             prams = new List<ObjectParameter>();
             if (filters == null || filters.Count == 0)
                 return string.Empty;
@@ -32,7 +32,7 @@ namespace Anycmd.Ef
             // type=string
             #region string
             var stringList = from f in filters where f.type == "string" select f;
-            int i = 0;
+            var i = 0;
             foreach (var filter in stringList)
             {
                 var comparision = this.GetComparison(filter.comparison);
@@ -40,7 +40,7 @@ namespace Anycmd.Ef
                 if (comparision == "like")
                 {
                     result.Append(" ").Append("like").Append(" @").Append(filter.field).Append(i).Append("");
-                    string value = string.Empty;
+                    var value = string.Empty;
                     if (filter.value != null)
                     {
                         value = filter.value.ToString();
@@ -91,8 +91,7 @@ namespace Anycmd.Ef
                     throw new ValidationException("'" + filter.value + "'不是boolean类型的");
                 }
                 result.Append(alias, useAlias).Append(".", useAlias).Append(filter.field).Append("=@").Append(filter.field).Append(i.ToString()).Append(" and ");
-                var p = new ObjectParameter(filter.field + i.ToString(), typeof(bool));
-                p.Value = b;
+                var p = new ObjectParameter(filter.field + i.ToString(), typeof(bool)) {Value = b};
                 prams.Add(p);
                 i++;
             }

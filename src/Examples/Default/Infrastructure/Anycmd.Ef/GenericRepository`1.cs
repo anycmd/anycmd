@@ -7,13 +7,17 @@ namespace Anycmd.Ef
     using System.Data.Entity;
     using System.Linq;
 
-    public class CommonRepository<TAggregateRoot> : Repository<TAggregateRoot>
+    /// <summary>
+    /// <returns>这一个泛型的实现就够了。因为IRepository接口是一个非常简单的接口，其中的每一次操作都至多影响一个实体，没有复杂的方法。</returns>
+    /// </summary>
+    /// <typeparam name="TAggregateRoot"></typeparam>
+    public class GenericRepository<TAggregateRoot> : Repository<TAggregateRoot>
         where TAggregateRoot : class, IAggregateRoot
     {
         private readonly string _efDbContextName;
         private readonly IAcDomain _acDomain;
 
-        public CommonRepository(IAcDomain acDomain, string efDbContextName)
+        public GenericRepository(IAcDomain acDomain, string efDbContextName)
         {
             if (acDomain == null)
             {
@@ -27,12 +31,10 @@ namespace Anycmd.Ef
         {
             get
             {
-                var repositoryContext = Ef.EfContext.Storage.GetRepositoryContext(this._efDbContextName);
-                if (repositoryContext == null)
-                {
-                    repositoryContext = new EfRepositoryContext(_acDomain, this._efDbContextName);
-                    Ef.EfContext.Storage.SetRepositoryContext(repositoryContext);
-                }
+                var repositoryContext = Ef.EfContext.Storage.GetRepositoryContext(_efDbContextName);
+                if (repositoryContext != null) return repositoryContext;
+                repositoryContext = new EfRepositoryContext(_acDomain, _efDbContextName);
+                Ef.EfContext.Storage.SetRepositoryContext(repositoryContext);
                 return repositoryContext;
             }
         }

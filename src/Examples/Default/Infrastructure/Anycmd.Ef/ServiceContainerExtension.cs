@@ -21,7 +21,7 @@ namespace Anycmd.Ef
                 {
                     if (type.IsClass && !type.IsAbstract && typeof(IAggregateRoot).IsAssignableFrom(type))
                     {
-                        var repositoryType = typeof(CommonRepository<>);
+                        var repositoryType = typeof(GenericRepository<>);
                         var genericInterface = typeof(IRepository<>);
                         repositoryType = repositoryType.MakeGenericType(type);
                         genericInterface = genericInterface.MakeGenericType(type);

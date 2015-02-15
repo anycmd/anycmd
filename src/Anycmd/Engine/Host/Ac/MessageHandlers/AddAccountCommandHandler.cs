@@ -22,6 +22,10 @@ namespace Anycmd.Engine.Host.Ac.MessageHandlers
         public override void Handle(AddAccountCommand command)
         {
             var accountRepository = _acDomain.RetrieveRequiredService<IRepository<Account>>();
+            if (string.IsNullOrEmpty(command.Input.LoginName))
+            {
+                throw new AnycmdException("LoginName不能为空");
+            }
             if (string.IsNullOrEmpty(command.Input.CatalogCode))
             {
                 throw new AnycmdException("用户必须属于一个目录");
@@ -31,7 +35,7 @@ namespace Anycmd.Engine.Host.Ac.MessageHandlers
             {
                 throw new AnycmdException("意外的目录码" + command.Input.CatalogCode);
             }
-            if (accountRepository.AsQueryable().Any(a => a.Code == command.Input.Code && a.Id != command.Input.Id))
+            if (!string.IsNullOrEmpty(command.Input.Code) && accountRepository.AsQueryable().Any(a => a.Code == command.Input.Code && a.Id != command.Input.Id))
             {
                 throw new ValidationException("用户编码重复");
             }

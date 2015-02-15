@@ -105,18 +105,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_VisitingLog_Account">
-          <End Role="Account" Type="Self.Account" Multiplicity="0..1" />
-          <End Role="VisitingLog" Type="Self.VisitingLog" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Account">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="VisitingLog">
-              <PropertyRef Name="AccountId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="IdentityModelStoreContainer">
           <EntitySet Name="Account" EntityType="Self.Account" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DeveloperId" EntityType="Self.DeveloperId" Schema="dbo" store:Type="Tables" />
@@ -124,10 +112,6 @@
           <AssociationSet Name="FK_DeveloperId_Account" Association="Self.FK_DeveloperId_Account">
             <End Role="Account" EntitySet="Account" />
             <End Role="DeveloperId" EntitySet="DeveloperId" />
-          </AssociationSet>
-          <AssociationSet Name="FK_VisitingLog_Account" Association="Self.FK_VisitingLog_Account">
-            <End Role="Account" EntitySet="Account" />
-            <End Role="VisitingLog" EntitySet="VisitingLog" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -141,10 +125,6 @@
           <AssociationSet Name="FK_DeveloperId_Account" Association="AnycmdModel.FK_DeveloperId_Account">
             <End Role="Account" EntitySet="Accounts" />
             <End Role="DeveloperId" EntitySet="DeveloperIds" />
-          </AssociationSet>
-          <AssociationSet Name="FK_VisitingLog_Account" Association="AnycmdModel.FK_VisitingLog_Account">
-            <End Role="Account" EntitySet="Accounts" />
-            <End Role="VisitingLog" EntitySet="VisitingLogs" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Account">
@@ -234,7 +214,6 @@
           <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="RowGuid" Type="Guid" Nullable="false" />
           <Property Name="Etag" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
-          <NavigationProperty Name="Account" Relationship="AnycmdModel.FK_VisitingLog_Account" FromRole="VisitingLog" ToRole="Account" />
         </EntityType>
         <Association Name="FK_DeveloperId_Account">
           <End Type="AnycmdModel.Account" Role="Account" Multiplicity="1" />
@@ -245,18 +224,6 @@
             </Principal>
             <Dependent Role="DeveloperId">
               <PropertyRef Name="Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_VisitingLog_Account">
-          <End Type="AnycmdModel.Account" Role="Account" Multiplicity="0..1" />
-          <End Type="AnycmdModel.VisitingLog" Role="VisitingLog" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Account">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="VisitingLog">
-              <PropertyRef Name="AccountId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -379,12 +346,11 @@
     </Options>
     <!-- Diagram content (shape and connector positions) -->
     <Diagrams>
-      <Diagram DiagramId="dce53fc955e54231a2f6984595181a49" Name="Diagram1" ZoomLevel="77">
+      <Diagram DiagramId="dce53fc955e54231a2f6984595181a49" Name="Diagram1" ZoomLevel="101">
         <EntityTypeShape EntityType="AnycmdModel.Account" Width="2.125" PointX="0.5" PointY="0.5" />
         <EntityTypeShape EntityType="AnycmdModel.DeveloperId" Width="1.75" PointX="3.5" PointY="6" />
         <EntityTypeShape EntityType="AnycmdModel.VisitingLog" Width="1.75" PointX="3.5" PointY="2.125" />
         <AssociationConnector Association="AnycmdModel.FK_DeveloperId_Account" />
-        <AssociationConnector Association="AnycmdModel.FK_VisitingLog_Account" />
       </Diagram>
     </Diagrams>
   </Designer>
