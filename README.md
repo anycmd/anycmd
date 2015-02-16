@@ -60,7 +60,7 @@ http://git.oschina.net/anycmd/anycmd/blob/master/src/Anycmd/IRbacService.cs
 * 3，替换掉UI层，去除试用版的miniui框架；考虑使用extjs
 * 4，内置数据交换系统，用以各业务系统与中心系统间的权限数据交换；
 * 5，支持Javascript；
-* 6，支持REPL。“读取-求值-输出”循环(英语:Read-Eval-Print Loop,简称REPL)是一个简单的,交互式的编程环境。
+* 6，支持LDAP（轻量目录访问协议）。
 * 7，优化；发布1.0版本；
 * 8，支持SAML；
 * 9，基于slickflow（原名wf5）支持工作流http://slickflow.codeplex.com/
