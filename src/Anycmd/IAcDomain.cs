@@ -72,10 +72,6 @@ namespace Anycmd
         /// </summary>
         IRdbs Rdbs { get; }
         /// <summary>
-        /// 系统字典数据集
-        /// </summary>
-        IDicSet DicSet { get; }
-        /// <summary>
         /// 实体类型数据集
         /// </summary>
         IEntityTypeSet EntityTypeSet { get; }

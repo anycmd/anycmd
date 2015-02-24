@@ -64,7 +64,6 @@
     <Compile Include="AppSystemTest.cs" />
     <Compile Include="ButtonSetTest.cs" />
     <Compile Include="DbException.cs" />
-    <Compile Include="DicSetTest.cs" />
     <Compile Include="DsdSetTest.cs" />
     <Compile Include="EntityIdTest.cs" />
     <Compile Include="EntityTypeSetTest.cs" />

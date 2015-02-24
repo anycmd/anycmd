@@ -88,7 +88,6 @@
     <Compile Include="AnyMessage.cs" />
     <Compile Include="Engine\Ac\Abstractions\IAppSystemSet.cs" />
     <Compile Include="Engine\Ac\Abstractions\IButtonSet.cs" />
-    <Compile Include="Engine\Ac\Abstractions\IDicSet.cs" />
     <Compile Include="Engine\Ac\Abstractions\IDsdSetSet.cs" />
     <Compile Include="Engine\Ac\Abstractions\IEntityTypeSet.cs" />
     <Compile Include="Engine\Ac\Abstractions\IFunctionSet.cs" />
@@ -104,7 +103,6 @@
     <Compile Include="Engine\Edi\Messages\UpdateStateCodeCommand.cs" />
     <Compile Include="Engine\Host\Ac\MemorySets\AppSystemSet.cs" />
     <Compile Include="Engine\Host\Ac\MemorySets\ButtonSet.cs" />
-    <Compile Include="Engine\Host\Ac\MemorySets\DicSet.cs" />
     <Compile Include="Engine\Host\Ac\MemorySets\DsdSetSet.cs" />
     <Compile Include="Engine\Host\Ac\MemorySets\EntityTypeSet.cs" />
     <Compile Include="Engine\Host\Ac\MemorySets\FunctionSet.cs" />

@@ -90,8 +90,6 @@
     <Compile Include="Controllers\ButtonController.cs" />
     <Compile Include="Controllers\DsdSetController.cs" />
     <Compile Include="Controllers\RDatabaseController.cs" />
-    <Compile Include="Controllers\DicController.cs" />
-    <Compile Include="Controllers\DicItemController.cs" />
     <Compile Include="Controllers\ExceptionLogController.cs" />
     <Compile Include="Controllers\PropertyController.cs" />
     <Compile Include="Controllers\GroupController.cs" />

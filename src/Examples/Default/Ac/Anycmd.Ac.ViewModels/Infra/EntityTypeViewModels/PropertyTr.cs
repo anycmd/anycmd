@@ -105,8 +105,8 @@ namespace Anycmd.Ac.ViewModels.Infra.EntityTypeViewModels
                 {
                     return string.Empty;
                 }
-                DicState dic;
-                if (!_acDomain.DicSet.TryGetDic(this.DicId.Value, out dic))
+                CatalogState dic;
+                if (!_acDomain.CatalogSet.TryGetCatalog(this.DicId.Value, out dic))
                 {
                     throw new AnycmdException("意外的系统字典标识" + this.DicId);
                 }

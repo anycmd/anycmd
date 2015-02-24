@@ -157,11 +157,6 @@ namespace Anycmd.Engine.Host.Impl
         public ISysUserSet SysUserSet { get; protected set; }
 
         /// <summary>
-        /// 系统字典
-        /// </summary>
-        public IDicSet DicSet { get; protected set; }
-
-        /// <summary>
         /// 系统模型
         /// </summary>
         public IEntityTypeSet EntityTypeSet { get; protected set; }

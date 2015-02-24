@@ -51,7 +51,6 @@ namespace Anycmd.Engine.Host.Impl
             base.AppSystemSet = new AppSystemSet(this);
             base.ButtonSet = new ButtonSet(this);
             base.SysUserSet = new SysUserSet(this);
-            base.DicSet = new DicSet(this);
             base.EntityTypeSet = new EntityTypeSet(this);
             base.FunctionSet = new FunctionSet(this);
             base.CatalogSet = new CatalogSet(this);

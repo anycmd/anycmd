@@ -216,15 +216,10 @@ namespace Anycmd.Engine.Host.Impl
                 throw new ValidationException(addVisitingLogCommand.Description);
             }
             string auditState = account.AuditState == null ? account.AuditState : account.AuditState.ToLower();
-            DicState dic;
-            if (!acDomain.DicSet.TryGetDic("auditStatus", out dic))
+            CatalogState dicItem;
+            if (!acDomain.CatalogSet.TryGetCatalog("anycmd.auditStatus." + auditState, out dicItem))
             {
-                throw new AnycmdException("意外的字典编码auditStatus");
-            }
-            var auditStatusDic = acDomain.DicSet.GetDicItems(dic);
-            if (!auditStatusDic.ContainsKey(auditState))
-            {
-                auditState = null;
+                throw new AnycmdException("意外的字典编码anycmd.auditStatus." + auditState);
             }
             if (auditState == null
                 || auditState == "notaudit")

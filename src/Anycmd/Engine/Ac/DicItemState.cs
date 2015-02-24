@@ -37,7 +37,8 @@ namespace Anycmd.Engine.Ac
             {
                 throw new ArgumentNullException("dicItem");
             }
-            if (!acDomain.DicSet.ContainsDic(dicItem.DicId))
+            CatalogState catalog;
+            if (!acDomain.CatalogSet.TryGetCatalog(dicItem.DicId, out catalog))
             {
                 throw new AnycmdException("意外的字典" + dicItem.DicId);
             }

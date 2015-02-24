@@ -61,7 +61,8 @@ namespace Anycmd.Engine.Ac
             }
             if (dicId.HasValue)
             {
-                if (!acDomain.DicSet.ContainsDic(dicId.Value))
+                CatalogState catalog;
+                if (!acDomain.CatalogSet.TryGetCatalog(dicId.Value, out catalog))
                 {
                     throw new ValidationException("意外的字典标识" + dicId);
                 }

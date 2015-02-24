@@ -108,11 +108,6 @@ namespace Anycmd.Engine.Host
             // 什么也不做
         }
 
-        public IDicSet DicSet
-        {
-            get { return Ac.MemorySets.DicSet.Empty; }
-        }
-
         public IEntityTypeSet EntityTypeSet
         {
             get { return Ac.MemorySets.EntityTypeSet.Empty; }

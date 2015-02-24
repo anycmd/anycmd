@@ -190,7 +190,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                 if (AcSession.IsDeveloper())
                 {
                     var nodeList = new List<CatalogMiniNode>();
-                    nodeList.AddRange(AcDomain.CatalogSet.Where(a => a != CatalogState.VirtualRoot && a.ParentCode == null).OrderBy(a => a.SortCode).Select(a => new CatalogMiniNode
+                    nodeList.AddRange(AcDomain.CatalogSet.Where(a => a != CatalogState.VirtualRoot && a.ParentCode == null).OrderBy(a => a.SortCode + a.CategoryCode.GetHashCode()).Select(a => new CatalogMiniNode
                     {
                         CategoryCode = a.CategoryCode,
                         Code = a.Code,
@@ -229,7 +229,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
                     throw new ValidationException("意外的目录标识" + pid);
                 }
                 var nodeList = new List<CatalogMiniNode>();
-                nodeList.AddRange(AcDomain.CatalogSet.Where(a => parentCatalog.Code.Equals(a.ParentCode, StringComparison.OrdinalIgnoreCase)).OrderBy(a => a.SortCode).Select(a => new CatalogMiniNode
+                nodeList.AddRange(AcDomain.CatalogSet.Where(a => parentCatalog.Code.Equals(a.ParentCode, StringComparison.OrdinalIgnoreCase)).OrderBy(a => a.SortCode + a.CategoryCode.GetHashCode()).Select(a => new CatalogMiniNode
                 {
                     CategoryCode = a.CategoryCode,
                     Code = a.Code,

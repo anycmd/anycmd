@@ -1044,7 +1044,6 @@
     <Content Include="Scripts\jquery-tmpl\jquery.tmplPlus.js" />
     <Content Include="Scripts\jquery-tmpl\jquery.tmplPlus.min.js" />
     <Content Include="Scripts\Areas\Ac\AppSystem\Index.cshtml.js" />
-    <Content Include="Scripts\Areas\Ac\DicItem\Index.cshtml.js" />
     <Content Include="Scripts\Areas\Ac\Group\Accounts.cshtml.js" />
     <Content Include="Scripts\Areas\Ac\Group\Index.cshtml.js" />
     <Content Include="Scripts\Areas\Ac\Group\Roles.cshtml.js" />
@@ -1111,9 +1110,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Ac\Views\AppSystem\Index.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Ac\Views\DicItem\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\LogOn.cshtml" />
@@ -1248,9 +1244,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Ac\Views\Property\Partials\Edit.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Ac\Views\DicItem\Partials\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Ac\Views\AppSystem\Partials\Edit.cshtml" />

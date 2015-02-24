@@ -44,14 +44,10 @@ namespace Anycmd.ViewModel
         /// <returns></returns>
         public static string Translate(this IAcDomain acDomain, string dicCode, string dicItemCode)
         {
-            DicState dic;
-            if (acDomain.DicSet.TryGetDic(dicCode, out dic))
+            CatalogState dicItem;
+            if (acDomain.CatalogSet.TryGetCatalog(acDomain.AppSystemSet.SelfAppSystem.Code + "." + dicCode + "." + dicItemCode, out dicItem))
             {
-                IReadOnlyDictionary<string, DicItemState> dicItems = acDomain.DicSet.GetDicItems(dic);
-                if (dicItems.ContainsKey(dicItemCode))
-                {
-                    return dicItems[dicItemCode].Name;
-                }
+                return dicItem.Name;
             }
             return dicItemCode;
         }
@@ -107,13 +103,13 @@ namespace Anycmd.ViewModel
             }
             if (property.DicId.HasValue)
             {
-                DicState dicState;
-                if (!acDomain.DicSet.TryGetDic(property.DicId.Value, out dicState))
+                CatalogState dicState;
+                if (!acDomain.CatalogSet.TryGetCatalog(property.DicId.Value, out dicState))
                 {
                     return dicItemCode;
                 }
-                DicItemState dicitem;
-                if (acDomain.DicSet.TryGetDicItem(dicState, dicItemCode, out dicitem))
+                CatalogState dicitem;
+                if (acDomain.CatalogSet.TryGetCatalog(dicState.Code + "." + dicItemCode, out dicitem))
                 {
                     return dicitem.Name;
                 }

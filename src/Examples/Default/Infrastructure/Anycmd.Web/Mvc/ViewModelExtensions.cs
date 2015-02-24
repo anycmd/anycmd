@@ -98,7 +98,7 @@ namespace Anycmd.Web.Mvc
             var sb = new StringBuilder();
             sb.Append("[");
             int l = sb.Length;
-            foreach (var item in html.CurrentHost().DicSet.OrderBy(a => a.SortCode))
+            foreach (var item in html.CurrentHost().CatalogSet.Where(a => a.CategoryCode == "dic").OrderBy(a => a.SortCode))
             {
                 if (sb.Length > l)
                 {
@@ -122,26 +122,21 @@ namespace Anycmd.Web.Mvc
         /// <param name="html"></param>
         /// <param name="dicCode"></param>
         /// <returns></returns>
-        public static IHtmlString DicItemJsonArray(this HtmlHelper html, string dicCode)
+        public static IHtmlString DicItemJsonArray(this HtmlHelper html, string dicCode, string prifix = "anycmd.")
         {
-            DicState dic;
-            if (!html.CurrentHost().DicSet.TryGetDic(dicCode, out dic))
-            {
-                throw new AnycmdException("意外的字典编码" + dicCode);
-            }
             var value = "[]";
             var sb = new StringBuilder();
             sb.Append("[");
             int l = sb.Length;
-            var dicItems = html.CurrentHost().DicSet.GetDicItems(dic);
+            var dicItems = html.CurrentHost().CatalogSet.Where(a => a.Code.StartsWith(prifix + dicCode));
             foreach (var item in dicItems)
             {
                 if (sb.Length > l)
                 {
                     sb.Append(",");
                 }
-                sb.Append("{'code':").Append("'").Append(item.Value.Code).Append("'")
-                    .Append(",'name':'").Append(item.Value.Name).Append(" | ").Append(item.Value.Code).Append("'}");
+                sb.Append("{'code':").Append("'").Append(item.Code).Append("'")
+                    .Append(",'name':'").Append(item.Name).Append(" | ").Append(item.Code).Append("'}");
             }
             sb.Append("]");
             value = sb.ToString();
@@ -159,10 +154,10 @@ namespace Anycmd.Web.Mvc
         {
             if (property.DicId.HasValue)
             {
-                DicState dic;
-                if (GetAcDomain().DicSet.TryGetDic(property.DicId.Value, out dic))
+                CatalogState dic;
+                if (GetAcDomain().CatalogSet.TryGetCatalog(property.DicId.Value, out dic))
                 {
-                    return DicItemJsonArray(html, dic.Code);
+                    return DicItemJsonArray(html, dic.Code, prifix: "");
                 }
             }
 
@@ -377,7 +372,7 @@ namespace Anycmd.Web.Mvc
         {
             var acDomain = html.CurrentHost();
             CatalogState resource;
-            if (!acDomain.CatalogSet.TryGetCatalog(acDomain.AppSystemSet.SelfAppSystem.Code +"." + controller, out resource))
+            if (!acDomain.CatalogSet.TryGetCatalog(acDomain.AppSystemSet.SelfAppSystem.Code + "." + controller, out resource))
             {
                 return new UiViewViewModel(UiViewState.Empty, "未知页面");
             }
@@ -575,7 +570,7 @@ namespace Anycmd.Web.Mvc
         {
             var acDomain = CurrentHost(webPage.Html);
             CatalogState resource;
-            if (!acDomain.CatalogSet.TryGetCatalog(acDomain.AppSystemSet.SelfAppSystem.Code +"." + "OperationLog", out resource))
+            if (!acDomain.CatalogSet.TryGetCatalog(acDomain.AppSystemSet.SelfAppSystem.Code + "." + "OperationLog", out resource))
             {
                 return UiViewViewModel.Empty;
             }
