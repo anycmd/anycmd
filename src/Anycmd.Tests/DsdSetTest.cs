@@ -8,7 +8,7 @@ namespace Anycmd.Tests
     using Engine.Ac;
     using Engine.Ac.Abstractions;
     using Engine.Ac.Messages;
-    using Engine.Ac.Messages.Rbac;
+    using Engine.Ac.Dsd;
     using Engine.Host.Ac.Identity;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Repositories;

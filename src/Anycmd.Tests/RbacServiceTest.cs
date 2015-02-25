@@ -4,6 +4,7 @@ namespace Anycmd.Tests
     using Ac.ViewModels.DsdViewModels;
     using Ac.ViewModels.GroupViewModels;
     using Ac.ViewModels.AccountViewModels;
+    using Engine.Ac.Dsd;
     using Ac.ViewModels.CatalogViewModels;
     using Ac.ViewModels.FunctionViewModels;
     using Ac.ViewModels.PrivilegeViewModels;

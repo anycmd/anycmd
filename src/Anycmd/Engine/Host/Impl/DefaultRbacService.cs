@@ -10,6 +10,7 @@ namespace Anycmd.Engine.Host.Impl
     using Engine.Ac.InOuts;
     using Engine.Ac.Messages;
     using Engine.Ac.Messages.Rbac;
+    using Engine.Ac.Dsd;
     using Exceptions;
     using InOuts;
     using Repositories;

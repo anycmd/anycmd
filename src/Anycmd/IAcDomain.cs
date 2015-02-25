@@ -1,6 +1,7 @@
 ﻿
 namespace Anycmd
 {
+    using Engine.Ac.Dsd;
     using Bus;
     using Engine.Ac.Catalogs;
     using Engine.Ac.Abstractions;

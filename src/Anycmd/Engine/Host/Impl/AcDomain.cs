@@ -5,6 +5,7 @@ namespace Anycmd.Engine.Host.Impl
     using Edi;
     using Engine.Ac.Abstractions;
     using Engine.Ac.Accounts;
+    using Engine.Ac.Dsd;
     using Engine.Ac.Catalogs;
     using Engine.Rdb;
     using Engine.Ac.AppSystems;
