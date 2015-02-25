@@ -4,6 +4,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     using Ac;
     using Bus;
     using Engine.Ac;
+    using Engine.Ac.Catalogs;
     using Engine.Ac.Abstractions;
     using Engine.Ac.InOuts;
     using Engine.Ac.Messages;

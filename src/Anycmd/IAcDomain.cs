@@ -2,6 +2,7 @@
 namespace Anycmd
 {
     using Bus;
+    using Engine.Ac.Catalogs;
     using Engine.Ac.Abstractions;
     using Engine.Ac.Accounts;
     using Engine.Host;

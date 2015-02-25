@@ -2,8 +2,7 @@
 namespace Anycmd.Ac.ViewModels.CatalogViewModels
 {
     using Engine;
-    using Engine.Ac.InOuts;
-    using Engine.Ac.Messages.Infra;
+    using Engine.Ac.Catalogs;
     using System;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;

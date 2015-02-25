@@ -1,5 +1,5 @@
 ﻿
-namespace Anycmd.Engine.Ac.Messages.Infra
+namespace Anycmd.Engine.Ac.Catalogs
 {
     using System;
 
