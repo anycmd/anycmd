@@ -5,6 +5,7 @@ namespace Anycmd.Engine.Host.Ac
     using Engine.Ac.AppSystems;
     using Engine.Ac.Messages.Infra;
     using System;
+    using Engine.Ac.EntityTypes;
 
     public static class AcDomainExtension
     {

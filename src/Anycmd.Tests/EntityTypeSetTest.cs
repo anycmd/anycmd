@@ -3,7 +3,7 @@ namespace Anycmd.Tests
 {
     using Ac.ViewModels.EntityTypeViewModels;
     using Engine.Ac;
-    using Engine.Ac.Messages.Infra;
+    using Engine.Ac.EntityTypes;
     using Engine.Host.Ac.Infra;
     using Exceptions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;

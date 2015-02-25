@@ -2,8 +2,7 @@
 namespace Anycmd.Ac.ViewModels.EntityTypeViewModels
 {
     using Engine;
-    using Engine.Ac.InOuts;
-    using Engine.Ac.Messages.Infra;
+    using Engine.Ac.EntityTypes;
     using Engine.InOuts;
     using System;
     using System.ComponentModel.DataAnnotations;

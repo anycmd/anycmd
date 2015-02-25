@@ -10,6 +10,7 @@ namespace Anycmd
     using Engine.Host.Edi;
     using Engine.Rdb;
     using IdGenerators;
+    using Engine.Ac.EntityTypes;
     using Engine.Ac.AppSystems;
     using Logging;
     using Serialization;

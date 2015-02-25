@@ -8,6 +8,7 @@ namespace Anycmd.Engine.Host.Impl
     using Engine.Ac.Dsd;
     using Engine.Ac.Catalogs;
     using Engine.Rdb;
+    using Engine.Ac.EntityTypes;
     using Engine.Ac.AppSystems;
     using Events;
     using IdGenerators;

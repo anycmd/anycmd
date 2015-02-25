@@ -1,7 +1,7 @@
 ﻿
 namespace Anycmd.Engine.Ac
 {
-    using Abstractions.Infra;
+    using EntityTypes;
     using Exceptions;
     using Host;
     using Host.Ac.Infra;
