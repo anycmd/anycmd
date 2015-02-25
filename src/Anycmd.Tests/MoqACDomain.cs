@@ -44,7 +44,7 @@ namespace Anycmd.Tests
                 SortCode = 0,
                 Description = string.Empty,
                 Code = "anycmd.account.auditStatus.auditPass",
-                Name = "anycmd.account.auditStatus.auditPass"
+                Name = "auditPass"
             });
             this.GetRequiredService<IRepository<Catalog>>().Add(new Catalog
             {
@@ -54,6 +54,24 @@ namespace Anycmd.Tests
                 Description = string.Empty,
                 Name = "test.Resource1",
                 SortCode = 10
+            });
+            this.GetRequiredService<IRepository<Catalog>>().Add(new Catalog()
+            {
+                Id = Guid.NewGuid(),
+                CategoryCode = "anycmd.catalog.Category.dic",
+                Code = "anycmd.rdatabase.rdbms",
+                Name = "rdbms"
+            });
+            this.GetRequiredService<IRepository<Catalog>>().Add(new Catalog()
+            {
+                Id = Guid.NewGuid(),
+                IsEnabled = 1,
+                CategoryCode = "anycmd.catalog.Category.dicitem",
+                ParentCode = "anycmd.rdatabase.rdbms",
+                SortCode = 0,
+                Description = string.Empty,
+                Code = "anycmd.rdatabase.rdbms.sqlserver",
+                Name = "sqlserver"
             });
             this.GetRequiredService<IRepository<Catalog>>().Context.Commit();
             var accountId = Guid.NewGuid();

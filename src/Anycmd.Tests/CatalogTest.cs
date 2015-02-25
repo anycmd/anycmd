@@ -20,7 +20,7 @@ namespace Anycmd.Tests
         public void CatalogSet()
         {
             var acDomain = TestHelper.GetAcDomain();
-            Assert.AreEqual(4, acDomain.CatalogSet.Count());
+            Assert.AreEqual(6, acDomain.CatalogSet.Count());
             Assert.AreEqual(CatalogState.VirtualRoot, acDomain.CatalogSet.First());
             AcSessionState.AcMethod.SignIn(acDomain, new Dictionary<string, object>
             {
@@ -40,7 +40,7 @@ namespace Anycmd.Tests
                 SortCode = 10,
                 Icon = null,
             }.ToCommand(acDomain.GetAcSession()));
-            Assert.AreEqual(5, acDomain.CatalogSet.Count());
+            Assert.AreEqual(7, acDomain.CatalogSet.Count());
             Assert.IsTrue(acDomain.CatalogSet.TryGetCatalog(entityId, out catalogById));
 
             acDomain.Handle(new CatalogUpdateInput
@@ -52,13 +52,13 @@ namespace Anycmd.Tests
                 SortCode = 10,
                 Icon = null,
             }.ToCommand(acDomain.GetAcSession()));
-            Assert.AreEqual(5, acDomain.CatalogSet.Count());
+            Assert.AreEqual(7, acDomain.CatalogSet.Count());
             Assert.IsTrue(acDomain.CatalogSet.TryGetCatalog(entityId, out catalogById));
             Assert.AreEqual("test2", catalogById.Name);
 
             acDomain.Handle(new RemoveCatalogCommand(acDomain.GetAcSession(), entityId));
             Assert.IsFalse(acDomain.CatalogSet.TryGetCatalog(entityId, out catalogById));
-            Assert.AreEqual(4, acDomain.CatalogSet.Count());
+            Assert.AreEqual(6, acDomain.CatalogSet.Count());
         }
         #endregion
 
@@ -66,7 +66,7 @@ namespace Anycmd.Tests
         public void CatalogCodeMustBeUnique()
         {
             var acDomain = TestHelper.GetAcDomain();
-            Assert.AreEqual(4, acDomain.CatalogSet.Count());
+            Assert.AreEqual(6, acDomain.CatalogSet.Count());
             AcSessionState.AcMethod.SignIn(acDomain, new Dictionary<string, object>
             {
                 {"loginName", "test"},
@@ -86,7 +86,7 @@ namespace Anycmd.Tests
                 SortCode = 10,
                 Icon = null,
             }.ToCommand(acDomain.GetAcSession()));
-            Assert.AreEqual(5, acDomain.CatalogSet.Count());
+            Assert.AreEqual(7, acDomain.CatalogSet.Count());
             Assert.IsTrue(acDomain.CatalogSet.TryGetCatalog(entityId, out catalogById));
             bool catched = false;
             try
@@ -119,7 +119,7 @@ namespace Anycmd.Tests
             finally
             {
                 Assert.IsTrue(catched);
-                Assert.AreEqual(5, acDomain.CatalogSet.Count());
+                Assert.AreEqual(7, acDomain.CatalogSet.Count());
             }
         }
 
@@ -127,7 +127,7 @@ namespace Anycmd.Tests
         public void CatalogCanNotRemoveWhenItHasChildCatalogs()
         {
             var acDomain = TestHelper.GetAcDomain();
-            Assert.AreEqual(4, acDomain.CatalogSet.Count());
+            Assert.AreEqual(6, acDomain.CatalogSet.Count());
             AcSessionState.AcMethod.SignIn(acDomain, new Dictionary<string, object>
             {
                 {"loginName", "test"},
@@ -157,7 +157,7 @@ namespace Anycmd.Tests
                 SortCode = 10,
                 Icon = null,
             }.ToCommand(acDomain.GetAcSession()));
-            Assert.AreEqual(6, acDomain.CatalogSet.Count());
+            Assert.AreEqual(8, acDomain.CatalogSet.Count());
             Assert.IsTrue(acDomain.CatalogSet.TryGetCatalog(entityId, out catalogById));
             bool catched = false;
             try
@@ -171,7 +171,7 @@ namespace Anycmd.Tests
             finally
             {
                 Assert.IsTrue(catched);
-                Assert.AreEqual(6, acDomain.CatalogSet.Count());
+                Assert.AreEqual(8, acDomain.CatalogSet.Count());
             }
         }
 
@@ -180,7 +180,7 @@ namespace Anycmd.Tests
         public void CatalogSetShouldRollbackedWhenPersistFailed()
         {
             var acDomain = TestHelper.GetAcDomain();
-            Assert.AreEqual(4, acDomain.CatalogSet.Count());
+            Assert.AreEqual(6, acDomain.CatalogSet.Count());
             Assert.AreEqual(CatalogState.VirtualRoot, acDomain.CatalogSet.First());
             AcSessionState.AcMethod.SignIn(acDomain, new Dictionary<string, object>
             {
@@ -222,7 +222,7 @@ namespace Anycmd.Tests
             finally
             {
                 Assert.IsTrue(catched);
-                Assert.AreEqual(4, acDomain.CatalogSet.Count());
+                Assert.AreEqual(6, acDomain.CatalogSet.Count());
             }
 
             acDomain.Handle(new CatalogCreateInput
@@ -234,7 +234,7 @@ namespace Anycmd.Tests
                 Icon = null,
                 Name = name
             }.ToCommand(acDomain.GetAcSession()));
-            Assert.AreEqual(5, acDomain.CatalogSet.Count());
+            Assert.AreEqual(7, acDomain.CatalogSet.Count());
 
             catched = false;
             try
@@ -258,7 +258,7 @@ namespace Anycmd.Tests
             finally
             {
                 Assert.IsTrue(catched);
-                Assert.AreEqual(5, acDomain.CatalogSet.Count());
+                Assert.AreEqual(7, acDomain.CatalogSet.Count());
                 CatalogState catalog;
                 Assert.IsTrue(acDomain.CatalogSet.TryGetCatalog(entityId2, out catalog));
                 Assert.AreEqual(name, catalog.Name);
@@ -280,7 +280,7 @@ namespace Anycmd.Tests
                 Assert.IsTrue(catched);
                 CatalogState catalog;
                 Assert.IsTrue(acDomain.CatalogSet.TryGetCatalog(entityId2, out catalog));
-                Assert.AreEqual(5, acDomain.CatalogSet.Count());
+                Assert.AreEqual(7, acDomain.CatalogSet.Count());
             }
         }
         #endregion
