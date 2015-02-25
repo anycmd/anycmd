@@ -31,25 +31,25 @@ namespace Anycmd.Tests
             this.GetRequiredService<IRepository<Catalog>>().Add(new Catalog()
             {
                 Id = Guid.NewGuid(),
-                CategoryCode = "anycmd.catalogCategory.dic",
-                Code = "anycmd.auditStatus",
+                CategoryCode = "anycmd.catalog.Category.dic",
+                Code = "anycmd.account.auditStatus",
                 Name = "auditStatus1"
             });
             this.GetRequiredService<IRepository<Catalog>>().Add(new Catalog()
             {
                 Id = Guid.NewGuid(),
                 IsEnabled = 1,
-                CategoryCode = "anycmd.catalogCategory.dicitem",
-                ParentCode = "anycmd.auditStatus",
+                CategoryCode = "anycmd.catalog.Category.dicitem",
+                ParentCode = "anycmd.account.auditStatus",
                 SortCode = 0,
                 Description = string.Empty,
-                Code = "anycmd.auditStatus.auditPass",
-                Name = "anycmd.auditStatus.auditPass"
+                Code = "anycmd.account.auditStatus.auditPass",
+                Name = "anycmd.account.auditStatus.auditPass"
             });
             this.GetRequiredService<IRepository<Catalog>>().Add(new Catalog
             {
                 Code = "test.Resource1",
-                CategoryCode = "anycmd.catalogCategory.resourceType",
+                CategoryCode = "anycmd.catalog.Category.resourceType",
                 Id = TestHelper.TestCatalogNodeId,
                 Description = string.Empty,
                 Name = "test.Resource1",
@@ -63,7 +63,7 @@ namespace Anycmd.Tests
                 Id = accountId,
                 LoginName = "test",
                 Password = passwordEncryptionService.Encrypt("111111"),
-                AuditState = "anycmd.auditStatus.auditPass",
+                AuditState = "anycmd.account.auditStatus.auditPass",
                 BackColor = string.Empty,
                 AllowEndTime = null,
                 AllowStartTime = null,

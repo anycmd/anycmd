@@ -98,7 +98,7 @@ namespace Anycmd.Web.Mvc
             var sb = new StringBuilder();
             sb.Append("[");
             int l = sb.Length;
-            foreach (var item in html.CurrentHost().CatalogSet.Where(a => a.CategoryCode == "anycmd.catalogCategory.dic").OrderBy(a => a.SortCode))
+            foreach (var item in html.CurrentHost().CatalogSet.Where(a => a.CategoryCode == "anycmd.catalog.Category.dic").OrderBy(a => a.SortCode))
             {
                 if (sb.Length > l)
                 {
@@ -130,7 +130,7 @@ namespace Anycmd.Web.Mvc
             var sb = new StringBuilder();
             sb.Append("[");
             int l = sb.Length;
-            var dicItems = html.CurrentHost().CatalogSet.Where(a => a.Code.StartsWith(prifix + dicCode));
+            var dicItems = html.CurrentHost().CatalogSet.Where(a => a.Code.StartsWith(prifix + dicCode, StringComparison.OrdinalIgnoreCase));
             foreach (var item in dicItems)
             {
                 if (sb.Length > l)

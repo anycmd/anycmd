@@ -217,7 +217,7 @@ namespace Anycmd.Tests
                 Password = "111111",
                 CatalogCode = "100",
                 IsEnabled = 1,
-                AuditState = "anycmd.auditStatus.auditPass"
+                AuditState = "anycmd.account.auditStatus.auditPass"
             }.ToCommand(acDomain.GetAcSession()));
             Assert.IsNotNull(acDomain.RetrieveRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
             AcSessionState.AcMethod.SignIn(acDomain, new Dictionary<string, object>
