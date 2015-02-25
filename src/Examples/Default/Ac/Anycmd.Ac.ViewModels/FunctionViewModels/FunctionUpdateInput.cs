@@ -2,8 +2,7 @@
 namespace Anycmd.Ac.ViewModels.FunctionViewModels
 {
     using Engine;
-    using Engine.Ac.InOuts;
-    using Engine.Ac.Messages.Infra;
+    using Engine.Ac.Functions;
     using System;
     using System.ComponentModel.DataAnnotations;
 

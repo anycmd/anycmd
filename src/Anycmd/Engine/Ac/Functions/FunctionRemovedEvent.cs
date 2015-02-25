@@ -1,7 +1,7 @@
 ﻿
-namespace Anycmd.Engine.Ac.Messages.Infra
+namespace Anycmd.Engine.Ac.Functions
 {
-    using Abstractions.Infra;
+    using Functions;
     using Events;
 
     /// <summary>

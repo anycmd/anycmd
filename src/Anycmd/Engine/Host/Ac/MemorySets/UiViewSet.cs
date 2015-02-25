@@ -9,6 +9,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     using Engine.Ac.Messages.Infra;
     using Exceptions;
     using Host;
+    using Engine.Ac.Functions;
     using Infra;
     using Repositories;
     using System;
