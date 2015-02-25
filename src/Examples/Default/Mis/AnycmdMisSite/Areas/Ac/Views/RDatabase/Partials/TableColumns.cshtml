@@ -37,7 +37,7 @@
 			<div field="IsNullable" width="80" headeralign="center" allowsort="true">
 				IsNullable
 				<input id="@(prifix)IsNullableFilter" property="filter" name="IsNullable" class="mini-combobox" style="width: 100%;" textfield="name" 
-					valuefield="code" data="@Html.DicItemJsonArray("YesOrNoBoolean")"
+					valuefield="code" data="@Html.DicItemJsonArray(Html.GetProperty("IsNullable"))"
 					value="" shownullitem="true" />
 			</div>
 			<div field="TypeName" width="160" headeralign="center" allowsort="true">
@@ -47,19 +47,19 @@
 			<div field="IsPrimaryKey" width="80" headeralign="center" allowsort="true">
 				IsPrimaryKey
 				<input id="@(prifix)IsPrimaryKeyFilter" property="filter" name="IsPrimaryKey" class="mini-combobox" style="width: 100%;" textfield="name" 
-					valuefield="code" data="@Html.DicItemJsonArray("YesOrNoBoolean")"
+					valuefield="code" data="@Html.DicItemJsonArray(Html.GetProperty("IsPrimaryKey"))"
 					value="" shownullitem="true" />
 			</div>
 			<div field="IsIdentity" width="80" headeralign="center" allowsort="true">
 				IsIdentity
 				<input id="@(prifix)IsIdentityFilter" property="filter" name="IsIdentity" class="mini-combobox" style="width: 100%;" textfield="name" 
-					valuefield="code" data="@Html.DicItemJsonArray("YesOrNoBoolean")"
+					valuefield="code" data="@Html.DicItemJsonArray(Html.GetProperty("IsIdentity"))"
 					value="" shownullitem="true" />
 			</div>
 			<div field="IsStoreGenerated" width="80" headeralign="center" allowsort="true">
 				IsStoreGenerated
 				<input id="@(prifix)IsStoreGeneratedFilter" property="filter" name="IsStoreGenerated" class="mini-combobox" style="width: 100%;" textfield="name" 
-					valuefield="code" data="@Html.DicItemJsonArray("YesOrNoBoolean")"
+					valuefield="code" data="@Html.DicItemJsonArray(Html.GetProperty("IsStoreGenerated"))"
 					value="" shownullitem="true" />
 			</div>
 			<div field="MaxLength" width="80" headeralign="center" allowsort="true">

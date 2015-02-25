@@ -124,20 +124,30 @@ namespace Anycmd.Web.Mvc
         /// <param name="dicCode"></param>
         /// <param name="prifix"></param>
         /// <returns></returns>
-        public static IHtmlString DicItemJsonArray(this HtmlHelper html, string dicCode, string prifix = "anycmd.")
+        private static IHtmlString DicItemJsonArray(HtmlHelper html, string dicCode, string prifix = "anycmd.")
         {
             var value = "[]";
             var sb = new StringBuilder();
             sb.Append("[");
             int l = sb.Length;
-            var dicItems = html.CurrentHost().CatalogSet.Where(a => a.Code.StartsWith(prifix + dicCode, StringComparison.OrdinalIgnoreCase));
+            var code1 = prifix + dicCode;
+            var dicItems = html.CurrentHost().CatalogSet.Where(a => a.Code.StartsWith(code1, StringComparison.OrdinalIgnoreCase) && !a.Code.Equals(code1, StringComparison.OrdinalIgnoreCase));
             foreach (var item in dicItems)
             {
+                var code = item.Code;
                 if (sb.Length > l)
                 {
                     sb.Append(",");
                 }
-                sb.Append("{'code':").Append("'").Append(item.Code).Append("'")
+                if (code1.Equals("anycmd.YesOrNoBoolean", StringComparison.OrdinalIgnoreCase))
+                {
+                    code = item.Code.Substring("anycmd.YesOrNoBoolean.".Length);
+                }
+                else if (code1.Equals("anycmd.YesOrNoNumber", StringComparison.OrdinalIgnoreCase))
+                {
+                    code = item.Code.Substring("anycmd.YesOrNoNumber.".Length);
+                }
+                sb.Append("{'code':").Append("'").Append(code).Append("'")
                     .Append(",'name':'").Append(item.Name).Append(" | ").Append(item.Code).Append("'}");
             }
             sb.Append("]");

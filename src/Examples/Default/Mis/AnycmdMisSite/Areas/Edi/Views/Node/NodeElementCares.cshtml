@@ -77,19 +77,19 @@
 					<div field="IsAssigned" width="50" type="checkboxcolumn" headeralign="center" allowsort="true" align="center">
 						是否关心？
 						<input id="@(prifix)IsAssignedFilter" property="filter" name="IsAssigned" class="mini-combobox" style="width: 100%;" textfield="name"
-							   valuefield="code" data="@Html.DicItemJsonArray("YesOrNoBoolean")"
+							   valuefield="code" data="@Html.DicItemJsonArray(Html.GetProperty("IsAssigned"))"
 							   value="" shownullitem="true" />
 					</div>
 					<div field="IsInfoIdItem" width="50" type="checkboxcolumn" headeralign="center" allowsort="true" align="center">
 						是信息标识？
 						<input id="@(prifix)IsInfoIdItemFilter" property="filter" name="IsInfoIdItem" class="mini-combobox" style="width: 100%;" textfield="name"
-							   valuefield="code" data="@Html.DicItemJsonArray("YesOrNoBoolean")"
+							   valuefield="code" data="@Html.DicItemJsonArray(Html.GetProperty("IsInfoIdItem"))"
 							   value="" shownullitem="true" />
 					</div>
 					<div field="ElementIsInfoIdItem" width="50" headeralign="center" align="center" allowsort="true">
 						是信息标识元素
 						<input id="@(prifix)ElementIsInfoIdItemFilter" property="filter" name="ElementIsInfoIdItem" class="mini-combobox" style="width: 100%;"
-							   textfield="name" valuefield="code" data="@Html.DicItemJsonArray("YesOrNoBoolean")" shownullitem="true" />
+							   textfield="name" valuefield="code" data="@Html.DicItemJsonArray(Html.GetProperty("ElementIsInfoIdItem"))" shownullitem="true" />
 					</div>
 					<div field="Icon" width="30" headeralign="center" align="center" allowsort="true">
 						@Html.IconLabel("Icon")
@@ -105,7 +105,7 @@
 					<div field="IsEnabled" width="50" headeralign="center" align="center" allowsort="true">
 						元素有效状态
 						<input id="@(prifix)IsEnabledFilter" property="filter" name="IsEnabled" class="mini-combobox" style="width: 100%;"
-							   textfield="name" valuefield="code" data="@Html.DicItemJsonArray("YesOrNoNumber")" shownullitem="true" />
+							   textfield="name" valuefield="code" data="@Html.DicItemJsonArray(Html.GetProperty("IsEnabled"))" shownullitem="true" />
 					</div>
 					<div field="SortCode" width="50" headeralign="center" align="center" allowsort="true">
 						@Html.IconLabel("SortCode", "Element")

@@ -86,7 +86,7 @@
                 </td>
                 <td>
                     <input name="InputType" class="mini-combobox" style="width: 125px;"
-                           textfield="name" valuefield="code" data="@Html.DicItemJsonArray("inputType")" shownullitem="true" />
+                           textfield="name" valuefield="code" data="@Html.DicItemJsonArray(Html.GetProperty("inputType"))" shownullitem="true" />
                     @Html.Qtip("InputType", entityTypeCode, codespace)
                 </td>
             </tr>

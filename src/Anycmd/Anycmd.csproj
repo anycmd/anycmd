@@ -849,7 +849,6 @@
     <Compile Include="Engine\Rdb\IDbViewColumns.cs" />
     <Compile Include="Engine\Rdb\IDbViews.cs" />
     <Compile Include="Engine\Rdb\IRdbs.cs" />
-    <Compile Include="Engine\Rdb\RdbmsType.cs" />
     <Compile Include="Repositories\DomainRepository.cs" />
     <Compile Include="Repositories\EventPublisherDomainRepository.cs" />
     <Compile Include="Repositories\EventSourcedDomainRepository.cs" />

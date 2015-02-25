@@ -1,4 +1,6 @@
 ﻿
+using Anycmd.Engine.Ac;
+
 namespace Anycmd.Engine.Edi
 {
     using Abstractions;
@@ -67,8 +69,8 @@ namespace Anycmd.Engine.Edi
                 {
                     throw new ValidationException("数据库类型不能为空");
                 }
-                Rdb.RdbmsType dbType;
-                if (!value.TryParse(out dbType))
+                CatalogState dbType;
+                if (!AcDomain.CatalogSet.TryGetCatalog(value, out dbType))
                 {
                     throw new AnycmdException("意外的关系数据库类型" + value);
                 }

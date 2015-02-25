@@ -2467,7 +2467,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                     if (string.IsNullOrEmpty(entity.RdbmsType))
                     {
-                        entity.RdbmsType = RdbmsType.SqlServer.ToName();// 默认为SqlServer数据库
+                        entity.RdbmsType = "anycmd.RDatabase.rdbms.sqlserver";// 默认为SqlServer数据库
                     }
                     lock (ArchiveSetLocker)
                     {

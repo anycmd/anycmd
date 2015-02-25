@@ -22,7 +22,7 @@ namespace Anycmd.Ac.ViewModels.Infra.ButtonViewModels
             }
             if (!data.ContainsKey("IsEnabledName"))
             {
-                data.Add("IsEnabledName", dic.AcDomain.Translate("Ac", "Button", "IsEnabledName", "anycmd.yesOrNoNumber." + data["IsEnabled"]));
+                data.Add("IsEnabledName", dic.AcDomain.Translate("Ac", "Button", "IsEnabledName", (int)data["IsEnabled"]));
             }
 
             return data;

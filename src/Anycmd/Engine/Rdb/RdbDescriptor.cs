@@ -1,4 +1,6 @@
 ﻿
+using Anycmd.Engine.Ac;
+
 namespace Anycmd.Engine.Rdb
 {
     using Exceptions;
@@ -47,9 +49,9 @@ namespace Anycmd.Engine.Rdb
             {
                 throw new ArgumentNullException("acDomain");
             }
-            this._acDomain = acDomain;
-            RdbmsType rdbmsType;
-            if (!database.RdbmsType.TryParse(out rdbmsType))
+            _acDomain = acDomain;
+            CatalogState rdbmsType;
+            if (!_acDomain.CatalogSet.TryGetCatalog(database.RdbmsType, out rdbmsType))
             {
                 throw new AnycmdException("意外的关系数据库类型" + database.RdbmsType);
             }

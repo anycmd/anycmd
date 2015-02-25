@@ -24,19 +24,19 @@ namespace Anycmd.Edi.ViewModels.OntologyViewModels
             }
             if (!this.ContainsKey("DeletionStateName"))
             {
-                this.Add("DeletionStateName", acDomain.Translate("Edi", "Ontology", "DeletionStateName", "anycmd.yesOrNoNumber." + this["DeletionStateCode"]));
+                this.Add("DeletionStateName", acDomain.Translate("Edi", "Ontology", "DeletionStateName", (int)this["DeletionStateCode"]));
             }
             if (!this.ContainsKey("IsEnabledName"))
             {
-                this.Add("IsEnabledName", acDomain.Translate("Edi", "Ontology", "IsEnabledName", "anycmd.yesOrNoNumber." + this["IsEnabled"]));
+                this.Add("IsEnabledName", acDomain.Translate("Edi", "Ontology", "IsEnabledName", (int)this["IsEnabled"]));
             }
             if (!this.ContainsKey("IsCataloguedEntityName"))
             {
-                this.Add("IsCataloguedEntityName", acDomain.Translate("Edi", "Ontology", "IsCataloguedEntityName", "anycmd.yesOrNoBoolean." + this["IsCataloguedEntity"]));
+                this.Add("IsCataloguedEntityName", acDomain.Translate("Edi", "Ontology", "IsCataloguedEntityName", (bool)this["IsCataloguedEntity"]));
             }
             if (!this.ContainsKey("IsLogicalDeletionEntityName"))
             {
-                this.Add("IsLogicalDeletionEntityName", acDomain.Translate("Edi", "Ontology", "IsLogicalDeletionEntityName", "anycmd.yesOrNoBoolean." + this["IsLogicalDeletionEntity"]));
+                this.Add("IsLogicalDeletionEntityName", acDomain.Translate("Edi", "Ontology", "IsLogicalDeletionEntityName", (bool)this["IsLogicalDeletionEntity"]));
             }
         }
     }

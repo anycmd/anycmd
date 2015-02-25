@@ -124,7 +124,7 @@ namespace Anycmd.Tests
                     Password=string.Empty,
                     Profile=string.Empty,
                     UserId=string.Empty,
-                    RdbmsType="SqlServer",
+                    RdbmsType="anycmd.rdatabase.rdbms.SqlServer",
                     ProviderName=string.Empty
                 }
             });

@@ -3,7 +3,6 @@ namespace Anycmd.ViewModel
 {
     using Engine.Ac;
     using Exceptions;
-    using System.Collections.Generic;
     using Util;
 
     /// <summary>
@@ -11,47 +10,6 @@ namespace Anycmd.ViewModel
     /// </summary>
     public static class AcDomainExtension
     {
-        /// <summary>
-        /// 根据系统字典将字典项码翻译为字典项名
-        /// </summary>
-        /// <param name="acDomain"></param>
-        /// <param name="dicCode"></param>
-        /// <param name="dicItemCode"></param>
-        /// <returns></returns>
-        public static string Translate(this IAcDomain acDomain, string dicCode, int dicItemCode)
-        {
-            return Translate(acDomain, dicCode, dicItemCode.ToString());
-        }
-
-        /// <summary>
-        /// 根据系统字典将字典项码翻译为字典项名
-        /// </summary>
-        /// <param name="acDomain"></param>
-        /// <param name="dicCode"></param>
-        /// <param name="dicItemCode"></param>
-        /// <returns></returns>
-        public static string Translate(this IAcDomain acDomain, string dicCode, bool dicItemCode)
-        {
-            return Translate(acDomain, dicCode, dicItemCode.ToString());
-        }
-
-        /// <summary>
-        /// 根据系统字典将字典项码翻译为字典项名
-        /// </summary>
-        /// <param name="acDomain"></param>
-        /// <param name="dicCode"></param>
-        /// <param name="dicItemCode"></param>
-        /// <returns></returns>
-        public static string Translate(this IAcDomain acDomain, string dicCode, string dicItemCode)
-        {
-            CatalogState dicItem;
-            if (acDomain.CatalogSet.TryGetCatalog(acDomain.AppSystemSet.SelfAppSystem.Code + "." + dicCode + "." + dicItemCode, out dicItem))
-            {
-                return dicItem.Name;
-            }
-            return dicItemCode;
-        }
-
         /// <summary>
         /// 根据系统字典将字典项码翻译为字典项名
         /// </summary>

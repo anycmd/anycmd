@@ -38,7 +38,7 @@
                             <div field="IsEnabled" width="50" headeralign="center" allowsort="true">
                                 有效状态
                                 <input id="@(prifix)IsEnabledFilter" property="filter" name="IsEnabled" class="mini-combobox" style="width: 100%;"
-                                       textfield="name" valuefield="code" data="@Html.DicItemJsonArray("YesOrNoNumber")" shownullitem="true" />
+                                       textfield="name" valuefield="code" data="@Html.DicItemJsonArray(Html.GetProperty("IsEnabled"))" shownullitem="true" />
                             </div>
                             <div field="AuthorCode" width="80" headeralign="center" allowsort="true">
                                 作者编码

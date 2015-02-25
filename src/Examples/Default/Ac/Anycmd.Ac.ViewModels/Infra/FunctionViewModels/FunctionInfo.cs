@@ -52,11 +52,11 @@ namespace Anycmd.Ac.ViewModels.Infra.FunctionViewModels
             }
             if (!data.ContainsKey("IsManagedName"))
             {
-                data.Add("IsManagedName", dic.AcDomain.Translate("Ac", "DicItem", "IsManagedName", "anycmd.yesOrNoNumber" + data["IsManaged"]));
+                data.Add("IsManagedName", dic.AcDomain.Translate("Ac", "DicItem", "IsManagedName", (bool)data["IsManaged"]));
             }
             if (!data.ContainsKey("IsEnabledName"))
             {
-                data.Add("IsEnabledName", dic.AcDomain.Translate("Ac", "DicItem", "IsEnabledName", "anycmd.yesOrNoNumber" + data["IsEnabled"]));
+                data.Add("IsEnabledName", dic.AcDomain.Translate("Ac", "DicItem", "IsEnabledName", (int)data["IsEnabled"]));
             }
             if (!data.ContainsKey("IsUiView"))
             {

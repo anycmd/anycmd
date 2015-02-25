@@ -36,11 +36,11 @@ namespace Anycmd.Edi.ViewModels.NodeViewModels
             }
             if (!this.ContainsKey("DeletionStateName"))
             {
-                this.Add("DeletionStateName", dic.AcDomain.Translate("Edi", "Node", "DeletionStateName", "anycmd.yesOrNoNumber." + this["DeletionStateCode"]));
+                this.Add("DeletionStateName", dic.AcDomain.Translate("Edi", "Node", "DeletionStateName", (int)this["DeletionStateCode"]));
             }
             if (!this.ContainsKey("IsEnabledName"))
             {
-                this.Add("IsEnabledName", dic.AcDomain.Translate("Edi", "Node", "IsEnabledName", "anycmd.yesOrNoNumber." + this["IsEnabled"]));
+                this.Add("IsEnabledName", dic.AcDomain.Translate("Edi", "Node", "IsEnabledName", (int)this["IsEnabled"]));
             }
         }
     }

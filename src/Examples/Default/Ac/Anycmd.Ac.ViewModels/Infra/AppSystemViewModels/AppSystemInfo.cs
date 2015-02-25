@@ -24,7 +24,7 @@ namespace Anycmd.Ac.ViewModels.Infra.AppSystemViewModels
             }
             if (!this.ContainsKey("IsEnabledName"))
             {
-                this.Add("IsEnabledName", dic.AcDomain.Translate("Ac", "AppSystem", "IsEnabledName", "anycmd.yesOrNoNumber." + this["IsEnabled"]));
+                this.Add("IsEnabledName", dic.AcDomain.Translate("Ac", "AppSystem", "IsEnabledName", (int)this["IsEnabled"]));
             }
         }
 
