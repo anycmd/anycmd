@@ -8,6 +8,7 @@ namespace Anycmd.Engine.Host
     using Engine.Ac.Functions;
     using Engine.Ac.EntityTypes;
     using Engine.Ac.AppSystems;
+    using Engine.Ac.Groups;
     using Engine.Ac.Catalogs;
     using Engine.Ac.Dsd;
     using Edi.Handlers;

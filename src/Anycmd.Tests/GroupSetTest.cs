@@ -3,7 +3,7 @@ namespace Anycmd.Tests
 {
     using Ac.ViewModels.GroupViewModels;
     using Engine.Ac;
-    using Engine.Ac.Messages.Infra;
+    using Engine.Ac.Groups;
     using Engine.Host.Ac.Infra;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Moq;

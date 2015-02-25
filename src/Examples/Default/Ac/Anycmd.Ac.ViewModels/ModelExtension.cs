@@ -2,7 +2,7 @@
 namespace Anycmd.Ac.ViewModels
 {
     using Engine.Ac.Dsd;
-    using Engine.Ac.Abstractions.Infra;
+    using Engine.Ac.Groups;
     using Engine.Ac.Abstractions.Rbac;
     using System.Collections.Generic;
 

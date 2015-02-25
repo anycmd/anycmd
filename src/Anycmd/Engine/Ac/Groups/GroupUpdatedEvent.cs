@@ -1,7 +1,7 @@
 ﻿
-namespace Anycmd.Engine.Ac.Messages.Infra
+namespace Anycmd.Engine.Ac.Groups
 {
-    using Abstractions.Infra;
+    using Groups;
     using Events;
     using InOuts;
 

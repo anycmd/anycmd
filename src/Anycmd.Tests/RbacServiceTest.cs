@@ -13,7 +13,7 @@ namespace Anycmd.Tests
     using Engine.Ac;
     using Engine.Ac.Abstractions;
     using Engine.Ac.Messages;
-    using Engine.Ac.Messages.Infra;
+    using Engine.Ac.Groups;
     using Engine.Ac.Messages.Rbac;
     using Engine.Host.Ac;
     using Engine.Host.Ac.Identity;

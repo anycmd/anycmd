@@ -2,8 +2,7 @@
 namespace Anycmd.Ac.ViewModels.GroupViewModels
 {
     using Engine;
-    using Engine.Ac.InOuts;
-    using Engine.Ac.Messages.Infra;
+    using Engine.Ac.Groups;
     using Engine.InOuts;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;

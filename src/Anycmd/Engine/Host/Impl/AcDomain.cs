@@ -6,6 +6,7 @@ namespace Anycmd.Engine.Host.Impl
     using Engine.Ac.Abstractions;
     using Engine.Ac.Accounts;
     using Engine.Ac.Dsd;
+    using Engine.Ac.Groups;
     using Engine.Ac.Catalogs;
     using Engine.Rdb;
     using Engine.Ac.EntityTypes;

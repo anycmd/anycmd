@@ -1,5 +1,5 @@
 ﻿
-namespace Anycmd.Engine.Ac.Abstractions.Infra
+namespace Anycmd.Engine.Ac.Groups
 {
     using System;
 
