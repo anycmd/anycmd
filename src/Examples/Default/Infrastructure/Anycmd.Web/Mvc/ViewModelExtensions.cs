@@ -98,7 +98,7 @@ namespace Anycmd.Web.Mvc
             var sb = new StringBuilder();
             sb.Append("[");
             int l = sb.Length;
-            foreach (var item in html.CurrentHost().CatalogSet.Where(a => a.CategoryCode == "dic").OrderBy(a => a.SortCode))
+            foreach (var item in html.CurrentHost().CatalogSet.Where(a => a.CategoryCode == "anycmd.catalogCategory.dic").OrderBy(a => a.SortCode))
             {
                 if (sb.Length > l)
                 {
@@ -116,11 +116,13 @@ namespace Anycmd.Web.Mvc
         #endregion
 
         #region DicItemJsonArray
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="html"></param>
         /// <param name="dicCode"></param>
+        /// <param name="prifix"></param>
         /// <returns></returns>
         public static IHtmlString DicItemJsonArray(this HtmlHelper html, string dicCode, string prifix = "anycmd.")
         {

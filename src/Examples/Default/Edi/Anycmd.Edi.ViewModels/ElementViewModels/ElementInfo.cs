@@ -56,11 +56,11 @@ namespace Anycmd.Edi.ViewModels.ElementViewModels
             }
             if (!data.ContainsKey("DeletionStateName"))
             {
-                data.Add("DeletionStateName", dic.AcDomain.Translate("Edi", "Element", "DeletionStateName", data["DeletionStateCode"].ToString()));
+                data.Add("DeletionStateName", dic.AcDomain.Translate("Edi", "Element", "DeletionStateName", "anycmd.yesOrNoNumber." + data["DeletionStateCode"]));
             }
             if (!data.ContainsKey("IsEnabledName"))
             {
-                data.Add("IsEnabledName", dic.AcDomain.Translate("Edi", "Element", "IsEnabledName", data["IsEnabled"].ToString()));
+                data.Add("IsEnabledName", dic.AcDomain.Translate("Edi", "Element", "IsEnabledName", "anycmd.yesOrNoNumber." + data["IsEnabled"]));
             }
             if (data["InfoDicId"] == DBNull.Value)
             {

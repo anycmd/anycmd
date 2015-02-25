@@ -22,11 +22,11 @@ namespace Anycmd.Edi.ViewModels.InfoDicViewModels
             }
             if (!this.ContainsKey("DeletionStateName"))
             {
-                this.Add("DeletionStateName", acDomain.Translate("Edi", "InfoDic", "DeletionStateName", (int)this["DeletionStateCode"]));
+                this.Add("DeletionStateName", acDomain.Translate("Edi", "InfoDic", "DeletionStateName", "anycmd.yesOrNoNumber." + this["DeletionStateCode"]));
             }
             if (!this.ContainsKey("IsEnabledName"))
             {
-                this.Add("IsEnabledName", acDomain.Translate("Edi", "InfoDic", "IsEnabledName", (int)this["IsEnabled"]));
+                this.Add("IsEnabledName", acDomain.Translate("Edi", "InfoDic", "IsEnabledName", "anycmd.yesOrNoNumber." + this["IsEnabled"]));
             }
         }
     }

@@ -21,7 +21,7 @@ namespace Anycmd.Edi.ViewModels.PluginViewModels
             }
             if (!this.ContainsKey("IsEnabledName"))
             {
-                this.Add("IsEnabledName", acDomain.Translate("Edi", "InfoDic", "IsEnabledName", (int)this["IsEnabled"]));
+                this.Add("IsEnabledName", acDomain.Translate("Edi", "InfoDic", "IsEnabledName", "anycmd.yesOrNoNumber." + this["IsEnabled"]));
             }
         }
     }
