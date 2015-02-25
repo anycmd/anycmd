@@ -3,7 +3,7 @@ namespace Anycmd.Ac.ViewModels.Identity.AccountViewModels
 {
     using Engine;
     using Engine.Ac.InOuts;
-    using Engine.Ac.Messages.Identity;
+    using Engine.Ac.Accounts;
 
     public class PasswordChangeInput : IPasswordChangeIo
     {

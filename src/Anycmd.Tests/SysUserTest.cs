@@ -4,7 +4,7 @@ namespace Anycmd.Tests
     using Ac.ViewModels.Identity.AccountViewModels;
     using Ac.ViewModels.Infra.CatalogViewModels;
     using Engine.Ac;
-    using Engine.Ac.Messages.Identity;
+    using Engine.Ac.Accounts;
     using Engine.Host.Ac.Identity;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Moq;
