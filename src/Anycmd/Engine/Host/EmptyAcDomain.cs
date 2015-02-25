@@ -5,6 +5,7 @@ namespace Anycmd.Engine.Host
     using Ac.Infra;
     using Bus;
     using Edi;
+    using Engine.Ac.AppSystems;
     using Edi.Handlers;
     using Engine.Ac;
     using Engine.Ac.Abstractions;

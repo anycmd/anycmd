@@ -6,6 +6,7 @@ namespace Anycmd.Engine.Host.Impl
     using Engine.Ac.Abstractions;
     using Engine.Ac.Accounts;
     using Engine.Rdb;
+    using Engine.Ac.AppSystems;
     using Events;
     using IdGenerators;
     using Logging;

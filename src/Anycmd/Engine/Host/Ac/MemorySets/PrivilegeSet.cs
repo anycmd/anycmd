@@ -11,6 +11,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     using Engine.Ac.Messages.Rbac;
     using Exceptions;
     using Host;
+    using Engine.Ac.AppSystems;
     using Identity;
     using Repositories;
     using System;
