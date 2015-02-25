@@ -74,15 +74,6 @@
     <Compile Include="Infra\ButtonViewModels\ButtonUpdateInput.cs" />
     <Compile Include="Infra\ButtonViewModels\GetPlistUiViewButtons.cs" />
     <Compile Include="Infra\ButtonViewModels\UiViewAssignButtonTr.cs" />
-    <Compile Include="Infra\DicViewModels\DicCreateInput.cs" />
-    <Compile Include="Infra\DicViewModels\DicInfo.cs" />
-    <Compile Include="Infra\DicViewModels\DicItemCreateInput.cs" />
-    <Compile Include="Infra\DicViewModels\DicItemInfo.cs" />
-    <Compile Include="Infra\DicViewModels\DicItemTr.cs" />
-    <Compile Include="Infra\DicViewModels\DicItemUpdateInput.cs" />
-    <Compile Include="Infra\DicViewModels\DicTr.cs" />
-    <Compile Include="Infra\DicViewModels\DicUpdateInput.cs" />
-    <Compile Include="Infra\DicViewModels\GetPlistDicItems.cs" />
     <Compile Include="Infra\EntityTypeViewModels\EntityTypeCreateInput.cs" />
     <Compile Include="Infra\EntityTypeViewModels\EntityTypeInfo.cs" />
     <Compile Include="Infra\EntityTypeViewModels\EntityTypeTr.cs" />

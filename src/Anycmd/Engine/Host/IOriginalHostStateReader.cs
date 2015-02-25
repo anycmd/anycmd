@@ -69,18 +69,6 @@ namespace Anycmd.Engine.Host
         /// 
         /// </summary>
         /// <returns></returns>
-        IList<Dic> GetAllDics();
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        IList<DicItem> GetAllDicItems();
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
         IList<EntityType> GetAllEntityTypes();
 
         /// <summary>

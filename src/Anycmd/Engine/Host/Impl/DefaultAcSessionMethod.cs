@@ -217,9 +217,9 @@ namespace Anycmd.Engine.Host.Impl
             }
             string auditState = account.AuditState == null ? account.AuditState : account.AuditState.ToLower();
             CatalogState dicItem;
-            if (!acDomain.CatalogSet.TryGetCatalog("anycmd.auditStatus." + auditState, out dicItem))
+            if (!acDomain.CatalogSet.TryGetCatalog(auditState, out dicItem))
             {
-                throw new AnycmdException("意外的字典编码anycmd.auditStatus." + auditState);
+                throw new AnycmdException("意外的字典编码" + auditState);
             }
             if (auditState == null
                 || auditState == "notaudit")
@@ -236,7 +236,7 @@ namespace Anycmd.Engine.Host.Impl
             }
             if (account.AllowStartTime.HasValue && SystemTime.Now() < account.AllowStartTime.Value)
             {
-                addVisitingLogCommand.Description = "对不起，该账户的允许登录开始时间还没到。请在" + account.AllowStartTime.ToString() + "后登录";
+                addVisitingLogCommand.Description = "对不起，该账户的允许登录开始时间还没到。请在" + account.AllowStartTime + "后登录";
                 acDomain.MessageDispatcher.DispatchMessage(addVisitingLogCommand);
                 throw new ValidationException(addVisitingLogCommand.Description);
             }

@@ -84,24 +84,6 @@ namespace Anycmd.Engine.Host.Impl
             }
         }
 
-        public IList<Dic> GetAllDics()
-        {
-            var repository = _acDomain.RetrieveRequiredService<IRepository<Dic>>();
-            using (var context = repository.Context)
-            {
-                return repository.AsQueryable().ToList();
-            }
-        }
-
-        public IList<DicItem> GetAllDicItems()
-        {
-            var repository = _acDomain.RetrieveRequiredService<IRepository<DicItem>>();
-            using (var context = repository.Context)
-            {
-                return repository.AsQueryable().ToList();
-            }
-        }
-
         public IList<EntityType> GetAllEntityTypes()
         {
             var repository = _acDomain.RetrieveRequiredService<IRepository<EntityType>>();

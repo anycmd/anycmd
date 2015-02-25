@@ -101,7 +101,7 @@ namespace Anycmd.Tests
                 CatalogCode = "100",
                 Code = "test",
                 Name = "test",
-                AuditState = "auditPass",
+                AuditState = "anycmd.auditStatus.auditPass",
                 LoginName = loginName1,
                 Password = "111111",
                 IsEnabled = 1
@@ -112,7 +112,7 @@ namespace Anycmd.Tests
                 CatalogCode = "100",
                 Code = "tes2t",
                 Name = "test2",
-                AuditState = "auditPass",
+                AuditState = "anycmd.auditStatus.auditPass",
                 LoginName = loginName2,
                 Password = "111111",
                 IsEnabled = 1

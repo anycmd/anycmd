@@ -28,25 +28,34 @@ namespace Anycmd.Tests
             this.RegisterRepository(typeof(AcDomain).Assembly);
             AddService(typeof(ILoggingService), new Log4NetLoggingService(this));
             AddService(typeof(IAcSessionStorage), new SimpleAcSessionStorage());
-            Guid dicId = Guid.NewGuid();
-            this.GetRequiredService<IRepository<Dic>>().Add(new Dic()
+            this.GetRequiredService<IRepository<Catalog>>().Add(new Catalog()
             {
-                Id = dicId,
-                Code = "auditStatus",
+                Id = Guid.NewGuid(),
+                CategoryCode = "anycmd.catalogCategory.dic",
+                Code = "anycmd.auditStatus",
                 Name = "auditStatus1"
             });
-            this.GetRequiredService<IRepository<Dic>>().Context.Commit();
-            this.GetRequiredService<IRepository<DicItem>>().Add(new DicItem()
+            this.GetRequiredService<IRepository<Catalog>>().Add(new Catalog()
             {
-                Id = dicId,
+                Id = Guid.NewGuid(),
                 IsEnabled = 1,
-                DicId = dicId,
+                CategoryCode = "anycmd.catalogCategory.dicitem",
+                ParentCode = "anycmd.auditStatus",
                 SortCode = 0,
                 Description = string.Empty,
-                Code = "auditPass",
-                Name = "auditPass"
+                Code = "anycmd.auditStatus.auditPass",
+                Name = "anycmd.auditStatus.auditPass"
             });
-            this.GetRequiredService<IRepository<DicItem>>().Context.Commit();
+            this.GetRequiredService<IRepository<Catalog>>().Add(new Catalog
+            {
+                Code = "test.Resource1",
+                CategoryCode = "anycmd.catalogCategory.resourceType",
+                Id = TestHelper.TestCatalogNodeId,
+                Description = string.Empty,
+                Name = "test.Resource1",
+                SortCode = 10
+            });
+            this.GetRequiredService<IRepository<Catalog>>().Context.Commit();
             var accountId = Guid.NewGuid();
             var passwordEncryptionService = this.RetrieveRequiredService<IPasswordEncryptionService>();
             this.GetRequiredService<IRepository<Account>>().Add(new Account
@@ -54,7 +63,7 @@ namespace Anycmd.Tests
                 Id = accountId,
                 LoginName = "test",
                 Password = passwordEncryptionService.Encrypt("111111"),
-                AuditState = "auditPass",
+                AuditState = "anycmd.auditStatus.auditPass",
                 BackColor = string.Empty,
                 AllowEndTime = null,
                 AllowStartTime = null,
@@ -101,15 +110,6 @@ namespace Anycmd.Tests
                 PrincipalId = this.GetRequiredService<IRepository<Account>>().AsQueryable().First().Id
             });
             this.GetRequiredService<IRepository<AppSystem>>().Context.Commit();
-            this.GetRequiredService<IRepository<Catalog>>().Add(new Catalog
-            {
-                Code = "test.Resource1",
-                Id = TestHelper.TestCatalogNodeId,
-                Description = string.Empty,
-                Name = "test.Resource1",
-                SortCode = 10
-            });
-            this.GetRequiredService<IRepository<Catalog>>().Context.Commit();
             RemoveService(typeof(IOriginalHostStateReader));
             var moAcDomainBootstrap = new Mock<IOriginalHostStateReader>();
             moAcDomainBootstrap.Setup<IList<RDatabase>>(a => a.GetAllRDatabases()).Returns(new List<RDatabase>
@@ -135,8 +135,6 @@ namespace Anycmd.Tests
             moAcDomainBootstrap.Setup<IList<Catalog>>(a => a.GetCatalogs()).Returns(this.GetRequiredService<IRepository<Catalog>>().AsQueryable().ToList());
             moAcDomainBootstrap.Setup<IList<AppSystem>>(a => a.GetAllAppSystems()).Returns(this.GetRequiredService<IRepository<AppSystem>>().AsQueryable().ToList());
             moAcDomainBootstrap.Setup<IList<Button>>(a => a.GetAllButtons()).Returns(this.GetRequiredService<IRepository<Button>>().AsQueryable().ToList());
-            moAcDomainBootstrap.Setup<IList<Dic>>(a => a.GetAllDics()).Returns(this.GetRequiredService<IRepository<Dic>>().AsQueryable().ToList());
-            moAcDomainBootstrap.Setup<IList<DicItem>>(a => a.GetAllDicItems()).Returns(this.GetRequiredService<IRepository<DicItem>>().AsQueryable().ToList());
             moAcDomainBootstrap.Setup<IList<EntityType>>(a => a.GetAllEntityTypes()).Returns(this.GetRequiredService<IRepository<EntityType>>().AsQueryable().ToList());
             moAcDomainBootstrap.Setup<IList<Property>>(a => a.GetAllProperties()).Returns(this.GetRequiredService<IRepository<Property>>().AsQueryable().ToList());
             moAcDomainBootstrap.Setup<IList<Function>>(a => a.GetAllFunctions()).Returns(this.GetRequiredService<IRepository<Function>>().AsQueryable().ToList());

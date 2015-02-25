@@ -160,10 +160,6 @@
     <Compile Include="Engine\Ac\InOuts\IAppSystemUpdateIo.cs" />
     <Compile Include="Engine\Ac\InOuts\IButtonCreateIo.cs" />
     <Compile Include="Engine\Ac\InOuts\IButtonUpdateIo.cs" />
-    <Compile Include="Engine\Ac\InOuts\IDicCreateIo.cs" />
-    <Compile Include="Engine\Ac\InOuts\IDicItemCreateIo.cs" />
-    <Compile Include="Engine\Ac\InOuts\IDicItemUpdateIo.cs" />
-    <Compile Include="Engine\Ac\InOuts\IDicUpdateIo.cs" />
     <Compile Include="Engine\Ac\InOuts\IDsdRoleCreateIo.cs" />
     <Compile Include="Engine\Ac\InOuts\IDsdSetCreateIo.cs" />
     <Compile Include="Engine\Ac\InOuts\IDsdSetUpdateIo.cs" />
@@ -633,19 +629,6 @@
     <Compile Include="Engine\Ac\Messages\Infra\ButtonUpdatedEvent.cs" />
     <Compile Include="Engine\Ac\Messages\Infra\RemoveButtonCommand.cs" />
     <Compile Include="Engine\Ac\Messages\Infra\UpdateButtonCommand.cs" />
-    <Compile Include="Engine\Ac\Messages\Infra\AddDicCommand.cs" />
-    <Compile Include="Engine\Ac\Messages\Infra\AddDicItemCommand.cs" />
-    <Compile Include="Engine\Ac\Messages\Infra\DicAddedEvent.cs" />
-    <Compile Include="Engine\Ac\Messages\Infra\DicItemAddedEvent.cs" />
-    <Compile Include="Engine\Ac\Messages\Infra\DicItemRemovedEvent.cs" />
-    <Compile Include="Engine\Ac\Messages\Infra\DicItemUpdatedEvent.cs" />
-    <Compile Include="Engine\Ac\Messages\Infra\DicRemovedEvent.cs" />
-    <Compile Include="Engine\Ac\Messages\Infra\DicRemovingEvent.cs" />
-    <Compile Include="Engine\Ac\Messages\Infra\DicUpdatedEvent.cs" />
-    <Compile Include="Engine\Ac\Messages\Infra\RemoveDicCommand.cs" />
-    <Compile Include="Engine\Ac\Messages\Infra\RemoveDicItemCommand.cs" />
-    <Compile Include="Engine\Ac\Messages\Infra\UpdateDicCommand.cs" />
-    <Compile Include="Engine\Ac\Messages\Infra\UpdateDicItemCommand.cs" />
     <Compile Include="Engine\Ac\Messages\Infra\AddCommonPropertiesCommand.cs" />
     <Compile Include="Engine\Ac\Messages\Infra\AddEntityTypeCommand.cs" />
     <Compile Include="Engine\Ac\Messages\Infra\AddPropertyCommand.cs" />
@@ -746,8 +729,6 @@
     <Compile Include="Engine\Host\Ac\Identity\VisitingLog.cs" />
     <Compile Include="Engine\Host\Ac\Infra\AppSystem.cs" />
     <Compile Include="Engine\Host\Ac\Infra\Button.cs" />
-    <Compile Include="Engine\Host\Ac\Infra\Dic.cs" />
-    <Compile Include="Engine\Host\Ac\Infra\DicItem.cs" />
     <Compile Include="Engine\Host\Ac\Infra\EntityType.cs" />
     <Compile Include="Engine\Host\Ac\Infra\Function.cs" />
     <Compile Include="Engine\Host\Ac\Infra\Menu.cs" />
@@ -840,8 +821,6 @@
     <Compile Include="Engine\Ac\Abstractions\Identity\IDeveloperId.cs" />
     <Compile Include="Bus\IHandler`1.cs" />
     <Compile Include="Engine\Ac\ButtonState.cs" />
-    <Compile Include="Engine\Ac\DicItemState.cs" />
-    <Compile Include="Engine\Ac\DicState.cs" />
     <Compile Include="Engine\Ac\EntityTypeExtension.cs" />
     <Compile Include="Engine\Ac\EntityTypeState.cs" />
     <Compile Include="Engine\Ac\FunctionState.cs" />
@@ -969,8 +948,6 @@
     <Compile Include="Engine\Ac\Abstractions\Identity\AccountBase.cs" />
     <Compile Include="Engine\Ac\Abstractions\Infra\AppSystemBase.cs" />
     <Compile Include="Engine\Ac\Abstractions\Infra\ButtonBase.cs" />
-    <Compile Include="Engine\Ac\Abstractions\Infra\DicBase.cs" />
-    <Compile Include="Engine\Ac\Abstractions\Infra\DicItemBase.cs" />
     <Compile Include="Logging\ExceptionLogBase.cs" />
     <Compile Include="Engine\Ac\Abstractions\Infra\PropertyBase.cs" />
     <Compile Include="Engine\Ac\Abstractions\Infra\GroupBase.cs" />
@@ -982,7 +959,6 @@
     <Compile Include="Engine\Ac\Abstractions\Infra\UiViewButtonBase.cs" />
     <Compile Include="Engine\Ac\Abstractions\Rbac\RoleBase.cs" />
     <Compile Include="Logging\VisitingLogBase.cs" />
-    <Compile Include="Engine\Ac\Abstractions\Infra\IDic.cs" />
     <Compile Include="Logging\VisitState.cs" />
     <Compile Include="Engine\Rdb\Messages\DbConnStringUpdatedEvent.cs" />
     <Compile Include="Engine\Rdb\IRDatabase.cs" />
@@ -1016,7 +992,6 @@
     <Compile Include="Engine\Ac\Abstractions\Rbac\IRole.cs" />
     <Compile Include="Engine\Host\IAcSessionStorage.cs" />
     <Compile Include="Engine\Ac\Abstractions\Infra\IButton.cs" />
-    <Compile Include="Engine\Ac\Abstractions\Infra\IDicItem.cs" />
     <Compile Include="Engine\Ac\Abstractions\Infra\IUiView.cs" />
     <Compile Include="Engine\Ac\Abstractions\Infra\IProperty.cs" />
     <Compile Include="Engine\Ac\Abstractions\Infra\IEntityType.cs" />

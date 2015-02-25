@@ -22,16 +22,6 @@ namespace Anycmd.Engine.Host.Ac
             acDomain.Handle(new RemoveButtonCommand(acSession, buttonId));
         }
 
-        public static void RemoveDic(this IAcDomain acDomain, IAcSession acSession, Guid dicId)
-        {
-            acDomain.Handle(new RemoveDicCommand(acSession, dicId));
-        }
-
-        public static void RemoveDicItem(this IAcDomain acDomain, IAcSession acSession, Guid dicItemId)
-        {
-            acDomain.Handle(new RemoveDicItemCommand(acSession, dicItemId));
-        }
-
         public static void RemoveEntityType(this IAcDomain acDomain, IAcSession acSession, Guid entityTypeId)
         {
             acDomain.Handle(new RemoveEntityTypeCommand(acSession, entityTypeId));

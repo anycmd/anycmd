@@ -56,8 +56,6 @@ namespace Anycmd.Engine.Host.Impl
                         var sb = new StringBuilder();
                         Append(sb, "AppSystem", "select * from [AppSystem];");
                         Append(sb, "Function", "select * from [Function];");
-                        Append(sb, "Dic", "select * from [Dic];");
-                        Append(sb, "DicItem", "select * from [DicItem];");
                         Append(sb, "EntityType", "select * from [EntityType];");
                         Append(sb, "Property", "select * from [Property];");
                         Append(sb, "Catalog", "select * from [Catalog];");
@@ -215,61 +213,6 @@ namespace Anycmd.Engine.Host.Impl
                 entity.ModifiedBy = row["ModifiedBy"] == DBNull.Value ? null : row["ModifiedBy"].ToString();
                 entity.ModifiedOn = row["ModifiedOn"] == DBNull.Value ? null : (DateTime?)row["ModifiedOn"];
                 entity.ModifiedUserId = row["ModifiedUserId"] == DBNull.Value ? null : (Guid?)row["ModifiedUserId"];
-                list.Add(item);
-            }
-            return list;
-        }
-
-        public IList<Dic> GetAllDics()
-        {
-            var list = new List<Dic>();
-            foreach (DataRow row in this["Dic"].Rows)
-            {
-                var item = new Dic
-                {
-                    Id = (Guid)row["Id"],
-                    Code = (string)row["Code"],
-                    IsEnabled = (int)row["IsEnabled"],
-                    Name = (string)row["Name"],
-                    SortCode = (int)row["SortCode"],
-                    Description = row["Description"] == DBNull.Value ? null : row["Description"].ToString()
-                };
-                var entity = item as IEntityBase;
-                entity.CreateBy = row["CreateBy"] == DBNull.Value ? null : row["CreateBy"].ToString();
-                entity.CreateOn = row["CreateOn"] == DBNull.Value ? null : (DateTime?)row["CreateOn"];
-                entity.CreateUserId = row["CreateUserId"] == DBNull.Value ? null : (Guid?)row["CreateUserId"];
-                entity.ModifiedBy = row["ModifiedBy"] == DBNull.Value ? null : row["ModifiedBy"].ToString();
-                entity.ModifiedOn = row["ModifiedOn"] == DBNull.Value ? null : (DateTime?)row["ModifiedOn"];
-                entity.ModifiedUserId = row["ModifiedUserId"] == DBNull.Value ? null : (Guid?)row["ModifiedUserId"];
-
-                list.Add(item);
-            }
-            return list;
-        }
-
-        public IList<DicItem> GetAllDicItems()
-        {
-            var list = new List<DicItem>();
-            foreach (DataRow row in this["DicItem"].Rows)
-            {
-                var item = new DicItem
-                {
-                    Id = (Guid)row["Id"],
-                    Code = (string)row["Code"],
-                    DicId = (Guid)row["DicId"],
-                    Name = (string)row["Name"],
-                    IsEnabled = (int)row["IsEnabled"],
-                    SortCode = (int)row["SortCode"],
-                    Description = row["Description"] == DBNull.Value ? null : row["Description"].ToString()
-                };
-                var entity = item as IEntityBase;
-                entity.CreateBy = row["CreateBy"] == DBNull.Value ? null : row["CreateBy"].ToString();
-                entity.CreateOn = row["CreateOn"] == DBNull.Value ? null : (DateTime?)row["CreateOn"];
-                entity.CreateUserId = row["CreateUserId"] == DBNull.Value ? null : (Guid?)row["CreateUserId"];
-                entity.ModifiedBy = row["ModifiedBy"] == DBNull.Value ? null : row["ModifiedBy"].ToString();
-                entity.ModifiedOn = row["ModifiedOn"] == DBNull.Value ? null : (DateTime?)row["ModifiedOn"];
-                entity.ModifiedUserId = row["ModifiedUserId"] == DBNull.Value ? null : (Guid?)row["ModifiedUserId"];
-
                 list.Add(item);
             }
             return list;

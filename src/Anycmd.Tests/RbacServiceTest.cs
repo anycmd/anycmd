@@ -476,7 +476,7 @@ namespace Anycmd.Tests
                 Password = "111111",
                 CatalogCode = "100",
                 IsEnabled = 1,
-                AuditState = "auditPass"
+                AuditState = "anycmd.auditStatus.auditPass"
             }.ToCommand(acDomain.GetAcSession()));
             Guid roleId = Guid.NewGuid();
             acDomain.Handle(new RoleCreateInput
@@ -674,7 +674,7 @@ namespace Anycmd.Tests
                 Password = "111111",
                 CatalogCode = "100",
                 IsEnabled = 1,
-                AuditState = "auditPass"
+                AuditState = "anycmd.auditStatus.auditPass"
             }.ToCommand(acDomain.GetAcSession()));
             Assert.IsNotNull(acDomain.RetrieveRequiredService<IRepository<Account>>().AsQueryable().FirstOrDefault(a => string.Equals(a.LoginName, "test", StringComparison.OrdinalIgnoreCase)));
             Guid roleId = Guid.NewGuid();
@@ -816,7 +816,7 @@ namespace Anycmd.Tests
                 Password = "111111",
                 CatalogCode = "100",
                 IsEnabled = 1,
-                AuditState = "auditPass"
+                AuditState = "anycmd.auditStatus.auditPass"
             }.ToCommand(acDomain.GetAcSession()));
             Guid roleId = Guid.NewGuid();
             acDomain.Handle(new RoleCreateInput

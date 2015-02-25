@@ -158,7 +158,7 @@
           </Key>
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="InfoDicId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Level" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Level" Type="varchar" MaxLength="128" Nullable="false" />
           <Property Name="Code" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="SortCode" Type="int" Nullable="false" />
@@ -1150,7 +1150,7 @@
           </Key>
           <Property Name="Id" Type="Guid" Nullable="false" />
           <Property Name="InfoDicId" Type="Guid" Nullable="false" />
-          <Property Name="Level" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Level" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
           <Property Name="Code" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="SortCode" Type="Int32" Nullable="false" />

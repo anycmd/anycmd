@@ -157,8 +157,6 @@ namespace Anycmd.Engine.Host.Impl
 
             this.Map(EntityTypeMap.Create<AppSystem>("Ac"));
             this.Map(EntityTypeMap.Create<Button>("Ac"));
-            this.Map(EntityTypeMap.Create<Dic>("Ac"));
-            this.Map(EntityTypeMap.Create<DicItem>("Ac"));
             this.Map(EntityTypeMap.Create<EntityType>("Ac"));
             this.Map(EntityTypeMap.Create<Function>("Ac"));
             this.Map(EntityTypeMap.Create<Menu>("Ac"));

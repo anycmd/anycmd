@@ -11,7 +11,6 @@ namespace Anycmd.Ac.ViewModels
     using GroupViewModels;
     using Infra.AppSystemViewModels;
     using Infra.ButtonViewModels;
-    using Infra.DicViewModels;
     using Infra.EntityTypeViewModels;
     using Infra.FunctionViewModels;
     using Infra.UIViewViewModels;
