@@ -1,5 +1,5 @@
 ﻿
-namespace Anycmd.Ac.ViewModels.Infra.ButtonViewModels
+namespace Anycmd.Ac.ViewModels.ButtonViewModels
 {
     using Model;
     using System.Collections.Generic;

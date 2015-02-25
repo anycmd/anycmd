@@ -13,7 +13,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
     using Util;
     using ViewModel;
     using ViewModels;
-    using ViewModels.Infra.EntityTypeViewModels;
+    using ViewModels.EntityTypeViewModels;
 
     /// <summary>
     /// 系统模型模型视图控制器

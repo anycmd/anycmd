@@ -2,11 +2,11 @@
 namespace Anycmd.Tests
 {
     using Ac.ViewModels.GroupViewModels;
-    using Ac.ViewModels.Identity.AccountViewModels;
-    using Ac.ViewModels.Infra.AppSystemViewModels;
-    using Ac.ViewModels.Infra.CatalogViewModels;
-    using Ac.ViewModels.Infra.FunctionViewModels;
-    using Ac.ViewModels.Infra.MenuViewModels;
+    using Ac.ViewModels.AccountViewModels;
+    using Ac.ViewModels.AppSystemViewModels;
+    using Ac.ViewModels.CatalogViewModels;
+    using Ac.ViewModels.FunctionViewModels;
+    using Ac.ViewModels.MenuViewModels;
     using Ac.ViewModels.PrivilegeViewModels;
     using Ac.ViewModels.RoleViewModels;
     using Engine.Ac;

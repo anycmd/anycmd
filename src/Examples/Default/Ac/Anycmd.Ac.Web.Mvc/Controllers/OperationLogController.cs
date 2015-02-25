@@ -8,7 +8,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
     using System.Diagnostics;
     using System.Web.Mvc;
     using Util;
-    using ViewModels.Infra.LogViewModels;
+    using ViewModels.LogViewModels;
 
     /// <summary>
     /// 系统操作日志模型视图控制器<see cref="Logging.OperationLogBase"/>

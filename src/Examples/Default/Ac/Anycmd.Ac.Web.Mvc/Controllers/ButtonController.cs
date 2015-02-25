@@ -13,7 +13,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
     using Util;
     using ViewModel;
     using ViewModels;
-    using ViewModels.Infra.ButtonViewModels;
+    using ViewModels.ButtonViewModels;
 
     /// <summary>
     /// 按钮模型视图控制器

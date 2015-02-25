@@ -18,8 +18,8 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
     using Util;
     using ViewModel;
     using ViewModels;
-    using ViewModels.Infra.FunctionViewModels;
-    using ViewModels.Infra.UIViewViewModels;
+    using ViewModels.FunctionViewModels;
+    using ViewModels.UIViewViewModels;
 
     /// <summary>
     /// 系统页面模型视图控制器<see cref="UiView"/>

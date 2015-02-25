@@ -20,7 +20,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
     using Util;
     using ViewModel;
     using ViewModels;
-    using ViewModels.Infra.FunctionViewModels;
+    using ViewModels.FunctionViewModels;
     using ViewModels.PrivilegeViewModels;
 
     /// <summary>

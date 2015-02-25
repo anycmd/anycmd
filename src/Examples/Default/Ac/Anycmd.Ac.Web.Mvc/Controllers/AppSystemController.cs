@@ -14,7 +14,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
     using Util;
     using ViewModel;
     using ViewModels;
-    using ViewModels.Infra.AppSystemViewModels;
+    using ViewModels.AppSystemViewModels;
 
     /// <summary>
     /// 应用系统模型视图控制器<see cref="AppSystem"/>

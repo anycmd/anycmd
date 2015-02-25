@@ -18,7 +18,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
     using System.Web.Mvc;
     using Util;
     using ViewModel;
-    using ViewModels.Infra.MenuViewModels;
+    using ViewModels.MenuViewModels;
     using ViewModels.PrivilegeViewModels;
 
     /// <summary>

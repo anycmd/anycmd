@@ -12,7 +12,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
     using System.Web.Mvc;
     using Util;
     using ViewModels;
-    using ViewModels.Identity.AccountViewModels;
+    using ViewModels.AccountViewModels;
 
     /// <summary>
     /// 系统来访日志模型视图控制器

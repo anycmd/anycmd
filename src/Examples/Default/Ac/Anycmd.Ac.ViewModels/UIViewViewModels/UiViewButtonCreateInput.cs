@@ -1,5 +1,5 @@
 ﻿
-namespace Anycmd.Ac.ViewModels.Infra.UIViewViewModels
+namespace Anycmd.Ac.ViewModels.UIViewViewModels
 {
     using Engine;
     using Engine.Ac.InOuts;

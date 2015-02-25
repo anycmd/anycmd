@@ -2,7 +2,7 @@
 namespace Anycmd.Tests
 {
     using Ac.ViewModels.GroupViewModels;
-    using Ac.ViewModels.Infra.FunctionViewModels;
+    using Ac.ViewModels.FunctionViewModels;
     using Ac.ViewModels.PrivilegeViewModels;
     using Ac.ViewModels.RoleViewModels;
     using Engine.Ac;

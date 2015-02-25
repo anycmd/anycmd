@@ -9,11 +9,11 @@ namespace Anycmd.Ac.ViewModels
     using Engine.Rdb;
     using Exceptions;
     using GroupViewModels;
-    using Infra.AppSystemViewModels;
-    using Infra.ButtonViewModels;
-    using Infra.EntityTypeViewModels;
-    using Infra.FunctionViewModels;
-    using Infra.UIViewViewModels;
+    using AppSystemViewModels;
+    using ButtonViewModels;
+    using EntityTypeViewModels;
+    using FunctionViewModels;
+    using UIViewViewModels;
     using PrivilegeViewModels;
     using RdbViewModels;
     using RoleViewModels;

@@ -12,7 +12,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
     using System.Web.Mvc;
     using Util;
     using ViewModel;
-    using ViewModels.Infra.LogViewModels;
+    using ViewModels.LogViewModels;
 
     /// <summary>
     /// 任何日志模型视图控制器<see cref="AnyLog"/>

@@ -1,5 +1,5 @@
 ﻿
-namespace Anycmd.Ac.ViewModels.Infra.CatalogViewModels
+namespace Anycmd.Ac.ViewModels.CatalogViewModels
 {
     using Engine.Ac;
     using Exceptions;

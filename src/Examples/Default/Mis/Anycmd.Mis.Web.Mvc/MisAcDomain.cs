@@ -1,7 +1,7 @@
 ﻿
 namespace Anycmd.Mis.Web.Mvc
 {
-    using Ac.Queries.Ef.Identity;
+    using Ac.Queries.Ef;
     using Anycmd.Web;
     using Bus;
     using Edi.Application;

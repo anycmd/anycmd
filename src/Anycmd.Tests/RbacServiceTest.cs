@@ -3,9 +3,9 @@ namespace Anycmd.Tests
 {
     using Ac.ViewModels.DsdViewModels;
     using Ac.ViewModels.GroupViewModels;
-    using Ac.ViewModels.Identity.AccountViewModels;
-    using Ac.ViewModels.Infra.CatalogViewModels;
-    using Ac.ViewModels.Infra.FunctionViewModels;
+    using Ac.ViewModels.AccountViewModels;
+    using Ac.ViewModels.CatalogViewModels;
+    using Ac.ViewModels.FunctionViewModels;
     using Ac.ViewModels.PrivilegeViewModels;
     using Ac.ViewModels.RoleViewModels;
     using Ac.ViewModels.SsdViewModels;

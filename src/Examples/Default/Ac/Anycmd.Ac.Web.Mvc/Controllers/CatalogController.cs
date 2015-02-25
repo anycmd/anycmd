@@ -18,9 +18,9 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
     using System.Web.Mvc;
     using Util;
     using ViewModel;
-    using ViewModels.Infra.AppSystemViewModels;
-    using ViewModels.Infra.CatalogViewModels;
-    using ViewModels.Infra.FunctionViewModels;
+    using ViewModels.AppSystemViewModels;
+    using ViewModels.CatalogViewModels;
+    using ViewModels.FunctionViewModels;
     using ViewModels.PrivilegeViewModels;
 
     /// <summary>

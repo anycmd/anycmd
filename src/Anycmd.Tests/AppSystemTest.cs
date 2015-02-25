@@ -1,8 +1,8 @@
 ﻿
 namespace Anycmd.Tests
 {
-    using Ac.ViewModels.Infra.AppSystemViewModels;
-    using Ac.ViewModels.Infra.MenuViewModels;
+    using Ac.ViewModels.AppSystemViewModels;
+    using Ac.ViewModels.MenuViewModels;
     using Engine.Ac;
     using Engine.Ac.Messages.Infra;
     using Engine.Host.Ac.Infra;

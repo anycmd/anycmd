@@ -1,5 +1,5 @@
 ﻿
-namespace Anycmd.Ac.ViewModels.Infra.MenuViewModels
+namespace Anycmd.Ac.ViewModels.MenuViewModels
 {
     using Engine;
     using Engine.Ac.InOuts;

@@ -1,5 +1,5 @@
 ﻿
-namespace Anycmd.Ac.ViewModels.Infra.FunctionViewModels
+namespace Anycmd.Ac.ViewModels.FunctionViewModels
 {
     using Engine.Ac;
     using System;

@@ -1,7 +1,7 @@
 ﻿
 namespace Anycmd.Tests
 {
-    using Ac.ViewModels.Infra.EntityTypeViewModels;
+    using Ac.ViewModels.EntityTypeViewModels;
     using Engine.Ac;
     using Engine.Ac.Messages.Infra;
     using Engine.Host.Ac.Infra;

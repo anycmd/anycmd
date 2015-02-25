@@ -21,7 +21,7 @@ namespace Anycmd.Ac.Web.Mvc.Controllers
     using System.Web.Mvc;
     using Util;
     using ViewModel;
-    using ViewModels.Identity.AccountViewModels;
+    using ViewModels.AccountViewModels;
     using ViewModels.PrivilegeViewModels;
 
     /// <summary>

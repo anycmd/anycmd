@@ -2,7 +2,7 @@
 namespace Anycmd.Tests
 {
     using Ac.ViewModels.DsdViewModels;
-    using Ac.ViewModels.Infra.CatalogViewModels;
+    using Ac.ViewModels.CatalogViewModels;
     using Ac.ViewModels.PrivilegeViewModels;
     using Ac.ViewModels.RoleViewModels;
     using Engine.Ac;

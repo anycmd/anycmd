@@ -1,5 +1,5 @@
 ﻿
-namespace Anycmd.Ac.ViewModels.Infra.LogViewModels
+namespace Anycmd.Ac.ViewModels.LogViewModels
 {
     using System;
     using ViewModel;

@@ -1,5 +1,5 @@
 ﻿
-namespace Anycmd.Ac.Queries.Ef.Identity
+namespace Anycmd.Ac.Queries.Ef
 {
 	using Anycmd.Ef;
 	using Model;
@@ -7,7 +7,7 @@ namespace Anycmd.Ac.Queries.Ef.Identity
 	using System;
 	using System.Collections.Generic;
 	using System.Data.SqlClient;
-	using ViewModels.Identity.AccountViewModels;
+	using ViewModels.AccountViewModels;
 
 	/// <summary>
 	/// 查询接口实现<see cref="IAccountQuery"/>

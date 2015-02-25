@@ -1,8 +1,8 @@
 ﻿
 namespace Anycmd.Mis.Web.Mvc
 {
-    using Ac.ViewModels.Infra.FunctionViewModels;
-    using Ac.ViewModels.Infra.UIViewViewModels;
+    using Ac.ViewModels.FunctionViewModels;
+    using Ac.ViewModels.UIViewViewModels;
     using Anycmd.Web.Mvc;
     using Engine.Ac;
     using Engine.Ac.Abstractions;

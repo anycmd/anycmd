@@ -1,5 +1,5 @@
 ﻿
-namespace Anycmd.Ac.ViewModels.Infra.EntityTypeViewModels
+namespace Anycmd.Ac.ViewModels.EntityTypeViewModels
 {
     using Engine.Ac;
     using Exceptions;

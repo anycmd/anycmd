@@ -1,7 +1,7 @@
 ﻿
 namespace Anycmd.Tests
 {
-    using Ac.ViewModels.Infra.CatalogViewModels;
+    using Ac.ViewModels.CatalogViewModels;
     using Engine.Ac;
     using Engine.Ac.Messages.Infra;
     using Engine.Host.Ac.Infra;

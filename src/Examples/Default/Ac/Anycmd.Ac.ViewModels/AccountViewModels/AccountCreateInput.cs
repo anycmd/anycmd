@@ -1,5 +1,5 @@
 ﻿
-namespace Anycmd.Ac.ViewModels.Identity.AccountViewModels
+namespace Anycmd.Ac.ViewModels.AccountViewModels
 {
     using Engine;
     using Engine.Ac.Accounts;
