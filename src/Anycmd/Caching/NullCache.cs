@@ -1,9 +1,9 @@
 namespace Anycmd.Caching
 {
     /// <summary>
-    /// Represents a NopNullCache
+    /// Represents a NullCache
     /// </summary>
-    public partial class NopNullCache : ICacheManager
+    public partial class NullCache : ICacheManager
     {
         /// <summary>
         /// Gets or sets the value associated with the specified key.

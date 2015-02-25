@@ -24,7 +24,7 @@ namespace Anycmd.Caching
         }
         
         /// <summary>
-        /// Creates a new instance of the NopRequestCache class
+        /// Creates a new instance of the RequestCache class
         /// </summary>
         protected virtual IDictionary GetItems()
         {
