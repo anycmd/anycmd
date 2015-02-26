@@ -6,7 +6,7 @@ namespace Anycmd.Tests
     using Ac.ViewModels.FunctionViewModels;
     using Ac.ViewModels.UIViewViewModels;
     using Engine.Ac;
-    using Engine.Ac.Messages.Infra;
+    using Engine.Ac.UiViews;
     using Engine.Host.Ac.Infra;
     using Exceptions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;

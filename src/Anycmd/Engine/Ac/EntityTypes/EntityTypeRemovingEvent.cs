@@ -1,7 +1,6 @@
 ﻿
 namespace Anycmd.Engine.Ac.EntityTypes
 {
-    using Abstractions.Infra;
     using Events;
 
     public class EntityTypeRemovingEvent: DomainEvent

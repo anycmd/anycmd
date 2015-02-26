@@ -3,7 +3,7 @@ namespace Anycmd.Ac.ViewModels.PrivilegeViewModels
 {
     using Engine;
     using Engine.Ac.Privileges;
-    using Engine.Ac.Messages;
+    using Engine.Ac.UiViews;
     using Engine.InOuts;
     using System;
 

@@ -1,7 +1,7 @@
 ﻿
 namespace Anycmd.Ac.ViewModels.MenuViewModels
 {
-    using Engine.Ac.Abstractions.Infra;
+    using Engine.Ac.UiViews;
     using System;
 
     /// <summary>

@@ -1,7 +1,7 @@
 ﻿
-namespace Anycmd.Engine.Ac.Messages.Infra
+namespace Anycmd.Engine.Ac.UiViews
 {
-    using Abstractions.Infra;
+    using UiViews;
     using Events;
 
     public class ButtonRemovingEvent: DomainEvent

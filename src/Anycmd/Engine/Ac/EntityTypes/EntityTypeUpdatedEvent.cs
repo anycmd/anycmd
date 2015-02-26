@@ -1,9 +1,7 @@
 ﻿
 namespace Anycmd.Engine.Ac.EntityTypes
 {
-    using Abstractions.Infra;
     using Events;
-    using InOuts;
 
     /// <summary>
     /// 

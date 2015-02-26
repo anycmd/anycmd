@@ -1,9 +1,7 @@
 ﻿
 namespace Anycmd.Engine.Ac.Privileges
 {
-    using Abstractions;
     using Events;
-    using InOuts;
 
     public class PrivilegeUpdatedEvent : DomainEvent
     {

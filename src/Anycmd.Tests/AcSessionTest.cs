@@ -11,7 +11,7 @@ namespace Anycmd.Tests
     using Ac.ViewModels.RoleViewModels;
     using Engine.Ac;
     using Engine.Ac.Privileges;
-    using Engine.Ac.Messages;
+    using Engine.Ac.UiViews;
     using Engine.Ac.Groups;
     using Engine.Host.Ac;
     using Engine.Host.Ac.Identity;

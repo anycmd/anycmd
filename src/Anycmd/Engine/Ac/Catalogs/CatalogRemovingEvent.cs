@@ -1,7 +1,6 @@
 ﻿
 namespace Anycmd.Engine.Ac.Catalogs
 {
-    using Abstractions.Infra;
     using Events;
 
     public class CatalogRemovingEvent: DomainEvent
