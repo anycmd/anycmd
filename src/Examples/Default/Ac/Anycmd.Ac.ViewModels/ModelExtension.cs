@@ -2,6 +2,7 @@
 namespace Anycmd.Ac.ViewModels
 {
     using Engine.Ac.Dsd;
+    using Engine.Ac.Roles;
     using Engine.Ac.Groups;
     using Engine.Ac.Abstractions.Rbac;
     using System.Collections.Generic;

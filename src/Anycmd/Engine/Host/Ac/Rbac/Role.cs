@@ -1,7 +1,7 @@
 ﻿
 namespace Anycmd.Engine.Host.Ac.Rbac
 {
-    using Engine.Ac.Abstractions.Rbac;
+    using Engine.Ac.Roles;
     using Engine.Ac.InOuts;
     using Model;
     using System.Diagnostics;

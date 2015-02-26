@@ -2,7 +2,7 @@
 namespace Anycmd.Engine.Ac
 {
     using Privileges;
-    using Abstractions.Rbac;
+    using Roles;
     using Model;
     using System;
 

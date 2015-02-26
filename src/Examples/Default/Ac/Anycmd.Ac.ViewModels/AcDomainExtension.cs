@@ -4,6 +4,7 @@ namespace Anycmd.Ac.ViewModels
     using Engine;
     using Engine.Ac;
     using Engine.Ac.Privileges;
+    using Engine.Ac.Roles;
     using Engine.Ac.Dsd;
     using Engine.Ac.Groups;
     using Engine.Ac.Abstractions.Rbac;

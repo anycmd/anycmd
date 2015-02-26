@@ -11,6 +11,7 @@ namespace Anycmd.Engine.Host
     using Engine.Ac.Groups;
     using Engine.Ac.Catalogs;
     using Engine.Ac.Privileges;
+    using Engine.Ac.Roles;
     using Engine.Ac.Dsd;
     using Edi.Handlers;
     using Engine.Ac;

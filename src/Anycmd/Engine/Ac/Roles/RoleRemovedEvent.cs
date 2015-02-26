@@ -1,7 +1,7 @@
 ﻿
-namespace Anycmd.Engine.Ac.Messages.Rbac
+namespace Anycmd.Engine.Ac.Roles
 {
-    using Abstractions.Rbac;
+    using Roles;
     using Events;
 
     public class RoleRemovedEvent : DomainEvent
