@@ -3,9 +3,9 @@ namespace Anycmd.Edi.MessageTransfers
 {
     using DataContracts;
     using Engine.Edi;
+    using Engine.Hecp;
     using Engine.Host.Edi.Handlers;
     using Engine.Host.Edi.Handlers.Distribute;
-    using Engine.Hecp;
     using Engine.Info;
     using ServiceModel.Operations;
     using ServiceStack;

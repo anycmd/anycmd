@@ -1,10 +1,10 @@
 ﻿
 namespace Anycmd.Engine.Ac
 {
-    using UiViews;
     using Exceptions;
     using Model;
     using System;
+    using UiViews;
 
     public sealed class UiViewButtonState : StateObject<UiViewButtonState>, IUiViewButton
     {

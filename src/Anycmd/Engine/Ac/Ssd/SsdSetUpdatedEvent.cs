@@ -1,9 +1,7 @@
 ﻿
 namespace Anycmd.Engine.Ac.Ssd
 {
-    using Ssd;
     using Events;
-    using InOuts;
 
     public class SsdSetUpdatedEvent: DomainEvent
     {

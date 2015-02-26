@@ -1,7 +1,6 @@
 ﻿
 namespace Anycmd.Engine.Ac.EntityTypes
 {
-    using InOuts;
 
 
     public class UpdateEntityTypeCommand : UpdateEntityCommand<IEntityTypeUpdateIo>, IAnycmdCommand

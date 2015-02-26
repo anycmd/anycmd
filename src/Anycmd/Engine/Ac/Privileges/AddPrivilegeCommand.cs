@@ -1,7 +1,6 @@
 ﻿
 namespace Anycmd.Engine.Ac.Privileges
 {
-    using InOuts;
 
     public class AddPrivilegeCommand : AddEntityCommand<IPrivilegeCreateIo>, IAnycmdCommand
     {

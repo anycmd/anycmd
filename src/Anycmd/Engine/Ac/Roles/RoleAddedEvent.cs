@@ -1,8 +1,6 @@
 ﻿
 namespace Anycmd.Engine.Ac.Roles
 {
-    using Roles;
-    using InOuts;
 
     public class RoleAddedEvent : EntityAddedEvent<IRoleCreateIo>
     {

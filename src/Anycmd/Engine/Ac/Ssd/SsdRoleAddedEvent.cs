@@ -1,8 +1,6 @@
 ﻿
 namespace Anycmd.Engine.Ac.Ssd
 {
-    using Ssd;
-    using InOuts;
 
     public class SsdRoleAddedEvent : EntityAddedEvent<ISsdRoleCreateIo>
     {

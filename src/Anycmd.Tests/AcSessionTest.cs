@@ -1,18 +1,17 @@
 ﻿
 namespace Anycmd.Tests
 {
-    using Ac.ViewModels.GroupViewModels;
     using Ac.ViewModels.AccountViewModels;
     using Ac.ViewModels.AppSystemViewModels;
     using Ac.ViewModels.CatalogViewModels;
     using Ac.ViewModels.FunctionViewModels;
+    using Ac.ViewModels.GroupViewModels;
     using Ac.ViewModels.MenuViewModels;
     using Ac.ViewModels.PrivilegeViewModels;
     using Ac.ViewModels.RoleViewModels;
     using Engine.Ac;
-    using Engine.Ac.Privileges;
-    using Engine.Ac.UiViews;
     using Engine.Ac.Groups;
+    using Engine.Ac.Privileges;
     using Engine.Host.Ac;
     using Engine.Host.Ac.Identity;
     using Microsoft.VisualStudio.TestTools.UnitTesting;

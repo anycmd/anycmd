@@ -1,7 +1,6 @@
 ﻿
 namespace Anycmd.Engine.Ac.Functions
 {
-    using InOuts;
 
 
     public class UpdateFunctionCommand : UpdateEntityCommand<IFunctionUpdateIo>, IAnycmdCommand

@@ -1,7 +1,6 @@
 ﻿
 namespace Anycmd.Engine.Ac.AppSystems
 {
-    using InOuts;
 
     public class AddAppSystemCommand : AddEntityCommand<IAppSystemCreateIo>, IAnycmdCommand
     {

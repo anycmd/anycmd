@@ -3,8 +3,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 {
     using Bus;
     using Engine.Ac;
-    using Engine.Ac.Roles;
     using Engine.Ac.Privileges;
+    using Engine.Ac.Roles;
     using Exceptions;
     using Host;
     using Rbac;

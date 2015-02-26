@@ -1,7 +1,6 @@
 ﻿
 namespace Anycmd.Engine.Ac.Groups
 {
-    using InOuts;
 
     public class UpdateGroupCommand : UpdateEntityCommand<IGroupUpdateIo>, IAnycmdCommand
     {

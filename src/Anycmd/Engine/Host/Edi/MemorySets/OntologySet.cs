@@ -8,7 +8,6 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
     using Engine.Edi.Abstractions;
     using Engine.Edi.InOuts;
     using Engine.Edi.Messages;
-    using Engine.Rdb;
     using Entities;
     using Exceptions;
     using Hecp;

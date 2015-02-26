@@ -1,8 +1,6 @@
 ﻿
 namespace Anycmd.Engine.Ac.UiViews
 {
-    using UiViews;
-    using InOuts;
 
     public class MenuAddedEvent : EntityAddedEvent<IMenuCreateIo>
     {

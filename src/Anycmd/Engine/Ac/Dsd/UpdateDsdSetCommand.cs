@@ -1,7 +1,6 @@
 ﻿
 namespace Anycmd.Engine.Ac.Dsd
 {
-    using InOuts;
 
     public class UpdateDsdSetCommand : UpdateEntityCommand<IDsdSetUpdateIo>, IAnycmdCommand
     {

@@ -1,8 +1,7 @@
 ﻿
 namespace Anycmd.Edi.MessageHandler
 {
-	using Anycmd.Web;
-	using Application;
+    using Application;
 	using Ef;
 	using Engine.Edi;
 	using Engine.Host;

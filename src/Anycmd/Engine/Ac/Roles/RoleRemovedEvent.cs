@@ -1,7 +1,6 @@
 ﻿
 namespace Anycmd.Engine.Ac.Roles
 {
-    using Roles;
     using Events;
 
     public class RoleRemovedEvent : DomainEvent

@@ -1,7 +1,6 @@
 ﻿
 namespace Anycmd.Engine.Ac.UiViews
 {
-    using UiViews;
     using Events;
 
     /// <summary>

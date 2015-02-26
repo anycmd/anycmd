@@ -2,13 +2,13 @@
 namespace Anycmd.Ef
 {
     using Exceptions;
-    using Util;
     using Query;
     using System;
     using System.Collections.Generic;
     using System.Data.Entity.Core.Objects;
     using System.Linq;
     using System.Text;
+    using Util;
 
     /// <summary>
     /// 

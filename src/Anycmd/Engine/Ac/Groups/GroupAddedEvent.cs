@@ -1,8 +1,6 @@
 ﻿
 namespace Anycmd.Engine.Ac.Groups
 {
-    using Groups;
-    using InOuts;
 
     public class GroupAddedEvent : EntityAddedEvent<IGroupCreateIo>
     {

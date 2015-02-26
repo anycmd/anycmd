@@ -3,7 +3,6 @@ namespace Anycmd.Ac.ViewModels.RoleViewModels
 {
     using Engine;
     using Engine.Ac.Roles;
-    using Engine.Ac.Ssd;
     using Engine.InOuts;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;

@@ -3,10 +3,10 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 {
     using Bus;
     using Engine.Ac;
+    using Engine.Ac.Functions;
     using Engine.Ac.UiViews;
     using Exceptions;
     using Host;
-    using Engine.Ac.Functions;
     using Infra;
     using Repositories;
     using System;

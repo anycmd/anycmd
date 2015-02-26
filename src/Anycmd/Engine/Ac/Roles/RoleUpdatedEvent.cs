@@ -1,9 +1,7 @@
 ﻿
 namespace Anycmd.Engine.Ac.Roles
 {
-    using Roles;
     using Events;
-    using InOuts;
     using System;
 
     public class RoleUpdatedEvent : DomainEvent

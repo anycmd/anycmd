@@ -1,7 +1,6 @@
 ﻿
 namespace Anycmd.Engine.Ac.Ssd
 {
-    using Ssd;
     using Events;
 
     public class SsdSetRemovedEvent : DomainEvent

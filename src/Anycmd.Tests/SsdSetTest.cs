@@ -9,7 +9,6 @@ namespace Anycmd.Tests
     using Engine.Ac;
     using Engine.Ac.Privileges;
     using Engine.Ac.Ssd;
-    using Engine.Ac.Ssd;
     using Engine.Host.Ac.Identity;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Repositories;

@@ -1,8 +1,8 @@
 ﻿
 namespace Anycmd.Engine.Edi.Messages
 {
-    using Events;
     using Abstractions;
+    using Events;
 
     public class OntologyCatalogRemovedEvent : DomainEvent
     {

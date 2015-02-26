@@ -1,9 +1,7 @@
 ﻿
 namespace Anycmd.Engine.Ac.Groups
 {
-    using Groups;
     using Events;
-    using InOuts;
 
     public class GroupUpdatedEvent : DomainEvent
     {

@@ -2,8 +2,8 @@
 namespace Anycmd.Edi.MessageServices
 {
     using Engine.Edi;
-    using Engine.Host.Edi;
     using Engine.Hecp;
+    using Engine.Host.Edi;
     using ServiceModel.Operations;
     using ServiceModel.Types;
     using ServiceStack;
