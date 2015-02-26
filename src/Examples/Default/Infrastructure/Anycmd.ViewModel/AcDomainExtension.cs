@@ -3,6 +3,7 @@ namespace Anycmd.ViewModel
 {
     using Engine.Ac;
     using Exceptions;
+    using System.Globalization;
     using Util;
 
     /// <summary>
@@ -21,7 +22,7 @@ namespace Anycmd.ViewModel
         /// <returns></returns>
         public static string Translate(this IAcDomain acDomain, string codespace, string entityTypeCode, string propertyCode, int dicItemCode)
         {
-            return Translate(acDomain, codespace, entityTypeCode, propertyCode, dicItemCode.ToString());
+            return Translate(acDomain, codespace, entityTypeCode, propertyCode, dicItemCode.ToString(CultureInfo.InvariantCulture));
         }
 
         /// <summary>
@@ -52,7 +53,7 @@ namespace Anycmd.ViewModel
             EntityTypeState entityType;
             if (!acDomain.EntityTypeSet.TryGetEntityType(new Coder(codespace, entityTypeCode), out entityType))
             {
-                throw new AnycmdException("意外的实体类型" + codespace + entityTypeCode);
+                throw new AnycmdException(string.Format("意外的实体类型：{0}.{1}", codespace, entityTypeCode));
             }
             PropertyState property;
             if (!acDomain.EntityTypeSet.TryGetProperty(entityType, propertyCode, out property))
