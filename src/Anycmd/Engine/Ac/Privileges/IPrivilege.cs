@@ -1,5 +1,5 @@
 ﻿
-namespace Anycmd.Engine.Ac.Abstractions
+namespace Anycmd.Engine.Ac.Privileges
 {
     using System;
 

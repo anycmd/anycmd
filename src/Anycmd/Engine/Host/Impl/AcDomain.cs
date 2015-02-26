@@ -3,6 +3,7 @@ namespace Anycmd.Engine.Host.Impl
 {
     using Bus;
     using Edi;
+    using Engine.Ac.Privileges;
     using Engine.Ac.Abstractions;
     using Engine.Ac.Accounts;
     using Engine.Ac.Dsd;

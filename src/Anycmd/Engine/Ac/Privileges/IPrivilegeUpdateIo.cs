@@ -1,5 +1,5 @@
 ﻿
-namespace Anycmd.Engine.Ac.InOuts
+namespace Anycmd.Engine.Ac.Privileges
 {
     using Engine.InOuts;
 

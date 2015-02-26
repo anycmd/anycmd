@@ -1,7 +1,7 @@
 ﻿
 namespace Anycmd.Engine.Ac
 {
-    using Abstractions;
+    using Privileges;
     using Abstractions.Infra;
     using Exceptions;
     using Model;

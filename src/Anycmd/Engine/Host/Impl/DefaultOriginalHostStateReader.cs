@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Host.Impl
     using Ac.Identity;
     using Ac.Infra;
     using Ac.Rbac;
-    using Engine.Ac.Abstractions;
+    using Engine.Ac.Privileges;
     using Engine.Rdb;
     using Repositories;
     using System.Collections.Generic;

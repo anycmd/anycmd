@@ -6,7 +6,7 @@ namespace Anycmd.Tests
     using Ac.ViewModels.PrivilegeViewModels;
     using Ac.ViewModels.RoleViewModels;
     using Engine.Ac;
-    using Engine.Ac.Abstractions;
+    using Engine.Ac.Privileges;
     using Engine.Ac.Messages;
     using Engine.Ac.Groups;
     using Engine.Host.Ac;

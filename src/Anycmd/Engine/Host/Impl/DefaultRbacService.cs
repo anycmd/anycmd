@@ -5,10 +5,10 @@ namespace Anycmd.Engine.Host.Impl
     using Ac.Rbac;
     using Dapper;
     using Engine.Ac;
-    using Engine.Ac.Abstractions;
+    using Engine.Ac.Privileges;
     using Engine.Ac.Accounts;
     using Engine.Ac.InOuts;
-    using Engine.Ac.Messages;
+    using Engine.Ac.Privileges;
     using Engine.Ac.Messages.Rbac;
     using Engine.Ac.Dsd;
     using Exceptions;

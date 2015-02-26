@@ -11,7 +11,7 @@ namespace Anycmd.Tests
     using Ac.ViewModels.RoleViewModels;
     using Ac.ViewModels.SsdViewModels;
     using Engine.Ac;
-    using Engine.Ac.Abstractions;
+    using Engine.Ac.Privileges;
     using Engine.Ac.Messages;
     using Engine.Ac.Groups;
     using Engine.Ac.Messages.Rbac;

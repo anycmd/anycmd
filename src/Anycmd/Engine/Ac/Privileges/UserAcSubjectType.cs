@@ -1,5 +1,5 @@
 ﻿
-namespace Anycmd.Engine.Ac.Abstractions
+namespace Anycmd.Engine.Ac.Privileges
 {
     /// <summary>
     /// 定义用户类别的合法Ac主体取值。

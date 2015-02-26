@@ -2,8 +2,7 @@
 namespace Anycmd.Ac.ViewModels.PrivilegeViewModels
 {
     using Engine;
-    using Engine.Ac.InOuts;
-    using Engine.Ac.Messages;
+    using Engine.Ac.Privileges;
     using System;
 
     /// <summary>

@@ -1,5 +1,5 @@
 ﻿
-namespace Anycmd.Engine.Ac.Abstractions
+namespace Anycmd.Engine.Ac.Privileges
 {
     /// <summary>
     /// 表示访问控制记录类型。

@@ -5,7 +5,7 @@ namespace Anycmd.Mis.Web.Mvc
     using Ac.ViewModels.UIViewViewModels;
     using Anycmd.Web.Mvc;
     using Engine.Ac;
-    using Engine.Ac.Abstractions;
+    using Engine.Ac.Privileges;
     using Engine.Ac.Functions;
     using Engine.Ac.Messages;
     using Engine.Ac.Messages.Infra;
