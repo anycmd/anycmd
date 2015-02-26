@@ -2,8 +2,7 @@
 namespace Anycmd.Ac.ViewModels.SsdViewModels
 {
     using Engine;
-    using Engine.Ac.InOuts;
-    using Engine.Ac.Messages.Rbac;
+    using Engine.Ac.Ssd;
     using Engine.InOuts;
 
     /// <summary>

@@ -1,5 +1,5 @@
 ﻿
-namespace Anycmd.Engine.Ac.Abstractions.Rbac
+namespace Anycmd.Engine.Ac.Ssd
 {
     using System;
 

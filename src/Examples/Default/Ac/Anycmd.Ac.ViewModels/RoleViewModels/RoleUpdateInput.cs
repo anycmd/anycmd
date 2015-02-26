@@ -3,7 +3,6 @@ namespace Anycmd.Ac.ViewModels.RoleViewModels
 {
     using Engine;
     using Engine.Ac.Roles;
-    using Engine.Ac.Messages.Rbac;
     using System;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;

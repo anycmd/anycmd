@@ -6,7 +6,7 @@ namespace Anycmd.Tests
     using Engine.Ac;
     using Engine.Ac.Privileges;
     using Engine.Ac.Roles;
-    using Engine.Ac.Messages.Rbac;
+    using Engine.Ac.Ssd;
     using Engine.Host.Ac;
     using Engine.Host.Ac.Rbac;
     using Microsoft.VisualStudio.TestTools.UnitTesting;

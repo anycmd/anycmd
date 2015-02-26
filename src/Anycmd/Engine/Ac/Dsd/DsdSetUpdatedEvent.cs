@@ -1,9 +1,7 @@
 ﻿
 namespace Anycmd.Engine.Ac.Dsd
 {
-    using Abstractions.Rbac;
     using Events;
-    using InOuts;
 
     public class DsdSetUpdatedEvent : DomainEvent
     {

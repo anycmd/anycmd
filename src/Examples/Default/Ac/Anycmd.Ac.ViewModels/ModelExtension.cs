@@ -4,7 +4,7 @@ namespace Anycmd.Ac.ViewModels
     using Engine.Ac.Dsd;
     using Engine.Ac.Roles;
     using Engine.Ac.Groups;
-    using Engine.Ac.Abstractions.Rbac;
+    using Engine.Ac.Ssd;
     using System.Collections.Generic;
 
     public static class ModelExtension

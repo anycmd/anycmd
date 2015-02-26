@@ -1,5 +1,5 @@
 ﻿
-namespace Anycmd.Engine.Ac.Messages.Rbac
+namespace Anycmd.Engine.Ac.Ssd
 {
     using InOuts;
 

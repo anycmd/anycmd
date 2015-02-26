@@ -1,7 +1,7 @@
 ﻿
-namespace Anycmd.Engine.Ac.Messages.Rbac
+namespace Anycmd.Engine.Ac.Ssd
 {
-    using Abstractions.Rbac;
+    using Ssd;
     using Events;
 
     public class SsdRoleRemovedEvent : DomainEvent

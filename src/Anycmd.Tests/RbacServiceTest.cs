@@ -12,9 +12,9 @@ namespace Anycmd.Tests
     using Ac.ViewModels.SsdViewModels;
     using Engine.Ac;
     using Engine.Ac.Privileges;
-    using Engine.Ac.Messages;
+    using Engine.Ac.Ssd;
     using Engine.Ac.Groups;
-    using Engine.Ac.Messages.Rbac;
+    using Engine.Ac.Ssd;
     using Engine.Host.Ac;
     using Engine.Host.Ac.Identity;
     using Engine.Host.Ac.Rbac;

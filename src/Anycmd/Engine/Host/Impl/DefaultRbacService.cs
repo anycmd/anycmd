@@ -9,7 +9,7 @@ namespace Anycmd.Engine.Host.Impl
     using Engine.Ac.Accounts;
     using Engine.Ac.InOuts;
     using Engine.Ac.Roles;
-    using Engine.Ac.Messages.Rbac;
+    using Engine.Ac.Ssd;
     using Engine.Ac.Dsd;
     using Exceptions;
     using InOuts;

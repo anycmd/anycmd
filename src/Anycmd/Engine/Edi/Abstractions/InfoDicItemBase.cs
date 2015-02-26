@@ -24,10 +24,7 @@ namespace Anycmd.Engine.Edi.Abstractions
                 {
                     throw new ValidationException("编码不能为空");
                 }
-                value = value.Trim();
-                if (value != _code) {
-                    _code = value;
-                }
+                _code = value.Trim();
             }
         }
         /// <summary>
