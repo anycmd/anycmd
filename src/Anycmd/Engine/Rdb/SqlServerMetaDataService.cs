@@ -89,6 +89,11 @@ ORDER BY " + sortField + " " + sortOrder +
         /// <returns></returns>
         public RDatabase GetDatabase(Guid id)
         {
+            RdbDescriptor db;
+            if (!_acDomain.Rdbs.TryDb(id, out db))
+            {
+                throw new AnycmdException("意外的数据库标识" + id);
+            }
             var sql = "select * from [RDatabase] where Id=@Id";
             RDatabase database = null;
             using (var conn = new SqlConnection(this.BootConnString))
@@ -121,6 +126,7 @@ ORDER BY " + sortField + " " + sortOrder +
         /// <returns></returns>
         public IList<RDatabase> GetDatabases()
         {
+            // TODO:区分出boot database
             var list = new List<RDatabase>();
             const string sql = "select * from [RDatabase] order by CatalogName";
             using (var conn = new SqlConnection(this.BootConnString))
@@ -155,12 +161,17 @@ ORDER BY " + sortField + " " + sortOrder +
         /// <param name="description"></param>
         public void UpdateDatabase(Guid id, string dataSource, string description)
         {
+            RdbDescriptor db;
+            if (!_acDomain.Rdbs.TryDb(id, out db))
+            {
+                throw new AnycmdException("意外的数据库标识" + id);
+            }
             const string sql = "update [RDatabase] set DataSource=@DataSource,Description=@Description where Id=@Id";
             using (var conn = new SqlConnection(this.BootConnString))
             {
                 var cmd = conn.CreateCommand();
                 cmd.CommandText = sql;
-                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.CommandType = CommandType.Text;
                 cmd.Parameters.Add(new SqlParameter("Id", id));
                 cmd.Parameters.Add(new SqlParameter("DataSource", dataSource));
                 cmd.Parameters.Add(new SqlParameter("Description", description));
