@@ -24,7 +24,7 @@ namespace Anycmd.Ef
         {
             if (storage == null)
             {
-                throw new System.ArgumentNullException("storage", @"storage mechanism was null but must be provided");
+                throw new ArgumentNullException("storage", @"storage mechanism was null but must be provided");
             }
             Storage = storage;
         }
@@ -33,7 +33,7 @@ namespace Anycmd.Ef
         ///     Used to get the current NHibernate session associated with a factory key; i.e., the key 
         ///     associated with an NHibernate session factory for a specific database.
         /// </summary>
-        public static System.Data.Entity.DbContext CreateDbContext(IAcDomain acDomain, string efDbContextName)
+        public static DbContext CreateDbContext(IAcDomain acDomain, string efDbContextName)
         {
             if (string.IsNullOrEmpty(efDbContextName))
             {
@@ -51,7 +51,7 @@ namespace Anycmd.Ef
             {
                 throw new AnycmdException("意外的" + databaseKey + ":" + databaseId);
             }
-            var efDbContext = new System.Data.Entity.DbContext(
+            var efDbContext = new DbContext(
                 string.Format(ConfigurationManager.ConnectionStrings[efDbContextName].ConnectionString, db.ConnString));
 
             return efDbContext;
