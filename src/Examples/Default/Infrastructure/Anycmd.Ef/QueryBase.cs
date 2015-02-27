@@ -1,6 +1,4 @@
 ﻿
-using System.Data;
-
 namespace Anycmd.Ef
 {
     using Engine.Ac;
@@ -9,7 +7,7 @@ namespace Anycmd.Ef
     using Query;
     using System;
     using System.Collections.Generic;
-    using System.Data.Entity;
+    using System.Data;
     using System.Linq;
     using ViewModel;
 
@@ -32,7 +30,7 @@ namespace Anycmd.Ef
         /// <summary>
         /// 
         /// </summary>
-        protected DbContext DbContext
+        protected RdbContext DbContext
         {
             get
             {

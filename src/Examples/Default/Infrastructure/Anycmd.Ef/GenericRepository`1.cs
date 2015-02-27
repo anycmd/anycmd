@@ -50,7 +50,7 @@ namespace Anycmd.Ef
             }
         }
 
-        public DbContext DbContext
+        public RdbContext DbContext
         {
             get
             {

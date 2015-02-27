@@ -33,7 +33,7 @@ namespace Anycmd.Ef
         ///     Used to get the current NHibernate session associated with a factory key; i.e., the key 
         ///     associated with an NHibernate session factory for a specific database.
         /// </summary>
-        public static DbContext CreateDbContext(IAcDomain acDomain, string efDbContextName)
+        public static RdbContext CreateDbContext(IAcDomain acDomain, string efDbContextName)
         {
             if (string.IsNullOrEmpty(efDbContextName))
             {
@@ -51,7 +51,7 @@ namespace Anycmd.Ef
             {
                 throw new AnycmdException("意外的" + databaseKey + ":" + databaseId);
             }
-            var efDbContext = new DbContext(
+            var efDbContext = new RdbContext(db,
                 string.Format(ConfigurationManager.ConnectionStrings[efDbContextName].ConnectionString, db.ConnString));
 
             return efDbContext;

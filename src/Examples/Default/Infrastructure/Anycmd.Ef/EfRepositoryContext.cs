@@ -17,7 +17,7 @@ namespace Anycmd.Ef
     public class EfRepositoryContext : RepositoryContext, IEfRepositoryContext
     {
         private readonly string _efDbContextName;
-        private DbContext _efContext;
+        private RdbContext _efContext;
         private readonly object _sync = new object();
         private readonly IAcDomain _acDomain;
 
@@ -42,7 +42,7 @@ namespace Anycmd.Ef
             }
         }
 
-        public DbContext DbContext
+        public RdbContext DbContext
         {
             get { return _efContext ?? (_efContext = EfContext.CreateDbContext(_acDomain, _efDbContextName)); }
         }

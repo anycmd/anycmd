@@ -19,7 +19,7 @@ namespace Anycmd.Ef
         /// <param name="parameters"></param>
         /// <returns></returns>
         public static ObjectQuery<TEntity> CreateQuery<TEntity>(
-            this DbContext dbContext, string queryString, params ObjectParameter[] parameters)
+            this RdbContext dbContext, string queryString, params ObjectParameter[] parameters)
             where TEntity : class
         {
             dbContext.Set<TEntity>();
