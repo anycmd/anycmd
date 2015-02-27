@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Ac
     using Model;
     using Rdb;
     using System;
-    using System.Data.SqlClient;
+    using System.Data;
 
     public static class EntityTypeExtension
     {
@@ -48,7 +48,11 @@ namespace Anycmd.Engine.Ac
                 throw new AnycmdException(entityType.Name + "未配置对应的数据库表");
             }
             var sql = "select * from " + string.Format("[{0}]", entityType.TableName) + " as a where Id=@Id";
-            using (var reader = db.ExecuteReader(sql, new SqlParameter("Id", id)))
+            var paramId = db.CreateParameter();
+            paramId.ParameterName = "Id";
+            paramId.Value = id;
+            paramId.DbType = DbType.Guid;
+            using (var reader = db.ExecuteReader(sql, paramId))
             {
                 if (reader.Read())
                 {

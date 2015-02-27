@@ -169,6 +169,15 @@ namespace Anycmd.Engine.Rdb
         }
         #endregion
 
+        public DbParameter CreateParameter()
+        {
+            if (_dbProviderFactory == null)
+            {
+                _dbProviderFactory = DbProviderFactories.GetFactory(Database.ProviderName);
+            }
+            return _dbProviderFactory.CreateParameter();
+        }
+
         #region NewTable
 
         /// <summary>
@@ -218,7 +227,7 @@ namespace Anycmd.Engine.Rdb
         /// <param name="sqlText"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        public int ExecuteNonQuery(string sqlText, params SqlParameter[] parameters)
+        public int ExecuteNonQuery(string sqlText, params DbParameter[] parameters)
         {
             return ExecuteNonQuery(sqlText, CommandType.Text, parameters);
         }

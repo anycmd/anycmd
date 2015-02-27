@@ -1,4 +1,6 @@
 ﻿
+using System.Data;
+
 namespace Anycmd.Ef
 {
     using Engine.Ac;
@@ -8,7 +10,6 @@ namespace Anycmd.Ef
     using System;
     using System.Collections.Generic;
     using System.Data.Entity;
-    using System.Data.SqlClient;
     using System.Linq;
     using ViewModel;
 
@@ -60,13 +61,9 @@ namespace Anycmd.Ef
         /// </summary>
         protected IEfFilterStringBuilder FilterStringBuilder
         {
-            get
-            {
-                if (_filterStringBuilder == null)
-                {
-                    _filterStringBuilder = _acDomain.RetrieveRequiredService<IEfFilterStringBuilder>();
-                }
-                return _filterStringBuilder;
+            get {
+                return _filterStringBuilder ??
+                       (_filterStringBuilder = _acDomain.RetrieveRequiredService<IEfFilterStringBuilder>());
             }
         }
 
@@ -77,12 +74,16 @@ namespace Anycmd.Ef
             {
                 var cmd = conn.CreateCommand();
                 cmd.CommandText = sql;
-                cmd.Parameters.Add(new SqlParameter("Id", id));
-                if (conn.State != System.Data.ConnectionState.Open)
+                var paramId = cmd.CreateParameter();
+                paramId.ParameterName = "Id";
+                paramId.Value = id;
+                paramId.DbType = DbType.Guid;
+                cmd.Parameters.Add(paramId);
+                if (conn.State != ConnectionState.Open)
                 {
                     conn.Open();
                 }
-                using (var reader = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection))
+                using (var reader = cmd.ExecuteReader(CommandBehavior.CloseConnection))
                 {
                     if (!reader.Read()) return null;
                     var dic = new DicReader(_acDomain);
@@ -92,7 +93,6 @@ namespace Anycmd.Ef
                     }
                     return dic;
                 }
-                return null;
             }
         }
 

@@ -1,10 +1,13 @@
 ﻿
+using System.Data;
+
 namespace Anycmd.Engine.Host.Ac.MessageHandlers
 {
     using Engine.Rdb;
     using Events;
     using Exceptions;
     using Logging;
+    using System.Data.Common;
     using System;
     using System.Collections.Generic;
     using System.Data.SqlClient;
@@ -74,13 +77,23 @@ namespace Anycmd.Engine.Host.Ac.MessageHandlers
                                       @TargetId ,
                                       @IPAddress
                                     )";
-            var ps = new List<SqlParameter>();
+            var ps = new List<DbParameter>();
             if (log.Id == Guid.Empty)
             {
                 log.Id = Guid.NewGuid();
             }
-            ps.Add(new SqlParameter("Id", log.Id));
-            ps.Add(new SqlParameter("FunctionId", log.FunctionId));
+            var pId = db.CreateParameter();
+            pId.ParameterName = "Id";
+            pId.Value = log.Id;
+            pId.DbType = DbType.Guid;
+            ps.Add(pId);
+
+            var pFunctionId = db.CreateParameter();
+            pFunctionId.ParameterName = "FunctionId";
+            pFunctionId.Value = log.FunctionId;
+            pFunctionId.DbType = DbType.Guid;
+            ps.Add(pFunctionId);
+
             ps.Add(new SqlParameter("AccountId", log.AccountId));
             ps.Add(new SqlParameter("EntityTypeId", log.EntityTypeId));
             ps.Add(log.EntityTypeName == null
