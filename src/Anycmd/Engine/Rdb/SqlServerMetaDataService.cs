@@ -21,6 +21,24 @@ namespace Anycmd.Engine.Rdb
         /// 数据库连接字符串引导库连接字符串
         /// </summary>
         private readonly string _bootConnString = ConfigurationManager.AppSettings["BootDbConnString"];
+        private readonly Guid _bootDbId = new Guid("67E6CBF4-B481-4DDD-9FD9-1F0E06E9E1CB");
+        private RdbDescriptor _bootDb = null;
+
+        private RdbDescriptor BootDb
+        {
+            get
+            {
+                if (_bootDb != null)
+                {
+                    return _bootDb;
+                }
+                if (!_acDomain.Rdbs.TryDb(_bootDbId, out _bootDb))
+                {
+                    throw new AnycmdException("意外的数据库标识" + _bootDbId);
+                }
+                return _bootDb;
+            }
+        }
 
         /// <summary>
         /// 数据库连接字符串引导库连接字符串
@@ -90,15 +108,9 @@ ORDER BY " + sortField + " " + sortOrder +
         /// <returns></returns>
         public RDatabase GetDatabase(Guid id)
         {
-            RdbDescriptor bootDb;
-            // TODO:区分出boot db
-            if (!_acDomain.Rdbs.TryDb(new Guid("67E6CBF4-B481-4DDD-9FD9-1F0E06E9E1CB"), out bootDb))
-            {
-                throw new AnycmdException("意外的数据库标识" + id);
-            }
             const string sql = "select * from [RDatabase] where Id=@Id";
             RDatabase database = null;
-            using (var conn = bootDb.GetConnection())
+            using (var conn = BootDb.GetConnection())
             {
                 var cmd = conn.CreateCommand();
                 cmd.CommandText = sql;
@@ -132,15 +144,14 @@ ORDER BY " + sortField + " " + sortOrder +
         /// <returns></returns>
         public IList<RDatabase> GetDatabases()
         {
-            // TODO:区分出boot database
             var list = new List<RDatabase>();
             const string sql = "select * from [RDatabase] order by CatalogName";
-            using (var conn = new SqlConnection(this.BootConnString))
+            using (var conn = BootDb.GetConnection())
             {
                 var cmd = conn.CreateCommand();
                 cmd.CommandText = sql;
-                cmd.CommandType = System.Data.CommandType.Text;
-                if (conn.State != System.Data.ConnectionState.Open)
+                cmd.CommandType = CommandType.Text;
+                if (conn.State != ConnectionState.Open)
                 {
                     conn.Open();
                 }
@@ -167,21 +178,16 @@ ORDER BY " + sortField + " " + sortOrder +
         /// <param name="description"></param>
         public void UpdateDatabase(Guid id, string dataSource, string description)
         {
-            RdbDescriptor db;
-            if (!_acDomain.Rdbs.TryDb(id, out db))
-            {
-                throw new AnycmdException("意外的数据库标识" + id);
-            }
             const string sql = "update [RDatabase] set DataSource=@DataSource,Description=@Description where Id=@Id";
-            using (var conn = new SqlConnection(this.BootConnString))
+            using (var conn = BootDb.GetConnection())
             {
                 var cmd = conn.CreateCommand();
                 cmd.CommandText = sql;
                 cmd.CommandType = CommandType.Text;
-                cmd.Parameters.Add(new SqlParameter("Id", id));
-                cmd.Parameters.Add(new SqlParameter("DataSource", dataSource));
-                cmd.Parameters.Add(new SqlParameter("Description", description));
-                if (conn.State != System.Data.ConnectionState.Open)
+                cmd.Parameters.Add(CreateParameter(BootDb, "Id", id, DbType.Guid));
+                cmd.Parameters.Add(CreateParameter(BootDb, "DataSource", dataSource, DbType.String));
+                cmd.Parameters.Add(CreateParameter(BootDb, "Description", string.IsNullOrEmpty(description) ? DBNull.Value : (object)description, DbType.String));
+                if (conn.State != ConnectionState.Open)
                 {
                     conn.Open();
                 }
@@ -196,7 +202,7 @@ ORDER BY " + sortField + " " + sortOrder +
         {
             const string sql = "sp_helptext";
             var sb = new StringBuilder();
-            using (var reader = db.ExecuteReader(sql, CommandType.StoredProcedure, new SqlParameter("objname", view.Name)))
+            using (var reader = db.ExecuteReader(sql, CommandType.StoredProcedure, CreateParameter(db, "objname", view.Name, DbType.String)))
             {
                 while (reader.Read())
                 {
