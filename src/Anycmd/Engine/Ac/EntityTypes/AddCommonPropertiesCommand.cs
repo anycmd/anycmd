@@ -2,6 +2,7 @@
 namespace Anycmd.Engine.Ac.EntityTypes
 {
     using Commands;
+    using Messages;
     using System;
 
     public class AddCommonPropertiesCommand : Command, IAnycmdCommand

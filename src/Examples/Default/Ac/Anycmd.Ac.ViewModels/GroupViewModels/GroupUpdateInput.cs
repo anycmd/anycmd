@@ -1,8 +1,8 @@
 ﻿
 namespace Anycmd.Ac.ViewModels.GroupViewModels
 {
-    using Engine;
     using Engine.Ac.Groups;
+    using Engine.Messages;
     using System;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;

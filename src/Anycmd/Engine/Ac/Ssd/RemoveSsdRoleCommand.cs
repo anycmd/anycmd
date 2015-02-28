@@ -1,6 +1,7 @@
 ﻿
 namespace Anycmd.Engine.Ac.Ssd
 {
+    using Messages;
     using System;
 
     public class RemoveSsdRoleCommand : RemoveEntityCommand

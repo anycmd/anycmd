@@ -1,6 +1,7 @@
 ﻿
 namespace Anycmd.Engine.Edi.Messages
 {
+    using Engine.Messages;
     using InOuts;
 
     public class UpdateInfoGroupCommand : UpdateEntityCommand<IInfoGroupUpdateIo>, IAnycmdCommand

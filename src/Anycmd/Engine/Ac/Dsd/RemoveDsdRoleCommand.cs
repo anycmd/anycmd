@@ -1,6 +1,7 @@
 ﻿
 namespace Anycmd.Engine.Ac.Dsd
 {
+    using Messages;
     using System;
 
     public class RemoveDsdRoleCommand : RemoveEntityCommand

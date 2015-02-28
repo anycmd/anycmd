@@ -1,6 +1,8 @@
 ﻿
 namespace Anycmd.Engine.InOuts
 {
+    using Messages;
+
     public interface IAnycmdInput : IInputModel
     {
         string HecpOntology { get; }

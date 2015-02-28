@@ -12,6 +12,7 @@ namespace Anycmd.Engine.Host.Impl
     using Engine.Ac.Ssd;
     using Exceptions;
     using InOuts;
+    using Messages;
     using Repositories;
     using System;
     using System.Collections.Generic;

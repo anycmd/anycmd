@@ -1,6 +1,7 @@
 ﻿
 namespace Anycmd.Engine.Ac.Roles
 {
+    using Messages;
     using System;
 
     public class RemoveRoleCommand : RemoveEntityCommand

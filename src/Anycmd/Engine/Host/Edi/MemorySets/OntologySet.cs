@@ -13,6 +13,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
     using Hecp;
     using Host;
     using InOuts;
+    using Messages;
     using Repositories;
     using System.Collections;
     using System.Collections.Generic;

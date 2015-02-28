@@ -1,6 +1,7 @@
 ﻿
 namespace Anycmd.Engine.Ac.Catalogs
 {
+    using Messages;
     using System;
 
     public class RemoveCatalogCommand : RemoveEntityCommand

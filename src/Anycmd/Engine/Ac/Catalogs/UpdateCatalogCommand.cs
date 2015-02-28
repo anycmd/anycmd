@@ -1,6 +1,7 @@
 ﻿
 namespace Anycmd.Engine.Ac.Catalogs
 {
+    using Messages;
 
     public class UpdateCatalogCommand : UpdateEntityCommand<ICatalogUpdateIo>, IAnycmdCommand
     {

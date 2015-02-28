@@ -1,9 +1,9 @@
 ﻿
 namespace Anycmd.Edi.ViewModels.NodeViewModels
 {
-    using Engine;
     using Engine.Edi.InOuts;
     using Engine.Edi.Messages;
+    using Engine.Messages;
     using System;
 
     public class NodeOntologyCatalogCreateInput : INodeOntologyCatalogCreateIo

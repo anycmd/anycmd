@@ -1,9 +1,9 @@
 ﻿
 namespace Anycmd.Edi.ViewModels.ArchiveViewModels
 {
-    using Engine;
     using Engine.Edi.InOuts;
     using Engine.Edi.Messages;
+    using Engine.Messages;
     using System;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;

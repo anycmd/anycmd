@@ -1,6 +1,7 @@
 ﻿
 namespace Anycmd.Engine.Ac.Dsd
 {
+    using Messages;
 
     public class AddDsdRoleCommand : AddEntityCommand<IDsdRoleCreateIo>, IAnycmdCommand
     {

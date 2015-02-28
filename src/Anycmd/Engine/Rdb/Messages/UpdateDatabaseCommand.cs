@@ -1,7 +1,7 @@
 ﻿
 namespace Anycmd.Engine.Rdb.Messages
 {
-    using Engine;
+    using Engine.Messages;
     using InOuts;
 
     public class UpdateDatabaseCommand : UpdateEntityCommand<IDatabaseUpdateInput>, IAnycmdCommand

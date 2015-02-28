@@ -1,10 +1,8 @@
 ﻿
 namespace Anycmd.Engine.Ac.UiViews
 {
+    using Messages;
 
-    /// <summary>
-    /// 
-    /// </summary>
     public class ButtonAddedEvent : EntityAddedEvent<IButtonCreateIo>
     {
         public ButtonAddedEvent(IAcSession acSession, ButtonBase source, IButtonCreateIo input)

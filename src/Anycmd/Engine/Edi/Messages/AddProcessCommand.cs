@@ -1,6 +1,7 @@
 ﻿
 namespace Anycmd.Engine.Edi.Messages
 {
+    using Engine.Messages;
     using InOuts;
 
     public class AddProcessCommand : AddEntityCommand<IProcessCreateIo>, IAnycmdCommand

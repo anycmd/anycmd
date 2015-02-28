@@ -1,6 +1,7 @@
 ﻿
 namespace Anycmd.Engine.Ac.Accounts
 {
+    using Messages;
 
     public class AddAccountCommand : AddEntityCommand<IAccountCreateIo>, IAnycmdCommand
     {

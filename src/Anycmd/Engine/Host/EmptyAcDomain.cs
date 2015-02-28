@@ -115,7 +115,7 @@ namespace Anycmd.Engine.Host
 
         public void DeleteSession(Guid sessionId)
         {
-            // 什么也不做
+            // 什么也不需要做
         }
 
         public IEntityTypeSet EntityTypeSet
@@ -295,7 +295,6 @@ namespace Anycmd.Engine.Host
                 {
                     return new HecpHandler();
                 }
-
             }
 
             public List<Func<HecpContext, ProcessResult>> PreHecpRequestFilters
@@ -476,19 +475,17 @@ namespace Anycmd.Engine.Host
 
             public void Log(IAnyLog anyLog)
             {
-
+                // 什么也不需要做
             }
 
             public void Log(IAnyLog[] anyLogs)
             {
-
+                // 什么也不需要做
             }
 
             public IAnyLog Get(Guid id)
             {
-                return new AnyLog(id)
-                {
-                };
+                return null;
             }
 
             public IList<IAnyLog> GetPlistAnyLogs(List<Query.FilterData> filters, Query.PagingInput paging)
@@ -508,77 +505,77 @@ namespace Anycmd.Engine.Host
 
             public void ClearAnyLog()
             {
-
+                // 什么也不需要做
             }
 
             public void ClearExceptionLog()
             {
-
+                // 什么也不需要做
             }
 
             public void Debug(object message)
             {
-
+                // 什么也不需要做
             }
 
             public void DebugFormatted(string format, params object[] args)
             {
-
+                // 什么也不需要做
             }
 
             public void Info(object message)
             {
-
+                // 什么也不需要做
             }
 
             public void InfoFormatted(string format, params object[] args)
             {
-
+                // 什么也不需要做
             }
 
             public void Warn(object message)
             {
-
+                // 什么也不需要做
             }
 
             public void Warn(object message, Exception exception)
             {
-
+                // 什么也不需要做
             }
 
             public void WarnFormatted(string format, params object[] args)
             {
-
+                // 什么也不需要做
             }
 
             public void Error(object message)
             {
-
+                // 什么也不需要做
             }
 
             public void Error(object message, Exception exception)
             {
-
+                // 什么也不需要做
             }
 
             public void ErrorFormatted(string format, params object[] args)
             {
-
+                // 什么也不需要做
             }
 
             public void Fatal(object message)
             {
-
+                // 什么也不需要做
             }
 
             public void Fatal(object message, Exception exception)
             {
-
+                // 什么也不需要做
             }
 
             public void FatalFormatted(string format, params object[] args)
             {
-
+                // 什么也不需要做
             }
 
             public bool IsDebugEnabled
@@ -613,17 +610,17 @@ namespace Anycmd.Engine.Host
 
             public void Publish<TMessage>(TMessage message) where TMessage : Bus.IMessage
             {
-
+                // 什么也不需要做
             }
 
             public void Publish<TMessage>(IEnumerable<TMessage> messages) where TMessage : Bus.IMessage
             {
-
+                // 什么也不需要做
             }
 
             public void Clear()
             {
-
+                // 什么也不需要做
             }
 
             public bool DistributedTransactionSupported
@@ -638,17 +635,17 @@ namespace Anycmd.Engine.Host
 
             public void Commit()
             {
-
+                // 什么也不需要做
             }
 
             public void Rollback()
             {
-
+                // 什么也不需要做
             }
 
             public void Dispose()
             {
-
+                // 什么也不需要做
             }
         }
 
@@ -658,17 +655,17 @@ namespace Anycmd.Engine.Host
 
             public void Publish<TMessage>(TMessage message) where TMessage : Bus.IMessage
             {
-
+                // 什么也不需要做
             }
 
             public void Publish<TMessage>(IEnumerable<TMessage> messages) where TMessage : Bus.IMessage
             {
-
+                // 什么也不需要做
             }
 
             public void Clear()
             {
-
+                // 什么也不需要做
             }
 
             public bool DistributedTransactionSupported
@@ -683,17 +680,17 @@ namespace Anycmd.Engine.Host
 
             public void Commit()
             {
-
+                // 什么也不需要做
             }
 
             public void Rollback()
             {
-
+                // 什么也不需要做
             }
 
             public void Dispose()
             {
-
+                // 什么也不需要做
             }
         }
 
@@ -703,22 +700,22 @@ namespace Anycmd.Engine.Host
 
             public void Clear()
             {
-
+                // 什么也不需要做
             }
 
             public void DispatchMessage<T>(T message) where T : Bus.IMessage
             {
-
+                // 什么也不需要做
             }
 
             public void Register<T>(IHandler<T> handler) where T : Bus.IMessage
             {
-
+                // 什么也不需要做
             }
 
             public void UnRegister<T>(IHandler<T> handler) where T : Bus.IMessage
             {
-
+                // 什么也不需要做
             }
 
             public event EventHandler<MessageDispatchEventArgs> Dispatching;

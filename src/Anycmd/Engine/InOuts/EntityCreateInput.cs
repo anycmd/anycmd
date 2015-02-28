@@ -1,6 +1,7 @@
 ﻿
 namespace Anycmd.Engine.InOuts
 {
+    using Messages;
     using System;
 
     public abstract class EntityCreateInput : ManagedPropertyValues, IEntityCreateInput

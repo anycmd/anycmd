@@ -1,9 +1,9 @@
 ﻿
 namespace Anycmd.Ac.ViewModels.DsdViewModels
 {
-    using Engine;
     using Engine.Ac.Dsd;
     using Engine.InOuts;
+    using Engine.Messages;
 
     /// <summary>
     /// 创建动态职责分离角色集时的输入或输出参数类型。

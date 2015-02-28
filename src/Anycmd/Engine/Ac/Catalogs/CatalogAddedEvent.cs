@@ -1,9 +1,8 @@
 ﻿
 namespace Anycmd.Engine.Ac.Catalogs
 {
-    /// <summary>
-    /// 
-    /// </summary>
+    using Messages;
+
     public class CatalogAddedEvent : EntityAddedEvent<ICatalogCreateIo>
     {
         public CatalogAddedEvent(IAcSession acSession, CatalogBase source, ICatalogCreateIo input)

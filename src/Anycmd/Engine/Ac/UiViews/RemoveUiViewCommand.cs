@@ -1,6 +1,7 @@
 ﻿
 namespace Anycmd.Engine.Ac.UiViews
 {
+    using Messages;
     using System;
 
     public class RemoveUiViewCommand : RemoveEntityCommand

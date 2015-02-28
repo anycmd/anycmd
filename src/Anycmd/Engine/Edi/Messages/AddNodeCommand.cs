@@ -1,6 +1,7 @@
 ﻿
 namespace Anycmd.Engine.Edi.Messages
 {
+    using Engine.Messages;
     using InOuts;
 
     public class AddNodeCommand : AddEntityCommand<INodeCreateIo>, IAnycmdCommand

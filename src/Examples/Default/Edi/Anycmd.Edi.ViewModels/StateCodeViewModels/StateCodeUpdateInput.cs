@@ -4,6 +4,7 @@ namespace Anycmd.Edi.ViewModels.StateCodeViewModels
     using Engine;
     using Engine.Edi.InOuts;
     using Engine.Edi.Messages;
+    using Engine.Messages;
     using System;
     using System.ComponentModel.DataAnnotations;
 

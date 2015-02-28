@@ -1,6 +1,7 @@
 ﻿
 namespace Anycmd.Engine.Ac.Functions
 {
+    using Messages;
     using System;
 
     public class RemoveFunctionCommand : RemoveEntityCommand

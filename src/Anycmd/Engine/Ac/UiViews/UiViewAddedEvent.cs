@@ -1,10 +1,8 @@
 ﻿
 namespace Anycmd.Engine.Ac.UiViews
 {
+    using Messages;
 
-    /// <summary>
-    /// 
-    /// </summary>
     public class UiViewAddedEvent : EntityAddedEvent<IUiViewCreateIo>
     {
         public UiViewAddedEvent(IAcSession acSession, UiViewBase source, IUiViewCreateIo input)

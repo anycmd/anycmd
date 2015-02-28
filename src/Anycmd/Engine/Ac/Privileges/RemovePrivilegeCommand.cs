@@ -1,6 +1,7 @@
 ﻿
 namespace Anycmd.Engine.Ac.Privileges
 {
+    using Messages;
     using System;
 
     public class RemovePrivilegeCommand : RemoveEntityCommand

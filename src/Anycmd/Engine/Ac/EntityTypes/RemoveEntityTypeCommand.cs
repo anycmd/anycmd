@@ -1,6 +1,7 @@
 ﻿
 namespace Anycmd.Engine.Ac.EntityTypes
 {
+    using Messages;
     using System;
 
     public class RemoveEntityTypeCommand : RemoveEntityCommand

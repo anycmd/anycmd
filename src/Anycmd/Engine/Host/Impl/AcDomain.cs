@@ -18,6 +18,7 @@ namespace Anycmd.Engine.Host.Impl
     using Events;
     using IdGenerators;
     using Logging;
+    using Messages;
     using Serialization;
     using System;
 

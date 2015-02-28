@@ -1,9 +1,8 @@
 ﻿
 namespace Anycmd.Engine.Ac.EntityTypes
 {
-    /// <summary>
-    /// 
-    /// </summary>
+    using Messages;
+    
     public class EntityTypeAddedEvent : EntityAddedEvent<IEntityTypeCreateIo>
     {
         public EntityTypeAddedEvent(IAcSession acSession, EntityTypeBase source, IEntityTypeCreateIo input)

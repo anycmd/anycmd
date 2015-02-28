@@ -1,6 +1,7 @@
 ﻿
 namespace Anycmd.Engine.Ac.Ssd
 {
+    using Messages;
 
     public class SsdSetAddedEvent: EntityAddedEvent<ISsdSetCreateIo>
     {

@@ -8,6 +8,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
     using Host;
     using Infra;
     using InOuts;
+    using Messages;
     using Repositories;
     using System;
     using System.Collections;

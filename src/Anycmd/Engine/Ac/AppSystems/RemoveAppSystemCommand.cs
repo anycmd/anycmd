@@ -1,6 +1,7 @@
 ﻿
 namespace Anycmd.Engine.Ac.AppSystems
 {
+    using Messages;
     using System;
 
     public class RemoveAppSystemCommand : RemoveEntityCommand

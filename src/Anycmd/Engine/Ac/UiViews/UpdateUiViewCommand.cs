@@ -1,6 +1,7 @@
 ﻿
 namespace Anycmd.Engine.Ac.UiViews
 {
+    using Messages;
 
     public class UpdateUiViewCommand : UpdateEntityCommand<IUiViewUpdateIo>, IAnycmdCommand
     {

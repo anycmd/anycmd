@@ -1,7 +1,7 @@
 ﻿
 namespace Anycmd.Engine.Ac.UiViews
 {
-
+    using Messages;
 
     public class AddUiViewCommand : AddEntityCommand<IUiViewCreateIo>, IAnycmdCommand
     {

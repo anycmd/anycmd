@@ -1,10 +1,8 @@
 ﻿
 namespace Anycmd.Engine.Ac.Functions
 {
+    using Messages;
 
-    /// <summary>
-    /// 
-    /// </summary>
     public class FunctionAddedEvent : EntityAddedEvent<IFunctionCreateIo>
     {
         public FunctionAddedEvent(IAcSession acSession, FunctionBase source, IFunctionCreateIo input)

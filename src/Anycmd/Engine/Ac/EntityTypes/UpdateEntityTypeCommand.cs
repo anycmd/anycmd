@@ -1,7 +1,7 @@
 ﻿
 namespace Anycmd.Engine.Ac.EntityTypes
 {
-
+    using Messages;
 
     public class UpdateEntityTypeCommand : UpdateEntityCommand<IEntityTypeUpdateIo>, IAnycmdCommand
     {

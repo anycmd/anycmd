@@ -1,6 +1,7 @@
 ﻿
 namespace Anycmd.Engine.Ac.Roles
 {
+    using Messages;
 
     public class AddRoleCommand : AddEntityCommand<IRoleCreateIo>, IAnycmdCommand
     {

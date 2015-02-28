@@ -1,6 +1,7 @@
 ﻿
 namespace Anycmd.Engine.Ac.AppSystems
 {
+    using Messages;
 
     public class UpdateAppSystemCommand : UpdateEntityCommand<IAppSystemUpdateIo>, IAnycmdCommand
     {

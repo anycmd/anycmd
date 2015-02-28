@@ -3,6 +3,7 @@ namespace Anycmd
 {
     using Engine;
     using Engine.Host.Ac.Infra;
+    using Engine.Messages;
     using Events;
     using System;
     using System.Collections.Generic;

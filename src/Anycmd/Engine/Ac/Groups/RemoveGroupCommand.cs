@@ -1,6 +1,7 @@
 ﻿
 namespace Anycmd.Engine.Ac.Groups
 {
+    using Messages;
     using System;
 
     public class RemoveGroupCommand : RemoveEntityCommand

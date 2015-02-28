@@ -1,5 +1,5 @@
 ﻿
-namespace Anycmd.Engine
+namespace Anycmd.Engine.Messages
 {
     using Commands;
     using System;

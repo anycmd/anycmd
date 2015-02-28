@@ -1,7 +1,7 @@
 ﻿
 namespace Anycmd.Engine.Ac.EntityTypes
 {
-
+    using Messages;
 
     public class AddEntityTypeCommand : AddEntityCommand<IEntityTypeCreateIo>, IAnycmdCommand
     {

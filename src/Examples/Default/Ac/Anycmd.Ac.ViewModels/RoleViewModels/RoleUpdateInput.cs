@@ -1,8 +1,8 @@
 ﻿
 namespace Anycmd.Ac.ViewModels.RoleViewModels
 {
-    using Engine;
     using Engine.Ac.Roles;
+    using Engine.Messages;
     using System;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;

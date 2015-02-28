@@ -1,6 +1,7 @@
 ﻿
 namespace Anycmd.Engine.Ac.Groups
 {
+    using Messages;
 
     public class AddGroupCommand : AddEntityCommand<IGroupCreateIo>, IAnycmdCommand
     {

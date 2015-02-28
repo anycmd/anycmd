@@ -1,6 +1,7 @@
 ﻿
 namespace Anycmd.Engine.Ac.Accounts
 {
+    using Messages;
     using System;
 
     public class RemoveAccountCommand : RemoveEntityCommand

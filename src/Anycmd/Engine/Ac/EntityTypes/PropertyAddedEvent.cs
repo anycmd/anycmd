@@ -1,9 +1,8 @@
 ﻿
 namespace Anycmd.Engine.Ac.EntityTypes
 {
-    /// <summary>
-    /// 
-    /// </summary>
+    using Messages;
+
     public class PropertyAddedEvent : EntityAddedEvent<IPropertyCreateIo>
     {
         public PropertyAddedEvent(IAcSession acSession, PropertyBase source, IPropertyCreateIo input)

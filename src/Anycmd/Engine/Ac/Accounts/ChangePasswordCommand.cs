@@ -2,6 +2,7 @@
 namespace Anycmd.Engine.Ac.Accounts
 {
     using Commands;
+    using Messages;
     using System;
 
     public class ChangePasswordCommand : Command, IAnycmdCommand

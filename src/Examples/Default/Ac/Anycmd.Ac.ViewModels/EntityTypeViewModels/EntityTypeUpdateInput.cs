@@ -1,8 +1,8 @@
 ﻿
 namespace Anycmd.Ac.ViewModels.EntityTypeViewModels
 {
-    using Engine;
     using Engine.Ac.EntityTypes;
+    using Engine.Messages;
     using System;
     using System.ComponentModel.DataAnnotations;
 

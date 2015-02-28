@@ -1,6 +1,7 @@
 ﻿
 namespace Anycmd.Engine.Ac.Privileges
 {
+    using Messages;
 
     public class UpdatePrivilegeCommand : UpdateEntityCommand<IPrivilegeUpdateIo>, IAnycmdCommand
     {

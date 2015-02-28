@@ -1,7 +1,7 @@
 ﻿
 namespace Anycmd.Engine.Ac.Catalogs
 {
-
+    using Messages;
 
     public class AddCatalogCommand : AddEntityCommand<ICatalogCreateIo>, IAnycmdCommand
     {

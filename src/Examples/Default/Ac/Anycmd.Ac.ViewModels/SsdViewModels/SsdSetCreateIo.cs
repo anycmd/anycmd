@@ -1,9 +1,9 @@
 ﻿
 namespace Anycmd.Ac.ViewModels.SsdViewModels
 {
-    using Engine;
     using Engine.Ac.Ssd;
     using Engine.InOuts;
+    using Engine.Messages;
 
     /// <summary>
     /// 创建静态职责分离角色集时的输入或输出参数类型。

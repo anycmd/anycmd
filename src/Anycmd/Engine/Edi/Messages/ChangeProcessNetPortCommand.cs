@@ -2,6 +2,7 @@
 namespace Anycmd.Engine.Edi.Messages
 {
     using Commands;
+    using Engine.Messages;
     using System;
 
     public class ChangeProcessNetPortCommand: Command, IAnycmdCommand
