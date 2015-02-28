@@ -6,7 +6,8 @@ namespace Anycmd.Ac.Queries.Ef
     using Query;
     using System;
     using System.Collections.Generic;
-    using System.Data.SqlClient;
+    using System.Data;
+    using System.Data.Common;
     using ViewModels.AccountViewModels;
 
     /// <summary>
@@ -28,17 +29,17 @@ namespace Anycmd.Ac.Queries.Ef
             }
             Func<SqlFilter> filter = () =>
             {
-                var parameters = new List<SqlParameter>();
+                var parameters = new List<DbParameter>();
                 var filterString = @" where a.LoginName like @key ";
-                parameters.Add(new SqlParameter("key", "%" + key + "%"));
+                parameters.Add(CreateParameter("key", "%" + key + "%", DbType.String));
                 if (leftVisitOn.HasValue)
                 {
-                    parameters.Add(new SqlParameter("leftVisitOn", leftVisitOn.Value));
+                    parameters.Add(CreateParameter("leftVisitOn", leftVisitOn.Value, DbType.DateTime));
                     filterString += " and a.VisitOn>=@leftVisitOn";
                 }
                 if (rightVisitOn.HasValue)
                 {
-                    parameters.Add(new SqlParameter("rightVisitOn", rightVisitOn.Value));
+                    parameters.Add(CreateParameter("rightVisitOn", rightVisitOn.Value, DbType.DateTime));
                     filterString += " and a.VisitOn<@rightVisitOn";
                 }
                 return new SqlFilter(filterString, parameters.ToArray());
@@ -52,23 +53,33 @@ namespace Anycmd.Ac.Queries.Ef
             loginName = (loginName ?? string.Empty).ToLower();
             Func<SqlFilter> filter = () =>
             {
-                var parameters = new List<SqlParameter>();
+                var parameters = new List<DbParameter>();
                 var filterString = @" where (a.AccountId=@AccountId or Lower(a.LoginName)=@LoginName) ";
-                parameters.Add(new SqlParameter("LoginName", loginName));
-                parameters.Add(new SqlParameter("AccountId", accountId));
+                parameters.Add(CreateParameter("LoginName", loginName, DbType.String));
+                parameters.Add(CreateParameter("AccountId", accountId, DbType.Guid));
                 if (leftVisitOn.HasValue)
                 {
-                    parameters.Add(new SqlParameter("leftVisitOn", leftVisitOn.Value));
+                    parameters.Add(CreateParameter("leftVisitOn", leftVisitOn.Value, DbType.DateTime));
                     filterString += " and a.VisitOn>=@leftVisitOn";
                 }
                 if (rightVisitOn.HasValue)
                 {
-                    parameters.Add(new SqlParameter("rightVisitOn", rightVisitOn.Value));
+                    parameters.Add(CreateParameter("rightVisitOn", rightVisitOn.Value, DbType.DateTime));
                     filterString += " and a.VisitOn<@rightVisitOn";
                 }
                 return new SqlFilter(filterString, parameters.ToArray());
             };
             return base.GetPlist("VisitingLog", filter, paging);
+        }
+
+        private DbParameter CreateParameter(string parameterName, object value, DbType dbType)
+        {
+            var p = base.DbContext.Rdb.CreateParameter();
+            p.ParameterName = parameterName;
+            p.Value = value;
+            p.DbType = dbType;
+
+            return p;
         }
     }
 }

@@ -6,7 +6,8 @@ namespace Anycmd.Ac.Queries.Ef
     using Query;
     using System;
     using System.Collections.Generic;
-    using System.Data.SqlClient;
+    using System.Data;
+    using System.Data.Common;
     using ViewModels.PrivilegeViewModels;
 
     /// <summary>
@@ -29,23 +30,33 @@ namespace Anycmd.Ac.Queries.Ef
             }
             Func<SqlFilter> filter = () =>
             {
-                var parameters = new List<SqlParameter>();
+                var parameters = new List<DbParameter>();
                 var filterString = " where (a.Name like @key or a.Code like @key or a.LoginName like @key)";
-                parameters.Add(new SqlParameter("key", "%" + key + "%"));
+                parameters.Add(CreateParameter("key", "%" + key + "%", DbType.String));
                 if (!includeDescendants)
                 {
-                    parameters.Add(new SqlParameter("CatalogCode", catalogCode));
+                    parameters.Add(CreateParameter("CatalogCode", catalogCode, DbType.String));
                     filterString += " and a.CatalogCode=@CatalogCode";
                 }
                 else
                 {
-                    parameters.Add(new SqlParameter("CatalogCode", catalogCode + "%"));
+                    parameters.Add(CreateParameter("CatalogCode", catalogCode + "%", DbType.String));
                     filterString += " and a.CatalogCode like @CatalogCode";
                 }
                 return new SqlFilter(filterString, parameters.ToArray());
             };
 
             return base.GetPlist("CatalogAccountTr", filter, paging);
+        }
+
+        private DbParameter CreateParameter(string parameterName, object value, DbType dbType)
+        {
+            var p = base.DbContext.Rdb.CreateParameter();
+            p.ParameterName = parameterName;
+            p.Value = value;
+            p.DbType = dbType;
+
+            return p;
         }
     }
 }
