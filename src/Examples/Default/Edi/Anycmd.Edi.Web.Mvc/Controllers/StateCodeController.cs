@@ -3,13 +3,14 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
 {
     using Anycmd.Web.Mvc;
     using Engine.Ac;
+    using Engine.Rdb;
     using Exceptions;
     using MiniUI;
     using Query;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
-    using System.Data.SqlClient;
+    using System.Data.Common;
     using System.Diagnostics;
     using System.Web.Mvc;
     using Util;
@@ -117,10 +118,15 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             {
                 return ModelState.ToJsonResult();
             }
-            var dataDics = GetRequiredService<IStateCodeQuery>().GetPlist("StateCode", () =>
+            var dataDics = GetRequiredService<IStateCodeQuery>().GetPlist(base.EntityType, () =>
             {
-                List<SqlParameter> ps;
-                var filterString = new SqlFilterStringBuilder().FilterString(requestModel.Filters, "a", out ps);
+                RdbDescriptor rdb;
+                if (!AcDomain.Rdbs.TryDb(base.EntityType.DatabaseId, out rdb))
+                {
+                    throw new AnycmdException("意外配置的StateCode实体类型对象数据库标识" + base.EntityType.DatabaseId);
+                }
+                List<DbParameter> ps;
+                var filterString = new SqlFilterStringBuilder().FilterString(rdb, requestModel.Filters, "a", out ps);
                 if (!string.IsNullOrEmpty(filterString))
                 {
                     filterString = " where " + filterString;

@@ -9,7 +9,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers
     /// 而并非所有的命令都会深入到数据库层的。比如可以定义一个动作码编码为Audit的命令，服务端收到该类型的命令后随即就转发给了审计系统了，
     /// 这就不涉及数据访问层。DbCommand类似一个筛子，只有需要数据库层处理的命令才会通过这个筛子。
     /// </summary>
-    public sealed class DbCommand
+    public sealed class DbCmd
     {
         /// <summary>
         /// 
@@ -21,7 +21,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers
         /// <param name="commandId"></param>
         /// <param name="localEntityId"></param>
         /// <param name="infoValue"></param>
-        internal DbCommand(DbActionType actionType,
+        internal DbCmd(DbActionType actionType,
             OntologyDescriptor ontology, bool isDumb, NodeDescriptor client,
             string commandId, string localEntityId, InfoItem[] infoValue)
         {

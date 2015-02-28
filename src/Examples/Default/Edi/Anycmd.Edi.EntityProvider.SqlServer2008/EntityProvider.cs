@@ -14,7 +14,9 @@ namespace Anycmd.Edi.EntityProvider.SqlServer2008
 	using System;
 	using System.Collections.Generic;
 	using System.ComponentModel.Composition;
-	using System.Data.SqlClient;
+	using System.Data;
+	using System.Data.Common;
+	using System.Globalization;
 	using System.Linq;
 	using System.Text;
 	using Util;
@@ -136,7 +138,7 @@ namespace Anycmd.Edi.EntityProvider.SqlServer2008
 		/// </summary>
 		/// <param name="command"></param>
 		/// <returns></returns>
-		public ProcessResult ExecuteCommand(DbCommand command)
+		public ProcessResult ExecuteCommand(DbCmd command)
 		{
 			try
 			{
@@ -152,7 +154,8 @@ namespace Anycmd.Edi.EntityProvider.SqlServer2008
 				{
 					throw new ArgumentNullException("client");
 				}
-				Sql sqlObj = new Sql(command.Ontology, command.Client.Id.ToString(), command.CommandId, command.ActionType, command.LocalEntityId, command.InfoValue);
+				var db = this.GetEntityDb(command.Ontology);
+				Sql sqlObj = new Sql(command.Ontology, command.Client.Id.ToString(), command.CommandId, command.ActionType, command.LocalEntityId, command.InfoValue, db.CreateParameter);
 				if (!sqlObj.IsValid)
 				{
 					return new ProcessResult(false, Status.ExecuteFail, sqlObj.Description);
@@ -161,7 +164,7 @@ namespace Anycmd.Edi.EntityProvider.SqlServer2008
 				{
 					if (!command.IsDumb)
 					{
-						int n = this.GetEntityDb(command.Ontology).ExecuteNonQuery(sqlObj.Text, sqlObj.Parameters);
+						int n = db.ExecuteNonQuery(sqlObj.Text, sqlObj.Parameters);
 						if (n == 0)
 						{
 							if (command.ActionType == DbActionType.Insert)
@@ -434,7 +437,7 @@ IF EXISTS ( SELECT  1
 			}
 
 			var sb = new StringBuilder();
-			var sqlParameters = new List<SqlParameter>();
+			var sqlParameters = new List<DbParameter>();
 			var elementList = selectElements.ToList();
 			sb.Append("select top 2 ");
 			int l = sb.Length;
@@ -464,7 +467,7 @@ IF EXISTS ( SELECT  1
 				{
 					obj = DBNull.Value;
 				}
-				sqlParameters.Add(new SqlParameter(element.Element.Element.FieldCode, obj));
+				sqlParameters.Add(CreateParameter(db, element.Element.Element.FieldCode, obj, DbType.String));
 			}
 			var infoValue1 = new List<InfoItem>();
 			var infoValue2 = new List<InfoItem>();
@@ -555,9 +558,9 @@ IF EXISTS ( SELECT  1
 			var sbSqlPredicate = new StringBuilder();
 			var l = sbSqlPredicate.Length;
 
-			var pQueryList = new List<SqlParameter>();
-			List<SqlParameter> pFilters;
-			var filterString = _filterStringBuilder.FilterString(filters, null, out pFilters);
+			var pQueryList = new List<DbParameter>();
+			List<DbParameter> pFilters;
+			var filterString = _filterStringBuilder.FilterString(db, filters, null, out pFilters);
 			if (!string.IsNullOrEmpty(filterString))
 			{
 				foreach (var pFilter in pFilters)
@@ -567,7 +570,10 @@ IF EXISTS ( SELECT  1
 					{
 						obj = DBNull.Value;
 					}
-					pQueryList.Add(new SqlParameter(pFilter.ParameterName, obj));
+					var p = db.CreateParameter();
+					p.ParameterName = pFilter.ParameterName;
+					p.Value = obj;
+					pQueryList.Add(p);
 				}
 				if (sbSqlPredicate.Length != l)
 				{
@@ -585,8 +591,7 @@ IF EXISTS ( SELECT  1
 			OrderedElementSet elementList;
 			if (selectElements == null || selectElements.Count == 0)
 			{
-				elementList = new OrderedElementSet();
-				elementList.Add(ontology.Elements["id"]);
+				elementList = new OrderedElementSet { ontology.Elements["id"] };
 			}
 			else
 			{
@@ -632,11 +637,11 @@ IF EXISTS ( SELECT  1
 			sqlText.Append(") a WHERE a.RowNumber > {4}");
 			string sqlQuery = string.Format(
 				sqlText.ToString(),
-				pagingData.PageSize.ToString(),
+				pagingData.PageSize.ToString(CultureInfo.InvariantCulture),
 				pagingData.SortField,
 				pagingData.SortOrder,
 				tableName,
-				(pagingData.SkipCount).ToString());
+				(pagingData.SkipCount).ToString(CultureInfo.InvariantCulture));
 
 			pagingData.Count(() =>
 			{
@@ -647,7 +652,7 @@ IF EXISTS ( SELECT  1
 					sqlCount = sqlCount + " and " + sqlPredicateString;
 				}
 				return (int)db.ExecuteScalar(
-					sqlCount, pQueryList.Select(p => ((ICloneable)p).Clone()).ToArray());
+					sqlCount, pQueryList.Select(p => ((ICloneable)p).Clone()).Cast<DbParameter>().ToArray());
 			});
 
 			var list = new List<object[]>();
@@ -737,6 +742,16 @@ IF EXISTS ( SELECT  1
 		#endregion
 		#endregion
 
+		private DbParameter CreateParameter(RdbDescriptor rdb, string parameterName, object value, DbType dbType)
+		{
+			var p = rdb.CreateParameter();
+			p.ParameterName = parameterName;
+			p.Value = value;
+			p.DbType = dbType;
+
+			return p;
+		}
+
 		#region 内部类 Sql
 		/// <summary>
 		/// sql语句模型
@@ -751,20 +766,22 @@ IF EXISTS ( SELECT  1
 			private bool _isValid = true;
 			private string _description = string.Empty;
 			private readonly StringBuilder _text = new StringBuilder();
-			private readonly Dictionary<string, SqlParameter> _parameters = new Dictionary<string, SqlParameter>(StringComparer.OrdinalIgnoreCase);
+			private readonly Dictionary<string, DbParameter> _parameters = new Dictionary<string, DbParameter>(StringComparer.OrdinalIgnoreCase);
+			private readonly Func<DbParameter> _createParameter;
 
 			private Sql() { }
 
 			/// <summary>
 			/// 
 			/// </summary>
-			public Sql(OntologyDescriptor ontology, string clientId, string commandId, DbActionType actionType, string localEntityId, InfoItem[] infoValue)
+			public Sql(OntologyDescriptor ontology, string clientId, string commandId, DbActionType actionType, string localEntityId, InfoItem[] infoValue, Func<DbParameter> createParameter)
 			{
 				this._ontology = ontology;
 				this._localEntityId = localEntityId;
 				this._infoValue = infoValue;
 				this._clientId = clientId;
 				this._commandId = commandId;
+				this._createParameter = createParameter;
 				if (ontology == null
 					|| string.IsNullOrEmpty(localEntityId))
 				{
@@ -843,7 +860,7 @@ IF EXISTS ( SELECT  1
 			/// <summary>
 			/// 参数数组
 			/// </summary>
-			public SqlParameter[] Parameters
+			public DbParameter[] Parameters
 			{
 				get
 				{
@@ -928,7 +945,10 @@ IF EXISTS ( SELECT  1
 					{
 						obj = DBNull.Value;
 					}
-					_parameters.Add(value.Key, new SqlParameter(value.Key, obj));
+					var p = _createParameter();
+					p.ParameterName = value.Key;
+					p.Value = obj;
+					_parameters.Add(value.Key, p);
 				}
 			}
 			#endregion
@@ -994,6 +1014,7 @@ IF EXISTS ( SELECT  1
 			#endregion
 
 			#region PrepareSql
+
 			/// <summary>
 			/// 
 			/// </summary>
@@ -1025,7 +1046,10 @@ IF EXISTS ( SELECT  1
 					{
 						obj = DBNull.Value;
 					}
-					_parameters.Add(value.Key, new SqlParameter(value.Key, obj));
+					var p = _createParameter();
+					p.ParameterName = value.Key;
+					p.Value = obj;
+					_parameters.Add(value.Key, p);
 					_text.Append("@").Append(value.Key);
 				}
 			}

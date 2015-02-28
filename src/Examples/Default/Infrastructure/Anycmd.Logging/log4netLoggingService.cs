@@ -5,12 +5,13 @@ namespace Anycmd.Logging
     using Engine.Rdb;
     using Exceptions;
     using log4net;
+    using System.Data;
     using log4net.Config;
     using Query;
     using System;
     using System.Collections.Generic;
     using System.Configuration;
-    using System.Data.SqlClient;
+    using System.Data.Common;
     using System.Diagnostics;
     using System.Globalization;
     using System.IO;
@@ -83,8 +84,8 @@ namespace Anycmd.Logging
         public IAnyLog Get(Guid id)
         {
             RdbDescriptor db = GetAnyLogDb();
-            string sql = "select * from AnyLog where Id=@Id";
-            var reader = db.ExecuteReader(sql, new SqlParameter("Id", id));
+            const string sql = "select * from AnyLog where Id=@Id";
+            var reader = db.ExecuteReader(sql, CreateParameter(db, "Id", id, DbType.Guid));
             AnyLog anyLog = null;
             if (reader.Read())
             {
@@ -99,8 +100,8 @@ namespace Anycmd.Logging
             paging.Valid();
             var filterStringBuilder = _acDomain.RetrieveRequiredService<ISqlFilterStringBuilder>();
             RdbDescriptor db = GetExceptionLogDb();
-            List<SqlParameter> prams;
-            var filterString = filterStringBuilder.FilterString(filters, "t", out prams);
+            List<DbParameter> prams;
+            var filterString = filterStringBuilder.FilterString(db, filters, "t", out prams);
             if (!string.IsNullOrEmpty(filterString))
             {
                 filterString = " where " + filterString;
@@ -117,7 +118,7 @@ from (SELECT ROW_NUMBER() OVER(ORDER BY {1} {2}) AS RowNumber,* FROM {3} as t"
             {
                 anyLogs.Add(AnyLog.Create(reader));
             }
-            paging.Total = (int)db.ExecuteScalar(countSql, prams.Select(p => ((ICloneable)p).Clone()).ToArray());
+            paging.Total = (int)db.ExecuteScalar(countSql, prams.Select(p => ((ICloneable)p).Clone()).Cast<DbParameter>().ToArray());
             reader.Close();
 
             return anyLogs;
@@ -130,8 +131,8 @@ from (SELECT ROW_NUMBER() OVER(ORDER BY {1} {2}) AS RowNumber,* FROM {3} as t"
             paging.Valid();
             var filterStringBuilder = _acDomain.RetrieveRequiredService<ISqlFilterStringBuilder>();
             RdbDescriptor db = GetOperationLogDb();
-            List<SqlParameter> prams;
-            var filterString = filterStringBuilder.FilterString(filters, "t", out prams);
+            List<DbParameter> prams;
+            var filterString = filterStringBuilder.FilterString(db, filters, "t", out prams);
             if (!string.IsNullOrEmpty(filterString))
             {
                 filterString = " where " + filterString + "{0}";
@@ -165,19 +166,19 @@ from (SELECT ROW_NUMBER() OVER(ORDER BY {1} {2}) AS RowNumber,* FROM {3} as t"
             var operationLogs = new List<OperationLog>();
             if (prams == null)
             {
-                prams = new List<SqlParameter>();
+                prams = new List<DbParameter>();
             }
             if (targetId.HasValue)
             {
-                prams.Add(new SqlParameter("TargetId", targetId.Value));
+                prams.Add(CreateParameter(db, "TargetId", targetId.Value, DbType.Guid));
             }
             if (leftCreateOn.HasValue)
             {
-                prams.Add(new SqlParameter("leftCreateOn", leftCreateOn.Value));
+                prams.Add(CreateParameter(db, "leftCreateOn", leftCreateOn.Value, DbType.DateTime));
             }
             if (rightCreateOn.HasValue)
             {
-                prams.Add(new SqlParameter("rightCreateOn", rightCreateOn.Value));
+                prams.Add(CreateParameter(db, "rightCreateOn", rightCreateOn.Value, DbType.DateTime));
             }
             var reader = db.ExecuteReader(
                 string.Format(sql, paging.PageSize, paging.SortField, paging.SortOrder, "OperationLog", paging.PageSize * paging.PageIndex), prams.ToArray());
@@ -185,7 +186,7 @@ from (SELECT ROW_NUMBER() OVER(ORDER BY {1} {2}) AS RowNumber,* FROM {3} as t"
             {
                 operationLogs.Add(OperationLog.Create(reader));
             }
-            paging.Total = (int)db.ExecuteScalar(countSql, prams.Select(p => ((ICloneable)p).Clone()).ToArray());
+            paging.Total = (int)db.ExecuteScalar(countSql, prams.Select(p => ((ICloneable)p).Clone()).Cast<DbParameter>().ToArray());
             reader.Close();
 
             return operationLogs;
@@ -196,8 +197,8 @@ from (SELECT ROW_NUMBER() OVER(ORDER BY {1} {2}) AS RowNumber,* FROM {3} as t"
             paging.Valid();
             var filterStringBuilder = _acDomain.RetrieveRequiredService<ISqlFilterStringBuilder>();
             RdbDescriptor db = GetExceptionLogDb();
-            List<SqlParameter> prams;
-            var filterString = filterStringBuilder.FilterString(filters, "t", out prams);
+            List<DbParameter> prams;
+            var filterString = filterStringBuilder.FilterString(db, filters, "t", out prams);
             if (!string.IsNullOrEmpty(filterString))
             {
                 filterString = " where " + filterString;
@@ -214,7 +215,7 @@ from (SELECT ROW_NUMBER() OVER(ORDER BY {1} {2}) AS RowNumber,* FROM {3} as t"
             {
                 exceptionLogs.Add(ExceptionLog.Create(reader));
             }
-            paging.Total = (int)db.ExecuteScalar(countSql, prams.Select(p => ((ICloneable)p).Clone()).ToArray());
+            paging.Total = (int)db.ExecuteScalar(countSql, prams.Select(p => ((ICloneable)p).Clone()).Cast<DbParameter>().ToArray());
             reader.Close();
 
             return exceptionLogs;
@@ -391,6 +392,16 @@ from (SELECT ROW_NUMBER() OVER(ORDER BY {1} {2}) AS RowNumber,* FROM {3} as t"
             {
                 return _log.IsFatalEnabled;
             }
+        }
+
+        private static DbParameter CreateParameter(RdbDescriptor db, string parameterName, object value, DbType dbType)
+        {
+            var p = db.CreateParameter();
+            p.ParameterName = parameterName;
+            p.Value = value;
+            p.DbType = dbType;
+
+            return p;
         }
     }
 }

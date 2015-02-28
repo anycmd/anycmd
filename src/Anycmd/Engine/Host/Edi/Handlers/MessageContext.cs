@@ -574,7 +574,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers
         /// 
         /// </summary>
         /// <returns></returns>
-        internal DbCommand ToDbCommand()
+        internal DbCmd ToDbCommand()
         {
             if (string.IsNullOrEmpty(this.Command.Verb.Code))
             {
@@ -598,7 +598,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers
             {
                 throw new AnycmdException("无效的数据库动作类型" + this.Command.Verb);
             }
-            return new DbCommand(actionType, this.Ontology, this.Command.IsDumb, this.ClientAgent, this.Command.Id.ToString(),
+            return new DbCmd(actionType, this.Ontology, this.Command.IsDumb, this.ClientAgent, this.Command.Id.ToString(),
                 this.LocalEntityId, this.InfoTuplePair.ValueTuple);
         }
         #endregion

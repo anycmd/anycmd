@@ -239,7 +239,7 @@ namespace Anycmd.Engine.Rdb
         /// <param name="commandType"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        public int ExecuteNonQuery(string sqlText, CommandType commandType, params object[] parameters)
+        public int ExecuteNonQuery(string sqlText, CommandType commandType, params DbParameter[] parameters)
         {
             using (var conn = GetConnection())
             {
@@ -270,7 +270,7 @@ namespace Anycmd.Engine.Rdb
         /// <param name="sqlText"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        public DbDataReader ExecuteReader(string sqlText, params object[] parameters)
+        public DbDataReader ExecuteReader(string sqlText, params DbParameter[] parameters)
         {
             return ExecuteReader(sqlText, CommandType.Text, parameters);
         }
@@ -284,7 +284,7 @@ namespace Anycmd.Engine.Rdb
         /// <param name="commandType"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        public DbDataReader ExecuteReader(string sqlText, CommandType commandType, params object[] parameters)
+        public DbDataReader ExecuteReader(string sqlText, CommandType commandType, params DbParameter[] parameters)
         {
             var conn = GetConnection();
             DbCommand cmd = conn.CreateCommand();
@@ -314,7 +314,7 @@ namespace Anycmd.Engine.Rdb
         /// <param name="sqlText"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        public object ExecuteScalar(string sqlText, params object[] parameters)
+        public object ExecuteScalar(string sqlText, params DbParameter[] parameters)
         {
             return ExecuteScalar(sqlText, CommandType.Text, parameters);
         }
@@ -326,7 +326,7 @@ namespace Anycmd.Engine.Rdb
         /// <param name="commandType"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        public object ExecuteScalar(string sqlText, CommandType commandType, params object[] parameters)
+        public object ExecuteScalar(string sqlText, CommandType commandType, params DbParameter[] parameters)
         {
             using (var conn = GetConnection())
             {

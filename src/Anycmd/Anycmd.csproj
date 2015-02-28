@@ -329,7 +329,7 @@
     <Compile Include="Engine\Edi\ElementState.cs" />
     <Compile Include="Engine\Host\Edi\FastNodeHostBootstrap.cs" />
     <Compile Include="Engine\Host\Edi\Handlers\DbActionType.cs" />
-    <Compile Include="Engine\Host\Edi\Handlers\DbCommand.cs" />
+    <Compile Include="Engine\Host\Edi\Handlers\DbCmd.cs" />
     <Compile Include="Engine\Host\Edi\Handlers\DefaultAuditDiscriminator.cs" />
     <Compile Include="Engine\Host\Edi\Handlers\DefaultInputValidator.cs" />
     <Compile Include="Engine\Host\Edi\Handlers\DefaultMessageProducer.cs" />

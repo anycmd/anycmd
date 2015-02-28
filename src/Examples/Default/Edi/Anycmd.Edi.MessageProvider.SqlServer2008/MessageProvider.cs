@@ -12,7 +12,9 @@ namespace Anycmd.Edi.MessageProvider.SqlServer2008
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.Composition;
-    using System.Data.SqlClient;
+    using System.Data;
+    using System.Data.Common;
+    using System.Globalization;
     using System.Linq;
     using System.Text;
     using Util;
@@ -83,7 +85,7 @@ namespace Anycmd.Edi.MessageProvider.SqlServer2008
         /// 保存命令事件
         /// </summary>
         /// <param name="ontology"></param>
-        /// <param name="commandEvent"></param>
+        /// <param name="command"></param>
         public ProcessResult SaveCommand(OntologyDescriptor ontology, MessageEntity command)
         {
             if (ontology == null)
@@ -247,16 +249,17 @@ namespace Anycmd.Edi.MessageProvider.SqlServer2008
             }
             else
             {
+                var db = this.GetCommandDb(ontology);
                 var queryString =
     @"delete " + GetTableName(commandType) + " where Id=@Id";
-                int n = this.GetCommandDb(ontology).ExecuteNonQuery(queryString, new SqlParameter("Id", id));
+                int n = db.ExecuteNonQuery(queryString, CreateParameter(db, "Id", id, DbType.Guid));
                 if (n == 1)
                 {
                     r = ProcessResult.Ok;
                 }
                 else
                 {
-                    r = new ProcessResult(new AnycmdException("意外的影响行数" + n.ToString()));
+                    r = new ProcessResult(new AnycmdException("意外的影响行数" + n.ToString(CultureInfo.InvariantCulture)));
                 }
             }
 
@@ -289,12 +292,13 @@ namespace Anycmd.Edi.MessageProvider.SqlServer2008
             {
                 return new List<MessageEntity>();
             }
+            var db = this.GetCommandDb(ontology);
             var sql =
-@"select top " + n.ToString() +
+@"select top " + n.ToString(CultureInfo.InvariantCulture) +
 " * from [" + GetTableName(commandType) + "] as c where lower(c.Ontology)=@Ontology order by c." + sortField + " " + sortOrder;
-            var pOntology = new SqlParameter("Ontology", ontology.Ontology.Code.ToLower());
+            var pOntology = CreateParameter(db, "Ontology", ontology.Ontology.Code.ToLower(), DbType.String);
             IList<MessageEntity> list = new List<MessageEntity>();
-            using (var reader = this.GetCommandDb(ontology).ExecuteReader(sql, pOntology))
+            using (var reader = db.ExecuteReader(sql, pOntology))
             {
                 while (reader.Read())
                 {
@@ -308,16 +312,16 @@ namespace Anycmd.Edi.MessageProvider.SqlServer2008
         #endregion
 
         #region GetPlistCommands
+
         /// <summary>
         /// 根据节点分页获取命令
         /// </summary>
         /// <typeparam name="T">命令类型参数</typeparam>
+        /// <param name="commandType"></param>
         /// <param name="ontology">本体</param>
         /// <param name="catalogCode">目录码</param>
         /// <param name="actionCode">动作码，空值表示忽略本查询条件</param>
         /// <param name="nodeId">节点标识，空值表示忽略本查询条件</param>
-        /// <param name="infoId">信息标识，空值表示忽略本查询条件</param>
-        /// <param name="infoValue">信息值，空值表示忽略本查询条件</param>
         /// <param name="localEntityId">本地实体标识</param>
         /// <param name="pageIndex">页索引</param>
         /// <param name="pageSize">页尺寸</param>
@@ -331,55 +335,54 @@ namespace Anycmd.Edi.MessageProvider.SqlServer2008
         {
             var tableName = GetTableName(commandType);
             var queryString =
-@"select top " + pageSize.ToString() + " * from (SELECT ROW_NUMBER() OVER(ORDER BY " + sortField + " " + sortOrder + ") AS RowNumber,* from " + tableName +
+@"select top " + pageSize.ToString(CultureInfo.InvariantCulture) + " * from (SELECT ROW_NUMBER() OVER(ORDER BY " + sortField + " " + sortOrder + ") AS RowNumber,* from " + tableName +
 @" as a where a.Ontology=@Ontology {0}) b 
- where b.RowNumber>" + (pageSize * pageIndex).ToString();
-            var countQS =
+ where b.RowNumber>" + (pageSize * pageIndex).ToString(CultureInfo.InvariantCulture);
+            var countQs =
 @"select count(Id) from " + tableName + @" as a 
 where a.Ontology=@Ontology {0}";
             if (!string.IsNullOrEmpty(actionCode))
             {
                 queryString = string.Format(queryString, " and a.Verb=@Verb {0}");
-                countQS = string.Format(countQS, " and a.Verb=@Verb {0}");
+                countQs = string.Format(countQs, " and a.Verb=@Verb {0}");
             }
             if (!string.IsNullOrEmpty(localEntityId))
             {
                 queryString = string.Format(queryString, " and a.LocalEntityID=@LocalEntityId {0}");
-                countQS = string.Format(countQS, " and a.LocalEntityID=@LocalEntityId {0}");
+                countQs = string.Format(countQs, " and a.LocalEntityID=@LocalEntityId {0}");
             }
             if (!string.IsNullOrEmpty(catalogCode))
             {
                 queryString = string.Format(queryString, " and a.CatalogCode like @CatalogCode {0}");
-                countQS = string.Format(countQS, " and a.CatalogCode like @CatalogCode {0}");
+                countQs = string.Format(countQs, " and a.CatalogCode like @CatalogCode {0}");
             }
             if (nodeId.HasValue)
             {
                 queryString = string.Format(queryString, " and a.ClientID=@ClientId");
-                countQS = string.Format(countQS, " and a.ClientID=@ClientId");
+                countQs = string.Format(countQs, " and a.ClientID=@ClientId");
             }
             else
             {
                 queryString = string.Format(queryString, "");
-                countQS = string.Format(countQS, "");
+                countQs = string.Format(countQs, "");
             }
-
-            List<SqlParameter> parms = new List<SqlParameter>();
-            parms.Add(new SqlParameter("Ontology", ontology.Ontology.Code));
+            var db = this.GetCommandDb(ontology);
+            var parms = new List<DbParameter> { CreateParameter(db, "Ontology", ontology.Ontology.Code, DbType.String) };
             if (!string.IsNullOrEmpty(actionCode))
             {
-                parms.Add(new SqlParameter("Verb", actionCode));
+                parms.Add(CreateParameter(db, "Verb", actionCode, DbType.String));
             }
             if (nodeId.HasValue)
             {
-                parms.Add(new SqlParameter("ClientId", nodeId.Value));
+                parms.Add(CreateParameter(db, "ClientId", nodeId.Value, DbType.Guid));
             }
             if (!string.IsNullOrEmpty(localEntityId))
             {
-                parms.Add(new SqlParameter("LocalEntityId", localEntityId));
+                parms.Add(CreateParameter(db, "LocalEntityId", localEntityId, DbType.String));
             }
             if (!string.IsNullOrEmpty(catalogCode))
             {
-                parms.Add(new SqlParameter("CatalogCode", catalogCode + "%"));
+                parms.Add(CreateParameter(db, "CatalogCode", catalogCode + "%", DbType.String));
             }
 
             var pArray = parms.ToArray();
@@ -391,7 +394,7 @@ where a.Ontology=@Ontology {0}";
                     list.Add(CommandRecord.Create(ontology.Host, commandType, reader));
                 }
             }
-            total = (int)this.GetCommandDb(ontology).ExecuteScalar(countQS, parms.Select(p => ((ICloneable)p).Clone()).ToArray());
+            total = (int)this.GetCommandDb(ontology).ExecuteScalar(countQs, parms.Select(p => ((ICloneable)p).Clone()).Cast<DbParameter>().ToArray());
 
             return list;
         }
@@ -400,9 +403,10 @@ where a.Ontology=@Ontology {0}";
         #region GetCommand
         public MessageEntity GetCommand(MessageTypeKind commandType, OntologyDescriptor ontology, Guid id)
         {
+            var db = this.GetCommandDb(ontology);
             var queryString =
 @"select * from " + GetTableName(commandType) + " as a where a.Id=@Id";
-            using (var reader = this.GetCommandDb(ontology).ExecuteReader(queryString, new SqlParameter("Id", id)))
+            using (var reader = db.ExecuteReader(queryString, CreateParameter(db, "Id", id, DbType.Guid)))
             {
                 if (reader.Read())
                 {
@@ -469,6 +473,16 @@ where a.Ontology=@Ontology {0}";
         }
         #endregion
 
+        private DbParameter CreateParameter(RdbDescriptor rdb, string parameterName, object value, DbType dbType)
+        {
+            var p = rdb.CreateParameter();
+            p.ParameterName = parameterName;
+            p.Value = value;
+            p.DbType = dbType;
+
+            return p;
+        }
+
         #region 内部类
         /// <summary>
         /// 命令记录。命令记录是命令实体。是<see cref="MessageProvider"/>所使用的命令模型。
@@ -482,7 +496,7 @@ where a.Ontology=@Ontology {0}";
             /// <param name="type"></param>
             /// <param name="dataTuple">数据项集合对</param>
             /// <param name="id">信息标识</param>
-            public CommandRecord(MessageTypeKind type, Guid id, DataItemsTuple dataTuple)
+            private CommandRecord(MessageTypeKind type, Guid id, DataItemsTuple dataTuple)
                 : base(type, id, dataTuple)
             {
             }

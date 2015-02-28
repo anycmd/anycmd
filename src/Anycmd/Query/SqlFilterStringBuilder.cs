@@ -1,10 +1,11 @@
 ﻿
 namespace Anycmd.Query
 {
+    using Engine.Rdb;
     using Exceptions;
     using System;
     using System.Collections.Generic;
-    using System.Data.SqlClient;
+    using System.Data.Common;
     using System.Globalization;
     using System.Linq;
     using System.Text;
@@ -16,17 +17,19 @@ namespace Anycmd.Query
     public sealed class SqlFilterStringBuilder : ISqlFilterStringBuilder
     {
         #region GetSqlFilterString
+
         /// <summary>
         /// 将给定的数据查询筛选器列表转化为原生sql查询条件字符串返回
         /// </summary>
+        /// <param name="rdb"></param>
         /// <param name="filters">数据查询筛选器</param>
         /// <param name="alias">别名，空字符串或null表示无别名</param>
         /// <param name="prams"></param>
         /// <returns></returns>
-        public string FilterString(List<FilterData> filters, string alias, out List<SqlParameter> prams)
+        public string FilterString(RdbDescriptor rdb, List<FilterData> filters, string alias, out List<DbParameter> prams)
         {
             bool useAlias = !string.IsNullOrEmpty(alias);
-            prams = new List<SqlParameter>();
+            prams = new List<DbParameter>();
             if (filters == null || filters.Count == 0)
                 return string.Empty;
             var result = new StringBuilder();
@@ -36,7 +39,7 @@ namespace Anycmd.Query
             int i = 0;
             foreach (var filter in stringList)
             {
-                var comparision = this.GetComparison(filter.comparison);
+                var comparision = GetComparison(filter.comparison);
                 result.Append(alias, useAlias).Append(".", useAlias).Append(filter.field);
                 if (comparision == "like")
                 {
@@ -50,12 +53,12 @@ namespace Anycmd.Query
                     {
                         value = "%" + value + "%";
                     }
-                    prams.Add(new SqlParameter(filter.field + i.ToString(CultureInfo.InvariantCulture), value));
+                    prams.Add(CreateParameter(rdb, filter.field + i.ToString(CultureInfo.InvariantCulture), value));
                 }
                 else
                 {
                     result.Append(comparision).Append("@").Append(filter.field).Append(i);
-                    prams.Add(new SqlParameter(filter.field + i.ToString(CultureInfo.InvariantCulture), filter.value));
+                    prams.Add(CreateParameter(rdb, filter.field + i.ToString(CultureInfo.InvariantCulture), filter.value));
                 }
                 result.Append(" and ");
                 i++;
@@ -67,14 +70,14 @@ namespace Anycmd.Query
             i = 0;
             foreach (var filter in guidList)
             {
-                var comparision = this.GetComparison(filter.comparison);
+                var comparision = GetComparison(filter.comparison);
                 result.Append(alias, useAlias).Append(".", useAlias).Append(filter.field);
                 result.Append(comparision).Append("@").Append(filter.field).Append(i);
                 if (filter.value.GetType() != typeof(Guid))
                 {
                     throw new ValidationException("'" + filter.value + "'不是Guid类型的");
                 }
-                prams.Add(new SqlParameter(filter.field + i.ToString(CultureInfo.InvariantCulture), filter.value));
+                prams.Add(CreateParameter(rdb, filter.field + i.ToString(CultureInfo.InvariantCulture), filter.value));
                 result.Append(" and ");
                 i++;
             }
@@ -92,7 +95,7 @@ namespace Anycmd.Query
                     throw new ValidationException("'" + filter.value + "'不是boolean类型的");
                 }
                 result.Append(alias, useAlias).Append(".", useAlias).Append(filter.field).Append("=@").Append(filter.field).Append(i.ToString(CultureInfo.InvariantCulture)).Append(" and ");
-                var p = new SqlParameter(filter.field + i.ToString(CultureInfo.InvariantCulture), typeof(bool)) { Value = v };
+                var p = CreateParameter(rdb, filter.field + i.ToString(CultureInfo.InvariantCulture), v);
                 prams.Add(p);
                 i++;
             }
@@ -103,7 +106,7 @@ namespace Anycmd.Query
             var nullList = from f in filters where f.type == "null" select f;
             foreach (var filter in nullList)
             {
-                result.Append(alias, useAlias).Append(".", useAlias).Append(filter.field).Append(this.GetComparison(filter.comparison)).Append(" and ");
+                result.Append(alias, useAlias).Append(".", useAlias).Append(filter.field).Append(GetComparison(filter.comparison)).Append(" and ");
                 i++;
             }
             #endregion
@@ -118,12 +121,12 @@ namespace Anycmd.Query
                 int j = 0;
                 foreach (var filter in g)
                 {
-                    iiStr += alias + "." + filter.field + this.GetComparison(filter.comparison) + "@" + filter.field + i.ToString(CultureInfo.InvariantCulture) + j.ToString(CultureInfo.InvariantCulture) + " and ";
+                    iiStr += alias + "." + filter.field + GetComparison(filter.comparison) + "@" + filter.field + i.ToString(CultureInfo.InvariantCulture) + j.ToString(CultureInfo.InvariantCulture) + " and ";
                     if (filter.value.GetType() != typeof(int))
                     {
                         throw new ValidationException("'" + filter.value + "'不是int类型的");
                     }
-                    prams.Add(new SqlParameter(filter.field + i.ToString(CultureInfo.InvariantCulture) + j.ToString(CultureInfo.InvariantCulture), filter.value));
+                    prams.Add(CreateParameter(rdb, filter.field + i.ToString(CultureInfo.InvariantCulture) + j.ToString(CultureInfo.InvariantCulture), filter.value));
                     j++;
                 }
                 result.Append(iiStr.Substring(0, iiStr.Length - " and".Length));
@@ -143,8 +146,8 @@ namespace Anycmd.Query
                 string iiStr = string.Empty;
                 foreach (var filter in g)
                 {
-                    iiStr += alias + "." + filter.field + this.GetComparison(filter.comparison) + " @" + filter.field + i.ToString(CultureInfo.InvariantCulture) + j.ToString(CultureInfo.InvariantCulture) + ")" + " and ";
-                    prams.Add(new SqlParameter(filter.field + i.ToString(CultureInfo.InvariantCulture) + j.ToString(CultureInfo.InvariantCulture), filter.value));
+                    iiStr += alias + "." + filter.field + GetComparison(filter.comparison) + " @" + filter.field + i.ToString(CultureInfo.InvariantCulture) + j.ToString(CultureInfo.InvariantCulture) + ")" + " and ";
+                    prams.Add(CreateParameter(rdb, filter.field + i.ToString(CultureInfo.InvariantCulture) + j.ToString(CultureInfo.InvariantCulture), filter.value));
                     j++;
                 }
                 result.Append(iiStr.Substring(0, iiStr.Length - " and".Length));
@@ -160,7 +163,7 @@ namespace Anycmd.Query
             foreach (var filter in listList)
             {
                 result.Append(alias, useAlias).Append(".", useAlias).Append(filter.field).Append(" in @").Append(filter.field).Append(i.ToString(CultureInfo.InvariantCulture)).Append(" and ");
-                prams.Add(new SqlParameter(filter.field + i.ToString(CultureInfo.InvariantCulture), filter.value.ToString().Replace("[", "( ").Replace("]", " )").Replace("\"", "'")));
+                prams.Add(CreateParameter(rdb, filter.field + i.ToString(CultureInfo.InvariantCulture), filter.value.ToString().Replace("[", "( ").Replace("]", " )").Replace("\"", "'")));
                 i++;
             }
             #endregion
@@ -169,7 +172,7 @@ namespace Anycmd.Query
         }
         #endregion
 
-        private string GetComparison(string comparison)
+        private static string GetComparison(string comparison)
         {
             string res = string.Empty;
             switch (comparison)
@@ -194,6 +197,15 @@ namespace Anycmd.Query
                     break;
             }
             return res;
+        }
+
+        private static DbParameter CreateParameter(RdbDescriptor db, string parameterName, object value)
+        {
+            var p = db.CreateParameter();
+            p.ParameterName = parameterName;
+            p.Value = value;
+
+            return p;
         }
     }
 }

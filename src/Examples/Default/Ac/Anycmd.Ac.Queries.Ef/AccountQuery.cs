@@ -6,7 +6,8 @@ namespace Anycmd.Ac.Queries.Ef
 	using Query;
 	using System;
 	using System.Collections.Generic;
-	using System.Data.SqlClient;
+	using System.Data;
+	using System.Data.Common;
 	using ViewModels.AccountViewModels;
 
 	/// <summary>
@@ -26,8 +27,8 @@ namespace Anycmd.Ac.Queries.Ef
 			bool byOrgCode = !string.IsNullOrEmpty(catalogCode);
 			Func<SqlFilter> filter = () =>
 			{
-				List<SqlParameter> parameters;
-				var filterString = new SqlFilterStringBuilder().FilterString(filters, "a", out parameters);
+				List<DbParameter> parameters;
+				var filterString = new SqlFilterStringBuilder().FilterString(base.DbContext.Rdb, filters, "a", out parameters);
 				if (!string.IsNullOrEmpty(filterString))
 				{
 					filterString = " where 1=1 and " + filterString;
@@ -42,7 +43,7 @@ namespace Anycmd.Ac.Queries.Ef
 					{
 						if (!string.IsNullOrEmpty(catalogCode))
 						{
-							parameters.Add(new SqlParameter("CatalogCode", catalogCode));
+							parameters.Add(this.CreateParameter("CatalogCode", catalogCode, DbType.String));
 							filterString += "and a.CatalogCode=@CatalogCode ";
 						}
 					}
@@ -53,7 +54,7 @@ namespace Anycmd.Ac.Queries.Ef
 					{
 						if (!string.IsNullOrEmpty(catalogCode))
 						{
-							parameters.Add(new SqlParameter("CatalogCode", catalogCode + "%"));
+							parameters.Add(CreateParameter("CatalogCode", catalogCode + "%", DbType.String));
 							filterString += "and a.CatalogCode like @CatalogCode ";
 						}
 					}
@@ -70,12 +71,12 @@ namespace Anycmd.Ac.Queries.Ef
 			paging.Valid();
 			Func<SqlFilter> filter = () =>
 			{
-				var parameters = new List<SqlParameter>();
+				var parameters = new List<DbParameter>();
 				const string filterString = @" where (a.Name like @key
 	or a.Code like @key
 	or a.LoginName like @key) and a.RoleId=@RoleId";
-				parameters.Add(new SqlParameter("key", "%" + key + "%"));
-				parameters.Add(new SqlParameter("RoleId", roleId));
+				parameters.Add(CreateParameter("key", "%" + key + "%", DbType.String));
+				parameters.Add(CreateParameter("RoleId", roleId, DbType.Guid));
 				return new SqlFilter(filterString, parameters.ToArray());
 			};
 			return base.GetPlist("RoleAccountTr", filter, paging);
@@ -88,16 +89,26 @@ namespace Anycmd.Ac.Queries.Ef
 			paging.Valid();
 			Func<SqlFilter> filter = () =>
 			{
-				var parameters = new List<SqlParameter>();
+				var parameters = new List<DbParameter>();
 				const string filterString = @" where (a.Name like @key
 	or a.Code like @key
 	or a.LoginName like @key) and a.GroupId=@GroupId";
-				parameters.Add(new SqlParameter("key", "%" + key + "%"));
-				parameters.Add(new SqlParameter("GroupId", groupId));
+				parameters.Add(CreateParameter("key", "%" + key + "%", DbType.String));
+				parameters.Add(CreateParameter("GroupId", groupId, DbType.Guid));
 				return new SqlFilter(filterString, parameters.ToArray());
 			};
 			return base.GetPlist("GroupAccountTr", filter, paging);
 		}
 		#endregion
+
+		private DbParameter CreateParameter(string parameterName, object value, DbType dbType)
+		{
+			var p = base.DbContext.Rdb.CreateParameter();
+			p.ParameterName = parameterName;
+			p.Value = value;
+			p.DbType = dbType;
+
+			return p;
+		}
 	}
 }

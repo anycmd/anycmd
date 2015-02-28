@@ -5,6 +5,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
     using Engine.Ac;
     using Engine.Edi;
     using Engine.Host.Edi.Entities;
+    using Engine.Rdb;
     using Exceptions;
     using MiniUI;
     using Query;
@@ -12,7 +13,7 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
-    using System.Data.SqlClient;
+    using System.Data.Common;
     using System.Diagnostics;
     using System.Linq;
     using System.Web.Mvc;
@@ -141,10 +142,15 @@ namespace Anycmd.Edi.Web.Mvc.Controllers
             {
                 input.Filters.Insert(0, FilterData.EQ("OntologyId", ontologyId.Value));
             }
-            var data = GetRequiredService<IBatchQuery>().GetPlist("Batch", () =>
+            var data = GetRequiredService<IBatchQuery>().GetPlist(base.EntityType, () =>
             {
-                List<SqlParameter> ps;
-                var filterString = new SqlFilterStringBuilder().FilterString(input.Filters, "a", out ps);
+                RdbDescriptor rdb;
+                if (!AcDomain.Rdbs.TryDb(base.EntityType.DatabaseId, out rdb))
+                {
+                    throw new AnycmdException("意外配置的Batch实体类型对象数据库标识" + base.EntityType.DatabaseId);
+                }
+                List<DbParameter> ps;
+                var filterString = new SqlFilterStringBuilder().FilterString(rdb, input.Filters, "a", out ps);
                 if (!string.IsNullOrEmpty(filterString))
                 {
                     filterString = " where " + filterString;

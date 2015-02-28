@@ -60,7 +60,7 @@ namespace Anycmd.Engine.Host.Edi.Handlers
         /// </summary>
         /// <param name="command"></param>
         /// <returns></returns>
-        ProcessResult ExecuteCommand(DbCommand command);
+        ProcessResult ExecuteCommand(DbCmd command);
 
         #region 归档
 
