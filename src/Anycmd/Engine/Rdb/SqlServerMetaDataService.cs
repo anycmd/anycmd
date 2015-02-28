@@ -6,8 +6,9 @@ namespace Anycmd.Engine.Rdb
     using System.Collections.Generic;
     using System.Configuration;
     using System.Data;
+    using System.Data.Common;
     using System.Data.SqlClient;
-    using System.Diagnostics.Contracts;
+    using System.Diagnostics;
     using System.Text;
     using Util;
 
@@ -51,7 +52,7 @@ namespace Anycmd.Engine.Rdb
             {
                 sortOrder = "asc";
             }
-            Contract.Requires(sortOrder == "asc" || sortOrder == "desc");
+            Debug.Assert(sortOrder == "asc" || sortOrder == "desc");
             string sql =
 @"CREATE TABLE #T
     (
@@ -89,20 +90,25 @@ ORDER BY " + sortField + " " + sortOrder +
         /// <returns></returns>
         public RDatabase GetDatabase(Guid id)
         {
-            RdbDescriptor db;
-            if (!_acDomain.Rdbs.TryDb(id, out db))
+            RdbDescriptor bootDb;
+            // TODO:区分出boot db
+            if (!_acDomain.Rdbs.TryDb(new Guid("67E6CBF4-B481-4DDD-9FD9-1F0E06E9E1CB"), out bootDb))
             {
                 throw new AnycmdException("意外的数据库标识" + id);
             }
-            var sql = "select * from [RDatabase] where Id=@Id";
+            const string sql = "select * from [RDatabase] where Id=@Id";
             RDatabase database = null;
-            using (var conn = new SqlConnection(this.BootConnString))
+            using (var conn = bootDb.GetConnection())
             {
                 var cmd = conn.CreateCommand();
                 cmd.CommandText = sql;
-                cmd.CommandType = System.Data.CommandType.Text;
-                cmd.Parameters.Add(new SqlParameter("Id", id));
-                if (conn.State != System.Data.ConnectionState.Open)
+                cmd.CommandType = CommandType.Text;
+                var pId = cmd.CreateParameter();
+                pId.ParameterName = "Id";
+                pId.Value = id;
+                pId.DbType = DbType.Guid;
+                cmd.Parameters.Add(pId);
+                if (conn.State != ConnectionState.Open)
                 {
                     conn.Open();
                 }
@@ -535,6 +541,15 @@ ORDER BY " + sortField + " " + sortOrder +
         }
         #endregion
 
+        private static DbParameter CreateParameter(RdbDescriptor db, string parameterName, object value, DbType dbType)
+        {
+            var p = db.CreateParameter();
+            p.ParameterName = parameterName;
+            p.Value = value;
+            p.DbType = dbType;
+
+            return p;
+        }
         #endregion
     }
 }

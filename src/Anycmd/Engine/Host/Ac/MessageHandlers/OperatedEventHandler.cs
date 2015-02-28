@@ -1,16 +1,14 @@
 ﻿
-using System.Data;
-
 namespace Anycmd.Engine.Host.Ac.MessageHandlers
 {
     using Engine.Rdb;
     using Events;
     using Exceptions;
     using Logging;
-    using System.Data.Common;
     using System;
     using System.Collections.Generic;
-    using System.Data.SqlClient;
+    using System.Data;
+    using System.Data.Common;
 
     /// <summary>
     /// 操作事件处理程序
@@ -59,7 +57,7 @@ namespace Anycmd.Engine.Host.Ac.MessageHandlers
                                       UserName ,
                                       CreateOn ,
                                       TargetId ,
-                                      IPAddress
+                                      IpAddress
                                     )
                             VALUES  ( @Id ,
                                       @FunctionId ,
@@ -75,53 +73,40 @@ namespace Anycmd.Engine.Host.Ac.MessageHandlers
                                       @UserName ,
                                       @CreateOn ,
                                       @TargetId ,
-                                      @IPAddress
+                                      @IpAddress
                                     )";
             var ps = new List<DbParameter>();
             if (log.Id == Guid.Empty)
             {
                 log.Id = Guid.NewGuid();
             }
-            var pId = db.CreateParameter();
-            pId.ParameterName = "Id";
-            pId.Value = log.Id;
-            pId.DbType = DbType.Guid;
-            ps.Add(pId);
+            ps.Add(CreateParameter(db, "Id", log.Id, DbType.Guid));
+            ps.Add(CreateParameter(db, "FunctionId", log.FunctionId, DbType.Guid));
+            ps.Add(CreateParameter(db, "AccountId", log.AccountId, DbType.Guid));
+            ps.Add(CreateParameter(db, "EntityTypeId", log.EntityTypeId, DbType.Guid));
+            ps.Add(CreateParameter(db, "AppSystemId", log.AppSystemId, DbType.Guid));
+            ps.Add(CreateParameter(db, "ResourceTypeId", log.ResourceTypeId, DbType.Guid));
+            ps.Add(CreateParameter(db, "TargetId", log.TargetId, DbType.Guid));
+            ps.Add(CreateParameter(db, "EntityTypeName", string.IsNullOrEmpty(log.EntityTypeName) ? DBNull.Value : (object)log.EntityTypeName, DbType.String));
+            ps.Add(CreateParameter(db, "AppSystemName", string.IsNullOrEmpty(log.AppSystemName) ? DBNull.Value : (object)log.AppSystemName, DbType.String));
+            ps.Add(CreateParameter(db, "ResourceName", string.IsNullOrEmpty(log.ResourceName) ? DBNull.Value : (object)log.ResourceName, DbType.String));
+            ps.Add(CreateParameter(db, "Description", string.IsNullOrEmpty(log.Description) ? DBNull.Value : (object)log.Description, DbType.String));
+            ps.Add(CreateParameter(db, "LoginName", string.IsNullOrEmpty(log.LoginName) ? DBNull.Value : (object)log.LoginName, DbType.String));
+            ps.Add(CreateParameter(db, "UserName", string.IsNullOrEmpty(log.UserName) ? DBNull.Value : (object)log.UserName, DbType.String));
+            ps.Add(CreateParameter(db, "IpAddress", string.IsNullOrEmpty(log.IpAddress) ? DBNull.Value : (object)log.IpAddress, DbType.String));
+            ps.Add(CreateParameter(db, "CreateOn", log.CreateOn, DbType.DateTime));
 
-            var pFunctionId = db.CreateParameter();
-            pFunctionId.ParameterName = "FunctionId";
-            pFunctionId.Value = log.FunctionId;
-            pFunctionId.DbType = DbType.Guid;
-            ps.Add(pFunctionId);
-
-            ps.Add(new SqlParameter("AccountId", log.AccountId));
-            ps.Add(new SqlParameter("EntityTypeId", log.EntityTypeId));
-            ps.Add(log.EntityTypeName == null
-                ? new SqlParameter("EntityTypeName", DBNull.Value)
-                : new SqlParameter("EntityTypeName", log.EntityTypeName));
-            ps.Add(new SqlParameter("AppSystemId", log.AppSystemId));
-            ps.Add(log.AppSystemName == null
-                ? new SqlParameter("AppSystemName", DBNull.Value)
-                : new SqlParameter("AppSystemName", log.AppSystemName));
-            ps.Add(new SqlParameter("ResourceTypeId", log.ResourceTypeId));
-            ps.Add(log.ResourceName == null
-                ? new SqlParameter("ResourceName", DBNull.Value)
-                : new SqlParameter("ResourceName", log.ResourceName));
-            ps.Add(log.Description == null
-                ? new SqlParameter("Description", DBNull.Value)
-                : new SqlParameter("Description", log.Description));
-            ps.Add(log.LoginName == null
-                ? new SqlParameter("LoginName", DBNull.Value)
-                : new SqlParameter("LoginName", log.LoginName));
-            ps.Add(log.UserName == null
-                ? new SqlParameter("UserName", DBNull.Value)
-                : new SqlParameter("UserName", log.UserName));
-            ps.Add(new SqlParameter("CreateOn", log.CreateOn));
-            ps.Add(new SqlParameter("TargetId", log.TargetId));
-            ps.Add(log.IpAddress == null
-                ? new SqlParameter("IPAddress", DBNull.Value)
-                : new SqlParameter("IPAddress", log.IpAddress));
             db.ExecuteNonQuery(sql, ps.ToArray());
+        }
+
+        private static DbParameter CreateParameter(RdbDescriptor db, string parameterName, object value, DbType dbType)
+        {
+            var p = db.CreateParameter();
+            p.ParameterName = parameterName;
+            p.Value = value;
+            p.DbType = dbType;
+
+            return p;
         }
     }
 }
