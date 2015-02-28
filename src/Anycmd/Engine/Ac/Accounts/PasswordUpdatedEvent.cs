@@ -6,7 +6,7 @@ namespace Anycmd.Engine.Ac.Accounts
     /// <summary>
     /// 
     /// </summary>
-    public class PasswordUpdatedEvent : DomainEvent
+    public sealed class PasswordUpdatedEvent : DomainEvent
     {
         public PasswordUpdatedEvent(IAcSession acSession, AccountBase source)
             : base(acSession, source)

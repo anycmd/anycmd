@@ -3,7 +3,7 @@ namespace Anycmd.Engine.Ac.Dsd
 {
     using Events;
 
-    public class DsdSetUpdatedEvent : DomainEvent
+    public sealed class DsdSetUpdatedEvent : DomainEvent
     {
         public DsdSetUpdatedEvent(IAcSession acSession, DsdSetBase source, IDsdSetUpdateIo output)
             : base(acSession, source)
@@ -16,5 +16,6 @@ namespace Anycmd.Engine.Ac.Dsd
         }
 
         public IDsdSetUpdateIo Output { get; private set; }
+        internal bool IsPrivate { get; set; }
     }
 }

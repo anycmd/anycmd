@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Ac.Accounts
     using Messages;
     using System;
 
-    public class AssignPasswordCommand : Command, IAnycmdCommand
+    public sealed class AssignPasswordCommand : Command, IAnycmdCommand
     {
         public AssignPasswordCommand(IAcSession acSession, IPasswordAssignIo input)
         {

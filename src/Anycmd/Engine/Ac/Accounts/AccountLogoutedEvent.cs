@@ -6,7 +6,7 @@ namespace Anycmd.Engine.Ac.Accounts
     /// <summary>
     /// 
     /// </summary>
-    public class AccountLogoutedEvent : DomainEvent
+    public sealed class AccountLogoutedEvent : DomainEvent
     {
         public AccountLogoutedEvent(IAcSession acSession, IAccount source)
             : base(acSession, source)

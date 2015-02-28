@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Ac.EntityTypes
     using Messages;
     using System;
 
-    public class AddCommonPropertiesCommand : Command, IAnycmdCommand
+    public sealed class AddCommonPropertiesCommand : Command, IAnycmdCommand
     {
         public AddCommonPropertiesCommand(IAcSession acSession, Guid entityTypeId)
         {

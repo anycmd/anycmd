@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Ac.Accounts
     using Messages;
     using System;
 
-    public class DisableAccountCommand : Command, IAnycmdCommand
+    public sealed class DisableAccountCommand : Command, IAnycmdCommand
     {
         public DisableAccountCommand(IAcSession acSession, Guid accountId)
         {

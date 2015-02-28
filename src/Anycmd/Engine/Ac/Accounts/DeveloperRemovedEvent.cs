@@ -7,8 +7,10 @@ namespace Anycmd.Engine.Ac.Accounts
     /// <summary>
     /// 
     /// </summary>
-    public class DeveloperRemovedEvent : DomainEvent
+    public sealed class DeveloperRemovedEvent : DomainEvent
     {
         public DeveloperRemovedEvent(IAcSession acSession, DeveloperId source) : base(acSession, source) { }
+
+        internal bool IsPrivate { get; set; }
     }
 }

@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Ac.Accounts
     using Messages;
     using System;
 
-    public class RemoveDeveloperCommand: Command, IAnycmdCommand
+    public sealed class RemoveDeveloperCommand : Command, IAnycmdCommand
     {
         public RemoveDeveloperCommand(IAcSession acSession, Guid accountId)
         {

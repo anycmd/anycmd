@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Ac.Accounts
     using Messages;
     using System;
 
-    public class AddDeveloperCommand : Command, IAnycmdCommand
+    public sealed class AddDeveloperCommand : Command, IAnycmdCommand
     {
         public AddDeveloperCommand(IAcSession acSession, Guid accountId)
         {

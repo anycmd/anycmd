@@ -4,7 +4,7 @@ namespace Anycmd.Engine.Ac.Accounts
     using Commands;
     using System;
 
-    public class EnableAccountCommand : Command
+    public sealed class EnableAccountCommand : Command
     {
         public EnableAccountCommand(IAcSession acSession, Guid accountId)
         {

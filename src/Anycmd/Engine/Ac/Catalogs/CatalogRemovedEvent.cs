@@ -7,7 +7,7 @@ namespace Anycmd.Engine.Ac.Catalogs
     /// <summary>
     /// 
     /// </summary>
-    public class CatalogRemovedEvent : DomainEvent
+    public sealed class CatalogRemovedEvent : DomainEvent
     {
         public CatalogRemovedEvent(IAcSession acSession, CatalogBase source)
             : base(acSession, source)
@@ -20,5 +20,6 @@ namespace Anycmd.Engine.Ac.Catalogs
         }
 
         public string CatalogCode { get; private set; }
+        internal bool IsPrivate { get; set; }
     }
 }

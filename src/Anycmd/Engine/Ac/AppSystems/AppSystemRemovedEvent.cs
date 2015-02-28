@@ -6,11 +6,12 @@ namespace Anycmd.Engine.Ac.AppSystems
     /// <summary>
     /// 
     /// </summary>
-    public class AppSystemRemovedEvent : DomainEvent
+    public sealed class AppSystemRemovedEvent : DomainEvent
     {
         public AppSystemRemovedEvent(IAcSession acSession, AppSystemBase source)
             : base(acSession, source)
         {
         }
+        internal bool IsPrivate { get; set; }
     }
 }

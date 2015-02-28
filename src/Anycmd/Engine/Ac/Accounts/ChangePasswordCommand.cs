@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Ac.Accounts
     using Messages;
     using System;
 
-    public class ChangePasswordCommand : Command, IAnycmdCommand
+    public sealed class ChangePasswordCommand : Command, IAnycmdCommand
     {
         public ChangePasswordCommand(IAcSession acSession, IPasswordChangeIo input)
         {

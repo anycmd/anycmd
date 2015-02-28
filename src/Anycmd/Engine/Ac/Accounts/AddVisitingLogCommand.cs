@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Ac.Accounts
     using Messages;
     using System;
 
-    public class AddVisitingLogCommand : Command, IAnycmdCommand
+    public sealed class AddVisitingLogCommand : Command, IAnycmdCommand
     {
         public AddVisitingLogCommand(IAcSession acSession)
         {

@@ -224,7 +224,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(AppSystemAddedEvent message)
             {
-                if (message.GetType() == typeof(PrivateAppSystemAddedEvent))
+                if (message.IsPrivate)
                 {
                     return;
                 }
@@ -300,15 +300,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 // 如果是命令则分发事件
                 if (isCommand)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new PrivateAppSystemAddedEvent(acSession, entity, input));
-                }
-            }
-
-            private class PrivateAppSystemAddedEvent : AppSystemAddedEvent, IPrivateEvent
-            {
-                internal PrivateAppSystemAddedEvent(IAcSession acSession, AppSystemBase source, IAppSystemCreateIo input)
-                    : base(acSession, source, input)
-                {
+                    acDomain.MessageDispatcher.DispatchMessage(new AppSystemAddedEvent(acSession, entity, input) { IsPrivate = true });
                 }
             }
 
@@ -319,7 +311,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(AppSystemUpdatedEvent message)
             {
-                if (message.GetType() == typeof(PrivateAppSystemUpdatedEvent))
+                if (message.IsPrivate)
                 {
                     return;
                 }
@@ -387,7 +379,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new PrivateAppSystemUpdatedEvent(acSession, entity, input));
+                    acDomain.MessageDispatcher.DispatchMessage(new AppSystemUpdatedEvent(acSession, entity, input) { IsPrivate = true });
                 }
             }
 
@@ -411,15 +403,6 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
             }
 
-            private class PrivateAppSystemUpdatedEvent : AppSystemUpdatedEvent, IPrivateEvent
-            {
-                internal PrivateAppSystemUpdatedEvent(IAcSession acSession, AppSystemBase source, IAppSystemUpdateIo input)
-                    : base(acSession, source, input)
-                {
-
-                }
-            }
-
             public void Handle(RemoveAppSystemCommand message)
             {
                 Handle(message.AcSession, message.EntityId, true);
@@ -427,7 +410,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(AppSystemRemovedEvent message)
             {
-                if (message.GetType() == typeof(PrivateAppSystemRemovedEvent))
+                if (message.IsPrivate)
                 {
                     return;
                 }
@@ -502,13 +485,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new PrivateAppSystemRemovedEvent(acSession, entity));
+                    acDomain.MessageDispatcher.DispatchMessage(new AppSystemRemovedEvent(acSession, entity) { IsPrivate = true });
                 }
-            }
-
-            private class PrivateAppSystemRemovedEvent : AppSystemRemovedEvent, IPrivateEvent
-            {
-                internal PrivateAppSystemRemovedEvent(IAcSession acSession, AppSystemBase source) : base(acSession, source) { }
             }
         }
         #endregion

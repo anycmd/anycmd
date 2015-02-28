@@ -169,7 +169,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(DeveloperAddedEvent message)
             {
-                if (message.GetType() == typeof(PrivateDeveloperAddedEvent))
+                if (message.IsPrivate)
                 {
                     return;
                 }
@@ -221,13 +221,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new PrivateDeveloperAddedEvent(acSession, entity));
+                    acDomain.MessageDispatcher.DispatchMessage(new DeveloperAddedEvent(acSession, entity) { IsPrivate = true });
                 }
-            }
-
-            private class PrivateDeveloperAddedEvent : DeveloperAddedEvent, IPrivateEvent
-            {
-                internal PrivateDeveloperAddedEvent(IAcSession acSession, DeveloperId source) : base(acSession, source) { }
             }
 
             public void Handle(DeveloperUpdatedEvent message)
@@ -260,7 +255,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(DeveloperRemovedEvent message)
             {
-                if (message.GetType() == typeof(PrivateDeveloperRemovedEvent))
+                if (message.IsPrivate)
                 {
                     return;
                 }
@@ -310,13 +305,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new PrivateDeveloperRemovedEvent(acSession, entity));
+                    acDomain.MessageDispatcher.DispatchMessage(new DeveloperRemovedEvent(acSession, entity) { IsPrivate = true });
                 }
-            }
-
-            private class PrivateDeveloperRemovedEvent : DeveloperRemovedEvent, IPrivateEvent
-            {
-                internal PrivateDeveloperRemovedEvent(IAcSession acSession, DeveloperId source) : base(acSession, source) { }
             }
         }
     }

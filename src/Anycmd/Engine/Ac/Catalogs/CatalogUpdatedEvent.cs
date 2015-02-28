@@ -6,7 +6,7 @@ namespace Anycmd.Engine.Ac.Catalogs
     /// <summary>
     /// 
     /// </summary>
-    public class CatalogUpdatedEvent : DomainEvent
+    public sealed class CatalogUpdatedEvent : DomainEvent
     {
         public CatalogUpdatedEvent(IAcSession acSession, CatalogBase source, ICatalogUpdateIo input)
             : base(acSession, source)
@@ -19,5 +19,6 @@ namespace Anycmd.Engine.Ac.Catalogs
         }
 
         public ICatalogUpdateIo Input { get; private set; }
+        internal bool IsPrivate { get; set; }
     }
 }

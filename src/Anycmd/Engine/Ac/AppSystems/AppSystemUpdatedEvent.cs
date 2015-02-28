@@ -7,7 +7,7 @@ namespace Anycmd.Engine.Ac.AppSystems
     /// <summary>
     /// 
     /// </summary>
-    public class AppSystemUpdatedEvent : DomainEvent
+    public sealed class AppSystemUpdatedEvent : DomainEvent
     {
         public AppSystemUpdatedEvent(IAcSession acSession, AppSystemBase source, IAppSystemUpdateIo input)
             : base(acSession, source)
@@ -20,5 +20,6 @@ namespace Anycmd.Engine.Ac.AppSystems
         }
 
         public IAppSystemUpdateIo Input { get; private set; }
+        internal bool IsPrivate { get; set; }
     }
 }

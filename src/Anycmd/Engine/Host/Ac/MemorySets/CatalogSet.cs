@@ -164,7 +164,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(CatalogAddedEvent message)
             {
-                if (message.GetType() == typeof(PrivateCatalogAddedEvent))
+                if (message.IsPrivate)
                 {
                     return;
                 }
@@ -259,16 +259,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new PrivateCatalogAddedEvent(acSession, entity, input));
-                }
-            }
-
-            private class PrivateCatalogAddedEvent : CatalogAddedEvent, IPrivateEvent
-            {
-                internal PrivateCatalogAddedEvent(IAcSession acSession, CatalogBase source, ICatalogCreateIo input)
-                    : base(acSession, source, input)
-                {
-
+                    acDomain.MessageDispatcher.DispatchMessage(new CatalogAddedEvent(acSession, entity, input) { IsPrivate = true });
                 }
             }
 
@@ -279,7 +270,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(CatalogUpdatedEvent message)
             {
-                if (message.GetType() == typeof(PrivateCatalogUpdatedEvent))
+                if (message.IsPrivate)
                 {
                     return;
                 }
@@ -362,7 +353,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new PrivateCatalogUpdatedEvent(acSession, entity, input));
+                    acDomain.MessageDispatcher.DispatchMessage(new CatalogUpdatedEvent(acSession, entity, input) { IsPrivate = true });
                 }
             }
 
@@ -384,11 +375,6 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
             }
 
-            private class PrivateCatalogUpdatedEvent : CatalogUpdatedEvent, IPrivateEvent
-            {
-                internal PrivateCatalogUpdatedEvent(IAcSession acSession, CatalogBase source, ICatalogUpdateIo input) : base(acSession, source, input) { }
-            }
-
             public void Handle(RemoveCatalogCommand message)
             {
                 this.Handle(message.AcSession, message.EntityId, true);
@@ -396,7 +382,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(CatalogRemovedEvent message)
             {
-                if (message.GetType() == typeof(PrivateCatalogRemovedEvent))
+                if (message.IsPrivate)
                 {
                     return;
                 }
@@ -461,16 +447,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new PrivateCatalogRemovedEvent(acSession, entity));
-                }
-            }
-
-            private class PrivateCatalogRemovedEvent : CatalogRemovedEvent, IPrivateEvent
-            {
-                internal PrivateCatalogRemovedEvent(IAcSession acSession, CatalogBase source)
-                    : base(acSession, source)
-                {
-
+                    acDomain.MessageDispatcher.DispatchMessage(new CatalogRemovedEvent(acSession, entity) { IsPrivate = true });
                 }
             }
         }
