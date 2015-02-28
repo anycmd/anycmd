@@ -206,11 +206,11 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
         #region MessageHandler
         private class MessageHandler :
-            IHandler<EntityTypeRemovedEvent>, 
-            IHandler<AddEntityTypeCommand>, 
-            IHandler<EntityTypeAddedEvent>, 
-            IHandler<UpdateEntityTypeCommand>, 
-            IHandler<EntityTypeUpdatedEvent>, 
+            IHandler<EntityTypeRemovedEvent>,
+            IHandler<AddEntityTypeCommand>,
+            IHandler<EntityTypeAddedEvent>,
+            IHandler<UpdateEntityTypeCommand>,
+            IHandler<EntityTypeUpdatedEvent>,
             IHandler<RemoveEntityTypeCommand>
         {
             private readonly EntityTypeSet _set;
@@ -242,7 +242,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(EntityTypeAddedEvent message)
             {
-                if (message.GetType() == typeof(PrivateEntityTypeAddedEvent))
+                if (message.IsPrivate)
                 {
                     return;
                 }
@@ -316,16 +316,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new PrivateEntityTypeAddedEvent(acSession, entity, input));
-                }
-            }
-
-            private class PrivateEntityTypeAddedEvent : EntityTypeAddedEvent, IPrivateEvent
-            {
-                internal PrivateEntityTypeAddedEvent(IAcSession acSession, EntityTypeBase source, IEntityTypeCreateIo input)
-                    : base(acSession, source, input)
-                {
-
+                    acDomain.MessageDispatcher.DispatchMessage(new EntityTypeAddedEvent(acSession, entity, input) { IsPrivate = true });
                 }
             }
 
@@ -336,7 +327,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(EntityTypeUpdatedEvent message)
             {
-                if (message.GetType() == typeof(PrivateEntityTypeUpdatedEvent))
+                if (message.IsPrivate)
                 {
                     return;
                 }
@@ -400,7 +391,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new PrivateEntityTypeUpdatedEvent(acSession, entity, input));
+                    acDomain.MessageDispatcher.DispatchMessage(new EntityTypeUpdatedEvent(acSession, entity, input) { IsPrivate = true });
                 }
             }
 
@@ -434,15 +425,6 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
             }
 
-            private class PrivateEntityTypeUpdatedEvent : EntityTypeUpdatedEvent, IPrivateEvent
-            {
-                internal PrivateEntityTypeUpdatedEvent(IAcSession acSession, EntityTypeBase source, IEntityTypeUpdateIo input)
-                    : base(acSession, source, input)
-                {
-
-                }
-            }
-
             public void Handle(RemoveEntityTypeCommand message)
             {
                 this.Handle(message.AcSession, message.EntityId, true);
@@ -450,7 +432,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(EntityTypeRemovedEvent message)
             {
-                if (message.GetType() == typeof(PrivateEntityTypeRemovedEvent))
+                if (message.IsPrivate)
                 {
                     return;
                 }
@@ -522,16 +504,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new PrivateEntityTypeRemovedEvent(acSession, entity));
-                }
-            }
-
-            private class PrivateEntityTypeRemovedEvent : EntityTypeRemovedEvent, IPrivateEvent
-            {
-                internal PrivateEntityTypeRemovedEvent(IAcSession acSession, EntityTypeBase source)
-                    : base(acSession, source)
-                {
-
+                    acDomain.MessageDispatcher.DispatchMessage(new EntityTypeRemovedEvent(acSession, entity) { IsPrivate = true });
                 }
             }
         }
@@ -638,7 +611,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 {
                     Init();
                 }
-                return ((IEnumerable<PropertyState>) _dicById.Values).GetEnumerator();
+                return ((IEnumerable<PropertyState>)_dicById.Values).GetEnumerator();
             }
 
             IEnumerator IEnumerable.GetEnumerator()
@@ -689,7 +662,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             #endregion
 
             #region PropertyMessageHandler
-            private class PropertyMessageHandler:
+            private class PropertyMessageHandler :
                 IHandler<AddPropertyCommand>,
                 IHandler<PropertyAddedEvent>,
                 IHandler<AddCommonPropertiesCommand>,
@@ -762,7 +735,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 public void Handle(PropertyAddedEvent message)
                 {
-                    if (message.GetType() == typeof(PrivatePropertyAddedEvent))
+                    if (message.IsPrivate)
                     {
                         return;
                     }
@@ -840,16 +813,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                     if (isCommand)
                     {
-                        acDomain.MessageDispatcher.DispatchMessage(new PrivatePropertyAddedEvent(acSession, entity, input));
-                    }
-                }
-
-                private class PrivatePropertyAddedEvent : PropertyAddedEvent, IPrivateEvent
-                {
-                    internal PrivatePropertyAddedEvent(IAcSession acSession, PropertyBase source, IPropertyCreateIo input)
-                        : base(acSession, source, input)
-                    {
-
+                        acDomain.MessageDispatcher.DispatchMessage(new PropertyAddedEvent(acSession, entity, input) { IsPrivate = true });
                     }
                 }
 
@@ -1146,7 +1110,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 public void Handle(PropertyUpdatedEvent message)
                 {
-                    if (message.GetType() == typeof(PrivatePropertyUpdatedEvent))
+                    if (message.IsPrivate)
                     {
                         return;
                     }
@@ -1215,7 +1179,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                     if (isCommand && stateChanged)
                     {
-                        acDomain.MessageDispatcher.DispatchMessage(new PrivatePropertyUpdatedEvent(acSession, entity, input));
+                        acDomain.MessageDispatcher.DispatchMessage(new PropertyUpdatedEvent(acSession, entity, input) { IsPrivate = true });
                     }
                 }
 
@@ -1244,15 +1208,6 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                 }
 
-                private class PrivatePropertyUpdatedEvent : PropertyUpdatedEvent, IPrivateEvent
-                {
-                    internal PrivatePropertyUpdatedEvent(IAcSession acSession, PropertyBase source, IPropertyUpdateIo input)
-                        : base(acSession, source, input)
-                    {
-
-                    }
-                }
-
                 public void Handle(RemovePropertyCommand message)
                 {
                     this.Handle(message.AcSession, message.EntityId, true);
@@ -1260,7 +1215,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 public void Handle(PropertyRemovedEvent message)
                 {
-                    if (message.GetType() == typeof(PrivatePropertyRemovedEvent))
+                    if (message.IsPrivate)
                     {
                         return;
                     }
@@ -1327,16 +1282,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                     if (isCommand)
                     {
-                        acDomain.MessageDispatcher.DispatchMessage(new PrivatePropertyRemovedEvent(acSession, entity));
-                    }
-                }
-
-                private class PrivatePropertyRemovedEvent : PropertyRemovedEvent, IPrivateEvent
-                {
-                    internal PrivatePropertyRemovedEvent(IAcSession acSession, PropertyBase source)
-                        : base(acSession, source)
-                    {
-
+                        acDomain.MessageDispatcher.DispatchMessage(new PropertyRemovedEvent(acSession, entity) { IsPrivate = true });
                     }
                 }
             }

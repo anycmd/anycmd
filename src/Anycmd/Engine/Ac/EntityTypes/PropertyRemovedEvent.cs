@@ -6,11 +6,13 @@ namespace Anycmd.Engine.Ac.EntityTypes
     /// <summary>
     /// 
     /// </summary>
-    public class PropertyRemovedEvent : DomainEvent
+    public sealed class PropertyRemovedEvent : DomainEvent
     {
         public PropertyRemovedEvent(IAcSession acSession, PropertyBase source)
             : base(acSession, source)
         {
         }
+
+        internal bool IsPrivate { get; set; }
     }
 }

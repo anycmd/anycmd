@@ -6,7 +6,7 @@ namespace Anycmd.Engine.Ac.EntityTypes
     /// <summary>
     /// 
     /// </summary>
-    public class EntityTypeUpdatedEvent : DomainEvent
+    public sealed class EntityTypeUpdatedEvent : DomainEvent
     {
         public EntityTypeUpdatedEvent(IAcSession acSession, EntityTypeBase source, IEntityTypeUpdateIo input)
             : base(acSession, source)
@@ -19,5 +19,6 @@ namespace Anycmd.Engine.Ac.EntityTypes
         }
 
         public IEntityTypeUpdateIo Input { get; private set; }
+        internal bool IsPrivate { get; set; }
     }
 }

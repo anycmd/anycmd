@@ -6,7 +6,7 @@ namespace Anycmd.Engine.Ac.EntityTypes
     /// <summary>
     /// 
     /// </summary>
-    public class PropertyUpdatedEvent : DomainEvent
+    public sealed class PropertyUpdatedEvent : DomainEvent
     {
         public PropertyUpdatedEvent(IAcSession acSession, PropertyBase source, IPropertyUpdateIo input)
             : base(acSession, source)
@@ -19,5 +19,6 @@ namespace Anycmd.Engine.Ac.EntityTypes
         }
 
         public IPropertyUpdateIo Input { get; private set; }
+        internal bool IsPrivate { get; set; }
     }
 }
