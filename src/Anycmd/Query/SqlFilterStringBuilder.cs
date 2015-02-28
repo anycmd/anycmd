@@ -5,6 +5,7 @@ namespace Anycmd.Query
     using System;
     using System.Collections.Generic;
     using System.Data.SqlClient;
+    using System.Globalization;
     using System.Linq;
     using System.Text;
     using Util;
@@ -49,12 +50,12 @@ namespace Anycmd.Query
                     {
                         value = "%" + value + "%";
                     }
-                    prams.Add(new SqlParameter(filter.field + i.ToString(), value));
+                    prams.Add(new SqlParameter(filter.field + i.ToString(CultureInfo.InvariantCulture), value));
                 }
                 else
                 {
                     result.Append(comparision).Append("@").Append(filter.field).Append(i);
-                    prams.Add(new SqlParameter(filter.field + i.ToString(), filter.value));
+                    prams.Add(new SqlParameter(filter.field + i.ToString(CultureInfo.InvariantCulture), filter.value));
                 }
                 result.Append(" and ");
                 i++;
@@ -73,7 +74,7 @@ namespace Anycmd.Query
                 {
                     throw new ValidationException("'" + filter.value + "'不是Guid类型的");
                 }
-                prams.Add(new SqlParameter(filter.field + i.ToString(), filter.value));
+                prams.Add(new SqlParameter(filter.field + i.ToString(CultureInfo.InvariantCulture), filter.value));
                 result.Append(" and ");
                 i++;
             }
@@ -90,8 +91,8 @@ namespace Anycmd.Query
                 {
                     throw new ValidationException("'" + filter.value + "'不是boolean类型的");
                 }
-                result.Append(alias, useAlias).Append(".", useAlias).Append(filter.field).Append("=@").Append(filter.field).Append(i.ToString()).Append(" and ");
-                var p = new SqlParameter(filter.field + i.ToString(), typeof(bool)) {Value = v};
+                result.Append(alias, useAlias).Append(".", useAlias).Append(filter.field).Append("=@").Append(filter.field).Append(i.ToString(CultureInfo.InvariantCulture)).Append(" and ");
+                var p = new SqlParameter(filter.field + i.ToString(CultureInfo.InvariantCulture), typeof(bool)) { Value = v };
                 prams.Add(p);
                 i++;
             }
@@ -117,12 +118,12 @@ namespace Anycmd.Query
                 int j = 0;
                 foreach (var filter in g)
                 {
-                    iiStr += alias + "." + filter.field + this.GetComparison(filter.comparison) + "@" + filter.field + i.ToString() + j.ToString() + " and ";
+                    iiStr += alias + "." + filter.field + this.GetComparison(filter.comparison) + "@" + filter.field + i.ToString(CultureInfo.InvariantCulture) + j.ToString(CultureInfo.InvariantCulture) + " and ";
                     if (filter.value.GetType() != typeof(int))
                     {
                         throw new ValidationException("'" + filter.value + "'不是int类型的");
                     }
-                    prams.Add(new SqlParameter(filter.field + i.ToString() + j.ToString(), filter.value));
+                    prams.Add(new SqlParameter(filter.field + i.ToString(CultureInfo.InvariantCulture) + j.ToString(CultureInfo.InvariantCulture), filter.value));
                     j++;
                 }
                 result.Append(iiStr.Substring(0, iiStr.Length - " and".Length));
@@ -142,8 +143,8 @@ namespace Anycmd.Query
                 string iiStr = string.Empty;
                 foreach (var filter in g)
                 {
-                    iiStr += alias + "." + filter.field + this.GetComparison(filter.comparison) + " @" + filter.field + i.ToString() + j.ToString() + ")" + " and ";
-                    prams.Add(new SqlParameter(filter.field + i.ToString() + j.ToString(), filter.value));
+                    iiStr += alias + "." + filter.field + this.GetComparison(filter.comparison) + " @" + filter.field + i.ToString(CultureInfo.InvariantCulture) + j.ToString(CultureInfo.InvariantCulture) + ")" + " and ";
+                    prams.Add(new SqlParameter(filter.field + i.ToString(CultureInfo.InvariantCulture) + j.ToString(CultureInfo.InvariantCulture), filter.value));
                     j++;
                 }
                 result.Append(iiStr.Substring(0, iiStr.Length - " and".Length));
@@ -158,8 +159,8 @@ namespace Anycmd.Query
             var listList = from f in filters where f.type == "list" select f;
             foreach (var filter in listList)
             {
-                result.Append(alias, useAlias).Append(".", useAlias).Append(filter.field).Append(" in @").Append(filter.field).Append(i.ToString()).Append(" and ");
-                prams.Add(new SqlParameter(filter.field + i.ToString(), filter.value.ToString().Replace("[", "( ").Replace("]", " )").Replace("\"", "'")));
+                result.Append(alias, useAlias).Append(".", useAlias).Append(filter.field).Append(" in @").Append(filter.field).Append(i.ToString(CultureInfo.InvariantCulture)).Append(" and ");
+                prams.Add(new SqlParameter(filter.field + i.ToString(CultureInfo.InvariantCulture), filter.value.ToString().Replace("[", "( ").Replace("]", " )").Replace("\"", "'")));
                 i++;
             }
             #endregion
