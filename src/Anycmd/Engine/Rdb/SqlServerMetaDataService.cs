@@ -7,7 +7,6 @@ namespace Anycmd.Engine.Rdb
     using System.Configuration;
     using System.Data;
     using System.Data.Common;
-    using System.Data.SqlClient;
     using System.Diagnostics;
     using System.Text;
     using Util;
@@ -359,31 +358,31 @@ ORDER BY " + sortField + " " + sortOrder +
                     if (description == null && table.Description != null)
                     {
                         db.ExecuteNonQuery(dropProcName, CommandType.StoredProcedure,
-                            new SqlParameter("name", propertyName),
-                            new SqlParameter("level0type", "SCHEMA"),
-                            new SqlParameter("level0name", table.SchemaName),
-                            new SqlParameter("level1type", "TABLE"),
-                            new SqlParameter("level1name", table.Name));
+                            CreateParameter(db, "name", propertyName, DbType.String),
+                            CreateParameter(db, "level0type", "SCHEMA", DbType.String),
+                            CreateParameter(db, "level0name", table.SchemaName, DbType.String),
+                            CreateParameter(db, "level1type", "TABLE", DbType.String),
+                            CreateParameter(db, "level1name", table.Name, DbType.String));
                     }
                     else if (table.Description == null)
                     {
                         db.ExecuteNonQuery(addProcName, CommandType.StoredProcedure,
-                            new SqlParameter("name", propertyName),
-                            new SqlParameter("value", description),
-                            new SqlParameter("level0type", "SCHEMA"),
-                            new SqlParameter("level0name", table.SchemaName),
-                            new SqlParameter("level1type", "TABLE"),
-                            new SqlParameter("level1name", table.Name));
+                            CreateParameter(db, "name", propertyName, DbType.String),
+                            CreateParameter(db, "value", description, DbType.String),
+                            CreateParameter(db, "level0type", "SCHEMA", DbType.String),
+                            CreateParameter(db, "level0name", table.SchemaName, DbType.String),
+                            CreateParameter(db, "level1type", "TABLE", DbType.String),
+                            CreateParameter(db, "level1name", table.Name, DbType.String));
                     }
                     else
                     {
                         db.ExecuteNonQuery(updateProcName, CommandType.StoredProcedure,
-                            new SqlParameter("name", propertyName),
-                            new SqlParameter("value", description),
-                            new SqlParameter("level0type", "SCHEMA"),
-                            new SqlParameter("level0name", table.SchemaName),
-                            new SqlParameter("level1type", "TABLE"),
-                            new SqlParameter("level1name", table.Name));
+                            CreateParameter(db, "name", propertyName, DbType.String),
+                            CreateParameter(db, "value", description, DbType.String),
+                            CreateParameter(db, "level0type", "SCHEMA", DbType.String),
+                            CreateParameter(db, "level0name", table.SchemaName, DbType.String),
+                            CreateParameter(db, "level1type", "TABLE", DbType.String),
+                            CreateParameter(db, "level1name", table.Name, DbType.String));
                     }
                     table.Description = description;
                     #endregion
@@ -398,31 +397,31 @@ ORDER BY " + sortField + " " + sortOrder +
                     if (description == null && view.Description != null)
                     {
                         db.ExecuteNonQuery(dropProcName, CommandType.StoredProcedure,
-                            new SqlParameter("name", propertyName),
-                            new SqlParameter("level0type", "SCHEMA"),
-                            new SqlParameter("level0name", view.SchemaName),
-                            new SqlParameter("level1type", "VIEW"),
-                            new SqlParameter("level1name", view.Name));
+                            CreateParameter(db, "name", propertyName, DbType.String),
+                            CreateParameter(db, "level0type", "SCHEMA", DbType.String),
+                            CreateParameter(db, "level0name", view.SchemaName, DbType.String),
+                            CreateParameter(db, "level1type", "VIEW", DbType.String),
+                            CreateParameter(db, "level1name", view.Name, DbType.String));
                     }
                     else if (view.Description == null)
                     {
                         db.ExecuteNonQuery(addProcName, CommandType.StoredProcedure,
-                            new SqlParameter("name", propertyName),
-                            new SqlParameter("value", description),
-                            new SqlParameter("level0type", "SCHEMA"),
-                            new SqlParameter("level0name", view.SchemaName),
-                            new SqlParameter("level1type", "VIEW"),
-                            new SqlParameter("level1name", view.Name));
+                            CreateParameter(db, "name", propertyName, DbType.String),
+                            CreateParameter(db, "value", description, DbType.String),
+                            CreateParameter(db, "level0type", "SCHEMA", DbType.String),
+                            CreateParameter(db, "level0name", view.SchemaName, DbType.String),
+                            CreateParameter(db, "level1type", "VIEW", DbType.String),
+                            CreateParameter(db, "level1name", view.Name, DbType.String));
                     }
                     else
                     {
                         db.ExecuteNonQuery(updateProcName, CommandType.StoredProcedure,
-                            new SqlParameter("name", propertyName),
-                            new SqlParameter("value", description),
-                            new SqlParameter("level0type", "SCHEMA"),
-                            new SqlParameter("level0name", view.SchemaName),
-                            new SqlParameter("level1type", "VIEW"),
-                            new SqlParameter("level1name", view.Name));
+                            CreateParameter(db, "name", propertyName, DbType.String),
+                            CreateParameter(db, "value", description, DbType.String),
+                            CreateParameter(db, "level0type", "SCHEMA", DbType.String),
+                            CreateParameter(db, "level0name", view.SchemaName, DbType.String),
+                            CreateParameter(db, "level1type", "VIEW", DbType.String),
+                            CreateParameter(db, "level1name", view.Name, DbType.String));
                     }
                     view.Description = description;
                     #endregion
@@ -437,37 +436,37 @@ ORDER BY " + sortField + " " + sortOrder +
                     if (description == null && tableColumn.Description != null)
                     {
                         db.ExecuteNonQuery(dropProcName, CommandType.StoredProcedure,
-                            new SqlParameter("name", propertyName),
-                            new SqlParameter("level0type", "SCHEMA"),
-                            new SqlParameter("level0name", tableColumn.SchemaName),
-                            new SqlParameter("level1type", "TABLE"),
-                            new SqlParameter("level1name", tableColumn.TableName),
-                            new SqlParameter("level2type", "COLUMN"),
-                            new SqlParameter("level2name", tableColumn.Name));
+                            CreateParameter(db, "name", propertyName, DbType.String),
+                            CreateParameter(db, "level0type", "SCHEMA", DbType.String),
+                            CreateParameter(db, "level0name", tableColumn.SchemaName, DbType.String),
+                            CreateParameter(db, "level1type", "TABLE", DbType.String),
+                            CreateParameter(db, "level1name", tableColumn.TableName, DbType.String),
+                            CreateParameter(db, "level2type", "COLUMN", DbType.String),
+                            CreateParameter(db, "level2name", tableColumn.Name, DbType.String));
                     }
                     else if (tableColumn.Description == null)
                     {
                         db.ExecuteNonQuery(addProcName, CommandType.StoredProcedure,
-                            new SqlParameter("name", propertyName),
-                            new SqlParameter("value", description),
-                            new SqlParameter("level0type", "SCHEMA"),
-                            new SqlParameter("level0name", tableColumn.SchemaName),
-                            new SqlParameter("level1type", "TABLE"),
-                            new SqlParameter("level1name", tableColumn.TableName),
-                            new SqlParameter("level2type", "COLUMN"),
-                            new SqlParameter("level2name", tableColumn.Name));
+                            CreateParameter(db, "name", propertyName, DbType.String),
+                            CreateParameter(db, "value", description, DbType.String),
+                            CreateParameter(db, "level0type", "SCHEMA", DbType.String),
+                            CreateParameter(db, "level0name", tableColumn.SchemaName, DbType.String),
+                            CreateParameter(db, "level1type", "TABLE", DbType.String),
+                            CreateParameter(db, "level1name", tableColumn.TableName, DbType.String),
+                            CreateParameter(db, "level2type", "COLUMN", DbType.String),
+                            CreateParameter(db, "level2name", tableColumn.Name, DbType.String));
                     }
                     else
                     {
                         db.ExecuteNonQuery(updateProcName, CommandType.StoredProcedure,
-                            new SqlParameter("name", propertyName),
-                            new SqlParameter("value", description),
-                            new SqlParameter("level0type", "SCHEMA"),
-                            new SqlParameter("level0name", tableColumn.SchemaName),
-                            new SqlParameter("level1type", "TABLE"),
-                            new SqlParameter("level1name", tableColumn.TableName),
-                            new SqlParameter("level2type", "COLUMN"),
-                            new SqlParameter("level2name", tableColumn.Name));
+                            CreateParameter(db, "name", propertyName, DbType.String),
+                            CreateParameter(db, "value", description, DbType.String),
+                            CreateParameter(db, "level0type", "SCHEMA", DbType.String),
+                            CreateParameter(db, "level0name", tableColumn.SchemaName, DbType.String),
+                            CreateParameter(db, "level1type", "TABLE", DbType.String),
+                            CreateParameter(db, "level1name", tableColumn.TableName, DbType.String),
+                            CreateParameter(db, "level2type", "COLUMN", DbType.String),
+                            CreateParameter(db, "level2name", tableColumn.Name, DbType.String));
                     }
                     tableColumn.Description = description;
                     #endregion
@@ -482,37 +481,37 @@ ORDER BY " + sortField + " " + sortOrder +
                     if (description == null && viewColumn.Description != null)
                     {
                         db.ExecuteNonQuery(dropProcName, CommandType.StoredProcedure,
-                            new SqlParameter("name", propertyName),
-                            new SqlParameter("level0type", "SCHEMA"),
-                            new SqlParameter("level0name", viewColumn.SchemaName),
-                            new SqlParameter("level1type", "VIEW"),
-                            new SqlParameter("level1name", viewColumn.ViewName),
-                            new SqlParameter("level2type", "COLUMN"),
-                            new SqlParameter("level2name", viewColumn.Name));
+                            CreateParameter(db, "name", propertyName, DbType.String),
+                            CreateParameter(db, "level0type", "SCHEMA", DbType.String),
+                            CreateParameter(db, "level0name", viewColumn.SchemaName, DbType.String),
+                            CreateParameter(db, "level1type", "VIEW", DbType.String),
+                            CreateParameter(db, "level1name", viewColumn.ViewName, DbType.String),
+                            CreateParameter(db, "level2type", "COLUMN", DbType.String),
+                            CreateParameter(db, "level2name", viewColumn.Name, DbType.String));
                     }
                     else if (viewColumn.Description == null)
                     {
                         db.ExecuteNonQuery(addProcName, CommandType.StoredProcedure,
-                            new SqlParameter("name", propertyName),
-                            new SqlParameter("value", description),
-                            new SqlParameter("level0type", "SCHEMA"),
-                            new SqlParameter("level0name", viewColumn.SchemaName),
-                            new SqlParameter("level1type", "VIEW"),
-                            new SqlParameter("level1name", viewColumn.ViewName),
-                            new SqlParameter("level2type", "COLUMN"),
-                            new SqlParameter("level2name", viewColumn.Name));
+                            CreateParameter(db, "name", propertyName, DbType.String),
+                            CreateParameter(db, "value", description, DbType.String),
+                            CreateParameter(db, "level0type", "SCHEMA", DbType.String),
+                            CreateParameter(db, "level0name", viewColumn.SchemaName, DbType.String),
+                            CreateParameter(db, "level1type", "VIEW", DbType.String),
+                            CreateParameter(db, "level1name", viewColumn.ViewName, DbType.String),
+                            CreateParameter(db, "level2type", "COLUMN", DbType.String),
+                            CreateParameter(db, "level2name", viewColumn.Name, DbType.String));
                     }
                     else
                     {
                         db.ExecuteNonQuery(updateProcName, CommandType.StoredProcedure,
-                            new SqlParameter("name", propertyName),
-                            new SqlParameter("value", description),
-                            new SqlParameter("level0type", "SCHEMA"),
-                            new SqlParameter("level0name", viewColumn.SchemaName),
-                            new SqlParameter("level1type", "VIEW"),
-                            new SqlParameter("level1name", viewColumn.ViewName),
-                            new SqlParameter("level2type", "COLUMN"),
-                            new SqlParameter("level2name", viewColumn.Name));
+                            CreateParameter(db, "name", propertyName, DbType.String),
+                            CreateParameter(db, "value", description, DbType.String),
+                            CreateParameter(db, "level0type", "SCHEMA", DbType.String),
+                            CreateParameter(db, "level0name", viewColumn.SchemaName, DbType.String),
+                            CreateParameter(db, "level1type", "VIEW", DbType.String),
+                            CreateParameter(db, "level1name", viewColumn.ViewName, DbType.String),
+                            CreateParameter(db, "level2type", "COLUMN", DbType.String),
+                            CreateParameter(db, "level2name", viewColumn.Name, DbType.String));
                     }
                     viewColumn.Description = description;
                     #endregion
