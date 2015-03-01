@@ -1,4 +1,4 @@
-<img border="0" src="http://git.oschina.net/anycmd/anycmd/raw/master/docs/logoSmall.png" alt="logo" title="logo"> Anycmd <a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=7c53e6d84b1c9ca2a31a1cd58e33cea5f32ffa9ef8427996a8c0a15d9fe3ef35"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt=".NET 开源权限引擎" title=".NET 开源权限引擎">QQ交流群:306029222</a>
+Anycmd <a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=7c53e6d84b1c9ca2a31a1cd58e33cea5f32ffa9ef8427996a8c0a15d9fe3ef35"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt=".NET 开源权限引擎" title=".NET 开源权限引擎" />QQ交流群:306029222</a>
 ======
 #权限系统干了什么？
 
@@ -43,9 +43,7 @@ Anycmd是一个.net平台的完全开源的，完整支持Rbac的（包括核心
 
 ##如何使用
 
-anycmd不仅提供了来自Rbac国际规范文档的IRbacService接口
-http://git.oschina.net/anycmd/anycmd/blob/master/src/Anycmd/IRbacService.cs
-还提供了一整套稳定的、功能完备的、风格一致的、流畅的api。框架使用起来非常简单，限定在AC领域内，基本会做到在权限方面的每一个需求都刚好有一个流畅的风格一致的api。编程的时候只需要通过一套风格一致的流畅的api告诉框架我们希望做什么，然后框架就去做了。但是如果能够明白访问控制系统做事情的逻辑的话会更容易使用那些api。
+anycmd不仅提供了来自Rbac国际规范文档的IRbacService接口，还提供了一整套稳定的、功能完备的、风格一致的、流畅的api。框架使用起来非常简单，限定在AC领域内，基本会做到在权限方面的每一个需求都刚好有一个流畅的风格一致的api。编程的时候只需要通过一套风格一致的流畅的api告诉框架我们希望做什么，然后框架就去做了。但是如果能够明白访问控制系统做事情的逻辑的话会更容易使用那些api。
 事实上anycmd很容易地就完整实现了对IRbacService的支持，因为对IRbacService的实现不需要书写专门的逻辑，因为anycmd的api是比Rbac所定义的能力集更大的，只需直接委托给anycmd的api就完整实现了IRbacService。
 ##运行
 找到Web.config的BootDbConnString应用设置项，将这个连接字符串的密码修改成您的密码。Web.config中只有这一个引导库连接字符串，
@@ -79,7 +77,7 @@ http://git.oschina.net/anycmd/anycmd/blob/master/src/Anycmd/IRbacService.cs
 ---
 ##授权协议
 The MIT license。
-<img src="http://git.oschina.net/anycmd/anycmd/raw/master/docs/MIT.png" />
-><img border="0" src="http://git.oschina.net/anycmd/anycmd/raw/master/docs/logoBig.png" alt="logo" title="logo"> QQ交流群:306029222 <a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=7c53e6d84b1c9ca2a31a1cd58e33cea5f32ffa9ef8427996a8c0a15d9fe3ef35"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt=".NET 开源权限引擎" title=".NET 开源权限引擎"></a>
+
+QQ交流群:306029222 <a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=7c53e6d84b1c9ca2a31a1cd58e33cea5f32ffa9ef8427996a8c0a15d9fe3ef35"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt=".NET 开源权限引擎" title=".NET 开源权限引擎" /></a>
 
 [100]: https://shenghuo.alipay.com/transfer/aaCollect/pay.htm?id=51298211&sign=119fa8dd6e74ed8ec91e558f2f195db6
