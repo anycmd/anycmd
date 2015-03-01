@@ -19,7 +19,14 @@ namespace Anycmd.Engine.Ac.AppSystems
             this.Input = input;
         }
 
+        internal AppSystemAddedEvent(IAcSession acSession, AppSystemBase source, IAppSystemCreateIo input,
+            bool isPrivate)
+            : this(acSession, source, input)
+        {
+            this.IsPrivate = isPrivate;
+        }
+
         public IAppSystemCreateIo Input { get; private set; }
-        internal bool IsPrivate { get; set; }
+        internal bool IsPrivate { get; private set; }
     }
 }

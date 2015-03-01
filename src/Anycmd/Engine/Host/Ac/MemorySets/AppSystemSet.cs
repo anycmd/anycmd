@@ -300,7 +300,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 // 如果是命令则分发事件
                 if (isCommand)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new AppSystemAddedEvent(acSession, entity, input) { IsPrivate = true });
+                    acDomain.MessageDispatcher.DispatchMessage(new AppSystemAddedEvent(acSession, entity, input, isPrivate: true));
                 }
             }
 
