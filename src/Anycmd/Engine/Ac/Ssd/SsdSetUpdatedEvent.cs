@@ -3,7 +3,7 @@ namespace Anycmd.Engine.Ac.Ssd
 {
     using Events;
 
-    public class SsdSetUpdatedEvent: DomainEvent
+    public sealed class SsdSetUpdatedEvent : DomainEvent
     {
         public SsdSetUpdatedEvent(IAcSession acSession, SsdSetBase source, ISsdSetUpdateIo output)
             : base(acSession, source)
@@ -16,5 +16,6 @@ namespace Anycmd.Engine.Ac.Ssd
         }
 
         public ISsdSetUpdateIo Output { get; private set; }
+        internal bool IsPrivate { get; set; }
     }
 }

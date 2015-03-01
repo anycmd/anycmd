@@ -215,7 +215,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(SsdSetAddedEvent message)
             {
-                if (message.GetType() == typeof(PrivateSsdSetAddedEvent))
+                if (message.IsPrivate)
                 {
                     return;
                 }
@@ -273,15 +273,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new PrivateSsdSetAddedEvent(acSession, entity, input));
-                }
-            }
-
-            private class PrivateSsdSetAddedEvent : SsdSetAddedEvent, IPrivateEvent
-            {
-                internal PrivateSsdSetAddedEvent(IAcSession acSession, SsdSetBase source, ISsdSetCreateIo input)
-                    : base(acSession, source, input)
-                {
+                    acDomain.MessageDispatcher.DispatchMessage(new SsdSetAddedEvent(acSession, entity, input) { IsPrivate = true });
                 }
             }
 
@@ -292,7 +284,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(SsdSetUpdatedEvent message)
             {
-                if (message.GetType() == typeof(PrivateSsdSetUpdatedEvent))
+                if (message.IsPrivate)
                 {
                     return;
                 }
@@ -356,7 +348,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new PrivateSsdSetUpdatedEvent(acSession, entity, input));
+                    acDomain.MessageDispatcher.DispatchMessage(new SsdSetUpdatedEvent(acSession, entity, input) { IsPrivate = true });
                 }
             }
 
@@ -367,15 +359,6 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 ssdSetDic[state.Id] = state;
             }
 
-            private class PrivateSsdSetUpdatedEvent : SsdSetUpdatedEvent, IPrivateEvent
-            {
-                internal PrivateSsdSetUpdatedEvent(IAcSession acSession, SsdSetBase source, ISsdSetUpdateIo input)
-                    : base(acSession, source, input)
-                {
-
-                }
-            }
-
             public void Handle(RemoveSsdSetCommand message)
             {
                 this.Handle(message.AcSession, message.EntityId, true);
@@ -383,7 +366,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(SsdSetRemovedEvent message)
             {
-                if (message.GetType() == typeof(PrivateSsdSetRemovedEvent))
+                if (message.IsPrivate)
                 {
                     return;
                 }
@@ -437,15 +420,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new PrivateSsdSetRemovedEvent(acSession, entity));
-                }
-            }
-
-            private class PrivateSsdSetRemovedEvent : SsdSetRemovedEvent, IPrivateEvent
-            {
-                internal PrivateSsdSetRemovedEvent(IAcSession acSession, SsdSetBase source)
-                    : base(acSession, source)
-                {
+                    acDomain.MessageDispatcher.DispatchMessage(new SsdSetRemovedEvent(acSession, entity) { IsPrivate = true });
                 }
             }
 
@@ -456,7 +431,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(SsdRoleAddedEvent message)
             {
-                if (message.GetType() == typeof(PrivateSsdRoleAddedEvent))
+                if (message.IsPrivate)
                 {
                     return;
                 }
@@ -526,16 +501,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new PrivateSsdRoleAddedEvent(acSession, entity, input));
-                }
-            }
-
-            private class PrivateSsdRoleAddedEvent : SsdRoleAddedEvent, IPrivateEvent
-            {
-                internal PrivateSsdRoleAddedEvent(IAcSession acSession, SsdRoleBase source, ISsdRoleCreateIo input)
-                    : base(acSession, source, input)
-                {
-
+                    acDomain.MessageDispatcher.DispatchMessage(new SsdRoleAddedEvent(acSession, entity, input) { IsPrivate = true });
                 }
             }
 
@@ -546,7 +512,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(SsdRoleRemovedEvent message)
             {
-                if (message.GetType() == typeof(PrivateSsdRoleRemovedEvent))
+                if (message.IsPrivate)
                 {
                     return;
                 }
@@ -611,15 +577,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new PrivateSsdRoleRemovedEvent(acSession, entity));
-                }
-            }
-
-            private class PrivateSsdRoleRemovedEvent : SsdRoleRemovedEvent, IPrivateEvent
-            {
-                internal PrivateSsdRoleRemovedEvent(IAcSession acSession, SsdRoleBase source)
-                    : base(acSession, source)
-                {
+                    acDomain.MessageDispatcher.DispatchMessage(new SsdRoleRemovedEvent(acSession, entity) { IsPrivate = true });
                 }
             }
         }

@@ -6,11 +6,13 @@ namespace Anycmd.Engine.Ac.UiViews
     /// <summary>
     /// 
     /// </summary>
-    public class UiViewButtonRemovedEvent : DomainEvent
+    public sealed class UiViewButtonRemovedEvent : DomainEvent
     {
         public UiViewButtonRemovedEvent(IAcSession acSession, UiViewButtonBase source)
             : base(acSession, source)
         {
         }
+
+        internal bool IsPrivate { get; set; }
     }
 }

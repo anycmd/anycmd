@@ -3,7 +3,7 @@ namespace Anycmd.Engine.Ac.UiViews
 {
     using Events;
 
-    public class MenuUpdatedEvent : DomainEvent
+    public sealed class MenuUpdatedEvent : DomainEvent
     {
         public MenuUpdatedEvent(IAcSession acSession, MenuBase source, IMenuUpdateIo input)
             : base(acSession, source)
@@ -16,5 +16,6 @@ namespace Anycmd.Engine.Ac.UiViews
         }
 
         public IMenuUpdateIo Input { get; private set; }
+        internal bool IsPrivate { get; set; }
     }
 }

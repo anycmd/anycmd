@@ -195,7 +195,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(ButtonAddedEvent message)
             {
-                if (message.GetType() == typeof(PrivateButtonAddedEvent))
+                if (message.IsPrivate)
                 {
                     return;
                 }
@@ -263,16 +263,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new PrivateButtonAddedEvent(acSession, entity, input));
-                }
-            }
-
-            private class PrivateButtonAddedEvent : ButtonAddedEvent, IPrivateEvent
-            {
-                internal PrivateButtonAddedEvent(IAcSession acSession, ButtonBase source, IButtonCreateIo input)
-                    : base(acSession, source, input)
-                {
-
+                    acDomain.MessageDispatcher.DispatchMessage(new ButtonAddedEvent(acSession, entity, input) { IsPrivate = true });
                 }
             }
 
@@ -283,7 +274,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(ButtonUpdatedEvent message)
             {
-                if (message.GetType() == typeof(PrivateButtonUpdatedEvent))
+                if (message.IsPrivate)
                 {
                     return;
                 }
@@ -351,7 +342,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new PrivateButtonUpdatedEvent(acSession, entity, input));
+                    acDomain.MessageDispatcher.DispatchMessage(new ButtonUpdatedEvent(acSession, entity, input) { IsPrivate = true });
                 }
             }
 
@@ -374,15 +365,6 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
             }
 
-            private class PrivateButtonUpdatedEvent : ButtonUpdatedEvent, IPrivateEvent
-            {
-                internal PrivateButtonUpdatedEvent(IAcSession acSession, ButtonBase source, IButtonUpdateIo input)
-                    : base(acSession, source, input)
-                {
-
-                }
-            }
-
             public void Handle(RemoveButtonCommand message)
             {
                 Handle(message.AcSession, message.EntityId, isCommand: true);
@@ -390,7 +372,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(ButtonRemovedEvent message)
             {
-                if (message.GetType() == typeof(PrivateButtonRemovedEvent))
+                if (message.IsPrivate)
                 {
                     return;
                 }
@@ -460,16 +442,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new PrivateButtonRemovedEvent(acSession, entity));
-                }
-            }
-
-            private class PrivateButtonRemovedEvent : ButtonRemovedEvent, IPrivateEvent
-            {
-                internal PrivateButtonRemovedEvent(IAcSession acSession, ButtonBase source)
-                    : base(acSession, source)
-                {
-
+                    acDomain.MessageDispatcher.DispatchMessage(new ButtonRemovedEvent(acSession, entity) { IsPrivate = true });
                 }
             }
         }

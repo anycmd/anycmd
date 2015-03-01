@@ -6,7 +6,7 @@ namespace Anycmd.Engine.Ac.UiViews
     /// <summary>
     /// 
     /// </summary>
-    public class UiViewButtonUpdatedEvent : DomainEvent
+    public sealed class UiViewButtonUpdatedEvent : DomainEvent
     {
         public UiViewButtonUpdatedEvent(IAcSession acSession, UiViewButtonBase source, IUiViewButtonUpdateIo input)
             : base(acSession, source)
@@ -19,5 +19,6 @@ namespace Anycmd.Engine.Ac.UiViews
         }
 
         public IUiViewButtonUpdateIo Input { get; private set; }
+        internal bool IsPrivate { get; set; }
     }
 }

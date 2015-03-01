@@ -233,7 +233,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(UiViewAddedEvent message)
             {
-                if (message.GetType() == typeof(PrivateUiViewAddedEvent))
+                if (message.IsPrivate)
                 {
                     return;
                 }
@@ -299,16 +299,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new PrivateUiViewAddedEvent(acSession, entity, input));
-                }
-            }
-
-            private class PrivateUiViewAddedEvent : UiViewAddedEvent, IPrivateEvent
-            {
-                internal PrivateUiViewAddedEvent(IAcSession acSession, UiViewBase source, IUiViewCreateIo input)
-                    : base(acSession, source, input)
-                {
-
+                    acDomain.MessageDispatcher.DispatchMessage(new UiViewAddedEvent(acSession, entity, input) { IsPrivate = true });
                 }
             }
 
@@ -319,7 +310,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(UiViewUpdatedEvent message)
             {
-                if (message.GetType() == typeof(PrivateUiViewUpdatedEvent))
+                if (message.IsPrivate)
                 {
                     return;
                 }
@@ -378,7 +369,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new PrivateUiViewUpdatedEvent(acSession, entity, input));
+                    acDomain.MessageDispatcher.DispatchMessage(new UiViewUpdatedEvent(acSession, entity, input) { IsPrivate = true });
                 }
             }
 
@@ -393,15 +384,6 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 viewDicByFunction[function] = state;
             }
 
-            private class PrivateUiViewUpdatedEvent : UiViewUpdatedEvent, IPrivateEvent
-            {
-                internal PrivateUiViewUpdatedEvent(IAcSession acSession, UiViewBase source, IUiViewUpdateIo input)
-                    : base(acSession, source, input)
-                {
-
-                }
-            }
-
             public void Handle(RemoveUiViewCommand message)
             {
                 this.Handle(message.AcSession, message.EntityId, true);
@@ -409,7 +391,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(UiViewRemovedEvent message)
             {
-                if (message.GetType() == typeof(PrivateUiViewRemovedEvent))
+                if (message.IsPrivate)
                 {
                     return;
                 }
@@ -488,16 +470,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new PrivateUiViewRemovedEvent(acSession, entity));
-                }
-            }
-
-            private class PrivateUiViewRemovedEvent : UiViewRemovedEvent, IPrivateEvent
-            {
-                internal PrivateUiViewRemovedEvent(IAcSession acSession, UiViewBase source)
-                    : base(acSession, source)
-                {
-
+                    acDomain.MessageDispatcher.DispatchMessage(new UiViewRemovedEvent(acSession, entity) { IsPrivate = true });
                 }
             }
         }
@@ -703,7 +676,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 public void Handle(UiViewButtonAddedEvent message)
                 {
-                    if (message.GetType() == typeof(PrivateUiViewButtonAddedEvent))
+                    if (message.IsPrivate)
                     {
                         return;
                     }
@@ -789,13 +762,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                     if (isCommand)
                     {
-                        acDomain.MessageDispatcher.DispatchMessage(new PrivateUiViewButtonAddedEvent(acSession, entity, input));
+                        acDomain.MessageDispatcher.DispatchMessage(new UiViewButtonAddedEvent(acSession, entity, input) { IsPrivate = true });
                     }
-                }
-
-                private class PrivateUiViewButtonAddedEvent : UiViewButtonAddedEvent, IPrivateEvent
-                {
-                    internal PrivateUiViewButtonAddedEvent(IAcSession acSession, UiViewButtonBase source, IUiViewButtonCreateIo input) : base(acSession, source, input) { }
                 }
 
                 public void Handle(UpdateUiViewButtonCommand message)
@@ -805,7 +773,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 public void Handle(UiViewButtonUpdatedEvent message)
                 {
-                    if (message.GetType() == typeof(PrivateUiViewButtonUpdatedEvent))
+                    if (message.IsPrivate)
                     {
                         return;
                     }
@@ -887,16 +855,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                     if (isCommand && stateChanged)
                     {
-                        acDomain.MessageDispatcher.DispatchMessage(new PrivateUiViewButtonUpdatedEvent(acSession, entity, input));
-                    }
-                }
-
-                private class PrivateUiViewButtonUpdatedEvent : UiViewButtonUpdatedEvent, IPrivateEvent
-                {
-                    internal PrivateUiViewButtonUpdatedEvent(IAcSession acSession, UiViewButtonBase source, IUiViewButtonUpdateIo input)
-                        : base(acSession, source, input)
-                    {
-
+                        acDomain.MessageDispatcher.DispatchMessage(new UiViewButtonUpdatedEvent(acSession, entity, input) { IsPrivate = true });
                     }
                 }
 
@@ -907,7 +866,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
                 public void Handle(UiViewButtonRemovedEvent message)
                 {
-                    if (message.GetType() == typeof(PrivateUiViewButtonRemovedEvent))
+                    if (message.IsPrivate)
                     {
                         return;
                     }
@@ -974,16 +933,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                     if (isCommand)
                     {
-                        acDomain.MessageDispatcher.DispatchMessage(new PrivateUiViewButtonRemovedEvent(acSession, entity));
-                    }
-                }
-
-                private class PrivateUiViewButtonRemovedEvent : UiViewButtonRemovedEvent, IPrivateEvent
-                {
-                    internal PrivateUiViewButtonRemovedEvent(IAcSession acSession, UiViewButtonBase source)
-                        : base(acSession, source)
-                    {
-
+                        acDomain.MessageDispatcher.DispatchMessage(new UiViewButtonRemovedEvent(acSession, entity) { IsPrivate = true });
                     }
                 }
             }

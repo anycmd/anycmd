@@ -97,11 +97,11 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
         #region MessageHandler
         private class MessageHandler :
-            IHandler<MenuUpdatedEvent>, 
-            IHandler<AddMenuCommand>, 
-            IHandler<MenuAddedEvent>, 
-            IHandler<UpdateMenuCommand>, 
-            IHandler<RemoveMenuCommand>, 
+            IHandler<MenuUpdatedEvent>,
+            IHandler<AddMenuCommand>,
+            IHandler<MenuAddedEvent>,
+            IHandler<UpdateMenuCommand>,
+            IHandler<RemoveMenuCommand>,
             IHandler<MenuRemovedEvent>
         {
             private readonly MenuSet _set;
@@ -133,7 +133,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(MenuAddedEvent message)
             {
-                if (message.GetType() == typeof(PrivateMenuAddedEvent))
+                if (message.IsPrivate)
                 {
                     return;
                 }
@@ -209,16 +209,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new PrivateMenuAddedEvent(acSession, entity, input));
-                }
-            }
-
-            private class PrivateMenuAddedEvent : MenuAddedEvent, IPrivateEvent
-            {
-                internal PrivateMenuAddedEvent(IAcSession acSession, MenuBase source, IMenuCreateIo input)
-                    : base(acSession, source, input)
-                {
-
+                    acDomain.MessageDispatcher.DispatchMessage(new MenuAddedEvent(acSession, entity, input) { IsPrivate = true });
                 }
             }
 
@@ -229,7 +220,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(MenuUpdatedEvent message)
             {
-                if (message.GetType() == typeof(PrivateMenuUpdatedEvent))
+                if (message.IsPrivate)
                 {
                     return;
                 }
@@ -289,16 +280,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new PrivateMenuUpdatedEvent(acSession, entity, input));
-                }
-            }
-
-            private class PrivateMenuUpdatedEvent : MenuUpdatedEvent, IPrivateEvent
-            {
-                internal PrivateMenuUpdatedEvent(IAcSession acSession, MenuBase source, IMenuUpdateIo input)
-                    : base(acSession, source, input)
-                {
-
+                    acDomain.MessageDispatcher.DispatchMessage(new MenuUpdatedEvent(acSession, entity, input) { IsPrivate = true });
                 }
             }
 
@@ -315,7 +297,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(MenuRemovedEvent message)
             {
-                if (message.GetType() == typeof(PrivateMenuRemovedEvent))
+                if (message.IsPrivate)
                 {
                     return;
                 }
@@ -377,16 +359,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new PrivateMenuRemovedEvent(acSession, entity));
-                }
-            }
-
-            private class PrivateMenuRemovedEvent : MenuRemovedEvent, IPrivateEvent
-            {
-                internal PrivateMenuRemovedEvent(IAcSession acSession, MenuBase source)
-                    : base(acSession, source)
-                {
-
+                    acDomain.MessageDispatcher.DispatchMessage(new MenuRemovedEvent(acSession, entity) { IsPrivate = true });
                 }
             }
         }
