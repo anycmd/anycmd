@@ -10,6 +10,12 @@ namespace Anycmd.Engine.Ac.Roles
         {
         }
 
-        internal bool IsPrivate { get; set; }
+        internal RoleRemovedEvent(IAcSession acSession, RoleBase source, bool isPrivate)
+            : this(acSession, source)
+        {
+            this.IsPrivate = isPrivate;
+        }
+
+        internal bool IsPrivate { get; private set; }
     }
 }

@@ -10,6 +10,12 @@ namespace Anycmd.Engine.Ac.UiViews
         {
         }
 
-        internal bool IsPrivate { get; set; }
+        internal UiViewButtonAddedEvent(IAcSession acSession, UiViewButtonBase source, IUiViewButtonCreateIo input, bool isPrivate)
+            : this(acSession, source, input)
+        {
+            this.IsPrivate = isPrivate;
+        }
+
+        internal bool IsPrivate { get; private set; }
     }
 }

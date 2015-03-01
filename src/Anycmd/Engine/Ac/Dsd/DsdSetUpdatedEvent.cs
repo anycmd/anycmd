@@ -15,7 +15,13 @@ namespace Anycmd.Engine.Ac.Dsd
             this.Output = output;
         }
 
+        internal DsdSetUpdatedEvent(IAcSession acSession, DsdSetBase source, IDsdSetUpdateIo input, bool isPrivate)
+            : this(acSession, source, input)
+        {
+            this.IsPrivate = isPrivate;
+        }
+
         public IDsdSetUpdateIo Output { get; private set; }
-        internal bool IsPrivate { get; set; }
+        internal bool IsPrivate { get; private set; }
     }
 }

@@ -11,6 +11,12 @@ namespace Anycmd.Engine.Edi.Messages
     {
         public InfoDicItemRemovedEvent(IAcSession acSession, InfoDicItemBase source) : base(acSession, source) { }
 
-        internal bool IsPrivate { get; set; }
+        internal InfoDicItemRemovedEvent(IAcSession acSession, InfoDicItemBase source, bool isPrivate)
+            : this(acSession, source)
+        {
+            this.IsPrivate = isPrivate;
+        }
+
+        internal bool IsPrivate { get; private set; }
     }
 }

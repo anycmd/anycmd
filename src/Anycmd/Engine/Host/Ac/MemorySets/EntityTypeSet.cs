@@ -316,7 +316,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new EntityTypeAddedEvent(acSession, entity, input) { IsPrivate = true });
+                    acDomain.MessageDispatcher.DispatchMessage(new EntityTypeAddedEvent(acSession, entity, input, isPrivate: true));
                 }
             }
 
@@ -391,7 +391,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new EntityTypeUpdatedEvent(acSession, entity, input) { IsPrivate = true });
+                    acDomain.MessageDispatcher.DispatchMessage(new EntityTypeUpdatedEvent(acSession, entity, input, isPrivate: true));
                 }
             }
 
@@ -504,7 +504,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new EntityTypeRemovedEvent(acSession, entity) { IsPrivate = true });
+                    acDomain.MessageDispatcher.DispatchMessage(new EntityTypeRemovedEvent(acSession, entity, isPrivate: true));
                 }
             }
         }
@@ -813,7 +813,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                     if (isCommand)
                     {
-                        acDomain.MessageDispatcher.DispatchMessage(new PropertyAddedEvent(acSession, entity, input) { IsPrivate = true });
+                        acDomain.MessageDispatcher.DispatchMessage(new PropertyAddedEvent(acSession, entity, input, isPrivate: true));
                     }
                 }
 
@@ -1179,7 +1179,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                     if (isCommand && stateChanged)
                     {
-                        acDomain.MessageDispatcher.DispatchMessage(new PropertyUpdatedEvent(acSession, entity, input) { IsPrivate = true });
+                        acDomain.MessageDispatcher.DispatchMessage(new PropertyUpdatedEvent(acSession, entity, input, isPrivate: true));
                     }
                 }
 
@@ -1282,7 +1282,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                     if (isCommand)
                     {
-                        acDomain.MessageDispatcher.DispatchMessage(new PropertyRemovedEvent(acSession, entity) { IsPrivate = true });
+                        acDomain.MessageDispatcher.DispatchMessage(new PropertyRemovedEvent(acSession, entity, isPrivate: true));
                     }
                 }
             }

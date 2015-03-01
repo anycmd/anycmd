@@ -15,7 +15,13 @@ namespace Anycmd.Engine.Ac.Ssd
             this.Output = output;
         }
 
+        internal SsdSetUpdatedEvent(IAcSession acSession, SsdSetBase source, ISsdSetUpdateIo input, bool isPrivate)
+            : this(acSession, source, input)
+        {
+            this.IsPrivate = isPrivate;
+        }
+
         public ISsdSetUpdateIo Output { get; private set; }
-        internal bool IsPrivate { get; set; }
+        internal bool IsPrivate { get; private set; }
     }
 }

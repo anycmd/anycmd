@@ -10,6 +10,12 @@ namespace Anycmd.Engine.Ac.Ssd
         {
         }
 
-        internal bool IsPrivate { get; set; }
+        internal SsdSetAddedEvent(IAcSession acSession, SsdSetBase source, ISsdSetCreateIo input, bool isPrivate)
+            : this(acSession, source, input)
+        {
+            this.IsPrivate = isPrivate;
+        }
+
+        internal bool IsPrivate { get; private set; }
     }
 }

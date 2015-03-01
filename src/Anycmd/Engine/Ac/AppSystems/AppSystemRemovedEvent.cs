@@ -12,6 +12,13 @@ namespace Anycmd.Engine.Ac.AppSystems
             : base(acSession, source)
         {
         }
-        internal bool IsPrivate { get; set; }
+
+        internal AppSystemRemovedEvent(IAcSession acSession, AppSystemBase source, bool isPrivate)
+            : this(acSession, source)
+        {
+            this.IsPrivate = isPrivate;
+        }
+
+        internal bool IsPrivate { get; private set; }
     }
 }

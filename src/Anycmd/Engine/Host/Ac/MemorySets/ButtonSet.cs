@@ -263,7 +263,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new ButtonAddedEvent(acSession, entity, input) { IsPrivate = true });
+                    acDomain.MessageDispatcher.DispatchMessage(new ButtonAddedEvent(acSession, entity, input, isPrivate: true));
                 }
             }
 
@@ -342,7 +342,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new ButtonUpdatedEvent(acSession, entity, input) { IsPrivate = true });
+                    acDomain.MessageDispatcher.DispatchMessage(new ButtonUpdatedEvent(acSession, entity, input, isPrivate: true));
                 }
             }
 
@@ -442,7 +442,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new ButtonRemovedEvent(acSession, entity) { IsPrivate = true });
+                    acDomain.MessageDispatcher.DispatchMessage(new ButtonRemovedEvent(acSession, entity, isPrivate: true));
                 }
             }
         }

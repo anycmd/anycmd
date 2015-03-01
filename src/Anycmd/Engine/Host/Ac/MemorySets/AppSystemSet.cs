@@ -379,7 +379,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new AppSystemUpdatedEvent(acSession, entity, input) { IsPrivate = true });
+                    acDomain.MessageDispatcher.DispatchMessage(new AppSystemUpdatedEvent(acSession, entity, input, isPrivate: true));
                 }
             }
 
@@ -485,7 +485,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new AppSystemRemovedEvent(acSession, entity) { IsPrivate = true });
+                    acDomain.MessageDispatcher.DispatchMessage(new AppSystemRemovedEvent(acSession, entity, isPrivate: true));
                 }
             }
         }

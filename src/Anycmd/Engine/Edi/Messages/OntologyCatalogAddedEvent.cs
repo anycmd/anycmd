@@ -17,7 +17,13 @@ namespace Anycmd.Engine.Edi.Messages
             this.Output = output;
         }
 
+        internal OntologyCatalogAddedEvent(IAcSession acSession, OntologyCatalogBase source, IOntologyCatalogCreateIo input, bool isPrivate)
+            : this(acSession, source, input)
+        {
+            this.IsPrivate = isPrivate;
+        }
+
         public IOntologyCatalogCreateIo Output { get; private set; }
-        internal bool IsPrivate { get; set; }
+        internal bool IsPrivate { get; private set; }
     }
 }

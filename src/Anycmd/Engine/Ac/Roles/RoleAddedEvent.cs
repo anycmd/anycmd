@@ -10,6 +10,12 @@ namespace Anycmd.Engine.Ac.Roles
         {
         }
 
-        internal bool IsPrivate { get; set; }
+        internal RoleAddedEvent(IAcSession acSession, RoleBase source, IRoleCreateIo input, bool isPrivate)
+            : this(acSession, source, input)
+        {
+            this.IsPrivate = isPrivate;
+        }
+
+        internal bool IsPrivate { get; private set; }
     }
 }

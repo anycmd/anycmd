@@ -10,6 +10,12 @@ namespace Anycmd.Engine.Ac.UiViews
         {
         }
 
-        internal bool IsPrivate { get; set; }
+        internal MenuRemovedEvent(IAcSession acSession, MenuBase source, bool isPrivate)
+            : this(acSession, source)
+        {
+            this.IsPrivate = isPrivate;
+        }
+
+        internal bool IsPrivate { get; private set; }
     }
 }

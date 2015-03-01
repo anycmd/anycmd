@@ -8,6 +8,12 @@ namespace Anycmd.Engine.Edi.Messages
     {
         public NodeOntologyCatalogRemovedEvent(IAcSession acSession, NodeOntologyCatalogBase source) : base(acSession, source) { }
 
-        internal bool IsPrivate { get; set; }
+        internal NodeOntologyCatalogRemovedEvent(IAcSession acSession, NodeOntologyCatalogBase source, bool isPrivate)
+            : this(acSession, source)
+        {
+            this.IsPrivate = isPrivate;
+        }
+
+        internal bool IsPrivate { get; private set; }
     }
 }

@@ -454,7 +454,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new PrivilegeAddedEvent(acSession, entity, input) { IsPrivate = true });
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivilegeAddedEvent(acSession, entity, input, isPrivate: true));
                 }
                 if (subjectType == AcElementType.Role && acObjectType == AcElementType.Role)
                 {
@@ -565,7 +565,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new PrivilegeUpdatedEvent(acSession, entity, input) { IsPrivate = true });
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivilegeUpdatedEvent(acSession, entity, input, isPrivate: true));
                 }
             }
 
@@ -632,7 +632,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new PrivilegeRemovedEvent(acSession, entity) { IsPrivate = true });
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivilegeRemovedEvent(acSession, entity, isPrivate: true));
                     if (subjectType == UserAcSubjectType.Role && acObjectType == AcElementType.Role)
                     {
                         acDomain.MessageDispatcher.DispatchMessage(new RoleRolePrivilegeRemovedEvent(acSession, entity));

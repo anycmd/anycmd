@@ -9,6 +9,13 @@ namespace Anycmd.Engine.Ac.Dsd
             : base(acSession, source)
         {
         }
-        internal bool IsPrivate { get; set; }
+
+        internal DsdRoleRemovedEvent(IAcSession acSession, DsdRoleBase source, bool isPrivate)
+            : this(acSession, source)
+        {
+            this.IsPrivate = isPrivate;
+        }
+
+        internal bool IsPrivate { get; private set; }
     }
 }

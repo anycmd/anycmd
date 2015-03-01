@@ -11,6 +11,12 @@ namespace Anycmd.Engine.Edi.Messages
     {
         public NodeOntologyCareRemovedEvent(IAcSession acSession, NodeOntologyCareBase source) : base(acSession, source) { }
 
-        internal bool IsPrivate { get; set; }
+        internal NodeOntologyCareRemovedEvent(IAcSession acSession, NodeOntologyCareBase source, bool isPrivate)
+            : this(acSession, source)
+        {
+            this.IsPrivate = isPrivate;
+        }
+
+        internal bool IsPrivate { get; private set; }
     }
 }

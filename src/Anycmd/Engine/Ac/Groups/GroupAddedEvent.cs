@@ -10,6 +10,12 @@ namespace Anycmd.Engine.Ac.Groups
         {
         }
 
-        internal bool IsPrivate { get; set; }
+        internal GroupAddedEvent(IAcSession acSession, GroupBase source, IGroupCreateIo input, bool isPrivate)
+            : this(acSession, source, input)
+        {
+            this.IsPrivate = isPrivate;
+        }
+
+        internal bool IsPrivate { get; private set; }
     }
 }

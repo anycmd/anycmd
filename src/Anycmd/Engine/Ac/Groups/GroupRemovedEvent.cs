@@ -10,6 +10,12 @@ namespace Anycmd.Engine.Ac.Groups
         {
         }
 
-        internal bool IsPrivate { get; set; }
+        internal GroupRemovedEvent(IAcSession acSession, GroupBase source, bool isPrivate)
+            : this(acSession, source)
+        {
+            this.IsPrivate = isPrivate;
+        }
+
+        internal bool IsPrivate { get; private set; }
     }
 }

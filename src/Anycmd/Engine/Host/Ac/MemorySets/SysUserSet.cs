@@ -221,7 +221,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new DeveloperAddedEvent(acSession, entity) { IsPrivate = true });
+                    acDomain.MessageDispatcher.DispatchMessage(new DeveloperAddedEvent(acSession, entity, isPrivate: true));
                 }
             }
 
@@ -305,7 +305,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new DeveloperRemovedEvent(acSession, entity) { IsPrivate = true });
+                    acDomain.MessageDispatcher.DispatchMessage(new DeveloperRemovedEvent(acSession, entity, isPrivate: true));
                 }
             }
         }

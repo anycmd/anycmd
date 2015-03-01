@@ -10,6 +10,12 @@ namespace Anycmd.Engine.Ac.Catalogs
         {
         }
 
-        internal bool IsPrivate { get; set; }
+        internal CatalogAddedEvent(IAcSession acSession, CatalogBase source, ICatalogCreateIo input, bool isPrivate)
+            : this(acSession, source, input)
+        {
+            this.IsPrivate = isPrivate;
+        }
+
+        internal bool IsPrivate { get; private set; }
     }
 }

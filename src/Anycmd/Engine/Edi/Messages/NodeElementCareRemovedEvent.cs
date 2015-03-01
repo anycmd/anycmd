@@ -11,6 +11,12 @@ namespace Anycmd.Engine.Edi.Messages
     {
         public NodeElementCareRemovedEvent(IAcSession acSession, NodeElementCareBase source) : base(acSession, source) { }
 
-        internal bool IsPrivate { get; set; }
+        internal NodeElementCareRemovedEvent(IAcSession acSession, NodeElementCareBase source, bool isPrivate)
+            : this(acSession, source)
+        {
+            this.IsPrivate = isPrivate;
+        }
+
+        internal bool IsPrivate { get; private set; }
     }
 }

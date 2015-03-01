@@ -10,6 +10,12 @@ namespace Anycmd.Engine.Ac.Dsd
         {
         }
 
-        internal bool IsPrivate { get; set; }
+        internal DsdSetAddedEvent(IAcSession acSession, DsdSetBase source, IDsdSetCreateIo input, bool isPrivate)
+            : this(acSession, source, input)
+        {
+            this.IsPrivate = isPrivate;
+        }
+
+        internal bool IsPrivate { get; private set; }
     }
 }

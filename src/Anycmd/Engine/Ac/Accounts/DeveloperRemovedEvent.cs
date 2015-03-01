@@ -11,6 +11,12 @@ namespace Anycmd.Engine.Ac.Accounts
     {
         public DeveloperRemovedEvent(IAcSession acSession, DeveloperId source) : base(acSession, source) { }
 
-        internal bool IsPrivate { get; set; }
+        internal DeveloperRemovedEvent(IAcSession acSession, DeveloperId source, bool isPrivate)
+            : this(acSession, source)
+        {
+            this.IsPrivate = isPrivate;
+        }
+
+        internal bool IsPrivate { get; private set; }
     }
 }

@@ -10,6 +10,12 @@ namespace Anycmd.Engine.Ac.EntityTypes
         {
         }
 
-        internal bool IsPrivate { get; set; }
+        internal EntityTypeAddedEvent(IAcSession acSession, EntityTypeBase source, IEntityTypeCreateIo input, bool isPrivate)
+            : this(acSession, source, input)
+        {
+            this.IsPrivate = isPrivate;
+        }
+
+        internal bool IsPrivate { get; private set; }
     }
 }

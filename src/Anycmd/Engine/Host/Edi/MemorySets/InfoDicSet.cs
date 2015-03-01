@@ -323,7 +323,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
                 if (isCommand)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new InfoDicAddedEvent(acSession, entity, input) { IsPrivate = true });
+                    acDomain.MessageDispatcher.DispatchMessage(new InfoDicAddedEvent(acSession, entity, input, isPrivate: true));
                 }
             }
 
@@ -395,7 +395,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new InfoDicUpdatedEvent(acSession, entity, input) { IsPrivate = true });
+                    acDomain.MessageDispatcher.DispatchMessage(new InfoDicUpdatedEvent(acSession, entity, input, isPrivate: true));
                 }
             }
 
@@ -487,7 +487,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
                 if (isCommand)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new InfoDicRemovedEvent(acSession, entity) { IsPrivate = true });
+                    acDomain.MessageDispatcher.DispatchMessage(new InfoDicRemovedEvent(acSession, entity, isPrivate: true));
                 }
             }
 
@@ -575,7 +575,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
                 if (isCommand)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new InfoDicItemAddedEvent(acSession, entity, input) { IsPrivate = true });
+                    acDomain.MessageDispatcher.DispatchMessage(new InfoDicItemAddedEvent(acSession, entity, input, isPrivate: true));
                 }
             }
 
@@ -652,7 +652,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new InfoDicItemUpdatedEvent(acSession, entity, input) { IsPrivate = true });
+                    acDomain.MessageDispatcher.DispatchMessage(new InfoDicItemUpdatedEvent(acSession, entity, input, isPrivate: true));
                 }
             }
 
@@ -755,7 +755,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
                 if (isCommand)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new InfoDicItemRemovedEvent(acSession, entity) { IsPrivate = true });
+                    acDomain.MessageDispatcher.DispatchMessage(new InfoDicItemRemovedEvent(acSession, entity, isPrivate: true));
                 }
             }
         }

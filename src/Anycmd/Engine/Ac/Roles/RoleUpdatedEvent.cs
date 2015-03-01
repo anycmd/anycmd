@@ -16,7 +16,13 @@ namespace Anycmd.Engine.Ac.Roles
             this.Output = output;
         }
 
+        internal RoleUpdatedEvent(IAcSession acSession, RoleBase source, IRoleUpdateIo input, bool isPrivate)
+            : this(acSession, source, input)
+        {
+            this.IsPrivate = isPrivate;
+        }
+
         public IRoleUpdateIo Output { get; private set; }
-        internal bool IsPrivate { get; set; }
+        internal bool IsPrivate { get; private set; }
     }
 }

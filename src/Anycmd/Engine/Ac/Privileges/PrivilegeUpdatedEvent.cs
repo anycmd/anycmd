@@ -15,7 +15,13 @@ namespace Anycmd.Engine.Ac.Privileges
             this.Output = output;
         }
 
+        internal PrivilegeUpdatedEvent(IAcSession acSession, PrivilegeBase source, IPrivilegeUpdateIo input, bool isPrivate)
+            : this(acSession, source, input)
+        {
+            this.IsPrivate = isPrivate;
+        }
+
         public IPrivilegeUpdateIo Output { get; private set; }
-        internal bool IsPrivate { get; set; }
+        internal bool IsPrivate { get; private set; }
     }
 }

@@ -11,6 +11,12 @@ namespace Anycmd.Engine.Edi.Messages
     {
         public NodeRemovedEvent(IAcSession acSession, NodeBase source) : base(acSession, source) { }
 
-        internal bool IsPrivate { get; set; }
+        internal NodeRemovedEvent(IAcSession acSession, NodeBase source, bool isPrivate)
+            : this(acSession, source)
+        {
+            this.IsPrivate = isPrivate;
+        }
+
+        internal bool IsPrivate { get; private set; }
     }
 }

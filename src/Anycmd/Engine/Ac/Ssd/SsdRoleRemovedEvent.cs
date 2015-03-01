@@ -10,6 +10,12 @@ namespace Anycmd.Engine.Ac.Ssd
         {
         }
 
-        internal bool IsPrivate { get; set; }
+        internal SsdRoleRemovedEvent(IAcSession acSession, SsdRoleBase source, bool isPrivate)
+            : this(acSession, source)
+        {
+            this.IsPrivate = isPrivate;
+        }
+
+        internal bool IsPrivate { get; private set; }
     }
 }

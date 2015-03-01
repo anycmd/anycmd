@@ -299,7 +299,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new UiViewAddedEvent(acSession, entity, input) { IsPrivate = true });
+                    acDomain.MessageDispatcher.DispatchMessage(new UiViewAddedEvent(acSession, entity, input, isPrivate: true));
                 }
             }
 
@@ -369,7 +369,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new UiViewUpdatedEvent(acSession, entity, input) { IsPrivate = true });
+                    acDomain.MessageDispatcher.DispatchMessage(new UiViewUpdatedEvent(acSession, entity, input, isPrivate: true));
                 }
             }
 
@@ -470,7 +470,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new UiViewRemovedEvent(acSession, entity) { IsPrivate = true });
+                    acDomain.MessageDispatcher.DispatchMessage(new UiViewRemovedEvent(acSession, entity, isPrivate: true));
                 }
             }
         }
@@ -762,7 +762,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                     if (isCommand)
                     {
-                        acDomain.MessageDispatcher.DispatchMessage(new UiViewButtonAddedEvent(acSession, entity, input) { IsPrivate = true });
+                        acDomain.MessageDispatcher.DispatchMessage(new UiViewButtonAddedEvent(acSession, entity, input, isPrivate: true));
                     }
                 }
 
@@ -855,7 +855,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                     if (isCommand && stateChanged)
                     {
-                        acDomain.MessageDispatcher.DispatchMessage(new UiViewButtonUpdatedEvent(acSession, entity, input) { IsPrivate = true });
+                        acDomain.MessageDispatcher.DispatchMessage(new UiViewButtonUpdatedEvent(acSession, entity, input, isPrivate: true));
                     }
                 }
 
@@ -933,7 +933,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                     }
                     if (isCommand)
                     {
-                        acDomain.MessageDispatcher.DispatchMessage(new UiViewButtonRemovedEvent(acSession, entity) { IsPrivate = true });
+                        acDomain.MessageDispatcher.DispatchMessage(new UiViewButtonRemovedEvent(acSession, entity, isPrivate: true));
                     }
                 }
             }

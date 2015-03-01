@@ -10,6 +10,12 @@ namespace Anycmd.Engine.Ac.Privileges
         {
         }
 
-        internal bool IsPrivate { get; set; }
+        internal PrivilegeRemovedEvent(IAcSession acSession, PrivilegeBase source, bool isPrivate)
+            : this(acSession, source)
+        {
+            this.IsPrivate = isPrivate;
+        }
+
+        internal bool IsPrivate { get; private set; }
     }
 }

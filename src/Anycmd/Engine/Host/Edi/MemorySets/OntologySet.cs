@@ -463,7 +463,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
                 if (isCommand)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new OntologyAddedEvent(acSession, entity, input) { IsPrivate = true });
+                    acDomain.MessageDispatcher.DispatchMessage(new OntologyAddedEvent(acSession, entity, input, isPrivate: true));
                 }
             }
 
@@ -541,7 +541,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new OntologyUpdatedEvent(acSession, entity, input) { IsPrivate = true });
+                    acDomain.MessageDispatcher.DispatchMessage(new OntologyUpdatedEvent(acSession, entity, input, isPrivate: true));
                 }
             }
 
@@ -660,7 +660,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
                 if (isCommand)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new OntologyRemovedEvent(acSession, entity) { IsPrivate = true });
+                    acDomain.MessageDispatcher.DispatchMessage(new OntologyRemovedEvent(acSession, entity, isPrivate: true));
                 }
             }
         }
@@ -1883,7 +1883,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                     if (isCommand)
                     {
-                        acDomain.MessageDispatcher.DispatchMessage(new OntologyCatalogAddedEvent(acSession, entity, input) { IsPrivate = true });
+                        acDomain.MessageDispatcher.DispatchMessage(new OntologyCatalogAddedEvent(acSession, entity, input, isPrivate: true));
                     }
                 }
 
@@ -1960,7 +1960,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                     if (isCommand)
                     {
-                        acDomain.MessageDispatcher.DispatchMessage(new OntologyCatalogRemovedEvent(acSession, entity) { IsPrivate = true });
+                        acDomain.MessageDispatcher.DispatchMessage(new OntologyCatalogRemovedEvent(acSession, entity, isPrivate: true));
                     }
                 }
 

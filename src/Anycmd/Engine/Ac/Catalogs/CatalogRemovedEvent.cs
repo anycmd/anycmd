@@ -19,7 +19,13 @@ namespace Anycmd.Engine.Ac.Catalogs
             this.CatalogCode = source.Code;
         }
 
+        internal CatalogRemovedEvent(IAcSession acSession, CatalogBase source, bool isPrivate)
+            : this(acSession, source)
+        {
+            this.IsPrivate = isPrivate;
+        }
+
         public string CatalogCode { get; private set; }
-        internal bool IsPrivate { get; set; }
+        internal bool IsPrivate { get; private set; }
     }
 }

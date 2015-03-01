@@ -447,7 +447,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
                 if (isCommand)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new NodeAddedEvent(acSession, entity, input) { IsPrivate = true });
+                    acDomain.MessageDispatcher.DispatchMessage(new NodeAddedEvent(acSession, entity, input, isPrivate: true));
                 }
             }
 
@@ -521,7 +521,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new NodeUpdatedEvent(acSession, entity, input) { IsPrivate = true });
+                    acDomain.MessageDispatcher.DispatchMessage(new NodeUpdatedEvent(acSession, entity, input, isPrivate: true));
                 }
             }
 
@@ -595,7 +595,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
                 if (isCommand)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new NodeRemovedEvent(acSession, entity) { IsPrivate = true });
+                    acDomain.MessageDispatcher.DispatchMessage(new NodeRemovedEvent(acSession, entity, isPrivate: true));
                 }
             }
         }
@@ -805,7 +805,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                     if (isCommand)
                     {
-                        acDomain.MessageDispatcher.DispatchMessage(new NodeElementActionAddedEvent(acSession, entity, input) { IsPrivate = true });
+                        acDomain.MessageDispatcher.DispatchMessage(new NodeElementActionAddedEvent(acSession, entity, input, isPrivate: true));
                     }
                 }
 
@@ -895,7 +895,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                     if (isCommand)
                     {
-                        acDomain.MessageDispatcher.DispatchMessage(new NodeElementActionRemovedEvent(acSession, entity) { IsPrivate = true });
+                        acDomain.MessageDispatcher.DispatchMessage(new NodeElementActionRemovedEvent(acSession, entity, isPrivate: true));
                     }
                 }
             }
@@ -1273,7 +1273,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                     if (isCommand)
                     {
-                        acDomain.MessageDispatcher.DispatchMessage(new NodeOntologyCareAddedEvent(acSession, entity, input) { IsPrivate = true });
+                        acDomain.MessageDispatcher.DispatchMessage(new NodeOntologyCareAddedEvent(acSession, entity, input, isPrivate: true));
                     }
                 }
 
@@ -1347,7 +1347,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                     if (isCommand)
                     {
-                        acDomain.MessageDispatcher.DispatchMessage(new NodeOntologyCareRemovedEvent(acSession, entity) { IsPrivate = true });
+                        acDomain.MessageDispatcher.DispatchMessage(new NodeOntologyCareRemovedEvent(acSession, entity, isPrivate: true));
                     }
                 }
 
@@ -1430,7 +1430,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                     if (isCommand)
                     {
-                        acDomain.MessageDispatcher.DispatchMessage(new NodeElementCareAddedEvent(acSession, entity, input) { IsPrivate = true });
+                        acDomain.MessageDispatcher.DispatchMessage(new NodeElementCareAddedEvent(acSession, entity, input, isPrivate: true));
                     }
                 }
 
@@ -1513,7 +1513,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                     if (isCommand)
                     {
-                        acDomain.MessageDispatcher.DispatchMessage(new NodeElementCareUpdatedEvent(acSession, entity) { IsPrivate = true });
+                        acDomain.MessageDispatcher.DispatchMessage(new NodeElementCareUpdatedEvent(acSession, entity, isPrivate: true));
                     }
                 }
 
@@ -1603,7 +1603,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                     if (isCommand)
                     {
-                        acDomain.MessageDispatcher.DispatchMessage(new NodeElementCareRemovedEvent(acSession, entity) { IsPrivate = true });
+                        acDomain.MessageDispatcher.DispatchMessage(new NodeElementCareRemovedEvent(acSession, entity, isPrivate: true));
                     }
                 }
             }
@@ -1844,7 +1844,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                     if (isCommand)
                     {
-                        acDomain.MessageDispatcher.DispatchMessage(new NodeOntologyCatalogAddedEvent(acSession, entity, input) { IsPrivate = true });
+                        acDomain.MessageDispatcher.DispatchMessage(new NodeOntologyCatalogAddedEvent(acSession, entity, input, isPrivate: true));
                     }
                 }
 
@@ -1909,7 +1909,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                     if (isCommand)
                     {
-                        acDomain.MessageDispatcher.DispatchMessage(new NodeOntologyCatalogRemovedEvent(acSession, entity) { IsPrivate = true });
+                        acDomain.MessageDispatcher.DispatchMessage(new NodeOntologyCatalogRemovedEvent(acSession, entity, isPrivate: true));
                     }
                 }
             }

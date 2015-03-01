@@ -18,7 +18,13 @@ namespace Anycmd.Engine.Ac.Catalogs
             this.Input = input;
         }
 
+        internal CatalogUpdatedEvent(IAcSession acSession, CatalogBase source, ICatalogUpdateIo input, bool isPrivate)
+            : this(acSession, source, input)
+        {
+            this.IsPrivate = isPrivate;
+        }
+
         public ICatalogUpdateIo Input { get; private set; }
-        internal bool IsPrivate { get; set; }
+        internal bool IsPrivate { get; private set; }
     }
 }

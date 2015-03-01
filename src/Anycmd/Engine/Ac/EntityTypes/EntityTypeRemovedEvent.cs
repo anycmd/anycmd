@@ -13,6 +13,12 @@ namespace Anycmd.Engine.Ac.EntityTypes
         {
         }
 
-        internal bool IsPrivate { get; set; }
+        internal EntityTypeRemovedEvent(IAcSession acSession, EntityTypeBase source, bool isPrivate)
+            : this(acSession, source)
+        {
+            this.IsPrivate = isPrivate;
+        }
+
+        internal bool IsPrivate { get; private set; }
     }
 }
