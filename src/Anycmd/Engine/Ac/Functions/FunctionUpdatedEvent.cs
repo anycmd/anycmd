@@ -6,7 +6,7 @@ namespace Anycmd.Engine.Ac.Functions
     /// <summary>
     /// 
     /// </summary>
-    public class FunctionUpdatedEvent : DomainEvent
+    public sealed class FunctionUpdatedEvent : DomainEvent
     {
         public FunctionUpdatedEvent(IAcSession acSession, FunctionBase source, IFunctionUpdateIo input)
             : base(acSession, source)
@@ -19,5 +19,6 @@ namespace Anycmd.Engine.Ac.Functions
         }
 
         public IFunctionUpdateIo Input { get; private set; }
+        internal bool IsPriviate { get; set; }
     }
 }

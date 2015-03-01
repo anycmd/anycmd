@@ -244,7 +244,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(PrivilegeAddedEvent message)
             {
-                if (message.GetType() == typeof(PrivatPrivilegeAddedEvent))
+                if (message.IsPrivate)
                 {
                     return;
                 }
@@ -454,7 +454,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new PrivatPrivilegeAddedEvent(acSession, entity, input));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivilegeAddedEvent(acSession, entity, input) { IsPrivate = true });
                 }
                 if (subjectType == AcElementType.Role && acObjectType == AcElementType.Role)
                 {
@@ -504,14 +504,6 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
             }
 
-            private class PrivatPrivilegeAddedEvent : PrivilegeAddedEvent
-            {
-                internal PrivatPrivilegeAddedEvent(IAcSession acSession, PrivilegeBase source, IPrivilegeCreateIo input)
-                    : base(acSession, source, input)
-                {
-
-                }
-            }
             public void Handle(UpdatePrivilegeCommand message)
             {
                 this.Handle(message.AcSession, message.Input, true);
@@ -519,7 +511,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(PrivilegeUpdatedEvent message)
             {
-                if (message.GetType() == typeof(PrivatePrivilegeUpdatedEvent))
+                if (message.IsPrivate)
                 {
                     return;
                 }
@@ -573,16 +565,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new PrivatePrivilegeUpdatedEvent(acSession, entity, input));
-                }
-            }
-
-            private class PrivatePrivilegeUpdatedEvent : PrivilegeUpdatedEvent, IPrivateEvent
-            {
-                internal PrivatePrivilegeUpdatedEvent(IAcSession acSession, PrivilegeBase source, IPrivilegeUpdateIo input)
-                    : base(acSession, source, input)
-                {
-
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivilegeUpdatedEvent(acSession, entity, input) { IsPrivate = true });
                 }
             }
 
@@ -593,7 +576,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(PrivilegeRemovedEvent message)
             {
-                if (message.GetType() == typeof(PrivatePrivilegeRemovedEvent))
+                if (message.IsPrivate)
                 {
                     return;
                 }
@@ -649,20 +632,11 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new PrivatePrivilegeRemovedEvent(acSession, entity));
+                    acDomain.MessageDispatcher.DispatchMessage(new PrivilegeRemovedEvent(acSession, entity) { IsPrivate = true });
                     if (subjectType == UserAcSubjectType.Role && acObjectType == AcElementType.Role)
                     {
                         acDomain.MessageDispatcher.DispatchMessage(new RoleRolePrivilegeRemovedEvent(acSession, entity));
                     }
-                }
-            }
-
-            private class PrivatePrivilegeRemovedEvent : PrivilegeRemovedEvent, IPrivateEvent
-            {
-                internal PrivatePrivilegeRemovedEvent(IAcSession acSession, PrivilegeBase source)
-                    : base(acSession, source)
-                {
-
                 }
             }
         }

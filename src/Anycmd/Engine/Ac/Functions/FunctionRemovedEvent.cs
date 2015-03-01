@@ -6,11 +6,13 @@ namespace Anycmd.Engine.Ac.Functions
     /// <summary>
     /// 
     /// </summary>
-    public class FunctionRemovedEvent : DomainEvent
+    public sealed class FunctionRemovedEvent : DomainEvent
     {
         public FunctionRemovedEvent(IAcSession acSession, FunctionBase source)
             : base(acSession, source)
         {
         }
+
+        internal bool IsPriviate { get; set; }
     }
 }

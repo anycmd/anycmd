@@ -3,7 +3,7 @@ namespace Anycmd.Engine.Ac.Groups
 {
     using Events;
 
-    public class GroupUpdatedEvent : DomainEvent
+    public sealed class GroupUpdatedEvent : DomainEvent
     {
         public GroupUpdatedEvent(IAcSession acSession, GroupBase source, IGroupUpdateIo output)
             : base(acSession, source)
@@ -16,5 +16,6 @@ namespace Anycmd.Engine.Ac.Groups
         }
 
         public IGroupUpdateIo Output { get; private set; }
+        internal bool IsPrivate { get; set; }
     }
 }

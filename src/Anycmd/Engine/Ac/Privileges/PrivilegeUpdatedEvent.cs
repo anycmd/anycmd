@@ -3,7 +3,7 @@ namespace Anycmd.Engine.Ac.Privileges
 {
     using Events;
 
-    public class PrivilegeUpdatedEvent : DomainEvent
+    public sealed class PrivilegeUpdatedEvent : DomainEvent
     {
         public PrivilegeUpdatedEvent(IAcSession acSession, PrivilegeBase source, IPrivilegeUpdateIo output)
             : base(acSession, source)
@@ -16,5 +16,6 @@ namespace Anycmd.Engine.Ac.Privileges
         }
 
         public IPrivilegeUpdateIo Output { get; private set; }
+        internal bool IsPrivate { get; set; }
     }
 }

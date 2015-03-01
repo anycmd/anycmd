@@ -141,9 +141,9 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
         private class MessageHandler :
             IHandler<FunctionAddedEvent>,
             IHandler<FunctionRemovedEvent>,
-            IHandler<AddFunctionCommand>, 
-            IHandler<UpdateFunctionCommand>, 
-            IHandler<FunctionUpdatedEvent>, 
+            IHandler<AddFunctionCommand>,
+            IHandler<UpdateFunctionCommand>,
+            IHandler<FunctionUpdatedEvent>,
             IHandler<RemoveFunctionCommand>,
             IHandler<CatalogUpdatedEvent>,
             IHandler<CatalogRemovedEvent>
@@ -207,7 +207,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(FunctionAddedEvent message)
             {
-                if (message.GetType() == typeof(PrivateFunctionAddedEvent))
+                if (message.IsPriviate)
                 {
                     return;
                 }
@@ -284,13 +284,8 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new PrivateFunctionAddedEvent(acSession, entity, input));
+                    acDomain.MessageDispatcher.DispatchMessage(new FunctionAddedEvent(acSession, entity, input) { IsPriviate = true });
                 }
-            }
-
-            private class PrivateFunctionAddedEvent : FunctionAddedEvent, IPrivateEvent
-            {
-                public PrivateFunctionAddedEvent(IAcSession acSession, FunctionBase source, IFunctionCreateIo input) : base(acSession, source, input) { }
             }
 
             public void Handle(UpdateFunctionCommand message)
@@ -300,7 +295,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(FunctionUpdatedEvent message)
             {
-                if (message.GetType() == typeof(PrivateFunctionUpdatedEvent))
+                if (message.IsPriviate)
                 {
                     return;
                 }
@@ -373,7 +368,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new PrivateFunctionUpdatedEvent(acSession, entity, input));
+                    acDomain.MessageDispatcher.DispatchMessage(new FunctionUpdatedEvent(acSession, entity, input) { IsPriviate = true });
                 }
             }
 
@@ -402,15 +397,6 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
             }
 
-            private class PrivateFunctionUpdatedEvent : FunctionUpdatedEvent, IPrivateEvent
-            {
-                internal PrivateFunctionUpdatedEvent(IAcSession acSession, FunctionBase source, IFunctionUpdateIo input)
-                    : base(acSession, source, input)
-                {
-
-                }
-            }
-
             public void Handle(RemoveFunctionCommand message)
             {
                 this.Handle(message.AcSession, message.EntityId, true);
@@ -418,7 +404,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(FunctionRemovedEvent message)
             {
-                if (message.GetType() == typeof(PrivateFunctionRemovedEvent))
+                if (message.IsPriviate)
                 {
                     return;
                 }
@@ -500,16 +486,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new PrivateFunctionRemovedEvent(acSession, entity));
-                }
-            }
-
-            private class PrivateFunctionRemovedEvent : FunctionRemovedEvent, IPrivateEvent
-            {
-                internal PrivateFunctionRemovedEvent(IAcSession acSession, FunctionBase function)
-                    : base(acSession, function)
-                {
-
+                    acDomain.MessageDispatcher.DispatchMessage(new FunctionRemovedEvent(acSession, entity) { IsPriviate = true });
                 }
             }
         }

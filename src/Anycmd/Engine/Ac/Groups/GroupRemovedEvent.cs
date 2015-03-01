@@ -3,11 +3,13 @@ namespace Anycmd.Engine.Ac.Groups
 {
     using Events;
 
-    public class GroupRemovedEvent : DomainEvent
+    public sealed class GroupRemovedEvent : DomainEvent
     {
         public GroupRemovedEvent(IAcSession acSession, GroupBase source)
             : base(acSession, source)
         {
         }
+
+        internal bool IsPrivate { get; set; }
     }
 }

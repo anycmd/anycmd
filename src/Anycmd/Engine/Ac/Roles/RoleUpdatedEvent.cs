@@ -4,7 +4,7 @@ namespace Anycmd.Engine.Ac.Roles
     using Events;
     using System;
 
-    public class RoleUpdatedEvent : DomainEvent
+    public sealed class RoleUpdatedEvent : DomainEvent
     {
         public RoleUpdatedEvent(IAcSession acSession, RoleBase source, IRoleUpdateIo output)
             : base(acSession, source)
@@ -17,5 +17,6 @@ namespace Anycmd.Engine.Ac.Roles
         }
 
         public IRoleUpdateIo Output { get; private set; }
+        internal bool IsPrivate { get; set; }
     }
 }

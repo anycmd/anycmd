@@ -100,7 +100,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
             IHandler<GroupAddedEvent>,
             IHandler<UpdateGroupCommand>,
             IHandler<GroupUpdatedEvent>,
-            IHandler<RemoveGroupCommand>, 
+            IHandler<RemoveGroupCommand>,
             IHandler<GroupRemovedEvent>
         {
             private readonly GroupSet _set;
@@ -132,7 +132,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(GroupAddedEvent message)
             {
-                if (message.GetType() == typeof(PrivateGroupAddedEvent))
+                if (message.IsPrivate)
                 {
                     return;
                 }
@@ -186,16 +186,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new PrivateGroupAddedEvent(acSession, entity, input));
-                }
-            }
-
-            private class PrivateGroupAddedEvent : GroupAddedEvent, IPrivateEvent
-            {
-                internal PrivateGroupAddedEvent(IAcSession acSession, GroupBase source, IGroupCreateIo input)
-                    : base(acSession, source, input)
-                {
-
+                    acDomain.MessageDispatcher.DispatchMessage(new GroupAddedEvent(acSession, entity, input) { IsPrivate = true });
                 }
             }
 
@@ -206,7 +197,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(GroupUpdatedEvent message)
             {
-                if (message.GetType() == typeof(PrivateGroupUpdatedEvent))
+                if (message.IsPrivate)
                 {
                     return;
                 }
@@ -269,7 +260,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new PrivateGroupUpdatedEvent(acSession, entity, input));
+                    acDomain.MessageDispatcher.DispatchMessage(new GroupUpdatedEvent(acSession, entity, input) { IsPrivate = true });
                 }
             }
 
@@ -279,15 +270,6 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 groupDic[state.Id] = state;
             }
 
-            private class PrivateGroupUpdatedEvent : GroupUpdatedEvent, IPrivateEvent
-            {
-                internal PrivateGroupUpdatedEvent(IAcSession acSession, GroupBase source, IGroupUpdateIo input)
-                    : base(acSession, source, input)
-                {
-
-                }
-            }
-
             public void Handle(RemoveGroupCommand message)
             {
                 this.Handle(message.AcSession, message.EntityId, true);
@@ -295,7 +277,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(GroupRemovedEvent message)
             {
-                if (message.GetType() == typeof(PrivateGroupRemovedEvent))
+                if (message.IsPrivate)
                 {
                     return;
                 }
@@ -353,16 +335,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new PrivateGroupRemovedEvent(acSession, entity));
-                }
-            }
-
-            private class PrivateGroupRemovedEvent : GroupRemovedEvent, IPrivateEvent
-            {
-                internal PrivateGroupRemovedEvent(IAcSession acSession, GroupBase source)
-                    : base(acSession, source)
-                {
-
+                    acDomain.MessageDispatcher.DispatchMessage(new GroupRemovedEvent(acSession, entity) { IsPrivate = true });
                 }
             }
         }

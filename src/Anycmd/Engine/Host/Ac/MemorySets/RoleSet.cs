@@ -230,7 +230,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(RoleAddedEvent message)
             {
-                if (message.GetType() == typeof(PrivateRoleAddedEvent))
+                if (message.IsPrivate)
                 {
                     return;
                 }
@@ -286,16 +286,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new PrivateRoleAddedEvent(acSession, entity, input));
-                }
-            }
-
-            private class PrivateRoleAddedEvent : RoleAddedEvent, IPrivateEvent
-            {
-                internal PrivateRoleAddedEvent(IAcSession acSession, RoleBase source, IRoleCreateIo input)
-                    : base(acSession, source, input)
-                {
-
+                    acDomain.MessageDispatcher.DispatchMessage(new RoleAddedEvent(acSession, entity, input) { IsPrivate = true });
                 }
             }
 
@@ -306,7 +297,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(RoleUpdatedEvent message)
             {
-                if (message.GetType() == typeof(PrivateRoleUpdatedEvent))
+                if (message.IsPrivate)
                 {
                     return;
                 }
@@ -370,7 +361,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new PrivateRoleUpdatedEvent(acSession, entity, input));
+                    acDomain.MessageDispatcher.DispatchMessage(new RoleUpdatedEvent(acSession, entity, input) { IsPrivate = true });
                 }
             }
 
@@ -380,15 +371,6 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 roleDic[state.Id] = state;
             }
 
-            private class PrivateRoleUpdatedEvent : RoleUpdatedEvent, IPrivateEvent
-            {
-                internal PrivateRoleUpdatedEvent(IAcSession acSession, RoleBase source, IRoleUpdateIo input)
-                    : base(acSession, source, input)
-                {
-
-                }
-            }
-
             public void Handle(RemoveRoleCommand message)
             {
                 this.Handle(message.AcSession, message.EntityId, true);
@@ -396,7 +378,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
 
             public void Handle(RoleRemovedEvent message)
             {
-                if (message.GetType() == typeof(PrivateRoleRemovedEvent))
+                if (message.IsPrivate)
                 {
                     return;
                 }
@@ -454,16 +436,7 @@ namespace Anycmd.Engine.Host.Ac.MemorySets
                 }
                 if (isCommand)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new PrivateRoleRemovedEvent(acSession, entity));
-                }
-            }
-
-            private class PrivateRoleRemovedEvent : RoleRemovedEvent, IPrivateEvent
-            {
-                internal PrivateRoleRemovedEvent(IAcSession acSession, RoleBase source)
-                    : base(acSession, source)
-                {
-
+                    acDomain.MessageDispatcher.DispatchMessage(new RoleRemovedEvent(acSession, entity) { IsPrivate = true });
                 }
             }
 

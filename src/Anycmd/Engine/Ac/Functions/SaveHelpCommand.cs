@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Ac.Functions
     using Messages;
     using System;
 
-    public class SaveHelpCommand : Command, IAnycmdCommand
+    public sealed class SaveHelpCommand : Command, IAnycmdCommand
     {
         public SaveHelpCommand(IAcSession acSession, Guid functionId, string content, int? isEnabled)
         {
