@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Edi.Messages
     using Commands;
     using System;
 
-    public class RemoveNodeOntologyCatalogCommand : Command, IAnycmdCommand
+    public sealed class RemoveNodeOntologyCatalogCommand : Command, IAnycmdCommand
     {
         public RemoveNodeOntologyCatalogCommand(IAcSession acSession, Guid nodeId, Guid ontologyId, Guid catalogId)
         {

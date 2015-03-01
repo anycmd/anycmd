@@ -8,7 +8,7 @@ namespace Anycmd.Engine.Edi.Messages
     /// <summary>
     /// 
     /// </summary>
-    public class NodeAddedEvent : DomainEvent
+    public sealed class NodeAddedEvent : DomainEvent
     {
         public NodeAddedEvent(IAcSession acSession, NodeBase source, INodeCreateIo output)
             : base(acSession, source)
@@ -21,5 +21,6 @@ namespace Anycmd.Engine.Edi.Messages
         }
 
         public INodeCreateIo Output { get; private set; }
+        internal bool IsPrivate { get; set; }
     }
 }

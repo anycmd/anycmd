@@ -4,7 +4,7 @@ namespace Anycmd.Engine.Edi.Messages
     using Abstractions;
     using Events;
 
-    public class NodeActionUpdatedEvent : DomainEvent
+    public sealed class NodeActionUpdatedEvent : DomainEvent
     {
         public NodeActionUpdatedEvent(IAcSession acSession, NodeAction source)
             : base(acSession, source)

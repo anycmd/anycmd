@@ -389,7 +389,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
             public void Handle(NodeAddedEvent message)
             {
-                if (message.GetType() == typeof(PrivateNodeAddedEvent))
+                if (message.IsPrivate)
                 {
                     return;
                 }
@@ -447,18 +447,10 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
                 if (isCommand)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new PrivateNodeAddedEvent(acSession, entity, input));
+                    acDomain.MessageDispatcher.DispatchMessage(new NodeAddedEvent(acSession, entity, input) { IsPrivate = true });
                 }
             }
 
-            private class PrivateNodeAddedEvent : NodeAddedEvent, IPrivateEvent
-            {
-                internal PrivateNodeAddedEvent(IAcSession acSession, NodeBase source, INodeCreateIo input)
-                    : base(acSession, source, input)
-                {
-
-                }
-            }
             public void Handle(UpdateNodeCommand message)
             {
                 this.Handle(message.AcSession, message.Input, true);
@@ -466,7 +458,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
             public void Handle(NodeUpdatedEvent message)
             {
-                if (message.GetType() == typeof(PrivateNodeUpdatedEvent))
+                if (message.IsPrivate)
                 {
                     return;
                 }
@@ -529,7 +521,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new PrivateNodeUpdatedEvent(acSession, entity, input));
+                    acDomain.MessageDispatcher.DispatchMessage(new NodeUpdatedEvent(acSession, entity, input) { IsPrivate = true });
                 }
             }
 
@@ -550,15 +542,6 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
             }
 
-            private class PrivateNodeUpdatedEvent : NodeUpdatedEvent, IPrivateEvent
-            {
-                internal PrivateNodeUpdatedEvent(IAcSession acSession, NodeBase source, INodeUpdateIo input)
-                    : base(acSession, source, input)
-                {
-
-                }
-            }
-
             public void Handle(RemoveNodeCommand message)
             {
                 this.Handle(message.AcSession, message.EntityId, true);
@@ -566,7 +549,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
             public void Handle(NodeRemovedEvent message)
             {
-                if (message.GetType() == typeof(PrivateNodeRemovedEvent))
+                if (message.IsPrivate)
                 {
                     return;
                 }
@@ -612,16 +595,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
                 if (isCommand)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new PrivateNodeRemovedEvent(acSession, entity));
-                }
-            }
-
-            private class PrivateNodeRemovedEvent : NodeRemovedEvent, IPrivateEvent
-            {
-                internal PrivateNodeRemovedEvent(IAcSession acSession, NodeBase source)
-                    : base(acSession, source)
-                {
-
+                    acDomain.MessageDispatcher.DispatchMessage(new NodeRemovedEvent(acSession, entity) { IsPrivate = true });
                 }
             }
         }
@@ -761,7 +735,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 public void Handle(NodeElementActionAddedEvent message)
                 {
-                    if (message.GetType() == typeof(PrivateNodeElementActionAddedEvent))
+                    if (message.IsPrivate)
                     {
                         return;
                     }
@@ -831,16 +805,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                     if (isCommand)
                     {
-                        acDomain.MessageDispatcher.DispatchMessage(new PrivateNodeElementActionAddedEvent(acSession, entity, input));
-                    }
-                }
-
-                private class PrivateNodeElementActionAddedEvent : NodeElementActionAddedEvent, IPrivateEvent
-                {
-                    internal PrivateNodeElementActionAddedEvent(IAcSession acSession, NodeElementActionBase source, INodeElementActionCreateIo input)
-                        : base(acSession, source, input)
-                    {
-
+                        acDomain.MessageDispatcher.DispatchMessage(new NodeElementActionAddedEvent(acSession, entity, input) { IsPrivate = true });
                     }
                 }
 
@@ -851,7 +816,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 public void Handle(NodeElementActionRemovedEvent message)
                 {
-                    if (message.GetType() == typeof(PrivateNodeElementActionRemovedEvent))
+                    if (message.IsPrivate)
                     {
                         return;
                     }
@@ -930,16 +895,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                     if (isCommand)
                     {
-                        acDomain.MessageDispatcher.DispatchMessage(new PrivateNodeElementActionRemovedEvent(acSession, entity));
-                    }
-                }
-
-                private class PrivateNodeElementActionRemovedEvent : NodeElementActionRemovedEvent, IPrivateEvent
-                {
-                    public PrivateNodeElementActionRemovedEvent(IAcSession acSession, NodeElementAction source)
-                        : base(acSession, source)
-                    {
-
+                        acDomain.MessageDispatcher.DispatchMessage(new NodeElementActionRemovedEvent(acSession, entity) { IsPrivate = true });
                     }
                 }
             }
@@ -1245,7 +1201,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 public void Handle(NodeOntologyCareAddedEvent message)
                 {
-                    if (message.GetType() == typeof(PrivateNodeOntologyCareAddedEvent))
+                    if (message.IsPrivate)
                     {
                         return;
                     }
@@ -1317,16 +1273,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                     if (isCommand)
                     {
-                        acDomain.MessageDispatcher.DispatchMessage(new PrivateNodeOntologyCareAddedEvent(acSession, entity, input));
-                    }
-                }
-
-                private class PrivateNodeOntologyCareAddedEvent : NodeOntologyCareAddedEvent, IPrivateEvent
-                {
-                    internal PrivateNodeOntologyCareAddedEvent(IAcSession acSession, NodeOntologyCareBase source, INodeOntologyCareCreateIo input)
-                        : base(acSession, source, input)
-                    {
-
+                        acDomain.MessageDispatcher.DispatchMessage(new NodeOntologyCareAddedEvent(acSession, entity, input) { IsPrivate = true });
                     }
                 }
 
@@ -1337,7 +1284,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 public void Handle(NodeOntologyCareRemovedEvent message)
                 {
-                    if (message.GetType() == typeof(PrivateNodeOntologyCareRemovedEvent))
+                    if (message.IsPrivate)
                     {
                         return;
                     }
@@ -1400,14 +1347,8 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                     if (isCommand)
                     {
-                        acDomain.MessageDispatcher.DispatchMessage(new PrivateNodeOntologyCareRemovedEvent(acSession, entity));
+                        acDomain.MessageDispatcher.DispatchMessage(new NodeOntologyCareRemovedEvent(acSession, entity) { IsPrivate = true });
                     }
-                }
-
-                private class PrivateNodeOntologyCareRemovedEvent : NodeOntologyCareRemovedEvent, IPrivateEvent
-                {
-                    internal PrivateNodeOntologyCareRemovedEvent(IAcSession acSession, NodeOntologyCareBase source) : base(acSession, source) { }
-
                 }
 
                 public void Handle(AddNodeElementCareCommand message)
@@ -1417,7 +1358,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 public void Handle(NodeElementCareAddedEvent message)
                 {
-                    if (message.GetType() == typeof(PrivateNodeElementCareAddedEvent))
+                    if (message.IsPrivate)
                     {
                         return;
                     }
@@ -1489,16 +1430,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                     if (isCommand)
                     {
-                        acDomain.MessageDispatcher.DispatchMessage(new PrivateNodeElementCareAddedEvent(acSession, entity, input));
-                    }
-                }
-
-                private class PrivateNodeElementCareAddedEvent : NodeElementCareAddedEvent, IPrivateEvent
-                {
-                    internal PrivateNodeElementCareAddedEvent(IAcSession acSession, NodeElementCareBase source, INodeElementCareCreateIo input)
-                        : base(acSession, source, input)
-                    {
-
+                        acDomain.MessageDispatcher.DispatchMessage(new NodeElementCareAddedEvent(acSession, entity, input) { IsPrivate = true });
                     }
                 }
 
@@ -1509,7 +1441,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 public void Handle(NodeElementCareUpdatedEvent message)
                 {
-                    if (message.GetType() == typeof(PrivateNodeElementCareUpdatedEvent))
+                    if (message.IsPrivate)
                     {
                         return;
                     }
@@ -1581,16 +1513,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                     if (isCommand)
                     {
-                        acDomain.MessageDispatcher.DispatchMessage(new PrivateNodeElementCareUpdatedEvent(acSession, entity));
-                    }
-                }
-
-                private class PrivateNodeElementCareUpdatedEvent : NodeElementCareUpdatedEvent, IPrivateEvent
-                {
-                    internal PrivateNodeElementCareUpdatedEvent(IAcSession acSession, NodeElementCareBase source)
-                        : base(acSession, source)
-                    {
-
+                        acDomain.MessageDispatcher.DispatchMessage(new NodeElementCareUpdatedEvent(acSession, entity) { IsPrivate = true });
                     }
                 }
 
@@ -1601,7 +1524,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 public void Handle(NodeElementCareRemovedEvent message)
                 {
-                    if (message.GetType() == typeof(PrivateNodeElementCareRemovedEvent))
+                    if (message.IsPrivate)
                     {
                         return;
                     }
@@ -1680,14 +1603,8 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                     if (isCommand)
                     {
-                        acDomain.MessageDispatcher.DispatchMessage(new PrivateNodeElementCareRemovedEvent(acSession, entity));
+                        acDomain.MessageDispatcher.DispatchMessage(new NodeElementCareRemovedEvent(acSession, entity) { IsPrivate = true });
                     }
-                }
-
-                private class PrivateNodeElementCareRemovedEvent : NodeElementCareRemovedEvent, IPrivateEvent
-                {
-                    internal PrivateNodeElementCareRemovedEvent(IAcSession acSession, NodeElementCareBase source) : base(acSession, source) { }
-
                 }
             }
             #endregion
@@ -1853,7 +1770,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 public void Handle(NodeOntologyCatalogAddedEvent message)
                 {
-                    if (message.GetType() == typeof(PrivateNodeOntologyCatalogAddedEvent))
+                    if (message.IsPrivate)
                     {
                         return;
                     }
@@ -1927,16 +1844,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                     if (isCommand)
                     {
-                        acDomain.MessageDispatcher.DispatchMessage(new PrivateNodeOntologyCatalogAddedEvent(acSession, entity, input));
-                    }
-                }
-
-                private class PrivateNodeOntologyCatalogAddedEvent : NodeOntologyCatalogAddedEvent, IPrivateEvent
-                {
-                    internal PrivateNodeOntologyCatalogAddedEvent(IAcSession acSession, NodeOntologyCatalogBase source, INodeOntologyCatalogCreateIo input)
-                        : base(acSession, source, input)
-                    {
-
+                        acDomain.MessageDispatcher.DispatchMessage(new NodeOntologyCatalogAddedEvent(acSession, entity, input) { IsPrivate = true });
                     }
                 }
 
@@ -1947,7 +1855,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 public void Handle(NodeOntologyCatalogRemovedEvent message)
                 {
-                    if (message.GetType() == typeof(PrivateNodeOntologyCatalogRemovedEvent))
+                    if (message.IsPrivate)
                     {
                         return;
                     }
@@ -2001,13 +1909,8 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                     if (isCommand)
                     {
-                        acDomain.MessageDispatcher.DispatchMessage(new PrivateNodeOntologyCatalogRemovedEvent(acSession, entity));
+                        acDomain.MessageDispatcher.DispatchMessage(new NodeOntologyCatalogRemovedEvent(acSession, entity) { IsPrivate = true });
                     }
-                }
-
-                private class PrivateNodeOntologyCatalogRemovedEvent : NodeOntologyCatalogRemovedEvent, IPrivateEvent
-                {
-                    internal PrivateNodeOntologyCatalogRemovedEvent(IAcSession acSession, NodeOntologyCatalogBase source) : base(acSession, source) { }
                 }
             }
             #endregion

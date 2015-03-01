@@ -4,7 +4,7 @@ namespace Anycmd.Engine.Edi.Messages
     using Abstractions;
     using Events;
 
-    public class ElementInfoRuleRemovedEvent : DomainEvent
+    public sealed class ElementInfoRuleRemovedEvent : DomainEvent
     {
         public ElementInfoRuleRemovedEvent(IAcSession acSession, ElementInfoRule source) : base(acSession, source) { }
     }

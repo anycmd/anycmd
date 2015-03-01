@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Edi.Messages
     using Events;
     using InOuts;
 
-    public class OntologyCatalogAddedEvent : DomainEvent
+    public sealed class OntologyCatalogAddedEvent : DomainEvent
     {
         public OntologyCatalogAddedEvent(IAcSession acSession, OntologyCatalogBase source, IOntologyCatalogCreateIo output)
             : base(acSession, source)
@@ -18,5 +18,6 @@ namespace Anycmd.Engine.Edi.Messages
         }
 
         public IOntologyCatalogCreateIo Output { get; private set; }
+        internal bool IsPrivate { get; set; }
     }
 }

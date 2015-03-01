@@ -8,7 +8,7 @@ namespace Anycmd.Engine.Edi.Messages
     /// <summary>
     /// 
     /// </summary>
-    public class OntologyAddedEvent : DomainEvent
+    public sealed class OntologyAddedEvent : DomainEvent
     {
         public OntologyAddedEvent(IAcSession acSession, OntologyBase source, IOntologyCreateIo output)
             : base(acSession, source)
@@ -21,5 +21,6 @@ namespace Anycmd.Engine.Edi.Messages
         }
 
         public IOntologyCreateIo Output { get; private set; }
+        internal bool IsPrivate { get; set; }
     }
 }

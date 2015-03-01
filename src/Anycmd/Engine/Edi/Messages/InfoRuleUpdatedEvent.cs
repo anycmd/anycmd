@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Edi.Messages
     using Info;
     using InOuts;
 
-    public class InfoRuleUpdatedEvent : DomainEvent
+    public sealed class InfoRuleUpdatedEvent : DomainEvent
     {
         public InfoRuleUpdatedEvent(IAcSession acSession, InfoRuleEntityBase source, IInfoRuleUpdateIo output)
             : base(acSession, source)

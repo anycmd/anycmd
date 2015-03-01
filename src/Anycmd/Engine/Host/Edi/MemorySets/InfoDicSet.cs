@@ -204,7 +204,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
         }
 
         #region MessageHandler
-        private class MessageHandler:
+        private class MessageHandler :
             IHandler<AddInfoDicCommand>,
             IHandler<InfoDicAddedEvent>,
             IHandler<UpdateInfoDicCommand>,
@@ -253,7 +253,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
             public void Handle(InfoDicAddedEvent message)
             {
-                if (message.GetType() == typeof(PrivateInfoDicAddedEvent))
+                if (message.IsPrivate)
                 {
                     return;
                 }
@@ -323,18 +323,10 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
                 if (isCommand)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new PrivateInfoDicAddedEvent(acSession, entity, input));
+                    acDomain.MessageDispatcher.DispatchMessage(new InfoDicAddedEvent(acSession, entity, input) { IsPrivate = true });
                 }
             }
 
-            private class PrivateInfoDicAddedEvent : InfoDicAddedEvent, IPrivateEvent
-            {
-                public PrivateInfoDicAddedEvent(IAcSession acSession, InfoDicBase source, IInfoDicCreateIo input)
-                    : base(acSession, source, input)
-                {
-
-                }
-            }
             public void Handle(UpdateInfoDicCommand message)
             {
                 this.Handle(message.AcSession, message.Input, true);
@@ -342,7 +334,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
             public void Handle(InfoDicUpdatedEvent message)
             {
-                if (message.GetType() == typeof(PrivateInfoDicUpdatedEvent))
+                if (message.IsPrivate)
                 {
                     return;
                 }
@@ -403,7 +395,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new PrivateInfoDicUpdatedEvent(acSession, entity, input));
+                    acDomain.MessageDispatcher.DispatchMessage(new InfoDicUpdatedEvent(acSession, entity, input) { IsPrivate = true });
                 }
             }
 
@@ -425,14 +417,6 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
             }
 
-            private class PrivateInfoDicUpdatedEvent : InfoDicUpdatedEvent, IPrivateEvent
-            {
-                public PrivateInfoDicUpdatedEvent(IAcSession acSession, InfoDicBase source, IInfoDicUpdateIo input)
-                    : base(acSession, source, input)
-                {
-
-                }
-            }
             public void Handle(RemoveInfoDicCommand message)
             {
                 this.Handle(message.AcSession, message.EntityId, true);
@@ -440,7 +424,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
             public void Handle(InfoDicRemovedEvent message)
             {
-                if (message.GetType() == typeof(PrivateInfoDicRemovedEvent))
+                if (message.IsPrivate)
                 {
                     return;
                 }
@@ -503,18 +487,10 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
                 if (isCommand)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new PrivateInfoDicRemovedEvent(acSession, entity));
+                    acDomain.MessageDispatcher.DispatchMessage(new InfoDicRemovedEvent(acSession, entity) { IsPrivate = true });
                 }
             }
 
-            private class PrivateInfoDicRemovedEvent : InfoDicRemovedEvent, IPrivateEvent
-            {
-                internal PrivateInfoDicRemovedEvent(IAcSession acSession, InfoDicBase source)
-                    : base(acSession, source)
-                {
-
-                }
-            }
             public void Handle(AddInfoDicItemCommand message)
             {
                 this.Handle(message.AcSession, message.Input, true);
@@ -522,7 +498,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
             public void Handle(InfoDicItemAddedEvent message)
             {
-                if (message.GetType() == typeof(PrivateInfoDicItemAddedEvent))
+                if (message.IsPrivate)
                 {
                     return;
                 }
@@ -599,18 +575,10 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
                 if (isCommand)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new PrivateInfoDicItemAddedEvent(acSession, entity, input));
+                    acDomain.MessageDispatcher.DispatchMessage(new InfoDicItemAddedEvent(acSession, entity, input) { IsPrivate = true });
                 }
             }
 
-            private class PrivateInfoDicItemAddedEvent : InfoDicItemAddedEvent, IPrivateEvent
-            {
-                internal PrivateInfoDicItemAddedEvent(IAcSession acSession, InfoDicItemBase source, IInfoDicItemCreateIo input)
-                    : base(acSession, source, input)
-                {
-
-                }
-            }
             public void Handle(UpdateInfoDicItemCommand message)
             {
                 this.Handle(message.AcSession, message.Input, true);
@@ -618,7 +586,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
             public void Handle(InfoDicItemUpdatedEvent message)
             {
-                if (message.GetType() == typeof(PrivateInfoDicItemUpdatedEvent))
+                if (message.IsPrivate)
                 {
                     return;
                 }
@@ -684,7 +652,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new PrivateInfoDicItemUpdatedEvent(acSession, entity, input));
+                    acDomain.MessageDispatcher.DispatchMessage(new InfoDicItemUpdatedEvent(acSession, entity, input) { IsPrivate = true });
                 }
             }
 
@@ -713,15 +681,6 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
             }
 
-            private class PrivateInfoDicItemUpdatedEvent : InfoDicItemUpdatedEvent, IPrivateEvent
-            {
-                internal PrivateInfoDicItemUpdatedEvent(IAcSession acSession, InfoDicItemBase source, IInfoDicItemUpdateIo input)
-                    : base(acSession, source, input)
-                {
-
-                }
-            }
-
             public void Handle(RemoveInfoDicItemCommand message)
             {
                 this.HandleItem(message.AcSession, message.EntityId, true);
@@ -729,7 +688,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
             public void Handle(InfoDicItemRemovedEvent message)
             {
-                if (message.GetType() == typeof(PrivateInfoDicItemRemovedEvent))
+                if (message.IsPrivate)
                 {
                     return;
                 }
@@ -796,16 +755,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
                 if (isCommand)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new PrivateInfoDicItemRemovedEvent(acSession, entity));
-                }
-            }
-
-            private class PrivateInfoDicItemRemovedEvent : InfoDicItemRemovedEvent, IPrivateEvent
-            {
-                internal PrivateInfoDicItemRemovedEvent(IAcSession acSession, InfoDicItemBase source)
-                    : base(acSession, source)
-                {
-
+                    acDomain.MessageDispatcher.DispatchMessage(new InfoDicItemRemovedEvent(acSession, entity) { IsPrivate = true });
                 }
             }
         }

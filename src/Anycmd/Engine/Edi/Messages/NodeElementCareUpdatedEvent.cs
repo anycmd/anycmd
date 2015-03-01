@@ -4,7 +4,7 @@ namespace Anycmd.Engine.Edi.Messages
     using Abstractions;
     using Events;
 
-    public class NodeElementCareUpdatedEvent : DomainEvent
+    public sealed class NodeElementCareUpdatedEvent : DomainEvent
     {
         public NodeElementCareUpdatedEvent(IAcSession acSession, NodeElementCareBase source)
             : base(acSession, source)
@@ -13,5 +13,6 @@ namespace Anycmd.Engine.Edi.Messages
         }
 
         public bool IsInfoIdItem { get; private set; }
+        internal bool IsPrivate { get; set; }
     }
 }

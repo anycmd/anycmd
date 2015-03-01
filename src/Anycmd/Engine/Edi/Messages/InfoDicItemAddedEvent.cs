@@ -8,7 +8,7 @@ namespace Anycmd.Engine.Edi.Messages
     /// <summary>
     /// 
     /// </summary>
-    public class InfoDicItemAddedEvent : DomainEvent
+    public sealed class InfoDicItemAddedEvent : DomainEvent
     {
         public InfoDicItemAddedEvent(IAcSession acSession, InfoDicItemBase source, IInfoDicItemCreateIo output)
             : base(acSession, source)
@@ -21,5 +21,6 @@ namespace Anycmd.Engine.Edi.Messages
         }
 
         public IInfoDicItemCreateIo Output { get; private set; }
+        internal bool IsPrivate { get; set; }
     }
 }

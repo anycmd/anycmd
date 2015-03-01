@@ -1,5 +1,5 @@
 ﻿using System;
-
+    
 namespace Anycmd.Engine.Host.Edi.MemorySets
 {
     using Bus;
@@ -17,6 +17,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
     using Repositories;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using Util;
     using catalogId = System.Guid;
@@ -362,7 +363,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
         #endregion
 
         #region MessageHandler
-        private class MessageHandler : 
+        private class MessageHandler :
             IHandler<AddOntologyCommand>,
             IHandler<OntologyAddedEvent>,
             IHandler<UpdateOntologyCommand>,
@@ -399,7 +400,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
             public void Handle(OntologyAddedEvent message)
             {
-                if (message.GetType() == typeof(PrivateOntologyAddedEvent))
+                if (message.IsPrivate)
                 {
                     return;
                 }
@@ -462,16 +463,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
                 if (isCommand)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new PrivateOntologyAddedEvent(acSession, entity, input));
-                }
-            }
-
-            private class PrivateOntologyAddedEvent : OntologyAddedEvent, IPrivateEvent
-            {
-                public PrivateOntologyAddedEvent(IAcSession acSession, OntologyBase source, IOntologyCreateIo input)
-                    : base(acSession, source, input)
-                {
-
+                    acDomain.MessageDispatcher.DispatchMessage(new OntologyAddedEvent(acSession, entity, input) { IsPrivate = true });
                 }
             }
 
@@ -482,7 +474,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
             public void Handle(OntologyUpdatedEvent message)
             {
-                if (message.GetType() == typeof(PrivateOntologyUpdatedEvent))
+                if (message.IsPrivate)
                 {
                     return;
                 }
@@ -549,7 +541,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
                 if (isCommand && stateChanged)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new PrivateOntologyUpdatedEvent(acSession, entity, input));
+                    acDomain.MessageDispatcher.DispatchMessage(new OntologyUpdatedEvent(acSession, entity, input) { IsPrivate = true });
                 }
             }
 
@@ -568,15 +560,6 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
             }
 
-            private class PrivateOntologyUpdatedEvent : OntologyUpdatedEvent, IPrivateEvent
-            {
-                public PrivateOntologyUpdatedEvent(IAcSession acSession, OntologyBase source, IOntologyUpdateIo input)
-                    : base(acSession, source, input)
-                {
-
-                }
-            }
-
             public void Handle(RemoveOntologyCommand message)
             {
                 this.Handle(message.AcSession, message.EntityId, true);
@@ -584,7 +567,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
             public void Handle(OntologyRemovedEvent message)
             {
-                if (message.GetType() == typeof(PrivateOntologyRemovedEvent))
+                if (message.IsPrivate)
                 {
                     return;
                 }
@@ -677,13 +660,8 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                 }
                 if (isCommand)
                 {
-                    acDomain.MessageDispatcher.DispatchMessage(new PrivateOntologyRemovedEvent(acSession, entity));
+                    acDomain.MessageDispatcher.DispatchMessage(new OntologyRemovedEvent(acSession, entity) { IsPrivate = true });
                 }
-            }
-
-            private class PrivateOntologyRemovedEvent : OntologyRemovedEvent, IPrivateEvent
-            {
-                public PrivateOntologyRemovedEvent(IAcSession acSession, OntologyBase source) : base(acSession, source) { }
             }
         }
         #endregion
@@ -811,7 +789,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             #endregion
 
             #region ElementMessageHandler
-            private class ElementMessageHandler : 
+            private class ElementMessageHandler :
                 IHandler<AddElementCommand>,
                 IHandler<AddSystemElementCommand>,
                 IHandler<UpdateElementCommand>,
@@ -1243,7 +1221,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             #endregion
 
             #region ActionMessageHandler
-            private class ActionMessageHandler : 
+            private class ActionMessageHandler :
                 IHandler<AddActionCommand>,
                 IHandler<UpdateActionCommand>,
                 IHandler<RemoveActionCommand>
@@ -1528,7 +1506,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             #endregion
 
             #region InfoGroupMessageHandler
-            private class InfoGroupMessageHandler : 
+            private class InfoGroupMessageHandler :
                 IHandler<AddInfoGroupCommand>,
                 IHandler<UpdateInfoGroupCommand>,
                 IHandler<RemoveInfoGroupCommand>
@@ -1845,7 +1823,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 public void Handle(OntologyCatalogAddedEvent message)
                 {
-                    if (message.GetType() == typeof(PrivateOntologyCatalogAddedEvent))
+                    if (message.IsPrivate)
                     {
                         return;
                     }
@@ -1874,6 +1852,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                         {
                             return;
                         }
+                        Debug.Assert(input.Id != null, "input.Id != null");
                         entity = new OntologyCatalog
                         {
                             Id = input.Id.Value,
@@ -1904,16 +1883,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                     if (isCommand)
                     {
-                        acDomain.MessageDispatcher.DispatchMessage(new PrivateOntologyCatalogAddedEvent(acSession, entity, input));
-                    }
-                }
-
-                private class PrivateOntologyCatalogAddedEvent : OntologyCatalogAddedEvent, IPrivateEvent
-                {
-                    public PrivateOntologyCatalogAddedEvent(IAcSession acSession, OntologyCatalogBase source, IOntologyCatalogCreateIo input)
-                        : base(acSession, source, input)
-                    {
-
+                        acDomain.MessageDispatcher.DispatchMessage(new OntologyCatalogAddedEvent(acSession, entity, input) { IsPrivate = true });
                     }
                 }
 
@@ -1924,7 +1894,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
 
                 public void Handle(OntologyCatalogRemovedEvent message)
                 {
-                    if (message.GetType() == typeof(PrivateOntologyCatalogRemovedEvent))
+                    if (message.IsPrivate)
                     {
                         return;
                     }
@@ -1990,13 +1960,8 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
                     }
                     if (isCommand)
                     {
-                        acDomain.MessageDispatcher.DispatchMessage(new PrivateOntologyCatalogRemovedEvent(acSession, entity));
+                        acDomain.MessageDispatcher.DispatchMessage(new OntologyCatalogRemovedEvent(acSession, entity) { IsPrivate = true });
                     }
-                }
-
-                private class PrivateOntologyCatalogRemovedEvent : OntologyCatalogRemovedEvent, IPrivateEvent
-                {
-                    public PrivateOntologyCatalogRemovedEvent(IAcSession acSession, OntologyCatalogBase source) : base(acSession, source) { }
                 }
 
                 public void Handle(AddCatalogActionCommand message)
@@ -2120,7 +2085,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             #endregion
 
             #region TopicMessageHandler
-            private class TopicMessageHandler : 
+            private class TopicMessageHandler :
                 IHandler<AddTopicCommand>,
                 IHandler<UpdateTopicCommand>,
                 IHandler<RemoveTopicCommand>
@@ -2419,7 +2384,7 @@ namespace Anycmd.Engine.Host.Edi.MemorySets
             }
 
             #region ArchiveMessageHandler
-            private class ArchiveMessageHandler : 
+            private class ArchiveMessageHandler :
                 IHandler<AddArchiveCommand>,
                 IHandler<UpdateArchiveCommand>,
                 IHandler<RemoveArchiveCommand>

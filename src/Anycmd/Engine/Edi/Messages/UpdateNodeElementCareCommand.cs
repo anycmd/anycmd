@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Edi.Messages
     using Engine.Messages;
     using System;
 
-    public class UpdateNodeElementCareCommand : Command, IAnycmdCommand
+    public sealed class UpdateNodeElementCareCommand : Command, IAnycmdCommand
     {
         public UpdateNodeElementCareCommand(IAcSession acSession, Guid nodeElementCareId, bool isInfoIdItem)
         {

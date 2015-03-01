@@ -8,7 +8,7 @@ namespace Anycmd.Engine.Edi.Messages
     /// <summary>
     /// 
     /// </summary>
-    public class OntologyUpdatedEvent : DomainEvent
+    public sealed class OntologyUpdatedEvent : DomainEvent
     {
         public OntologyUpdatedEvent(IAcSession acSession, OntologyBase source, IOntologyUpdateIo output)
             : base(acSession, source)
@@ -21,5 +21,6 @@ namespace Anycmd.Engine.Edi.Messages
         }
 
         public IOntologyUpdateIo Output { get; private set; }
+        internal bool IsPrivate { get; set; }
     }
 }

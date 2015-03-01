@@ -7,8 +7,10 @@ namespace Anycmd.Engine.Edi.Messages
     /// <summary>
     /// 
     /// </summary>
-    public class InfoDicItemRemovedEvent : DomainEvent
+    public sealed class InfoDicItemRemovedEvent : DomainEvent
     {
         public InfoDicItemRemovedEvent(IAcSession acSession, InfoDicItemBase source) : base(acSession, source) { }
+
+        internal bool IsPrivate { get; set; }
     }
 }

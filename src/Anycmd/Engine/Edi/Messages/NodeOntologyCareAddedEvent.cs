@@ -8,7 +8,7 @@ namespace Anycmd.Engine.Edi.Messages
     /// <summary>
     /// 
     /// </summary>
-    public class NodeOntologyCareAddedEvent : DomainEvent
+    public sealed class NodeOntologyCareAddedEvent : DomainEvent
     {
         public NodeOntologyCareAddedEvent(IAcSession acSession, NodeOntologyCareBase source, INodeOntologyCareCreateIo output)
             : base(acSession, source)
@@ -21,5 +21,6 @@ namespace Anycmd.Engine.Edi.Messages
         }
 
         public INodeOntologyCareCreateIo Output { get; private set; }
+        internal bool IsPrivate { get; set; }
     }
 }

@@ -4,7 +4,7 @@ namespace Anycmd.Engine.Edi.Messages
     using Abstractions;
     using Events;
 
-    public class TopicUpdatedEvent : DomainEvent
+    public sealed class TopicUpdatedEvent : DomainEvent
     {
         /// <summary>
         /// 

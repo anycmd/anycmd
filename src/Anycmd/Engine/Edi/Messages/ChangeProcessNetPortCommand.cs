@@ -5,7 +5,7 @@ namespace Anycmd.Engine.Edi.Messages
     using Engine.Messages;
     using System;
 
-    public class ChangeProcessNetPortCommand: Command, IAnycmdCommand
+    public sealed class ChangeProcessNetPortCommand : Command, IAnycmdCommand
     {
         public ChangeProcessNetPortCommand(IAcSession acSession, Guid processId, int netPort)
         {

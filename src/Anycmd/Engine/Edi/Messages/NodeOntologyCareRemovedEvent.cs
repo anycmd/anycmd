@@ -7,8 +7,10 @@ namespace Anycmd.Engine.Edi.Messages
     /// <summary>
     /// 
     /// </summary>
-    public class NodeOntologyCareRemovedEvent : DomainEvent
+    public sealed class NodeOntologyCareRemovedEvent : DomainEvent
     {
         public NodeOntologyCareRemovedEvent(IAcSession acSession, NodeOntologyCareBase source) : base(acSession, source) { }
+
+        internal bool IsPrivate { get; set; }
     }
 }

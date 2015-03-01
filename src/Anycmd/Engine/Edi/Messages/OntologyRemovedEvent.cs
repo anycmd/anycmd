@@ -7,8 +7,10 @@ namespace Anycmd.Engine.Edi.Messages
     /// <summary>
     /// 
     /// </summary>
-    public class OntologyRemovedEvent : DomainEvent
+    public sealed class OntologyRemovedEvent : DomainEvent
     {
         public OntologyRemovedEvent(IAcSession acSession, OntologyBase source) : base(acSession, source) { }
+
+        internal bool IsPrivate { get; set; }
     }
 }
