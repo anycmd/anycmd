@@ -1,9 +1,9 @@
 ﻿
 namespace Anycmd.Xacml
 {
-    public partial class Consts
+    public static partial class Consts
     {
-        public partial class Schema2
+        public static partial class Schema2
         {
             /// <summary>The name of the element/attribute in the XSD schema.</summary>
             public static class VariableReferenceElement

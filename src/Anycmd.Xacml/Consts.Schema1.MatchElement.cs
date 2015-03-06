@@ -1,9 +1,9 @@
 ﻿
 namespace Anycmd.Xacml
 {
-    public partial class Consts
+    public static partial class Consts
     {
-        public partial class Schema1
+        public static partial class Schema1
         {
             public static class MatchElement
             {
