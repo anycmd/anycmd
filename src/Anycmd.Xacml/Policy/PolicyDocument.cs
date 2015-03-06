@@ -5,13 +5,13 @@ using System.Xml;
 namespace Anycmd.Xacml.Policy
 {
     /// <summary>
-    /// Represents a read-only PolicyDocument which may contain a Policy or a PolicySet
+    /// 表示一个只读的包含一个策略或策略集的策略文档。
     /// </summary>
     public class PolicyDocument : PolicyDocumentReadWrite
     {
         #region Constructors
         /// <summary>
-        /// Constructor of the class
+        /// 构造并初始化一个PolicyDocument类型的对象。
         /// </summary>
         /// <param name="reader"></param>
         /// <param name="schemaVersion"></param>
@@ -19,6 +19,7 @@ namespace Anycmd.Xacml.Policy
             : base(reader, schemaVersion)
         {
         }
+
         /// <summary>
         /// Creates a new black PolicyDocument
         /// </summary>

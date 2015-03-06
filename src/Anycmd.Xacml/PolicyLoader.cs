@@ -6,38 +6,29 @@ using System.Xml;
 namespace Anycmd.Xacml
 {
     /// <summary>
-    /// Loads a Policy document from the Xml data provided.
+    /// 从xml数据提供程序加载策略文档。
     /// </summary>
-    public sealed class PolicyLoader
+    public static class PolicyLoader
     {
         #region Constructor
-
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        private PolicyLoader()
-        {
-        }
 
         #endregion
 
         #region Public methods
 
         /// <summary>
-        /// Creates an instace of the PolicyDocument using the provided Xml document string.
+        /// 根据给定的xml文档字符串创建一个策略文档。
         /// </summary>
-        /// <param name="xmlDocument">The Xml document fragment.</param>
-        /// <param name="access">The type of PolicyDocument</param>
-        /// <returns>An instance of a PolicyDocument.</returns>
+        /// <param name="xmlDocument">xml文档片段</param>
+        /// <param name="access">文档可访问性</param>
+        /// <returns>一个策略文档实例</returns>
         public static PolicyDocumentReadWrite LoadPolicyDocument(string xmlDocument, DocumentAccess access)
         {
-            // Validate the parameters
             if (xmlDocument == null)
             {
                 throw new ArgumentNullException("xmlDocument");
             }
 
-            // Read the document to determine the version of the schema used.
             XacmlVersion version = GetXacmlVersion(new StreamReader(xmlDocument));
 
             return LoadPolicyDocument(new StringReader(xmlDocument), version, access);
@@ -91,15 +82,14 @@ namespace Anycmd.Xacml
 
 
         /// <summary>
-        /// Creates an instace of the PolicyDocument using the provided Xml document string.
+        /// 根据给定的xml文档字符串创建一个策略文档。
         /// </summary>
-        /// <param name="xmlDocument">The Xml document fragment.</param>
-        /// <param name="version">The version of the schema that will be used to validate.</param>
-        /// <param name="access">The type of PolicyDocument</param>
-        /// <returns>An instance of a PolicyDocument.</returns>
+        /// <param name="xmlDocument">xml文档片段</param>
+        /// <param name="version">用于验证的模式版本号</param>
+        /// <param name="access">文档可访问性</param>
+        /// <returns>一个策略文档实例</returns>
         public static PolicyDocumentReadWrite LoadPolicyDocument(TextReader xmlDocument, XacmlVersion version, DocumentAccess access)
         {
-            // Validate the parameters
             if (xmlDocument == null)
             {
                 throw new ArgumentNullException("xmlDocument");
@@ -107,13 +97,14 @@ namespace Anycmd.Xacml
 
             return LoadPolicyDocument(new XmlTextReader(xmlDocument), version, access);
         }
+
         /// <summary>
-        /// Creates an instance of the PolicyDocument using the XmlReader instance provided.
+        /// 根据给定的xml文档字符串创建一个策略文档。
         /// </summary>
-        /// <param name="reader">The XmlReader used to read the Xml document.</param>
-        /// <param name="version">The version of the schema that will be used to validate.</param>
-        /// <param name="access">The type of PolicyDocument</param>
-        /// <returns>An instance of a PolicyDocument.</returns>
+        /// <param name="reader">用于读取xml文档的读取器</param>
+        /// <param name="version">用于验证的模式版本号</param>
+        /// <param name="access">文档可访问性</param>
+        /// <returns>一个策略文档实例</returns>
         public static PolicyDocumentReadWrite LoadPolicyDocument(XmlReader reader, XacmlVersion version, DocumentAccess access)
         {
             return PolicyDocument.Create(reader, version, access);
@@ -229,7 +220,7 @@ namespace Anycmd.Xacml
         /// <returns>The vesion of the schema required in the policy document.</returns>
         private static XacmlVersion GetXacmlVersion(TextReader textReader)
         {
-            XmlTextReader reader = new XmlTextReader(textReader);
+            var reader = new XmlTextReader(textReader);
             while (reader.Read())
             {
                 if (reader.LocalName == Consts.Schema1.PolicySetElement.PolicySet ||

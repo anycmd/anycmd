@@ -1,4 +1,6 @@
 
+using System.Diagnostics;
+
 namespace Anycmd.Xacml.Policy
 {
     using System;
@@ -9,19 +11,15 @@ namespace Anycmd.Xacml.Policy
     using System.Xml.Schema;
 
     /// <summary>
-    /// Represents a read/write PolicyDocument which may contain a Policy or a PolicySet.
+    /// 表示一个可读写的包含一个策略或策略集的策略文档。
     /// </summary>
     public class PolicyDocumentReadWrite
     {
         /// <summary>
         /// The compiled schema for the policy document is kept in memory for performance reasons.
         /// </summary>
-        private static XmlSchemaSet compiledSchemas11;
-
-        /// <summary>
-        /// The compiled schema for the policy document is kept in memory for performance reasons.
-        /// </summary>
-        private static XmlSchemaSet compiledSchemas20;
+        private static XmlSchemaSet _compiledSchemas11;
+        private static XmlSchemaSet _compiledSchemas20;
 
         #region Private members
 
@@ -81,7 +79,6 @@ namespace Anycmd.Xacml.Policy
         /// <param name="schemaVersion">The version of the schema that will be used to validate.</param>
         public PolicyDocumentReadWrite(XmlReader reader, XacmlVersion schemaVersion)
         {
-            // Validate the parameters
             if (reader == null)
             {
                 throw new ArgumentNullException("reader");
@@ -90,9 +87,8 @@ namespace Anycmd.Xacml.Policy
             _schemaVersion = schemaVersion;
 
             // Prepare Xsd validation
-            ValidationEventHandler validationHandler = new ValidationEventHandler(vreader_ValidationEventHandler);
-            XmlReaderSettings settings = new XmlReaderSettings();
-            settings.ValidationType = ValidationType.Schema;
+            var validationHandler = new ValidationEventHandler(vreader_ValidationEventHandler);
+            var settings = new XmlReaderSettings { ValidationType = ValidationType.Schema };
             settings.ValidationEventHandler += validationHandler;
             XmlReader vreader = null;
             try
@@ -102,30 +98,32 @@ namespace Anycmd.Xacml.Policy
                     case XacmlVersion.Version10:
                     case XacmlVersion.Version11:
                         {
-                            if (compiledSchemas11 == null)
+                            if (_compiledSchemas11 == null)
                             {
                                 Stream schemaStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(Xacml10PolicySchemaResourceName);
-                                compiledSchemas11 = new XmlSchemaSet();
-                                compiledSchemas11.Add(XmlSchema.Read(schemaStream, validationHandler));
-                                compiledSchemas11.Compile();
+                                _compiledSchemas11 = new XmlSchemaSet();
+                                Debug.Assert(schemaStream != null, "schemaStream != null");
+                                _compiledSchemas11.Add(XmlSchema.Read(schemaStream, validationHandler));
+                                _compiledSchemas11.Compile();
                             }
-                            settings.Schemas.Add(compiledSchemas11);
+                            settings.Schemas.Add(_compiledSchemas11);
                             break;
                         }
                     case XacmlVersion.Version20:
                         {
-                            if (compiledSchemas20 == null)
+                            if (_compiledSchemas20 == null)
                             {
                                 Stream schemaStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(Xacml20PolicySchemaResourceName);
-                                compiledSchemas20 = new XmlSchemaSet();
-                                compiledSchemas20.Add(XmlSchema.Read(schemaStream, validationHandler));
-                                compiledSchemas20.Compile();
+                                _compiledSchemas20 = new XmlSchemaSet();
+                                Debug.Assert(schemaStream != null, "schemaStream != null");
+                                _compiledSchemas20.Add(XmlSchema.Read(schemaStream, validationHandler));
+                                _compiledSchemas20.Compile();
                             }
-                            settings.Schemas.Add(compiledSchemas20);
+                            settings.Schemas.Add(_compiledSchemas20);
                             break;
                         }
                     default:
-                        throw new ArgumentException(Resource.exc_invalid_version_parameter_value, "version");
+                        throw new ArgumentException("意外的xacml模式版本号:" + schemaVersion);
                 }
                 vreader = XmlReader.Create(reader, settings);
                 // Read and validate the document.

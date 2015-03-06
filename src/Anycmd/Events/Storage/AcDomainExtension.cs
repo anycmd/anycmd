@@ -10,12 +10,11 @@ namespace Anycmd.Events.Storage
     public static class AcDomainExtension
     {
         /// <summary>
-        /// Creates and initializes the domain event data object from the given domain event.
+        /// 根据给定的领域事件对象创建并初始化领域事件数据传输对象。
         /// </summary>
         /// <param name="acDomain"></param>
-        /// <param name="entity">The domain event instance from which the domain event data object
-        /// is created and initialized.</param>
-        /// <returns>The initialized data object instance.</returns>
+        /// <param name="entity">领域事件对象。</param>
+        /// <returns>领域事件数据传输对象。</returns>
         public static DomainEventDataObject FromDomainEvent(this IAcDomain acDomain, IDomainEvent entity)
         {
             var serializer = acDomain.RetrieveRequiredService<IDomainEventSerializer>();
@@ -38,9 +37,9 @@ namespace Anycmd.Events.Storage
         }
 
         /// <summary>
-        /// Converts the domain event data object to its corresponding domain event entity instance.
+        /// 将给定的领域事件数据传输对象转化为相应的领域事件对象。
         /// </summary>
-        /// <returns>The domain event entity instance that is converted from the current domain event data object.</returns>
+        /// <returns>领域事件对象。</returns>
         public static IDomainEvent ToDomainEvent(this IAcDomain acDomain, DomainEventDataObject from)
         {
             if (string.IsNullOrEmpty(from.AssemblyQualifiedEventType))

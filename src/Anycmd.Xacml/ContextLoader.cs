@@ -11,16 +11,9 @@ namespace Anycmd.Xacml
     /// </summary>
     /// <remarks>Reading a Response context document is not really needed by the implementation but it's used to
     /// compare the Response emited by the evaluation with the Response provided in the Conformance tests.</remarks>
-    public sealed class ContextLoader
+    public static class ContextLoader
     {
         #region Constructor
-
-        /// <summary>
-        /// Default constructor.
-        /// </summary>
-        private ContextLoader()
-        {
-        }
 
         #endregion
 

@@ -4,38 +4,32 @@ using System.Xml;
 namespace Anycmd.Xacml
 {
     /// <summary>
-    /// Base class for every element so common methods can be placed in this class.
+    /// 所有xacml元素的基类型。
     /// </summary>
     public abstract class XacmlElement
     {
         #region Private members
 
-        /// <summary>
-        /// The version of the schema that was used to validate.
-        /// </summary>
-        private XacmlVersion _schemaVersion;
-
-        /// <summary>
-        /// The schema that defines the element.
-        /// </summary>
-        private XacmlSchema _schema;
+        private readonly XacmlVersion _schemaVersion;
+        private readonly XacmlSchema _schema;
 
         #endregion
 
         #region Constructor
 
         /// <summary>
-        /// Default constructor.
+        /// 默认初始化器。
         /// </summary>
-        /// <param name="schema">The schema that defines the element.</param>
-        /// <param name="schemaVersion">The version of the schema used to load the element.</param>
+        /// <param name="schema">用来验证文档的枚举</param>
+        /// <param name="schemaVersion">用于加载xacml元素的模式的版本</param>
         protected XacmlElement(XacmlSchema schema, XacmlVersion schemaVersion)
         {
             _schema = schema;
             _schemaVersion = schemaVersion;
         }
+
         /// <summary>
-        /// Blank constructor.
+        /// 空构造器。
         /// </summary>
         protected XacmlElement()
         {
@@ -45,7 +39,7 @@ namespace Anycmd.Xacml
         #region Public properties
 
         /// <summary>
-        /// The version of the schema that was used to validate.
+        /// 用来验证文档的枚举。
         /// </summary>
         public XacmlVersion SchemaVersion
         {
@@ -53,7 +47,7 @@ namespace Anycmd.Xacml
         }
 
         /// <summary>
-        /// The schema that defines the element.
+        /// 定义了xacml元素的模式（Schema）。
         /// </summary>
         public XacmlSchema Schema
         {
@@ -61,7 +55,7 @@ namespace Anycmd.Xacml
         }
 
         /// <summary>
-        /// Whether the instance is a read only version.
+        /// 查看当前实例是否是只读版本。
         /// </summary>
         public abstract bool IsReadOnly
         {
@@ -69,35 +63,45 @@ namespace Anycmd.Xacml
         }
 
         /// <summary>
-        /// Return the string for the namespace using the schema and the version of this element.
+        /// 返回根据当前模式和版本号指定的命名空间字符串。
         /// </summary>
         internal protected string XmlDocumentSchema
         {
             get
             {
-                if (_schema == XacmlSchema.Context)
+                switch (_schema)
                 {
-                    if (this.SchemaVersion == XacmlVersion.Version10 || this.SchemaVersion == XacmlVersion.Version11)
-                    {
-                        return Consts.Schema1.Namespaces.Context;
-                    }
-                    else if (this.SchemaVersion == XacmlVersion.Version20)
-                    {
-                        return Consts.Schema2.Namespaces.Context;
-                    }
+                    case XacmlSchema.Context:
+                        switch (this.SchemaVersion)
+                        {
+                            case XacmlVersion.Version11:
+                            case XacmlVersion.Version10:
+                                return Consts.Schema1.Namespaces.Context;
+                                break;
+                            case XacmlVersion.Version20:
+                                return Consts.Schema2.Namespaces.Context;
+                                break;
+                            default:
+                                throw new EvaluationException("意外的版本号" + SchemaVersion);
+                        }
+                        break;
+                    case XacmlSchema.Policy:
+                        switch (this.SchemaVersion)
+                        {
+                            case XacmlVersion.Version11:
+                            case XacmlVersion.Version10:
+                                return Consts.Schema1.Namespaces.Policy;
+                                break;
+                            case XacmlVersion.Version20:
+                                return Consts.Schema2.Namespaces.Policy;
+                                break;
+                            default:
+                                throw new EvaluationException("意外的版本号" + SchemaVersion);
+                        }
+                        break;
+                    default:
+                        throw new EvaluationException("意外的模式" + _schema);
                 }
-                else if (_schema == XacmlSchema.Policy)
-                {
-                    if (this.SchemaVersion == XacmlVersion.Version10 || this.SchemaVersion == XacmlVersion.Version11)
-                    {
-                        return Consts.Schema1.Namespaces.Policy;
-                    }
-                    else if (this.SchemaVersion == XacmlVersion.Version20)
-                    {
-                        return Consts.Schema2.Namespaces.Policy;
-                    }
-                }
-                throw new EvaluationException("invalid schema and version information."); //TODO: resources
             }
         }
 
@@ -106,37 +110,43 @@ namespace Anycmd.Xacml
         #region Protected methods
 
         /// <summary>
-        /// Validates the schema using the version parameter.
+        /// 根据给定的版本号验证给定的模式。
         /// </summary>
-        /// <param name="reader">The reader positioned in an element with namespace.</param>
-        /// <param name="version">The version used to validate the document.</param>
-        /// <returns><c>true</c>, if the schema corresponds to the namespace defined in the element.</returns>
+        /// <param name="reader">用于读取命名空间</param>
+        /// <param name="version">用于验证版本号</param>
+        /// <returns><c>true</c>, 如果命名空间正确</returns>
         protected bool ValidateSchema(XmlReader reader, XacmlVersion version)
         {
             if (reader == null) throw new ArgumentNullException("reader");
-            if (_schema == XacmlSchema.Policy)
+            switch (_schema)
             {
-                if (version == XacmlVersion.Version11 || version == XacmlVersion.Version10)
-                {
-                    return (reader.NamespaceURI == Consts.Schema1.Namespaces.Policy);
-                }
-                else if (version == XacmlVersion.Version20)
-                {
-                    return (reader.NamespaceURI == Consts.Schema2.Namespaces.Policy);
-                }
+                case XacmlSchema.Policy:
+                    switch (version)
+                    {
+                        case XacmlVersion.Version10:
+                        case XacmlVersion.Version11:
+                            return (reader.NamespaceURI == Consts.Schema1.Namespaces.Policy);
+                        case XacmlVersion.Version20:
+                            return (reader.NamespaceURI == Consts.Schema2.Namespaces.Policy);
+                        default:
+                            throw new EvaluationException("意外的版本号" + version);
+                    }
+                    break;
+                case XacmlSchema.Context:
+                    switch (version)
+                    {
+                        case XacmlVersion.Version10:
+                        case XacmlVersion.Version11:
+                            return (reader.NamespaceURI == Consts.Schema1.Namespaces.Context);
+                        case XacmlVersion.Version20:
+                            return (reader.NamespaceURI == Consts.Schema2.Namespaces.Context);
+                        default:
+                            throw new EvaluationException("意外的版本号" + version);
+                    }
+                    break;
+                default:
+                    throw new EvaluationException("意外的模式" + _schema);
             }
-            else
-            {
-                if (version == XacmlVersion.Version11 || version == XacmlVersion.Version10)
-                {
-                    return (reader.NamespaceURI == Consts.Schema1.Namespaces.Context);
-                }
-                else if (version == XacmlVersion.Version20)
-                {
-                    return (reader.NamespaceURI == Consts.Schema2.Namespaces.Context);
-                }
-            }
-            throw new EvaluationException("Invalid version provided"); //TODO: resources
         }
 
         #endregion

@@ -2,7 +2,7 @@
 namespace Anycmd.Xacml
 {
 	/// <summary>
-	/// Enumeration describing the schema used to validate a document.
+	/// 用来验证文档的枚举。
 	/// </summary>
 	public enum XacmlVersion
 	{

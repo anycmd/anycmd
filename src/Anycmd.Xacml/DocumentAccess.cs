@@ -2,17 +2,17 @@
 namespace Anycmd.Xacml
 {
 	/// <summary>
-	/// Enumeration describing the access to the document
+	/// 描述文档可访问性的枚举。
 	/// </summary>
 	public enum DocumentAccess
 	{
 		/// <summary>
-		/// Read-only access
+		/// 只读访问。
 		/// </summary>
 		ReadOnly,
 
 		/// <summary>
-		/// Read-write access
+		/// 读写访问。
 		/// </summary>
 		ReadWrite
 	}

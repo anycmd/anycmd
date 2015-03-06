@@ -19,7 +19,7 @@ namespace Anycmd.Events.Storage
     {
         #region Ctor
         /// <summary>
-        /// Initializes a new instance of the domain event data object.
+        /// 初始化一个领域事件数据传输对象实例。
         /// </summary>
         public DomainEventDataObject()
         {
@@ -28,14 +28,13 @@ namespace Anycmd.Events.Storage
 
         #region Public Properties
         /// <summary>
-        /// Gets or sets an array of <see cref="System.Byte"/> value which holds the data
-        /// of current domain event object.
+        /// 读取或设置一个存储当前领域事件对象的数据的字节数组 <see cref="System.Byte"/> 。
         /// </summary>
         [XmlElement]
         [DataMember]
         public byte[] Data { get; set; }
         /// <summary>
-        /// Gets or sets the assembly qualified name of the type of the domain event.
+        /// 读取或设置当前领域事件对象的程序集级类型唯一名称。
         /// </summary>
         [XmlElement]
         [DataMember]
@@ -45,7 +44,7 @@ namespace Anycmd.Events.Storage
             set;
         }
         /// <summary>
-        /// Gets or sets the branch on which domain event data object exists.
+        /// 读取或设置该领域事件所在的分支。
         /// </summary>
         [XmlElement]
         [DataMember]
@@ -55,7 +54,7 @@ namespace Anycmd.Events.Storage
             set;
         }
         /// <summary>
-        /// Gets or sets the identifier of the domain event.
+        /// 读取或设置领域事件标识。
         /// </summary>
         /// <remarks>Note that since the <c>DomainEventDataObject</c> is the data
         /// presentation of the corresponding domain event object, this identifier value

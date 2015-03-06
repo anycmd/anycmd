@@ -2,17 +2,17 @@
 namespace Anycmd.Xacml
 {
 	/// <summary>
-	/// The Xacml schema that defines the element.
+	/// 定义了xacml元素的模式（Schema）。
 	/// </summary>
 	public enum XacmlSchema
 	{
 		/// <summary>
-		/// The element is defined in the Policy schema.
+		/// xacml元素在这个策略模式中定义。
 		/// </summary>
 		Policy,
 
 		/// <summary>
-		/// The element is defined in the Context schema.
+		/// xacml元素在这个上下文模式中定义。
 		/// </summary>
 		Context
 	}

@@ -7,7 +7,7 @@ namespace Anycmd.Xacml.Policy
     using Interfaces;
 
     /// <summary>
-    /// Represents a read/write PolicySet defined within a policy document.
+    /// 表示一个可读写的策略集。
     /// </summary>
     public class PolicySetElementReadWrite : XacmlElement, IHasTarget
     {
