@@ -6,17 +6,82 @@ namespace Anycmd.Xacml.Consts
         /// <summary>The name of the element/attribute in the XSD schema.</summary>
         public class InternalFunctions
         {
-            /// <summary>The name of the element/attribute in the XSD schema.</summary>
+            /// <summary>
+            /// The name of the element/attribute in the XSD schema.
+            /// This function SHALL return "True" if it has no arguments and SHALL return "False" if one of its
+            /// arguments evaluates to "False". The order of evaluation SHALL be from first argument to last.
+            /// The evaluation SHALL stop with a result of "False" if any argument evaluates to "False", leaving
+            /// the rest of the arguments unevaluated.
+            /// </summary>
             public const string And = "urn:oasis:names:tc:xacml:1.0:function:and";
-            /// <summary>The name of the element/attribute in the XSD schema.</summary>
+            /// <summary>
+            /// The name of the element/attribute in the XSD schema.
+            /// This function applies a Boolean function between a specific primitive value and a bag of values,
+            /// and returns "True" if and only if the predicate is "True" for every element of the bag.
+            /// This function SHALL take n+1 arguments, where n is one or greater. The first argument SHALL
+            /// be a &lt;Function&gt; element that names a Boolean function that takes n arguments of primitive
+            /// types. Under the remaining n arguments, n-1 parameters SHALL be values of primitive data-
+            /// types and one SHALL be a bag of a primitive data-type. The expression SHALL be evaluated as
+            /// if the function named in the &lt;Function&gt; argument were applied to the n-1 non-bag arguments
+            /// and each element of the bag argument and the results are combined with
+            /// “urn:oasis:names:tc:xacml:1.0:function:and”.
+            /// </summary>
             public const string AnyOf = "urn:oasis:names:tc:xacml:1.0:function:any-of";
-            /// <summary>The name of the element/attribute in the XSD schema.</summary>
+            /// <summary>
+            /// The name of the element/attribute in the XSD schema.
+            /// This function applies a Boolean function on each tuple from the cross product on all bags
+            /// arguments, and returns "True" if and only if the predicate is "True" for at least one inside-function
+            /// call.
+            /// This function SHALL take n+1 arguments, where n is one or greater. The first argument SHALL
+            /// be an &lt;Function&gt; element that names a Boolean function that takes n arguments. The
+            /// remaining arguments are either primitive data types or bags of primitive types. The expression
+            /// SHALL be evaluated as if the function named in the &lt;Function&gt; argument was applied between
+            /// every tuple of the cross product on all bags and the primitive values, and the results were
+            /// combined using “urn:oasis:names:tc:xacml:1.0:function:or”. The semantics are that the result of
+            /// the expression SHALL be "True" if and only if the applied predicate is "True" for at least one
+            /// function call on the tuples from the bags and primitive values.
+            /// </summary>
             public const string AnyOfAny = "urn:oasis:names:tc:xacml:1.0:function:any-of-any";
-            /// <summary>The name of the element/attribute in the XSD schema.</summary>
+            /// <summary>
+            /// The name of the element/attribute in the XSD schema.
+            /// This function applies a Boolean function between the elements of two bags. The expression
+            /// SHALL be “True” if and only if the supplied predicate is “True” between each element of the
+            /// second bag and any element of the first bag.
+            /// This function SHALL take three arguments. The first argument SHALL be an &lt;Function&gt;
+            /// element that names a Boolean function that takes two arguments of primitive types. The second
+            /// argument SHALL be a bag of a primitive data-type. The third argument SHALL be a bag of a
+            /// primitive data-type. The expression SHALL be evaluated as if the
+            /// ”urn:oasis:names:tc:xacml:3.0:function:any-of” function had been applied to each value of the
+            /// second bag and the whole of the first bag using the supplied xacml:Function, and the results
+            /// were then combined using “urn:oasis:names:tc:xacml:1.0:function:and”.
+            /// </summary>
             public const string AnyOfAll = "urn:oasis:names:tc:xacml:1.0:function:any-of-all";
-            /// <summary>The name of the element/attribute in the XSD schema.</summary>
+            /// <summary>
+            /// The name of the element/attribute in the XSD schema.
+            /// This function applies a Boolean function between a specific primitive value and a bag of values,
+            /// and returns "True" if and only if the predicate is "True" for every element of the bag.
+            /// This function SHALL take n+1 arguments, where n is one or greater. The first argument SHALL
+            /// be a &lt;Function&gt; element that names a Boolean function that takes n arguments of primitive
+            /// types. Under the remaining n arguments, n-1 parameters SHALL be values of primitive data-
+            /// types and one SHALL be a bag of a primitive data-type. The expression SHALL be evaluated as
+            /// if the function named in the &lt;Function&gt; argument were applied to the n-1 non-bag arguments
+            /// and each element of the bag argument and the results are combined with
+            /// “urn:oasis:names:tc:xacml:1.0:function:and”.
+            /// </summary>
             public const string AllOf = "urn:oasis:names:tc:xacml:1.0:function:all-of";
-            /// <summary>The name of the element/attribute in the XSD schema.</summary>
+            /// <summary>
+            /// The name of the element/attribute in the XSD schema.
+            /// This function applies a Boolean function between the elements of two bags. The expression
+            /// SHALL be “True” if and only if the supplied predicate is “True” between each element of the first
+            /// bag and any element of the second bag.
+            /// This function SHALL take three arguments. The first argument SHALL be an &lt;Function&gt;
+            /// element that names a Boolean function that takes two arguments of primitive types. The second
+            /// argument SHALL be a bag of a primitive data-type. The third argument SHALL be a bag of a
+            /// primitive data-type. The expression SHALL be evaluated as if the
+            /// “urn:oasis:names:tc:xacml:3.0:function:any-of” function had been applied to each value of the first
+            /// bag and the whole of the second bag using the supplied xacml:Function, and the results were
+            /// then combined using “urn:oasis:names:tc:xacml:1.0:function:and”.
+            /// </summary>
             public const string AllOfAny = "urn:oasis:names:tc:xacml:1.0:function:all-of-any";
             /// <summary>The name of the element/attribute in the XSD schema.</summary>
             public const string AllOfAll = "urn:oasis:names:tc:xacml:1.0:function:all-of-all";

@@ -567,6 +567,7 @@
       <LastGenOutput>Resource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="Configuration\Configuration.cd" />
+    <None Include="Consts\Consts.cd" />
     <None Include="Context\Context.cd" />
     <None Include="Extensions\Extensions.cd" />
     <None Include="Interfaces\Interfaces.cd" />
