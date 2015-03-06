@@ -1,5 +1,4 @@
-
-using pol = Anycmd.Xacml.Policy;
+using  Anycmd.Xacml.Policy;
 
 namespace Anycmd.Xacml.Interfaces
 {
@@ -11,6 +10,6 @@ namespace Anycmd.Xacml.Interfaces
 		/// <summary>
 		/// Gets/Sets the target instance.
 		/// </summary>
-		pol.TargetElementReadWrite Target{ get; set; }
+		TargetElementReadWrite Target{ get; set; }
 	}
 }

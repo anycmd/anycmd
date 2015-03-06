@@ -15,12 +15,12 @@ namespace Anycmd.Xacml.Policy
         /// <summary>
         /// The parameter name.
         /// </summary>
-        private string _parameterName;
+        private readonly string _parameterName;
 
         /// <summary>
         /// The attribute value.
         /// </summary>
-        private AttributeValueElement _attributeValue;
+        private readonly AttributeValueElement _attributeValue;
 
         #endregion
 

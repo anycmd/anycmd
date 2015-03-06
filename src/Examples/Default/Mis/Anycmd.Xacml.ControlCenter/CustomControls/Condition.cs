@@ -354,7 +354,7 @@ namespace Anycmd.Xacml.ControlCenter.CustomControls
 
 		private void CreateFunctionExecution( object sender, EventArgs args )
 		{
-			pol.ApplyElement apply = new pol.ApplyElement( "urn:new_function", new pol.IExpressionReadWriteCollection(), Xacml.XacmlVersion.Version11 );
+			pol.ApplyElement apply = new pol.ApplyElement("urn:new_function", new pol.ExpressionReadWriteCollection(), Xacml.XacmlVersion.Version11);
 			TreeNodes.FunctionExecution node = new TreeNodes.FunctionExecution( apply );
 
 			tvwCondition.Nodes.Add( node );
@@ -366,7 +366,7 @@ namespace Anycmd.Xacml.ControlCenter.CustomControls
 			TreeNodes.FunctionExecution func = (TreeNodes.FunctionExecution)tvwCondition.SelectedNode;
 			pol.ApplyBaseReadWrite parentApply = func.ApplyBaseDefinition;
 
-			pol.ApplyElement apply = new pol.ApplyElement( "urn:new_function", new pol.IExpressionReadWriteCollection(), Xacml.XacmlVersion.Version11 );
+			pol.ApplyElement apply = new pol.ApplyElement("urn:new_function", new pol.ExpressionReadWriteCollection(), Xacml.XacmlVersion.Version11);
 			TreeNodes.FunctionExecution node = new TreeNodes.FunctionExecution( apply );
 
 			func.Nodes.Add( node );

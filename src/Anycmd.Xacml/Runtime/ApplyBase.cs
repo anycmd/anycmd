@@ -68,7 +68,7 @@ namespace Anycmd.Xacml.Runtime
             }
 
             // Process the arguments.
-            IFunctionParameterCollection arguments = ProcessArguments(context, new pol.IExpressionCollection((pol.IExpressionReadWriteCollection)_applyBase.Arguments));
+            IFunctionParameterCollection arguments = ProcessArguments(context, new pol.ExpressionCollection((pol.ExpressionReadWriteCollection)_applyBase.Arguments));
 
             // Call the function with the arguments processed.
             EvaluationValue returnValue = rtm.EvaluationEngine.EvaluateFunction(context, function, arguments.ToArray());
@@ -88,7 +88,7 @@ namespace Anycmd.Xacml.Runtime
         /// <param name="context">The evaluation context instance.</param>
         /// <param name="arguments">The arguments to process.</param>
         /// <returns>A list of arguments ready to be used by a function.</returns>
-        private IFunctionParameterCollection ProcessArguments(EvaluationContext context, pol.IExpressionCollection arguments)
+        private IFunctionParameterCollection ProcessArguments(EvaluationContext context, pol.ExpressionCollection arguments)
         {
             context.Trace("Processing arguments");
             context.AddIndent();

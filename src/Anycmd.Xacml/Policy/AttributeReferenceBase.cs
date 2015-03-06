@@ -13,16 +13,6 @@ namespace Anycmd.Xacml.Policy
     {
         #region Private members
 
-        /// <summary>
-        /// The data type of the referenced attribute.
-        /// </summary>
-        private string _dataType;
-
-        /// <summary>
-        /// Whether the attribute must be present or not.
-        /// </summary>
-        private bool _mustBePresent;
-
         #endregion
 
         #region Constructors
@@ -36,8 +26,8 @@ namespace Anycmd.Xacml.Policy
         protected AttributeReferenceBase(string dataType, bool mustBePresent, XacmlVersion schemaVersion)
             : base(XacmlSchema.Policy, schemaVersion)
         {
-            _dataType = dataType;
-            _mustBePresent = mustBePresent;
+            DataType = dataType;
+            MustBePresent = mustBePresent;
         }
 
         /// <summary>
@@ -49,15 +39,15 @@ namespace Anycmd.Xacml.Policy
             : base(XacmlSchema.Policy, schemaVersion)
         {
             if (reader == null) throw new ArgumentNullException("reader");
-            _dataType = reader.GetAttribute(Consts.Schema1.AttributeSelectorElement.DataType);
+            DataType = reader.GetAttribute(Consts.Schema1.AttributeSelectorElement.DataType);
             string mustBePresent = reader.GetAttribute(Consts.Schema1.AttributeSelectorElement.MustBePresent);
-            if (mustBePresent == null || mustBePresent.Length == 0)
+            if (string.IsNullOrEmpty(mustBePresent))
             {
-                _mustBePresent = false;
+                MustBePresent = false;
             }
             else
             {
-                _mustBePresent = bool.Parse(mustBePresent);
+                MustBePresent = bool.Parse(mustBePresent);
             }
         }
 
@@ -68,20 +58,12 @@ namespace Anycmd.Xacml.Policy
         /// <summary>
         /// Gets the data type of the referenced node
         /// </summary>
-        public string DataType
-        {
-            get { return _dataType; }
-            set { _dataType = value; }
-        }
+        public string DataType { get; set; }
 
         /// <summary>
         /// Whether the referenced value must be present or not.
         /// </summary>
-        public bool MustBePresent
-        {
-            get { return _mustBePresent; }
-            set { _mustBePresent = value; }
-        }
+        public bool MustBePresent { get; set; }
 
         #endregion
 

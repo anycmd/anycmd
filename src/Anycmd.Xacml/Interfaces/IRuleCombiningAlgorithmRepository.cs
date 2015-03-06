@@ -1,7 +1,5 @@
 using System.Xml;
 
-using inf = Anycmd.Xacml.Interfaces;
-
 namespace Anycmd.Xacml.Interfaces
 {
 	/// <summary>
@@ -22,6 +20,6 @@ namespace Anycmd.Xacml.Interfaces
 		/// </summary>
 		/// <param name="ruleCombiningAlgorithmId">The id of the rule combining algorithm that can't be found.</param>
 		/// <returns>An instance of a rule combining algorithm.</returns>
-		inf.IRuleCombiningAlgorithm GetRuleCombiningAlgorithm( string ruleCombiningAlgorithmId );
+		IRuleCombiningAlgorithm GetRuleCombiningAlgorithm( string ruleCombiningAlgorithmId );
 	}
 }

@@ -7,7 +7,7 @@ namespace Anycmd.Xacml.Policy
 	/// <summary>
 	/// Defines a typed read/write collection of IExpression.
 	/// </summary>
-	public class IExpressionReadWriteCollection : CollectionBase 
+	public class ExpressionReadWriteCollection : CollectionBase 
 	{
 		#region CollectionBase members
 

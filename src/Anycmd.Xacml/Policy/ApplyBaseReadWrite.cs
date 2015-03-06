@@ -1,8 +1,6 @@
 using System;
 using System.Xml;
 
-using cor = Anycmd.Xacml;
-
 namespace Anycmd.Xacml.Policy
 {
     /// <summary>
@@ -20,7 +18,7 @@ namespace Anycmd.Xacml.Policy
         /// <summary>
         /// All the arguments that will be pased to the function.
         /// </summary>
-        private IExpressionReadWriteCollection _arguments = new IExpressionReadWriteCollection();
+        private ExpressionReadWriteCollection _arguments = new ExpressionReadWriteCollection();
 
         #endregion
 
@@ -32,7 +30,7 @@ namespace Anycmd.Xacml.Policy
         /// <param name="functionId"></param>
         /// <param name="arguments"></param>
         /// <param name="schemaVersion"></param>
-        protected ApplyBaseReadWrite(string functionId, IExpressionReadWriteCollection arguments, XacmlVersion schemaVersion)
+        protected ApplyBaseReadWrite(string functionId, ExpressionReadWriteCollection arguments, XacmlVersion schemaVersion)
             : base(XacmlSchema.Policy, schemaVersion)
         {
             _functionId = functionId;
@@ -49,63 +47,60 @@ namespace Anycmd.Xacml.Policy
         protected ApplyBaseReadWrite(XmlReader reader, string nodeName, XacmlVersion schemaVersion)
             : base(XacmlSchema.Policy, schemaVersion)
         {
-            if (reader != null)
+            if (reader == null)
             {
-                if (reader.LocalName == nodeName &&
+                throw new ArgumentNullException("reader");
+            }
+            if (reader.LocalName == nodeName &&
                     ValidateSchema(reader, schemaVersion))
-                {
-                    // Get the id of function. It will be resolved in evaluation time.
-                    _functionId = reader.GetAttribute(Consts.Schema1.ConditionElement.FunctionId);
+            {
+                // Get the id of function. It will be resolved in evaluation time.
+                _functionId = reader.GetAttribute(Consts.Schema1.ConditionElement.FunctionId);
 
-                    while (reader.Read())
+                while (reader.Read())
+                {
+                    switch (reader.LocalName)
                     {
-                        switch (reader.LocalName)
-                        {
-                            case Consts.Schema1.ApplyElement.Apply:
-                                // Must validate if the Apply node is not an EndElement because there is a child node
-                                // with the same name as the parent node.
-                                if (!reader.IsEmptyElement && reader.NodeType != XmlNodeType.EndElement)
-                                {
-                                    _arguments.Add(new ApplyElement(reader, schemaVersion));
-                                }
-                                break;
-                            case Consts.Schema1.FunctionElement.Function:
-                                _arguments.Add(new FunctionElementReadWrite(reader, schemaVersion));
-                                break;
-                            case Consts.Schema1.AttributeValueElement.AttributeValue:
-                                _arguments.Add(new AttributeValueElementReadWrite(reader, schemaVersion));
-                                break;
-                            case Consts.Schema1.SubjectAttributeDesignatorElement.SubjectAttributeDesignator:
-                                _arguments.Add(new SubjectAttributeDesignatorElement(reader, schemaVersion));
-                                break;
-                            case Consts.Schema1.ResourceAttributeDesignatorElement.ResourceAttributeDesignator:
-                                _arguments.Add(new ResourceAttributeDesignatorElement(reader, schemaVersion));
-                                break;
-                            case Consts.Schema1.ActionAttributeDesignatorElement.ActionAttributeDesignator:
-                                _arguments.Add(new ActionAttributeDesignatorElement(reader, schemaVersion));
-                                break;
-                            case Consts.Schema1.EnvironmentAttributeDesignatorElement.EnvironmentAttributeDesignator:
-                                _arguments.Add(new EnvironmentAttributeDesignatorElement(reader, schemaVersion));
-                                break;
-                            case Consts.Schema1.AttributeSelectorElement.AttributeSelector:
-                                _arguments.Add(new AttributeSelectorElement(reader, schemaVersion));
-                                break;
-                            case Consts.Schema2.VariableReferenceElement.VariableReference:
-                                _arguments.Add(new VariableReferenceElement(reader, schemaVersion));
-                                break;
-                        }
-                        if (reader.LocalName == nodeName &&
-                            reader.NodeType == XmlNodeType.EndElement)
-                        {
-                            reader.Read();
+                        case Consts.Schema1.ApplyElement.Apply:
+                            // Must validate if the Apply node is not an EndElement because there is a child node
+                            // with the same name as the parent node.
+                            if (!reader.IsEmptyElement && reader.NodeType != XmlNodeType.EndElement)
+                            {
+                                _arguments.Add(new ApplyElement(reader, schemaVersion));
+                            }
                             break;
-                        }
+                        case Consts.Schema1.FunctionElement.Function:
+                            _arguments.Add(new FunctionElementReadWrite(reader, schemaVersion));
+                            break;
+                        case Consts.Schema1.AttributeValueElement.AttributeValue:
+                            _arguments.Add(new AttributeValueElementReadWrite(reader, schemaVersion));
+                            break;
+                        case Consts.Schema1.SubjectAttributeDesignatorElement.SubjectAttributeDesignator:
+                            _arguments.Add(new SubjectAttributeDesignatorElement(reader, schemaVersion));
+                            break;
+                        case Consts.Schema1.ResourceAttributeDesignatorElement.ResourceAttributeDesignator:
+                            _arguments.Add(new ResourceAttributeDesignatorElement(reader, schemaVersion));
+                            break;
+                        case Consts.Schema1.ActionAttributeDesignatorElement.ActionAttributeDesignator:
+                            _arguments.Add(new ActionAttributeDesignatorElement(reader, schemaVersion));
+                            break;
+                        case Consts.Schema1.EnvironmentAttributeDesignatorElement.EnvironmentAttributeDesignator:
+                            _arguments.Add(new EnvironmentAttributeDesignatorElement(reader, schemaVersion));
+                            break;
+                        case Consts.Schema1.AttributeSelectorElement.AttributeSelector:
+                            _arguments.Add(new AttributeSelectorElement(reader, schemaVersion));
+                            break;
+                        case Consts.Schema2.VariableReferenceElement.VariableReference:
+                            _arguments.Add(new VariableReferenceElement(reader, schemaVersion));
+                            break;
+                    }
+                    if (reader.LocalName == nodeName &&
+                        reader.NodeType == XmlNodeType.EndElement)
+                    {
+                        reader.Read();
+                        break;
                     }
                 }
-            }
-            else
-            {
-                throw new Exception(string.Format(cor.Resource.exc_invalid_node_name, reader.LocalName));
             }
         }
 
@@ -125,7 +120,7 @@ namespace Anycmd.Xacml.Policy
         /// <summary>
         /// The arguments of the condition (or apply)
         /// </summary>
-        public virtual IExpressionReadWriteCollection Arguments
+        public virtual ExpressionReadWriteCollection Arguments
         {
             set { _arguments = value; }
             get { return _arguments; }

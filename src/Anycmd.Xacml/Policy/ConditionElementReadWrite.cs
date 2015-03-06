@@ -27,7 +27,7 @@ namespace Anycmd.Xacml.Policy
 		/// <param name="functionId"></param>
 		/// <param name="arguments"></param>
 		/// <param name="schemaVersion"></param>
-		public ConditionElementReadWrite( string functionId, IExpressionReadWriteCollection arguments, XacmlVersion schemaVersion)
+		public ConditionElementReadWrite(string functionId, ExpressionReadWriteCollection arguments, XacmlVersion schemaVersion)
 			: base( functionId, arguments, schemaVersion )
 		{
 		}
@@ -44,7 +44,7 @@ namespace Anycmd.Xacml.Policy
 		{
 			if (writer == null) throw new ArgumentNullException("writer");
 			writer.WriteStartElement(Consts.Schema1.ConditionElement.Condition);
-			if( this.FunctionId != null && this.FunctionId.Length > 0 )
+			if( !string.IsNullOrEmpty(this.FunctionId) )
 			{
 				writer.WriteAttributeString(Consts.Schema1.ConditionElement.FunctionId,this.FunctionId);
 			}

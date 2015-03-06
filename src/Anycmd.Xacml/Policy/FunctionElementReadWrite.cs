@@ -83,7 +83,7 @@ namespace Anycmd.Xacml.Policy
         public void WriteDocument(XmlWriter writer)
         {
             writer.WriteStartElement(Consts.Schema1.FunctionElement.Function);
-            if (this._functionId != null && this._functionId.Length > 0)
+            if (!string.IsNullOrEmpty(this._functionId))
             {
                 writer.WriteAttributeString(Consts.Schema1.FunctionElement.FunctionId, this._functionId);
             }

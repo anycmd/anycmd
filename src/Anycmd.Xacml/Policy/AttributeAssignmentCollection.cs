@@ -1,7 +1,5 @@
 using System;
 
-using cor = Anycmd.Xacml;
-
 namespace Anycmd.Xacml.Policy
 {
 	/// <summary>
@@ -36,7 +34,7 @@ namespace Anycmd.Xacml.Policy
 		public AttributeAssignmentCollection(AttributeAssignmentReadWriteCollection items)
 		{
 			if (items == null) throw new ArgumentNullException("items");
-			foreach (cor.Policy.AttributeAssignmentElementReadWrite item in items)
+			foreach (AttributeAssignmentElementReadWrite item in items)
 			{
 				base.Add(new AttributeAssignmentElement(item.AttributeId, item.DataTypeValue, item.Value, item.SchemaVersion));
 			}

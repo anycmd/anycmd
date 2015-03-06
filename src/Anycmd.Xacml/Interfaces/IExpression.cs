@@ -1,3 +1,4 @@
+using System.Xml;
 
 namespace Anycmd.Xacml.Interfaces
 {
@@ -11,6 +12,6 @@ namespace Anycmd.Xacml.Interfaces
 		/// Writes the XML of the current element
 		/// </summary>
 		/// <param name="writer">The XmlWriter in which the element will be written</param>
-		void WriteDocument(System.Xml.XmlWriter writer);
+		void WriteDocument(XmlWriter writer);
 	}
 }

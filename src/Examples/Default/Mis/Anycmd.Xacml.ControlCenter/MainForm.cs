@@ -6,13 +6,13 @@ using System.Windows.Forms;
 
 namespace Anycmd.Xacml.ControlCenter
 {
-    using Anycmd.Xacml;
-    using Anycmd.Xacml.ControlCenter.ContextTreeNodes;
-    using Anycmd.Xacml.ControlCenter.TreeNodes;
-    using Anycmd.Xacml.Policy;
-    using System.Xml;
-    using con = Anycmd.Xacml.Context;
-    using pol = Anycmd.Xacml.Policy;
+	using Anycmd.Xacml;
+	using Anycmd.Xacml.ControlCenter.ContextTreeNodes;
+	using Anycmd.Xacml.ControlCenter.TreeNodes;
+	using Anycmd.Xacml.Policy;
+	using System.Xml;
+	using con = Anycmd.Xacml.Context;
+	using pol = Anycmd.Xacml.Policy;
 
 	/// <summary>
 	/// Summary description for MainForm.
@@ -966,7 +966,7 @@ namespace Anycmd.Xacml.ControlCenter
 			TreeNodes.Condition newConditionNode = null;
 			TreeNode parentNode = null;
 
-			pol.ConditionElementReadWrite condition = new pol.ConditionElementReadWrite( "urn:new_function", new IExpressionReadWriteCollection(), XacmlVersion.Version11 );
+			pol.ConditionElementReadWrite condition = new pol.ConditionElementReadWrite( "urn:new_function", new ExpressionReadWriteCollection(), XacmlVersion.Version11 );
 
 			newConditionNode = new TreeNodes.Condition( condition );
 

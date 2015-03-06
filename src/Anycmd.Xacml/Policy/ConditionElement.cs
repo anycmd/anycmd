@@ -28,7 +28,7 @@ namespace Anycmd.Xacml.Policy
 		/// <param name="functionId"></param>
 		/// <param name="arguments"></param>
 		/// <param name="schemaVersion"></param>
-		public ConditionElement( string functionId, IExpressionReadWriteCollection arguments, XacmlVersion schemaVersion)
+		public ConditionElement(string functionId, ExpressionReadWriteCollection arguments, XacmlVersion schemaVersion)
 			: base( functionId, arguments, schemaVersion )
 		{
 		}
@@ -49,10 +49,10 @@ namespace Anycmd.Xacml.Policy
 		/// <summary>
 		/// The arguments of the condition (or apply)
 		/// </summary>
-		public override IExpressionReadWriteCollection Arguments
+		public override ExpressionReadWriteCollection Arguments
 		{
 			set{ throw new NotSupportedException(); }
-			get{ return new IExpressionCollection( base.Arguments ); }
+			get{ return new ExpressionCollection( base.Arguments ); }
 		}
 
 		#endregion

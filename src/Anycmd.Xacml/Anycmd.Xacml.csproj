@@ -186,8 +186,8 @@
     <Compile Include="Policy\Effect.cs" />
     <Compile Include="Policy\FunctionElement.cs" />
     <Compile Include="Policy\FunctionElementReadWrite.cs" />
-    <Compile Include="Policy\IExpressionCollection.cs" />
-    <Compile Include="Policy\IExpressionReadWriteCollection.cs" />
+    <Compile Include="Policy\ExpressionCollection.cs" />
+    <Compile Include="Policy\ExpressionReadWriteCollection.cs" />
     <Compile Include="Policy\ObligationCollection.cs" />
     <Compile Include="Policy\ObligationElement.cs" />
     <Compile Include="Policy\ObligationElementReadWrite.cs" />

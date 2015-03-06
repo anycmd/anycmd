@@ -38,9 +38,9 @@ namespace Anycmd.Xacml.Policy
 		/// <summary>
 		/// The arguments of the condition (or apply)
 		/// </summary>
-		public override IExpressionReadWriteCollection Arguments
+		public override ExpressionReadWriteCollection Arguments
 		{
-			get{ return new IExpressionCollection( base.Arguments ); }
+			get{ return new ExpressionCollection( base.Arguments ); }
 			set{ throw new NotSupportedException(); }
 		}
 
