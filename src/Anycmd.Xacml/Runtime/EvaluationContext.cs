@@ -18,17 +18,17 @@ namespace Anycmd.Xacml.Runtime
         /// <summary>
         /// The engine instance.
         /// </summary>
-        private EvaluationEngine _engine;
+        private readonly EvaluationEngine _engine;
 
         /// <summary>
         /// The policy document instance.
         /// </summary>
-        private PolicyDocument _policyDocument;
+        private readonly PolicyDocument _policyDocument;
 
         /// <summary>
         /// The context document instance.
         /// </summary>
-        private ctx.ContextDocument _contextDocument;
+        private readonly ctx.ContextDocument _contextDocument;
 
         /// <summary>
         /// The current indentation level.
@@ -36,44 +36,9 @@ namespace Anycmd.Xacml.Runtime
         private int _indent;
 
         /// <summary>
-        /// The verbose information for this instance.
-        /// </summary>
-        private bool _verbose = true;
-
-        /// <summary>
-        /// The current resource for evaluation.
-        /// </summary>
-        private ctx.ResourceElementReadWrite _currentResource;
-
-        /// <summary>
-        /// The current policy being evaluated.
-        /// </summary>
-        private Policy _currentPolicy;
-
-        /// <summary>
-        /// The current policy being evaluated.
-        /// </summary>
-        private PolicySet _currentPolicySet;
-
-        /// <summary>
-        /// The current rule being evaluated.
-        /// </summary>
-        private Rule _currentRule;
-
-        /// <summary>
         /// Keep the information about the missing attributes.
         /// </summary>
-        private ArrayList _missingAttributes = new ArrayList();
-
-        /// <summary>
-        /// If an attribute was not found during the evaluation this flag is set to true.
-        /// </summary>
-        private bool _isMissingAttribute;
-
-        /// <summary>
-        /// If a processing error was found during the evaluation this flag is set to true.
-        /// </summary>
-        private bool _processingError;
+        private readonly ArrayList _missingAttributes = new ArrayList();
 
         #endregion
 
@@ -112,7 +77,7 @@ namespace Anycmd.Xacml.Runtime
             _engine = engine;
             _policyDocument = policyDocument;
             _contextDocument = contextDocument;
-            _currentResource = new ctx.ResourceElementReadWrite(
+            CurrentResource = new ctx.ResourceElementReadWrite(
                 resourceContent,
                 contextDocument.Request.Resources[0].ResourceScopeValue,
                 attributes,
@@ -150,56 +115,33 @@ namespace Anycmd.Xacml.Runtime
         /// <summary>
         /// The current resource for evatuation.
         /// </summary>
-        public ctx.ResourceElementReadWrite CurrentResource
-        {
-            get { return _currentResource; }
-            set { _currentResource = value; }
-        }
+        public ctx.ResourceElementReadWrite CurrentResource { get; set; }
 
         /// <summary>
         /// Whether an attribute was not found during the evaluation.
         /// </summary>
-        public bool IsMissingAttribute
-        {
-            get { return _isMissingAttribute; }
-            set { _isMissingAttribute = value; }
-        }
+        public bool IsMissingAttribute { get; set; }
 
         /// <summary>
         /// Whether an error was found during the evaluation.
         /// </summary>
-        public bool ProcessingError
-        {
-            get { return _processingError; }
-            set { _processingError = value; }
-        }
+        public bool ProcessingError { get; set; }
 
         /// <summary>
         /// The current Policy being evaluated.
         /// </summary>
-        public Policy CurrentPolicy
-        {
-            get { return _currentPolicy; }
-            set { _currentPolicy = value; }
-        }
+        public Policy CurrentPolicy { get; set; }
 
         /// <summary>
         /// The current PolicySet being evaluated.
         /// </summary>
-        public PolicySet CurrentPolicySet
-        {
-            get { return _currentPolicySet; }
-            set { _currentPolicySet = value; }
-        }
+        public PolicySet CurrentPolicySet { get; set; }
 
         /// <summary>
         /// The current rule being evaluated.
         /// </summary>
-        public Rule CurrentRule
-        {
-            get { return _currentRule; }
-            set { _currentRule = value; }
-        }
+        public Rule CurrentRule { get; set; }
+
         #endregion
 
         #region Public methods
@@ -211,12 +153,9 @@ namespace Anycmd.Xacml.Runtime
         /// <param name="parameters">The parameters to replace using string.Format.</param>
         public void Trace(string message, params object[] parameters)
         {
-            if (_verbose)
-            {
-                Console.Write(new string(' ', _indent));
-                Console.Write(String.Format(CultureInfo.InvariantCulture, message, parameters));
-                Console.WriteLine();
-            }
+            Console.Write(new string(' ', _indent));
+            Console.Write(String.Format(CultureInfo.InvariantCulture, message, parameters));
+            Console.WriteLine();
         }
 
         /// <summary>

@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Diagnostics;
 using System.Security.Permissions;
 using System.Xml;
 using inf = Anycmd.Xacml.Interfaces;
@@ -17,7 +18,7 @@ namespace Anycmd.Xacml.Extensions
         /// <summary>
         /// All the defined functions using the function id as the key.
         /// </summary>
-        private Hashtable _algorithms = new Hashtable();
+        private readonly Hashtable _algorithms = new Hashtable();
 
         #endregion
 
@@ -43,9 +44,19 @@ namespace Anycmd.Xacml.Extensions
         {
             if (configNode == null) throw new ArgumentNullException("configNode");
             XmlNodeList dataTypes = configNode.SelectNodes("./ruleCombiningAlgorithm");
+            Debug.Assert(dataTypes != null, "dataTypes != null");
             foreach (XmlNode node in dataTypes)
             {
-                inf.IRuleCombiningAlgorithm rca = (inf.IRuleCombiningAlgorithm)Activator.CreateInstance(Type.GetType(node.Attributes["type"].Value));
+                if (node == null || node.Attributes == null || node.Attributes["type"] == null || string.IsNullOrEmpty(node.Attributes["type"].Value))
+                {
+                    throw new EvaluationException();
+                }
+                var type = Type.GetType(node.Attributes["type"].Value);
+                if (type == null)
+                {
+                    throw new EvaluationException();
+                }
+                var rca = (inf.IRuleCombiningAlgorithm)Activator.CreateInstance(type);
                 _algorithms.Add(node.Attributes["id"].Value, rca);
             }
         }

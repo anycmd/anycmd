@@ -34,21 +34,7 @@ namespace Anycmd.Xacml.Context
         {
             return (List.Add(value));
         }
-        /// <summary>
-        /// Clears the collection
-        /// </summary>
-        public virtual new void Clear()
-        {
-            base.Clear();
-        }
-        /// <summary>
-        /// Removes the specified element
-        /// </summary>
-        /// <param name="index">Position of the element</param>
-        public virtual new void RemoveAt(int index)
-        {
-            base.RemoveAt(index);
-        }
+
         /// <summary>
         /// Gets the index of the given AttributeElementReadWrite in the collection
         /// </summary>
@@ -56,7 +42,7 @@ namespace Anycmd.Xacml.Context
         /// <returns></returns>
         public int GetIndex(AttributeElementReadWrite attribute)
         {
-            for (int i = 0; i < this.Count; i++)
+            for (var i = 0; i < this.Count; i++)
             {
                 if (this.List[i] == attribute)
                 {

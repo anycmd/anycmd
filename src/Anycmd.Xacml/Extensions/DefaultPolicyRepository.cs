@@ -1,32 +1,32 @@
+using Anycmd.Xacml.Interfaces;
+using Anycmd.Xacml.Policy;
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Security.Permissions;
 using System.Xml;
-using cor = Anycmd.Xacml;
-using inf = Anycmd.Xacml.Interfaces;
-using pol = Anycmd.Xacml.Policy;
-using rtm = Anycmd.Xacml.Runtime;
 
 namespace Anycmd.Xacml.Extensions
 {
+    using Runtime;
+
     /// <summary>
     /// The default policy repository implementation that uses the configuration file to establish all the policies 
     /// in the repository.
     /// </summary>
-    public class DefaultPolicyRepository : inf.IPolicyRepository
+    public class DefaultPolicyRepository : IPolicyRepository
     {
         #region Private members
 
         /// <summary>
         /// All the policies defined in the configuration file.
         /// </summary>
-        private Hashtable _policies = new Hashtable();
+        private readonly IDictionary<string, PolicyDocument> _policies = new Dictionary<string, PolicyDocument>();
 
         /// <summary>
         /// All the policy sets defined in the configuration file.
         /// </summary>
-        private Hashtable _policySets = new Hashtable();
+        private readonly IDictionary<string, PolicyDocument> _policySets = new Dictionary<string, PolicyDocument>();
 
         #endregion
 
@@ -44,19 +44,27 @@ namespace Anycmd.Xacml.Extensions
             {
                 if (node.Name == "PolicySet")
                 {
+                    if (node.Attributes == null)
+                    {
+                        throw new EvaluationException();
+                    }
                     string policyId = node.Attributes["PolicySetId"].Value;
                     string filePath = node.Attributes["FilePath"].Value;
                     string version = node.Attributes["xacmlVersion"].Value;
-                    XacmlVersion schemaVersion = (XacmlVersion)Enum.Parse(typeof(XacmlVersion), version, false);
-                    _policySets.Add(policyId, new pol.PolicyDocument(new XmlTextReader(new StreamReader(filePath)), schemaVersion));
+                    var schemaVersion = (XacmlVersion)Enum.Parse(typeof(XacmlVersion), version, false);
+                    _policySets.Add(policyId, new PolicyDocument(new XmlTextReader(new StreamReader(filePath)), schemaVersion));
                 }
                 else if (node.Name == "Policy")
                 {
+                    if (node.Attributes == null)
+                    {
+                        throw new EvaluationException();
+                    }
                     string policyId = node.Attributes["PolicyId"].Value;
                     string filePath = node.Attributes["FilePath"].Value;
                     string version = node.Attributes["xacmlVersion"].Value;
-                    XacmlVersion schemaVersion = (XacmlVersion)Enum.Parse(typeof(XacmlVersion), version, false);
-                    _policies.Add(policyId, new pol.PolicyDocument(new XmlTextReader(new StreamReader(filePath)), schemaVersion));
+                    var schemaVersion = (XacmlVersion)Enum.Parse(typeof(XacmlVersion), version, false);
+                    _policies.Add(policyId, new PolicyDocument(new XmlTextReader(new StreamReader(filePath)), schemaVersion));
                 }
             }
         }
@@ -66,13 +74,13 @@ namespace Anycmd.Xacml.Extensions
         /// </summary>
         /// <param name="policyReference">The policy reference with the Id of the policy searched.</param>
         /// <returns>The policy document.</returns>
-        public pol.PolicyElement GetPolicy(pol.PolicyIdReferenceElement policyReference)
+        public PolicyElement GetPolicy(PolicyIdReferenceElement policyReference)
         {
             if (policyReference == null) throw new ArgumentNullException("policyReference");
-            pol.PolicyDocument doc = _policies[policyReference.PolicyId] as pol.PolicyDocument;
+            PolicyDocument doc = _policies[policyReference.PolicyId];
             if (doc != null)
             {
-                return (pol.PolicyElement)doc.Policy; //TODO: check if we have to return a read write or a read only policy here.
+                return (PolicyElement)doc.Policy; //TODO: check if we have to return a read write or a read only policy here.
             }
             return null;
         }
@@ -82,13 +90,13 @@ namespace Anycmd.Xacml.Extensions
         /// </summary>
         /// <param name="policySetReference">The policy set reference with the Id of the policy set searched.</param>
         /// <returns>The policy set document.</returns>
-        public pol.PolicySetElement GetPolicySet(pol.PolicySetIdReferenceElement policySetReference)
+        public PolicySetElement GetPolicySet(PolicySetIdReferenceElement policySetReference)
         {
             if (policySetReference == null) throw new ArgumentNullException("policySetReference");
-            pol.PolicyDocument doc = _policySets[policySetReference.PolicySetId] as pol.PolicyDocument;
+            PolicyDocument doc = _policySets[policySetReference.PolicySetId];
             if (doc != null)
             {
-                return (pol.PolicySetElement)doc.PolicySet; //TODO: check if we have to return a read write or a read only policy here.
+                return (PolicySetElement)doc.PolicySet; //TODO: check if we have to return a read write or a read only policy here.
             }
             return null;
         }
@@ -100,20 +108,20 @@ namespace Anycmd.Xacml.Extensions
         /// </summary>
         /// <param name="context">The evaluation context instance.</param>
         /// <returns>The policy document ready to be used by the evaluation engine.</returns>
-        public pol.PolicyDocument Match(rtm.EvaluationContext context)
+        public PolicyDocument Match(EvaluationContext context)
         {
             if (context == null) throw new ArgumentNullException("context");
-            pol.PolicyDocument polEv = null;
+            PolicyDocument polEv = null;
 
             //Search if there is a policySet which target matches the context document
-            foreach (pol.PolicyDocument policy in _policySets.Values)
+            foreach (PolicyDocument policy in _policySets.Values)
             {
-                rtm.PolicySet tempPolicy = new rtm.PolicySet(context.Engine, (pol.PolicySetElement)policy.PolicySet);
+                var tempPolicy = new PolicySet(context.Engine, (PolicySetElement)policy.PolicySet);
 
-                rtm.EvaluationContext tempContext = new rtm.EvaluationContext(context.Engine, policy, context.ContextDocument);
+                var tempContext = new EvaluationContext(context.Engine, policy, context.ContextDocument);
 
                 // Match the policy set target with the context document
-                if (tempPolicy.Match(tempContext) == rtm.TargetEvaluationValue.Match)
+                if (tempPolicy.Match(tempContext) == TargetEvaluationValue.Match)
                 {
                     if (polEv == null)
                     {
@@ -121,20 +129,20 @@ namespace Anycmd.Xacml.Extensions
                     }
                     else
                     {
-                        throw new EvaluationException(cor.Resource.exc_duplicated_policy_in_repository);
+                        throw new EvaluationException(Resource.exc_duplicated_policy_in_repository);
                     }
                 }
             }
 
             //Search if there is a policy which target matches the context document
-            foreach (pol.PolicyDocument policy in _policies.Values)
+            foreach (PolicyDocument policy in _policies.Values)
             {
-                rtm.Policy tempPolicy = new rtm.Policy((pol.PolicyElement)policy.Policy);
+                var tempPolicy = new Policy((PolicyElement)policy.Policy);
 
-                rtm.EvaluationContext tempContext = new rtm.EvaluationContext(context.Engine, policy, context.ContextDocument);
+                var tempContext = new EvaluationContext(context.Engine, policy, context.ContextDocument);
 
                 // Match the policy target with the context document
-                if (tempPolicy.Match(tempContext) == rtm.TargetEvaluationValue.Match)
+                if (tempPolicy.Match(tempContext) == TargetEvaluationValue.Match)
                 {
                     if (polEv == null)
                     {
@@ -142,7 +150,7 @@ namespace Anycmd.Xacml.Extensions
                     }
                     else
                     {
-                        throw new EvaluationException(cor.Resource.exc_duplicated_policy_in_repository);
+                        throw new EvaluationException(Resource.exc_duplicated_policy_in_repository);
                     }
                 }
             }

@@ -1,20 +1,24 @@
-using Anycmd.Xacml.Runtime.Functions;
-using System;
-using System.Collections;
-using System.IO;
-using System.Text;
-using System.Xml;
-using System.Xml.XPath;
-using cor = Anycmd.Xacml;
-using ctx = Anycmd.Xacml.Context;
-using inf = Anycmd.Xacml.Interfaces;
-using pol = Anycmd.Xacml.Policy;
-using typ = Anycmd.Xacml.Runtime.DataTypes;
+
+using System.Diagnostics;
 
 namespace Anycmd.Xacml.Runtime
 {
+	using Configuration;
+	using Functions;
+	using Interfaces;
+	using System;
+	using System.Collections.Generic;
+	using System.IO;
+	using System.Text;
+	using System.Xml;
+	using System.Xml.XPath;
+	using cor = Xacml;
+	using ctx = Context;
+	using pol = Xacml.Policy;
+	using typ = DataTypes;
+
 	/// <summary>
-	/// The EvaluationEngine is the PDP implementation which receives a policy document and a 
+	/// The EvaluationEngine is the PDP（策略决策点） implementation which receives a policy document and a 
 	/// context document and perform the evaluation of the policies. This instance is safe to be 
 	/// reused but not safe for multithread operations. If multiple operations must be carried on
 	/// a new instance must be created or the code must use a single instance per thread.
@@ -23,20 +27,16 @@ namespace Anycmd.Xacml.Runtime
 	{
 		#region Private members
 
+		private readonly bool _verbose;
 		/// <summary>
-		/// The verbose information for this instance.
+		/// 所有的内置函数。
 		/// </summary>
-		private bool _verbose = true;
+		private static IDictionary<string, IFunction> _functions;
 
 		/// <summary>
-		/// All the internal functions.
+		/// 所有的内置类型。
 		/// </summary>
-		private static IDictionary _functions;
-
-		/// <summary>
-		/// All the internal functions.
-		/// </summary>
-		private static IDictionary _dataTypes;
+		private static IDictionary<string, IDataType> _dataTypes;
 
 		#endregion
 
@@ -69,24 +69,20 @@ namespace Anycmd.Xacml.Runtime
 		/// </summary>
 		/// <param name="typeId">The data type Id.</param>
 		/// <returns>The data type descriptor.</returns>
-		public static inf.IDataType GetDataType(string typeId)
+		public static IDataType GetDataType(string typeId)
 		{
-			inf.IDataType dataType = _dataTypes[typeId] as inf.IDataType;
-			if (dataType == null)
+			IDataType dataType;
+			if (_dataTypes.TryGetValue(typeId, out dataType)) return dataType;
+			if (ConfigurationRoot.Config == null) return null;
+			foreach (IDataTypeRepository rep in ConfigurationRoot.Config.DataTypeRepositories)
 			{
-				if (Configuration.ConfigurationRoot.Config != null)
+				dataType = rep.GetDataType(typeId);
+				if (dataType != null)
 				{
-					foreach (inf.IDataTypeRepository rep in Configuration.ConfigurationRoot.Config.DataTypeRepositories)
-					{
-						dataType = rep.GetDataType(typeId);
-						if (dataType != null)
-						{
-							return dataType;
-						}
-					}
+					return dataType;
 				}
 			}
-			return dataType;
+			return null;
 		}
 
 		/// <summary>
@@ -94,7 +90,7 @@ namespace Anycmd.Xacml.Runtime
 		/// </summary>
 		/// <param name="policyCombiningAlgorithmId">The name of the policy combining algorithm.</param>
 		/// <returns>A new instance of the policy combining algorithm.</returns>
-		public static inf.IPolicyCombiningAlgorithm CreatePolicyCombiningAlgorithm(string policyCombiningAlgorithmId)
+		public static IPolicyCombiningAlgorithm CreatePolicyCombiningAlgorithm(string policyCombiningAlgorithmId)
 		{
 			switch (policyCombiningAlgorithmId)
 			{
@@ -112,15 +108,13 @@ namespace Anycmd.Xacml.Runtime
 					return new PolicyCombiningAlgorithmOrderedPermitOverrides();
 				default:
 					{
-						if (Configuration.ConfigurationRoot.Config != null)
+						if (ConfigurationRoot.Config == null) return null;
+						foreach (IPolicyCombiningAlgorithmRepository rep in ConfigurationRoot.Config.PolicyCombiningAlgorithmRepositories)
 						{
-							foreach (inf.IPolicyCombiningAlgorithmRepository rep in Configuration.ConfigurationRoot.Config.PolicyCombiningAlgorithmRepositories)
+							IPolicyCombiningAlgorithm pca = rep.GetPolicyCombiningAlgorithm(policyCombiningAlgorithmId);
+							if (pca != null)
 							{
-								inf.IPolicyCombiningAlgorithm pca = rep.GetPolicyCombiningAlgorithm(policyCombiningAlgorithmId);
-								if (pca != null)
-								{
-									return pca;
-								}
+								return pca;
 							}
 						}
 						return null;
@@ -133,7 +127,7 @@ namespace Anycmd.Xacml.Runtime
 		/// </summary>
 		/// <param name="ruleCombiningAlgorithmId">The name of the rule combining algorithm.</param>
 		/// <returns>A new instance of the rule combinig algorithm.</returns>
-		public static inf.IRuleCombiningAlgorithm CreateRuleCombiningAlgorithm(string ruleCombiningAlgorithmId)
+		public static IRuleCombiningAlgorithm CreateRuleCombiningAlgorithm(string ruleCombiningAlgorithmId)
 		{
 			switch (ruleCombiningAlgorithmId)
 			{
@@ -149,15 +143,13 @@ namespace Anycmd.Xacml.Runtime
 					return new RuleCombiningAlgorithmOrderedPermitOverrides();
 				default:
 					{
-						if (Configuration.ConfigurationRoot.Config != null)
+						if (ConfigurationRoot.Config == null) return null;
+						foreach (IRuleCombiningAlgorithmRepository rep in ConfigurationRoot.Config.RuleCombiningAlgorithmRepositories)
 						{
-							foreach (inf.IRuleCombiningAlgorithmRepository rep in Configuration.ConfigurationRoot.Config.RuleCombiningAlgorithmRepositories)
+							IRuleCombiningAlgorithm rca = rep.GetRuleCombiningAlgorithm(ruleCombiningAlgorithmId);
+							if (rca != null)
 							{
-								inf.IRuleCombiningAlgorithm rca = rep.GetRuleCombiningAlgorithm(ruleCombiningAlgorithmId);
-								if (rca != null)
-								{
-									return rca;
-								}
+								return rca;
 							}
 						}
 						return null;
@@ -172,17 +164,17 @@ namespace Anycmd.Xacml.Runtime
 		/// <returns>The response document.</returns>
 		public ctx.ResponseElement Evaluate(ctx.ContextDocument contextDocument)
 		{
-			EvaluationContext context = new EvaluationContext(this, null, contextDocument);
+			var context = new EvaluationContext(this, null, contextDocument);
 
 			try
 			{
 				// Validates the configuration file was found.
-				if (Configuration.ConfigurationRoot.Config != null)
+				if (ConfigurationRoot.Config != null)
 				{
 					// Search all the policies repositories to find a policy that matches the 
 					// context document
 					pol.PolicyDocument policyDocument = null;
-					foreach (inf.IPolicyRepository policyRep in Configuration.ConfigurationRoot.Config.PolicyRepositories)
+					foreach (IPolicyRepository policyRep in ConfigurationRoot.Config.PolicyRepositories)
 					{
 						if (policyDocument == null)
 						{
@@ -202,7 +194,7 @@ namespace Anycmd.Xacml.Runtime
 					}
 					else
 					{
-						return Evaluate((pol.PolicyDocument)null, null);
+						return Evaluate(null, null);
 					}
 				}
 				else
@@ -213,8 +205,8 @@ namespace Anycmd.Xacml.Runtime
 			catch (EvaluationException e)
 			{
 				context.Trace("ERR: {0}", e.Message);
+				return Evaluate(null, null);
 			}
-			return Evaluate((pol.PolicyDocument)null, null);
 		}
 
 		/// <summary>
@@ -241,36 +233,18 @@ namespace Anycmd.Xacml.Runtime
 		{
 			if (policyDocument == null) throw new ArgumentNullException("policyDocument");
 			if (contextDocument == null) throw new ArgumentNullException("contextDocument");
-			EvaluationContext context = new EvaluationContext(this, policyDocument, contextDocument);
+			var context = new EvaluationContext(this, policyDocument, contextDocument);
 
 			context.Trace("Start evaluation");
 			context.AddIndent();
-
-			if (policyDocument == null || contextDocument == null)
-			{
-				// If a validation error was found a response is created with the syntax error message
-				ctx.ResponseElement response =
-					new ctx.ResponseElement(
-						new ctx.ResultElement[] {
-							new ctx.ResultElement( 
-								null, 
-								Decision.Indeterminate, 
-								new ctx.StatusElement( 
-									new ctx.StatusCodeElement(Consts.ContextSchema.StatusCodes.ProcessingError, null, policyDocument.Version ), 
-									null, 
-									null, policyDocument.Version ), 
-									null, policyDocument.Version ) },
-					policyDocument.Version);
-				return response;
-			}
 
 			// Check if both documents are valid
 			if (!policyDocument.IsValidDocument || !contextDocument.IsValidDocument)
 			{
 				// If a validation error was found a response is created with the syntax error message
-				ctx.ResponseElement response =
+				var response =
 					new ctx.ResponseElement(
-						new ctx.ResultElement[] {
+						new[] {
 							new ctx.ResultElement( 
 								null, 
 								Decision.Indeterminate, 
@@ -335,23 +309,24 @@ namespace Anycmd.Xacml.Runtime
 									}
 								}
 							}
-							if (requestedResourceString != null && requestedResourceString.Length != 0)
+							if (!string.IsNullOrEmpty(requestedResourceString))
 							{
 								requestedResource = new Uri(requestedResourceString);
 							}
 						}
 
 						// Iterate through the policy resources evaluating each resource in the context document request 
-						bool mustEvaluate = false;
-						foreach (string resourceName in policy.AllResources)
+					    foreach (string resourceName in policy.AllResources)
 						{
-							if (resource.IsHierarchical)
+						    bool mustEvaluate = false;
+						    if (resource.IsHierarchical)
 							{
 								//Validate if the resource is hierarchically desdendant or children 
 								//of the requested resource
 								Uri policyResource = new Uri(resourceName);
 
-								if (!(mustEvaluate = requestedResource.Equals(policyResource)))
+							    Debug.Assert(requestedResource != null, "requestedResource != null");
+							    if (!(mustEvaluate = requestedResource.Equals(policyResource)))
 								{
 									// Perform the hierarchical evaluation
 									if (resource.ResourceScopeValue == ctx.ResourceScope.Children)
@@ -409,7 +384,7 @@ namespace Anycmd.Xacml.Runtime
 								if (!resource.IsHierarchical)
 								{
 									// Ussually when a single resource is requested the ResourceId is not specified in the result
-									IObligationsContainer oblig = policy as IObligationsContainer;
+									var oblig = policy as IObligationsContainer;
 									contextDocument.Response.Results.Add(
 										new ctx.ResultElement("", decision,
 											new ctx.StatusElement(scode, "", "", policyDocument.Version), oblig.Obligations, policyDocument.Version));
@@ -418,7 +393,7 @@ namespace Anycmd.Xacml.Runtime
 								else
 								{
 									// Adding a resource for each requested resource, using the resourceName as the resourceId of the result
-									IObligationsContainer oblig = policy as IObligationsContainer;
+									var oblig = policy as IObligationsContainer;
 									contextDocument.Response.Results.Add(
 										new ctx.ResultElement(resourceName, decision,
 											new ctx.StatusElement(scode, "", "", policyDocument.Version), oblig.Obligations, policyDocument.Version));
@@ -454,17 +429,17 @@ namespace Anycmd.Xacml.Runtime
 		/// </summary>
 		/// <param name="functionId">The function id</param>
 		/// <returns>The function from the inner functions repository.</returns>
-		public static inf.IFunction GetFunction(string functionId)
+		public static IFunction GetFunction(string functionId)
 		{
 			// Search in the internal function list.
-			inf.IFunction fun = (inf.IFunction)_functions[functionId];
+			IFunction fun = _functions[functionId];
 			if (fun != null)
 			{
 				return fun;
 			}
 
 			// Search the repositories.
-			foreach (inf.IFunctionRepository rep in Configuration.ConfigurationRoot.Config.FunctionRepositories)
+			foreach (IFunctionRepository rep in ConfigurationRoot.Config.FunctionRepositories)
 			{
 				fun = rep.GetFunction(functionId);
 				if (fun != null)
@@ -485,8 +460,8 @@ namespace Anycmd.Xacml.Runtime
 		/// <returns>A bag of values with the contents of the node.</returns>
 		public static BagValue Resolve(EvaluationContext context, pol.AttributeSelectorElement attributeSelector)
 		{
-			BagValue bagValue = new BagValue(GetDataType(attributeSelector.DataType));
-			ctx.ResourceContentElement content = (ctx.ResourceContentElement)context.CurrentResource.ResourceContent;
+			var bagValue = new BagValue(GetDataType(attributeSelector.DataType));
+			var content = (ctx.ResourceContentElement)context.CurrentResource.ResourceContent;
 			if (content != null)
 			{
 				XmlDocument doc = context.ContextDocument.XmlDocument;
@@ -497,12 +472,13 @@ namespace Anycmd.Xacml.Runtime
 				try
 				{
 					string xpath = attributeSelector.RequestContextPath;
-					XmlNodeList nodeList = doc.DocumentElement.SelectNodes(xpath, context.ContextDocument.XmlNamespaceManager);
+				    Debug.Assert(doc.DocumentElement != null, "doc.DocumentElement != null");
+				    XmlNodeList nodeList = doc.DocumentElement.SelectNodes(xpath, context.ContextDocument.XmlNamespaceManager);
 					if (nodeList != null)
 					{
 						foreach (XmlNode node in nodeList)
 						{
-							pol.AttributeValueElement ave =
+							var ave =
 								new pol.AttributeValueElement(
 								attributeSelector.DataType,
 								node.InnerText,
@@ -527,10 +503,10 @@ namespace Anycmd.Xacml.Runtime
 		/// <returns>The policySet found</returns>
 		public static pol.PolicySetElement Resolve(pol.PolicySetIdReferenceElement policyReference)
 		{
-			if (Configuration.ConfigurationRoot.Config != null)
+			if (ConfigurationRoot.Config != null)
 			{
 				// Search for attributes in the configured repositories
-				foreach (inf.IPolicyRepository repository in Configuration.ConfigurationRoot.Config.PolicyRepositories)
+				foreach (IPolicyRepository repository in ConfigurationRoot.Config.PolicyRepositories)
 				{
 					pol.PolicySetElement policySet = repository.GetPolicySet(policyReference);
 					if (policySet != null)
@@ -549,19 +525,17 @@ namespace Anycmd.Xacml.Runtime
 		/// <returns>The policy found</returns>
 		public static pol.PolicyElement Resolve(pol.PolicyIdReferenceElement policyReference)
 		{
-			if (Configuration.ConfigurationRoot.Config != null)
-			{
-				// Search for attributes in the configured repositories
-				foreach (inf.IPolicyRepository repository in Configuration.ConfigurationRoot.Config.PolicyRepositories)
-				{
-					pol.PolicyElement policy = repository.GetPolicy(policyReference);
-					if (policy != null)
-					{
-						return policy;
-					}
-				}
-			}
-			return null;
+		    if (ConfigurationRoot.Config == null) return null;
+		    // Search for attributes in the configured repositories
+		    foreach (IPolicyRepository repository in ConfigurationRoot.Config.PolicyRepositories)
+		    {
+		        pol.PolicyElement policy = repository.GetPolicy(policyReference);
+		        if (policy != null)
+		        {
+		            return policy;
+		        }
+		    }
+		    return null;
 		}
 
 		/// <summary>
@@ -576,7 +550,7 @@ namespace Anycmd.Xacml.Runtime
 			{
 				if (context.ContextDocument.Request != null && context.ContextDocument.Request.Subjects != null)
 				{
-					BagValue bag = new BagValue(GetDataType(attributeDesignator.DataType));
+					var bag = new BagValue(GetDataType(attributeDesignator.DataType));
 					foreach (ctx.SubjectElement subject in context.ContextDocument.Request.Subjects)
 					{
 						if (((pol.SubjectAttributeDesignatorElement)attributeDesignator).SubjectCategory == null ||
@@ -636,7 +610,7 @@ namespace Anycmd.Xacml.Runtime
 		/// <returns>A bag value with the values of the attributes found.</returns>
 		public static BagValue FindAttribute(EvaluationContext context, pol.AttributeDesignatorBase attributeDesignator, ctx.TargetItemBase targetItem)
 		{
-			BagValue bag = new BagValue(GetDataType(attributeDesignator.DataType));
+			var bag = new BagValue(GetDataType(attributeDesignator.DataType));
 			foreach (ctx.AttributeElement attribute in targetItem.Attributes)
 			{
 				if (attribute.Match(attributeDesignator))
@@ -660,7 +634,7 @@ namespace Anycmd.Xacml.Runtime
 			Context.AttributeElementReadWrite attribute = null;
 			if (match.AttributeReference is pol.AttributeDesignatorBase)
 			{
-				pol.AttributeDesignatorBase attrDesig = (pol.AttributeDesignatorBase)match.AttributeReference;
+				var attrDesig = (pol.AttributeDesignatorBase)match.AttributeReference;
 				context.Trace("Looking for attribute: {0}", attrDesig.AttributeId);
 				foreach (Context.AttributeElementReadWrite tempAttribute in contextTargetItem.Attributes)
 				{
@@ -679,8 +653,8 @@ namespace Anycmd.Xacml.Runtime
 			}
 			else if (match.AttributeReference is pol.AttributeSelectorElement)
 			{
-				pol.AttributeSelectorElement attrSelec = (pol.AttributeSelectorElement)match.AttributeReference;
-				ctx.ResourceContentElement content = (ctx.ResourceContentElement)((ctx.ResourceElement)contextTargetItem).ResourceContent;
+				var attrSelec = (pol.AttributeSelectorElement)match.AttributeReference;
+				var content = (ctx.ResourceContentElement)((ctx.ResourceElement)contextTargetItem).ResourceContent;
 				if (content != null)
 				{
 					XmlDocument doc = context.ContextDocument.XmlDocument;
@@ -693,7 +667,8 @@ namespace Anycmd.Xacml.Runtime
 					string xpath = attrSelec.RequestContextPath;
 					try
 					{
-						XmlNode node = doc.DocumentElement.SelectSingleNode(xpath, context.ContextDocument.XmlNamespaceManager);
+					    Debug.Assert(doc.DocumentElement != null, "doc.DocumentElement != null");
+					    XmlNode node = doc.DocumentElement.SelectSingleNode(xpath, context.ContextDocument.XmlNamespaceManager);
 						if (node != null)
 						{
 							attribute = new ctx.AttributeElement(null, attrSelec.DataType, null, null, node.InnerText, attrSelec.SchemaVersion);
@@ -760,7 +735,7 @@ namespace Anycmd.Xacml.Runtime
 						if (Configuration.ConfigurationRoot.Config != null)
 						{
 							// Search for attributes in the configured repositories
-							foreach (inf.IAttributeRepository repository in Configuration.ConfigurationRoot.Config.AttributeRepositories)
+							foreach (IAttributeRepository repository in Configuration.ConfigurationRoot.Config.AttributeRepositories)
 							{
 								ctx.AttributeElement attribute = repository.GetAttribute(context, designator);
 								if (attribute != null)
@@ -781,13 +756,13 @@ namespace Anycmd.Xacml.Runtime
 		/// <param name="functionInstance">The function to call</param>
 		/// <param name="arguments">The function arguments</param>
 		/// <returns>The return value of the function</returns>
-		public static EvaluationValue EvaluateFunction(EvaluationContext context, inf.IFunction functionInstance, params inf.IFunctionParameter[] arguments)
+		public static EvaluationValue EvaluateFunction(EvaluationContext context, IFunction functionInstance, params IFunctionParameter[] arguments)
 		{
 			if (context == null) throw new ArgumentNullException("context");
 			// If the caller is in a missing attribute state the function should not be called
 			if (context.IsMissingAttribute)
 			{
-				context.Trace("There's a missing attribute in the parameters"); //TODO: resources
+				context.Trace("There's a missing attribute in the parameters"); 
 				return EvaluationValue.Indeterminate;
 			}
 			else
@@ -813,7 +788,7 @@ namespace Anycmd.Xacml.Runtime
 						((functionInstance.Arguments[functionArgumentIdx] != DataTypeDescriptor.Bag) && (arguments[functionArgumentIdx] is BagValue))))
 					{
 						context.ProcessingError = true;
-						context.Trace("There's a parameter with an invalid datatype"); //TODO: resources
+						context.Trace("There's a parameter with an invalid datatype"); 
 						return EvaluationValue.Indeterminate;
 					}
 				}
@@ -832,7 +807,7 @@ namespace Anycmd.Xacml.Runtime
 							{
 								context.ProcessingError = true;
 							}
-							context.Trace("There's a parameter with Indeterminate value"); //TODO: resources
+							context.Trace("There's a parameter with Indeterminate value"); 
 							return EvaluationValue.Indeterminate;
 						}
 
@@ -841,13 +816,13 @@ namespace Anycmd.Xacml.Runtime
 							((arguments[argumentValueIdx] is BagValue) && (functionInstance.Arguments[functionArgumentIdx] != DataTypeDescriptor.Bag)))
 						{
 							context.ProcessingError = true;
-							context.Trace("There's a parameter with an invalid datatype"); //TODO: resources
+							context.Trace("There's a parameter with an invalid datatype"); 
 							return EvaluationValue.Indeterminate;
 						}
 					}
 				}
 
-				StringBuilder sb = new StringBuilder();
+				var sb = new StringBuilder();
 
 				// Call the function in a controlled evironment to capture any exception
 				try
@@ -855,7 +830,7 @@ namespace Anycmd.Xacml.Runtime
 					sb.Append(functionInstance.Id);
 					sb.Append("( ");
 					bool isFirst = true;
-					foreach (inf.IFunctionParameter param in arguments)
+					foreach (IFunctionParameter param in arguments)
 					{
 						if (isFirst)
 						{
@@ -881,7 +856,7 @@ namespace Anycmd.Xacml.Runtime
 				{
 					context.Trace(sb.ToString());
 					context.ProcessingError = true;
-					context.Trace("Error: {0}", e.Message); //TODO: resources
+					context.Trace("Error: {0}", e.Message); 
 					return EvaluationValue.Indeterminate;
 				}
 			}
@@ -900,11 +875,8 @@ namespace Anycmd.Xacml.Runtime
 			{
 				return;
 			}
-			else
-			{
-				_functions = new Hashtable();
-				_dataTypes = new Hashtable();
-			}
+			_functions = new Dictionary<string, IFunction>();
+			_dataTypes = new Dictionary<string, IDataType>();
 
 			_functions.Add(Consts.Schema1.InternalFunctions.AnyUriEqual, new AnyUriEqual());
 			_functions.Add(Consts.Schema1.InternalFunctions.AnyUriBagSize, new AnyUriBagSize());

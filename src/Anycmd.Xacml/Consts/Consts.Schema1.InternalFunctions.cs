@@ -83,39 +83,96 @@ namespace Anycmd.Xacml.Consts
             /// then combined using “urn:oasis:names:tc:xacml:1.0:function:and”.
             /// </summary>
             public const string AllOfAny = "urn:oasis:names:tc:xacml:1.0:function:all-of-any";
-            /// <summary>The name of the element/attribute in the XSD schema.</summary>
+            /// <summary>
+            /// The name of the element/attribute in the XSD schema.
+            /// This function applies a Boolean function between the elements of two bags. The expression
+            /// SHALL be "True" if and only if the supplied predicate is "True" between each and every element
+            /// of the first bag collectively against all the elements of the second bag.
+            /// This function SHALL take three arguments. The first argument SHALL be an &lt;Function&gt;
+            /// element that names a Boolean function that takes two arguments of primitive types. The second
+            /// argument SHALL be a bag of a primitive data-type. The third argument SHALL be a bag of a
+            /// primitive data-type. The expression is evaluated as if the function named in the &lt;Function&gt;
+            /// element were applied between every element of the second argument and every element of the
+            /// third argument and the results were combined using “urn:oasis:names:tc:xacml:1.0:function:and”.
+            /// The semantics are that the result of the expression is "True" if and only if the applied predicate is
+            /// "True" for all elements of the first bag compared to all the elements of the second bag.
+            /// </summary>
             public const string AllOfAll = "urn:oasis:names:tc:xacml:1.0:function:all-of-all";
-            /// <summary>The name of the element/attribute in the XSD schema.</summary>
+            /// <summary>
+            /// The name of the element/attribute in the XSD schema.
+            /// This function SHALL take two arguments of data-type
+            /// “http://www.w3.org/2001/XMLSchema#anyURI” and SHALL return an
+            /// “http://www.w3.org/2001/XMLSchema#boolean”. The function SHALL convert the arguments to
+            /// strings with urn:oasis:names:tc:xacml:3.0:function:string-from-anyURI and return “True” if and
+            /// only if the values of the two arguments are equal on a codepoint-by-codepoint basis.
+            /// </summary>
             public const string AnyUriEqual = "urn:oasis:names:tc:xacml:1.0:function:anyURI-equal";
-            /// <summary>The name of the element/attribute in the XSD schema.</summary>
+            /// <summary>
+            /// The name of the element/attribute in the XSD schema.
+            /// </summary>
             public const string AnyUriBagSize = "urn:oasis:names:tc:xacml:1.0:function:anyURI-bag-size";
-            /// <summary>The name of the element/attribute in the XSD schema.</summary>
+            /// <summary>
+            /// The name of the element/attribute in the XSD schema.
+            /// </summary>
             public const string AnyUriBag = "urn:oasis:names:tc:xacml:1.0:function:anyURI-bag";
-            /// <summary>The name of the element/attribute in the XSD schema.</summary>
+            /// <summary>
+            /// The name of the element/attribute in the XSD schema.
+            /// </summary>
             public const string AnyUriIsIn = "urn:oasis:names:tc:xacml:1.0:function:anyURI-is-in";
-            /// <summary>The name of the element/attribute in the XSD schema.</summary>
+            /// <summary>
+            /// The name of the element/attribute in the XSD schema.
+            /// </summary>
             public const string AnyUriOneAndOnly = "urn:oasis:names:tc:xacml:1.0:function:anyURI-one-and-only";
-            /// <summary>The name of the element/attribute in the XSD schema.</summary>
+            /// <summary>
+            /// The name of the element/attribute in the XSD schema.
+            /// </summary>
             public const string AnyUriAtLeastOneMemberOf = "urn:oasis:names:tc:xacml:1.0:function:anyURI-at-least-one-member-of";
-            /// <summary>The name of the element/attribute in the XSD schema.</summary>
+            /// <summary>
+            /// The name of the element/attribute in the XSD schema.
+            /// </summary>
             public const string AnyUriIntersection = "urn:oasis:names:tc:xacml:1.0:function:anyURI-intersection";
-            /// <summary>The name of the element/attribute in the XSD schema.</summary>
+            /// <summary>
+            /// The name of the element/attribute in the XSD schema.
+            /// </summary>
             public const string AnyUriSetEquals = "urn:oasis:names:tc:xacml:1.0:function:anyURI-set-equals";
-            /// <summary>The name of the element/attribute in the XSD schema.</summary>
+            /// <summary>
+            /// The name of the element/attribute in the XSD schema.
+            /// </summary>
             public const string AnyUriSubset = "urn:oasis:names:tc:xacml:1.0:function:anyURI-subset";
-            /// <summary>The name of the element/attribute in the XSD schema.</summary>
+            /// <summary>
+            /// The name of the element/attribute in the XSD schema.
+            /// </summary>
             public const string AnyUriUnion = "urn:oasis:names:tc:xacml:1.0:function:anyURI-union";
-            /// <summary>The name of the element/attribute in the XSD schema.</summary>
+            /// <summary>
+            /// The name of the element/attribute in the XSD schema.
+            /// This function SHALL take two arguments of data-type
+            /// “http://www.w3.org/2001/XMLSchema#base64Binary” and SHALL return an
+            /// “http://www.w3.org/2001/XMLSchema#boolean”. It SHALL return "True" if the octet sequences
+            /// represented by the value of both arguments have equal length and are equal in a conjunctive,
+            /// point-wise, comparison using the “urn:oasis:names:tc:xacml:1.0:function:integer-equal” function.
+            /// Otherwise, it SHALL return “False”. The conversion from the string representation to an octet
+            /// sequence SHALL be as specified in [XS] Section 3.2.16.
+            /// </summary>
             public const string Base64BinaryEqual = "urn:oasis:names:tc:xacml:1.0:function:base64Binary-equal";
-            /// <summary>The name of the element/attribute in the XSD schema.</summary>
+            /// <summary>
+            /// The name of the element/attribute in the XSD schema.
+            /// </summary>
             public const string Base64BinaryOneAndOnly = "urn:oasis:names:tc:xacml:1.0:function:base64Binary-one-and-only";
-            /// <summary>The name of the element/attribute in the XSD schema.</summary>
+            /// <summary>
+            /// The name of the element/attribute in the XSD schema.
+            /// </summary>
             public const string Base64BinaryBagSize = "urn:oasis:names:tc:xacml:1.0:function:base64Binary-bag-size";
-            /// <summary>The name of the element/attribute in the XSD schema.</summary>
+            /// <summary>
+            /// The name of the element/attribute in the XSD schema.
+            /// </summary>
             public const string Base64BinaryBag = "urn:oasis:names:tc:xacml:1.0:function:base64Binary-bag";
-            /// <summary>The name of the element/attribute in the XSD schema.</summary>
+            /// <summary>
+            /// The name of the element/attribute in the XSD schema.
+            /// </summary>
             public const string Base64BinaryIsIn = "urn:oasis:names:tc:xacml:1.0:function:base64Binary-is-in";
-            /// <summary>The name of the element/attribute in the XSD schema.</summary>
+            /// <summary>
+            /// The name of the element/attribute in the XSD schema.
+            /// </summary>
             public const string Base64BinaryAtLeastOneMemberOf = "urn:oasis:names:tc:xacml:1.0:function:base64Binary-at-least-one-member-of";
             /// <summary>The name of the element/attribute in the XSD schema.</summary>
             public const string Base64BinaryIntersection = "urn:oasis:names:tc:xacml:1.0:function:base64Binary-intersection";

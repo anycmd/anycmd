@@ -1,6 +1,6 @@
 using Anycmd.Xacml.Interfaces;
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Security.Permissions;
 using System.Xml;
@@ -19,7 +19,7 @@ namespace Anycmd.Xacml.Extensions
         /// <summary>
         /// All the defined functions using the function id as the key.
         /// </summary>
-        private readonly Hashtable _dataTypes = new Hashtable();
+        private readonly IDictionary<string, IDataType> _dataTypes = new Dictionary<string, IDataType>();
 
         #endregion
 
@@ -48,7 +48,16 @@ namespace Anycmd.Xacml.Extensions
             Debug.Assert(dataTypes != null, "dataTypes != null");
             foreach (XmlNode node in dataTypes)
             {
-                var dataType = (inf.IDataType)Activator.CreateInstance(Type.GetType(node.Attributes["type"].Value));
+                if (node == null || node.Attributes == null || node.Attributes["type"] == null || string.IsNullOrEmpty(node.Attributes["type"].Value))
+                {
+                    throw new EvaluationException();
+                }
+                var type = Type.GetType(node.Attributes["type"].Value);
+                if (type == null)
+                {
+                    throw new EvaluationException();
+                }
+                var dataType = (IDataType)Activator.CreateInstance(type);
                 _dataTypes.Add(node.Attributes["id"].Value, dataType);
             }
         }
@@ -60,7 +69,7 @@ namespace Anycmd.Xacml.Extensions
         /// <returns>The data type instance or null if the data type was not found.</returns>
         public IDataType GetDataType(string typeId)
         {
-            return _dataTypes[typeId] as inf.IDataType;
+            return _dataTypes[typeId];
         }
 
         #endregion

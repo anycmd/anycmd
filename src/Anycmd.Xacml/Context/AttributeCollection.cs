@@ -59,22 +59,6 @@ namespace Anycmd.Xacml.Context
             return (List.Add(new AttributeElement(value.AttributeId, value.DataType, value.Issuer, value.IssueInstant, value.Value,
                 value.SchemaVersion)));
         }
-        /// <summary>
-        /// Clears the collection
-        /// </summary>
-        public override void Clear()
-        {
-            throw new NotSupportedException();
-        }
-
-        /// <summary>
-        /// Removes the specified element
-        /// </summary>
-        /// <param name="index">Position of the element</param>
-        public override void RemoveAt(int index)
-        {
-            throw new NotSupportedException();
-        }
 
         #endregion
     }

@@ -11,8 +11,7 @@ namespace Anycmd.Xacml.Policy
     /// constant value defined in the documents that are represented as strings and requires a 
     /// conversion in order to perform evaluations with this value.
     /// </summary>
-    public abstract class StringValueBase :
-        XacmlElement, IFunctionParameter
+    public abstract class StringValueBase : XacmlElement, IFunctionParameter
     {
         #region Constructors
 
@@ -67,26 +66,12 @@ namespace Anycmd.Xacml.Policy
             {
                 return this;
             }
-            else
+            if (DataTypeValue != dataType.DataTypeName)
             {
-                if (DataTypeValue != dataType.DataTypeName)
-                {
-                    throw new EvaluationException("invalid data type"); //TODO: make the error more clear.
-                }
-
-                if (DataTypeValue != null)
-                {
-                    if (DataTypeValue != dataType.DataTypeName)
-                    {
-                        throw new EvaluationException(string.Format(Resource.exc_invalid_datatype_in_stringvalue, parNo, DataTypeValue));
-                    }
-                }
-
-                return dataType.Parse(Value, parNo);
-
-                //TODO: this exception is possible?
-                //throw new EvaluationException(string.Format(Resource.exc_invalid_datatype_in_stringvalue, parNo, DataTypeValue));
+                throw new EvaluationException(string.Format(Resource.exc_invalid_datatype_in_stringvalue, parNo, DataTypeValue));
             }
+
+            return dataType.Parse(Value, parNo);
         }
 
         /// <summary>

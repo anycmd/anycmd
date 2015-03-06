@@ -57,6 +57,7 @@ namespace Anycmd.Xacml.Context
                 {
                     while (reader.MoveToNextAttribute())
                     {
+                        // TODO:构造函数中调用了虚方法
                         AttributeFound(reader.NamespaceURI, reader.LocalName, reader.Value);
                     }
                     reader.MoveToElement();
@@ -71,6 +72,7 @@ namespace Anycmd.Xacml.Context
                             _attributes.Add(new AttributeElementReadWrite(reader, schemaVersion));
                             break;
                         default:
+                            // TODO:构造函数中调用了虚方法
                             NodeFound(reader);
                             break;
                     }
