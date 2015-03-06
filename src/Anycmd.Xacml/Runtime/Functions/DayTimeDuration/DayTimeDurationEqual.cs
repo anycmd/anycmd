@@ -44,7 +44,7 @@ namespace Anycmd.Xacml.Runtime.Functions
 			}
 			catch( EvaluationException e )
 			{
-				context.Trace(Consts.TraceError, e.Message); 
+				context.Trace("ERR: {0}", e.Message); 
 				return EvaluationValue.False;
 			}
 		}

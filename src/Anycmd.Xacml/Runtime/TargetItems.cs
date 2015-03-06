@@ -98,7 +98,7 @@ namespace Anycmd.Xacml.Runtime
                             }
                             catch (EvaluationException e)
                             {
-                                context.Trace(Consts.TraceError, e.Message);
+                                context.Trace("ERR: {0}", e.Message);
                                 _evaluationValue = TargetEvaluationValue.Indeterminate;
                             }
                         }

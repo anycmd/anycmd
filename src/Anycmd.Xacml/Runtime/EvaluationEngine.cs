@@ -212,7 +212,7 @@ namespace Anycmd.Xacml.Runtime
 			}
 			catch (EvaluationException e)
 			{
-				context.Trace(Consts.TraceError, e.Message);
+				context.Trace("ERR: {0}", e.Message);
 			}
 			return Evaluate((pol.PolicyDocument)null, null);
 		}
@@ -513,7 +513,7 @@ namespace Anycmd.Xacml.Runtime
 				}
 				catch (XPathException e)
 				{
-					context.Trace(Consts.TraceError, e.Message);
+					context.Trace("ERR: {0}", e.Message);
 					bagValue = new BagValue(GetDataType(attributeSelector.DataType));
 				}
 			}
@@ -701,7 +701,7 @@ namespace Anycmd.Xacml.Runtime
 					}
 					catch (XPathException e)
 					{
-						context.Trace(Consts.TraceError, e.Message);
+						context.Trace("ERR: {0}", e.Message);
 						context.ProcessingError = true;
 					}
 				}
