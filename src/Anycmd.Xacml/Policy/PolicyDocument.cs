@@ -1,5 +1,5 @@
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Xml;
 
 namespace Anycmd.Xacml.Policy
@@ -103,7 +103,7 @@ namespace Anycmd.Xacml.Policy
         /// <summary>
         /// All the namespaced defined in the document.
         /// </summary>
-        public override IDictionary Namespaces
+        public override IDictionary<string, string> Namespaces
         {
             set { throw new NotSupportedException(); }
         }

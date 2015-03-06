@@ -2,17 +2,17 @@
 namespace Anycmd.Xacml
 {
     /// <summary>
-    /// Enumeration describing the document's type
+    /// 描述文档类型的枚举。
     /// </summary>
     public enum DocumentType
     {
         /// <summary>
-        /// Policy document
+        /// 策略文档
         /// </summary>
         Policy,
 
         /// <summary>
-        /// Request document
+        /// 请求文档
         /// </summary>
         Request
     }

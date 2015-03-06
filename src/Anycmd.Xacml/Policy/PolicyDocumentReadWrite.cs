@@ -1,10 +1,9 @@
 
-using System.Diagnostics;
-
 namespace Anycmd.Xacml.Policy
 {
     using System;
-    using System.Collections;
+    using System.Collections.Generic;
+    using System.Diagnostics;
     using System.IO;
     using System.Reflection;
     using System.Xml;
@@ -43,7 +42,7 @@ namespace Anycmd.Xacml.Policy
         /// queries because the XPath uses the preffixes and we must provide them in the 
         /// XmlNamespaceManager.
         /// </summary>
-        private Hashtable _namespaces = new Hashtable();
+        private IDictionary<string, string> _namespaces = new Dictionary<string, string>();
 
         /// <summary>
         /// The name of the embedded resource for the 1.0 schema.
@@ -215,10 +214,10 @@ namespace Anycmd.Xacml.Policy
         /// <summary>
         /// All the namespaced defined in the document.
         /// </summary>
-        public virtual IDictionary Namespaces
+        public virtual IDictionary<string, string> Namespaces
         {
             get { return _namespaces; }
-            set { _namespaces = (Hashtable)value; }
+            set { _namespaces = value; }
         }
 
         #endregion
@@ -230,7 +229,7 @@ namespace Anycmd.Xacml.Policy
         /// </summary>
         /// <param name="sender">The sender of the event.</param>
         /// <param name="e">The validation error detail.</param>
-        private void vreader_ValidationEventHandler(object sender, System.Xml.Schema.ValidationEventArgs e)
+        private void vreader_ValidationEventHandler(object sender, ValidationEventArgs e)
         {
             Console.WriteLine(e.Message);
             Console.WriteLine();

@@ -1,5 +1,5 @@
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Xml;
 
 namespace Anycmd.Xacml.Context
@@ -143,14 +143,14 @@ namespace Anycmd.Xacml.Context
         /// </summary>
         /// <param name="writer">The XmlWriter in which the element will be written</param>
         /// <param name="namespaces">The xml's namespaces</param>
-        public void WriteDocument(XmlWriter writer, Hashtable namespaces)
+        public void WriteDocument(XmlWriter writer, IDictionary<string, string> namespaces)
         {
             if (writer == null) throw new ArgumentNullException("writer");
             if (namespaces == null) throw new ArgumentNullException("namespaces");
             writer.WriteStartDocument();
             writer.WriteStartElement(Consts.ContextSchema.RequestElement.Request, string.Empty);
 
-            foreach (DictionaryEntry name in namespaces)
+            foreach (var name in namespaces)
             {
                 writer.WriteAttributeString(Consts.Schema1.Namespaces.Xmlns, name.Key.ToString(), null, name.Value.ToString());
             }

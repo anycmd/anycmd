@@ -3,7 +3,8 @@ namespace Anycmd.Xacml.Context
 {
     using Policy;
     using System;
-    using System.Collections;
+    using System.Collections.Generic;
+    using System.Diagnostics;
     using System.IO;
     using System.Reflection;
     using System.Xml;
@@ -50,7 +51,7 @@ namespace Anycmd.Xacml.Context
         /// queries because the XPath uses the preffixes and we must provide them in the 
         /// XmlNamespaceManager.
         /// </summary>
-        private readonly Hashtable _namespaces = new Hashtable();
+        private readonly IDictionary<string, string> _namespaces = new Dictionary<string, string>();
 
         /// <summary>
         /// The string of the context document, dirty trick to use the XmlReader and also create an XmlDocument 
@@ -101,7 +102,7 @@ namespace Anycmd.Xacml.Context
 
             // Prepare the validation.
             var validationHandler = new ValidationEventHandler(vreader_ValidationEventHandler);
-            var settings = new XmlReaderSettings {ValidationType = ValidationType.Schema};
+            var settings = new XmlReaderSettings { ValidationType = ValidationType.Schema };
             settings.ValidationEventHandler += validationHandler;
             XmlReader vreader = null;
             try
@@ -114,7 +115,9 @@ namespace Anycmd.Xacml.Context
                             if (_compiledSchemas11 == null)
                             {
                                 var policySchemaStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(PolicyDocumentReadWrite.Xacml10PolicySchemaResourceName);
+                                Debug.Assert(policySchemaStream != null);
                                 var contextSchemaStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(Xacml10ContextSchemaResourceName);
+                                Debug.Assert(contextSchemaStream != null);
                                 _compiledSchemas11 = new XmlSchemaSet();
                                 _compiledSchemas11.Add(XmlSchema.Read(policySchemaStream, validationHandler));
                                 _compiledSchemas11.Add(XmlSchema.Read(contextSchemaStream, validationHandler));
@@ -128,7 +131,9 @@ namespace Anycmd.Xacml.Context
                             if (_compiledSchemas20 == null)
                             {
                                 Stream policySchemaStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(PolicyDocumentReadWrite.Xacml20PolicySchemaResourceName);
+                                Debug.Assert(policySchemaStream != null);
                                 Stream contextSchemaStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(Xacml20ContextSchemaResourceName);
+                                Debug.Assert(contextSchemaStream != null);
                                 _compiledSchemas20 = new XmlSchemaSet();
                                 _compiledSchemas20.Add(XmlSchema.Read(policySchemaStream, validationHandler));
                                 _compiledSchemas20.Add(XmlSchema.Read(contextSchemaStream, validationHandler));
@@ -138,7 +143,7 @@ namespace Anycmd.Xacml.Context
                             break;
                         }
                     default:
-                        throw new ArgumentException(Resource.exc_invalid_version_parameter_value, "version");
+                        throw new ArgumentException("意外的版本号" + schemaVersion);
                 }
                 vreader = XmlReader.Create(sreader, settings);
                 while (vreader.Read())
@@ -235,7 +240,7 @@ namespace Anycmd.Xacml.Context
         /// <summary>
         /// 
         /// </summary>
-        public Hashtable Namespaces
+        public IDictionary<string, string> Namespaces
         {
             get
             {
@@ -246,7 +251,7 @@ namespace Anycmd.Xacml.Context
         /// <summary>
         /// Allows adding extra namespaces to the namespace manager.
         /// </summary>
-        public void AddNamespaces(IDictionary namespaces)
+        public void AddNamespaces(IDictionary<string, string> namespaces)
         {
             if (namespaces == null) throw new ArgumentNullException("namespaces");
             _xmlNamespaceManager = new XmlNamespaceManager(_xmlDocument.NameTable);
@@ -264,7 +269,7 @@ namespace Anycmd.Xacml.Context
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void vreader_ValidationEventHandler(object sender, System.Xml.Schema.ValidationEventArgs e)
+        private void vreader_ValidationEventHandler(object sender, ValidationEventArgs e)
         {
             Console.WriteLine(e.Message);
             Console.WriteLine();

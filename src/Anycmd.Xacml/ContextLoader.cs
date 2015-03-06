@@ -7,7 +7,7 @@ namespace Anycmd.Xacml
     using Context;
 
     /// <summary>
-    /// Helper class used to load a context document which can be a Request or a Response.
+    /// 帮助从xml数据加载包含一个请求或响应文档的帮助类。
     /// </summary>
     /// <remarks>Reading a Response context document is not really needed by the implementation but it's used to
     /// compare the Response emited by the evaluation with the Response provided in the Conformance tests.</remarks>
@@ -26,13 +26,11 @@ namespace Anycmd.Xacml
         /// <returns>An instance of a ContextDocument/</returns>
         public static ContextDocumentReadWrite LoadContextDocument(string xmlDocument)
         {
-            // Validate the parameters
             if (xmlDocument == null)
             {
                 throw new ArgumentNullException("xmlDocument");
             }
 
-            // Read the document to determine the version of the schema used.
             XacmlVersion version = GetXacmlVersion(new StreamReader(xmlDocument));
 
             return LoadContextDocument(new XmlTextReader(new StringReader(xmlDocument)), version);
@@ -45,13 +43,11 @@ namespace Anycmd.Xacml
         /// <returns>An instance of a ContextDocument.</returns>
         public static ContextDocumentReadWrite LoadContextDocument(Stream xmlDocument)
         {
-            // Validate the parameters
             if (xmlDocument == null)
             {
                 throw new ArgumentNullException("xmlDocument");
             }
 
-            // Read the document to determine the version of the schema used.
             XacmlVersion version = GetXacmlVersion(new StreamReader(xmlDocument));
 
             xmlDocument.Position = 0;
@@ -67,7 +63,6 @@ namespace Anycmd.Xacml
         /// <returns>An instance of a ContextDocument/</returns>
         public static ContextDocumentReadWrite LoadContextDocument(string xmlDocument, XacmlVersion schemaVersion)
         {
-            // Validate the parameters
             if (xmlDocument == null)
             {
                 throw new ArgumentNullException("xmlDocument");
@@ -84,7 +79,6 @@ namespace Anycmd.Xacml
         /// <returns>An instance of a ContextDocument.</returns>
         public static ContextDocumentReadWrite LoadContextDocument(Stream xmlDocument, XacmlVersion schemaVersion)
         {
-            // Validate the parameters
             if (xmlDocument == null)
             {
                 throw new ArgumentNullException("xmlDocument");
@@ -101,7 +95,6 @@ namespace Anycmd.Xacml
         /// <returns>An instance of a ContextDocument.</returns>
         public static ContextDocumentReadWrite LoadContextDocument(XmlReader reader, XacmlVersion schemaVersion)
         {
-            // Validate the parameters
             if (reader == null)
             {
                 throw new ArgumentNullException("reader");
@@ -117,13 +110,11 @@ namespace Anycmd.Xacml
         /// <returns>An instance of a ContextDocument/</returns>
         public static ContextDocumentReadWrite LoadContextDocument(string xmlDocument, DocumentAccess access)
         {
-            // Validate the parameters
             if (xmlDocument == null)
             {
                 throw new ArgumentNullException("xmlDocument");
             }
 
-            // Read the document to determine the version of the schema used.
             XacmlVersion version = GetXacmlVersion(new StreamReader(xmlDocument));
 
             return LoadContextDocument(new XmlTextReader(new StringReader(xmlDocument)), version, access);
@@ -137,13 +128,11 @@ namespace Anycmd.Xacml
         /// <returns>An instance of a ContextDocument.</returns>
         public static ContextDocumentReadWrite LoadContextDocument(Stream xmlDocument, DocumentAccess access)
         {
-            // Validate the parameters
             if (xmlDocument == null)
             {
                 throw new ArgumentNullException("xmlDocument");
             }
 
-            // Read the document to determine the version of the schema used.
             XacmlVersion version = GetXacmlVersion(new StreamReader(xmlDocument));
 
             xmlDocument.Position = 0;
@@ -160,7 +149,6 @@ namespace Anycmd.Xacml
         /// <returns>An instance of a ContextDocument/</returns>
         public static ContextDocumentReadWrite LoadContextDocument(string xmlDocument, XacmlVersion schemaVersion, DocumentAccess access)
         {
-            // Validate the parameters
             if (xmlDocument == null)
             {
                 throw new ArgumentNullException("xmlDocument");
@@ -178,7 +166,6 @@ namespace Anycmd.Xacml
         /// <returns>An instance of a ContextDocument.</returns>
         public static ContextDocumentReadWrite LoadContextDocument(Stream xmlDocument, XacmlVersion schemaVersion, DocumentAccess access)
         {
-            // Validate the parameters
             if (xmlDocument == null)
             {
                 throw new ArgumentNullException("xmlDocument");
@@ -216,17 +203,18 @@ namespace Anycmd.Xacml
             while (reader.Read())
             {
                 // xml是区分大小写的，比较字符串的时候不需要忽略大小写
-                if (reader.LocalName == Consts.ContextSchema.RequestElement.Request ||
-                    reader.LocalName == Consts.ContextSchema.ResponseElement.Response)
+                switch (reader.LocalName)
                 {
-                    if (reader.NamespaceURI == Consts.Schema1.Namespaces.Context)
-                    {
-                        return XacmlVersion.Version11;
-                    }
-                    else if (reader.NamespaceURI == Consts.Schema2.Namespaces.Context)
-                    {
-                        return XacmlVersion.Version20;
-                    }
+                    case Consts.ContextSchema.ResponseElement.Response:
+                    case Consts.ContextSchema.RequestElement.Request:
+                        switch (reader.NamespaceURI)
+                        {
+                            case Consts.Schema1.Namespaces.Context:
+                                return XacmlVersion.Version11;
+                            case Consts.Schema2.Namespaces.Context:
+                                return XacmlVersion.Version20;
+                        }
+                        break;
                 }
             }
             throw new EvaluationException(Resource.exc_invalid_document_format_no_policyorpolicyset);

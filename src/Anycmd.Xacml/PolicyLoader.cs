@@ -1,12 +1,13 @@
-using Anycmd.Xacml.Policy;
-using System;
-using System.IO;
-using System.Xml;
 
 namespace Anycmd.Xacml
 {
+    using Policy;
+    using System;
+    using System.IO;
+    using System.Xml;
+
     /// <summary>
-    /// 从xml数据提供程序加载策略文档。
+    /// 帮助从xml数据提供程序加载策略文档的帮助类。
     /// </summary>
     public static class PolicyLoader
     {
@@ -223,17 +224,18 @@ namespace Anycmd.Xacml
             var reader = new XmlTextReader(textReader);
             while (reader.Read())
             {
-                if (reader.LocalName == Consts.Schema1.PolicySetElement.PolicySet ||
-                    reader.LocalName == Consts.Schema1.PolicyElement.Policy)
+                switch (reader.LocalName)
                 {
-                    if (reader.NamespaceURI == Consts.Schema1.Namespaces.Policy)
-                    {
-                        return XacmlVersion.Version11;
-                    }
-                    else if (reader.NamespaceURI == Consts.Schema2.Namespaces.Policy)
-                    {
-                        return XacmlVersion.Version20;
-                    }
+                    case Consts.Schema1.PolicyElement.Policy:
+                    case Consts.Schema1.PolicySetElement.PolicySet:
+                        switch (reader.NamespaceURI)
+                        {
+                            case Consts.Schema1.Namespaces.Policy:
+                                return XacmlVersion.Version11;
+                            case Consts.Schema2.Namespaces.Policy:
+                                return XacmlVersion.Version20;
+                        }
+                        break;
                 }
             }
             throw new EvaluationException(Resource.exc_invalid_document_format_no_policyorpolicyset);

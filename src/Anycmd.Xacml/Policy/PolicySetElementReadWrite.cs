@@ -1,5 +1,7 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Xml;
 
 namespace Anycmd.Xacml.Policy
@@ -315,12 +317,12 @@ namespace Anycmd.Xacml.Policy
         /// </summary>
         /// <param name="writer">The XmlWriter in which the element will be written</param>
         /// <param name="namespaces">The xml's namespaces</param>
-        public void WriteDocument(XmlWriter writer, Hashtable namespaces)
+        public void WriteDocument(XmlWriter writer, IDictionary<string, string> namespaces)
         {
             writer.WriteStartElement(Consts.Schema1.PolicySetElement.PolicySet);
-            foreach (DictionaryEntry name in namespaces)
+            foreach (var name in namespaces)
             {
-                writer.WriteAttributeString(Consts.Schema1.Namespaces.Xmlns, name.Key.ToString(), null, name.Value.ToString());
+                writer.WriteAttributeString(Consts.Schema1.Namespaces.Xmlns, name.Key.ToString(CultureInfo.InvariantCulture), null, name.Value.ToString(CultureInfo.InvariantCulture));
             }
             writer.WriteAttributeString(Consts.Schema1.PolicySetElement.PolicySetId, this._id);
             writer.WriteAttributeString(Consts.Schema1.PolicySetElement.PolicyCombiningAlgorithmId, this._policyCombiningAlgorithm);
