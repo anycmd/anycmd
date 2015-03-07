@@ -1,12 +1,12 @@
-using System;
-using System.Collections.Specialized;
-using Anycmd.Xacml.Policy.TargetItems;
-using cor = Anycmd.Xacml;
-using inf = Anycmd.Xacml.Interfaces;
-using pol = Anycmd.Xacml.Policy;
 
 namespace Anycmd.Xacml.Runtime
 {
+    using Interfaces;
+    using System;
+    using System.Collections.Specialized;
+    using Xacml.Policy;
+    using Xacml.Policy.TargetItems;
+
     /// <summary>
     /// The runtime class for the policy set.
     /// </summary>
@@ -32,7 +32,7 @@ namespace Anycmd.Xacml.Runtime
         /// <summary>
         /// The policy set defined in the context document.
         /// </summary>
-        private readonly pol.PolicySetElement _policySet;
+        private readonly PolicySetElement _policySet;
 
         /// <summary>
         /// The target during the evaluation process.
@@ -42,7 +42,7 @@ namespace Anycmd.Xacml.Runtime
         /// <summary>
         /// The obligations set to this policy.
         /// </summary>
-        private pol.ObligationCollection _obligations;
+        private ObligationCollection _obligations;
 
         #endregion
 
@@ -53,7 +53,7 @@ namespace Anycmd.Xacml.Runtime
         /// </summary>
         /// <param name="engine">The evaluation engine.</param>
         /// <param name="policySet">The policy set defined in the policy document.</param>
-        public PolicySet(EvaluationEngine engine, pol.PolicySetElement policySet)
+        public PolicySet(EvaluationEngine engine, PolicySetElement policySet)
         {
             if (engine == null) throw new ArgumentNullException("engine");
             if (policySet == null) throw new ArgumentNullException("policySet");
@@ -62,7 +62,7 @@ namespace Anycmd.Xacml.Runtime
             // Create a runtime target of this policy set.
             if (policySet.Target != null)
             {
-                _target = new Target((pol.TargetElement)policySet.Target);
+                _target = new Target((TargetElement)policySet.Target);
 
                 foreach (ResourceElement resource in policySet.Target.Resources.ItemsList)
                 {
@@ -79,10 +79,10 @@ namespace Anycmd.Xacml.Runtime
             // Add all the policies (or policy set) inside this policy set.
             foreach (object child in policySet.Policies)
             {
-                var childPolicySet = child as pol.PolicySetElement;
-                var childPolicyElement = child as pol.PolicyElement;
-                var childPolicySetIdReference = child as pol.PolicySetIdReferenceElement;
-                var childPolicyIdReferenceElement = child as pol.PolicyIdReferenceElement;
+                var childPolicySet = child as PolicySetElement;
+                var childPolicyElement = child as PolicyElement;
+                var childPolicySetIdReference = child as PolicySetIdReferenceElement;
+                var childPolicyIdReferenceElement = child as PolicyIdReferenceElement;
                 if (childPolicySet != null)
                 {
                     var policySetEv = new PolicySet(engine, childPolicySet);
@@ -109,7 +109,7 @@ namespace Anycmd.Xacml.Runtime
                 }
                 else if (childPolicySetIdReference != null)
                 {
-                    pol.PolicySetElement policySetDefinition = EvaluationEngine.Resolve(childPolicySetIdReference);
+                    PolicySetElement policySetDefinition = EvaluationEngine.Resolve(childPolicySetIdReference);
                     if (policySetDefinition != null)
                     {
                         var policySetEv = new PolicySet(engine, policySetDefinition);
@@ -124,12 +124,12 @@ namespace Anycmd.Xacml.Runtime
                     }
                     else
                     {
-                        throw new EvaluationException(string.Format(cor.Resource.exc_policyset_reference_not_resolved, ((pol.PolicySetIdReferenceElement)child).PolicySetId));
+                        throw new EvaluationException(string.Format(Resource.exc_policyset_reference_not_resolved, ((PolicySetIdReferenceElement)child).PolicySetId));
                     }
                 }
                 else if (childPolicyIdReferenceElement != null)
                 {
-                    pol.PolicyElement policyDefinition = EvaluationEngine.Resolve(childPolicyIdReferenceElement);
+                    PolicyElement policyDefinition = EvaluationEngine.Resolve(childPolicyIdReferenceElement);
                     if (policyDefinition != null)
                     {
                         var policyEv = new Policy(policyDefinition);
@@ -144,7 +144,7 @@ namespace Anycmd.Xacml.Runtime
                     }
                     else
                     {
-                        throw new EvaluationException(string.Format(cor.Resource.exc_policy_reference_not_resolved, ((pol.PolicyIdReferenceElement)child).PolicyId));
+                        throw new EvaluationException(string.Format(Resource.exc_policy_reference_not_resolved, ((PolicyIdReferenceElement)child).PolicyId));
                     }
                 }
             }
@@ -157,7 +157,7 @@ namespace Anycmd.Xacml.Runtime
         /// <summary>
         /// The obligations that have been fulfilled for this policy set.
         /// </summary>
-        public pol.ObligationCollection Obligations
+        public ObligationCollection Obligations
         {
             get { return _obligations; }
         }
@@ -234,16 +234,16 @@ namespace Anycmd.Xacml.Runtime
         /// <param name="context">The evaluation context instance.</param>
         private void ProcessObligations(EvaluationContext context)
         {
-            _obligations = new pol.ObligationCollection();
+            _obligations = new ObligationCollection();
             if (_evaluationValue != Decision.Indeterminate &&
                 _evaluationValue != Decision.NotApplicable &&
                 _policySet.Obligations != null &&
                 _policySet.Obligations.Count != 0)
             {
-                foreach (pol.ObligationElement obl in _policySet.Obligations)
+                foreach (ObligationElement obl in _policySet.Obligations)
                 {
-                    if ((obl.FulfillOn == pol.Effect.Deny && _evaluationValue == Decision.Deny) ||
-                        (obl.FulfillOn == pol.Effect.Permit && _evaluationValue == Decision.Permit))
+                    if ((obl.FulfillOn == Effect.Deny && _evaluationValue == Decision.Deny) ||
+                        (obl.FulfillOn == Effect.Permit && _evaluationValue == Decision.Permit))
                     {
                         context.Trace("Adding obligation: {0} ", obl.ObligationId);
                         _obligations.Add(obl);
@@ -256,10 +256,10 @@ namespace Anycmd.Xacml.Runtime
                     var oblig = child as IObligationsContainer;
                     if (oblig != null && oblig.Obligations != null)
                     {
-                        foreach (pol.ObligationElement childObligation in oblig.Obligations)
+                        foreach (ObligationElement childObligation in oblig.Obligations)
                         {
-                            if ((childObligation.FulfillOn == pol.Effect.Deny && _evaluationValue == Decision.Deny) ||
-                                (childObligation.FulfillOn == pol.Effect.Permit && _evaluationValue == Decision.Permit))
+                            if ((childObligation.FulfillOn == Effect.Deny && _evaluationValue == Decision.Deny) ||
+                                (childObligation.FulfillOn == Effect.Permit && _evaluationValue == Decision.Permit))
                             {
                                 _obligations.Add(childObligation);
                             }
@@ -286,7 +286,7 @@ namespace Anycmd.Xacml.Runtime
                     context.Trace("Policy combination algorithm: {0}", _policySet.PolicyCombiningAlgorithm);
 
                     // Evaluate all policies and apply rule combination
-                    inf.IPolicyCombiningAlgorithm pca = EvaluationEngine.CreatePolicyCombiningAlgorithm(_policySet.PolicyCombiningAlgorithm);
+                    IPolicyCombiningAlgorithm pca = EvaluationEngine.CreatePolicyCombiningAlgorithm(_policySet.PolicyCombiningAlgorithm);
 
                     if (pca == null)
                     {

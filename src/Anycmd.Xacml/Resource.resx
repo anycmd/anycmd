@@ -129,9 +129,6 @@
   <data name="exc_invalid_attribute_designator" xml:space="preserve">
     <value>Invalid attribute designator.</value>
   </data>
-  <data name="exc_invalid_collection_type" xml:space="preserve">
-    <value>The value must be of type '{0}'</value>
-  </data>
   <data name="exc_invalid_datatype_in_stringvalue" xml:space="preserve">
     <value>Invalid datatype in parameter {0}: {1}</value>
   </data>
@@ -152,9 +149,6 @@
   </data>
   <data name="exc_invalid_uri_schema" xml:space="preserve">
     <value>Invalid Uri types, "urn" schema is supported only</value>
-  </data>
-  <data name="exc_invalid_version_parameter_value" xml:space="preserve">
-    <value>The parameter value provided in the version parameter is incorrect.</value>
   </data>
   <data name="exc_invalid_yearmonth_duration_value" xml:space="preserve">
     <value>Invalid year-month duration value: '{0}'</value>

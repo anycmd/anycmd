@@ -199,7 +199,7 @@ namespace Anycmd.Xacml.Runtime
 				}
 				else
 				{
-					throw new EvaluationException(cor.Resource.exc_configuration_file_not_found);
+					throw new EvaluationException(Resource.exc_configuration_file_not_found);
 				}
 			}
 			catch (EvaluationException e)
@@ -598,7 +598,7 @@ namespace Anycmd.Xacml.Runtime
 					return BagValue.Empty;
 				}
 			}
-			throw new EvaluationException(cor.Resource.exc_invalid_attribute_designator);
+			throw new EvaluationException(Resource.exc_invalid_attribute_designator);
 		}
 
 		/// <summary>

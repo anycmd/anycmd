@@ -1,26 +1,26 @@
+using Anycmd.Xacml.Interfaces;
 using System;
-using cor = Anycmd.Xacml;
-using inf = Anycmd.Xacml.Interfaces;
-using rtm = Anycmd.Xacml.Runtime;
 
 namespace Anycmd.Xacml.Runtime
 {
     /// <summary>
     /// This class represents the values that can be handled by the evaluation engine.
     /// </summary>
-    public class EvaluationValue : inf.IFunctionParameter
+    public class EvaluationValue : IFunctionParameter
     {
         #region Static members
 
         /// <summary>
         /// Default evaluation value True.
         /// </summary>
-        private static EvaluationValue _true = new EvaluationValue((object)true, DataTypeDescriptor.Boolean);
+        // ReSharper disable once InconsistentNaming
+        private static readonly EvaluationValue _true = new EvaluationValue(true, DataTypeDescriptor.Boolean);
 
         /// <summary>
         /// Default evaluation value False.
         /// </summary>
-        private static EvaluationValue _false = new EvaluationValue((object)false, DataTypeDescriptor.Boolean);
+        // ReSharper disable once InconsistentNaming
+        private static readonly EvaluationValue _false = new EvaluationValue(false, DataTypeDescriptor.Boolean);
 
         /// <summary>
         /// Default evaluation value True.
@@ -53,17 +53,17 @@ namespace Anycmd.Xacml.Runtime
         /// <summary>
         /// Whether the value is indeterminate.
         /// </summary>
-        private bool _isIndeterminate;
+        private readonly bool _isIndeterminate;
 
         /// <summary>
         /// The value contained.
         /// </summary>
-        private object _value;
+        private readonly object _value;
 
         /// <summary>
         /// The data type of the value.
         /// </summary>
-        private inf.IDataType _dataType;
+        private readonly IDataType _dataType;
 
         #endregion
 
@@ -83,28 +83,33 @@ namespace Anycmd.Xacml.Runtime
         /// </summary>
         /// <param name="value">The value to hold in the evaluation value.</param>
         /// <param name="dataType">The data type for the value.</param>
-        public EvaluationValue(object value, inf.IDataType dataType)
+        public EvaluationValue(object value, IDataType dataType)
         {
             if (dataType == null) throw new ArgumentNullException("dataType");
-            if (value is EvaluationValue)
+            var evaluationValue = value as EvaluationValue;
+            if (evaluationValue != null)
             {
-                _value = ((EvaluationValue)value)._value;
-                _dataType = ((EvaluationValue)value)._dataType;
+                _value = evaluationValue._value;
+                _dataType = evaluationValue._dataType;
             }
             else if (value is BagValue)
             {
                 _value = value;
                 _dataType = dataType;
             }
-            else if (value is inf.IFunctionParameter)
-            {
-                _value = ((inf.IFunctionParameter)value).GetTypedValue(dataType, 0);
-                _dataType = dataType;
-            }
             else
             {
-                _value = value;
-                _dataType = dataType;
+                var parameter = value as IFunctionParameter;
+                if (parameter != null)
+                {
+                    _value = parameter.GetTypedValue(dataType, 0);
+                    _dataType = dataType;
+                }
+                else
+                {
+                    _value = value;
+                    _dataType = dataType;
+                }
             }
         }
 
@@ -152,7 +157,7 @@ namespace Anycmd.Xacml.Runtime
         /// </summary>
         /// <param name="context">The evaluation context.</param>
         /// <returns>The data type descriptor.</returns>
-        public inf.IDataType GetType(rtm.EvaluationContext context)
+        public IDataType GetType(EvaluationContext context)
         {
             return _dataType;
         }
@@ -163,11 +168,11 @@ namespace Anycmd.Xacml.Runtime
         /// <param name="dataType">The expected data type of the value.</param>
         /// <param name="parNo">THe number of parameter used only for error notification.</param>
         /// <returns></returns>
-        public object GetTypedValue(inf.IDataType dataType, int parNo)
+        public object GetTypedValue(IDataType dataType, int parNo)
         {
-            if (dataType != _dataType)
+            if (!_dataType.Equals(dataType))
             {
-                throw new EvaluationException(string.Format(cor.Resource.exc_type_mismatch, dataType, _dataType));
+                throw new EvaluationException(string.Format(Resource.exc_type_mismatch, dataType, _dataType));
             }
             return _value;
         }
@@ -177,9 +182,9 @@ namespace Anycmd.Xacml.Runtime
         /// </summary>
         /// <param name="parNo">THe number of parameter used only for error notification.</param>
         /// <returns>None.</returns>
-        public inf.IFunction GetFunction(int parNo)
+        public IFunction GetFunction(int parNo)
         {
-            throw new EvaluationException(string.Format(cor.Resource.exc_invalid_datatype_in_stringvalue, parNo, ""));
+            throw new EvaluationException(string.Format(Resource.exc_invalid_datatype_in_stringvalue, parNo, ""));
         }
 
         /// <summary>
@@ -222,14 +227,7 @@ namespace Anycmd.Xacml.Runtime
             }
             else
             {
-                if (_value != null)
-                {
-                    return "[" + _dataType + ":" + _value.ToString() + "]";
-                }
-                else
-                {
-                    return "null";
-                }
+                return _value != null ? string.Format("[{0}:{1}]", _dataType, _value) : "null";
             }
         }
 
