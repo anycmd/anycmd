@@ -129,7 +129,7 @@ namespace Anycmd.Xacml.Extensions
                     }
                     else
                     {
-                        throw new EvaluationException(Resource.exc_duplicated_policy_in_repository);
+                        throw new EvaluationException(Properties.Resource.exc_duplicated_policy_in_repository);
                     }
                 }
             }
@@ -150,7 +150,7 @@ namespace Anycmd.Xacml.Extensions
                     }
                     else
                     {
-                        throw new EvaluationException(Resource.exc_duplicated_policy_in_repository);
+                        throw new EvaluationException(Properties.Resource.exc_duplicated_policy_in_repository);
                     }
                 }
             }

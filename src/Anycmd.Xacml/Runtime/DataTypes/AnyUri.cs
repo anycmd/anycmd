@@ -74,7 +74,7 @@ namespace Anycmd.Xacml.Runtime.DataTypes
             }
             catch (Exception e)
             {
-                throw new EvaluationException(string.Format(Resource.exc_invalid_datatype_in_stringvalue, parNo, DataTypeName), e);
+                throw new EvaluationException(string.Format(Properties.Resource.exc_invalid_datatype_in_stringvalue, parNo, DataTypeName), e);
             }
         }
 
@@ -113,7 +113,7 @@ namespace Anycmd.Xacml.Runtime.DataTypes
             }
             else
             {
-                throw new EvaluationException(Resource.exc_invalid_uri_schema);
+                throw new EvaluationException(Properties.Resource.exc_invalid_uri_schema);
             }
         }
 
@@ -153,7 +153,7 @@ namespace Anycmd.Xacml.Runtime.DataTypes
             }
             else
             {
-                throw new EvaluationException(Resource.exc_invalid_uri_schema);
+                throw new EvaluationException(Properties.Resource.exc_invalid_uri_schema);
             }
         }
 

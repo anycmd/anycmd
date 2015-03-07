@@ -68,7 +68,7 @@ namespace Anycmd.Xacml.Policy
             }
             if (DataTypeValue != dataType.DataTypeName)
             {
-                throw new EvaluationException(string.Format(Resource.exc_invalid_datatype_in_stringvalue, parNo, DataTypeValue));
+                throw new EvaluationException(string.Format(Properties.Resource.exc_invalid_datatype_in_stringvalue, parNo, DataTypeValue));
             }
 
             return dataType.Parse(Value, parNo);
@@ -105,7 +105,7 @@ namespace Anycmd.Xacml.Policy
         /// <returns></returns>
         public IFunction GetFunction(int parNo)
         {
-            throw new EvaluationException(string.Format(Resource.exc_invalid_datatype_in_stringvalue, parNo, DataTypeValue));
+            throw new EvaluationException(string.Format(Properties.Resource.exc_invalid_datatype_in_stringvalue, parNo, DataTypeValue));
         }
 
         #endregion

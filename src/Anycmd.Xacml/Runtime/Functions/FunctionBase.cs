@@ -39,7 +39,7 @@ namespace Anycmd.Xacml.Runtime.Functions
         /// </summary>
         public bool IsBag
         {
-            get { throw new EvaluationException(Resource.exc_invalid_function_usage); }
+            get { throw new EvaluationException(Properties.Resource.exc_invalid_function_usage); }
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace Anycmd.Xacml.Runtime.Functions
         /// </summary>
         public int BagSize
         {
-            get { throw new EvaluationException(Resource.exc_invalid_function_usage); }
+            get { throw new EvaluationException(Properties.Resource.exc_invalid_function_usage); }
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace Anycmd.Xacml.Runtime.Functions
         /// </summary>
         public ArrayList Elements
         {
-            get { throw new EvaluationException(Resource.exc_invalid_function_usage); }
+            get { throw new EvaluationException(Properties.Resource.exc_invalid_function_usage); }
         }
 
         /// <summary>

@@ -165,7 +165,7 @@ namespace Anycmd.Xacml.Runtime.DataTypes
             }
             catch (Exception e)
             {
-                throw new EvaluationException(string.Format(Resource.exc_invalid_datatype_in_stringvalue, parNo, DataTypeName), e);
+                throw new EvaluationException(string.Format(Properties.Resource.exc_invalid_datatype_in_stringvalue, parNo, DataTypeName), e);
             }
         }
 

@@ -217,7 +217,7 @@ namespace Anycmd.Xacml
                         break;
                 }
             }
-            throw new EvaluationException(Resource.exc_invalid_document_format_no_policyorpolicyset);
+            throw new EvaluationException(Properties.Resource.exc_invalid_document_format_no_policyorpolicyset);
         }
 
         #endregion

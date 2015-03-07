@@ -84,7 +84,7 @@ namespace Anycmd.Xacml.Policy.TargetItems
             }
             else
             {
-                throw new Exception(string.Format(cor.Resource.exc_invalid_node_name, reader.LocalName));
+                throw new Exception(string.Format(Properties.Resource.exc_invalid_node_name, reader.LocalName));
             }
         }
 

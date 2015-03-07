@@ -69,12 +69,12 @@ namespace Anycmd.Xacml.Runtime.DataTypes
                 }
                 else
                 {
-                    throw new EvaluationException(Resource.exc_bug);
+                    throw new EvaluationException(Properties.Resource.exc_bug);
                 }
             }
             else
             {
-                throw new EvaluationException(string.Format(Resource.exc_invalid_yearmonth_duration_value, value));
+                throw new EvaluationException(string.Format(Properties.Resource.exc_invalid_yearmonth_duration_value, value));
             }
         }
 

@@ -52,7 +52,7 @@ namespace Anycmd.Xacml
             // Validate the stream
             if (!xmlDocument.CanSeek)
             {
-                throw new ArgumentException(Resource.exc_invalid_stream_parameter_canseek, "xmlDocument");
+                throw new ArgumentException(Properties.Resource.exc_invalid_stream_parameter_canseek, "xmlDocument");
             }
 
             // Read the document to determine the version of the schema used.
@@ -146,7 +146,7 @@ namespace Anycmd.Xacml
             // Validate the stream
             if (!xmlDocument.CanSeek)
             {
-                throw new ArgumentException(Resource.exc_invalid_stream_parameter_canseek, "xmlDocument");
+                throw new ArgumentException(Properties.Resource.exc_invalid_stream_parameter_canseek, "xmlDocument");
             }
 
             // Read the document to determine the version of the schema used.
@@ -238,7 +238,7 @@ namespace Anycmd.Xacml
                         break;
                 }
             }
-            throw new EvaluationException(Resource.exc_invalid_document_format_no_policyorpolicyset);
+            throw new EvaluationException(Properties.Resource.exc_invalid_document_format_no_policyorpolicyset);
         }
 
         #endregion

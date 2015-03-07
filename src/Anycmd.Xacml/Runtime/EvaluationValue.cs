@@ -172,7 +172,7 @@ namespace Anycmd.Xacml.Runtime
         {
             if (!_dataType.Equals(dataType))
             {
-                throw new EvaluationException(string.Format(Resource.exc_type_mismatch, dataType, _dataType));
+                throw new EvaluationException(string.Format(Properties.Resource.exc_type_mismatch, dataType, _dataType));
             }
             return _value;
         }
@@ -184,7 +184,7 @@ namespace Anycmd.Xacml.Runtime
         /// <returns>None.</returns>
         public IFunction GetFunction(int parNo)
         {
-            throw new EvaluationException(string.Format(Resource.exc_invalid_datatype_in_stringvalue, parNo, ""));
+            throw new EvaluationException(string.Format(Properties.Resource.exc_invalid_datatype_in_stringvalue, parNo, ""));
         }
 
         /// <summary>

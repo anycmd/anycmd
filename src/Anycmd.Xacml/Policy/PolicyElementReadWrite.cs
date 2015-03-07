@@ -131,7 +131,7 @@ namespace Anycmd.Xacml.Policy
                                     _xpathVersion = reader.ReadElementString();
                                     if (!string.IsNullOrEmpty(_xpathVersion) && _xpathVersion != Consts.Schema1.Namespaces.XPath10)
                                     {
-                                        throw new Exception(string.Format(Resource.exc_unsupported_xpath_version, _xpathVersion));
+                                        throw new Exception(string.Format(Properties.Resource.exc_unsupported_xpath_version, _xpathVersion));
                                     }
                                 }
                                 reader.Read();
@@ -211,7 +211,7 @@ namespace Anycmd.Xacml.Policy
             }
             else
             {
-                throw new Exception(string.Format(Resource.exc_invalid_node_name, reader.LocalName));
+                throw new Exception(string.Format(Properties.Resource.exc_invalid_node_name, reader.LocalName));
             }
         }
 

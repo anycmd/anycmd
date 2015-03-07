@@ -96,7 +96,7 @@ namespace Anycmd.Xacml.Runtime
         /// <returns></returns>
         public inf.IFunction GetFunction(int parNo)
         {
-            throw new EvaluationException(string.Format(cor.Resource.exc_invalid_datatype_in_stringvalue, parNo, "BagValue"));
+            throw new EvaluationException(string.Format(Properties.Resource.exc_invalid_datatype_in_stringvalue, parNo, "BagValue"));
         }
 
         /// <summary>

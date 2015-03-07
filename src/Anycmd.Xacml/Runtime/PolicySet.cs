@@ -124,7 +124,7 @@ namespace Anycmd.Xacml.Runtime
                     }
                     else
                     {
-                        throw new EvaluationException(string.Format(Resource.exc_policyset_reference_not_resolved, ((PolicySetIdReferenceElement)child).PolicySetId));
+                        throw new EvaluationException(string.Format(Properties.Resource.exc_policyset_reference_not_resolved, ((PolicySetIdReferenceElement)child).PolicySetId));
                     }
                 }
                 else if (childPolicyIdReferenceElement != null)
@@ -144,7 +144,7 @@ namespace Anycmd.Xacml.Runtime
                     }
                     else
                     {
-                        throw new EvaluationException(string.Format(Resource.exc_policy_reference_not_resolved, ((PolicyIdReferenceElement)child).PolicyId));
+                        throw new EvaluationException(string.Format(Properties.Resource.exc_policy_reference_not_resolved, ((PolicyIdReferenceElement)child).PolicyId));
                     }
                 }
             }

@@ -37,7 +37,7 @@ namespace Anycmd.Xacml.Policy
             }
             else
             {
-                throw new Exception(string.Format(Resource.exc_invalid_node_name, reader.LocalName));
+                throw new Exception(string.Format(Properties.Resource.exc_invalid_node_name, reader.LocalName));
             }
         }
 
