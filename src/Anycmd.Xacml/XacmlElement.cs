@@ -62,49 +62,6 @@ namespace Anycmd.Xacml
             get;
         }
 
-        /// <summary>
-        /// 返回根据当前模式和版本号指定的命名空间字符串。
-        /// </summary>
-        internal protected string XmlDocumentSchema
-        {
-            get
-            {
-                switch (_schema)
-                {
-                    case XacmlSchema.Context:
-                        switch (this.SchemaVersion)
-                        {
-                            case XacmlVersion.Version11:
-                            case XacmlVersion.Version10:
-                                return Consts.Schema1.Namespaces.Context;
-                                break;
-                            case XacmlVersion.Version20:
-                                return Consts.Schema2.Namespaces.Context;
-                                break;
-                            default:
-                                throw new EvaluationException("意外的版本号" + SchemaVersion);
-                        }
-                        break;
-                    case XacmlSchema.Policy:
-                        switch (this.SchemaVersion)
-                        {
-                            case XacmlVersion.Version11:
-                            case XacmlVersion.Version10:
-                                return Consts.Schema1.Namespaces.Policy;
-                                break;
-                            case XacmlVersion.Version20:
-                                return Consts.Schema2.Namespaces.Policy;
-                                break;
-                            default:
-                                throw new EvaluationException("意外的版本号" + SchemaVersion);
-                        }
-                        break;
-                    default:
-                        throw new EvaluationException("意外的模式" + _schema);
-                }
-            }
-        }
-
         #endregion
 
         #region Protected methods

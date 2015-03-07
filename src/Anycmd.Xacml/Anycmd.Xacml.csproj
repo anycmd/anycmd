@@ -587,6 +587,9 @@
     <EmbeddedResource Include="Schemas\cs-xacml-schema-policy-01.xsd">
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Schemas\xacml-core-v3-schema-wd-17.xsd">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <None Include="Xacml.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
