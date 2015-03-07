@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Xml;
 
 namespace Anycmd.Xacml.Policy
@@ -76,6 +77,7 @@ namespace Anycmd.Xacml.Policy
                 // The parsing should not fail because the document have been validated by an
                 // Xsd schema.
                 string temp = reader.GetAttribute(Consts.Schema1.RuleElement.Effect);
+                Debug.Assert(temp != null, "temp != null");
                 _effect = (Effect)Enum.Parse(
                     typeof(Effect),
                     temp,

@@ -15,12 +15,12 @@ namespace Anycmd.Xacml.Policy
         /// <summary>
         /// The parameter name.
         /// </summary>
-        private string _id;
+        private readonly string _id;
 
         /// <summary>
         /// The expression for the variable definition.
         /// </summary>
-        private IExpression _expression;
+        private readonly IExpression _expression;
 
         #endregion
 

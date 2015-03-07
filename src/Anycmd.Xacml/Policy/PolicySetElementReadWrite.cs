@@ -48,17 +48,17 @@ namespace Anycmd.Xacml.Policy
         /// <summary>
         /// All the combiner parmeters in the policy set.
         /// </summary>
-        private ArrayList _combinerParameters = new ArrayList();
+        private readonly ArrayList _combinerParameters = new ArrayList();
 
         /// <summary>
         /// All the combiner parmeters in the policy set.
         /// </summary>
-        private ArrayList _policyCombinerParameters = new ArrayList();
+        private readonly ArrayList _policyCombinerParameters = new ArrayList();
 
         /// <summary>
         /// All the combiner parmeters in the policy set.
         /// </summary>
-        private ArrayList _policySetCombinerParameters = new ArrayList();
+        private readonly ArrayList _policySetCombinerParameters = new ArrayList();
 
         /// <summary>
         /// The XPath version supported.
@@ -80,7 +80,8 @@ namespace Anycmd.Xacml.Policy
         /// <param name="obligations">The obligations.</param>
         /// <param name="xpathVersion">The XPath version supported.</param>
         /// <param name="schemaVersion">The version of the schema that was used to validate.</param>
-        public PolicySetElementReadWrite(string id, string description, TargetElementReadWrite target, ArrayList policies, string policyCombiningAlgorithm, ObligationReadWriteCollection obligations, string xpathVersion, XacmlVersion schemaVersion)
+        public PolicySetElementReadWrite(string id, string description, TargetElementReadWrite target, ArrayList policies, string policyCombiningAlgorithm,
+            ObligationReadWriteCollection obligations, string xpathVersion, XacmlVersion schemaVersion)
             : base(XacmlSchema.Policy, schemaVersion)
         {
             _id = id;
@@ -123,7 +124,7 @@ namespace Anycmd.Xacml.Policy
                                     ValidateSchema(reader, schemaVersion))
                                 {
                                     _xpathVersion = reader.ReadElementString();
-                                    if (_xpathVersion != null && _xpathVersion.Length != 0 && _xpathVersion != Consts.Schema1.Namespaces.XPath10)
+                                    if (!string.IsNullOrEmpty(_xpathVersion) && _xpathVersion != Consts.Schema1.Namespaces.XPath10)
                                     {
                                         throw new Exception(string.Format(Resource.exc_unsupported_xpath_version, _xpathVersion));
                                     }
@@ -326,11 +327,11 @@ namespace Anycmd.Xacml.Policy
             }
             writer.WriteAttributeString(Consts.Schema1.PolicySetElement.PolicySetId, this._id);
             writer.WriteAttributeString(Consts.Schema1.PolicySetElement.PolicyCombiningAlgorithmId, this._policyCombiningAlgorithm);
-            if (this._description != null && this._description.Length != 0)
+            if (!string.IsNullOrEmpty(this._description))
             {
                 writer.WriteElementString(Consts.Schema1.PolicySetElement.Description, this._description);
             }
-            if (this._xpathVersion != null && this._xpathVersion.Length != 0)
+            if (!string.IsNullOrEmpty(this._xpathVersion))
             {
                 writer.WriteStartElement(Consts.Schema1.PolicySetElement.PolicySetDefaults);
                 writer.WriteElementString(Consts.Schema1.PolicySetDefaultsElement.XPathVersion, this._xpathVersion);
@@ -376,11 +377,11 @@ namespace Anycmd.Xacml.Policy
             writer.WriteStartElement(Consts.Schema1.PolicySetElement.PolicySet);
             writer.WriteAttributeString(Consts.Schema1.PolicySetElement.PolicySetId, this._id);
             writer.WriteAttributeString(Consts.Schema1.PolicySetElement.PolicyCombiningAlgorithmId, this._policyCombiningAlgorithm);
-            if (this._description != null && this._description.Length != 0)
+            if (!string.IsNullOrEmpty(this._description))
             {
                 writer.WriteElementString(Consts.Schema1.PolicySetElement.Description, this._description);
             }
-            if (this._xpathVersion != null && this._xpathVersion.Length != 0)
+            if (!string.IsNullOrEmpty(this._xpathVersion))
             {
                 writer.WriteStartElement(Consts.Schema1.PolicySetElement.PolicySetDefaults);
                 writer.WriteElementString(Consts.Schema1.PolicySetDefaultsElement.XPathVersion, this._xpathVersion);
@@ -390,21 +391,34 @@ namespace Anycmd.Xacml.Policy
             this._target.WriteDocument(writer);
             foreach (object policy in this._policies)
             {
-                if (policy is PolicyElementReadWrite)
+                var write = policy as PolicyElementReadWrite;
+                if (write != null)
                 {
-                    ((PolicyElementReadWrite)policy).WriteDocument(writer);
+                    write.WriteDocument(writer);
                 }
-                else if (policy is PolicySetElementReadWrite)
+                else
                 {
-                    ((PolicySetElementReadWrite)policy).WriteDocument(writer);
-                }
-                else if (policy is PolicyIdReferenceElementReadWrite)
-                {
-                    ((PolicyIdReferenceElementReadWrite)policy).WriteDocument(writer);
-                }
-                else if (policy is PolicySetIdReferenceElementReadWrite)
-                {
-                    ((PolicySetIdReferenceElementReadWrite)policy).WriteDocument(writer);
+                    var readWrite = policy as PolicySetElementReadWrite;
+                    if (readWrite != null)
+                    {
+                        readWrite.WriteDocument(writer);
+                    }
+                    else
+                    {
+                        var elementReadWrite = policy as PolicyIdReferenceElementReadWrite;
+                        if (elementReadWrite != null)
+                        {
+                            elementReadWrite.WriteDocument(writer);
+                        }
+                        else
+                        {
+                            var referenceElementReadWrite = policy as PolicySetIdReferenceElementReadWrite;
+                            if (referenceElementReadWrite != null)
+                            {
+                                referenceElementReadWrite.WriteDocument(writer);
+                            }
+                        }
+                    }
                 }
             }
             this._obligations.WriteDocument(writer);

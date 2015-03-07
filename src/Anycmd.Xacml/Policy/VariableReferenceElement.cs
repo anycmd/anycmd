@@ -15,7 +15,7 @@ namespace Anycmd.Xacml.Policy
         /// <summary>
         /// The id of the variable.
         /// </summary>
-        private string _variableId;
+        private readonly string _variableId;
 
         #endregion
 

@@ -59,12 +59,8 @@ namespace Anycmd.Xacml.Policy
         /// </summary>
         public override ConditionElementReadWrite Condition
         {
-            get
-            {
-                if (base.Condition != null)
-                    return new ConditionElement(base.Condition.FunctionId, base.Condition.Arguments, this.SchemaVersion);
-                else
-                    return null;
+            get {
+                return base.Condition != null ? new ConditionElement(base.Condition.FunctionId, base.Condition.Arguments, this.SchemaVersion) : null;
             }
             set { throw new NotSupportedException(); }
         }

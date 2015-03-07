@@ -1,7 +1,5 @@
 using System;
 
-using cor = Anycmd.Xacml;
-
 namespace Anycmd.Xacml.Policy
 {
 	/// <summary>
@@ -18,7 +16,7 @@ namespace Anycmd.Xacml.Policy
 		public RuleCollection(RuleReadWriteCollection items)
 		{
 			if (items == null) throw new ArgumentNullException("items");
-			foreach (cor.Policy.RuleElementReadWrite item in items)
+			foreach (RuleElementReadWrite item in items)
 			{
 				this.List.Add(new RuleElement(item.Id, item.Description, item.Target, item.Condition, item.Effect, item.SchemaVersion));
 			}
@@ -41,17 +39,7 @@ namespace Anycmd.Xacml.Policy
 		{
 			throw new NotSupportedException();
 		}
-/*
-		/// <summary>
-		/// Adds an object to the end of the CollectionBase.
-		/// </summary>
-		/// <param name="value">The Object to be added to the end of the CollectionBase. </param>
-		/// <returns>The CollectionBase index at which the value has been added.</returns>
-		public override int Add( ReadWriteRuleElement value )  
-		{
-			throw new NotSupportedException();
-		}
-*/
+
 		/// <summary>
 		/// Removes the specified element
 		/// </summary>
