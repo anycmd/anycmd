@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Specialized;
+using Anycmd.Xacml.Policy.TargetItems;
 using cor = Anycmd.Xacml;
 using inf = Anycmd.Xacml.Interfaces;
 using pol = Anycmd.Xacml.Policy;
@@ -16,12 +17,12 @@ namespace Anycmd.Xacml.Runtime
         /// <summary>
         /// All the resources in the policy.
         /// </summary>
-        private StringCollection _allResources = new StringCollection();
+        private readonly StringCollection _allResources = new StringCollection();
 
         /// <summary>
         /// All the policies that belongs to this policy set.
         /// </summary>
-        private IMatchEvaluableCollection _policies = new IMatchEvaluableCollection();
+        private readonly IMatchEvaluableCollection _policies = new IMatchEvaluableCollection();
 
         /// <summary>
         /// The final decission for this policy set.
@@ -31,12 +32,12 @@ namespace Anycmd.Xacml.Runtime
         /// <summary>
         /// The policy set defined in the context document.
         /// </summary>
-        private pol.PolicySetElement _policySet;
+        private readonly pol.PolicySetElement _policySet;
 
         /// <summary>
         /// The target during the evaluation process.
         /// </summary>
-        private Target _target;
+        private readonly Target _target;
 
         /// <summary>
         /// The obligations set to this policy.
@@ -63,9 +64,9 @@ namespace Anycmd.Xacml.Runtime
             {
                 _target = new Target((pol.TargetElement)policySet.Target);
 
-                foreach (pol.ResourceElement resource in policySet.Target.Resources.ItemsList)
+                foreach (ResourceElement resource in policySet.Target.Resources.ItemsList)
                 {
-                    foreach (pol.ResourceMatchElement rmatch in resource.Match)
+                    foreach (ResourceMatchElement rmatch in resource.Match)
                     {
                         if (!_allResources.Contains(rmatch.AttributeValue.Contents))
                         {
@@ -78,13 +79,13 @@ namespace Anycmd.Xacml.Runtime
             // Add all the policies (or policy set) inside this policy set.
             foreach (object child in policySet.Policies)
             {
-                pol.PolicySetElement childPolicySet = child as pol.PolicySetElement;
-                pol.PolicyElement childPolicyElement = child as pol.PolicyElement;
-                pol.PolicySetIdReferenceElement childPolicySetIdReference = child as pol.PolicySetIdReferenceElement;
-                pol.PolicyIdReferenceElement childPolicyIdReferenceElement = child as pol.PolicyIdReferenceElement;
+                var childPolicySet = child as pol.PolicySetElement;
+                var childPolicyElement = child as pol.PolicyElement;
+                var childPolicySetIdReference = child as pol.PolicySetIdReferenceElement;
+                var childPolicyIdReferenceElement = child as pol.PolicyIdReferenceElement;
                 if (childPolicySet != null)
                 {
-                    PolicySet policySetEv = new PolicySet(engine, childPolicySet);
+                    var policySetEv = new PolicySet(engine, childPolicySet);
                     foreach (string rName in policySetEv.AllResources)
                     {
                         if (!_allResources.Contains(rName))
@@ -96,7 +97,7 @@ namespace Anycmd.Xacml.Runtime
                 }
                 else if (childPolicyElement != null)
                 {
-                    Policy policyEv = new Policy(childPolicyElement);
+                    var policyEv = new Policy(childPolicyElement);
                     foreach (string rName in policyEv.AllResources)
                     {
                         if (!_allResources.Contains(rName))
@@ -111,7 +112,7 @@ namespace Anycmd.Xacml.Runtime
                     pol.PolicySetElement policySetDefinition = EvaluationEngine.Resolve(childPolicySetIdReference);
                     if (policySetDefinition != null)
                     {
-                        PolicySet policySetEv = new PolicySet(engine, policySetDefinition);
+                        var policySetEv = new PolicySet(engine, policySetDefinition);
                         foreach (string rName in policySetEv.AllResources)
                         {
                             if (!_allResources.Contains(rName))
@@ -131,7 +132,7 @@ namespace Anycmd.Xacml.Runtime
                     pol.PolicyElement policyDefinition = EvaluationEngine.Resolve(childPolicyIdReferenceElement);
                     if (policyDefinition != null)
                     {
-                        Policy policyEv = new Policy(policyDefinition);
+                        var policyEv = new Policy(policyDefinition);
                         foreach (string rName in policyEv.AllResources)
                         {
                             if (!_allResources.Contains(rName))
@@ -182,7 +183,7 @@ namespace Anycmd.Xacml.Runtime
         {
             if (context == null) throw new ArgumentNullException("context");
             // Evaluate the policy target
-            TargetEvaluationValue targetEvaluationValue = TargetEvaluationValue.Match;
+            var targetEvaluationValue = TargetEvaluationValue.Match;
             if (_target != null)
             {
                 targetEvaluationValue = _target.Evaluate(context);
@@ -252,7 +253,7 @@ namespace Anycmd.Xacml.Runtime
                 // Get all obligations from child policies
                 foreach (IMatchEvaluable child in _policies)
                 {
-                    IObligationsContainer oblig = child as IObligationsContainer;
+                    var oblig = child as IObligationsContainer;
                     if (oblig != null && oblig.Obligations != null)
                     {
                         foreach (pol.ObligationElement childObligation in oblig.Obligations)

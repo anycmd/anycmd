@@ -1,8 +1,6 @@
 using System;
 
-using cor = Anycmd.Xacml;
-
-namespace Anycmd.Xacml.Policy
+namespace Anycmd.Xacml.Policy.TargetItems
 {
     /// <summary>
     /// Defines a typed collection of read-only TargetItems.
@@ -18,12 +16,12 @@ namespace Anycmd.Xacml.Policy
         public TargetItemCollection(TargetItemReadWriteCollection items)
         {
             if (items == null) throw new ArgumentNullException("items");
-            foreach (cor.Policy.TargetItemBaseReadWrite item in items)
+            foreach (TargetItemBaseReadWrite item in items)
             {
-                SubjectElementReadWrite sItem = item as SubjectElementReadWrite;
-                ActionElementReadWrite aItem = item as ActionElementReadWrite;
-                ResourceElementReadWrite rItem = item as ResourceElementReadWrite;
-                EnvironmentElementReadWrite eItem = item as EnvironmentElementReadWrite;
+                var sItem = item as SubjectElementReadWrite;
+                var aItem = item as ActionElementReadWrite;
+                var rItem = item as ResourceElementReadWrite;
+                var eItem = item as EnvironmentElementReadWrite;
                 if (sItem != null)
                 {
                     this.List.Add(new SubjectElement(sItem.Match, sItem.SchemaVersion));
@@ -61,17 +59,7 @@ namespace Anycmd.Xacml.Policy
         {
             throw new NotSupportedException();
         }
-        /*
-                /// <summary>
-                /// Adds an object to the end of the CollectionBase.
-                /// </summary>
-                /// <param name="value">The Object to be added to the end of the CollectionBase. </param>
-                /// <returns>The CollectionBase index at which the value has been added.</returns>
-                public override int Add( TargetItemBase value )  
-                {
-                    throw new NotSupportedException();
-                }
-        */
+
         /// <summary>
         /// Removes the specified element
         /// </summary>

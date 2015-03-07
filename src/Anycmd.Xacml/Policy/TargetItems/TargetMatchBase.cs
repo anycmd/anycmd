@@ -2,7 +2,7 @@ using System;
 using System.Xml;
 
 
-namespace Anycmd.Xacml.Policy
+namespace Anycmd.Xacml.Policy.TargetItems
 {
 	/// <summary>
 	/// Represents a generic read-only match found in the target items of the Policy document. 

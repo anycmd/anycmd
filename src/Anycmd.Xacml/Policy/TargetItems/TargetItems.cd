@@ -1,269 +1,269 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="Anycmd.Xacml.Policy.ActionAttributeDesignatorElement">
-    <Position X="12.25" Y="10" Width="3.5" />
+  <Class Name="Anycmd.Xacml.Policy.TargetItems.ActionAttributeDesignatorElement" Collapsed="true">
+    <Position X="19.5" Y="0.75" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAABAQAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Xacml\Policy\TargetItems\ActionAttributeDesignatorElement.cs</FileName>
+      <FileName>Policy\TargetItems\ActionAttributeDesignatorElement.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Anycmd.Xacml.Policy.ActionElement">
-    <Position X="3.5" Y="18.5" Width="2.25" />
+  <Class Name="Anycmd.Xacml.Policy.TargetItems.ActionElement" Collapsed="true">
+    <Position X="1.25" Y="11.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAQAAAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Xacml\Policy\TargetItems\ActionElement.cs</FileName>
+      <FileName>Policy\TargetItems\ActionElement.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Anycmd.Xacml.Policy.ActionElementReadWrite">
-    <Position X="11.25" Y="13.25" Width="2.75" />
+  <Class Name="Anycmd.Xacml.Policy.TargetItems.ActionElementReadWrite" Collapsed="true">
+    <Position X="10.25" Y="10.25" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAQAAAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Xacml\Policy\TargetItems\ActionElementReadWrite.cs</FileName>
+      <FileName>Policy\TargetItems\ActionElementReadWrite.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Anycmd.Xacml.Policy.ActionMatchElement">
-    <Position X="14.5" Y="3.75" Width="2.5" />
+  <Class Name="Anycmd.Xacml.Policy.TargetItems.ActionMatchElement">
+    <Position X="16.5" Y="0.5" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAIAAA=</HashCode>
-      <FileName>Xacml\Policy\TargetItems\ActionMatchElement.cs</FileName>
+      <FileName>Policy\TargetItems\ActionMatchElement.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Anycmd.Xacml.Policy.ActionMatchElementReadWrite">
+  <Class Name="Anycmd.Xacml.Policy.TargetItems.ActionMatchElementReadWrite">
+    <Position X="4.25" Y="1" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>Policy\TargetItems\ActionMatchElementReadWrite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.TargetItems.ActionsElement" Collapsed="true">
+    <Position X="3" Y="7.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Policy\TargetItems\ActionsElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.TargetItems.ActionsElementReadWrite" Collapsed="true">
+    <Position X="3" Y="6.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAQAAACAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Policy\TargetItems\ActionsElementReadWrite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.TargetItems.EnvironmentAttributeDesignatorElement" Collapsed="true">
+    <Position X="21.25" Y="0.75" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAQAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Policy\TargetItems\EnvironmentAttributeDesignatorElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.TargetItems.EnvironmentElement" Collapsed="true">
+    <Position X="3.5" Y="11.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAQAAAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Policy\TargetItems\EnvironmentElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.TargetItems.EnvironmentElementReadWrite" Collapsed="true">
+    <Position X="12.5" Y="10.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAQAAAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Policy\TargetItems\EnvironmentElementReadWrite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.TargetItems.EnvironmentMatchElement">
+    <Position X="12.5" Y="3.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>Policy\TargetItems\EnvironmentMatchElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.TargetItems.EnvironmentMatchElementReadWrite">
+    <Position X="4" Y="3" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>Policy\TargetItems\EnvironmentMatchElementReadWrite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.TargetItems.EnvironmentsElement" Collapsed="true">
+    <Position X="5.25" Y="7.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Policy\TargetItems\EnvironmentsElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.TargetItems.EnvironmentsElementReadWrite" Collapsed="true">
+    <Position X="5.25" Y="6.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAQAAACAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Policy\TargetItems\EnvironmentsElementReadWrite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.TargetItems.ResourceAttributeDesignatorElement" Collapsed="true">
+    <Position X="19.5" Y="1.75" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAQAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Policy\TargetItems\ResourceAttributeDesignatorElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.TargetItems.ResourceElement" Collapsed="true">
+    <Position X="5.75" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAQAAAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Policy\TargetItems\ResourceElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.TargetItems.ResourceElementReadWrite" Collapsed="true">
+    <Position X="14.75" Y="10.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAQAAAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Policy\TargetItems\ResourceElementReadWrite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.TargetItems.ResourceMatchElement">
+    <Position X="15.5" Y="3.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>Policy\TargetItems\ResourceMatchElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.TargetItems.ResourceMatchElementReadWrite">
+    <Position X="8.75" Y="4" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>Policy\TargetItems\ResourceMatchElementReadWrite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.TargetItems.ResourcesElement" Collapsed="true">
+    <Position X="7.5" Y="7.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Policy\TargetItems\ResourcesElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.TargetItems.ResourcesElementReadWrite" Collapsed="true">
+    <Position X="7.5" Y="6.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAQAAACAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Policy\TargetItems\ResourcesElementReadWrite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.TargetItems.SubjectAttributeDesignatorElement" Collapsed="true">
+    <Position X="21.25" Y="1.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAABAQAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Policy\TargetItems\SubjectAttributeDesignatorElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.TargetItems.SubjectElement" Collapsed="true">
+    <Position X="8" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAQAAAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Policy\TargetItems\SubjectElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.TargetItems.SubjectElementReadWrite" Collapsed="true">
+    <Position X="17" Y="10.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAQAAAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Policy\TargetItems\SubjectElementReadWrite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.TargetItems.SubjectMatchElement">
+    <Position X="18.25" Y="3.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>Policy\TargetItems\SubjectMatchElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anycmd.Xacml.Policy.TargetItems.SubjectMatchElementReadWrite">
     <Position X="0.5" Y="0.5" Width="3.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAIAAA=</HashCode>
-      <FileName>Xacml\Policy\TargetItems\ActionMatchElementReadWrite.cs</FileName>
+      <FileName>Policy\TargetItems\SubjectMatchElementReadWrite.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Anycmd.Xacml.Policy.ActionsElement">
-    <Position X="0.75" Y="12" Width="2.25" />
+  <Class Name="Anycmd.Xacml.Policy.TargetItems.SubjectsElement" Collapsed="true">
+    <Position X="9.75" Y="7.5" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAIAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Xacml\Policy\TargetItems\ActionsElement.cs</FileName>
+      <FileName>Policy\TargetItems\SubjectsElement.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Anycmd.Xacml.Policy.ActionsElementReadWrite">
-    <Position X="0.5" Y="9.5" Width="3" />
+  <Class Name="Anycmd.Xacml.Policy.TargetItems.SubjectsElementReadWrite" Collapsed="true">
+    <Position X="9.75" Y="6.25" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAABAQAAACAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Xacml\Policy\TargetItems\ActionsElementReadWrite.cs</FileName>
+      <FileName>Policy\TargetItems\SubjectsElementReadWrite.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Anycmd.Xacml.Policy.EnvironmentAttributeDesignatorElement">
-    <Position X="15.75" Y="9.5" Width="3.75" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAABAQAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Xacml\Policy\TargetItems\EnvironmentAttributeDesignatorElement.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Anycmd.Xacml.Policy.EnvironmentElement">
-    <Position X="5.75" Y="18.5" Width="2.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAQAAAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Xacml\Policy\TargetItems\EnvironmentElement.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Anycmd.Xacml.Policy.EnvironmentElementReadWrite">
-    <Position X="10.75" Y="18.5" Width="3.25" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAQAAAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Xacml\Policy\TargetItems\EnvironmentElementReadWrite.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Anycmd.Xacml.Policy.EnvironmentMatchElement">
-    <Position X="8.5" Y="5.25" Width="3" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAIAAA=</HashCode>
-      <FileName>Xacml\Policy\TargetItems\EnvironmentMatchElement.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Anycmd.Xacml.Policy.EnvironmentMatchElementReadWrite">
-    <Position X="0.5" Y="2.5" Width="3.75" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAIAAA=</HashCode>
-      <FileName>Xacml\Policy\TargetItems\EnvironmentMatchElementReadWrite.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Anycmd.Xacml.Policy.EnvironmentsElement">
-    <Position X="3.75" Y="13.25" Width="2.75" />
-    <TypeIdentifier>
-      <HashCode>AAAAIAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Xacml\Policy\TargetItems\EnvironmentsElement.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Anycmd.Xacml.Policy.EnvironmentsElementReadWrite">
-    <Position X="3.5" Y="11" Width="3.25" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAABAQAAACAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Xacml\Policy\TargetItems\EnvironmentsElementReadWrite.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Anycmd.Xacml.Policy.ResourceAttributeDesignatorElement">
-    <Position X="15.75" Y="7.5" Width="3.75" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAABAQAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Xacml\Policy\TargetItems\ResourceAttributeDesignatorElement.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Anycmd.Xacml.Policy.ResourceElement">
-    <Position X="8.25" Y="18.5" Width="2.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAQAAAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Xacml\Policy\TargetItems\ResourceElement.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Anycmd.Xacml.Policy.ResourceElementReadWrite">
-    <Position X="14.75" Y="17.25" Width="3" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAQAAAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Xacml\Policy\TargetItems\ResourceElementReadWrite.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Anycmd.Xacml.Policy.ResourceMatchElement">
-    <Position X="11.5" Y="5.25" Width="2.75" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAIAAA=</HashCode>
-      <FileName>Xacml\Policy\TargetItems\ResourceMatchElement.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Anycmd.Xacml.Policy.ResourceMatchElementReadWrite">
-    <Position X="4.75" Y="4.5" Width="3.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAIAAA=</HashCode>
-      <FileName>Xacml\Policy\TargetItems\ResourceMatchElementReadWrite.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Anycmd.Xacml.Policy.ResourcesElement">
-    <Position X="6.75" Y="13.5" Width="2.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAIAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Xacml\Policy\TargetItems\ResourcesElement.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Anycmd.Xacml.Policy.ResourcesElementReadWrite">
-    <Position X="6.75" Y="11" Width="3.25" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAABAQAAACAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Xacml\Policy\TargetItems\ResourcesElementReadWrite.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Anycmd.Xacml.Policy.SubjectAttributeDesignatorElement">
-    <Position X="12.25" Y="7.5" Width="3.5" />
-    <TypeIdentifier>
-      <HashCode>AAEAAAAAAAAAABAQAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Xacml\Policy\TargetItems\SubjectAttributeDesignatorElement.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Anycmd.Xacml.Policy.SubjectElement">
-    <Position X="4" Y="15.75" Width="2.25" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAQAAAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Xacml\Policy\TargetItems\SubjectElement.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Anycmd.Xacml.Policy.SubjectElementReadWrite">
-    <Position X="14.75" Y="15.25" Width="3" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAQAAAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Xacml\Policy\TargetItems\SubjectElementReadWrite.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Anycmd.Xacml.Policy.SubjectMatchElement">
-    <Position X="14.25" Y="1.75" Width="2.75" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAIAAA=</HashCode>
-      <FileName>Xacml\Policy\TargetItems\SubjectMatchElement.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Anycmd.Xacml.Policy.SubjectMatchElementReadWrite">
-    <Position X="8.75" Y="0.5" Width="3.25" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAIAAA=</HashCode>
-      <FileName>Xacml\Policy\TargetItems\SubjectMatchElementReadWrite.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Anycmd.Xacml.Policy.SubjectsElement">
-    <Position X="10" Y="11" Width="2.25" />
-    <TypeIdentifier>
-      <HashCode>AAAAIAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Xacml\Policy\TargetItems\SubjectsElement.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Anycmd.Xacml.Policy.SubjectsElementReadWrite">
-    <Position X="8.75" Y="8.5" Width="3" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAABAQAAACAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Xacml\Policy\TargetItems\SubjectsElementReadWrite.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Anycmd.Xacml.Policy.TargetItemBase">
-    <Position X="6.75" Y="16" Width="2.25" />
+  <Class Name="Anycmd.Xacml.Policy.TargetItems.TargetItemBase" Collapsed="true">
+    <Position X="4.5" Y="10.25" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Xacml\Policy\TargetItems\TargetItemBase.cs</FileName>
+      <FileName>Policy\TargetItems\TargetItemBase.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Anycmd.Xacml.Policy.TargetItemBaseReadWrite">
-    <Position X="11" Y="15.75" Width="3" />
+  <Class Name="Anycmd.Xacml.Policy.TargetItems.TargetItemBaseReadWrite" Collapsed="true">
+    <Position X="9" Y="8.75" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAgAAAAgAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Xacml\Policy\TargetItems\TargetItemBaseReadWrite.cs</FileName>
+      <FileName>Policy\TargetItems\TargetItemBaseReadWrite.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Anycmd.Xacml.Policy.TargetItemCollection">
-    <Position X="0.5" Y="6.5" Width="2.75" />
+  <Class Name="Anycmd.Xacml.Policy.TargetItems.TargetItemCollection" Collapsed="true">
+    <Position X="10.5" Y="13.25" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAABAAAA=</HashCode>
-      <FileName>Xacml\Policy\TargetItems\TargetItemCollection.cs</FileName>
+      <FileName>Policy\TargetItems\TargetItemCollection.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Anycmd.Xacml.Policy.TargetItemReadWriteCollection">
-    <Position X="0.5" Y="4.5" Width="2.5" />
+  <Class Name="Anycmd.Xacml.Policy.TargetItems.TargetItemReadWriteCollection" Collapsed="true">
+    <Position X="10.5" Y="11.75" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAABAAAA=</HashCode>
-      <FileName>Xacml\Policy\TargetItems\TargetItemReadWriteCollection.cs</FileName>
+      <FileName>Policy\TargetItems\TargetItemReadWriteCollection.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Anycmd.Xacml.Policy.TargetItemsBase">
-    <Position X="0.5" Y="8.25" Width="2.5" />
+  <Class Name="Anycmd.Xacml.Policy.TargetItems.TargetItemsBase" Collapsed="true">
+    <Position X="0.75" Y="6.25" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Xacml\Policy\TargetItems\TargetItemsBase.cs</FileName>
+      <FileName>Policy\TargetItems\TargetItemsBase.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Anycmd.Xacml.Policy.TargetItemsBaseReadWrite">
-    <Position X="5.25" Y="7.75" Width="3" />
+  <Class Name="Anycmd.Xacml.Policy.TargetItems.TargetItemsBaseReadWrite" Collapsed="true">
+    <Position X="3" Y="4.75" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAIAAAAAAAIAAAAAACAEAAABAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Xacml\Policy\TargetItems\TargetItemsBaseReadWrite.cs</FileName>
+      <FileName>Policy\TargetItems\TargetItemsBaseReadWrite.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Anycmd.Xacml.Policy.TargetMatchBase">
-    <Position X="10" Y="2.75" Width="2.5" />
+  <Class Name="Anycmd.Xacml.Policy.TargetItems.TargetMatchBase">
+    <Position X="13.25" Y="0.5" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAgAAAAAAAAAAAAAAAAAAAAAAEAAAAAAEAAAAAAAAA=</HashCode>
-      <FileName>Xacml\Policy\TargetItems\TargetMatchBase.cs</FileName>
+      <FileName>Policy\TargetItems\TargetMatchBase.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Anycmd.Xacml.Policy.TargetMatchBaseReadWrite">
-    <Position X="5" Y="0.75" Width="3" />
+  <Class Name="Anycmd.Xacml.Policy.TargetItems.TargetMatchBaseReadWrite">
+    <Position X="9" Y="0.5" Width="3.25" />
     <TypeIdentifier>
       <HashCode>AIAgAAAAAAAAAAAAAABAAAAAAAkAAAAAAEAAAAAIAAA=</HashCode>
-      <FileName>Xacml\Policy\TargetItems\TargetMatchBaseReadWrite.cs</FileName>
+      <FileName>Policy\TargetItems\TargetMatchBaseReadWrite.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Anycmd.Xacml.Policy.TargetMatchCollection">
-    <Position X="0.75" Y="16.5" Width="2.75" />
+  <Class Name="Anycmd.Xacml.Policy.TargetItems.TargetMatchCollection" Collapsed="true">
+    <Position X="0.5" Y="9.25" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAIAAAAAAAAAAAAACAAAAAAAAAAAAAAACAAAAABAAAA=</HashCode>
-      <FileName>Xacml\Policy\TargetItems\TargetMatchCollection.cs</FileName>
+      <FileName>Policy\TargetItems\TargetMatchCollection.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Anycmd.Xacml.Policy.TargetMatchReadWriteCollection">
-    <Position X="0.75" Y="14.25" Width="2.75" />
+  <Class Name="Anycmd.Xacml.Policy.TargetItems.TargetMatchReadWriteCollection" Collapsed="true">
+    <Position X="0.5" Y="7.75" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAIAAAAAAAAAAAAACAAAAAAAAAAAAAAACAAAAABAAAA=</HashCode>
-      <FileName>Xacml\Policy\TargetItems\TargetMatchReadWriteCollection.cs</FileName>
+      <FileName>Policy\TargetItems\TargetMatchReadWriteCollection.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Microsoft YaHei UI" Size="9" />

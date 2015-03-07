@@ -1,7 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Specialized;
-using inf = Anycmd.Xacml.Interfaces;
+using Anycmd.Xacml.Policy.TargetItems;
+using Anycmd.Xacml.Interfaces;
 using pol = Anycmd.Xacml.Policy;
 
 namespace Anycmd.Xacml.Runtime
@@ -16,12 +17,12 @@ namespace Anycmd.Xacml.Runtime
         /// <summary>
         /// All the resources in the policy.
         /// </summary>
-        private StringCollection _allResources = new StringCollection();
+        private readonly StringCollection _allResources = new StringCollection();
 
         /// <summary>
         /// All the rules in this policy.
         /// </summary>
-        private RuleCollection _rules = new RuleCollection();
+        private readonly RuleCollection _rules = new RuleCollection();
 
         /// <summary>
         /// The final decission for this policy.
@@ -31,12 +32,12 @@ namespace Anycmd.Xacml.Runtime
         /// <summary>
         /// The policy defined in the policy document.
         /// </summary>
-        private pol.PolicyElement _policy;
+        private readonly pol.PolicyElement _policy;
 
         /// <summary>
         ///	The target during the evaluation process.
         /// </summary>
-        private Target _target;
+        private readonly Target _target;
 
         /// <summary>
         /// The obligations set to this policy.
@@ -67,9 +68,9 @@ namespace Anycmd.Xacml.Runtime
                 _target = new Target((pol.TargetElement)policy.Target);
 
                 // Load all the resources for this policy.
-                foreach (pol.ResourceElement resource in policy.Target.Resources.ItemsList)
+                foreach (ResourceElement resource in policy.Target.Resources.ItemsList)
                 {
-                    foreach (pol.ResourceMatchElement rmatch in resource.Match)
+                    foreach (ResourceMatchElement rmatch in resource.Match)
                     {
                         if (!_allResources.Contains(rmatch.AttributeValue.Contents))
                         {
@@ -82,7 +83,7 @@ namespace Anycmd.Xacml.Runtime
             // Load all the Rules and creates a new runtime rule.
             foreach (pol.RuleElement rule in policy.Rules)
             {
-                Rule ruleEv = new Rule(rule);
+                var ruleEv = new Rule(rule);
                 _rules.Add(ruleEv);
 
                 foreach (string rName in ruleEv.AllResources)
@@ -115,7 +116,7 @@ namespace Anycmd.Xacml.Runtime
         public TargetEvaluationValue Match(EvaluationContext context)
         {
             if (context == null) throw new ArgumentNullException("context");
-            TargetEvaluationValue targetEvaluationValue = TargetEvaluationValue.Indeterminate;
+            var targetEvaluationValue = TargetEvaluationValue.Indeterminate;
             context.Trace("Evaluating Target...");
             context.AddIndent();
             try
@@ -159,7 +160,7 @@ namespace Anycmd.Xacml.Runtime
 
                         foreach (pol.VariableDefinitionElement variableDef in _policy.VariableDefinitions.Values)
                         {
-                            VariableDefinition variable = new VariableDefinition(variableDef);
+                            var variable = new VariableDefinition(variableDef);
                             _variables.Add(variableDef.Id, variable);
                         }
                     }
@@ -174,7 +175,7 @@ namespace Anycmd.Xacml.Runtime
                     context.Trace("Rule combination algorithm: {0}", _policy.RuleCombiningAlgorithm);
 
                     // Evaluate all rules and apply rule combination
-                    inf.IRuleCombiningAlgorithm rca = EvaluationEngine.CreateRuleCombiningAlgorithm(_policy.RuleCombiningAlgorithm);
+                    IRuleCombiningAlgorithm rca = EvaluationEngine.CreateRuleCombiningAlgorithm(_policy.RuleCombiningAlgorithm);
                     _evaluationValue = rca.Evaluate(context, _rules);
                 }
                 else if (targetEvaluationValue == TargetEvaluationValue.NoMatch)

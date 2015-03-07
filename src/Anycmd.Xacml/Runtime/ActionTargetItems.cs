@@ -1,8 +1,7 @@
+using Anycmd.Xacml.Policy.TargetItems;
 
 namespace Anycmd.Xacml.Runtime
 {
-    using Xacml.Policy;
-
     /// <summary>
     /// Represents the Actions element of the policy document during evaluation. This instance 
     /// points to te policy "target item".

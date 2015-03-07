@@ -1,7 +1,7 @@
 using System.Collections;
 
 
-namespace Anycmd.Xacml.Policy
+namespace Anycmd.Xacml.Policy.TargetItems
 {
 	/// <summary>
 	/// Defines a typed collection of read/write Matchs.

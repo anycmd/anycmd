@@ -3,7 +3,7 @@ using System.Xml;
 
 using cor = Anycmd.Xacml;
 
-namespace Anycmd.Xacml.Policy
+namespace Anycmd.Xacml.Policy.TargetItems
 {
     /// <summary>
     /// This abstract base class is used to abstract the loading of the "target item list" found in the policy 

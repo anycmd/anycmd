@@ -1,7 +1,7 @@
 using System;
+using Anycmd.Xacml.Policy.TargetItems;
 using ctx = Anycmd.Xacml.Context;
-using inf = Anycmd.Xacml.Interfaces;
-using pol = Anycmd.Xacml.Policy;
+using Anycmd.Xacml.Interfaces;
 
 namespace Anycmd.Xacml.Runtime
 {
@@ -20,7 +20,7 @@ namespace Anycmd.Xacml.Runtime
         /// <summary>
         /// The target item reference to the policy document.
         /// </summary>
-        private pol.TargetItemsBaseReadWrite _targetItems;
+        private readonly TargetItemsBaseReadWrite _targetItems;
 
         #endregion
 
@@ -29,7 +29,7 @@ namespace Anycmd.Xacml.Runtime
         /// <summary>
         /// Creates a new instance of any target item.
         /// </summary>
-        protected TargetItems(pol.TargetItemsBaseReadWrite targetItems)
+        protected TargetItems(TargetItemsBaseReadWrite targetItems)
         {
             _targetItems = targetItems;
         }
@@ -56,15 +56,15 @@ namespace Anycmd.Xacml.Runtime
             _evaluationValue = TargetEvaluationValue.NoMatch;
 
             //Match TargetItem
-            foreach (pol.TargetItemBase polItem in _targetItems.ItemsList)
+            foreach (TargetItemBase polItem in _targetItems.ItemsList)
             {
-                foreach (pol.TargetMatchBase match in polItem.Match)
+                foreach (TargetMatchBase match in polItem.Match)
                 {
                     _evaluationValue = TargetEvaluationValue.NoMatch;
 
                     context.Trace("Using function: {0}", match.MatchId);
 
-                    inf.IFunction matchFunction = EvaluationEngine.GetFunction(match.MatchId);
+                    IFunction matchFunction = EvaluationEngine.GetFunction(match.MatchId);
                     if (matchFunction == null)
                     {
                         context.Trace("ERR: function not found {0}", match.MatchId);

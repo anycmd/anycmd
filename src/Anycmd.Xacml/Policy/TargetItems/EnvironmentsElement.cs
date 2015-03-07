@@ -2,7 +2,7 @@ using System;
 using System.Xml;
 
 
-namespace Anycmd.Xacml.Policy
+namespace Anycmd.Xacml.Policy.TargetItems
 {
 	/// <summary>
 	/// Represents a read-only Environments node defined in the policy document. This class extends the 

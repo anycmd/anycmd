@@ -3,7 +3,7 @@ using System.Xml;
 
 using cor = Anycmd.Xacml;
 
-namespace Anycmd.Xacml.Policy
+namespace Anycmd.Xacml.Policy.TargetItems
 {
     /// <summary>
     /// Represents a generic read/write match found in the target items of the Policy document. 

@@ -1,6 +1,6 @@
 using System.Xml;
 
-namespace Anycmd.Xacml.Policy
+namespace Anycmd.Xacml.Policy.TargetItems
 {
 	/// <summary>
 	/// Represents a read-only Match found in an Subject element in the Policy document. This class extends the abstract 

@@ -1,6 +1,7 @@
 using System;
+using Anycmd.Xacml.Policy.TargetItems;
 using ctx = Anycmd.Xacml.Context;
-using pol = Anycmd.Xacml.Policy;
+using Anycmd.Xacml.Policy;
 
 namespace Anycmd.Xacml.Runtime
 {
@@ -12,11 +13,6 @@ namespace Anycmd.Xacml.Runtime
         #region Private members
 
         /// <summary>
-        /// The target defined in the policy document.
-        /// </summary>
-        private pol.TargetElement _target;
-
-        /// <summary>
         /// The result of the target evaluation.
         /// </summary>
         private TargetEvaluationValue _evaluationValue;
@@ -24,17 +20,17 @@ namespace Anycmd.Xacml.Runtime
         /// <summary>
         /// All the resources defined in the target.
         /// </summary>
-        private ResourceTargetItems _resources;
+        private readonly ResourceTargetItems _resources;
 
         /// <summary>
         /// All the subjects defined in the target.
         /// </summary>
-        private SubjectTargetItems _subjects;
+        private readonly SubjectTargetItems _subjects;
 
         /// <summary>
         /// All the actions defined in the target.
         /// </summary>
-        private ActionTargetItems _actions;
+        private readonly ActionTargetItems _actions;
 
         #endregion
 
@@ -44,12 +40,12 @@ namespace Anycmd.Xacml.Runtime
         /// Creates a runtime evaluable target.
         /// </summary>
         /// <param name="target"></param>
-        public Target(pol.TargetElement target)
+        public Target(TargetElement target)
         {
-            _target = target;
-            _resources = new ResourceTargetItems((pol.ResourcesElement)_target.Resources);
-            _subjects = new SubjectTargetItems((pol.SubjectsElement)_target.Subjects);
-            _actions = new ActionTargetItems((pol.ActionsElement)_target.Actions);
+            TargetElement target1 = target;
+            _resources = new ResourceTargetItems((ResourcesElement)target1.Resources);
+            _subjects = new SubjectTargetItems((SubjectsElement)target1.Subjects);
+            _actions = new ActionTargetItems((ActionsElement)target1.Actions);
         }
 
         #endregion

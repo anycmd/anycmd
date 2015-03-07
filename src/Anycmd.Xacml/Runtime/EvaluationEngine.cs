@@ -1,6 +1,4 @@
 
-using System.Diagnostics;
-
 namespace Anycmd.Xacml.Runtime
 {
 	using Configuration;
@@ -9,6 +7,8 @@ namespace Anycmd.Xacml.Runtime
 	using System;
 	using System.Collections.Generic;
 	using System.IO;
+	using System.Diagnostics;
+	using Xacml.Policy.TargetItems;
 	using System.Text;
 	using System.Xml;
 	using System.Xml.XPath;
@@ -316,17 +316,17 @@ namespace Anycmd.Xacml.Runtime
 						}
 
 						// Iterate through the policy resources evaluating each resource in the context document request 
-					    foreach (string resourceName in policy.AllResources)
+						foreach (string resourceName in policy.AllResources)
 						{
-						    bool mustEvaluate = false;
-						    if (resource.IsHierarchical)
+							bool mustEvaluate = false;
+							if (resource.IsHierarchical)
 							{
 								//Validate if the resource is hierarchically desdendant or children 
 								//of the requested resource
 								Uri policyResource = new Uri(resourceName);
 
-							    Debug.Assert(requestedResource != null, "requestedResource != null");
-							    if (!(mustEvaluate = requestedResource.Equals(policyResource)))
+								Debug.Assert(requestedResource != null, "requestedResource != null");
+								if (!(mustEvaluate = requestedResource.Equals(policyResource)))
 								{
 									// Perform the hierarchical evaluation
 									if (resource.ResourceScopeValue == ctx.ResourceScope.Children)
@@ -472,8 +472,8 @@ namespace Anycmd.Xacml.Runtime
 				try
 				{
 					string xpath = attributeSelector.RequestContextPath;
-				    Debug.Assert(doc.DocumentElement != null, "doc.DocumentElement != null");
-				    XmlNodeList nodeList = doc.DocumentElement.SelectNodes(xpath, context.ContextDocument.XmlNamespaceManager);
+					Debug.Assert(doc.DocumentElement != null, "doc.DocumentElement != null");
+					XmlNodeList nodeList = doc.DocumentElement.SelectNodes(xpath, context.ContextDocument.XmlNamespaceManager);
 					if (nodeList != null)
 					{
 						foreach (XmlNode node in nodeList)
@@ -525,17 +525,17 @@ namespace Anycmd.Xacml.Runtime
 		/// <returns>The policy found</returns>
 		public static pol.PolicyElement Resolve(pol.PolicyIdReferenceElement policyReference)
 		{
-		    if (ConfigurationRoot.Config == null) return null;
-		    // Search for attributes in the configured repositories
-		    foreach (IPolicyRepository repository in ConfigurationRoot.Config.PolicyRepositories)
-		    {
-		        pol.PolicyElement policy = repository.GetPolicy(policyReference);
-		        if (policy != null)
-		        {
-		            return policy;
-		        }
-		    }
-		    return null;
+			if (ConfigurationRoot.Config == null) return null;
+			// Search for attributes in the configured repositories
+			foreach (IPolicyRepository repository in ConfigurationRoot.Config.PolicyRepositories)
+			{
+				pol.PolicyElement policy = repository.GetPolicy(policyReference);
+				if (policy != null)
+				{
+					return policy;
+				}
+			}
+			return null;
 		}
 
 		/// <summary>
@@ -546,15 +546,15 @@ namespace Anycmd.Xacml.Runtime
 		/// <returns>A bag value with the values found in the context document</returns>
 		public static BagValue Resolve(EvaluationContext context, pol.AttributeDesignatorBase attributeDesignator)
 		{
-			if (attributeDesignator is pol.SubjectAttributeDesignatorElement)
+			if (attributeDesignator is SubjectAttributeDesignatorElement)
 			{
 				if (context.ContextDocument.Request != null && context.ContextDocument.Request.Subjects != null)
 				{
 					var bag = new BagValue(GetDataType(attributeDesignator.DataType));
 					foreach (ctx.SubjectElement subject in context.ContextDocument.Request.Subjects)
 					{
-						if (((pol.SubjectAttributeDesignatorElement)attributeDesignator).SubjectCategory == null ||
-							((pol.SubjectAttributeDesignatorElement)attributeDesignator).SubjectCategory == subject.SubjectCategory)
+						if (((SubjectAttributeDesignatorElement)attributeDesignator).SubjectCategory == null ||
+							((SubjectAttributeDesignatorElement)attributeDesignator).SubjectCategory == subject.SubjectCategory)
 						{
 							foreach (ctx.AttributeElement attrib in FindAttribute(context, attributeDesignator, subject).Elements)
 							{
@@ -565,7 +565,7 @@ namespace Anycmd.Xacml.Runtime
 					return bag;
 				}
 			}
-			else if (attributeDesignator is pol.ResourceAttributeDesignatorElement)
+			else if (attributeDesignator is ResourceAttributeDesignatorElement)
 			{
 				if (context.ContextDocument.Request != null && context.CurrentResource != null)
 				{
@@ -576,7 +576,7 @@ namespace Anycmd.Xacml.Runtime
 					return BagValue.Empty;
 				}
 			}
-			else if (attributeDesignator is pol.ActionAttributeDesignatorElement)
+			else if (attributeDesignator is ActionAttributeDesignatorElement)
 			{
 				if (context.ContextDocument.Request != null && context.ContextDocument.Request.Action != null)
 				{
@@ -587,7 +587,7 @@ namespace Anycmd.Xacml.Runtime
 					return BagValue.Empty;
 				}
 			}
-			else if (attributeDesignator is pol.EnvironmentAttributeDesignatorElement)
+			else if (attributeDesignator is EnvironmentAttributeDesignatorElement)
 			{
 				if (context.ContextDocument.Request != null && context.ContextDocument.Request.Environment != null)
 				{
@@ -629,7 +629,7 @@ namespace Anycmd.Xacml.Runtime
 		/// <param name="match">The target item match.</param>
 		/// <param name="contextTargetItem">The context target item.</param>
 		/// <returns>The context attribute.</returns>
-		public static Context.AttributeElement Resolve(EvaluationContext context, pol.TargetMatchBaseReadWrite match, ctx.TargetItemBase contextTargetItem)
+		public static Context.AttributeElement Resolve(EvaluationContext context, TargetMatchBaseReadWrite match, ctx.TargetItemBase contextTargetItem)
 		{
 			Context.AttributeElementReadWrite attribute = null;
 			if (match.AttributeReference is pol.AttributeDesignatorBase)
@@ -667,8 +667,8 @@ namespace Anycmd.Xacml.Runtime
 					string xpath = attrSelec.RequestContextPath;
 					try
 					{
-					    Debug.Assert(doc.DocumentElement != null, "doc.DocumentElement != null");
-					    XmlNode node = doc.DocumentElement.SelectSingleNode(xpath, context.ContextDocument.XmlNamespaceManager);
+						Debug.Assert(doc.DocumentElement != null, "doc.DocumentElement != null");
+						XmlNode node = doc.DocumentElement.SelectSingleNode(xpath, context.ContextDocument.XmlNamespaceManager);
 						if (node != null)
 						{
 							attribute = new ctx.AttributeElement(null, attrSelec.DataType, null, null, node.InnerText, attrSelec.SchemaVersion);

@@ -1,7 +1,7 @@
 using System;
 using System.Xml;
 
-namespace Anycmd.Xacml.Policy
+namespace Anycmd.Xacml.Policy.TargetItems
 {
     /// <summary>
     /// Represents an ResourceAttributeDesignator node found in the Policy document.

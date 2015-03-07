@@ -1,7 +1,7 @@
 using System;
 using System.Xml;
 
-namespace Anycmd.Xacml.Policy
+namespace Anycmd.Xacml.Policy.TargetItems
 {
 	/// <summary>
 	/// Represents an ActionAttributeDesignator in the Policy document.

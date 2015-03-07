@@ -1,5 +1,4 @@
-
-using pol = Anycmd.Xacml.Policy;
+using Anycmd.Xacml.Policy.TargetItems;
 
 namespace Anycmd.Xacml.Runtime
 {
@@ -15,7 +14,7 @@ namespace Anycmd.Xacml.Runtime
 		/// Creates a new instance of the Aubjects class using the policy subjects definition.
 		/// </summary>
 		/// <param name="subjects">The policy subjects definition.</param>
-		public SubjectTargetItems( pol.SubjectsElement subjects ) : base( subjects )
+		public SubjectTargetItems( SubjectsElement subjects ) : base( subjects )
 		{
 		}
 

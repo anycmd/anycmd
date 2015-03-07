@@ -1,6 +1,6 @@
 using System;
 using System.Xml;
-
+using Anycmd.Xacml.Policy.TargetItems;
 
 namespace Anycmd.Xacml.Policy
 {

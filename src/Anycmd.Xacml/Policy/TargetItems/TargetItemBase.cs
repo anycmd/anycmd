@@ -2,7 +2,7 @@ using System;
 using System.Xml;
 
 
-namespace Anycmd.Xacml.Policy
+namespace Anycmd.Xacml.Policy.TargetItems
 {
 	/// <summary>
 	/// This abstract base class is used to unify the processing of the "target item", Resource, Action and 

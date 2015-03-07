@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Specialized;
+using Anycmd.Xacml.Policy.TargetItems;
 
 namespace Anycmd.Xacml.Runtime
 {

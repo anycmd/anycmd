@@ -1,6 +1,6 @@
 using System.Xml;
 
-namespace Anycmd.Xacml.Policy
+namespace Anycmd.Xacml.Policy.TargetItems
 {
 	/// <summary>
 	/// Represents a read/write Action element in the Policy document. This class is a specialization of TargetItem class

@@ -1,7 +1,7 @@
 using System.Xml;
 
 
-namespace Anycmd.Xacml.Policy
+namespace Anycmd.Xacml.Policy.TargetItems
 {
     /// <summary>
     /// Represents a read/write Actions node defined in the policy document. This class extends the 

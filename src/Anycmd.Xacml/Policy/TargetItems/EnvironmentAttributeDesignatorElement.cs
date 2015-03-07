@@ -1,6 +1,6 @@
 using System.Xml;
 
-namespace Anycmd.Xacml.Policy
+namespace Anycmd.Xacml.Policy.TargetItems
 {
     /// <summary>
     /// Represents an EnvironmentAttributeDesignator node found in the Policy document.

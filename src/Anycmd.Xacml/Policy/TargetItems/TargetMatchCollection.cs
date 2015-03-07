@@ -1,8 +1,6 @@
 using System;
 
-using cor = Anycmd.Xacml;
-
-namespace Anycmd.Xacml.Policy
+namespace Anycmd.Xacml.Policy.TargetItems
 {
     /// <summary>
     /// Defines a typed collection of read-only Matchs.
@@ -17,12 +15,12 @@ namespace Anycmd.Xacml.Policy
         public TargetMatchCollection(TargetMatchReadWriteCollection items)
         {
             if (items == null) throw new ArgumentNullException("items");
-            foreach (cor.Policy.TargetMatchBaseReadWrite item in items)
+            foreach (TargetMatchBaseReadWrite item in items)
             {
-                SubjectMatchElementReadWrite sItem = item as SubjectMatchElementReadWrite;
-                ActionMatchElementReadWrite aItem = item as ActionMatchElementReadWrite;
-                ResourceMatchElementReadWrite rItem = item as ResourceMatchElementReadWrite;
-                EnvironmentMatchElementReadWrite eItem = item as EnvironmentMatchElementReadWrite;
+                var sItem = item as SubjectMatchElementReadWrite;
+                var aItem = item as ActionMatchElementReadWrite;
+                var rItem = item as ResourceMatchElementReadWrite;
+                var eItem = item as EnvironmentMatchElementReadWrite;
                 if (sItem != null)
                 {
                     this.List.Add(new SubjectMatchElement(sItem.MatchId, sItem.AttributeValue, sItem.AttributeReference, sItem.SchemaVersion));

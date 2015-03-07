@@ -1,6 +1,6 @@
 using System.Xml;
 
-namespace Anycmd.Xacml.Policy
+namespace Anycmd.Xacml.Policy.TargetItems
 {
 	/// <summary>
 	/// Represents a read/write Match found in an Environment element in the Policy document. This class extends the abstract 
