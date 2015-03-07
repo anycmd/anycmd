@@ -1,8 +1,6 @@
+using Anycmd.Xacml.Interfaces;
 using System;
 using System.Xml;
-
-using cor = Anycmd.Xacml;
-using inf = Anycmd.Xacml.Interfaces;
 
 namespace Anycmd.Xacml.Policy
 {
@@ -10,7 +8,7 @@ namespace Anycmd.Xacml.Policy
     /// Represents a read/write Function element found in the Policy document that is used as an argument in the Apply 
     /// (or Condition) evaluation.
     /// </summary>
-    public class FunctionElementReadWrite : XacmlElement, inf.IExpression
+    public class FunctionElementReadWrite : XacmlElement, IExpression
     {
         #region Private members
 
@@ -38,7 +36,7 @@ namespace Anycmd.Xacml.Policy
             }
             else
             {
-                throw new Exception(string.Format(cor.Resource.exc_invalid_node_name, reader.LocalName));
+                throw new Exception(string.Format(Resource.exc_invalid_node_name, reader.LocalName));
             }
         }
 

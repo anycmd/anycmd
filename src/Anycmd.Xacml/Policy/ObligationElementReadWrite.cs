@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Xml;
 
 namespace Anycmd.Xacml.Policy
@@ -57,8 +58,10 @@ namespace Anycmd.Xacml.Policy
                     _obligationId = reader.GetAttribute(Consts.Schema1.ObligationElement.ObligationId);
 
                     // Parses the Effect attribute value
+                    var attrValue = reader.GetAttribute(Consts.Schema1.ObligationElement.FulfillOn);
+                    Debug.Assert(!string.IsNullOrEmpty(attrValue));
                     _fulfillOn = (Effect)Enum.Parse(
-                        typeof(Effect), reader.GetAttribute(Consts.Schema1.ObligationElement.FulfillOn), false);
+                        typeof(Effect), attrValue, false);
 
                     // Read all the attribute assignments
                     while (reader.Read())

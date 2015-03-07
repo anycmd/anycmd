@@ -1,7 +1,5 @@
 using System;
 
-using cor = Anycmd.Xacml;
-
 namespace Anycmd.Xacml.Policy
 {
 	/// <summary>
@@ -47,7 +45,7 @@ namespace Anycmd.Xacml.Policy
 		public ObligationCollection(ObligationReadWriteCollection items)
 		{
 			if (items == null) throw new ArgumentNullException("items");
-			foreach (cor.Policy.ObligationElementReadWrite item in items)
+			foreach (ObligationElementReadWrite item in items)
 			{
 				base.Add(new ObligationElement(item.ObligationId, item.FulfillOn, item.AttributeAssignment));
 			}

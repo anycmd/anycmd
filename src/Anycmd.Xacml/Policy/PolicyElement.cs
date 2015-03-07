@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Xml;
 
-
 namespace Anycmd.Xacml.Policy
 {
 	/// <summary>
@@ -27,8 +26,9 @@ namespace Anycmd.Xacml.Policy
 		/// <param name="ruleCombinerParameters">The rule parameters in this policy.</param>
 		/// <param name="variableDefinitions">The variable definitions of this policy.</param>
 		/// <param name="schemaVersion">The version of the schema that was used to validate.</param>
-		public PolicyElement( string id, string description, TargetElementReadWrite target, RuleReadWriteCollection rules, string ruleCombiningAlgorithm, ObligationReadWriteCollection obligations, string xpathVersion, 
-			ArrayList combinerParameters, ArrayList ruleCombinerParameters, IDictionary variableDefinitions, XacmlVersion schemaVersion )
+		public PolicyElement( string id, string description, TargetElementReadWrite target, RuleReadWriteCollection rules, 
+			string ruleCombiningAlgorithm, ObligationReadWriteCollection obligations, string xpathVersion, ArrayList combinerParameters, 
+			ArrayList ruleCombinerParameters, IDictionary variableDefinitions, XacmlVersion schemaVersion )
 			: base( id, description, target, rules, ruleCombiningAlgorithm, obligations, xpathVersion, 
 			combinerParameters, ruleCombinerParameters, variableDefinitions, schemaVersion )
 		{

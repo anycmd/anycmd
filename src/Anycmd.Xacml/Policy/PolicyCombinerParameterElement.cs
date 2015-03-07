@@ -1,6 +1,6 @@
 using System;
+using System.Diagnostics;
 using System.Xml;
-
 
 namespace Anycmd.Xacml.Policy
 {
@@ -67,7 +67,9 @@ namespace Anycmd.Xacml.Policy
         {
             if (reader.LocalName == Consts.Schema2.PolicyCombinerParameterElement.PolicyIdRef)
             {
-                _policyIdRef = new Uri(reader.GetAttribute(Consts.Schema2.PolicyCombinerParameterElement.PolicyIdRef));
+                var url = reader.GetAttribute(Consts.Schema2.PolicyCombinerParameterElement.PolicyIdRef);
+                Debug.Assert(url != null);
+                _policyIdRef = new Uri(url);
             }
         }
 

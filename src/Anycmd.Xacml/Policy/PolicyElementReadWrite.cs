@@ -1,17 +1,16 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Xml;
-
-using cor = Anycmd.Xacml;
-using inf = Anycmd.Xacml.Interfaces;
 
 namespace Anycmd.Xacml.Policy
 {
+    using Interfaces;
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Xml;
+
     /// <summary>
     /// Represents a read/write policy node defined in the Policy document.
     /// </summary>
-    public class PolicyElementReadWrite : XacmlElement, inf.IHasTarget
+    public class PolicyElementReadWrite : XacmlElement, IHasTarget
     {
         #region Private members
 
@@ -83,8 +82,8 @@ namespace Anycmd.Xacml.Policy
         /// <param name="ruleCombinerParameters">The rule parameters in this policy.</param>
         /// <param name="variableDefinitions">The variable definitions of this policy.</param>
         /// <param name="schemaVersion">The version of the schema that was used to validate.</param>
-        public PolicyElementReadWrite(string id, string description, TargetElementReadWrite target, RuleReadWriteCollection rules, string ruleCombiningAlgorithm, ObligationReadWriteCollection obligations, string xpathVersion,
-            ArrayList combinerParameters, ArrayList ruleCombinerParameters, IDictionary variableDefinitions, XacmlVersion schemaVersion)
+        public PolicyElementReadWrite(string id, string description, TargetElementReadWrite target, RuleReadWriteCollection rules, string ruleCombiningAlgorithm, 
+            ObligationReadWriteCollection obligations, string xpathVersion, ArrayList combinerParameters, ArrayList ruleCombinerParameters, IDictionary variableDefinitions, XacmlVersion schemaVersion)
             : base(XacmlSchema.Policy, schemaVersion)
         {
             _id = id;
@@ -130,9 +129,9 @@ namespace Anycmd.Xacml.Policy
                                     ValidateSchema(reader, schemaVersion))
                                 {
                                     _xpathVersion = reader.ReadElementString();
-                                    if (_xpathVersion != null && _xpathVersion.Length != 0 && _xpathVersion != Consts.Schema1.Namespaces.XPath10)
+                                    if (!string.IsNullOrEmpty(_xpathVersion) && _xpathVersion != Consts.Schema1.Namespaces.XPath10)
                                     {
-                                        throw new Exception(string.Format(cor.Resource.exc_unsupported_xpath_version, _xpathVersion));
+                                        throw new Exception(string.Format(Resource.exc_unsupported_xpath_version, _xpathVersion));
                                     }
                                 }
                                 reader.Read();
@@ -199,7 +198,7 @@ namespace Anycmd.Xacml.Policy
                             }
                             break;
                         case Consts.Schema2.PolicyElement.VariableDefinition:
-                            VariableDefinitionElement variable = new VariableDefinitionElement(reader, schemaVersion);
+                            var variable = new VariableDefinitionElement(reader, schemaVersion);
                             _variableDefinitions.Add(variable.Id, variable);
                             break;
                     }
@@ -212,7 +211,7 @@ namespace Anycmd.Xacml.Policy
             }
             else
             {
-                throw new Exception(string.Format(cor.Resource.exc_invalid_node_name, reader.LocalName));
+                throw new Exception(string.Format(Resource.exc_invalid_node_name, reader.LocalName));
             }
         }
 
@@ -336,11 +335,11 @@ namespace Anycmd.Xacml.Policy
             writer.WriteAttributeString(Consts.Schema1.PolicyElement.PolicyId, this._id);
             writer.WriteAttributeString(Consts.Schema1.PolicyElement.RuleCombiningAlgorithmId, this._ruleCombiningAlgorithm);
 
-            if (this._description != null && this._description.Length != 0)
+            if (!string.IsNullOrEmpty(this._description))
             {
                 writer.WriteElementString(Consts.Schema1.PolicyElement.Description, this._description);
             }
-            if (this._xpathVersion != null && this._xpathVersion.Length != 0)
+            if (!string.IsNullOrEmpty(this._xpathVersion))
             {
                 writer.WriteStartElement(Consts.Schema1.PolicyElement.PolicyDefaults);
                 writer.WriteElementString(Consts.Schema1.PolicyDefaultsElement.XPathVersion, this._xpathVersion);
@@ -378,11 +377,11 @@ namespace Anycmd.Xacml.Policy
             writer.WriteStartElement(Consts.Schema1.PolicyElement.Policy);
             writer.WriteAttributeString(Consts.Schema1.PolicyElement.PolicyId, this._id);
             writer.WriteAttributeString(Consts.Schema1.PolicyElement.RuleCombiningAlgorithmId, this._ruleCombiningAlgorithm);
-            if (this._description != null && this._description.Length != 0)
+            if (!string.IsNullOrEmpty(this._description))
             {
                 writer.WriteElementString(Consts.Schema1.PolicyElement.Description, this._description);
             }
-            if (this._xpathVersion != null && this._xpathVersion.Length != 0)
+            if (!string.IsNullOrEmpty(this._xpathVersion))
             {
                 writer.WriteStartElement(Consts.Schema1.PolicyElement.PolicyDefaults);
                 writer.WriteElementString(Consts.Schema1.PolicyDefaultsElement.XPathVersion, this._xpathVersion);

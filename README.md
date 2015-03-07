@@ -54,14 +54,14 @@ anycmd不仅提供了来自Rbac国际规范文档的IRbacService接口，还提�
 ##路线图
 * 1，书写单元测试；
 * 2，书写教程；
-* 3，替换掉UI层，去除试用版的miniui框架；考虑使用extjs
+* 3，替换掉UI层，去除试用版的miniui框架（并非miniui不好，而是权限引擎需要为使用者尽可能去除非开源的或非足够开源的事物）；
 * 4，内置数据交换系统，用以各业务系统与中心系统间的权限数据交换；
-* 5，支持Javascript；
+* 5，支持Javascript；https://github.com/sebastienros/jint/
 * 6，支持LDAP（轻量目录访问协议）。
 * 7，优化；发布1.0版本；
 * 8，支持SAML；
-* 9，基于slickflow（原名wf5）支持工作流http://slickflow.codeplex.com/
-* 10，支持Xacml；
+* 9，支持工作流http://slickflow.codeplex.com/
+* 10，支持Xacml；http://docs.oasis-open.org/xacml/3.0/
 
 ---
 ## 感谢

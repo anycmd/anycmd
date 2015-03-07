@@ -1,9 +1,9 @@
-using System;
-
-using inf = Anycmd.Xacml.Interfaces;
 
 namespace Anycmd.Xacml.Policy
 {
+    using Interfaces;
+    using System;
+
     /// <summary>
     /// Defines a typed collection of read-only IExpression.
     /// </summary>
@@ -18,9 +18,9 @@ namespace Anycmd.Xacml.Policy
         public ExpressionCollection(ExpressionReadWriteCollection items)
         {
             if (items == null) throw new ArgumentNullException("items");
-            foreach (inf.IExpression item in items)
+            foreach (IExpression item in items)
             {
-                this.List.Add(item);
+                List.Add(item);
             }
         }
 
@@ -41,17 +41,7 @@ namespace Anycmd.Xacml.Policy
         {
             throw new NotSupportedException();
         }
-        /*
-                /// <summary>
-                /// Adds an object to the end of the CollectionBase.
-                /// </summary>
-                /// <param name="value">The Object to be added to the end of the CollectionBase. </param>
-                /// <returns>The CollectionBase index at which the value has been added.</returns>
-                public override int Add( inf.IExpression value )  
-                {
-                    throw new NotSupportedException();
-                }
-        */
+
         /// <summary>
         /// Removes the specified element
         /// </summary>
