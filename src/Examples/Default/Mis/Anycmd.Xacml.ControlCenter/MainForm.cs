@@ -3,6 +3,7 @@ using System.Collections;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using Anycmd.Xacml.Policy.TargetItems;
 
 namespace Anycmd.Xacml.ControlCenter
 {
@@ -817,10 +818,10 @@ namespace Anycmd.Xacml.ControlCenter
 
 			// Create the target
 			pol.TargetElementReadWrite target = new pol.TargetElementReadWrite( 
-				new pol.ResourcesElementReadWrite( true, new pol.TargetItemReadWriteCollection(), Xacml.XacmlVersion.Version11 ), //TODO: check version
-				new pol.SubjectsElementReadWrite( true, new pol.TargetItemReadWriteCollection(), Xacml.XacmlVersion.Version11 ), //TODO: check version 
-				new pol.ActionsElementReadWrite( true, new pol.TargetItemReadWriteCollection(), Xacml.XacmlVersion.Version11 ), //TODO: check version
-				new pol.EnvironmentsElementReadWrite( true, new pol.TargetItemReadWriteCollection(), Xacml.XacmlVersion.Version11 ), //TODO: check version
+				new ResourcesElementReadWrite( true, new TargetItemReadWriteCollection(), Xacml.XacmlVersion.Version11 ), //TODO: check version
+				new SubjectsElementReadWrite( true, new TargetItemReadWriteCollection(), Xacml.XacmlVersion.Version11 ), //TODO: check version 
+				new ActionsElementReadWrite( true, new TargetItemReadWriteCollection(), Xacml.XacmlVersion.Version11 ), //TODO: check version
+				new EnvironmentsElementReadWrite( true, new TargetItemReadWriteCollection(), Xacml.XacmlVersion.Version11 ), //TODO: check version
 				Xacml.XacmlVersion.Version11 ); //TODO: check version
 
 			// Create the node
@@ -1021,13 +1022,13 @@ namespace Anycmd.Xacml.ControlCenter
 				int idx = targetNode.Nodes.IndexOf( anyNode );
 				targetNode.Nodes.RemoveAt( idx );
 
-				pol.TargetMatchReadWriteCollection matchCollection = new pol.TargetMatchReadWriteCollection();
+				TargetMatchReadWriteCollection matchCollection = new TargetMatchReadWriteCollection();
 				matchCollection.Add( 
-					new pol.SubjectMatchElementReadWrite( 
+					new SubjectMatchElementReadWrite( 
 						Consts.Schema1.InternalFunctions.StringEqual, 
 						new pol.AttributeValueElementReadWrite( Consts.Schema1.InternalDataTypes.XsdString, "Somebody", Xacml.XacmlVersion.Version11 ),  //TODO: check version
-						new pol.SubjectAttributeDesignatorElement( Consts.Schema1.InternalDataTypes.XsdString, false, Consts.Schema1.SubjectElement.ActionSubjectId, "", "", Xacml.XacmlVersion.Version11 ), Xacml.XacmlVersion.Version11 ) );  //TODO: check version
-				pol.SubjectElementReadWrite targetItem = new pol.SubjectElementReadWrite( matchCollection, Xacml.XacmlVersion.Version11 );  //TODO: check version
+						new SubjectAttributeDesignatorElement( Consts.Schema1.InternalDataTypes.XsdString, false, Consts.Schema1.SubjectElement.ActionSubjectId, "", "", Xacml.XacmlVersion.Version11 ), Xacml.XacmlVersion.Version11 ) );  //TODO: check version
+				SubjectElementReadWrite targetItem = new SubjectElementReadWrite( matchCollection, Xacml.XacmlVersion.Version11 );  //TODO: check version
 
 				TreeNodes.TargetItem targetItemNode = new TreeNodes.TargetItem( targetItem );
 
@@ -1046,13 +1047,13 @@ namespace Anycmd.Xacml.ControlCenter
 				int idx = targetNode.Nodes.IndexOf( anyActionNode );
 				targetNode.Nodes.RemoveAt( idx );
 
-				pol.TargetMatchReadWriteCollection matchCollection = new pol.TargetMatchReadWriteCollection();
+				TargetMatchReadWriteCollection matchCollection = new TargetMatchReadWriteCollection();
 				matchCollection.Add( 
-					new pol.ActionMatchElementReadWrite( 
+					new ActionMatchElementReadWrite( 
 						Consts.Schema1.InternalFunctions.StringEqual, 
 						new pol.AttributeValueElementReadWrite( Consts.Schema1.InternalDataTypes.XsdString, "DoSomething", Xacml.XacmlVersion.Version11 ),  //TODO: check version
-						new pol.ActionAttributeDesignatorElement( Consts.Schema1.InternalDataTypes.XsdString, false, Consts.Schema1.ActionElement.ActionId, "", Xacml.XacmlVersion.Version11 ), Xacml.XacmlVersion.Version11 ) ); //TODO: check version
-				pol.ActionElementReadWrite action = new pol.ActionElementReadWrite( matchCollection, Xacml.XacmlVersion.Version11 ); //TODO: check version
+						new ActionAttributeDesignatorElement( Consts.Schema1.InternalDataTypes.XsdString, false, Consts.Schema1.ActionElement.ActionId, "", Xacml.XacmlVersion.Version11 ), Xacml.XacmlVersion.Version11 ) ); //TODO: check version
+				ActionElementReadWrite action = new ActionElementReadWrite( matchCollection, Xacml.XacmlVersion.Version11 ); //TODO: check version
 
 				TreeNodes.TargetItem actionNode = new TreeNodes.TargetItem( action );
 
@@ -1071,13 +1072,13 @@ namespace Anycmd.Xacml.ControlCenter
 				int idx = targetNode.Nodes.IndexOf( anyNode );
 				targetNode.Nodes.RemoveAt( idx );
 
-				pol.TargetMatchReadWriteCollection matchCollection = new pol.TargetMatchReadWriteCollection();
+				TargetMatchReadWriteCollection matchCollection = new TargetMatchReadWriteCollection();
 				matchCollection.Add( 
-					new pol.ResourceMatchElementReadWrite( 
+					new ResourceMatchElementReadWrite( 
 						Consts.Schema1.InternalFunctions.StringEqual, 
 						new pol.AttributeValueElementReadWrite( Consts.Schema1.InternalDataTypes.XsdString, "Something", Xacml.XacmlVersion.Version11 ),  //TODO: check version
-						new pol.ResourceAttributeDesignatorElement( Consts.Schema1.InternalDataTypes.XsdString, false, Consts.Schema1.ResourceElement.ResourceId, "", Xacml.XacmlVersion.Version11 ), Xacml.XacmlVersion.Version11 ) ); //TODO: check version
-				pol.ResourceElementReadWrite targetItem = new pol.ResourceElementReadWrite( matchCollection, Xacml.XacmlVersion.Version11 ); //TODO: check version
+						new ResourceAttributeDesignatorElement( Consts.Schema1.InternalDataTypes.XsdString, false, Consts.Schema1.ResourceElement.ResourceId, "", Xacml.XacmlVersion.Version11 ), Xacml.XacmlVersion.Version11 ) ); //TODO: check version
+				ResourceElementReadWrite targetItem = new ResourceElementReadWrite( matchCollection, Xacml.XacmlVersion.Version11 ); //TODO: check version
 
 				TreeNodes.TargetItem targetItemNode = new TreeNodes.TargetItem( targetItem );
 
@@ -1120,7 +1121,7 @@ namespace Anycmd.Xacml.ControlCenter
 					}
 					else if( baseControl is CustomControls.TargetItem )
 					{
-						pol.TargetItemBaseReadWrite element = ((CustomControls.TargetItem)baseControl).TargetItemBaseElement;
+						TargetItemBaseReadWrite element = ((CustomControls.TargetItem)baseControl).TargetItemBaseElement;
 						oNode = new TreeNodes.TargetItem(element);
 					}
 					else if( baseControl is CustomControls.Obligations )
@@ -1245,23 +1246,23 @@ namespace Anycmd.Xacml.ControlCenter
 		{
 			TreeNodes.Target parentNode = (TreeNodes.Target)mainTree.SelectedNode.Parent;
 
-			pol.TargetItemBaseReadWrite element = childNode.TargetItemDefinition;
+			TargetItemBaseReadWrite element = childNode.TargetItemDefinition;
 
-			if( element is pol.ActionElementReadWrite )
+			if( element is ActionElementReadWrite )
 			{
 				TreeNodes.AnyAction anyAction = new AnyAction();
 				parentNode.Nodes.Add( anyAction );
 				parentNode.TargetDefinition.Actions.ItemsList = null;
 				parentNode.TargetDefinition.Actions.IsAny = true;
 			}
-			else if( element is pol.ResourceElementReadWrite )
+			else if( element is ResourceElementReadWrite )
 			{
 				TreeNodes.AnyResource anyResource = new AnyResource();
 				parentNode.Nodes.Add( anyResource );
 				parentNode.TargetDefinition.Resources.ItemsList = null;
 				parentNode.TargetDefinition.Resources.IsAny = true;
 			}
-			else if( element is pol.SubjectElementReadWrite )
+			else if( element is SubjectElementReadWrite )
 			{
 				TreeNodes.AnySubject anySubject = new AnySubject();
 				parentNode.Nodes.Add( anySubject );

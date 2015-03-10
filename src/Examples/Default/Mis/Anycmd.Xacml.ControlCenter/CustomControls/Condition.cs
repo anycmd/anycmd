@@ -1,7 +1,7 @@
 using System;
 using System.Reflection;
 using System.Windows.Forms;
-
+using Anycmd.Xacml.Policy.TargetItems;
 using pol = Anycmd.Xacml.Policy;
 
 namespace Anycmd.Xacml.ControlCenter.CustomControls
@@ -417,7 +417,7 @@ namespace Anycmd.Xacml.ControlCenter.CustomControls
 
 		private void CreateActionAttributeDesignator( object sender, EventArgs args )
 		{
-			pol.ActionAttributeDesignatorElement att = new pol.ActionAttributeDesignatorElement( string.Empty, false, "TODO: Add attribute id", string.Empty ,Xacml.XacmlVersion.Version11 );
+			ActionAttributeDesignatorElement att = new ActionAttributeDesignatorElement( string.Empty, false, "TODO: Add attribute id", string.Empty ,Xacml.XacmlVersion.Version11 );
 			TreeNodes.AttributeDesignator node = new TreeNodes.AttributeDesignator( att );
 
 			tvwCondition.Nodes.Add( node );
@@ -426,7 +426,7 @@ namespace Anycmd.Xacml.ControlCenter.CustomControls
 
 		private void CreateSubjectAttributeDesignator( object sender, EventArgs args )
 		{
-			pol.SubjectAttributeDesignatorElement att = new pol.SubjectAttributeDesignatorElement( string.Empty, false, "TODO: Add attribute id", string.Empty, string.Empty ,Xacml.XacmlVersion.Version11 );
+			SubjectAttributeDesignatorElement att = new SubjectAttributeDesignatorElement( string.Empty, false, "TODO: Add attribute id", string.Empty, string.Empty ,Xacml.XacmlVersion.Version11 );
 			TreeNodes.AttributeDesignator node = new TreeNodes.AttributeDesignator( att );
 
 			tvwCondition.Nodes.Add( node );
@@ -435,7 +435,7 @@ namespace Anycmd.Xacml.ControlCenter.CustomControls
 
 		private void CreateResourceAttributeDesignator( object sender, EventArgs args )
 		{
-			pol.ResourceAttributeDesignatorElement att = new pol.ResourceAttributeDesignatorElement( string.Empty, false, "TODO: Add attribute id", string.Empty, Xacml.XacmlVersion.Version11 );
+			ResourceAttributeDesignatorElement att = new ResourceAttributeDesignatorElement( string.Empty, false, "TODO: Add attribute id", string.Empty, Xacml.XacmlVersion.Version11 );
 			TreeNodes.AttributeDesignator node = new TreeNodes.AttributeDesignator( att );
 
 			tvwCondition.Nodes.Add( node );
@@ -447,7 +447,7 @@ namespace Anycmd.Xacml.ControlCenter.CustomControls
 			TreeNodes.FunctionExecution func = (TreeNodes.FunctionExecution)tvwCondition.SelectedNode;
 			pol.ApplyBaseReadWrite parentApply = func.ApplyBaseDefinition;
 
-			pol.ActionAttributeDesignatorElement att = new pol.ActionAttributeDesignatorElement( string.Empty, false, "TODO: Add attribute id", string.Empty ,Xacml.XacmlVersion.Version11 );
+			ActionAttributeDesignatorElement att = new ActionAttributeDesignatorElement( string.Empty, false, "TODO: Add attribute id", string.Empty ,Xacml.XacmlVersion.Version11 );
 			TreeNodes.AttributeDesignator node = new TreeNodes.AttributeDesignator( att );
 
 			func.Nodes.Add( node );
@@ -459,7 +459,7 @@ namespace Anycmd.Xacml.ControlCenter.CustomControls
 			TreeNodes.FunctionExecution func = (TreeNodes.FunctionExecution)tvwCondition.SelectedNode;
 			pol.ApplyBaseReadWrite parentApply = func.ApplyBaseDefinition;
 
-			pol.SubjectAttributeDesignatorElement att = new pol.SubjectAttributeDesignatorElement( string.Empty, false, "TODO: Add attribute id", string.Empty, string.Empty ,Xacml.XacmlVersion.Version11 );
+			SubjectAttributeDesignatorElement att = new SubjectAttributeDesignatorElement( string.Empty, false, "TODO: Add attribute id", string.Empty, string.Empty ,Xacml.XacmlVersion.Version11 );
 			TreeNodes.AttributeDesignator node = new TreeNodes.AttributeDesignator( att );
 
 			func.Nodes.Add( node );
@@ -471,7 +471,7 @@ namespace Anycmd.Xacml.ControlCenter.CustomControls
 			TreeNodes.FunctionExecution func = (TreeNodes.FunctionExecution)tvwCondition.SelectedNode;
 			pol.ApplyBaseReadWrite parentApply = func.ApplyBaseDefinition;
 
-			pol.ResourceAttributeDesignatorElement att = new pol.ResourceAttributeDesignatorElement( string.Empty, false, "TODO: Add attribute id", string.Empty, Xacml.XacmlVersion.Version11 );
+			ResourceAttributeDesignatorElement att = new ResourceAttributeDesignatorElement( string.Empty, false, "TODO: Add attribute id", string.Empty, Xacml.XacmlVersion.Version11 );
 			TreeNodes.AttributeDesignator node = new TreeNodes.AttributeDesignator( att );
 
 			func.Nodes.Add( node );
