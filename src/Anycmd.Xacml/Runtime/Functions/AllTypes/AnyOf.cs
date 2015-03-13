@@ -1,8 +1,7 @@
+using Anycmd.Xacml.Interfaces;
 using System;
 
-using inf = Anycmd.Xacml.Interfaces;
-using rtm = Anycmd.Xacml.Runtime;
-
+// ReSharper disable once CheckNamespace
 namespace Anycmd.Xacml.Runtime.Functions
 {
     /// <summary>
@@ -27,12 +26,12 @@ namespace Anycmd.Xacml.Runtime.Functions
         /// <param name="context">The evaluation context instance.</param>
         /// <param name="args">The IFuctionParameters that will be used as arguments to the function.</param>
         /// <returns></returns>
-        public override EvaluationValue Evaluate(rtm.EvaluationContext context, params inf.IFunctionParameter[] args)
+        public override EvaluationValue Evaluate(EvaluationContext context, params IFunctionParameter[] args)
         {
             if (context == null) throw new ArgumentNullException("context");
             if (args == null) throw new ArgumentNullException("args");
-            inf.IFunction function = args[0].GetFunction(0);
-            EvaluationValue value = new EvaluationValue(args[1], args[1].GetType(context));
+            IFunction function = args[0].GetFunction(0);
+            var value = new EvaluationValue(args[1], args[1].GetType(context));
             foreach (object par in args[2].Elements)
             {
                 EvaluationValue retVal = function.Evaluate(
@@ -49,7 +48,7 @@ namespace Anycmd.Xacml.Runtime.Functions
         /// <summary>
         /// The data type of the return value.
         /// </summary>
-        public override inf.IDataType Returns
+        public override IDataType Returns
         {
             get { return DataTypeDescriptor.Boolean; }
         }
@@ -57,11 +56,11 @@ namespace Anycmd.Xacml.Runtime.Functions
         /// <summary>
         /// Defines the data types for the function arguments.
         /// </summary>
-        public override inf.IDataType[] Arguments
+        public override IDataType[] Arguments
         {
             get
             {
-                return new inf.IDataType[] { DataTypeDescriptor.Function, null, DataTypeDescriptor.Bag };
+                return new IDataType[] { DataTypeDescriptor.Function, null, DataTypeDescriptor.Bag };
             }
         }
 

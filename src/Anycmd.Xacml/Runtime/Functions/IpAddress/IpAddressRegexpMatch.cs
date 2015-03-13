@@ -24,7 +24,7 @@ namespace Anycmd.Xacml.Runtime.Functions
 		/// </summary>
 		public override Anycmd.Xacml.Interfaces.IDataType DataType
 		{
-			get{ return DataTypeDescriptor.IPAddress; }
+			get{ return DataTypeDescriptor.IpAddress; }
 		}
 
 		#endregion

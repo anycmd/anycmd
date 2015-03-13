@@ -295,7 +295,7 @@ namespace Anycmd.Xacml.Runtime.Functions
         protected static typ.IpAddress GetIPAddressArgument(IFunctionParameter[] args, int index)
         {
             if (args == null) throw new ArgumentNullException("args");
-            return (typ.IpAddress)args[index].GetTypedValue(DataTypeDescriptor.IPAddress, index);
+            return (typ.IpAddress)args[index].GetTypedValue(DataTypeDescriptor.IpAddress, index);
         }
 
         #endregion

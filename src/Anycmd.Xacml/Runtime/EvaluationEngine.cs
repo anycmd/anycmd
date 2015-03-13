@@ -1129,7 +1129,7 @@ namespace Anycmd.Xacml.Runtime
 			_dataTypes.Add(Consts.Schema1.InternalDataTypes.XQueryDaytimeDuration, DataTypeDescriptor.DaytimeDuration);
 			_dataTypes.Add(Consts.Schema1.InternalDataTypes.XQueryYearMonthDuration, DataTypeDescriptor.YearMonthDuration);
 			_dataTypes.Add(Consts.Schema2.InternalDataTypes.DnsName, DataTypeDescriptor.DnsName);
-			_dataTypes.Add(Consts.Schema2.InternalDataTypes.IpAddress, DataTypeDescriptor.IPAddress);
+			_dataTypes.Add(Consts.Schema2.InternalDataTypes.IpAddress, DataTypeDescriptor.IpAddress);
 		}
 		#endregion
 	}

@@ -1,5 +1,4 @@
 
-
 namespace Anycmd.Xacml.Runtime
 {
     using DataTypes;
@@ -8,110 +7,31 @@ namespace Anycmd.Xacml.Runtime
     /// Helper class used to find the internal descriptor for the data types found in the 
     /// context or policy documents.
     /// </summary>
-    public sealed class DataTypeDescriptor
+    public static class DataTypeDescriptor
     {
-        #region Constructor
-
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        private DataTypeDescriptor()
-        {
-        }
-
-        #endregion
-
         #region Private members
 
-        /// <summary>
-        /// The only instance of the internal data type.
-        /// </summary>
-        private static FunctionDataType _function = new FunctionDataType();
-
-        /// <summary>
-        /// The only instance of the internal data type.
-        /// </summary>
-        private static AnyUri _anyUri = new AnyUri();
-
-        /// <summary>
-        /// The only instance of the internal data type.
-        /// </summary>
-        private static Base64Binary _base64Binary = new Base64Binary();
-
-        /// <summary>
-        /// The only instance of the internal data type.
-        /// </summary>
-        private static HexBinary _hexBinary = new HexBinary();
-
-        /// <summary>
-        /// The only instance of the internal data type.
-        /// </summary>
-        private static BooleanDataType _boolean = new BooleanDataType();
-
-        /// <summary>
-        /// The only instance of the internal data type.
-        /// </summary>
-        private static IntegerDataType _integer = new IntegerDataType();
-
-        /// <summary>
-        /// The only instance of the internal data type.
-        /// </summary>
-        private static DateDataType _date = new DateDataType();
-
-        /// <summary>
-        /// The only instance of the internal data type.
-        /// </summary>
-        private static DateTime _dateTime = new DateTime();
-
-        /// <summary>
-        /// The only instance of the internal data type.
-        /// </summary>
-        private static DaytimeDuration _dayTimeDuration = new DaytimeDuration();
-
-        /// <summary>
-        /// The only instance of the internal data type.
-        /// </summary>
-        private static YearMonthDuration _yearMonthDuration = new YearMonthDuration();
-
-        /// <summary>
-        /// The only instance of the internal data type.
-        /// </summary>
-        private static DoubleDataType _double = new DoubleDataType();
-
-        /// <summary>
-        /// The only instance of the internal data type.
-        /// </summary>
-        private static Rfc822Name _rfc822Name = new Rfc822Name();
-
-        /// <summary>
-        /// The only instance of the internal data type.
-        /// </summary>
-        private static X500Name _x500Name = new X500Name();
-
-        /// <summary>
-        /// The only instance of the internal data type.
-        /// </summary>
-        private static StringDataType _string = new StringDataType();
-
-        /// <summary>
-        /// The only instance of the internal data type.
-        /// </summary>
-        private static Time _time = new Time();
-
-        /// <summary>
-        /// The only instance of the internal data type.
-        /// </summary>
-        private static Bag _bag = new Bag();
-
-        /// <summary>
-        /// The only instance of the internal data type.
-        /// </summary>
-        private static DnsNameDataType _dnsName = new DnsNameDataType();
-
-        /// <summary>
-        /// The only instance of the internal data type.
-        /// </summary>
-        private static IpAddress _ipAddress = new IpAddress();
+        static DataTypeDescriptor()
+        {
+            DnsName = new DnsNameDataType();
+            IpAddress = new IpAddress();
+            Bag = new Bag();
+            Time = new Time();
+            String = new StringDataType();
+            Rfc822Name = new Rfc822Name();
+            X500Name = new X500Name();
+            Double = new DoubleDataType();
+            YearMonthDuration = new YearMonthDuration();
+            DaytimeDuration = new DaytimeDuration();
+            DateTime = new DateTime();
+            Date = new DateDataType();
+            Integer = new IntegerDataType();
+            Boolean = new BooleanDataType();
+            HexBinary = new HexBinary();
+            Base64Binary = new Base64Binary();
+            AnyUri = new AnyUri();
+            Function = new FunctionDataType();
+        }
 
         #endregion
 
@@ -120,146 +40,93 @@ namespace Anycmd.Xacml.Runtime
         /// <summary>
         /// The Function data type descriptor.
         /// </summary>
-        static public FunctionDataType Function
-        {
-            get { return _function; }
-        }
+        public static FunctionDataType Function { get; private set; }
 
         /// <summary>
         /// The AnyUri data type descriptor.
         /// </summary>
-        static public AnyUri AnyUri
-        {
-            get { return _anyUri; }
-        }
+        public static AnyUri AnyUri { get; private set; }
 
         /// <summary>
         /// The Base64Binary data type descriptor.
         /// </summary>
-        static public Base64Binary Base64Binary
-        {
-            get { return _base64Binary; }
-        }
+        public static Base64Binary Base64Binary { get; private set; }
 
         /// <summary>
         /// The HexBinary data type descriptor.
         /// </summary>
-        static public HexBinary HexBinary
-        {
-            get { return _hexBinary; }
-        }
+        public static HexBinary HexBinary { get; private set; }
 
         /// <summary>
         /// The Boolean data type descriptor.
         /// </summary>
-        static public BooleanDataType Boolean
-        {
-            get { return _boolean; }
-        }
+        public static BooleanDataType Boolean { get; private set; }
 
         /// <summary>
         /// The Integer data type descriptor.
         /// </summary>
-        static public IntegerDataType Integer
-        {
-            get { return _integer; }
-        }
+        public static IntegerDataType Integer { get; private set; }
 
         /// <summary>
         /// The Date data type descriptor.
         /// </summary>
-        static public DateDataType Date
-        {
-            get { return _date; }
-        }
+        public static DateDataType Date { get; private set; }
 
         /// <summary>
         /// The DateTime data type descriptor.
         /// </summary>
-        static public DateTime DateTime
-        {
-            get { return _dateTime; }
-        }
+        public static DateTime DateTime { get; private set; }
 
         /// <summary>
         /// The DaytimeDuration data type descriptor.
         /// </summary>
-        static public DaytimeDuration DaytimeDuration
-        {
-            get { return _dayTimeDuration; }
-        }
+        public static DaytimeDuration DaytimeDuration { get; private set; }
 
         /// <summary>
         /// The YearMonthDuration data type descriptor.
         /// </summary>
-        static public YearMonthDuration YearMonthDuration
-        {
-            get { return _yearMonthDuration; }
-        }
+        public static YearMonthDuration YearMonthDuration { get; private set; }
 
         /// <summary>
         /// The Double data type descriptor.
         /// </summary>
-        static public DoubleDataType Double
-        {
-            get { return _double; }
-        }
+        public static DoubleDataType Double { get; private set; }
 
         /// <summary>
         /// The X500Name data type descriptor.
         /// </summary>
-        static public X500Name X500Name
-        {
-            get { return _x500Name; }
-        }
+        public static X500Name X500Name { get; private set; }
 
         /// <summary>
         /// The Rfc822Name data type descriptor.
         /// </summary>
-        static public Rfc822Name Rfc822Name
-        {
-            get { return _rfc822Name; }
-        }
+        public static Rfc822Name Rfc822Name { get; private set; }
 
         /// <summary>
         /// The String data type descriptor.
         /// </summary>
-        static public StringDataType String
-        {
-            get { return _string; }
-        }
+        public static StringDataType String { get; private set; }
 
         /// <summary>
         /// The Time data type descriptor.
         /// </summary>
-        static public Time Time
-        {
-            get { return _time; }
-        }
+        public static Time Time { get; private set; }
 
         /// <summary>
         /// The Bag data type descriptor.
         /// </summary>
-        static public Bag Bag
-        {
-            get { return _bag; }
-        }
+        public static Bag Bag { get; private set; }
 
         /// <summary>
         /// The ipAddress data type descriptor.
         /// </summary>
-        static public IpAddress IPAddress
-        {
-            get { return _ipAddress; }
-        }
+        public static IpAddress IpAddress { get; private set; }
 
         /// <summary>
         /// The DnsName data type descriptor.
         /// </summary>
-        static public DnsNameDataType DnsName
-        {
-            get { return _dnsName; }
-        }
+        public static DnsNameDataType DnsName { get; private set; }
+
         #endregion
     }
 }

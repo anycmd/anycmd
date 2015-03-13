@@ -4,7 +4,7 @@
     <Position X="0.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AIAgAAAAAAAAgAABAAIAAAAAAAAAgAAAAAIAAAAAAAA=</HashCode>
-      <FileName>Xacml\Runtime\DataTypes\AnyUri.cs</FileName>
+      <FileName>Runtime\DataTypes\AnyUri.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
@@ -12,7 +12,7 @@
     <Position X="2" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AIAgAAAAAAAAgAAAAAIAAAAAAAAAAAAAAAIAAAAAAAA=</HashCode>
-      <FileName>Xacml\Runtime\DataTypes\Bag.cs</FileName>
+      <FileName>Runtime\DataTypes\Bag.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
@@ -20,7 +20,7 @@
     <Position X="3.5" Y="0.5" Width="2" />
     <TypeIdentifier>
       <HashCode>AJAgAAAAAAAAgAAAgAIAAAAAAAAAAIAAAAIAAAAAAAA=</HashCode>
-      <FileName>Xacml\Runtime\DataTypes\Base64Binary.cs</FileName>
+      <FileName>Runtime\DataTypes\Base64Binary.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
@@ -28,7 +28,7 @@
     <Position X="5.5" Y="0.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AIAgAAAAAAAAgAAAAAIAAAAAAAAAAAAAAAIAAAAAAAA=</HashCode>
-      <FileName>Xacml\Runtime\DataTypes\BooleanDataType.cs</FileName>
+      <FileName>Runtime\DataTypes\BooleanDataType.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
@@ -36,7 +36,7 @@
     <Position X="0.5" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AIAgAAAAAAAAgAAAAAIAAAAAAAAAAAAAAAIAAAAAAAA=</HashCode>
-      <FileName>Xacml\Runtime\DataTypes\DateDataType.cs</FileName>
+      <FileName>Runtime\DataTypes\DateDataType.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
@@ -44,7 +44,7 @@
     <Position X="2" Y="6" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AIAgAAAAAAAAgAAAAAIAAAAAAAAAAAAAAAIAAAAAAAA=</HashCode>
-      <FileName>Xacml\Runtime\DataTypes\DateTime.cs</FileName>
+      <FileName>Runtime\DataTypes\DateTime.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
@@ -52,7 +52,7 @@
     <Position X="7.5" Y="0.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AYAgAAACAAAQkAAAwAIAAAAEAAAAAIAAQAMBIgCAAAA=</HashCode>
-      <FileName>Xacml\Runtime\DataTypes\DayTimeDuration.cs</FileName>
+      <FileName>Runtime\DataTypes\DayTimeDuration.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
@@ -60,7 +60,7 @@
     <Position X="12" Y="3" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AJAgIAAAAAAAgAAAgAIAAAAAAAAAAoAAAAIAAAAAAAA=</HashCode>
-      <FileName>Xacml\Runtime\DataTypes\DnsNameDataType.cs</FileName>
+      <FileName>Runtime\DataTypes\DnsNameDataType.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
@@ -68,7 +68,7 @@
     <Position X="11.5" Y="0.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AIAgAAAAAAAAgAAAAAIAAAAAAAAAAAAAAAIAAAAAAAA=</HashCode>
-      <FileName>Xacml\Runtime\DataTypes\DoubleDataType.cs</FileName>
+      <FileName>Runtime\DataTypes\DoubleDataType.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
@@ -76,7 +76,7 @@
     <Position X="3.5" Y="4" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AIAgAAAAAAAAgAAAAAIAAAAAAAAAAAAAAAIAAAAAAAA=</HashCode>
-      <FileName>Xacml\Runtime\DataTypes\FunctionDataType.cs</FileName>
+      <FileName>Runtime\DataTypes\FunctionDataType.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
@@ -84,7 +84,7 @@
     <Position X="5.25" Y="3.75" Width="2" />
     <TypeIdentifier>
       <HashCode>AJAgAAAAAAAAgAAAgAIAAAAAAAAAAIAAAAIAAAAAAAA=</HashCode>
-      <FileName>Xacml\Runtime\DataTypes\HexBinary.cs</FileName>
+      <FileName>Runtime\DataTypes\HexBinary.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
@@ -92,15 +92,15 @@
     <Position X="9.75" Y="0.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AIAgAAAAAAAAgAAAAAIAAAAAAAAAAAAAAAIAAAAAAAA=</HashCode>
-      <FileName>Xacml\Runtime\DataTypes\IntegerDataType.cs</FileName>
+      <FileName>Runtime\DataTypes\IntegerDataType.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="Anycmd.Xacml.Runtime.DataTypes.IPAddress" BaseTypeListCollapsed="true">
-    <Position X="7.75" Y="6" Width="1.75" />
+  <Class Name="Anycmd.Xacml.Runtime.DataTypes.IpAddress" BaseTypeListCollapsed="true">
+    <Position X="7.5" Y="6" Width="2" />
     <TypeIdentifier>
       <HashCode>AJAgAAAAAAAAgAAAgAMAAAAAAAAAAIAAAAIAAAAAAAA=</HashCode>
-      <FileName>Xacml\Runtime\DataTypes\IPAddressDataType.cs</FileName>
+      <FileName>Runtime\DataTypes\IpAddressDataType.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
@@ -108,7 +108,7 @@
     <Position X="0.5" Y="8.5" Width="2" />
     <TypeIdentifier>
       <HashCode>AJAgAAAEAAAAgAAAgAIAAAIAAAAAAICAAAIAAAAAAAA=</HashCode>
-      <FileName>Xacml\Runtime\DataTypes\Rfc822Name.cs</FileName>
+      <FileName>Runtime\DataTypes\Rfc822Name.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
@@ -116,7 +116,7 @@
     <Position X="2" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AIAgAAAAAAAAgAAAAAIAAAAAAAAAAAAAAAIAAAAAAAA=</HashCode>
-      <FileName>Xacml\Runtime\DataTypes\StringDataType.cs</FileName>
+      <FileName>Runtime\DataTypes\StringDataType.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
@@ -124,7 +124,7 @@
     <Position X="0.5" Y="6" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AIAgAAAAAAAAgAAAAAIAAAAAAAAAAAAAAAIAAAAAAAA=</HashCode>
-      <FileName>Xacml\Runtime\DataTypes\Time.cs</FileName>
+      <FileName>Runtime\DataTypes\Time.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
@@ -142,7 +142,7 @@
     </NestedTypes>
     <TypeIdentifier>
       <HashCode>AJAwIAAAAAAAgAgAgAIAAAAAAAAAAIAAAAIAAAAAAAA=</HashCode>
-      <FileName>Xacml\Runtime\DataTypes\X500Name.cs</FileName>
+      <FileName>Runtime\DataTypes\X500Name.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
@@ -150,7 +150,7 @@
     <Position X="3.5" Y="7" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AYAgAAAAAAAAkAAAgAIAAAIAAAAAIIAEAAMIAAAAAAA=</HashCode>
-      <FileName>Xacml\Runtime\DataTypes\YearMonthDuration.cs</FileName>
+      <FileName>Runtime\DataTypes\YearMonthDuration.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
