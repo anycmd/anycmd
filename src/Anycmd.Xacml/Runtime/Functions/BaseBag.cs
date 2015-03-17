@@ -27,7 +27,7 @@ namespace Anycmd.Xacml.Runtime.Functions
             if (context == null) throw new ArgumentNullException("context");
             if (args == null) throw new ArgumentNullException("args");
             IDataType type = DataType;
-            BagValue bag = new BagValue(type);
+            var bag = new BagValue(type);
             for (int i = 0; i < args.Length; i++)
             {
                 bag.Add(args[i].GetTypedValue(type, i));
@@ -56,7 +56,7 @@ namespace Anycmd.Xacml.Runtime.Functions
         {
             get
             {
-                return new IDataType[] { DataType };
+                return new[] { DataType };
             }
         }
 

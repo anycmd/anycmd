@@ -35,10 +35,10 @@ namespace Anycmd.Xacml.Runtime.Functions
             {
                 return EvaluationValue.Indeterminate;
             }
-            foreach (object par1 in args[1].Elements)
+            foreach (var par1 in args[1].Elements)
             {
                 bool hasFound = false;
-                foreach (object par2 in args[2].Elements)
+                foreach (var par2 in args[2].Elements)
                 {
                     EvaluationValue retVal = function.Evaluate(
                         context,

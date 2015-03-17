@@ -1,6 +1,6 @@
+using Anycmd.Xacml.Interfaces;
 
-
-
+// ReSharper disable once CheckNamespace
 namespace Anycmd.Xacml.Runtime.Functions
 {
 	/// <summary>
@@ -22,7 +22,7 @@ namespace Anycmd.Xacml.Runtime.Functions
 		/// <summary>
 		/// The data type for which the function is defined.
 		/// </summary>
-		public override Anycmd.Xacml.Interfaces.IDataType DataType
+		public override IDataType DataType
 		{
 			get{ return DataTypeDescriptor.AnyUri; }
 		}

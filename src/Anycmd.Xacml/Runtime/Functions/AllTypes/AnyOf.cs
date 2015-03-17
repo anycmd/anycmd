@@ -32,7 +32,7 @@ namespace Anycmd.Xacml.Runtime.Functions
             if (args == null) throw new ArgumentNullException("args");
             IFunction function = args[0].GetFunction(0);
             var value = new EvaluationValue(args[1], args[1].GetType(context));
-            foreach (object par in args[2].Elements)
+            foreach (var par in args[2].Elements)
             {
                 EvaluationValue retVal = function.Evaluate(
                     context, value,

@@ -26,14 +26,14 @@ namespace Anycmd.Xacml.Runtime.Functions
         /// <param name="context">The evaluation context instance.</param>
         /// <param name="args">The IFuctionParameters that will be used as arguments to the function.</param>
         /// <returns></returns>
-        public override Anycmd.Xacml.Runtime.EvaluationValue Evaluate(EvaluationContext context, params IFunctionParameter[] args)
+        public override EvaluationValue Evaluate(EvaluationContext context, params IFunctionParameter[] args)
         {
             if (context == null) throw new ArgumentNullException("context");
             if (args == null) throw new ArgumentNullException("args");
             IFunction function = args[0].GetFunction(0);
-            foreach (object par1 in args[1].Elements)
+            foreach (var par1 in args[1].Elements)
             {
-                foreach (object par2 in args[2].Elements)
+                foreach (var par2 in args[2].Elements)
                 {
                     EvaluationValue retVal = function.Evaluate(
                         context,

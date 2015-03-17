@@ -1,5 +1,5 @@
 
-
+// ReSharper disable once CheckNamespace
 namespace Anycmd.Xacml.Runtime.Functions.DateTimeDataType
 {
 	/// <summary>

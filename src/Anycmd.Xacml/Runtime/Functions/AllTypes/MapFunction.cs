@@ -26,7 +26,7 @@ namespace Anycmd.Xacml.Runtime.Functions
         /// <param name="context">The evaluation context instance.</param>
         /// <param name="args">The IFuctionParameters that will be used as arguments to the function.</param>
         /// <returns></returns>
-        public override Anycmd.Xacml.Runtime.EvaluationValue Evaluate(EvaluationContext context, params IFunctionParameter[] args)
+        public override EvaluationValue Evaluate(EvaluationContext context, params IFunctionParameter[] args)
         {
             if (context == null) throw new ArgumentNullException("context");
             if (args == null) throw new ArgumentNullException("args");
@@ -36,7 +36,7 @@ namespace Anycmd.Xacml.Runtime.Functions
                 return EvaluationValue.False;
             }
             var retVal = new BagValue(args[1].GetType(context));
-            foreach (object par in args[1].Elements)
+            foreach (var par in args[1].Elements)
             {
                 retVal.Add(
                     function.Evaluate(
@@ -49,7 +49,7 @@ namespace Anycmd.Xacml.Runtime.Functions
         /// <summary>
         /// The data type of the return value.
         /// </summary>
-        public override Anycmd.Xacml.Interfaces.IDataType Returns
+        public override IDataType Returns
         {
             get { return null; }
         }
