@@ -1,13 +1,13 @@
+using Anycmd.Xacml.Interfaces;
 
-
-
+// ReSharper disable once CheckNamespace
 namespace Anycmd.Xacml.Runtime.Functions
 {
 	/// <summary>
 	/// Function implementation, in order to check the function behavior use the value of the Id
 	/// property to search the function in the specification document.
 	/// </summary>
-	public class IPAddressRegexpMatch : RegexpMatchBase
+	public class IpAddressRegexpMatch : RegexpMatchBase
 	{
 		#region IFunction Members
 
@@ -22,7 +22,7 @@ namespace Anycmd.Xacml.Runtime.Functions
 		/// <summary>
 		/// The data type for which the function is defined.
 		/// </summary>
-		public override Anycmd.Xacml.Interfaces.IDataType DataType
+		public override IDataType DataType
 		{
 			get{ return DataTypeDescriptor.IpAddress; }
 		}

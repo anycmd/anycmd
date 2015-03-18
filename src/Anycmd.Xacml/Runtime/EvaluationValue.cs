@@ -170,7 +170,7 @@ namespace Anycmd.Xacml.Runtime
         /// <returns></returns>
         public object GetTypedValue(IDataType dataType, int parNo)
         {
-            if (!_dataType.Equals(dataType))
+            if (!ReferenceEquals(_dataType, dataType))
             {
                 throw new EvaluationException(string.Format(Properties.Resource.exc_type_mismatch, dataType, _dataType));
             }

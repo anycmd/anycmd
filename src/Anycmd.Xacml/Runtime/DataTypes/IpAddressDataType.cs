@@ -86,7 +86,7 @@ namespace Anycmd.Xacml.Runtime.DataTypes
 		/// <value>An IFunction instance.</value>
 		public IFunction EqualFunction
 		{
-			get{ return new IPAddressEqual(); }
+			get{ return new IpAddressEqual(); }
 		}
 
 		/// <summary>
@@ -95,7 +95,7 @@ namespace Anycmd.Xacml.Runtime.DataTypes
 		/// <value>An IFunction instance.</value>
 		public IFunction IsInFunction
 		{
-			get{ return new IPAddressIsIn(); }
+			get{ return new IpAddressIsIn(); }
 		}
 
 		/// <summary>
@@ -104,7 +104,7 @@ namespace Anycmd.Xacml.Runtime.DataTypes
 		/// <value>An IFunction instance.</value>
 		public IFunction SubsetFunction
 		{
-			get{ return new IPAddressSubset(); }
+			get{ return new IpAddressSubset(); }
 		}
 
 		/// <summary>

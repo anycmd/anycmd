@@ -1,12 +1,12 @@
 
-
+// ReSharper disable once CheckNamespace
 namespace Anycmd.Xacml.Runtime.Functions
 {
 	/// <summary>
 	/// Function implementation, in order to check the function behavior use the value of the Id
 	/// property to search the function in the specification document.
 	/// </summary>
-	public class IPAddressBagSize : BaseBagSize
+	public class IpAddressBagSize : BaseBagSize
 	{
 		#region IFunction Members
 
