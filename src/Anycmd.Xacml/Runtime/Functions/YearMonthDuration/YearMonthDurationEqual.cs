@@ -1,8 +1,9 @@
-using System;
 
+// ReSharper disable once CheckNamespace
 namespace Anycmd.Xacml.Runtime.Functions
 {
     using Interfaces;
+    using System;
 
     /// <summary>
     /// Function implementation, in order to check the function behavior use the value of the Id

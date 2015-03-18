@@ -292,7 +292,7 @@ namespace Anycmd.Xacml.Runtime.Functions
         /// <param name="args">The arguments list</param>
         /// <param name="index">The index</param>
         /// <returns>The IPAddress value.</returns>
-        protected static typ.IpAddress GetIPAddressArgument(IFunctionParameter[] args, int index)
+        protected static typ.IpAddress GetIpAddressArgument(IFunctionParameter[] args, int index)
         {
             if (args == null) throw new ArgumentNullException("args");
             return (typ.IpAddress)args[index].GetTypedValue(DataTypeDescriptor.IpAddress, index);

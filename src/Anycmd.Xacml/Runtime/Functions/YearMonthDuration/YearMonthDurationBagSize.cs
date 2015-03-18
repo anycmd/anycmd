@@ -1,4 +1,5 @@
 
+// ReSharper disable once CheckNamespace
 namespace Anycmd.Xacml.Runtime.Functions
 {
 	/// <summary>

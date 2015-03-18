@@ -25,7 +25,7 @@ namespace Anycmd.Xacml.Runtime.Functions
 		{
 			get
 			{
-				return new IDataType[]{ DataType, DataType };
+				return new[]{ DataType, DataType };
 			}
 		}
 

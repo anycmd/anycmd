@@ -34,7 +34,7 @@ namespace Anycmd.Xacml.Runtime.Functions
             if (args == null) throw new ArgumentNullException("args");
             if (args[0].IsBag && args[0].BagSize == 1)
             {
-                IFunctionParameter attrib = (IFunctionParameter)args[0].Elements[0];
+                var attrib = (IFunctionParameter)args[0].Elements[0];
                 return new EvaluationValue(GetTypedValue(attrib), DataType);
             }
             else

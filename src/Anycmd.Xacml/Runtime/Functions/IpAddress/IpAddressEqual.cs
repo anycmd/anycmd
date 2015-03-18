@@ -30,7 +30,7 @@ namespace Anycmd.Xacml.Runtime.Functions
         {
             if (context == null) throw new ArgumentNullException("context");
             if (args == null) throw new ArgumentNullException("args");
-            if (GetIPAddressArgument(args, 0).Equals(GetIPAddressArgument(args, 1)))
+            if (GetIpAddressArgument(args, 0).Equals(GetIpAddressArgument(args, 1)))
             {
                 return EvaluationValue.True;
             }

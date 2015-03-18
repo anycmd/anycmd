@@ -22,7 +22,7 @@ namespace Anycmd.Xacml.Runtime.Functions
             if (context == null) throw new ArgumentNullException("context");
             if (args == null) throw new ArgumentNullException("args");
 
-            BagValue retBag = new BagValue(DataType);
+            var retBag = new BagValue(DataType);
             IFunction functionDup = DataType.IsInFunction;
             foreach (object par1 in args[0].Elements)
             {
