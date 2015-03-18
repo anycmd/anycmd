@@ -6,7 +6,7 @@ namespace Anycmd.Xacml.Runtime
 	/// <summary>
 	/// Defines a typed collection of "IMatchEvaluable"s.
 	/// </summary>
-	public class IMatchEvaluableCollection : CollectionBase 
+	public class MatchEvaluableCollection : CollectionBase 
 	{
 		#region CollectionBase members
 

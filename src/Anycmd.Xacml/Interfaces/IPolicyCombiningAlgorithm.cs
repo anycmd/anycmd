@@ -16,6 +16,6 @@ namespace Anycmd.Xacml.Interfaces
         /// <param name="context">The evaluation context instance.</param>
         /// <param name="policies">The policies that will be evaulated.</param>
         /// <returns>The final decission if the evaluation.</returns>
-        Decision Evaluate(EvaluationContext context, IMatchEvaluableCollection policies);
+        Decision Evaluate(EvaluationContext context, MatchEvaluableCollection policies);
     }
 }

@@ -28,7 +28,7 @@ namespace Anycmd.Xacml.Runtime
         /// <param name="context">The evaluation context instance.</param>
         /// <param name="policies">The policies that must be evaluated.</param>
         /// <returns>The final decission for the combination of the policy evaluation.</returns>
-        public Decision Evaluate(EvaluationContext context, IMatchEvaluableCollection policies)
+        public Decision Evaluate(EvaluationContext context, MatchEvaluableCollection policies)
         {
             foreach (IMatchEvaluable policy in policies)
             {

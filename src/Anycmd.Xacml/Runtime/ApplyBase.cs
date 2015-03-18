@@ -69,7 +69,7 @@ namespace Anycmd.Xacml.Runtime
             }
 
             // Process the arguments.
-            IFunctionParameterCollection arguments = ProcessArguments(context, new ExpressionCollection((ExpressionReadWriteCollection)_applyBase.Arguments));
+            FunctionParameterCollection arguments = ProcessArguments(context, new ExpressionCollection((ExpressionReadWriteCollection)_applyBase.Arguments));
 
             // Call the function with the arguments processed.
             EvaluationValue returnValue = EvaluationEngine.EvaluateFunction(context, function, arguments.ToArray());
@@ -89,13 +89,13 @@ namespace Anycmd.Xacml.Runtime
         /// <param name="context">The evaluation context instance.</param>
         /// <param name="arguments">The arguments to process.</param>
         /// <returns>A list of arguments ready to be used by a function.</returns>
-        private IFunctionParameterCollection ProcessArguments(EvaluationContext context, ExpressionCollection arguments)
+        private FunctionParameterCollection ProcessArguments(EvaluationContext context, ExpressionCollection arguments)
         {
             context.Trace("Processing arguments");
             context.AddIndent();
 
             // Create a list to return the processed values.
-            var processedArguments = new IFunctionParameterCollection();
+            var processedArguments = new FunctionParameterCollection();
 
             // Iterate through the arguments, the IExpressionType is a mark interface
             foreach (IExpression arg in arguments)

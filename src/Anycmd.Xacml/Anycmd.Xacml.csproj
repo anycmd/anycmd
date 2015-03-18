@@ -532,9 +532,9 @@
     <Compile Include="Runtime\Functions\YearMonthDuration\YearMonthDurationSubset.cs" />
     <Compile Include="Runtime\Functions\YearMonthDuration\YearMonthDurationUnion.cs" />
     <Compile Include="Runtime\IEvaluable.cs" />
-    <Compile Include="Runtime\IFunctionParameterCollection.cs" />
+    <Compile Include="Runtime\FunctionParameterCollection.cs" />
     <Compile Include="Runtime\IMatchEvaluable.cs" />
-    <Compile Include="Runtime\IMatchEvaluableCollection.cs" />
+    <Compile Include="Runtime\MatchEvaluableCollection.cs" />
     <Compile Include="Runtime\IObligationsContainer.cs" />
     <Compile Include="Runtime\Policy.cs" />
     <Compile Include="Runtime\PolicyCombiningAlgorithmDenyOverrides.cs" />

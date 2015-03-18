@@ -7,7 +7,7 @@ namespace Anycmd.Xacml.Runtime
 	/// <summary>
 	/// Defines a typed collection of IFunctionParameters.
 	/// </summary>
-	public class IFunctionParameterCollection : CollectionBase 
+	public class FunctionParameterCollection : CollectionBase 
 	{
 		#region CollectionBase members
 

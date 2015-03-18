@@ -22,7 +22,7 @@ namespace Anycmd.Xacml.Runtime
         /// <summary>
         /// All the policies that belongs to this policy set.
         /// </summary>
-        private readonly IMatchEvaluableCollection _policies = new IMatchEvaluableCollection();
+        private readonly MatchEvaluableCollection _policies = new MatchEvaluableCollection();
 
         /// <summary>
         /// The final decission for this policy set.
