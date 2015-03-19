@@ -1,6 +1,7 @@
+using Anycmd.Xacml.Interfaces;
+using Anycmd.Xacml.Policy;
 using System;
-using inf = Anycmd.Xacml.Interfaces;
-using pol = Anycmd.Xacml.Policy;
+using System.Diagnostics;
 
 namespace Anycmd.Xacml.Runtime
 {
@@ -15,7 +16,7 @@ namespace Anycmd.Xacml.Runtime
         /// Creates a new Condition using the reference to the condition definition in the policy document.
         /// </summary>
         /// <param name="condition">The condition definition of the policy document.</param>
-        public Condition2(pol.ConditionElement condition)
+        public Condition2(ConditionElement condition)
             : base(condition)
         {
         }
@@ -39,30 +40,31 @@ namespace Anycmd.Xacml.Runtime
             try
             {
                 // Iterate through the arguments, the IExpressionType is a mark interface
-                foreach (inf.IExpression arg in ApplyDefinition.Arguments)
+                foreach (IExpression arg in ApplyDefinition.Arguments)
                 {
-                    if (arg is pol.ApplyElement)
+                    if (arg is ApplyElement)
                     {
                         context.Trace("Apply within condition.");
 
                         // There is a nested apply un this policy a new Apply will be created and also 
                         // evaluated. It's return value will be used as the processed argument.
-                        Apply _childApply = new Apply((pol.ApplyElement)arg);
+                        var childApply = new Apply((ApplyElement)arg);
 
                         // Evaluate the Apply
-                        EvaluationValue retVal = _childApply.Evaluate(context);
+                        EvaluationValue retVal = childApply.Evaluate(context);
 
                         return retVal;
                     }
-                    else if (arg is pol.FunctionElementReadWrite)
+                    else if (arg is FunctionElementReadWrite)
                     {
                         throw new NotImplementedException("FunctionElement"); //TODO:
                     }
-                    else if (arg is pol.VariableReferenceElement)
+                    else if (arg is VariableReferenceElement)
                     {
-                        pol.VariableReferenceElement variableRef = arg as pol.VariableReferenceElement;
-                        VariableDefinition variableDef = context.CurrentPolicy.VariableDefinition[variableRef.VariableId] as VariableDefinition;
+                        var variableRef = arg as VariableReferenceElement;
+                        var variableDef = context.CurrentPolicy.VariableDefinition[variableRef.VariableId] as VariableDefinition;
 
+                        Debug.Assert(variableDef != null, "variableDef != null");
                         if (!variableDef.IsEvaluated)
                         {
                             return variableDef.Evaluate(context);
@@ -72,33 +74,33 @@ namespace Anycmd.Xacml.Runtime
                             return variableDef.Value;
                         }
                     }
-                    else if (arg is pol.AttributeValueElementReadWrite)
+                    else if (arg is AttributeValueElementReadWrite)
                     {
                         // The AttributeValue does not need to be processed
                         context.Trace("Attribute value {0}", arg.ToString());
 
-                        pol.AttributeValueElement attributeValue = new pol.AttributeValueElement(((pol.AttributeValueElementReadWrite)arg).DataType, ((pol.AttributeValueElementReadWrite)arg).Contents, ((pol.AttributeValueElementReadWrite)arg).SchemaVersion);
+                        var attributeValue = new AttributeValueElement(((AttributeValueElementReadWrite)arg).DataType, ((AttributeValueElementReadWrite)arg).Contents, ((AttributeValueElementReadWrite)arg).SchemaVersion);
 
                         return new EvaluationValue(
                             attributeValue.GetTypedValue(attributeValue.GetType(context), 0),
                             attributeValue.GetType(context));
                     }
-                    else if (arg is pol.AttributeDesignatorBase)
+                    else if (arg is AttributeDesignatorBase)
                     {
                         // Returning an empty bag, since the condition is not supposed to work with a bag
                         context.Trace("Processing attribute designator: {0}", arg.ToString());
 
-                        pol.AttributeDesignatorBase attrDes = (pol.AttributeDesignatorBase)arg;
-                        BagValue bag = new BagValue(EvaluationEngine.GetDataType(attrDes.DataType));
+                        var attrDes = (AttributeDesignatorBase)arg;
+                        var bag = new BagValue(EvaluationEngine.GetDataType(attrDes.DataType));
                         return new EvaluationValue(bag, bag.GetType(context));
                     }
-                    else if (arg is pol.AttributeSelectorElement)
+                    else if (arg is AttributeSelectorElement)
                     {
                         // Returning an empty bag, since the condition is not supposed to work with a bag
                         context.Trace("Attribute selector");
 
-                        pol.AttributeSelectorElement attrSel = (pol.AttributeSelectorElement)arg;
-                        BagValue bag = new BagValue(EvaluationEngine.GetDataType(attrSel.DataType));
+                        var attrSel = (AttributeSelectorElement)arg;
+                        var bag = new BagValue(EvaluationEngine.GetDataType(attrSel.DataType));
                         return new EvaluationValue(bag, bag.GetType(context));
                     }
                 }

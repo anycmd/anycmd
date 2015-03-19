@@ -1,6 +1,5 @@
 using System.Collections.Specialized;
 
-
 namespace Anycmd.Xacml.Runtime
 {
     /// <summary>

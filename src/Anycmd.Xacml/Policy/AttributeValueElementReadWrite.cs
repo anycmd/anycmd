@@ -1,7 +1,6 @@
 using System;
 using System.Xml;
 
-using cor = Anycmd.Xacml;
 using inf = Anycmd.Xacml.Interfaces;
 
 namespace Anycmd.Xacml.Policy

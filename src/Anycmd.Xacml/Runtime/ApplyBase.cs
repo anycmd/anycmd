@@ -1,8 +1,8 @@
-using System.Diagnostics;
 using Anycmd.Xacml.Interfaces;
 using Anycmd.Xacml.Policy;
 using Anycmd.Xacml.Policy.TargetItems;
 using System;
+using System.Diagnostics;
 using ctx = Anycmd.Xacml.Context;
 
 namespace Anycmd.Xacml.Runtime
@@ -129,135 +129,143 @@ namespace Anycmd.Xacml.Runtime
                         processedArguments.Add(retVal);
                     }
                 }
-                else if (arg is FunctionElementReadWrite)
-                {
-                    // Search for the function and place it in the processed arguments.
-                    var functionId = new FunctionElement(((FunctionElementReadWrite)arg).FunctionId, ((FunctionElementReadWrite)arg).SchemaVersion);
-
-                    context.Trace("Function {0}", functionId.FunctionId);
-                    IFunction function = EvaluationEngine.GetFunction(functionId.FunctionId);
-                    if (function == null)
-                    {
-                        context.Trace("ERR: function not found {0}", _applyBase.FunctionId);
-                        context.ProcessingError = true;
-                        processedArguments.Add(EvaluationValue.Indeterminate);
-                    }
-                    else
-                    {
-                        processedArguments.Add(function);
-                    }
-                }
-                else if (arg is VariableReferenceElement)
-                {
-                    var variableRef = arg as VariableReferenceElement;
-                    var variableDef = context.CurrentPolicy.VariableDefinition[variableRef.VariableId] as VariableDefinition;
-
-                    context.TraceContextValues();
-
-                    Debug.Assert(variableDef != null, "variableDef != null");
-                    processedArguments.Add(!variableDef.IsEvaluated ? variableDef.Evaluate(context) : variableDef.Value);
-                }
-                else if (arg is AttributeValueElementReadWrite)
-                {
-                    // The AttributeValue does not need to be processed
-                    context.Trace("Attribute value {0}", arg.ToString());
-                    processedArguments.Add(new AttributeValueElement(((AttributeValueElementReadWrite)arg).DataType, ((AttributeValueElementReadWrite)arg).Contents, ((AttributeValueElementReadWrite)arg).SchemaVersion));
-                }
                 else
                 {
-                    var des = arg as AttributeDesignatorBase;
-                    if (des != null)
+                    var write = arg as FunctionElementReadWrite;
+                    if (write != null)
                     {
-                        // Resolve the AttributeDesignator using the EvaluationEngine public methods.
-                        context.Trace("Processing attribute designator: {0}", arg.ToString());
+                        // Search for the function and place it in the processed arguments.
+                        var functionId = new FunctionElement(write.FunctionId, write.SchemaVersion);
 
-                        var attrDes = des;
-                        BagValue bag = EvaluationEngine.Resolve(context, attrDes);
-
-                        // If the attribute was not resolved by the EvaluationEngine search the 
-                        // attribute in the context document, also using the EvaluationEngine public 
-                        // methods.
-                        if (bag.BagSize == 0)
+                        context.Trace("Function {0}", functionId.FunctionId);
+                        IFunction function = EvaluationEngine.GetFunction(functionId.FunctionId);
+                        if (function == null)
                         {
-                            if (arg is SubjectAttributeDesignatorElement)
-                            {
-                                ctx.AttributeElement attrib = EvaluationEngine.GetAttribute(context, attrDes);
-                                if (attrib != null)
-                                {
-                                    context.Trace("Adding subject attribute designator: {0}", attrib.ToString());
-                                    bag.Add(attrib);
-                                    break;
-                                }
-                            }
-                            else if (arg is ResourceAttributeDesignatorElement)
-                            {
-                                ctx.AttributeElement attrib = EvaluationEngine.GetAttribute(context, attrDes);
-                                if (attrib != null)
-                                {
-                                    context.Trace("Adding resource attribute designator {0}", attrib.ToString());
-                                    bag.Add(attrib);
-                                }
-                            }
-                            else if (arg is ActionAttributeDesignatorElement)
-                            {
-                                ctx.AttributeElement attrib = EvaluationEngine.GetAttribute(context, attrDes);
-                                if (attrib != null)
-                                {
-                                    context.Trace("Adding action attribute designator {0}", attrib.ToString());
-                                    bag.Add(attrib);
-                                }
-                            }
-                            else if (arg is EnvironmentAttributeDesignatorElement)
-                            {
-                                ctx.AttributeElement attrib = EvaluationEngine.GetAttribute(context, attrDes);
-                                if (attrib != null)
-                                {
-                                    context.Trace("Adding environment attribute designator {0}", attrib.ToString());
-                                    bag.Add(attrib);
-                                }
-                            }
-                        }
-
-                        // If the argument was not found and the attribute must be present this is 
-                        // a MissingAttribute situation so set the flag. Otherwise add the attribute 
-                        // to the processed arguments.
-                        if (bag.BagSize == 0 && attrDes.MustBePresent)
-                        {
-                            context.Trace("Attribute is missing");
-                            context.IsMissingAttribute = true;
-                            context.AddMissingAttribute(attrDes);
+                            context.Trace("ERR: function not found {0}", _applyBase.FunctionId);
+                            context.ProcessingError = true;
+                            processedArguments.Add(EvaluationValue.Indeterminate);
                         }
                         else
                         {
-                            processedArguments.Add(bag);
+                            processedArguments.Add(function);
                         }
+                    }
+                    else if (arg is VariableReferenceElement)
+                    {
+                        var variableRef = arg as VariableReferenceElement;
+                        var variableDef = context.CurrentPolicy.VariableDefinition[variableRef.VariableId] as VariableDefinition;
+
+                        context.TraceContextValues();
+
+                        Debug.Assert(variableDef != null, "variableDef != null");
+                        processedArguments.Add(!variableDef.IsEvaluated ? variableDef.Evaluate(context) : variableDef.Value);
                     }
                     else
                     {
-                        var @base = arg as AttributeSelectorElement;
-                        if (@base != null)
+                        var readWrite = arg as AttributeValueElementReadWrite;
+                        if (readWrite != null)
                         {
-                            // Resolve the XPath query using the EvaluationEngine public methods.
-                            context.Trace("Attribute selector");
-                            try
+                            // The AttributeValue does not need to be processed
+                            context.Trace("Attribute value {0}", arg.ToString());
+                            processedArguments.Add(new AttributeValueElement(readWrite.DataType, readWrite.Contents, readWrite.SchemaVersion));
+                        }
+                        else
+                        {
+                            var des = arg as AttributeDesignatorBase;
+                            if (des != null)
                             {
-                                BagValue bag = EvaluationEngine.Resolve(context, @base);
-                                if (bag.Elements.Count == 0 && @base.MustBePresent)
+                                // Resolve the AttributeDesignator using the EvaluationEngine public methods.
+                                context.Trace("Processing attribute designator: {0}", arg.ToString());
+
+                                var attrDes = des;
+                                BagValue bag = EvaluationEngine.Resolve(context, attrDes);
+
+                                // If the attribute was not resolved by the EvaluationEngine search the 
+                                // attribute in the context document, also using the EvaluationEngine public 
+                                // methods.
+                                if (bag.BagSize == 0)
+                                {
+                                    if (arg is SubjectAttributeDesignatorElement)
+                                    {
+                                        ctx.AttributeElement attrib = EvaluationEngine.GetAttribute(context, attrDes);
+                                        if (attrib != null)
+                                        {
+                                            context.Trace("Adding subject attribute designator: {0}", attrib.ToString());
+                                            bag.Add(attrib);
+                                            break;
+                                        }
+                                    }
+                                    else if (arg is ResourceAttributeDesignatorElement)
+                                    {
+                                        ctx.AttributeElement attrib = EvaluationEngine.GetAttribute(context, attrDes);
+                                        if (attrib != null)
+                                        {
+                                            context.Trace("Adding resource attribute designator {0}", attrib.ToString());
+                                            bag.Add(attrib);
+                                        }
+                                    }
+                                    else if (arg is ActionAttributeDesignatorElement)
+                                    {
+                                        ctx.AttributeElement attrib = EvaluationEngine.GetAttribute(context, attrDes);
+                                        if (attrib != null)
+                                        {
+                                            context.Trace("Adding action attribute designator {0}", attrib.ToString());
+                                            bag.Add(attrib);
+                                        }
+                                    }
+                                    else if (arg is EnvironmentAttributeDesignatorElement)
+                                    {
+                                        ctx.AttributeElement attrib = EvaluationEngine.GetAttribute(context, attrDes);
+                                        if (attrib != null)
+                                        {
+                                            context.Trace("Adding environment attribute designator {0}", attrib.ToString());
+                                            bag.Add(attrib);
+                                        }
+                                    }
+                                }
+
+                                // If the argument was not found and the attribute must be present this is 
+                                // a MissingAttribute situation so set the flag. Otherwise add the attribute 
+                                // to the processed arguments.
+                                if (bag.BagSize == 0 && attrDes.MustBePresent)
                                 {
                                     context.Trace("Attribute is missing");
                                     context.IsMissingAttribute = true;
-                                    context.AddMissingAttribute(@base);
+                                    context.AddMissingAttribute(attrDes);
                                 }
                                 else
                                 {
                                     processedArguments.Add(bag);
                                 }
                             }
-                            catch (EvaluationException e)
+                            else
                             {
-                                context.Trace("ERR: {0}", e.Message);
-                                processedArguments.Add(EvaluationValue.Indeterminate);
-                                context.ProcessingError = true;
+                                var @base = arg as AttributeSelectorElement;
+                                if (@base != null)
+                                {
+                                    // Resolve the XPath query using the EvaluationEngine public methods.
+                                    context.Trace("Attribute selector");
+                                    try
+                                    {
+                                        BagValue bag = EvaluationEngine.Resolve(context, @base);
+                                        if (bag.Elements.Count == 0 && @base.MustBePresent)
+                                        {
+                                            context.Trace("Attribute is missing");
+                                            context.IsMissingAttribute = true;
+                                            context.AddMissingAttribute(@base);
+                                        }
+                                        else
+                                        {
+                                            processedArguments.Add(bag);
+                                        }
+                                    }
+                                    catch (EvaluationException e)
+                                    {
+                                        context.Trace("ERR: {0}", e.Message);
+                                        processedArguments.Add(EvaluationValue.Indeterminate);
+                                        context.ProcessingError = true;
+                                    }
+                                }
                             }
                         }
                     }

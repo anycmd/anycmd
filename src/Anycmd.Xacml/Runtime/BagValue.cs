@@ -1,14 +1,12 @@
+using Anycmd.Xacml.Interfaces;
 using System.Collections;
-using cor = Anycmd.Xacml;
-using inf = Anycmd.Xacml.Interfaces;
-using rtm = Anycmd.Xacml.Runtime;
 
 namespace Anycmd.Xacml.Runtime
 {
     /// <summary>
     /// Defines a Bag of values as defined in A.5
     /// </summary>
-    public class BagValue : inf.IFunctionParameter
+    public class BagValue : IFunctionParameter
     {
         #region Static members
 
@@ -27,12 +25,12 @@ namespace Anycmd.Xacml.Runtime
         /// <summary>
         /// The elements of the bag.
         /// </summary>
-        private ArrayList _elements = new ArrayList();
+        private readonly ArrayList _elements = new ArrayList();
 
         /// <summary>
         /// The datatype of the elements of the bag
         /// </summary>
-        private inf.IDataType _dataType;
+        private readonly IDataType _dataType;
 
         #endregion
 
@@ -42,7 +40,7 @@ namespace Anycmd.Xacml.Runtime
         /// Creates a new empty bag for the given data type.
         /// </summary>
         /// <param name="dataType">The data type of the bag.</param>
-        public BagValue(inf.IDataType dataType)
+        public BagValue(IDataType dataType)
         {
             _dataType = dataType;
         }
@@ -69,7 +67,7 @@ namespace Anycmd.Xacml.Runtime
         /// </summary>
         /// <param name="context">The evaluation context.</param>
         /// <returns>The data type descriptor.</returns>
-        public inf.IDataType GetType(rtm.EvaluationContext context)
+        public IDataType GetType(EvaluationContext context)
         {
             return _dataType;
         }
@@ -80,7 +78,7 @@ namespace Anycmd.Xacml.Runtime
         /// <param name="dataType">The expected data type of the value.</param>
         /// <param name="parNo">THe number of parameter used only for error notification.</param>
         /// <returns></returns>
-        public object GetTypedValue(inf.IDataType dataType, int parNo)
+        public object GetTypedValue(IDataType dataType, int parNo)
         {
             if (dataType != DataTypeDescriptor.Bag)
             {
@@ -94,7 +92,7 @@ namespace Anycmd.Xacml.Runtime
         /// </summary>
         /// <param name="parNo">THe number of parameter used only for error notification.</param>
         /// <returns></returns>
-        public inf.IFunction GetFunction(int parNo)
+        public IFunction GetFunction(int parNo)
         {
             throw new EvaluationException(string.Format(Properties.Resource.exc_invalid_datatype_in_stringvalue, parNo, "BagValue"));
         }

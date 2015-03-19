@@ -1,5 +1,4 @@
-
-using inf = Anycmd.Xacml.Interfaces;
+using Anycmd.Xacml.Interfaces;
 
 namespace Anycmd.Xacml.Runtime
 {
@@ -7,7 +6,7 @@ namespace Anycmd.Xacml.Runtime
 	/// The policy combining algorithm described in the Appendix C.3. This class is a 
 	/// translation of the pseudo-code placed in the documentation.
 	/// </summary>
-	public class RuleCombiningAlgorithmFirstApplicable : inf.IRuleCombiningAlgorithm
+	public class RuleCombiningAlgorithmFirstApplicable : IRuleCombiningAlgorithm
 	{
 		#region Constructor
 
@@ -30,7 +29,7 @@ namespace Anycmd.Xacml.Runtime
 		/// <returns>The final decission for the combination of the rule evaluation.</returns>
 		public Decision Evaluate( EvaluationContext context, RuleCollection rules )
 		{
-			Decision decision = Decision.Indeterminate;
+			var decision = Decision.Indeterminate;
 			context.Trace( "Evaluating rules..." );
 			context.AddIndent();
 			try

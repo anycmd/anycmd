@@ -1,7 +1,6 @@
 using System;
 using System.Xml;
 
-using cor = Anycmd.Xacml;
 
 namespace Anycmd.Xacml.Policy.TargetItems
 {

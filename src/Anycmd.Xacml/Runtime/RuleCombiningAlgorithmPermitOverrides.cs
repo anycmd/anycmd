@@ -1,7 +1,6 @@
+using Anycmd.Xacml.Interfaces;
+using Anycmd.Xacml.Policy;
 using System;
-using inf = Anycmd.Xacml.Interfaces;
-using pol = Anycmd.Xacml.Policy;
-using rtm = Anycmd.Xacml.Runtime;
 
 namespace Anycmd.Xacml.Runtime
 {
@@ -9,7 +8,7 @@ namespace Anycmd.Xacml.Runtime
     /// The policy combining algorithm described in the Appendix C.2. This class is a 
     /// translation of the pseudo-code placed in the documentation.
     /// </summary>
-    public class RuleCombiningAlgorithmPermitOverrides : inf.IRuleCombiningAlgorithm
+    public class RuleCombiningAlgorithmPermitOverrides : IRuleCombiningAlgorithm
     {
         #region Constructor
 
@@ -30,11 +29,11 @@ namespace Anycmd.Xacml.Runtime
         /// <param name="context">The evaluation context instance.</param>
         /// <param name="rules">The policies that must be evaluated.</param>
         /// <returns>The final decission for the combination of the rule evaluation.</returns>
-        public rtm.Decision Evaluate(rtm.EvaluationContext context, RuleCollection rules)
+        public Decision Evaluate(EvaluationContext context, RuleCollection rules)
         {
             if (context == null) throw new ArgumentNullException("context");
             if (rules == null) throw new ArgumentNullException("rules");
-            Decision decision = Decision.Indeterminate;
+            var decision = Decision.Indeterminate;
             bool atLeastOneError = false;
             bool potentialPermit = false;
             bool atLeastOneDeny = false;
@@ -66,7 +65,7 @@ namespace Anycmd.Xacml.Runtime
                     if (decision == Decision.Indeterminate)
                     {
                         atLeastOneError = true;
-                        if (rule.RuleDefinition.Effect == pol.Effect.Permit)
+                        if (rule.RuleDefinition.Effect == Effect.Permit)
                         {
                             potentialPermit = true;
                         }

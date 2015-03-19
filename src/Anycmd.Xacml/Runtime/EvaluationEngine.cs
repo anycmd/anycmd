@@ -6,13 +6,12 @@ namespace Anycmd.Xacml.Runtime
 	using Interfaces;
 	using System;
 	using System.Collections.Generic;
-	using System.IO;
 	using System.Diagnostics;
-	using Xacml.Policy.TargetItems;
+	using System.IO;
 	using System.Text;
 	using System.Xml;
 	using System.Xml.XPath;
-	using cor = Xacml;
+	using Xacml.Policy.TargetItems;
 	using ctx = Context;
 	using pol = Xacml.Policy;
 	using typ = DataTypes;

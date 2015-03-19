@@ -1,8 +1,8 @@
+using Anycmd.Xacml.Interfaces;
+using Anycmd.Xacml.Policy.TargetItems;
 using System;
 using System.Collections;
 using System.Collections.Specialized;
-using Anycmd.Xacml.Policy.TargetItems;
-using Anycmd.Xacml.Interfaces;
 using pol = Anycmd.Xacml.Policy;
 
 namespace Anycmd.Xacml.Runtime

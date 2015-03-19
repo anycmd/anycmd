@@ -1,7 +1,7 @@
-using System;
-using Anycmd.Xacml.Policy.TargetItems;
-using ctx = Anycmd.Xacml.Context;
 using Anycmd.Xacml.Interfaces;
+using Anycmd.Xacml.Policy.TargetItems;
+using System;
+using ctx = Anycmd.Xacml.Context;
 
 namespace Anycmd.Xacml.Runtime
 {

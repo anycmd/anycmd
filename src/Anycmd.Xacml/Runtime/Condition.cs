@@ -1,6 +1,6 @@
+using Anycmd.Xacml.Interfaces;
+using Anycmd.Xacml.Policy;
 using System;
-using inf = Anycmd.Xacml.Interfaces;
-using pol = Anycmd.Xacml.Policy;
 
 namespace Anycmd.Xacml.Runtime
 {
@@ -15,7 +15,7 @@ namespace Anycmd.Xacml.Runtime
         /// Creates a new Condition using the reference to the condition definition in the policy document.
         /// </summary>
         /// <param name="condition">The condition definition of the policy document.</param>
-        public Condition(pol.ConditionElement condition)
+        public Condition(ConditionElement condition)
             : base(condition)
         {
         }
@@ -34,13 +34,13 @@ namespace Anycmd.Xacml.Runtime
         public override EvaluationValue Evaluate(EvaluationContext context)
         {
             if (context == null) throw new ArgumentNullException("context");
-            EvaluationValue _evaluationValue = null;
+            EvaluationValue evaluationValue = null;
             context.Trace("Evaluating condition...");
             context.AddIndent();
             try
             {
                 // Get the function instance
-                inf.IFunction function = EvaluationEngine.GetFunction(ApplyDefinition.FunctionId);
+                IFunction function = EvaluationEngine.GetFunction(ApplyDefinition.FunctionId);
                 if (function == null)
                 {
                     context.Trace("ERR: function not found {0}", ApplyDefinition.FunctionId);
@@ -52,35 +52,35 @@ namespace Anycmd.Xacml.Runtime
                 if (function.Returns == null)
                 {
                     context.Trace("The function '{0}' does not defines it's return value", ApplyDefinition.FunctionId);
-                    _evaluationValue = EvaluationValue.Indeterminate;
+                    evaluationValue = EvaluationValue.Indeterminate;
                     context.ProcessingError = true;
                 }
                 else if (function.Returns != DataTypeDescriptor.Boolean)
                 {
                     context.Trace("Function does not return Boolean a value");
-                    _evaluationValue = EvaluationValue.Indeterminate;
+                    evaluationValue = EvaluationValue.Indeterminate;
                     context.ProcessingError = true;
                 }
                 else
                 {
                     // Call the ApplyBase method to perform the evaluation.
-                    _evaluationValue = base.Evaluate(context);
+                    evaluationValue = base.Evaluate(context);
                 }
 
                 // Validate the results of the evaluation
-                if (_evaluationValue.IsIndeterminate)
+                if (evaluationValue.IsIndeterminate)
                 {
-                    context.Trace("condition evaluated into {0}", _evaluationValue.ToString());
-                    return _evaluationValue;
+                    context.Trace("condition evaluated into {0}", evaluationValue.ToString());
+                    return evaluationValue;
                 }
-                if (!(_evaluationValue.Value is bool))
+                if (!(evaluationValue.Value is bool))
                 {
-                    context.Trace("condition evaluated into {0}", _evaluationValue.ToString());
+                    context.Trace("condition evaluated into {0}", evaluationValue.ToString());
                     return EvaluationValue.Indeterminate;
                 }
-                if (_evaluationValue.BoolValue)
+                if (evaluationValue.BoolValue)
                 {
-                    context.Trace("condition evaluated into {0}", _evaluationValue.ToString());
+                    context.Trace("condition evaluated into {0}", evaluationValue.ToString());
                     return EvaluationValue.True;
                 }
                 else
@@ -89,12 +89,12 @@ namespace Anycmd.Xacml.Runtime
                     // evaluation and return an Indeterminate, otherwise return the False value.
                     if (context.IsMissingAttribute)
                     {
-                        context.Trace("condition evaluated into {0}", _evaluationValue.ToString());
+                        context.Trace("condition evaluated into {0}", evaluationValue.ToString());
                         return EvaluationValue.Indeterminate;
                     }
                     else
                     {
-                        context.Trace("condition evaluated into {0}", _evaluationValue.ToString());
+                        context.Trace("condition evaluated into {0}", evaluationValue.ToString());
                         return EvaluationValue.False;
                     }
                 }
@@ -104,7 +104,7 @@ namespace Anycmd.Xacml.Runtime
                 context.TraceContextValues();
 
                 context.RemoveIndent();
-                context.Trace("Condition: {0}", _evaluationValue.ToString());
+                context.Trace("Condition: {0}", evaluationValue == null ? string.Empty : evaluationValue.ToString());
             }
         }
 

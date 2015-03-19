@@ -1,6 +1,5 @@
-
-using inf = Anycmd.Xacml.Interfaces;
-using pol = Anycmd.Xacml.Policy;
+using Anycmd.Xacml.Interfaces;
+using Anycmd.Xacml.Policy;
 
 namespace Anycmd.Xacml.Runtime
 {
@@ -8,7 +7,7 @@ namespace Anycmd.Xacml.Runtime
     /// The policy combining algorithm described in the Appendix C.1. This class is a 
     /// translation of the pseudo-code placed in the documentation.
     /// </summary>
-    public class RuleCombiningAlgorithmDenyOverrides : inf.IRuleCombiningAlgorithm
+    public class RuleCombiningAlgorithmDenyOverrides : IRuleCombiningAlgorithm
     {
         #region Constructor
 
@@ -31,7 +30,7 @@ namespace Anycmd.Xacml.Runtime
         /// <returns>The final decission for the combination of the rule evaluation.</returns>
         public Decision Evaluate(EvaluationContext context, RuleCollection rules)
         {
-            Decision decision = Decision.Indeterminate;
+            var decision = Decision.Indeterminate;
 
             bool atLeastOneError = false;
             bool potentialDeny = false;
@@ -64,7 +63,7 @@ namespace Anycmd.Xacml.Runtime
                     if (decision == Decision.Indeterminate)
                     {
                         atLeastOneError = true;
-                        if (rule.RuleDefinition.Effect == pol.Effect.Deny)
+                        if (rule.RuleDefinition.Effect == Effect.Deny)
                         {
                             potentialDeny = true;
                         }

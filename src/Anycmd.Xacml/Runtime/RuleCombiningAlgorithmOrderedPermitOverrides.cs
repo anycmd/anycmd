@@ -1,6 +1,4 @@
 
-
-
 namespace Anycmd.Xacml.Runtime
 {
 	/// <summary>

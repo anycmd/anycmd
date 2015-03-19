@@ -1,6 +1,6 @@
-using System.Diagnostics;
 using Anycmd.Xacml.Interfaces;
 using System;
+using System.Diagnostics;
 using System.Xml;
 
 // ReSharper disable once CheckNamespace
