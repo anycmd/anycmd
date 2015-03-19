@@ -1,12 +1,12 @@
+using Anycmd.Xacml.Context;
+using Anycmd.Xacml.Interfaces;
+using Anycmd.Xacml.Policy;
+using Anycmd.Xacml.Runtime;
 using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Security.Permissions;
 using System.Xml;
-using ctx = Anycmd.Xacml.Context;
-using inf = Anycmd.Xacml.Interfaces;
-using pol = Anycmd.Xacml.Policy;
-using rtm = Anycmd.Xacml.Runtime;
 
 namespace Anycmd.Xacml.Extensions
 {
@@ -14,12 +14,12 @@ namespace Anycmd.Xacml.Extensions
     /// The default implementation of a repository attribute that uses the configuration file to define the 
     /// attribute.
     /// </summary>
-    public class DefaultAttributeRepository : inf.IAttributeRepository
+    public class DefaultAttributeRepository : IAttributeRepository
     {
         /// <summary>
         /// The attributes defined in the configuration file.
         /// </summary>
-        private readonly ctx.AttributeCollection _attributes = new ctx.AttributeCollection();
+        private readonly AttributeCollection _attributes = new AttributeCollection();
 
         /// <summary>
         /// Default public constructor.
@@ -57,7 +57,7 @@ namespace Anycmd.Xacml.Extensions
 
                 // Add a new instance of the Attribute class using the configuration information
                 _attributes.Add(
-                    new ctx.AttributeElement(
+                    new AttributeElement(
                         attributeId,
                         dataType,
                         issuer,
@@ -71,11 +71,11 @@ namespace Anycmd.Xacml.Extensions
         /// <param name="context">The evaluation context instance.</param>
         /// <param name="designator">The attribute designator.</param>
         /// <returns>An instance of an Attribute with it's value.</returns>
-        public ctx.AttributeElement GetAttribute(rtm.EvaluationContext context, pol.AttributeDesignatorBase designator)
+        public AttributeElement GetAttribute(EvaluationContext context, AttributeDesignatorBase designator)
         {
             if (context == null) throw new ArgumentNullException("context");
             if (designator == null) throw new ArgumentNullException("designator");
-            foreach (var attrib in _attributes.Cast<ctx.AttributeElement>().Where(attrib => attrib.AttributeId == designator.AttributeId))
+            foreach (var attrib in _attributes.Cast<AttributeElement>().Where(attrib => attrib.AttributeId == designator.AttributeId))
             {
                 if (!string.IsNullOrEmpty(designator.Issuer))
                 {

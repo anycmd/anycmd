@@ -1,8 +1,7 @@
+using Anycmd.Xacml.Context;
 using System;
 using System.Collections;
 using System.Globalization;
-
-using ctx = Anycmd.Xacml.Context;
 
 namespace Anycmd.Xacml.Runtime
 {
@@ -28,7 +27,7 @@ namespace Anycmd.Xacml.Runtime
         /// <summary>
         /// The context document instance.
         /// </summary>
-        private readonly ctx.ContextDocument _contextDocument;
+        private readonly ContextDocument _contextDocument;
 
         /// <summary>
         /// The current indentation level.
@@ -57,19 +56,19 @@ namespace Anycmd.Xacml.Runtime
         /// <param name="engine">The engine instance.</param>
         /// <param name="policyDocument">The policy document instance.</param>
         /// <param name="contextDocument">The context document instance.</param>
-        public EvaluationContext(EvaluationEngine engine, PolicyDocument policyDocument, ctx.ContextDocument contextDocument)
+        public EvaluationContext(EvaluationEngine engine, PolicyDocument policyDocument, ContextDocument contextDocument)
             : this()
         {
-            ctx.AttributeReadWriteCollection attributes = new ctx.AttributeReadWriteCollection();
-            foreach (ctx.AttributeElementReadWrite attribute in contextDocument.Request.Resources[0].Attributes)
+            var attributes = new AttributeReadWriteCollection();
+            foreach (AttributeElementReadWrite attribute in contextDocument.Request.Resources[0].Attributes)
             {
-                attributes.Add(new ctx.AttributeElementReadWrite(attribute));
+                attributes.Add(new AttributeElementReadWrite(attribute));
             }
 
-            ctx.ResourceContentElement resourceContent = null;
+            ResourceContentElement resourceContent = null;
             if (contextDocument.Request.Resources[0].ResourceContent != null)
             {
-                resourceContent = new ctx.ResourceContentElement(
+                resourceContent = new ResourceContentElement(
                         contextDocument.Request.Resources[0].ResourceContent.XmlDocument,
                         contextDocument.Request.Resources[0].ResourceContent.SchemaVersion);
             }
@@ -77,7 +76,7 @@ namespace Anycmd.Xacml.Runtime
             _engine = engine;
             _policyDocument = policyDocument;
             _contextDocument = contextDocument;
-            CurrentResource = new ctx.ResourceElementReadWrite(
+            CurrentResource = new ResourceElementReadWrite(
                 resourceContent,
                 contextDocument.Request.Resources[0].ResourceScopeValue,
                 attributes,
@@ -107,7 +106,7 @@ namespace Anycmd.Xacml.Runtime
         /// <summary>
         /// The context document instance.
         /// </summary>
-        public ctx.ContextDocument ContextDocument
+        public ContextDocument ContextDocument
         {
             get { return _contextDocument; }
         }
@@ -115,7 +114,7 @@ namespace Anycmd.Xacml.Runtime
         /// <summary>
         /// The current resource for evatuation.
         /// </summary>
-        public ctx.ResourceElementReadWrite CurrentResource { get; set; }
+        public ResourceElementReadWrite CurrentResource { get; set; }
 
         /// <summary>
         /// Whether an attribute was not found during the evaluation.

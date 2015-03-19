@@ -1,9 +1,9 @@
-using System;
-using Anycmd.Xacml.Policy.TargetItems;
-using ctx = Anycmd.Xacml.Context;
+using System.Diagnostics;
 using Anycmd.Xacml.Interfaces;
 using Anycmd.Xacml.Policy;
-using rtm = Anycmd.Xacml.Runtime;
+using Anycmd.Xacml.Policy.TargetItems;
+using System;
+using ctx = Anycmd.Xacml.Context;
 
 namespace Anycmd.Xacml.Runtime
 {
@@ -100,13 +100,14 @@ namespace Anycmd.Xacml.Runtime
             // Iterate through the arguments, the IExpressionType is a mark interface
             foreach (IExpression arg in arguments)
             {
-                if (arg is ApplyElement)
+                var apply = arg as ApplyElement;
+                if (apply != null)
                 {
                     context.Trace("Nested apply");
 
                     // There is a nested apply un this policy a new Apply will be created and also 
                     // evaluated. It's return value will be used as the processed argument.
-                    Apply childApply = new Apply((ApplyElement)arg);
+                    var childApply = new Apply(apply);
 
                     // Evaluate the Apply
                     EvaluationValue retVal = childApply.Evaluate(context);
@@ -153,6 +154,7 @@ namespace Anycmd.Xacml.Runtime
 
                     context.TraceContextValues();
 
+                    Debug.Assert(variableDef != null, "variableDef != null");
                     processedArguments.Add(!variableDef.IsEvaluated ? variableDef.Evaluate(context) : variableDef.Value);
                 }
                 else if (arg is AttributeValueElementReadWrite)
@@ -198,7 +200,7 @@ namespace Anycmd.Xacml.Runtime
                             }
                             else if (arg is ActionAttributeDesignatorElement)
                             {
-                                ctx.AttributeElement attrib = rtm.EvaluationEngine.GetAttribute(context, attrDes);
+                                ctx.AttributeElement attrib = EvaluationEngine.GetAttribute(context, attrDes);
                                 if (attrib != null)
                                 {
                                     context.Trace("Adding action attribute designator {0}", attrib.ToString());
@@ -207,7 +209,7 @@ namespace Anycmd.Xacml.Runtime
                             }
                             else if (arg is EnvironmentAttributeDesignatorElement)
                             {
-                                ctx.AttributeElement attrib = rtm.EvaluationEngine.GetAttribute(context, attrDes);
+                                ctx.AttributeElement attrib = EvaluationEngine.GetAttribute(context, attrDes);
                                 if (attrib != null)
                                 {
                                     context.Trace("Adding environment attribute designator {0}", attrib.ToString());

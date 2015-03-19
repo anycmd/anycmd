@@ -1,9 +1,9 @@
+using Anycmd.Xacml.Interfaces;
 using System;
 using System.Collections;
 using System.Diagnostics;
 using System.Security.Permissions;
 using System.Xml;
-using inf = Anycmd.Xacml.Interfaces;
 
 namespace Anycmd.Xacml.Extensions
 {
@@ -11,7 +11,7 @@ namespace Anycmd.Xacml.Extensions
     /// Default data type repository which uses the configuration file to define the external 
     /// data types.
     /// </summary>
-    public class DefaultRuleCombiningAlgorithmRepository : inf.IRuleCombiningAlgorithmRepository
+    public class DefaultRuleCombiningAlgorithmRepository : IRuleCombiningAlgorithmRepository
     {
         #region Private members
 
@@ -56,7 +56,7 @@ namespace Anycmd.Xacml.Extensions
                 {
                     throw new EvaluationException();
                 }
-                var rca = (inf.IRuleCombiningAlgorithm)Activator.CreateInstance(type);
+                var rca = (IRuleCombiningAlgorithm)Activator.CreateInstance(type);
                 _algorithms.Add(node.Attributes["id"].Value, rca);
             }
         }
@@ -66,9 +66,9 @@ namespace Anycmd.Xacml.Extensions
         /// </summary>
         /// <param name="ruleCombiningAlgorithmId">The ruleCombiningAlgorithm id referenced in the policy document.</param>
         /// <returns>The ruleCombiningAlgorithm instance or null if the ruleCombiningAlgorithm was not found.</returns>
-        public inf.IRuleCombiningAlgorithm GetRuleCombiningAlgorithm(string ruleCombiningAlgorithmId)
+        public IRuleCombiningAlgorithm GetRuleCombiningAlgorithm(string ruleCombiningAlgorithmId)
         {
-            return _algorithms[ruleCombiningAlgorithmId] as inf.IRuleCombiningAlgorithm;
+            return _algorithms[ruleCombiningAlgorithmId] as IRuleCombiningAlgorithm;
         }
 
         #endregion

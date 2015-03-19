@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Security.Permissions;
 using System.Xml;
-using inf = Anycmd.Xacml.Interfaces;
 
 namespace Anycmd.Xacml.Extensions
 {
@@ -12,7 +11,7 @@ namespace Anycmd.Xacml.Extensions
     /// Default data type repository which uses the configuration file to define the external 
     /// data types.
     /// </summary>
-    public class DefaultDataTypeRepository : inf.IDataTypeRepository
+    public class DefaultDataTypeRepository : IDataTypeRepository
     {
         #region Private members
 
