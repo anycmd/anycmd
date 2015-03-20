@@ -148,7 +148,7 @@
           <NewMemberFileName>Consts\Consts.Schema1.AttributeAssignmentElement.cs</NewMemberFileName>
         </TypeIdentifier>
       </Class>
-      <Class Name="Anycmd.Xacml.Consts.Schema1.ActionElement" Collapsed="true">
+      <Class Name="Anycmd.Xacml.Consts.Schema1.ActionElement">
         <TypeIdentifier>
           <NewMemberFileName>Consts\Consts.Schema1.ActionElement.cs</NewMemberFileName>
         </TypeIdentifier>
