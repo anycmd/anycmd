@@ -1,10 +1,10 @@
 ﻿
 namespace Anycmd.Xacml.Consts
 {
-    public static partial class ContextSchema
+    public partial class ContextSchema
     {
         /// <summary>The name of the element/attribute in the XSD schema.</summary>
-        public static class RequestElement
+        public class RequestElement
         {
             /// <summary>The name of the element/attribute in the XSD schema.</summary>
             public const string Request = "Request";

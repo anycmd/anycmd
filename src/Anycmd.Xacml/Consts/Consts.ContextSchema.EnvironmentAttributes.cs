@@ -1,10 +1,10 @@
 ﻿
 namespace Anycmd.Xacml.Consts
 {
-    public static partial class ContextSchema
+    public partial class ContextSchema
     {
         /// <summary>The name of the element/attribute in the XSD schema.</summary>
-        public static class EnvironmentAttributes
+        public class EnvironmentAttributes
         {
             /// <summary>The name of the element/attribute in the XSD schema.</summary>
             public const string CurrentTime = "urn:oasis:names:tc:xacml:1.0:environment:current-time";

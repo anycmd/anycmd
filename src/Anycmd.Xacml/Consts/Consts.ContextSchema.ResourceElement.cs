@@ -1,10 +1,10 @@
 ﻿
 namespace Anycmd.Xacml.Consts
 {
-    public static partial class ContextSchema
+    public partial class ContextSchema
     {
         /// <summary>The name of the element/attribute in the XSD schema.</summary>
-        public static class ResourceElement
+        public class ResourceElement
         {
             /// <summary>The name of the element/attribute in the XSD schema.</summary>
             public const string ResourceContent = "ResourceContent";

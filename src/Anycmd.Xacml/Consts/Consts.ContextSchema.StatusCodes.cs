@@ -1,10 +1,10 @@
 ﻿
 namespace Anycmd.Xacml.Consts
 {
-    public static partial class ContextSchema
+    public partial class ContextSchema
     {
         /// <summary>The name of the element/attribute in the XSD schema.</summary>
-        public static class StatusCodes
+        public class StatusCodes
         {
             /// <summary>The name of the element/attribute in the XSD schema.</summary>
             public const string Ok = "urn:oasis:names:tc:xacml:1.0:status:ok";
