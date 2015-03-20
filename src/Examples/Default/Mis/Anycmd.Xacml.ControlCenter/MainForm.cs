@@ -18,37 +18,33 @@ namespace Anycmd.Xacml.ControlCenter
 	/// <summary>
 	/// Summary description for MainForm.
 	/// </summary>
-	public class MainForm : System.Windows.Forms.Form
+	public class MainForm : Form
 	{
-		/// <summary>
-		/// 
-		/// </summary>
-		public static readonly System.Drawing.Font DEFAULT_FONT = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-		private System.Windows.Forms.MenuItem menuItemFile;
-		private System.Windows.Forms.TreeView mainTree;
-		private System.Windows.Forms.ImageList mainImageList;
-		private System.Windows.Forms.MenuItem menuItemOpenPolicy;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.Splitter splitter1;
-		private System.Windows.Forms.ContextMenu contextMenu;
-		private System.Windows.Forms.Panel mainPanel;
-		private System.Windows.Forms.MainMenu mainMenu;
-		private System.Windows.Forms.MenuItem menuItemHelp;
-		private System.Windows.Forms.MenuItem menuItemAbout;
-		private System.Windows.Forms.MenuItem mniCreateNew;
-		private System.Windows.Forms.MenuItem mniDelete;
-		private System.Windows.Forms.OpenFileDialog openFileDialog;
-		private System.Windows.Forms.MenuItem menuItemSaveAs;
-		private System.Windows.Forms.SaveFileDialog saveFileDialog;
+		private MenuItem _menuItemFile;
+		private TreeView _mainTree;
+		private ImageList _mainImageList;
+		private MenuItem _menuItemOpenPolicy;
+		private Panel _panel1;
+		private Splitter _splitter1;
+		private ContextMenu _contextMenu;
+		private Panel _mainPanel;
+		private MainMenu _mainMenu;
+		private MenuItem _menuItemHelp;
+		private MenuItem _menuItemAbout;
+		private MenuItem _mniCreateNew;
+		private MenuItem _mniDelete;
+		private OpenFileDialog _openFileDialog;
+		private MenuItem _menuItemSaveAs;
+		private SaveFileDialog _saveFileDialog;
 		private System.ComponentModel.IContainer components;
-		private System.Windows.Forms.MenuItem menuItemClose;
-		private System.Windows.Forms.MenuItem menuItemOpenRequest;
+		private MenuItem _menuItemClose;
+		private MenuItem _menuItemOpenRequest;
 		private string _path = string.Empty;
-		private System.Windows.Forms.MenuItem menuItemContext;
-		private System.Windows.Forms.MenuItem menuItemRunPolicy;
-		private System.Windows.Forms.MenuItem menuItemRunRequest;
-		private System.Windows.Forms.MenuItem menuItemSave;
-		private DocumentType docType;
+		private MenuItem _menuItemContext;
+		private MenuItem _menuItemRunPolicy;
+		private MenuItem _menuItemRunRequest;
+		private MenuItem _menuItemSave;
+		private DocumentType _docType;
 
 		/// <summary>
 		/// 
@@ -83,214 +79,209 @@ namespace Anycmd.Xacml.ControlCenter
 		/// </summary>
 		private void InitializeComponent()
 		{
-            this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.mainTree = new System.Windows.Forms.TreeView();
-            this.contextMenu = new System.Windows.Forms.ContextMenu();
-            this.mniCreateNew = new System.Windows.Forms.MenuItem();
-            this.mniDelete = new System.Windows.Forms.MenuItem();
-            this.mainImageList = new System.Windows.Forms.ImageList(this.components);
-            this.mainMenu = new System.Windows.Forms.MainMenu(this.components);
-            this.menuItemFile = new System.Windows.Forms.MenuItem();
-            this.menuItemOpenPolicy = new System.Windows.Forms.MenuItem();
-            this.menuItemOpenRequest = new System.Windows.Forms.MenuItem();
-            this.menuItemSave = new System.Windows.Forms.MenuItem();
-            this.menuItemSaveAs = new System.Windows.Forms.MenuItem();
-            this.menuItemClose = new System.Windows.Forms.MenuItem();
-            this.menuItemContext = new System.Windows.Forms.MenuItem();
-            this.menuItemRunPolicy = new System.Windows.Forms.MenuItem();
-            this.menuItemRunRequest = new System.Windows.Forms.MenuItem();
-            this.menuItemHelp = new System.Windows.Forms.MenuItem();
-            this.menuItemAbout = new System.Windows.Forms.MenuItem();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.mainPanel = new System.Windows.Forms.Panel();
-            this.splitter1 = new System.Windows.Forms.Splitter();
-            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
-            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.panel1.SuspendLayout();
-            this.SuspendLayout();
-            // 
-            // mainTree
-            // 
-            this.mainTree.AllowDrop = true;
-            this.mainTree.ContextMenu = this.contextMenu;
-            this.mainTree.Dock = System.Windows.Forms.DockStyle.Left;
-            this.mainTree.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.mainTree.FullRowSelect = true;
-            this.mainTree.HotTracking = true;
-            this.mainTree.ImageIndex = 0;
-            this.mainTree.ImageList = this.mainImageList;
-            this.mainTree.Location = new System.Drawing.Point(0, 0);
-            this.mainTree.Name = "mainTree";
-            this.mainTree.SelectedImageIndex = 0;
-            this.mainTree.Size = new System.Drawing.Size(342, 625);
-            this.mainTree.TabIndex = 0;
-            this.mainTree.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.mainTree_BeforeSelect);
-            this.mainTree.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.mainTree_AfterSelect);
-            this.mainTree.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mainTree_MouseDown);
-            // 
-            // contextMenu
-            // 
-            this.contextMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.mniCreateNew,
-            this.mniDelete});
-            this.contextMenu.Popup += new System.EventHandler(this.contextMenu_Popup);
-            // 
-            // mniCreateNew
-            // 
-            this.mniCreateNew.Index = 0;
-            this.mniCreateNew.Text = "Create new";
-            // 
-            // mniDelete
-            // 
-            this.mniDelete.Index = 1;
-            this.mniDelete.Text = "Delete";
-            this.mniDelete.Click += new System.EventHandler(this.mniDelete_Click);
-            // 
-            // mainImageList
-            // 
-            this.mainImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("mainImageList.ImageStream")));
-            this.mainImageList.TransparentColor = System.Drawing.Color.Transparent;
-            this.mainImageList.Images.SetKeyName(0, "");
-            this.mainImageList.Images.SetKeyName(1, "");
-            this.mainImageList.Images.SetKeyName(2, "");
-            this.mainImageList.Images.SetKeyName(3, "");
-            this.mainImageList.Images.SetKeyName(4, "");
-            // 
-            // mainMenu
-            // 
-            this.mainMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.menuItemFile,
-            this.menuItemContext,
-            this.menuItemHelp});
-            // 
-            // menuItemFile
-            // 
-            this.menuItemFile.Index = 0;
-            this.menuItemFile.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.menuItemOpenPolicy,
-            this.menuItemOpenRequest,
-            this.menuItemSave,
-            this.menuItemSaveAs,
-            this.menuItemClose});
-            this.menuItemFile.Text = "File";
-            // 
-            // menuItemOpenPolicy
-            // 
-            this.menuItemOpenPolicy.Index = 0;
-            this.menuItemOpenPolicy.Text = "Open Policy...";
-            this.menuItemOpenPolicy.Click += new System.EventHandler(this.menuItem2_Click);
-            // 
-            // menuItemOpenRequest
-            // 
-            this.menuItemOpenRequest.Index = 1;
-            this.menuItemOpenRequest.Text = "Open Request...";
-            this.menuItemOpenRequest.Click += new System.EventHandler(this.menuItem5_Click);
-            // 
-            // menuItemSave
-            // 
-            this.menuItemSave.Enabled = false;
-            this.menuItemSave.Index = 2;
-            this.menuItemSave.Text = "Save";
-            this.menuItemSave.Click += new System.EventHandler(this.menuItem9_Click);
-            // 
-            // menuItemSaveAs
-            // 
-            this.menuItemSaveAs.Enabled = false;
-            this.menuItemSaveAs.Index = 3;
-            this.menuItemSaveAs.Text = "Save as...";
-            this.menuItemSaveAs.Click += new System.EventHandler(this.menuItem3_Click);
-            // 
-            // menuItemClose
-            // 
-            this.menuItemClose.Index = 4;
-            this.menuItemClose.Text = "Close";
-            this.menuItemClose.Click += new System.EventHandler(this.menuItem4_Click);
-            // 
-            // menuItemContext
-            // 
-            this.menuItemContext.Index = 1;
-            this.menuItemContext.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.menuItemRunPolicy,
-            this.menuItemRunRequest});
-            this.menuItemContext.Text = "Context";
-            // 
-            // menuItemRunPolicy
-            // 
-            this.menuItemRunPolicy.Enabled = false;
-            this.menuItemRunPolicy.Index = 0;
-            this.menuItemRunPolicy.Text = "Run with policy...";
-            this.menuItemRunPolicy.Click += new System.EventHandler(this.menuItem7_Click);
-            // 
-            // menuItemRunRequest
-            // 
-            this.menuItemRunRequest.Enabled = false;
-            this.menuItemRunRequest.Index = 1;
-            this.menuItemRunRequest.Text = "Run with request...";
-            this.menuItemRunRequest.Click += new System.EventHandler(this.menuItem8_Click);
-            // 
-            // menuItemHelp
-            // 
-            this.menuItemHelp.Index = 2;
-            this.menuItemHelp.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.menuItemAbout});
-            this.menuItemHelp.Text = "Help";
-            // 
-            // menuItemAbout
-            // 
-            this.menuItemAbout.Index = 0;
-            this.menuItemAbout.Text = "About";
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.mainPanel);
-            this.panel1.Controls.Add(this.splitter1);
-            this.panel1.Controls.Add(this.mainTree);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(964, 625);
-            this.panel1.TabIndex = 3;
-            // 
-            // mainPanel
-            // 
-            this.mainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mainPanel.Location = new System.Drawing.Point(346, 0);
-            this.mainPanel.Name = "mainPanel";
-            this.mainPanel.Size = new System.Drawing.Size(618, 625);
-            this.mainPanel.TabIndex = 4;
-            // 
-            // splitter1
-            // 
-            this.splitter1.Location = new System.Drawing.Point(342, 0);
-            this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(4, 625);
-            this.splitter1.TabIndex = 3;
-            this.splitter1.TabStop = false;
-            // 
-            // openFileDialog
-            // 
-            this.openFileDialog.DefaultExt = "xml";
-            this.openFileDialog.Filter = "Policy Files|*.xml|All Files|*.*";
-            this.openFileDialog.InitialDirectory = ".";
-            // 
-            // saveFileDialog
-            // 
-            this.saveFileDialog.CreatePrompt = true;
-            this.saveFileDialog.DefaultExt = "xml";
-            this.saveFileDialog.Filter = "Policy Files|*.xml|All Files|*.*";
-            // 
-            // MainForm
-            // 
-            this.AutoScaleBaseSize = new System.Drawing.Size(6, 14);
-            this.ClientSize = new System.Drawing.Size(964, 625);
-            this.Controls.Add(this.panel1);
-            this.Menu = this.mainMenu;
-            this.Name = "MainForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Xacml±à¼­Æ÷";
-            this.panel1.ResumeLayout(false);
-            this.ResumeLayout(false);
+			this.components = new System.ComponentModel.Container();
+			this._mainTree = new System.Windows.Forms.TreeView();
+			this._contextMenu = new System.Windows.Forms.ContextMenu();
+			this._mniCreateNew = new System.Windows.Forms.MenuItem();
+			this._mniDelete = new System.Windows.Forms.MenuItem();
+			this._mainImageList = new System.Windows.Forms.ImageList(this.components);
+			this._mainMenu = new System.Windows.Forms.MainMenu(this.components);
+			this._menuItemFile = new System.Windows.Forms.MenuItem();
+			this._menuItemOpenPolicy = new System.Windows.Forms.MenuItem();
+			this._menuItemOpenRequest = new System.Windows.Forms.MenuItem();
+			this._menuItemSave = new System.Windows.Forms.MenuItem();
+			this._menuItemSaveAs = new System.Windows.Forms.MenuItem();
+			this._menuItemClose = new System.Windows.Forms.MenuItem();
+			this._menuItemContext = new System.Windows.Forms.MenuItem();
+			this._menuItemRunPolicy = new System.Windows.Forms.MenuItem();
+			this._menuItemRunRequest = new System.Windows.Forms.MenuItem();
+			this._menuItemHelp = new System.Windows.Forms.MenuItem();
+			this._menuItemAbout = new System.Windows.Forms.MenuItem();
+			this._panel1 = new System.Windows.Forms.Panel();
+			this._mainPanel = new System.Windows.Forms.Panel();
+			this._splitter1 = new System.Windows.Forms.Splitter();
+			this._openFileDialog = new System.Windows.Forms.OpenFileDialog();
+			this._saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+			this._panel1.SuspendLayout();
+			this.SuspendLayout();
+			// 
+			// _mainTree
+			// 
+			this._mainTree.AllowDrop = true;
+			this._mainTree.ContextMenu = this._contextMenu;
+			this._mainTree.Dock = System.Windows.Forms.DockStyle.Left;
+			this._mainTree.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this._mainTree.FullRowSelect = true;
+			this._mainTree.HotTracking = true;
+			this._mainTree.ImageIndex = 0;
+			this._mainTree.ImageList = this._mainImageList;
+			this._mainTree.Location = new System.Drawing.Point(0, 0);
+			this._mainTree.Name = "_mainTree";
+			this._mainTree.SelectedImageIndex = 0;
+			this._mainTree.Size = new System.Drawing.Size(342, 625);
+			this._mainTree.TabIndex = 0;
+			this._mainTree.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.mainTree_BeforeSelect);
+			this._mainTree.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.mainTree_AfterSelect);
+			this._mainTree.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mainTree_MouseDown);
+			// 
+			// _contextMenu
+			// 
+			this._contextMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this._mniCreateNew,
+			this._mniDelete});
+			this._contextMenu.Popup += new System.EventHandler(this.contextMenu_Popup);
+			// 
+			// _mniCreateNew
+			// 
+			this._mniCreateNew.Index = 0;
+			this._mniCreateNew.Text = "Create new";
+			// 
+			// _mniDelete
+			// 
+			this._mniDelete.Index = 1;
+			this._mniDelete.Text = "Delete";
+			this._mniDelete.Click += new System.EventHandler(this.mniDelete_Click);
+			// 
+			// _mainImageList
+			// 
+			this._mainImageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
+			this._mainImageList.ImageSize = new System.Drawing.Size(16, 16);
+			this._mainImageList.TransparentColor = System.Drawing.Color.Transparent;
+			// 
+			// _mainMenu
+			// 
+			this._mainMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this._menuItemFile,
+			this._menuItemContext,
+			this._menuItemHelp});
+			// 
+			// _menuItemFile
+			// 
+			this._menuItemFile.Index = 0;
+			this._menuItemFile.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this._menuItemOpenPolicy,
+			this._menuItemOpenRequest,
+			this._menuItemSave,
+			this._menuItemSaveAs,
+			this._menuItemClose});
+			this._menuItemFile.Text = "File";
+			// 
+			// _menuItemOpenPolicy
+			// 
+			this._menuItemOpenPolicy.Index = 0;
+			this._menuItemOpenPolicy.Text = "Open Policy...";
+			this._menuItemOpenPolicy.Click += new System.EventHandler(this.menuItemOpenPolicy_Click);
+			// 
+			// _menuItemOpenRequest
+			// 
+			this._menuItemOpenRequest.Index = 1;
+			this._menuItemOpenRequest.Text = "Open Request...";
+			this._menuItemOpenRequest.Click += new System.EventHandler(this.menuItemOpenRequest_Click);
+			// 
+			// _menuItemSave
+			// 
+			this._menuItemSave.Enabled = false;
+			this._menuItemSave.Index = 2;
+			this._menuItemSave.Text = "Save";
+			this._menuItemSave.Click += new System.EventHandler(this.menuItemSave_Click);
+			// 
+			// _menuItemSaveAs
+			// 
+			this._menuItemSaveAs.Enabled = false;
+			this._menuItemSaveAs.Index = 3;
+			this._menuItemSaveAs.Text = "Save as...";
+			this._menuItemSaveAs.Click += new System.EventHandler(this.menuItemSaveAs_Click);
+			// 
+			// _menuItemClose
+			// 
+			this._menuItemClose.Index = 4;
+			this._menuItemClose.Text = "Close";
+			this._menuItemClose.Click += new System.EventHandler(this.menuItemClose_Click);
+			// 
+			// _menuItemContext
+			// 
+			this._menuItemContext.Index = 1;
+			this._menuItemContext.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this._menuItemRunPolicy,
+			this._menuItemRunRequest});
+			this._menuItemContext.Text = "Context";
+			// 
+			// _menuItemRunPolicy
+			// 
+			this._menuItemRunPolicy.Enabled = false;
+			this._menuItemRunPolicy.Index = 0;
+			this._menuItemRunPolicy.Text = "Run with policy...";
+			this._menuItemRunPolicy.Click += new System.EventHandler(this.menuItemRunPolicy_Click);
+			// 
+			// _menuItemRunRequest
+			// 
+			this._menuItemRunRequest.Enabled = false;
+			this._menuItemRunRequest.Index = 1;
+			this._menuItemRunRequest.Text = "Run with request...";
+			this._menuItemRunRequest.Click += new System.EventHandler(this.menuItemRunRequest_Click);
+			// 
+			// _menuItemHelp
+			// 
+			this._menuItemHelp.Index = 2;
+			this._menuItemHelp.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this._menuItemAbout});
+			this._menuItemHelp.Text = "Help";
+			// 
+			// _menuItemAbout
+			// 
+			this._menuItemAbout.Index = 0;
+			this._menuItemAbout.Text = "About";
+			// 
+			// _panel1
+			// 
+			this._panel1.Controls.Add(this._mainPanel);
+			this._panel1.Controls.Add(this._splitter1);
+			this._panel1.Controls.Add(this._mainTree);
+			this._panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this._panel1.Location = new System.Drawing.Point(0, 0);
+			this._panel1.Name = "_panel1";
+			this._panel1.Size = new System.Drawing.Size(964, 625);
+			this._panel1.TabIndex = 3;
+			// 
+			// _mainPanel
+			// 
+			this._mainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+			this._mainPanel.Location = new System.Drawing.Point(346, 0);
+			this._mainPanel.Name = "_mainPanel";
+			this._mainPanel.Size = new System.Drawing.Size(618, 625);
+			this._mainPanel.TabIndex = 4;
+			// 
+			// _splitter1
+			// 
+			this._splitter1.Location = new System.Drawing.Point(342, 0);
+			this._splitter1.Name = "_splitter1";
+			this._splitter1.Size = new System.Drawing.Size(4, 625);
+			this._splitter1.TabIndex = 3;
+			this._splitter1.TabStop = false;
+			// 
+			// _openFileDialog
+			// 
+			this._openFileDialog.DefaultExt = "xml";
+			this._openFileDialog.Filter = "Policy Files|*.xml|All Files|*.*";
+			this._openFileDialog.InitialDirectory = ".";
+			// 
+			// _saveFileDialog
+			// 
+			this._saveFileDialog.CreatePrompt = true;
+			this._saveFileDialog.DefaultExt = "xml";
+			this._saveFileDialog.Filter = "Policy Files|*.xml|All Files|*.*";
+			// 
+			// MainForm
+			// 
+			this.AutoScaleBaseSize = new System.Drawing.Size(6, 14);
+			this.ClientSize = new System.Drawing.Size(964, 625);
+			this.Controls.Add(this._panel1);
+			this.Menu = this._mainMenu;
+			this.Name = "MainForm";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+			this.Text = "Xacml±à¼­Æ÷";
+			this._panel1.ResumeLayout(false);
+			this.ResumeLayout(false);
 
 		}
 		#endregion
@@ -300,22 +291,22 @@ namespace Anycmd.Xacml.ControlCenter
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void menuItem2_Click(object sender, System.EventArgs e)
+		private void menuItemOpenPolicy_Click(object sender, System.EventArgs e)
 		{
-			openFileDialog.Filter = "Policy Files|*.xml|All Files|*.*";
-			if (openFileDialog.ShowDialog() == DialogResult.OK)
+			_openFileDialog.Filter = @"Policy Files|*.xml|All Files|*.*";
+			if (_openFileDialog.ShowDialog() == DialogResult.OK)
 			{
-				System.IO.Stream stream = openFileDialog.OpenFile();
+				System.IO.Stream stream = _openFileDialog.OpenFile();
 				pol.PolicyDocumentReadWrite doc = PolicyLoader.LoadPolicyDocument(stream, XacmlVersion.Version11, DocumentAccess.ReadWrite);
-				_path = openFileDialog.FileName;
-				mainTree.Nodes.Add(new TreeNodes.PolicyDocument(doc));
-				docType = DocumentType.Policy;
-				menuItemSaveAs.Enabled = true;
-				menuItemSave.Enabled = true;
-				menuItemOpenPolicy.Enabled = false;
-				menuItemOpenRequest.Enabled = false;
-				menuItemRunRequest.Enabled = true;
-				menuItemRunPolicy.Enabled = false;
+				_path = _openFileDialog.FileName;
+				_mainTree.Nodes.Add(new TreeNodes.PolicyDocument(doc));
+				_docType = DocumentType.Policy;
+				_menuItemSaveAs.Enabled = true;
+				_menuItemSave.Enabled = true;
+				_menuItemOpenPolicy.Enabled = false;
+				_menuItemOpenRequest.Enabled = false;
+				_menuItemRunRequest.Enabled = true;
+				_menuItemRunPolicy.Enabled = false;
 				stream.Close();
 			}
 		}
@@ -325,67 +316,96 @@ namespace Anycmd.Xacml.ControlCenter
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void mainTree_AfterSelect(object sender, System.Windows.Forms.TreeViewEventArgs e)
+		private void mainTree_AfterSelect(object sender, TreeViewEventArgs e)
 		{
 			// Clear the main panel
-			mainPanel.Controls.Clear();
+			_mainPanel.Controls.Clear();
 
 			// If the control have been instantiated before use it, otherwise create the control.
 			if (e.Node.Tag != null)
 			{
-				mainPanel.Controls.Add((Control)e.Node.Tag);
+				_mainPanel.Controls.Add((Control)e.Node.Tag);
 			}
 			else
 			{
 				// Create the control depending on the node type.
-				if (e.Node is TreeNodes.PolicySet)
+				var policySet = e.Node as PolicySet;
+				if (policySet != null)
 				{
-					mainPanel.Controls.Add(new CustomControls.PolicySet(((TreeNodes.PolicySet)e.Node).PolicySetDefinition));
+					_mainPanel.Controls.Add(new CustomControls.PolicySet(policySet.PolicySetDefinition));
 				}
-				else if (e.Node is TreeNodes.Policy)
+				else
 				{
-					mainPanel.Controls.Add(new CustomControls.Policy(((TreeNodes.Policy)e.Node).PolicyDefinition));
-				}
-				else if (e.Node is TreeNodes.PolicyIdReference)
-				{
-				}
-				else if (e.Node is TreeNodes.PolicySetIdReference)
-				{
-				}
-				else if (e.Node is TreeNodes.Target)
-				{
-				}
-				else if (e.Node is TreeNodes.Obligations)
-				{
-					mainPanel.Controls.Add(new CustomControls.Obligations(((TreeNodes.Obligations)e.Node).ObligationDefinition));
-				}
-				else if (e.Node is TreeNodes.TargetItem)
-				{
-					mainPanel.Controls.Add(new CustomControls.TargetItem(((TreeNodes.TargetItem)e.Node).TargetItemDefinition));
-				}
-				else if (e.Node is TreeNodes.Rule)
-				{
-					mainPanel.Controls.Add(new CustomControls.Rule(((TreeNodes.Rule)e.Node).RuleDefinition));
-				}
-				else if (e.Node is TreeNodes.Condition)
-				{
-					mainPanel.Controls.Add(new CustomControls.Condition(((TreeNodes.Condition)e.Node).ConditionDefinition));
-				}
-				else if (e.Node is ContextTreeNodes.Attribute)
-				{
-					mainPanel.Controls.Add(new ContextCustomControls.Attribute(((ContextTreeNodes.Attribute)e.Node).AttributeDefinition));
-				}
-				else if (e.Node is ContextTreeNodes.Resource)
-				{
-					mainPanel.Controls.Add(new ContextCustomControls.Resource(((ContextTreeNodes.Resource)e.Node).ResourceDefinition));
+					var policy = e.Node as Policy;
+					if (policy != null)
+					{
+						_mainPanel.Controls.Add(new CustomControls.Policy(policy.PolicyDefinition));
+					}
+					else if (e.Node is PolicyIdReference)
+					{
+					}
+					else if (e.Node is PolicySetIdReference)
+					{
+					}
+					else if (e.Node is Target)
+					{
+					}
+					else
+					{
+						var obligations = e.Node as Obligations;
+						if (obligations != null)
+						{
+							_mainPanel.Controls.Add(new CustomControls.Obligations(obligations.ObligationDefinition));
+						}
+						else
+						{
+							var targetItem = e.Node as TargetItem;
+							if (targetItem != null)
+							{
+								_mainPanel.Controls.Add(new CustomControls.TargetItem(targetItem.TargetItemDefinition));
+							}
+							else
+							{
+								var rule = e.Node as Rule;
+								if (rule != null)
+								{
+									_mainPanel.Controls.Add(new CustomControls.Rule(rule.RuleDefinition));
+								}
+								else
+								{
+									var condition = e.Node as Condition;
+									if (condition != null)
+									{
+										_mainPanel.Controls.Add(new CustomControls.Condition(condition.ConditionDefinition));
+									}
+									else
+									{
+										var attribute = e.Node as Attribute;
+										if (attribute != null)
+										{
+											_mainPanel.Controls.Add(new ContextCustomControls.Attribute(attribute.AttributeDefinition));
+										}
+										else
+										{
+											var resource = e.Node as Resource;
+											if (resource != null)
+											{
+												_mainPanel.Controls.Add(new ContextCustomControls.Resource(resource.ResourceDefinition));
+											}
+										}
+									}
+								}
+							}
+						}
+					}
 				}
 
 				// If the control was created and added successfully, Dock it and keep the 
 				// instance in the tree node.
-				if (mainPanel.Controls.Count != 0)
+				if (_mainPanel.Controls.Count != 0)
 				{
-					mainPanel.Controls[0].Dock = DockStyle.Fill;
-					e.Node.Tag = mainPanel.Controls[0];
+					_mainPanel.Controls[0].Dock = DockStyle.Fill;
+					e.Node.Tag = _mainPanel.Controls[0];
 				}
 			}
 		}
@@ -395,126 +415,150 @@ namespace Anycmd.Xacml.ControlCenter
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void contextMenu_Popup(object sender, System.EventArgs e)
+		private void contextMenu_Popup(object sender, EventArgs e)
 		{
-			mniCreateNew.MenuItems.Clear();
-			if (mainTree.SelectedNode == null)
+			_mniCreateNew.MenuItems.Clear();
+			if (_mainTree.SelectedNode == null)
 			{
-				if (mainTree.Nodes.Count == 0)
+				if (_mainTree.Nodes.Count == 0)
 				{
-					mniCreateNew.MenuItems.Add("PolicyDocument", new EventHandler(CreatePolicyDocument));
-					mniCreateNew.MenuItems.Add("ContextDocument", new EventHandler(CreateContextDocument));
+					_mniCreateNew.MenuItems.Add("PolicyDocument", new EventHandler(CreatePolicyDocument));
+					_mniCreateNew.MenuItems.Add("ContextDocument", new EventHandler(CreateContextDocument));
 				}
-			}
-			else if (mainTree.SelectedNode is TreeNodes.PolicyDocument)
-			{
-				if (((TreeNodes.PolicyDocument)mainTree.SelectedNode).PolicyDocumentDefinition.Policy == null &&
-					((TreeNodes.PolicyDocument)mainTree.SelectedNode).PolicyDocumentDefinition.PolicySet == null)
-				{
-					mniCreateNew.MenuItems.Add("Policy", new EventHandler(CreatePolicyFromDocument));
-					mniCreateNew.MenuItems.Add("PolicySet", new EventHandler(CreatePolicySetFromDocument));
-				}
-			}
-			else if (mainTree.SelectedNode is TreeNodes.PolicySet)
-			{
-				mniCreateNew.MenuItems.Add("Policy", new EventHandler(CreatePolicy));
-				mniCreateNew.MenuItems.Add("PolicySet", new EventHandler(CreatePolicySet));
-				if (((TreeNodes.PolicySet)mainTree.SelectedNode).PolicySetDefinition.Target == null)
-				{
-					mniCreateNew.MenuItems.Add("Target", new EventHandler(CreateTarget));
-				}
-				if (((TreeNodes.PolicySet)mainTree.SelectedNode).PolicySetDefinition.Obligations == null)
-				{
-					mniCreateNew.MenuItems.Add("Obligations", new EventHandler(CreateObligationsFromPolicySet));
-				}
-			}
-			else if (mainTree.SelectedNode is TreeNodes.Policy)
-			{
-				mniCreateNew.MenuItems.Add("Rule", new EventHandler(CreateRule));
-				if (((TreeNodes.Policy)mainTree.SelectedNode).PolicyDefinition.Target == null)
-				{
-					mniCreateNew.MenuItems.Add("Target", new EventHandler(CreateTarget));
-				}
-				if (((TreeNodes.Policy)mainTree.SelectedNode).PolicyDefinition.Obligations == null)
-				{
-					mniCreateNew.MenuItems.Add("Obligations", new EventHandler(CreateObligationsFromPolicy));
-				}
-			}
-			else if (mainTree.SelectedNode is TreeNodes.Rule)
-			{
-				if (((TreeNodes.Rule)mainTree.SelectedNode).RuleDefinition.Condition == null)
-				{
-					mniCreateNew.MenuItems.Add("Condition", new EventHandler(CreateCondition));
-				}
-				if (((TreeNodes.Rule)mainTree.SelectedNode).RuleDefinition.Target == null)
-				{
-					mniCreateNew.MenuItems.Add("Target", new EventHandler(CreateTarget));
-				}
-			}
-			else if (mainTree.SelectedNode is TreeNodes.PolicyIdReference)
-			{
-			}
-			else if (mainTree.SelectedNode is TreeNodes.PolicySetIdReference)
-			{
-			}
-			else if (mainTree.SelectedNode is TreeNodes.Obligations)
-			{
-			}
-			else if (mainTree.SelectedNode is TreeNodes.Target)
-			{
-
-			}
-			else if (mainTree.SelectedNode is TreeNodes.TargetItem)
-			{
-			}
-			else if (mainTree.SelectedNode is TreeNodes.AnyTarget)
-			{
-				mniCreateNew.MenuItems.Add("Target", new EventHandler(CreateTarget));
-			}
-			else if (mainTree.SelectedNode is TreeNodes.AnySubject)
-			{
-				mniCreateNew.MenuItems.Add("Subject", new EventHandler(CreateTargetItem));
-			}
-			else if (mainTree.SelectedNode is TreeNodes.AnyAction)
-			{
-				mniCreateNew.MenuItems.Add("Action", new EventHandler(CreateTargetItem));
-			}
-			else if (mainTree.SelectedNode is TreeNodes.AnyResource)
-			{
-				mniCreateNew.MenuItems.Add("Resource", new EventHandler(CreateTargetItem));
-			}
-			else if (mainTree.SelectedNode is TreeNodes.Condition)
-			{
-			}
-			else if (mainTree.SelectedNode is ContextTreeNodes.Request)
-			{
-				if (((ContextTreeNodes.Request)mainTree.SelectedNode).RequestDefinition.Action == null)
-				{
-					mniCreateNew.MenuItems.Add("Action", new EventHandler(CreateContextActionElement));
-				}
-				mniCreateNew.MenuItems.Add("Resource", new EventHandler(CreateContextResourceElement));
-				mniCreateNew.MenuItems.Add("Subject", new EventHandler(CreateContextSubjectElement));
-			}
-			else if (mainTree.SelectedNode is ContextTreeNodes.Action || mainTree.SelectedNode is ContextTreeNodes.Resource ||
-				mainTree.SelectedNode is ContextTreeNodes.Subject)
-			{
-				mniCreateNew.MenuItems.Add("Attribute", new EventHandler(CreateContextAttributeElement));
-			}
-			else if (mainTree.SelectedNode is ContextTreeNodes.Context)
-			{
-				if (((ContextTreeNodes.Context)mainTree.SelectedNode).ContextDefinition.Request == null)
-				{
-					mniCreateNew.MenuItems.Add("Request", new EventHandler(CreateContextRequest));
-				}
-			}
-
-			if (mniCreateNew.MenuItems.Count == 0)
-			{
-				mniCreateNew.Visible = false;
 			}
 			else
 			{
-				mniCreateNew.Visible = true;
+				var policyDocument = _mainTree.SelectedNode as TreeNodes.PolicyDocument;
+				if (policyDocument != null)
+				{
+					if (policyDocument.PolicyDocumentDefinition.Policy == null &&
+						policyDocument.PolicyDocumentDefinition.PolicySet == null)
+					{
+						_mniCreateNew.MenuItems.Add("Policy", CreatePolicyFromDocument);
+						_mniCreateNew.MenuItems.Add("PolicySet", CreatePolicySetFromDocument);
+					}
+				}
+				else
+				{
+					var policySet = _mainTree.SelectedNode as PolicySet;
+					if (policySet != null)
+					{
+						_mniCreateNew.MenuItems.Add("Policy", CreatePolicy);
+						_mniCreateNew.MenuItems.Add("PolicySet", CreatePolicySet);
+						if (policySet.PolicySetDefinition.Target == null)
+						{
+							_mniCreateNew.MenuItems.Add("Target", CreateTarget);
+						}
+						if (policySet.PolicySetDefinition.Obligations == null)
+						{
+							_mniCreateNew.MenuItems.Add("Obligations", CreateObligationsFromPolicySet);
+						}
+					}
+					else
+					{
+						var policy = _mainTree.SelectedNode as Policy;
+						if (policy != null)
+						{
+							_mniCreateNew.MenuItems.Add("Rule", CreateRule);
+							if (policy.PolicyDefinition.Target == null)
+							{
+								_mniCreateNew.MenuItems.Add("Target", CreateTarget);
+							}
+							if (policy.PolicyDefinition.Obligations == null)
+							{
+								_mniCreateNew.MenuItems.Add("Obligations", CreateObligationsFromPolicy);
+							}
+						}
+						else
+						{
+							var rule = _mainTree.SelectedNode as Rule;
+							if (rule != null)
+							{
+								if (rule.RuleDefinition.Condition == null)
+								{
+									_mniCreateNew.MenuItems.Add("Condition", CreateCondition);
+								}
+								if (rule.RuleDefinition.Target == null)
+								{
+									_mniCreateNew.MenuItems.Add("Target", CreateTarget);
+								}
+							}
+							else if (_mainTree.SelectedNode is PolicyIdReference)
+							{
+							}
+							else if (_mainTree.SelectedNode is PolicySetIdReference)
+							{
+							}
+							else if (_mainTree.SelectedNode is Obligations)
+							{
+							}
+							else if (_mainTree.SelectedNode is Target)
+							{
+
+							}
+							else if (_mainTree.SelectedNode is TargetItem)
+							{
+							}
+							else if (_mainTree.SelectedNode is AnyTarget)
+							{
+								_mniCreateNew.MenuItems.Add("Target", CreateTarget);
+							}
+							else if (_mainTree.SelectedNode is AnySubject)
+							{
+								_mniCreateNew.MenuItems.Add("Subject", CreateTargetItem);
+							}
+							else if (_mainTree.SelectedNode is AnyAction)
+							{
+								_mniCreateNew.MenuItems.Add("Action", CreateTargetItem);
+							}
+							else if (_mainTree.SelectedNode is AnyResource)
+							{
+								_mniCreateNew.MenuItems.Add("Resource", CreateTargetItem);
+							}
+							else if (_mainTree.SelectedNode is Condition)
+							{
+							}
+							else
+							{
+								var request = _mainTree.SelectedNode as Request;
+								if (request != null)
+								{
+									if (request.RequestDefinition.Action == null)
+									{
+										_mniCreateNew.MenuItems.Add("Action", CreateContextActionElement);
+									}
+									_mniCreateNew.MenuItems.Add("Resource", CreateContextResourceElement);
+									_mniCreateNew.MenuItems.Add("Subject", CreateContextSubjectElement);
+								}
+								else if (_mainTree.SelectedNode is Action || _mainTree.SelectedNode is Resource ||
+										 _mainTree.SelectedNode is Subject)
+								{
+									_mniCreateNew.MenuItems.Add("Attribute", CreateContextAttributeElement);
+								}
+								else
+								{
+									var context = _mainTree.SelectedNode as Context;
+									if (context != null)
+									{
+										if (context.ContextDefinition.Request == null)
+										{
+											_mniCreateNew.MenuItems.Add("Request", CreateContextRequest);
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+
+			if (_mniCreateNew.MenuItems.Count == 0)
+			{
+				_mniCreateNew.Visible = false;
+			}
+			else
+			{
+				_mniCreateNew.Visible = true;
 			}
 		}
 
@@ -523,19 +567,19 @@ namespace Anycmd.Xacml.ControlCenter
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void mainTree_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
+		private void mainTree_MouseDown(object sender, MouseEventArgs e)
 		{
 			if (e.Button == MouseButtons.Right)
 			{
-				mainTree.SelectedNode = mainTree.GetNodeAt(e.X, e.Y);
+				_mainTree.SelectedNode = _mainTree.GetNodeAt(e.X, e.Y);
 			}
 		}
 
 		private void CreateContextSubjectElement(object sender, EventArgs args)
 		{
-			con.SubjectElementReadWrite newSubject = new con.SubjectElementReadWrite(string.Empty, new con.AttributeReadWriteCollection(), XacmlVersion.Version11);
-			ContextTreeNodes.Request requestNode = (ContextTreeNodes.Request)mainTree.SelectedNode;
-			ContextTreeNodes.Subject newNode = new Subject(newSubject);
+			var newSubject = new con.SubjectElementReadWrite(string.Empty, new con.AttributeReadWriteCollection(), XacmlVersion.Version11);
+			var requestNode = (Request)_mainTree.SelectedNode;
+			var newNode = new Subject(newSubject);
 			con.RequestElementReadWrite request = requestNode.RequestDefinition;
 
 			if (request.Subjects == null)
@@ -548,37 +592,37 @@ namespace Anycmd.Xacml.ControlCenter
 
 		private void CreateContextAttributeElement(object sender, EventArgs args)
 		{
-			TreeNodes.NoBoldNode node = (TreeNodes.NoBoldNode)mainTree.SelectedNode;
+			var node = (NoBoldNode)_mainTree.SelectedNode;
 
-			if (node is ContextTreeNodes.Action)
+			if (node is Action)
 			{
-				ContextTreeNodes.Action actionNode = (ContextTreeNodes.Action)mainTree.SelectedNode;
-				con.ActionElementReadWrite action = actionNode.ActionDefinition;
-				con.AttributeElementReadWrite attribute = new con.AttributeElementReadWrite(string.Empty, string.Empty, string.Empty,
+				var actionNode = (Action)_mainTree.SelectedNode;
+				var action = actionNode.ActionDefinition;
+				var attribute = new con.AttributeElementReadWrite(string.Empty, string.Empty, string.Empty,
 					string.Empty, "TODO: Add value", XacmlVersion.Version11);
-				ContextTreeNodes.Attribute attributeNode = new ContextTreeNodes.Attribute(attribute);
+				var attributeNode = new Attribute(attribute);
 
 				action.Attributes.Add(attribute);
 				actionNode.Nodes.Add(attributeNode);
 			}
-			else if (node is ContextTreeNodes.Resource)
+			else if (node is Resource)
 			{
-				ContextTreeNodes.Resource resourceNode = (ContextTreeNodes.Resource)mainTree.SelectedNode;
+				var resourceNode = (Resource)_mainTree.SelectedNode;
 				con.ResourceElementReadWrite resource = resourceNode.ResourceDefinition;
-				con.AttributeElementReadWrite attribute = new con.AttributeElementReadWrite(string.Empty, string.Empty, string.Empty,
+				var attribute = new con.AttributeElementReadWrite(string.Empty, string.Empty, string.Empty,
 					string.Empty, "TODO: Add value", XacmlVersion.Version11);
-				ContextTreeNodes.Attribute attributeNode = new ContextTreeNodes.Attribute(attribute);
+				var attributeNode = new Attribute(attribute);
 
 				resource.Attributes.Add(attribute);
 				resourceNode.Nodes.Add(attributeNode);
 			}
-			else if (node is ContextTreeNodes.Subject)
+			else if (node is Subject)
 			{
-				ContextTreeNodes.Subject subjectNode = (ContextTreeNodes.Subject)mainTree.SelectedNode;
+				var subjectNode = (Subject)_mainTree.SelectedNode;
 				con.SubjectElementReadWrite subject = subjectNode.SubjectDefinition;
-				con.AttributeElementReadWrite attribute = new con.AttributeElementReadWrite("urn:new_attribute", string.Empty, string.Empty,
+				var attribute = new con.AttributeElementReadWrite("urn:new_attribute", string.Empty, string.Empty,
 					string.Empty, "TODO: Add value", XacmlVersion.Version11);
-				ContextTreeNodes.Attribute attributeNode = new ContextTreeNodes.Attribute(attribute);
+				var attributeNode = new Attribute(attribute);
 
 				subject.Attributes.Add(attribute);
 				subjectNode.Nodes.Add(attributeNode);
@@ -587,9 +631,9 @@ namespace Anycmd.Xacml.ControlCenter
 
 		private void CreateContextActionElement(object sender, EventArgs args)
 		{
-			con.ActionElementReadWrite newAction = new con.ActionElementReadWrite(new con.AttributeReadWriteCollection(), XacmlVersion.Version11);
-			ContextTreeNodes.Request requestNode = (ContextTreeNodes.Request)mainTree.SelectedNode;
-			ContextTreeNodes.Action newNode = new Action(newAction);
+			var newAction = new con.ActionElementReadWrite(new con.AttributeReadWriteCollection(), XacmlVersion.Version11);
+			var requestNode = (Request)_mainTree.SelectedNode;
+			var newNode = new Action(newAction);
 			con.RequestElementReadWrite request = requestNode.RequestDefinition;
 
 			request.Action = newAction;
@@ -597,9 +641,9 @@ namespace Anycmd.Xacml.ControlCenter
 		}
 		private void CreateContextResourceElement(object sender, EventArgs args)
 		{
-			con.ResourceElementReadWrite newResource = new con.ResourceElementReadWrite(null, con.ResourceScope.Immediate, new con.AttributeReadWriteCollection(), XacmlVersion.Version11);
-			ContextTreeNodes.Request requestNode = (ContextTreeNodes.Request)mainTree.SelectedNode;
-			ContextTreeNodes.Resource newNode = new Resource(newResource);
+			var newResource = new con.ResourceElementReadWrite(null, con.ResourceScope.Immediate, new con.AttributeReadWriteCollection(), XacmlVersion.Version11);
+			var requestNode = (Request)_mainTree.SelectedNode;
+			var newNode = new Resource(newResource);
 			con.RequestElementReadWrite request = requestNode.RequestDefinition;
 
 			if (request.Resources == null)
@@ -618,27 +662,27 @@ namespace Anycmd.Xacml.ControlCenter
 		private void CreateContextDocument(object sender, EventArgs args)
 		{
 			// Create a new policydocument
-			con.ContextDocumentReadWrite newContext = new con.ContextDocumentReadWrite(); //TODO: check version
+			var newContext = new con.ContextDocumentReadWrite(); //TODO: check version
 
 			newContext.Namespaces.Add(string.Empty, Consts.Schema1.Namespaces.Context);
 			newContext.Namespaces.Add("xsi", Consts.Schema1.Namespaces.Xsi);
-			ContextTreeNodes.Context newNode = new ContextTreeNodes.Context(newContext);
-			mainTree.Nodes.Add(newNode);
-			docType = DocumentType.Request;
-			newNode.NodeFont = new Font(mainTree.Font, FontStyle.Bold);
-			menuItemOpenPolicy.Enabled = false;
-			menuItemOpenRequest.Enabled = false;
-			menuItemSaveAs.Enabled = true;
-			menuItemSave.Enabled = true;
-			menuItemRunPolicy.Enabled = true;
-			menuItemRunRequest.Enabled = false;
+			var newNode = new Context(newContext);
+			_mainTree.Nodes.Add(newNode);
+			_docType = DocumentType.Request;
+			newNode.NodeFont = new Font(_mainTree.Font, FontStyle.Bold);
+			_menuItemOpenPolicy.Enabled = false;
+			_menuItemOpenRequest.Enabled = false;
+			_menuItemSaveAs.Enabled = true;
+			_menuItemSave.Enabled = true;
+			_menuItemRunPolicy.Enabled = true;
+			_menuItemRunRequest.Enabled = false;
 		}
 
 		private void CreateContextRequest(object sender, EventArgs args)
 		{
-			con.RequestElementReadWrite newRequest = new con.RequestElementReadWrite(null, null, null, null, XacmlVersion.Version11);
-			ContextTreeNodes.Context contextNode = (ContextTreeNodes.Context)mainTree.SelectedNode;
-			ContextTreeNodes.Request requestNode = new ContextTreeNodes.Request(newRequest);
+			var newRequest = new con.RequestElementReadWrite(null, null, null, null, XacmlVersion.Version11);
+			var contextNode = (Context)_mainTree.SelectedNode;
+			var requestNode = new Request(newRequest);
 			con.ContextDocumentReadWrite context = contextNode.ContextDefinition;
 
 			context.Request = newRequest;
@@ -653,21 +697,21 @@ namespace Anycmd.Xacml.ControlCenter
 		private void CreatePolicyDocument(object sender, EventArgs args)
 		{
 			// Create a new policydocument
-			pol.PolicyDocumentReadWrite newPolicyDoc = new pol.PolicyDocumentReadWrite(Xacml.XacmlVersion.Version11); //TODO: check version
+			var newPolicyDoc = new PolicyDocumentReadWrite(XacmlVersion.Version11); //TODO: check version
 
 			newPolicyDoc.Namespaces.Add(string.Empty, Consts.Schema1.Namespaces.Policy);
 			newPolicyDoc.Namespaces.Add("xsi", Consts.Schema1.Namespaces.Xsi);
-			TreeNodes.PolicyDocument newNode = new TreeNodes.PolicyDocument(newPolicyDoc);
-			mainTree.Nodes.Add(newNode);
-			docType = DocumentType.Policy;
+			var newNode = new TreeNodes.PolicyDocument(newPolicyDoc);
+			_mainTree.Nodes.Add(newNode);
+			_docType = DocumentType.Policy;
 
-			newNode.NodeFont = new Font(mainTree.Font, FontStyle.Bold);
-			menuItemOpenPolicy.Enabled = false;
-			menuItemOpenRequest.Enabled = false;
-			menuItemSaveAs.Enabled = true;
-			menuItemSave.Enabled = true;
-			menuItemRunRequest.Enabled = true;
-			menuItemRunPolicy.Enabled = false;
+			newNode.NodeFont = new Font(_mainTree.Font, FontStyle.Bold);
+			_menuItemOpenPolicy.Enabled = false;
+			_menuItemOpenRequest.Enabled = false;
+			_menuItemSaveAs.Enabled = true;
+			_menuItemSave.Enabled = true;
+			_menuItemRunRequest.Enabled = true;
+			_menuItemRunPolicy.Enabled = false;
 		}
 
 		/// <summary>
@@ -677,16 +721,16 @@ namespace Anycmd.Xacml.ControlCenter
 		/// <param name="args">The arguements for the event.</param>
 		private void CreatePolicy(object sender, EventArgs args)
 		{
-			TreeNodes.PolicySet policySetNode = (TreeNodes.PolicySet)mainTree.SelectedNode;
-			pol.PolicySetElementReadWrite policySet = policySetNode.PolicySetDefinition;
+			var policySetNode = (PolicySet)_mainTree.SelectedNode;
+			PolicySetElementReadWrite policySet = policySetNode.PolicySetDefinition;
 
 			// Create a new policy
-			pol.PolicyElementReadWrite newPolicy = new pol.PolicyElementReadWrite(
+			var newPolicy = new PolicyElementReadWrite(
 				"urn:newpolicy", "[TODO: add a description]",
 				null,
-				new pol.RuleReadWriteCollection(),
+				new RuleReadWriteCollection(),
 				Consts.Schema1.RuleCombiningAlgorithms.FirstApplicable,
-				new pol.ObligationReadWriteCollection(),
+				new ObligationReadWriteCollection(),
 				string.Empty,
 				null,
 				null,
@@ -697,13 +741,13 @@ namespace Anycmd.Xacml.ControlCenter
 			policySet.Policies.Add(newPolicy);
 
 			// Create a new node
-			TreeNodes.Policy policyNode = new TreeNodes.Policy(newPolicy);
+			var policyNode = new Policy(newPolicy);
 
 			// Add the tree node.
 			policySetNode.Nodes.Add(policyNode);
 
 			// Set the font so the user knows the item was changed
-			policyNode.NodeFont = new Font(mainTree.Font, FontStyle.Bold);
+			policyNode.NodeFont = new Font(_mainTree.Font, FontStyle.Bold);
 		}
 
 		/// <summary>
@@ -713,32 +757,32 @@ namespace Anycmd.Xacml.ControlCenter
 		/// <param name="args">The arguements for the event.</param>
 		private void CreatePolicyFromDocument(object sender, EventArgs args)
 		{
-			TreeNodes.PolicyDocument policyDocumentNode = (TreeNodes.PolicyDocument)mainTree.SelectedNode;
-			pol.PolicyDocumentReadWrite policyDocument = policyDocumentNode.PolicyDocumentDefinition;
+			var policyDocumentNode = (TreeNodes.PolicyDocument)_mainTree.SelectedNode;
+			var policyDocument = policyDocumentNode.PolicyDocumentDefinition;
 
 			// Create a new policy
-			pol.PolicyElementReadWrite newPolicy = new pol.PolicyElementReadWrite(
+			var newPolicy = new PolicyElementReadWrite(
 				"urn:newpolicy", "[TODO: add a description]", null,
-				new pol.RuleReadWriteCollection(),
+				new RuleReadWriteCollection(),
 				Consts.Schema1.RuleCombiningAlgorithms.FirstApplicable,
-				new pol.ObligationReadWriteCollection(),
+				new ObligationReadWriteCollection(),
 				string.Empty,
 				null,
 				null,
 				null,
-				Xacml.XacmlVersion.Version11); //TODO: check version
+				XacmlVersion.Version11); //TODO: check version
 
 
 			policyDocument.Policy = newPolicy;
 
 			// Create a new node
-			TreeNodes.Policy policyNode = new TreeNodes.Policy(newPolicy);
+			var policyNode = new Policy(newPolicy);
 
 			// Add the tree node.
 			policyDocumentNode.Nodes.Add(policyNode);
 
 			// Set the font so the user knows the item was changed
-			policyNode.NodeFont = new Font(mainTree.Font, FontStyle.Bold);
+			policyNode.NodeFont = new Font(_mainTree.Font, FontStyle.Bold);
 		}
 
 		/// <summary>
@@ -748,30 +792,30 @@ namespace Anycmd.Xacml.ControlCenter
 		/// <param name="args"></param>
 		private void CreatePolicySet(object sender, EventArgs args)
 		{
-			TreeNodes.PolicySet policySetNode = (TreeNodes.PolicySet)mainTree.SelectedNode;
-			pol.PolicySetElementReadWrite policySet = policySetNode.PolicySetDefinition;
+			var policySetNode = (PolicySet)_mainTree.SelectedNode;
+			var policySet = policySetNode.PolicySetDefinition;
 
 			// Create a new policy
-			pol.PolicySetElementReadWrite newPolicySet = new pol.PolicySetElementReadWrite(
+			var newPolicySet = new PolicySetElementReadWrite(
 				"urn:newpolicy", "[TODO: add a description]",
 				null,
 				new ArrayList(),
 				Consts.Schema1.PolicyCombiningAlgorithms.FirstApplicable,
-				new pol.ObligationReadWriteCollection(),
+				new ObligationReadWriteCollection(),
 				null,
-				Xacml.XacmlVersion.Version11); //TODO: check version
+				XacmlVersion.Version11); //TODO: check version
 
 			// Add the policy to the policySet.
 			policySet.Policies.Add(newPolicySet);
 
 			// Create a new node.
-			TreeNodes.PolicySet newPolicySetNode = new TreeNodes.PolicySet(newPolicySet);
+			var newPolicySetNode = new PolicySet(newPolicySet);
 
 			// Add the tree node.
 			policySetNode.Nodes.Add(newPolicySetNode);
 
 			// Set the font so the user knows the item was changed
-			newPolicySetNode.NodeFont = new Font(mainTree.Font, FontStyle.Bold);
+			newPolicySetNode.NodeFont = new Font(_mainTree.Font, FontStyle.Bold);
 		}
 
 		/// <summary>
@@ -781,29 +825,29 @@ namespace Anycmd.Xacml.ControlCenter
 		/// <param name="args"></param>
 		private void CreatePolicySetFromDocument(object sender, EventArgs args)
 		{
-			TreeNodes.PolicyDocument policyDocumentNode = (TreeNodes.PolicyDocument)mainTree.SelectedNode;
-			pol.PolicyDocumentReadWrite policyDoc = policyDocumentNode.PolicyDocumentDefinition;
+			var policyDocumentNode = (TreeNodes.PolicyDocument)_mainTree.SelectedNode;
+			PolicyDocumentReadWrite policyDoc = policyDocumentNode.PolicyDocumentDefinition;
 
 			// Create a new policy
-			pol.PolicySetElementReadWrite newPolicySet = new pol.PolicySetElementReadWrite(
+			var newPolicySet = new pol.PolicySetElementReadWrite(
 				"urn:newpolicy", "[TODO: add a description]",
 				null,
 				new ArrayList(),
 				Consts.Schema1.PolicyCombiningAlgorithms.FirstApplicable,
-				new pol.ObligationReadWriteCollection(),
+				new ObligationReadWriteCollection(),
 				null,
-				Xacml.XacmlVersion.Version11); //TODO: check version
+				XacmlVersion.Version11); //TODO: check version
 
 			policyDoc.PolicySet = newPolicySet;
 
 			// Create a new node.
-			TreeNodes.PolicySet newPolicySetNode = new TreeNodes.PolicySet(newPolicySet);
+			var newPolicySetNode = new PolicySet(newPolicySet);
 
 			// Add the tree node.
 			policyDocumentNode.Nodes.Add(newPolicySetNode);
 
 			// Set the font so the user knows the item was changed
-			newPolicySetNode.NodeFont = new Font(mainTree.Font, FontStyle.Bold);
+			newPolicySetNode.NodeFont = new Font(_mainTree.Font, FontStyle.Bold);
 		}
 
 		/// <summary>
@@ -813,71 +857,80 @@ namespace Anycmd.Xacml.ControlCenter
 		/// <param name="args"></param>
 		private void CreateTarget(object sender, EventArgs args)
 		{
-			TreeNodes.Target newTargetNode = null;
+			Target newTargetNode = null;
 			TreeNode parentNode = null;
 
 			// Create the target
-			pol.TargetElementReadWrite target = new pol.TargetElementReadWrite(
-				new ResourcesElementReadWrite(true, new TargetItemReadWriteCollection(), Xacml.XacmlVersion.Version11), //TODO: check version
-				new SubjectsElementReadWrite(true, new TargetItemReadWriteCollection(), Xacml.XacmlVersion.Version11), //TODO: check version 
-				new ActionsElementReadWrite(true, new TargetItemReadWriteCollection(), Xacml.XacmlVersion.Version11), //TODO: check version
-				new EnvironmentsElementReadWrite(true, new TargetItemReadWriteCollection(), Xacml.XacmlVersion.Version11), //TODO: check version
-				Xacml.XacmlVersion.Version11); //TODO: check version
+			var target = new TargetElementReadWrite(
+				new ResourcesElementReadWrite(true, new TargetItemReadWriteCollection(), XacmlVersion.Version11), //TODO: check version
+				new SubjectsElementReadWrite(true, new TargetItemReadWriteCollection(), XacmlVersion.Version11), //TODO: check version 
+				new ActionsElementReadWrite(true, new TargetItemReadWriteCollection(), XacmlVersion.Version11), //TODO: check version
+				new EnvironmentsElementReadWrite(true, new TargetItemReadWriteCollection(), XacmlVersion.Version11), //TODO: check version
+				XacmlVersion.Version11); //TODO: check version
 
 			// Create the node
-			newTargetNode = new TreeNodes.Target(target);
+			newTargetNode = new Target(target);
 
-			if (mainTree.SelectedNode is TreeNodes.PolicySet)
+			if (_mainTree.SelectedNode is PolicySet)
 			{
-				parentNode = mainTree.SelectedNode;
-				pol.PolicySetElementReadWrite policySet = ((TreeNodes.PolicySet)parentNode).PolicySetDefinition;
+				parentNode = _mainTree.SelectedNode;
+				PolicySetElementReadWrite policySet = ((PolicySet)parentNode).PolicySetDefinition;
 
 				// Set the target
 				policySet.Target = target;
 			}
-			else if (mainTree.SelectedNode is TreeNodes.Policy)
+			else if (_mainTree.SelectedNode is Policy)
 			{
-				parentNode = mainTree.SelectedNode;
-				pol.PolicyElementReadWrite policy = ((TreeNodes.Policy)parentNode).PolicyDefinition;
+				parentNode = _mainTree.SelectedNode;
+				PolicyElementReadWrite policy = ((Policy)parentNode).PolicyDefinition;
 
 				// Set the target
 				policy.Target = target;
 			}
-			else if (mainTree.SelectedNode is TreeNodes.Rule)
+			else if (_mainTree.SelectedNode is Rule)
 			{
-				parentNode = mainTree.SelectedNode;
-				pol.RuleElementReadWrite rule = ((TreeNodes.Rule)parentNode).RuleDefinition;
+				parentNode = _mainTree.SelectedNode;
+				RuleElementReadWrite rule = ((Rule)parentNode).RuleDefinition;
 
 				// Set the target
 				rule.Target = target;
 			}
-			else if (mainTree.SelectedNode is TreeNodes.AnyTarget)
+			else if (_mainTree.SelectedNode is AnyTarget)
 			{
-				parentNode = mainTree.SelectedNode.Parent;
+				parentNode = _mainTree.SelectedNode.Parent;
 
 				// Set the target
-				if (parentNode is TreeNodes.PolicySet)
+				var policySet = parentNode as PolicySet;
+				if (policySet != null)
 				{
-					((TreeNodes.PolicySet)parentNode).PolicySetDefinition.Target = target;
+					policySet.PolicySetDefinition.Target = target;
 				}
-				else if (parentNode is TreeNodes.Policy)
+				else
 				{
-					((TreeNodes.Policy)parentNode).PolicyDefinition.Target = target;
-				}
-				else if (parentNode is TreeNodes.Rule)
-				{
-					((TreeNodes.Rule)parentNode).RuleDefinition.Target = target;
+					var policy = parentNode as Policy;
+					if (policy != null)
+					{
+						policy.PolicyDefinition.Target = target;
+					}
+					else
+					{
+						var rule = parentNode as Rule;
+						if (rule != null)
+						{
+							rule.RuleDefinition.Target = target;
+						}
+					}
 				}
 			}
 
-			if (newTargetNode != null && parentNode != null)
+			if (parentNode != null)
 			{
 				int idx = -1;
 
 				// Search the previous node
 				foreach (TreeNode node in parentNode.Nodes)
 				{
-					if (node is TreeNodes.AnyTarget)
+					if (node is AnyTarget)
 					{
 						idx = parentNode.Nodes.IndexOf(node);
 						break;
@@ -887,7 +940,7 @@ namespace Anycmd.Xacml.ControlCenter
 				if (idx != -1)
 				{
 					// Set the font to the node
-					newTargetNode.NodeFont = new Font(mainTree.Font, FontStyle.Bold);
+					newTargetNode.NodeFont = new Font(_mainTree.Font, FontStyle.Bold);
 
 					// Remove the previous target node
 					parentNode.Nodes.RemoveAt(idx);
@@ -905,56 +958,56 @@ namespace Anycmd.Xacml.ControlCenter
 		/// <param name="args"></param>
 		private void CreateRule(object sender, EventArgs args)
 		{
-			TreeNodes.Policy policyNode = (TreeNodes.Policy)mainTree.SelectedNode;
-			pol.PolicyElementReadWrite policy = policyNode.PolicyDefinition;
+			var policyNode = (Policy)_mainTree.SelectedNode;
+			PolicyElementReadWrite policy = policyNode.PolicyDefinition;
 
-			pol.RuleElementReadWrite rule = new pol.RuleElementReadWrite(
+			var rule = new RuleElementReadWrite(
 				"urn:new_rule",
 				"[TODO: add rule description]",
 				null,
 				null,
-				pol.Effect.Permit,
-				Xacml.XacmlVersion.Version11);  //TODO: check version
+				Effect.Permit,
+				XacmlVersion.Version11);  //TODO: check version
 
 			policy.Rules.Add(rule);
 
-			TreeNodes.Rule ruleNode = new TreeNodes.Rule(rule);
+			var ruleNode = new Rule(rule);
 
 			policyNode.Nodes.Add(ruleNode);
 
-			ruleNode.NodeFont = new Font(mainTree.Font, FontStyle.Bold);
+			ruleNode.NodeFont = new Font(_mainTree.Font, FontStyle.Bold);
 		}
 
 		private void CreateObligationsFromPolicy(object sender, EventArgs args)
 		{
-			TreeNodes.Policy policyNode = (TreeNodes.Policy)mainTree.SelectedNode;
-			pol.PolicyElementReadWrite policy = policyNode.PolicyDefinition;
+			var policyNode = (Policy)_mainTree.SelectedNode;
+			PolicyElementReadWrite policy = policyNode.PolicyDefinition;
 
-			pol.ObligationReadWriteCollection obligations = new pol.ObligationReadWriteCollection();  //TODO: check version
+			var obligations = new ObligationReadWriteCollection();  //TODO: check version
 
 			policy.Obligations = obligations;
 
-			TreeNodes.Obligations obligationsNode = new TreeNodes.Obligations(obligations);
+			var obligationsNode = new Obligations(obligations);
 
 			policyNode.Nodes.Add(obligationsNode);
 
-			obligationsNode.NodeFont = new Font(mainTree.Font, FontStyle.Bold);
+			obligationsNode.NodeFont = new Font(_mainTree.Font, FontStyle.Bold);
 		}
 
 		private void CreateObligationsFromPolicySet(object sender, EventArgs args)
 		{
-			TreeNodes.PolicySet policySetNode = (TreeNodes.PolicySet)mainTree.SelectedNode;
-			pol.PolicySetElementReadWrite policySet = policySetNode.PolicySetDefinition;
+			var policySetNode = (PolicySet)_mainTree.SelectedNode;
+			PolicySetElementReadWrite policySet = policySetNode.PolicySetDefinition;
 
-			pol.ObligationReadWriteCollection obligations = new pol.ObligationReadWriteCollection();  //TODO: check version
+			var obligations = new ObligationReadWriteCollection();  //TODO: check version
 
 			policySet.Obligations = obligations;
 
-			TreeNodes.Obligations obligationsNode = new TreeNodes.Obligations(obligations);
+			var obligationsNode = new Obligations(obligations);
 
 			policySetNode.Nodes.Add(obligationsNode);
 
-			obligationsNode.NodeFont = new Font(mainTree.Font, FontStyle.Bold);
+			obligationsNode.NodeFont = new Font(_mainTree.Font, FontStyle.Bold);
 		}
 
 		/// <summary>
@@ -964,47 +1017,21 @@ namespace Anycmd.Xacml.ControlCenter
 		/// <param name="args"></param>
 		private void CreateCondition(object sender, EventArgs args)
 		{
-			TreeNodes.Condition newConditionNode = null;
+			Condition newConditionNode = null;
 			TreeNode parentNode = null;
 
-			pol.ConditionElementReadWrite condition = new pol.ConditionElementReadWrite("urn:new_function", new ExpressionReadWriteCollection(), XacmlVersion.Version11);
+			var condition = new ConditionElementReadWrite("urn:new_function", new ExpressionReadWriteCollection(), XacmlVersion.Version11);
 
-			newConditionNode = new TreeNodes.Condition(condition);
+			newConditionNode = new Condition(condition);
 
-			parentNode = mainTree.SelectedNode;
+			parentNode = _mainTree.SelectedNode;
 
-			pol.RuleElementReadWrite rule = ((TreeNodes.Rule)parentNode).RuleDefinition;
+			RuleElementReadWrite rule = ((Rule)parentNode).RuleDefinition;
 
 			rule.Condition = condition;
 
 
 			parentNode.Nodes.Add(newConditionNode);
-			/*if( newConditionNode != null && parentNode != null )
-			{
-				int idx = -1;
-				
-				// Search the previous node
-				foreach( TreeNode node in parentNode.Nodes )
-				{
-					if( node is TreeNodes.Condition )
-					{
-						idx = parentNode.Nodes.IndexOf( node );
-						break;
-					}
-				}
-
-				if( idx != -1 )
-				{
-					// Set the font to the node
-					newConditionNode.NodeFont = new Font( mainTree.Font, FontStyle.Bold );
-
-					// Remove the previous condition node
-					parentNode.Nodes.RemoveAt( idx );
-
-					// Add the node to the node.
-					parentNode.Nodes.Insert( idx, newConditionNode);
-				}
-			}*/
 		}
 
 		/// <summary>
@@ -1014,80 +1041,84 @@ namespace Anycmd.Xacml.ControlCenter
 		/// <param name="args"></param>
 		private void CreateTargetItem(object sender, EventArgs args)
 		{
-			if (mainTree.SelectedNode is TreeNodes.AnySubject)
+			if (_mainTree.SelectedNode is AnySubject)
 			{
-				TreeNodes.AnySubject anyNode = (TreeNodes.AnySubject)mainTree.SelectedNode;
-				TreeNodes.Target targetNode = (TreeNodes.Target)anyNode.Parent;
+				var anyNode = (AnySubject)_mainTree.SelectedNode;
+				var targetNode = (Target)anyNode.Parent;
 
 				int idx = targetNode.Nodes.IndexOf(anyNode);
 				targetNode.Nodes.RemoveAt(idx);
 
-				TargetMatchReadWriteCollection matchCollection = new TargetMatchReadWriteCollection();
+				var matchCollection = new TargetMatchReadWriteCollection();
 				matchCollection.Add(
 					new SubjectMatchElementReadWrite(
 						Consts.Schema1.InternalFunctions.StringEqual,
-						new pol.AttributeValueElementReadWrite(Consts.Schema1.InternalDataTypes.XsdString, "Somebody", Xacml.XacmlVersion.Version11),  //TODO: check version
-						new SubjectAttributeDesignatorElement(Consts.Schema1.InternalDataTypes.XsdString, false, Consts.Schema1.SubjectElement.ActionSubjectId, "", "", Xacml.XacmlVersion.Version11), Xacml.XacmlVersion.Version11));  //TODO: check version
-				SubjectElementReadWrite targetItem = new SubjectElementReadWrite(matchCollection, Xacml.XacmlVersion.Version11);  //TODO: check version
+						new AttributeValueElementReadWrite(Consts.Schema1.InternalDataTypes.XsdString, "Somebody", XacmlVersion.Version11),  //TODO: check version
+						new SubjectAttributeDesignatorElement(Consts.Schema1.InternalDataTypes.XsdString, false, Consts.Schema1.SubjectElement.ActionSubjectId, "", "", XacmlVersion.Version11), XacmlVersion.Version11));  //TODO: check version
+				var targetItem = new SubjectElementReadWrite(matchCollection, XacmlVersion.Version11);  //TODO: check version
 
-				TreeNodes.TargetItem targetItemNode = new TreeNodes.TargetItem(targetItem);
+				var targetItemNode = new TargetItem(targetItem);
 
 				targetNode.Nodes.Insert(idx, targetItemNode);
 				targetNode.TargetDefinition.Subjects.IsAny = false;
 				targetNode.TargetDefinition.Subjects.ItemsList.Add(targetItem);
-				targetItemNode.NodeFont = new Font(mainTree.Font, FontStyle.Bold);
+				targetItemNode.NodeFont = new Font(_mainTree.Font, FontStyle.Bold);
 
-				mainTree.SelectedNode = targetItemNode;
+				_mainTree.SelectedNode = targetItemNode;
 			}
-			else if (mainTree.SelectedNode is TreeNodes.AnyAction)
+			else if (_mainTree.SelectedNode is AnyAction)
 			{
-				TreeNodes.AnyAction anyActionNode = (TreeNodes.AnyAction)mainTree.SelectedNode;
-				TreeNodes.Target targetNode = (TreeNodes.Target)anyActionNode.Parent;
+				var anyActionNode = (AnyAction)_mainTree.SelectedNode;
+				var targetNode = (Target)anyActionNode.Parent;
 
 				int idx = targetNode.Nodes.IndexOf(anyActionNode);
 				targetNode.Nodes.RemoveAt(idx);
 
-				TargetMatchReadWriteCollection matchCollection = new TargetMatchReadWriteCollection();
+				var matchCollection = new TargetMatchReadWriteCollection();
 				matchCollection.Add(
 					new ActionMatchElementReadWrite(
 						Consts.Schema1.InternalFunctions.StringEqual,
-						new pol.AttributeValueElementReadWrite(Consts.Schema1.InternalDataTypes.XsdString, "DoSomething", Xacml.XacmlVersion.Version11),  //TODO: check version
-						new ActionAttributeDesignatorElement(Consts.Schema1.InternalDataTypes.XsdString, false, Consts.Schema1.ActionElement.ActionId, "", Xacml.XacmlVersion.Version11), Xacml.XacmlVersion.Version11)); //TODO: check version
-				ActionElementReadWrite action = new ActionElementReadWrite(matchCollection, Xacml.XacmlVersion.Version11); //TODO: check version
+						new pol.AttributeValueElementReadWrite(Consts.Schema1.InternalDataTypes.XsdString, "DoSomething", XacmlVersion.Version11),  //TODO: check version
+						new ActionAttributeDesignatorElement(Consts.Schema1.InternalDataTypes.XsdString, false, Consts.Schema1.ActionElement.ActionId, "", XacmlVersion.Version11), XacmlVersion.Version11)); //TODO: check version
+				var action = new ActionElementReadWrite(matchCollection, XacmlVersion.Version11); //TODO: check version
 
-				TreeNodes.TargetItem actionNode = new TreeNodes.TargetItem(action);
+				var actionNode = new TargetItem(action);
 
 				targetNode.Nodes.Insert(idx, actionNode);
 				targetNode.TargetDefinition.Actions.IsAny = false;
 				targetNode.TargetDefinition.Actions.ItemsList.Add(action);
-				actionNode.NodeFont = new Font(mainTree.Font, FontStyle.Bold);
+				actionNode.NodeFont = new Font(_mainTree.Font, FontStyle.Bold);
 
-				mainTree.SelectedNode = actionNode;
+				_mainTree.SelectedNode = actionNode;
 			}
-			else if (mainTree.SelectedNode is TreeNodes.AnyResource)
+			else if (_mainTree.SelectedNode is AnyResource)
 			{
-				TreeNodes.AnyResource anyNode = (TreeNodes.AnyResource)mainTree.SelectedNode;
-				TreeNodes.Target targetNode = (TreeNodes.Target)anyNode.Parent;
+				var anyNode = (AnyResource)_mainTree.SelectedNode;
+				var targetNode = (Target)anyNode.Parent;
 
 				int idx = targetNode.Nodes.IndexOf(anyNode);
 				targetNode.Nodes.RemoveAt(idx);
 
-				TargetMatchReadWriteCollection matchCollection = new TargetMatchReadWriteCollection();
-				matchCollection.Add(
+				var matchCollection = new TargetMatchReadWriteCollection
+				{
 					new ResourceMatchElementReadWrite(
 						Consts.Schema1.InternalFunctions.StringEqual,
-						new pol.AttributeValueElementReadWrite(Consts.Schema1.InternalDataTypes.XsdString, "Something", Xacml.XacmlVersion.Version11),  //TODO: check version
-						new ResourceAttributeDesignatorElement(Consts.Schema1.InternalDataTypes.XsdString, false, Consts.Schema1.ResourceElement.ResourceId, "", Xacml.XacmlVersion.Version11), Xacml.XacmlVersion.Version11)); //TODO: check version
-				ResourceElementReadWrite targetItem = new ResourceElementReadWrite(matchCollection, Xacml.XacmlVersion.Version11); //TODO: check version
+						new AttributeValueElementReadWrite(Consts.Schema1.InternalDataTypes.XsdString, "Something",
+							XacmlVersion.Version11), //TODO: check version
+						new ResourceAttributeDesignatorElement(Consts.Schema1.InternalDataTypes.XsdString, false,
+							Consts.Schema1.ResourceElement.ResourceId, "", XacmlVersion.Version11),
+						XacmlVersion.Version11)
+				};
+				var targetItem = new ResourceElementReadWrite(matchCollection, XacmlVersion.Version11); //TODO: check version
 
-				TreeNodes.TargetItem targetItemNode = new TreeNodes.TargetItem(targetItem);
+				var targetItemNode = new TargetItem(targetItem);
 
 				targetNode.Nodes.Insert(idx, targetItemNode);
 				targetNode.TargetDefinition.Resources.IsAny = false;
 				targetNode.TargetDefinition.Resources.ItemsList.Add(targetItem);
-				targetItemNode.NodeFont = new Font(mainTree.Font, FontStyle.Bold);
+				targetItemNode.NodeFont = new Font(_mainTree.Font, FontStyle.Bold);
 
-				mainTree.SelectedNode = targetItemNode;
+				_mainTree.SelectedNode = targetItemNode;
 			}
 		}
 
@@ -1096,51 +1127,68 @@ namespace Anycmd.Xacml.ControlCenter
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void mainTree_BeforeSelect(object sender, System.Windows.Forms.TreeViewCancelEventArgs e)
+		private void mainTree_BeforeSelect(object sender, TreeViewCancelEventArgs e)
 		{
 			// Check if the control have been modified
-			if (mainPanel.Controls.Count != 0)
+			if (_mainPanel.Controls.Count != 0)
 			{
-				if (!(mainPanel.Controls[0] is ContextCustomControls.XmlViewer))
+				if (!(_mainPanel.Controls[0] is ContextCustomControls.XmlViewer))
 				{
-					CustomControls.BaseControl baseControl = mainPanel.Controls[0] as CustomControls.BaseControl;
+					var baseControl = _mainPanel.Controls[0] as CustomControls.BaseControl;
 
-					mainTree.SelectedNode.NodeFont = new Font(mainTree.Font, FontStyle.Regular);
-					TreeNodes.NoBoldNode oNode = null;
-					if (baseControl is CustomControls.PolicySet)
+					_mainTree.SelectedNode.NodeFont = new Font(_mainTree.Font, FontStyle.Regular);
+					NoBoldNode oNode = null;
+					var policySet = baseControl as CustomControls.PolicySet;
+					if (policySet != null)
 					{
-						oNode = new TreeNodes.PolicySet(((CustomControls.PolicySet)baseControl).PolicySetElement);
+						oNode = new PolicySet(policySet.PolicySetElement);
 					}
-					else if (baseControl is CustomControls.PolicySet)
+					else
 					{
-						oNode = new TreeNodes.Policy(((CustomControls.Policy)baseControl).PolicyElement);
-					}
-					else if (baseControl is CustomControls.Rule)
-					{
-						oNode = new TreeNodes.Rule(((CustomControls.Rule)baseControl).RuleElement);
-					}
-					else if (baseControl is CustomControls.TargetItem)
-					{
-						TargetItemBaseReadWrite element = ((CustomControls.TargetItem)baseControl).TargetItemBaseElement;
-						oNode = new TreeNodes.TargetItem(element);
-					}
-					else if (baseControl is CustomControls.Obligations)
-					{
-						oNode = new TreeNodes.Obligations(((CustomControls.Obligations)baseControl).ObligationsElement);
-					}
-					else if (baseControl is ContextCustomControls.Attribute)
-					{
-						oNode = new ContextTreeNodes.Attribute(((ContextCustomControls.Attribute)baseControl).AttributeElement);
-					}
-					else if (baseControl is ContextCustomControls.Resource)
-					{
-						oNode = new ContextTreeNodes.Resource(((ContextCustomControls.Resource)baseControl).ResourceElement);
+						var rule = baseControl as CustomControls.Rule;
+						if (rule != null)
+						{
+							oNode = new Rule(rule.RuleElement);
+						}
+						else
+						{
+							var targetItem = baseControl as CustomControls.TargetItem;
+							if (targetItem != null)
+							{
+								TargetItemBaseReadWrite element = targetItem.TargetItemBaseElement;
+								oNode = new TargetItem(element);
+							}
+							else
+							{
+								var obligations = baseControl as CustomControls.Obligations;
+								if (obligations != null)
+								{
+									oNode = new Obligations(obligations.ObligationsElement);
+								}
+								else
+								{
+									var attribute = baseControl as ContextCustomControls.Attribute;
+									if (attribute != null)
+									{
+										oNode = new Attribute(attribute.AttributeElement);
+									}
+									else
+									{
+										var resource = baseControl as ContextCustomControls.Resource;
+										if (resource != null)
+										{
+											oNode = new Resource(resource.ResourceElement);
+										}
+									}
+								}
+							}
+						}
 					}
 
 					if (oNode != null)
 					{
-						mainTree.SelectedNode = oNode;
-						mainTree.SelectedNode.Text = oNode.Text;
+						_mainTree.SelectedNode = oNode;
+						_mainTree.SelectedNode.Text = oNode.Text;
 					}
 				}
 			}
@@ -1148,203 +1196,207 @@ namespace Anycmd.Xacml.ControlCenter
 
 		private void mniDelete_Click(object sender, System.EventArgs e)
 		{
-			if (mainTree.SelectedNode != null)
+			if (_mainTree.SelectedNode != null)
 			{
-				mainPanel.Controls.Clear();
-				if (mainTree.SelectedNode.Parent != null)
+				_mainPanel.Controls.Clear();
+				if (_mainTree.SelectedNode.Parent != null)
 				{
-					TreeNodes.NoBoldNode node = (TreeNodes.NoBoldNode)mainTree.SelectedNode.Parent;
-					if (node is TreeNodes.PolicySet)
+					var node = (NoBoldNode)_mainTree.SelectedNode.Parent;
+					if (node is PolicySet)
 					{
-						DeleteFromPolicySet((TreeNodes.NoBoldNode)mainTree.SelectedNode);
+						DeleteFromPolicySet((NoBoldNode)_mainTree.SelectedNode);
 					}
-					else if (node is TreeNodes.Policy)
+					else if (node is Policy)
 					{
-						DeleteFromPolicy((TreeNodes.NoBoldNode)mainTree.SelectedNode);
+						DeleteFromPolicy((NoBoldNode)_mainTree.SelectedNode);
 					}
-					else if (node is TreeNodes.Target)
+					else if (node is Target)
 					{
-						DeleteFromTarget((TreeNodes.TargetItem)mainTree.SelectedNode);
+						DeleteFromTarget((TargetItem)_mainTree.SelectedNode);
 					}
-					else if (node is ContextTreeNodes.Request)
+					else if (node is Request)
 					{
-						DeleteFromRequest((TreeNodes.NoBoldNode)mainTree.SelectedNode);
+						DeleteFromRequest((NoBoldNode)_mainTree.SelectedNode);
 					}
-					if (mainTree.SelectedNode is ContextTreeNodes.Attribute)
+					if (_mainTree.SelectedNode is Attribute)
 					{
-						DeleteContextAttribute((TreeNodes.NoBoldNode)mainTree.SelectedNode.Parent);
-						mainTree.SelectedNode.Remove();
+						DeleteContextAttribute((NoBoldNode)_mainTree.SelectedNode.Parent);
+						_mainTree.SelectedNode.Remove();
 					}
 					else
 					{
-						node.Nodes.Remove(mainTree.SelectedNode);
+						node.Nodes.Remove(_mainTree.SelectedNode);
 					}
 				}
 				else
 				{
-					menuItemOpenRequest.Enabled = true;
-					menuItemOpenPolicy.Enabled = true;
-					menuItemSaveAs.Enabled = false;
-					menuItemSave.Enabled = false;
-					mainTree.Nodes.Clear();
+					_menuItemOpenRequest.Enabled = true;
+					_menuItemOpenPolicy.Enabled = true;
+					_menuItemSaveAs.Enabled = false;
+					_menuItemSave.Enabled = false;
+					_mainTree.Nodes.Clear();
 				}
 			}
 		}
 
-		private void DeleteFromRequest(TreeNodes.NoBoldNode childNode)
+		private void DeleteFromRequest(NoBoldNode childNode)
 		{
-			ContextTreeNodes.Request parentNode = (ContextTreeNodes.Request)mainTree.SelectedNode.Parent;
-			if (childNode is ContextTreeNodes.Action)
+			var parentNode = (Request)_mainTree.SelectedNode.Parent;
+			if (childNode is Action)
 			{
 				parentNode.RequestDefinition.Action = null;
 			}
-			else if (childNode is ContextTreeNodes.Resource)
+			else
 			{
-				con.ResourceElementReadWrite resource = ((ContextTreeNodes.Resource)childNode).ResourceDefinition;
+				var node = childNode as Resource;
+				if (node != null)
+				{
+					con.ResourceElementReadWrite resource = node.ResourceDefinition;
 
-				int index = parentNode.RequestDefinition.Resources.GetIndex(resource);
-				parentNode.RequestDefinition.Resources.RemoveAt(index);
-			}
-			else if (childNode is ContextTreeNodes.Subject)
-			{
-				con.SubjectElementReadWrite subject = ((ContextTreeNodes.Subject)childNode).SubjectDefinition;
+					int index = parentNode.RequestDefinition.Resources.GetIndex(resource);
+					parentNode.RequestDefinition.Resources.RemoveAt(index);
+				}
+				else if (childNode is Subject)
+				{
+					con.SubjectElementReadWrite subject = ((Subject)childNode).SubjectDefinition;
 
-				int index = parentNode.RequestDefinition.Subjects.GetIndex(subject);
-				parentNode.RequestDefinition.Subjects.RemoveAt(index);
+					int index = parentNode.RequestDefinition.Subjects.GetIndex(subject);
+					parentNode.RequestDefinition.Subjects.RemoveAt(index);
+				}
 			}
 		}
 
-		private void DeleteContextAttribute(TreeNodes.NoBoldNode parentNode)
+		private void DeleteContextAttribute(NoBoldNode parentNode)
 		{
-			ContextTreeNodes.Attribute attributeNode = (ContextTreeNodes.Attribute)mainTree.SelectedNode;
+			var attributeNode = (Attribute)_mainTree.SelectedNode;
 			con.AttributeElementReadWrite attribute = attributeNode.AttributeDefinition;
 
-			if (parentNode is ContextTreeNodes.Action)
+			var node = parentNode as Action;
+			if (node != null)
 			{
-				con.ActionElementReadWrite action = ((ContextTreeNodes.Action)parentNode).ActionDefinition;
+				con.ActionElementReadWrite action = node.ActionDefinition;
 
 				int index = action.Attributes.GetIndex(attribute);
 				action.Attributes.RemoveAt(index);
 			}
-			else if (parentNode is ContextTreeNodes.Resource)
+			else
 			{
-				con.ResourceElementReadWrite resource = ((ContextTreeNodes.Resource)parentNode).ResourceDefinition;
+				var resource1 = parentNode as Resource;
+				if (resource1 != null)
+				{
+					con.ResourceElementReadWrite resource = resource1.ResourceDefinition;
 
-				int index = resource.Attributes.GetIndex(attribute);
-				resource.Attributes.RemoveAt(index);
-			}
-			else if (parentNode is ContextTreeNodes.Subject)
-			{
-				con.SubjectElementReadWrite subject = ((ContextTreeNodes.Subject)parentNode).SubjectDefinition;
+					int index = resource.Attributes.GetIndex(attribute);
+					resource.Attributes.RemoveAt(index);
+				}
+				else
+				{
+					var subject1 = parentNode as Subject;
+					if (subject1 != null)
+					{
+						con.SubjectElementReadWrite subject = subject1.SubjectDefinition;
 
-				int index = subject.Attributes.GetIndex(attribute);
-				subject.Attributes.RemoveAt(index);
+						int index = subject.Attributes.GetIndex(attribute);
+						subject.Attributes.RemoveAt(index);
+					}
+				}
 			}
 		}
 
-		private void DeleteFromTarget(TreeNodes.TargetItem childNode)
+		private void DeleteFromTarget(TargetItem childNode)
 		{
-			TreeNodes.Target parentNode = (TreeNodes.Target)mainTree.SelectedNode.Parent;
+			var parentNode = (Target)_mainTree.SelectedNode.Parent;
 
 			TargetItemBaseReadWrite element = childNode.TargetItemDefinition;
 
 			if (element is ActionElementReadWrite)
 			{
-				TreeNodes.AnyAction anyAction = new AnyAction();
+				var anyAction = new AnyAction();
 				parentNode.Nodes.Add(anyAction);
 				parentNode.TargetDefinition.Actions.ItemsList = null;
 				parentNode.TargetDefinition.Actions.IsAny = true;
 			}
 			else if (element is ResourceElementReadWrite)
 			{
-				TreeNodes.AnyResource anyResource = new AnyResource();
+				var anyResource = new AnyResource();
 				parentNode.Nodes.Add(anyResource);
 				parentNode.TargetDefinition.Resources.ItemsList = null;
 				parentNode.TargetDefinition.Resources.IsAny = true;
 			}
 			else if (element is SubjectElementReadWrite)
 			{
-				TreeNodes.AnySubject anySubject = new AnySubject();
+				var anySubject = new AnySubject();
 				parentNode.Nodes.Add(anySubject);
 				parentNode.TargetDefinition.Subjects.ItemsList = null;
 				parentNode.TargetDefinition.Subjects.IsAny = true;
 			}
 		}
-		private void DeleteFromPolicySet(TreeNodes.NoBoldNode childNode)
+		private void DeleteFromPolicySet(NoBoldNode childNode)
 		{
-			TreeNodes.PolicySet parentNode = (TreeNodes.PolicySet)mainTree.SelectedNode.Parent;
-			if (childNode is TreeNodes.Policy)
+			var parentNode = (PolicySet)_mainTree.SelectedNode.Parent;
+			var policy = childNode as Policy;
+			if (policy != null)
 			{
-				TreeNodes.Policy policyNode = (TreeNodes.Policy)childNode;
+				var policyNode = policy;
 				parentNode.PolicySetDefinition.Policies.Remove(policyNode.PolicyDefinition);
 			}
-			else if (childNode is TreeNodes.PolicySet)
+			else
 			{
-				TreeNodes.PolicySet policySetNode = (TreeNodes.PolicySet)childNode;
-				parentNode.PolicySetDefinition.Policies.Remove(policySetNode.PolicySetDefinition);
-			}
-			else if (childNode is TreeNodes.Obligations)
-			{
-				parentNode.PolicySetDefinition.Obligations = null;
-			}
-			else if (childNode is TreeNodes.Target)
-			{
-				parentNode.PolicySetDefinition.Target = null;
+				var policySet = childNode as PolicySet;
+				if (policySet != null)
+				{
+					var policySetNode = policySet;
+					parentNode.PolicySetDefinition.Policies.Remove(policySetNode.PolicySetDefinition);
+				}
+				else if (childNode is Obligations)
+				{
+					parentNode.PolicySetDefinition.Obligations = null;
+				}
+				else if (childNode is Target)
+				{
+					parentNode.PolicySetDefinition.Target = null;
+				}
 			}
 		}
 
-		private void DeleteFromPolicy(TreeNodes.NoBoldNode childNode)
+		private void DeleteFromPolicy(NoBoldNode childNode)
 		{
-			TreeNodes.Policy parentNode = (TreeNodes.Policy)mainTree.SelectedNode.Parent;
-			if (childNode is TreeNodes.Rule)
+			var parentNode = (Policy)_mainTree.SelectedNode.Parent;
+			var node = childNode as Rule;
+			if (node != null)
 			{
-				pol.RuleElementReadWrite rule = ((TreeNodes.Rule)childNode).RuleDefinition;
+				var rule = node.RuleDefinition;
 				int index = parentNode.PolicyDefinition.Rules.GetIndex(rule);
 				parentNode.PolicyDefinition.Rules.RemoveAt(index);
 			}
-			else if (childNode is TreeNodes.Obligations)
+			else if (childNode is Obligations)
 			{
 				parentNode.PolicyDefinition.Obligations = null;
 			}
-			else if (childNode is TreeNodes.Target)
+			else if (childNode is Target)
 			{
 				parentNode.PolicyDefinition.Target = null;
 			}
 		}
 
-		private void DeleteFromRule(TreeNodes.NoBoldNode childNode)
+		private void menuItemSaveAs_Click(object sender, System.EventArgs e)
 		{
-			TreeNodes.Policy parentNode = (TreeNodes.Policy)mainTree.SelectedNode.Parent;
-			if (childNode is TreeNodes.Rule)
+			if (_saveFileDialog.ShowDialog() == DialogResult.OK)
 			{
-				parentNode.PolicyDefinition.Rules.RemoveAt(childNode.Index - 1);
-			}
-			else if (childNode is TreeNodes.Obligations)
-			{
-				parentNode.PolicyDefinition.Obligations = null;
-			}
-			else if (childNode is TreeNodes.Target)
-			{
-				parentNode.PolicyDefinition.Target = null;
-			}
-		}
-
-		private void menuItem3_Click(object sender, System.EventArgs e)
-		{
-			if (saveFileDialog.ShowDialog() == DialogResult.OK)
-			{
-				XmlTextWriter writer = new XmlTextWriter(saveFileDialog.FileName, System.Text.Encoding.UTF8);
-				writer.Namespaces = true;
-				writer.Formatting = Formatting.Indented;
-
-				if (docType == DocumentType.Request)
+				var writer = new XmlTextWriter(_saveFileDialog.FileName, System.Text.Encoding.UTF8)
 				{
-					con.ContextDocumentReadWrite oCon = ((ContextTreeNodes.Context)mainTree.TopNode).ContextDefinition;
+					Namespaces = true,
+					Formatting = Formatting.Indented
+				};
+
+				if (_docType == DocumentType.Request)
+				{
+					con.ContextDocumentReadWrite oCon = ((Context)_mainTree.TopNode).ContextDefinition;
 					oCon.WriteRequestDocument(writer);
 				}
-				else if (docType == DocumentType.Policy)
+				else if (_docType == DocumentType.Policy)
 				{
-					pol.PolicyDocumentReadWrite oPol = ((TreeNodes.PolicyDocument)mainTree.TopNode).PolicyDocumentDefinition;
+					PolicyDocumentReadWrite oPol = ((TreeNodes.PolicyDocument)_mainTree.TopNode).PolicyDocumentDefinition;
 					oPol.WriteDocument(writer);
 				}
 
@@ -1352,89 +1404,89 @@ namespace Anycmd.Xacml.ControlCenter
 			}
 		}
 
-		private void menuItem4_Click(object sender, System.EventArgs e)
+		private void menuItemClose_Click(object sender, System.EventArgs e)
 		{
-			mainTree.Nodes.Clear();
-			mainPanel.Controls.Clear();
+			_mainTree.Nodes.Clear();
+			_mainPanel.Controls.Clear();
 			_path = string.Empty;
-			menuItemOpenPolicy.Enabled = true;
-			menuItemOpenRequest.Enabled = true;
-			menuItemSaveAs.Enabled = false;
-			menuItemSave.Enabled = false;
-			menuItemRunRequest.Enabled = false;
-			menuItemRunPolicy.Enabled = false;
+			_menuItemOpenPolicy.Enabled = true;
+			_menuItemOpenRequest.Enabled = true;
+			_menuItemSaveAs.Enabled = false;
+			_menuItemSave.Enabled = false;
+			_menuItemRunRequest.Enabled = false;
+			_menuItemRunPolicy.Enabled = false;
 		}
 
-		private void menuItem5_Click(object sender, System.EventArgs e)
+		private void menuItemOpenRequest_Click(object sender, System.EventArgs e)
 		{
-			openFileDialog.Filter = "Request Files|*.xml|All Files|*.*";
-			if (openFileDialog.ShowDialog() == DialogResult.OK)
+			_openFileDialog.Filter = @"Request Files|*.xml|All Files|*.*";
+			if (_openFileDialog.ShowDialog() == DialogResult.OK)
 			{
-				System.IO.Stream stream = openFileDialog.OpenFile();
-				_path = openFileDialog.FileName;
-				docType = DocumentType.Request;
+				Stream stream = _openFileDialog.OpenFile();
+				_path = _openFileDialog.FileName;
+				_docType = DocumentType.Request;
 				con.ContextDocumentReadWrite doc = ContextLoader.LoadContextDocument(stream, XacmlVersion.Version11, DocumentAccess.ReadWrite);
-				mainTree.Nodes.Add(new ContextTreeNodes.Context(doc));
-				menuItemSaveAs.Enabled = true;
-				menuItemSave.Enabled = true;
-				menuItemOpenRequest.Enabled = false;
-				menuItemOpenPolicy.Enabled = false;
-				menuItemRunPolicy.Enabled = true;
-				menuItemRunRequest.Enabled = false;
+				_mainTree.Nodes.Add(new Context(doc));
+				_menuItemSaveAs.Enabled = true;
+				_menuItemSave.Enabled = true;
+				_menuItemOpenRequest.Enabled = false;
+				_menuItemOpenPolicy.Enabled = false;
+				_menuItemRunPolicy.Enabled = true;
+				_menuItemRunRequest.Enabled = false;
 				stream.Close();
 			}
 		}
 
-		private void menuItem7_Click(object sender, System.EventArgs e)
+		private void menuItemRunPolicy_Click(object sender, System.EventArgs e)
 		{
-			if (MessageBox.Show(this, "The request will be saved. Do you want to proceed?", "Warning", MessageBoxButtons.YesNo) == DialogResult.Yes)
+			if (MessageBox.Show(this, @"The request will be saved. Do you want to proceed?", @"Warning", MessageBoxButtons.YesNo) == DialogResult.Yes)
 			{
 				//Loads the policy
-				openFileDialog.Filter = "Policy Files|*.xml|All Files|*.*";
-				if (openFileDialog.ShowDialog() == DialogResult.OK)
+				_openFileDialog.Filter = @"Policy Files|*.xml|All Files|*.*";
+				if (_openFileDialog.ShowDialog() == DialogResult.OK)
 				{
-					menuItem9_Click(sender, e);
-					pol.PolicyDocumentReadWrite oPol = PolicyLoader.LoadPolicyDocument(openFileDialog.OpenFile(), XacmlVersion.Version11);
+					menuItemSave_Click(sender, e);
+					PolicyDocumentReadWrite oPol = PolicyLoader.LoadPolicyDocument(_openFileDialog.OpenFile(), XacmlVersion.Version11);
 					//Gets the context from the TreeView
-					System.IO.Stream stream = new System.IO.FileStream(_path, FileMode.Open);
+					Stream stream = new FileStream(_path, FileMode.Open);
 					con.ContextDocumentReadWrite oCon = ContextLoader.LoadContextDocument(stream, XacmlVersion.Version11);
 
 					stream.Close();
 
 					//Evaluates the request
-					Runtime.EvaluationEngine engine = new Runtime.EvaluationEngine();
+					var engine = new Runtime.EvaluationEngine();
 					con.ResponseElement res = engine.Evaluate((pol.PolicyDocument)oPol, (con.ContextDocument)oCon);
 
-					mainPanel.Controls.Clear();
+					_mainPanel.Controls.Clear();
 					//Creates the xml
 					string path = Path.GetTempFileName();
 					XmlWriter writer = new XmlTextWriter(path, System.Text.Encoding.UTF8);
 					res.WriteDocument(writer);
 					writer.Close();
 
-					mainPanel.Controls.Add(new ContextCustomControls.XmlViewer(path, Consts.ContextSchema.ResponseElement.Response));
+					_mainPanel.Controls.Add(new ContextCustomControls.XmlViewer(path, Consts.ContextSchema.ResponseElement.Response));
 				}
 			}
 		}
 
-		private void menuItem8_Click(object sender, System.EventArgs e)
+		private void menuItemRunRequest_Click(object sender, EventArgs e)
 		{
-			if (MessageBox.Show(this, "The policy will be saved. Do you want to proceed?", "Warning", MessageBoxButtons.YesNo) == DialogResult.Yes)
+			if (MessageBox.Show(this, @"The policy will be saved. Do you want to proceed?", @"Warning", MessageBoxButtons.YesNo) == DialogResult.Yes)
 			{
 				//Loads the request
-				openFileDialog.Filter = "Request Files|*.xml|All Files|*.*";
-				if (openFileDialog.ShowDialog() == DialogResult.OK)
+				_openFileDialog.Filter = @"Request Files|*.xml|All Files|*.*";
+				if (_openFileDialog.ShowDialog() == DialogResult.OK)
 				{
-					menuItem9_Click(sender, e);
-					con.ContextDocumentReadWrite oCon = ContextLoader.LoadContextDocument(openFileDialog.OpenFile(), XacmlVersion.Version11);
+					menuItemSave_Click(sender, e);
+					con.ContextDocumentReadWrite oCon = ContextLoader.LoadContextDocument(_openFileDialog.OpenFile(), XacmlVersion.Version11);
 					//Gets the policy from the TreeView
-					System.IO.Stream stream = new System.IO.FileStream(_path, FileMode.Open);
-					pol.PolicyDocumentReadWrite oPol = PolicyLoader.LoadPolicyDocument(stream, XacmlVersion.Version11);
+					Stream stream = new FileStream(_path, FileMode.Open);
+					PolicyDocumentReadWrite oPol = PolicyLoader.LoadPolicyDocument(stream, XacmlVersion.Version11);
 
 					stream.Close();
 
 					//Evaluates the request
-					Runtime.EvaluationEngine engine = new Runtime.EvaluationEngine();
+					var engine = new Runtime.EvaluationEngine();
 					con.ResponseElement res = engine.Evaluate((pol.PolicyDocument)oPol, (con.ContextDocument)oCon);
 
 					//Creates the xml
@@ -1443,27 +1495,29 @@ namespace Anycmd.Xacml.ControlCenter
 					res.WriteDocument(writer);
 					writer.Close();
 
-					mainPanel.Controls.Clear();
+					_mainPanel.Controls.Clear();
 
-					mainPanel.Controls.Add(new ContextCustomControls.XmlViewer(path, Consts.ContextSchema.ResponseElement.Response));
+					_mainPanel.Controls.Add(new ContextCustomControls.XmlViewer(path, Consts.ContextSchema.ResponseElement.Response));
 				}
 			}
 		}
 
-		private void menuItem9_Click(object sender, System.EventArgs e)
+		private void menuItemSave_Click(object sender, EventArgs e)
 		{
-			XmlTextWriter writer = new XmlTextWriter(_path, System.Text.Encoding.UTF8);
-			writer.Namespaces = true;
-			writer.Formatting = Formatting.Indented;
-
-			if (docType == DocumentType.Request)
+			var writer = new XmlTextWriter(_path, System.Text.Encoding.UTF8)
 			{
-				con.ContextDocumentReadWrite oCon = ((ContextTreeNodes.Context)mainTree.TopNode).ContextDefinition;
+				Namespaces = true,
+				Formatting = Formatting.Indented
+			};
+
+			if (_docType == DocumentType.Request)
+			{
+				con.ContextDocumentReadWrite oCon = ((Context)_mainTree.TopNode).ContextDefinition;
 				oCon.WriteRequestDocument(writer);
 			}
-			else if (docType == DocumentType.Policy)
+			else if (_docType == DocumentType.Policy)
 			{
-				pol.PolicyDocumentReadWrite oPol = ((TreeNodes.PolicyDocument)mainTree.TopNode).PolicyDocumentDefinition;
+				PolicyDocumentReadWrite oPol = ((TreeNodes.PolicyDocument)_mainTree.TopNode).PolicyDocumentDefinition;
 				oPol.WriteDocument(writer);
 			}
 
