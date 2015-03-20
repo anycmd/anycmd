@@ -296,8 +296,8 @@ namespace Anycmd.Xacml.ControlCenter
 			_openFileDialog.Filter = @"Policy Files|*.xml|All Files|*.*";
 			if (_openFileDialog.ShowDialog() == DialogResult.OK)
 			{
-				System.IO.Stream stream = _openFileDialog.OpenFile();
-				pol.PolicyDocumentReadWrite doc = PolicyLoader.LoadPolicyDocument(stream, XacmlVersion.Version11, DocumentAccess.ReadWrite);
+				Stream stream = _openFileDialog.OpenFile();
+				PolicyDocumentReadWrite doc = PolicyLoader.LoadPolicyDocument(stream, DocumentAccess.ReadWrite);
 				_path = _openFileDialog.FileName;
 				_mainTree.Nodes.Add(new TreeNodes.PolicyDocument(doc));
 				_docType = DocumentType.Policy;
@@ -735,7 +735,7 @@ namespace Anycmd.Xacml.ControlCenter
 				null,
 				null,
 				null,
-				Xacml.XacmlVersion.Version11); //TODO: check version
+				XacmlVersion.Version11); //TODO: check version
 
 			// Add the policy to the policySet.
 			policySet.Policies.Add(newPolicy);
@@ -1074,13 +1074,16 @@ namespace Anycmd.Xacml.ControlCenter
 				int idx = targetNode.Nodes.IndexOf(anyActionNode);
 				targetNode.Nodes.RemoveAt(idx);
 
-				var matchCollection = new TargetMatchReadWriteCollection();
-				matchCollection.Add(
-					new ActionMatchElementReadWrite(
-						Consts.Schema1.InternalFunctions.StringEqual,
-						new pol.AttributeValueElementReadWrite(Consts.Schema1.InternalDataTypes.XsdString, "DoSomething", XacmlVersion.Version11),  //TODO: check version
-						new ActionAttributeDesignatorElement(Consts.Schema1.InternalDataTypes.XsdString, false, Consts.Schema1.ActionElement.ActionId, "", XacmlVersion.Version11), XacmlVersion.Version11)); //TODO: check version
-				var action = new ActionElementReadWrite(matchCollection, XacmlVersion.Version11); //TODO: check version
+				var matchCollection = new TargetMatchReadWriteCollection
+				{
+				    new ActionMatchElementReadWrite(
+				        Consts.Schema1.InternalFunctions.StringEqual,
+				        new AttributeValueElementReadWrite(Consts.Schema1.InternalDataTypes.XsdString, "DoSomething",
+				            XacmlVersion.Version11), //TODO: check version
+				        new ActionAttributeDesignatorElement(Consts.Schema1.InternalDataTypes.XsdString, false,
+				            Consts.Schema1.ActionElement.ActionId, "", XacmlVersion.Version11), XacmlVersion.Version11)
+				};
+			    var action = new ActionElementReadWrite(matchCollection, XacmlVersion.Version11); //TODO: check version
 
 				var actionNode = new TargetItem(action);
 
@@ -1425,7 +1428,7 @@ namespace Anycmd.Xacml.ControlCenter
 				Stream stream = _openFileDialog.OpenFile();
 				_path = _openFileDialog.FileName;
 				_docType = DocumentType.Request;
-				con.ContextDocumentReadWrite doc = ContextLoader.LoadContextDocument(stream, XacmlVersion.Version11, DocumentAccess.ReadWrite);
+				con.ContextDocumentReadWrite doc = ContextLoader.LoadContextDocument(stream, DocumentAccess.ReadWrite);
 				_mainTree.Nodes.Add(new Context(doc));
 				_menuItemSaveAs.Enabled = true;
 				_menuItemSave.Enabled = true;
@@ -1446,10 +1449,10 @@ namespace Anycmd.Xacml.ControlCenter
 				if (_openFileDialog.ShowDialog() == DialogResult.OK)
 				{
 					menuItemSave_Click(sender, e);
-					PolicyDocumentReadWrite oPol = PolicyLoader.LoadPolicyDocument(_openFileDialog.OpenFile(), XacmlVersion.Version11);
+					PolicyDocumentReadWrite oPol = PolicyLoader.LoadPolicyDocument(_openFileDialog.OpenFile());
 					//Gets the context from the TreeView
 					Stream stream = new FileStream(_path, FileMode.Open);
-					con.ContextDocumentReadWrite oCon = ContextLoader.LoadContextDocument(stream, XacmlVersion.Version11);
+					con.ContextDocumentReadWrite oCon = ContextLoader.LoadContextDocument(stream);
 
 					stream.Close();
 
@@ -1478,10 +1481,10 @@ namespace Anycmd.Xacml.ControlCenter
 				if (_openFileDialog.ShowDialog() == DialogResult.OK)
 				{
 					menuItemSave_Click(sender, e);
-					con.ContextDocumentReadWrite oCon = ContextLoader.LoadContextDocument(_openFileDialog.OpenFile(), XacmlVersion.Version11);
+					con.ContextDocumentReadWrite oCon = ContextLoader.LoadContextDocument(_openFileDialog.OpenFile());
 					//Gets the policy from the TreeView
 					Stream stream = new FileStream(_path, FileMode.Open);
-					PolicyDocumentReadWrite oPol = PolicyLoader.LoadPolicyDocument(stream, XacmlVersion.Version11);
+					PolicyDocumentReadWrite oPol = PolicyLoader.LoadPolicyDocument(stream);
 
 					stream.Close();
 

@@ -106,9 +106,12 @@ namespace Anycmd.Xacml.Policy
         public PolicyElementReadWrite(XmlReader reader, XacmlVersion schemaVersion)
             : base(XacmlSchema.Policy, schemaVersion)
         {
-            if (reader.LocalName == Consts.Schema1.PolicyElement.Policy &&
-                ValidateSchema(reader, schemaVersion))
+            if (reader.LocalName == Consts.Schema1.PolicyElement.Policy)
             {
+                if (!ValidateSchema(reader, schemaVersion))
+                {
+                    throw new Exception("模式验证失败");
+                }
                 // Read the policy id
                 _id = reader.GetAttribute(Consts.Schema1.PolicyElement.PolicyId);
 
