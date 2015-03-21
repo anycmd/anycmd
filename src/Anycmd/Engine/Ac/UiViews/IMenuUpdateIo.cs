@@ -1,7 +1,7 @@
 ﻿
 namespace Anycmd.Engine.Ac.UiViews
 {
-    using Engine.InOuts;
+    using InOuts;
     using System;
 
     /// <summary>

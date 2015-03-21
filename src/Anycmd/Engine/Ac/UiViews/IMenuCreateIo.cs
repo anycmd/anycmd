@@ -15,6 +15,10 @@ namespace Anycmd.Engine.Ac.UiViews
         string Name { get; }
         Guid? ParentId { get; }
         int SortCode { get; }
+        /// <summary>
+        /// 用于定位空间的逻辑定位符。如“/User/Index”，不一定是定位到本菜单所属系统的内部的空间，
+        /// 也可能定位到外部系统的空间，如“http://j.map.baidu.com/u3fgA”。
+        /// </summary>
         string Url { get; }
     }
 }

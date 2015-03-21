@@ -11,21 +11,16 @@ namespace Anycmd.Engine.Ac.UiViews
     {
         private string _code;
         private string _name;
-        private int _isEnabled;
 
         protected ButtonBase()
         {
-            _isEnabled = 1;
+            IsEnabled = 1;
         }
 
         /// <summary>
         /// 是否启用
         /// </summary>
-        public int IsEnabled
-        {
-            get { return _isEnabled; }
-            set { _isEnabled = value; }
-        }
+        public int IsEnabled { get; set; }
 
         /// <summary>
         /// 
