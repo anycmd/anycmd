@@ -20,14 +20,28 @@ namespace Anycmd.Engine.Ac
 
         public static SsdSetState Create(SsdSetBase ssdSet)
         {
+            if (ssdSet == null)
+            {
+                throw new ArgumentNullException("ssdSet");
+            }
             return new SsdSetState(ssdSet.Id)
             {
-                _name = ssdSet.Name,
-                _isEnabled = ssdSet.IsEnabled,
-                _ssdCard = ssdSet.SsdCard,
-                _description = ssdSet.Description,
                 _createOn = ssdSet.CreateOn
-            };
+            }.InternalModify(ssdSet);
+        }
+
+        internal SsdSetState InternalModify(SsdSetBase ssdSet)
+        {
+            if (ssdSet == null)
+            {
+                throw new ArgumentNullException("ssdSet");
+            }
+            _name = ssdSet.Name;
+            _isEnabled = ssdSet.IsEnabled;
+            _ssdCard = ssdSet.SsdCard;
+            _description = ssdSet.Description;
+
+            return this;
         }
 
         public string Name

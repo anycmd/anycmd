@@ -22,48 +22,59 @@ namespace Anycmd.Engine.Ac
 
         private PrivilegeState(Guid id) : base(id) { }
 
-        public static PrivilegeState Create(PrivilegeBase privilegeBigram)
+        public static PrivilegeState Create(PrivilegeBase privilege)
         {
-            if (privilegeBigram == null)
+            if (privilege == null)
             {
-                throw new ArgumentNullException("privilegeBigram");
+                throw new ArgumentNullException("privilege");
             }
-            if (string.IsNullOrEmpty(privilegeBigram.SubjectType))
+            return new PrivilegeState(privilege.Id)
+            {
+                _createOn = privilege.CreateOn
+            }.InternalModify(privilege);
+        }
+
+        internal PrivilegeState InternalModify(PrivilegeBase privilege)
+        {
+            if (privilege == null)
+            {
+                throw new ArgumentNullException("privilege");
+            }
+            if (string.IsNullOrEmpty(privilege.SubjectType))
             {
                 throw new AnycmdException("必须指定主授权授权类型");
             }
-            if (string.IsNullOrEmpty(privilegeBigram.ObjectType))
+            if (string.IsNullOrEmpty(privilege.ObjectType))
             {
                 throw new AnycmdException("必须指定授权授权类型");
             }
             AcElementType subjectType;
             AcElementType acObjectType;
             AcRecordType acType;
-            if (!privilegeBigram.SubjectType.TryParse(out subjectType))
+            if (!privilege.SubjectType.TryParse(out subjectType))
             {
-                throw new AnycmdException("非法的主授权类型" + privilegeBigram.SubjectType);
+                throw new AnycmdException("非法的主授权类型" + privilege.SubjectType);
             }
-            if (!privilegeBigram.ObjectType.TryParse(out acObjectType))
+            if (!privilege.ObjectType.TryParse(out acObjectType))
             {
-                throw new AnycmdException("非法的从授权类型" + privilegeBigram.ObjectType);
+                throw new AnycmdException("非法的从授权类型" + privilege.ObjectType);
             }
-            if (!(privilegeBigram.SubjectType + privilegeBigram.ObjectType).TryParse(out acType))
+            if (!(privilege.SubjectType + privilege.ObjectType).TryParse(out acType))
             {
-                throw new AnycmdException("非法的授权类型" + privilegeBigram.ObjectType);
+                throw new AnycmdException("非法的授权类型" + privilege.ObjectType);
             }
-            return new PrivilegeState(privilegeBigram.Id)
-            {
-                _acType = acType,
-                _subjectType = subjectType,
-                _subjectInstanceId = privilegeBigram.SubjectInstanceId,
-                _objectType = acObjectType,
-                _objectInstanceId = privilegeBigram.ObjectInstanceId,
-                _acContent = privilegeBigram.AcContent,
-                _createOn = privilegeBigram.CreateOn,
-                _createBy = privilegeBigram.CreateBy,
-                _createUserId = privilegeBigram.CreateUserId,
-                _acContentType = privilegeBigram.AcContentType
-            };
+
+            _acType = acType;
+            _subjectType = subjectType;
+            _subjectInstanceId = privilege.SubjectInstanceId;
+            _objectType = acObjectType;
+            _objectInstanceId = privilege.ObjectInstanceId;
+            _acContent = privilege.AcContent;
+            _createBy = privilege.CreateBy;
+            _createUserId = privilege.CreateUserId;
+            _acContentType = privilege.AcContentType;
+
+            return this;
         }
 
         public AcRecordType AcRecordType

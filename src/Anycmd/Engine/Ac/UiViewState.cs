@@ -37,10 +37,20 @@ namespace Anycmd.Engine.Ac
             return new UiViewState(view.Id)
             {
                 _acDomain = acDomain,
-                _tooltip = view.Tooltip,
-                _createOn = view.CreateOn,
-                _icon = view.Icon,
-            };
+                _createOn = view.CreateOn
+            }.InternalModify(view);
+        }
+
+        internal UiViewState InternalModify(UiViewBase view)
+        {
+            if (view == null)
+            {
+                throw new ArgumentNullException("view");
+            }
+            _tooltip = view.Tooltip;
+            _icon = view.Icon;
+
+            return this;
         }
 
         public IAcDomain AcDomain

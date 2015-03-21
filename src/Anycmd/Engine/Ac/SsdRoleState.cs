@@ -18,12 +18,26 @@ namespace Anycmd.Engine.Ac
 
         public static SsdRoleState Create(SsdRoleBase ssdRole)
         {
+            if (ssdRole == null)
+            {
+                throw new ArgumentNullException("ssdRole");
+            }
             return new SsdRoleState(ssdRole.Id)
             {
-                _roleId = ssdRole.RoleId,
-                _ssdSetId = ssdRole.SsdSetId,
                 _createOn = ssdRole.CreateOn
-            };
+            }.InternalModify(ssdRole);
+        }
+
+        internal SsdRoleState InternalModify(SsdRoleBase ssdRole)
+        {
+            if (ssdRole == null)
+            {
+                throw new ArgumentNullException("ssdRole");
+            }
+            _roleId = ssdRole.RoleId;
+            _ssdSetId = ssdRole.SsdSetId;
+
+            return this;
         }
 
         public Guid SsdSetId

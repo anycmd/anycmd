@@ -45,12 +45,26 @@ namespace Anycmd.Engine.Ac
             {
                 throw new ArgumentNullException("property");
             }
+            return new PropertyState(property.Id)
+            {
+                _acDomain = acDomain,
+                _entityTypeId = property.EntityTypeId,
+                _createOn = property.CreateOn
+            }.InternalModify(property);
+        }
+
+        internal PropertyState InternalModify(PropertyBase property)
+        {
+            if (property == null)
+            {
+                throw new ArgumentNullException("property");
+            }
             if (property.EntityTypeId == Guid.Empty)
             {
                 throw new AnycmdException("实体属性必须属于某个实体类型");
             }
             EntityTypeState entityType;
-            if (!acDomain.EntityTypeSet.TryGetEntityType(property.EntityTypeId, out entityType))
+            if (!_acDomain.EntityTypeSet.TryGetEntityType(property.EntityTypeId, out entityType))
             {
                 throw new AnycmdException("意外的实体类型标识" + property.EntityTypeId);
             }
@@ -62,31 +76,27 @@ namespace Anycmd.Engine.Ac
             if (dicId.HasValue)
             {
                 CatalogState catalog;
-                if (!acDomain.CatalogSet.TryGetCatalog(dicId.Value, out catalog))
+                if (!_acDomain.CatalogSet.TryGetCatalog(dicId.Value, out catalog))
                 {
                     throw new ValidationException("意外的字典标识" + dicId);
                 }
             }
-            return new PropertyState(property.Id)
-            {
-                _acDomain = acDomain,
-                _entityTypeId = property.EntityTypeId,
-                _foreignPropertyId = property.ForeignPropertyId,
-                _code = property.Code,
-                _createOn = property.CreateOn,
-                _dicId = dicId,
-                _guideWords = property.GuideWords,
-                _icon = property.Icon,
-                _inputType = property.InputType,
-                _isDetailsShow = property.IsDetailsShow,
-                _maxLength = property.MaxLength,
-                _name = property.Name,
-                _sortCode = property.SortCode,
-                _tooltip = property.Tooltip,
-                _isTotalLine = property.IsTotalLine,
-                _isDeveloperOnly = property.IsDeveloperOnly,
-                _isInput = property.IsInput
-            };
+            _foreignPropertyId = property.ForeignPropertyId;
+            _code = property.Code;
+            _dicId = dicId;
+            _guideWords = property.GuideWords;
+            _icon = property.Icon;
+            _inputType = property.InputType;
+            _isDetailsShow = property.IsDetailsShow;
+            _maxLength = property.MaxLength;
+            _name = property.Name;
+            _sortCode = property.SortCode;
+            _tooltip = property.Tooltip;
+            _isTotalLine = property.IsTotalLine;
+            _isDeveloperOnly = property.IsDeveloperOnly;
+            _isInput = property.IsInput;
+
+            return this;
         }
 
         public static PropertyState CreateNoneProperty(string code)

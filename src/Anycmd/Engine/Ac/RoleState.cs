@@ -28,13 +28,23 @@ namespace Anycmd.Engine.Ac
             }
             return new RoleState(role.Id)
             {
-                _name = role.Name,
-                _categoryCode = role.CategoryCode,
-                _createOn = role.CreateOn,
-                _isEnabled = role.IsEnabled,
-                _icon = role.Icon,
-                _sortCode = role.SortCode
-            };
+                _createOn = role.CreateOn
+            }.InternalModify(role);
+        }
+
+        internal RoleState InternalModify(RoleBase role)
+        {
+            if (role == null)
+            {
+                throw new ArgumentNullException("role");
+            }
+            _name = role.Name;
+            _categoryCode = role.CategoryCode;
+            _isEnabled = role.IsEnabled;
+            _icon = role.Icon;
+            _sortCode = role.SortCode;
+
+            return this;
         }
 
         public AcElementType AcElementType

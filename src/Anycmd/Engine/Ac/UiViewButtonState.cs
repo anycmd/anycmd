@@ -23,13 +23,27 @@ namespace Anycmd.Engine.Ac
             {
                 throw new ArgumentNullException("viewButton");
             }
+            return new UiViewButtonState(viewButton.Id)
+            {
+                _acDomain = acDomain,
+                _viewId = viewButton.UiViewId,
+                _createOn = viewButton.CreateOn
+            }.InternalModify(viewButton);
+        }
+
+        internal UiViewButtonState InternalModify(UiViewButtonBase viewButton)
+        {
+            if (viewButton == null)
+            {
+                throw new ArgumentNullException("viewButton");
+            }
             UiViewState view;
-            if (!acDomain.UiViewSet.TryGetUiView(viewButton.UiViewId, out view))
+            if (!_acDomain.UiViewSet.TryGetUiView(viewButton.UiViewId, out view))
             {
                 throw new AnycmdException("意外的界面视图" + viewButton.UiViewId);
             }
             ButtonState button;
-            if (!acDomain.ButtonSet.TryGetButton(viewButton.ButtonId, out button))
+            if (!_acDomain.ButtonSet.TryGetButton(viewButton.ButtonId, out button))
             {
                 throw new AnycmdException("意外的按钮" + viewButton.ButtonId);
             }
@@ -38,30 +52,19 @@ namespace Anycmd.Engine.Ac
             {
                 functionId = null;
             }
-            if (!functionId.HasValue)
-                return new UiViewButtonState(viewButton.Id)
+            if (functionId.HasValue)
+            {
+                FunctionState function;
+                if (!_acDomain.FunctionSet.TryGetFunction(functionId.Value, out function))
                 {
-                    _acDomain = acDomain,
-                    _viewId = viewButton.UiViewId,
-                    _functionId = null,
-                    _buttonId = viewButton.ButtonId,
-                    _isEnabled = viewButton.IsEnabled,
-                    _createOn = viewButton.CreateOn
-                };
-            FunctionState function;
-            if (!acDomain.FunctionSet.TryGetFunction(functionId.Value, out function))
-            {
-                throw new ValidationException("意外的功能标识" + functionId);
+                    throw new ValidationException("意外的功能标识" + functionId);
+                }
             }
-            return new UiViewButtonState(viewButton.Id)
-            {
-                _acDomain = acDomain,
-                _viewId = viewButton.UiViewId,
-                _functionId = functionId,
-                _buttonId = viewButton.ButtonId,
-                _isEnabled = viewButton.IsEnabled,
-                _createOn = viewButton.CreateOn
-            };
+            _functionId = functionId;
+            _buttonId = viewButton.ButtonId;
+            _isEnabled = viewButton.IsEnabled;
+
+            return this;
         }
 
         /// <summary>
