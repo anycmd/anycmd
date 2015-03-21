@@ -63,16 +63,23 @@ namespace Anycmd.Engine.Ac
             return new CatalogState(catalog.Id)
             {
                 _acDomain = acDomain,
-                _categoryCode = catalog.CategoryCode,
-                _code = catalog.Code,
-                _createOn = catalog.CreateOn,
-                _description = catalog.Description,
-                _isEnabled = catalog.IsEnabled,
-                _modifiedOn = catalog.ModifiedOn,
-                _name = catalog.Name,
-                _parentCode = catalog.ParentCode,
-                _sortCode = catalog.SortCode
-            };
+                _createOn = catalog.CreateOn
+            }.InternalModify(catalog);
+        }
+
+        internal CatalogState InternalModify(CatalogBase catalog)
+        {
+
+            _categoryCode = catalog.CategoryCode;
+            _code = catalog.Code;
+            _description = catalog.Description;
+            _isEnabled = catalog.IsEnabled;
+            _modifiedOn = catalog.ModifiedOn;
+            _name = catalog.Name;
+            _parentCode = catalog.ParentCode;
+            _sortCode = catalog.SortCode;
+
+            return this;
         }
 
         public AcElementType AcElementType

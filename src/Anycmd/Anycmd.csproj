@@ -77,8 +77,6 @@
     <Compile Include="Engine\Ac\Privileges\IAcRecord.cs" />
     <Compile Include="Engine\Ac\Dsd\IDsdRole.cs" />
     <Compile Include="Engine\Ac\Dsd\IDsdSet.cs" />
-    <Compile Include="Engine\Ac\Functions\FunctionIoBase.cs" />
-    <Compile Include="Engine\Ac\Functions\IFunctionIo.cs" />
     <Compile Include="Engine\Ac\IoDirection.cs" />
     <Compile Include="Engine\Ac\Ssd\ISsdRole.cs" />
     <Compile Include="Engine\Ac\Ssd\ISsdSet.cs" />
@@ -150,7 +148,6 @@
     <Compile Include="Engine\Ac\AccountPrivilege.cs" />
     <Compile Include="Engine\Host\Ac\AcDomainExtension.cs" />
     <Compile Include="Engine\Host\Ac\Rbac\DsdSet.cs" />
-    <Compile Include="Engine\Host\Ac\Infra\FunctionIo.cs" />
     <Compile Include="Engine\Ac\Privileges\RoleRolePrivilegeRemovedEvent.cs" />
     <Compile Include="Engine\Ac\Accounts\IAccountCreateIo.cs" />
     <Compile Include="Engine\Ac\Accounts\IAccountUpdateIo.cs" />
@@ -195,7 +192,6 @@
     <Compile Include="Engine\Edi\InOuts\INodeActionCreateIo.cs" />
     <Compile Include="Engine\Edi\InOuts\INodeActionUpdateIo.cs" />
     <Compile Include="Engine\Edi\InOuts\INodeOntologyCatalogCreateIo.cs" />
-    <Compile Include="Engine\Ac\FunctionIoState.cs" />
     <Compile Include="Engine\Host\Impl\HostConvention.cs" />
     <Compile Include="Engine\Ac\Dsd\AddDsdRoleCommand.cs" />
     <Compile Include="Engine\Ac\Dsd\AddDsdSetCommand.cs" />

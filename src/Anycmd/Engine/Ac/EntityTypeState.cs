@@ -65,19 +65,25 @@ namespace Anycmd.Engine.Ac
             {
                 _acDomain = acDomain,
                 _map = map,
-                _codespace = entityType.Codespace,
-                _code = entityType.Code,
-                _isCatalogued = entityType.IsCatalogued,
                 _createOn = entityType.CreateOn,
-                _databaseId = entityType.DatabaseId,
-                _developerId = entityType.DeveloperId,
-                _editHeight = entityType.EditHeight,
-                _editWidth = entityType.EditWidth,
-                _name = entityType.Name,
-                _schemaName = entityType.SchemaName,
-                _sortCode = entityType.SortCode,
-                _tableName = entityType.TableName
-            };
+            }.InternalModify(entityType);
+        }
+
+        internal EntityTypeState InternalModify(EntityTypeBase entityType)
+        {
+            _codespace = entityType.Codespace;
+            _code = entityType.Code;
+            _isCatalogued = entityType.IsCatalogued;
+            _databaseId = entityType.DatabaseId;
+            _developerId = entityType.DeveloperId;
+            _editHeight = entityType.EditHeight;
+            _editWidth = entityType.EditWidth;
+            _name = entityType.Name;
+            _schemaName = entityType.SchemaName;
+            _sortCode = entityType.SortCode;
+            _tableName = entityType.TableName;
+
+            return this;
         }
 
         public IAcDomain AcDomain

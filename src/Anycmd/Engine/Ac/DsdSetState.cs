@@ -22,12 +22,18 @@ namespace Anycmd.Engine.Ac
         {
             return new DsdSetState(dsdSet.Id)
             {
-                _name = dsdSet.Name,
-                _isEnabled = dsdSet.IsEnabled,
-                _dsdCard = dsdSet.DsdCard,
-                _description = dsdSet.Description,
                 _createOn = dsdSet.CreateOn
-            };
+            }.InternalModify(dsdSet);
+        }
+
+        internal DsdSetState InternalModify(DsdSetBase dsdSet)
+        {
+            _name = dsdSet.Name;
+            _isEnabled = dsdSet.IsEnabled;
+            _dsdCard = dsdSet.DsdCard;
+            _description = dsdSet.Description;
+
+            return this;
         }
 
         public string Name

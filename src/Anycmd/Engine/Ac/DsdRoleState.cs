@@ -20,10 +20,16 @@ namespace Anycmd.Engine.Ac
         {
             return new DsdRoleState(dsdRole.Id)
             {
-                _roleId = dsdRole.RoleId,
-                _dsdSetId = dsdRole.DsdSetId,
                 _createOn = dsdRole.CreateOn
-            };
+            }.InternalModify(dsdRole);
+        }
+
+        internal DsdRoleState InternalModify(DsdRoleBase dsdRole)
+        {
+            _roleId = dsdRole.RoleId;
+            _dsdSetId = dsdRole.DsdSetId;
+
+            return this;
         }
 
         public Guid DsdSetId
