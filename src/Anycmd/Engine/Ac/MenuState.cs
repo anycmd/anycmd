@@ -12,7 +12,7 @@ namespace Anycmd.Engine.Ac
     /// </summary>
     public sealed class MenuState : StateObject<MenuState>, IMenu, IAcElement
     {
-        private IAcDomain AcDomain { get; set; }
+        private IAcDomain _acDomain;
         private Guid _appSystemId;
         private Guid? _parentId;
         private string _name;
@@ -29,21 +29,31 @@ namespace Anycmd.Engine.Ac
             {
                 throw new ArgumentNullException("menu");
             }
-            if (!acDomain.AppSystemSet.ContainsAppSystem(menu.AppSystemId))
+            return new MenuState(menu.Id)
+            {
+                _acDomain = acDomain,
+                _appSystemId = menu.AppSystemId
+            }.InternalModify(menu);
+        }
+
+        internal MenuState InternalModify(IMenu menu)
+        {
+            if (menu == null)
+            {
+                throw new ArgumentNullException("menu");
+            }
+            if (!_acDomain.AppSystemSet.ContainsAppSystem(menu.AppSystemId))
             {
                 throw new ValidationException("意外的应用系统标识" + menu.AppSystemId);
             }
-            return new MenuState(menu.Id)
-            {
-                AcDomain = acDomain,
-                _appSystemId = menu.AppSystemId,
-                _name = menu.Name,
-                _parentId = menu.ParentId,
-                _url = menu.Url,
-                _icon = menu.Icon,
-                _sortCode = menu.SortCode,
-                _description = menu.Description
-            };
+            _name = menu.Name;
+            _parentId = menu.ParentId;
+            _url = menu.Url;
+            _icon = menu.Icon;
+            _sortCode = menu.SortCode;
+            _description = menu.Description;
+
+            return this;
         }
 
         public AcElementType AcElementType

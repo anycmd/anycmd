@@ -18,6 +18,10 @@ namespace Anycmd.Engine.Ac
 
         public static DsdRoleState Create(DsdRoleBase dsdRole)
         {
+            if (dsdRole == null)
+            {
+                throw new ArgumentNullException("dsdRole");
+            }
             return new DsdRoleState(dsdRole.Id)
             {
                 _createOn = dsdRole.CreateOn
@@ -26,6 +30,10 @@ namespace Anycmd.Engine.Ac
 
         internal DsdRoleState InternalModify(DsdRoleBase dsdRole)
         {
+            if (dsdRole == null)
+            {
+                throw new ArgumentNullException("dsdRole");
+            }
             _roleId = dsdRole.RoleId;
             _dsdSetId = dsdRole.DsdSetId;
 

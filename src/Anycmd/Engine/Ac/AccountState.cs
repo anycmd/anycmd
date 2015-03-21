@@ -68,7 +68,7 @@ namespace Anycmd.Engine.Ac
         {
             if (account == null)
             {
-                return Empty;
+                throw new ArgumentNullException("account");
             }
             return new AccountState(account.Id)
             {
@@ -78,6 +78,10 @@ namespace Anycmd.Engine.Ac
 
         internal AccountState InternalModify(IAccount account)
         {
+            if (account == null)
+            {
+                throw new ArgumentNullException("account");
+            }
             _numberId = account.NumberId;
             _loginName = account.LoginName;
             _code = account.Code;

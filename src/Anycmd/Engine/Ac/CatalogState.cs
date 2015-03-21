@@ -56,6 +56,10 @@ namespace Anycmd.Engine.Ac
 
         public static CatalogState Create(IAcDomain acDomain, CatalogBase catalog)
         {
+            if (acDomain == null)
+            {
+                throw new ArgumentNullException("acDomain");
+            }
             if (catalog == null)
             {
                 throw new ArgumentNullException("catalog");
@@ -69,7 +73,10 @@ namespace Anycmd.Engine.Ac
 
         internal CatalogState InternalModify(CatalogBase catalog)
         {
-
+            if (catalog == null)
+            {
+                throw new ArgumentNullException("catalog");
+            }
             _categoryCode = catalog.CategoryCode;
             _code = catalog.Code;
             _description = catalog.Description;

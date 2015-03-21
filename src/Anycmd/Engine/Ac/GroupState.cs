@@ -27,12 +27,22 @@ namespace Anycmd.Engine.Ac
             }
             return new GroupState(group.Id)
             {
-                _name = group.Name,
-                _categoryCode = group.CategoryCode,
-                _sortCode = group.SortCode,
-                _isEnabled = group.IsEnabled,
                 _createOn = group.CreateOn
-            };
+            }.InternalModify(group);
+        }
+
+        internal GroupState InternalModify(GroupBase group)
+        {
+            if (group == null)
+            {
+                throw new ArgumentNullException("group");
+            }
+            _name = group.Name;
+            _categoryCode = group.CategoryCode;
+            _sortCode = group.SortCode;
+            _isEnabled = group.IsEnabled;
+
+            return this;
         }
 
         public AcElementType AcElementType

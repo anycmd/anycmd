@@ -52,13 +52,13 @@ namespace Anycmd.Engine.Ac
 
         public static EntityTypeState Create(IAcDomain acDomain, EntityTypeBase entityType, EntityTypeMap map)
         {
+            if (acDomain == null)
+            {
+                throw new ArgumentNullException("acDomain");
+            }
             if (entityType == null)
             {
                 throw new ArgumentNullException("entityType");
-            }
-            if (!acDomain.Rdbs.ContainsDb(entityType.DatabaseId))
-            {
-                throw new AnycmdException("意外的数据库" + entityType.DatabaseId);
             }
 
             return new EntityTypeState(entityType.Id)
@@ -71,6 +71,14 @@ namespace Anycmd.Engine.Ac
 
         internal EntityTypeState InternalModify(EntityTypeBase entityType)
         {
+            if (entityType == null)
+            {
+                throw new ArgumentNullException("entityType");
+            }
+            if (!_acDomain.Rdbs.ContainsDb(entityType.DatabaseId))
+            {
+                throw new AnycmdException("意外的数据库" + entityType.DatabaseId);
+            }
             _codespace = entityType.Codespace;
             _code = entityType.Code;
             _isCatalogued = entityType.IsCatalogued;

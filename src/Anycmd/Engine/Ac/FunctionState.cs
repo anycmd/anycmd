@@ -46,6 +46,23 @@ namespace Anycmd.Engine.Ac
 
         public static FunctionState Create(IAcDomain acDomain, FunctionBase function)
         {
+            if (acDomain == null)
+            {
+                throw new ArgumentNullException("acDomain");
+            }
+            if (function == null)
+            {
+                throw new ArgumentNullException("function");
+            }
+            return new FunctionState(function.Id)
+            {
+                _acDomain = acDomain,
+                _createOn = function.CreateOn
+            }.InternalModify(function);
+        }
+
+        internal FunctionState InternalModify(FunctionBase function)
+        {
             if (function == null)
             {
                 throw new ArgumentNullException("function");
@@ -55,23 +72,21 @@ namespace Anycmd.Engine.Ac
                 throw new AnycmdException("必须指定资源");
             }
             CatalogState resource;
-            if (!acDomain.CatalogSet.TryGetCatalog(function.ResourceTypeId, out resource))
+            if (!_acDomain.CatalogSet.TryGetCatalog(function.ResourceTypeId, out resource))
             {
                 throw new ValidationException("非法的资源标识" + function.ResourceTypeId);
             }
-            return new FunctionState(function.Id)
-            {
-                _acDomain = acDomain,
-                _resourceTypeId = function.ResourceTypeId,
-                _code = function.Code,
-                _guid = function.Guid,
-                _isManaged = function.IsManaged,
-                _isEnabled = function.IsEnabled,
-                _developerId = function.DeveloperId,
-                _sortCode = function.SortCode,
-                _description = function.Description,
-                _createOn = function.CreateOn
-            };
+            // ResourceTypeId是来自于Catalog树上的节点，ResourceTypeId是可以改变的。
+            _resourceTypeId = function.ResourceTypeId;
+            _code = function.Code;
+            _guid = function.Guid;
+            _isManaged = function.IsManaged;
+            _isEnabled = function.IsEnabled;
+            _developerId = function.DeveloperId;
+            _sortCode = function.SortCode;
+            _description = function.Description;
+
+            return this;
         }
 
         public AcElementType AcElementType

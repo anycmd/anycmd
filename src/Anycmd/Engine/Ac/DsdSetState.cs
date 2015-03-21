@@ -20,6 +20,10 @@ namespace Anycmd.Engine.Ac
 
         public static DsdSetState Create(DsdSetBase dsdSet)
         {
+            if (dsdSet == null)
+            {
+                throw new ArgumentNullException("dsdSet");
+            }
             return new DsdSetState(dsdSet.Id)
             {
                 _createOn = dsdSet.CreateOn
@@ -28,6 +32,10 @@ namespace Anycmd.Engine.Ac
 
         internal DsdSetState InternalModify(DsdSetBase dsdSet)
         {
+            if (dsdSet == null)
+            {
+                throw new ArgumentNullException("dsdSet");
+            }
             _name = dsdSet.Name;
             _isEnabled = dsdSet.IsEnabled;
             _dsdCard = dsdSet.DsdCard;

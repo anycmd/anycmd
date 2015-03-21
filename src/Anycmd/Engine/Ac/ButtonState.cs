@@ -34,6 +34,10 @@ namespace Anycmd.Engine.Ac
 
         internal ButtonState InternalModify(ButtonBase button)
         {
+            if (button == null)
+            {
+                throw new ArgumentNullException("button");
+            }
             _name = button.Name;
             _categoryCode = button.CategoryCode;
             _code = button.Code;

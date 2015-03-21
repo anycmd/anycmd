@@ -33,28 +33,38 @@ namespace Anycmd.Engine.Ac
         private string _ssoAuthAddress;
         private string _icon;
         private DateTime? _createOn;
+        private IAcDomain _acDomain;
 
         private AppSystemState(Guid id) : base(id) { }
 
         public static AppSystemState Create(IAcDomain acDomain, AppSystemBase appSystem)
         {
+            if (acDomain == null)
+            {
+                throw new ArgumentNullException("acDomain");
+            }
             if (appSystem == null)
             {
                 throw new ArgumentNullException("appSystem");
             }
-            AccountState principal;
-            if (!acDomain.SysUserSet.TryGetDevAccount(appSystem.PrincipalId, out principal))
-            {
-                throw new AnycmdException("意外的应用系统负责人标识" + appSystem.PrincipalId);
-            }
             return new AppSystemState(appSystem.Id)
             {
+                _acDomain = acDomain,
                 _createOn = appSystem.CreateOn
             }.InternalModify(appSystem);
         }
 
         internal AppSystemState InternalModify(AppSystemBase appSystem)
         {
+            if (appSystem == null)
+            {
+                throw new ArgumentNullException("appSystem");
+            }
+            AccountState principal;
+            if (!_acDomain.SysUserSet.TryGetDevAccount(appSystem.PrincipalId, out principal))
+            {
+                throw new AnycmdException("意外的应用系统负责人标识" + appSystem.PrincipalId);
+            }
             _code = appSystem.Code;
             _name = appSystem.Name;
             _sortCode = appSystem.SortCode;
