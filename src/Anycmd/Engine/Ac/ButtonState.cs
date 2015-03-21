@@ -28,14 +28,20 @@ namespace Anycmd.Engine.Ac
             }
             return new ButtonState(button.Id)
             {
-                _name = button.Name,
-                _categoryCode = button.CategoryCode,
-                _code = button.Code,
-                _icon = button.Icon,
-                _sortCode = button.SortCode,
-                _isEnabled = button.IsEnabled,
                 _createOn = button.CreateOn
-            };
+            }.InternalModify(button);
+        }
+
+        internal ButtonState InternalModify(ButtonBase button)
+        {
+            _name = button.Name;
+            _categoryCode = button.CategoryCode;
+            _code = button.Code;
+            _icon = button.Icon;
+            _sortCode = button.SortCode;
+            _isEnabled = button.IsEnabled;
+
+            return this;
         }
 
         public string Name

@@ -1,4 +1,6 @@
 ﻿
+using Jint.Runtime;
+
 namespace Anycmd.JintEngine.Tests
 {
     using Engine.Ac;
@@ -85,6 +87,33 @@ namespace Anycmd.JintEngine.Tests
                 .Execute("p.Name = '薛兴帅'")
                 ;
             Assert.AreEqual("xuefly", account.Name);
+        }
+
+        [TestMethod]
+        public void InternalModifyTest()
+        {
+            var account = new Account
+            {
+                Id = Guid.NewGuid(),
+                Name = "xuefly"
+            };
+            var state = AccountState.Create(account);
+            account.Name = "薛兴帅";
+
+            string msg = null;
+            try
+            {
+                var engine = new Engine()
+                    .SetValue("state", state)
+                    .Execute("state.InternalModify(state)");
+            }
+            catch (JavaScriptException e)
+            {
+                msg = e.Message;
+            }
+            Assert.AreEqual("Object has no method 'InternalModify'", msg);
+
+            Assert.AreEqual("xuefly", state.Name);
         }
     }
 }

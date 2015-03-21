@@ -49,15 +49,21 @@ namespace Anycmd.Engine.Ac
             }
             return new AppSystemState(appSystem.Id)
             {
-                _code = appSystem.Code,
-                _name = appSystem.Name,
-                _sortCode = appSystem.SortCode,
-                _principalId = appSystem.PrincipalId,
-                _isEnabled = appSystem.IsEnabled,
-                _ssoAuthAddress = appSystem.SsoAuthAddress,
-                _icon = appSystem.Icon,
-                _createOn = appSystem.CreateOn,
-            };
+                _createOn = appSystem.CreateOn
+            }.InternalModify(appSystem);
+        }
+
+        internal AppSystemState InternalModify(AppSystemBase appSystem)
+        {
+            _code = appSystem.Code;
+            _name = appSystem.Name;
+            _sortCode = appSystem.SortCode;
+            _principalId = appSystem.PrincipalId;
+            _isEnabled = appSystem.IsEnabled;
+            _ssoAuthAddress = appSystem.SsoAuthAddress;
+            _icon = appSystem.Icon;
+
+            return this;
         }
 
         public AcElementType AcElementType

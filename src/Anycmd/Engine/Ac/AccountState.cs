@@ -72,28 +72,34 @@ namespace Anycmd.Engine.Ac
             }
             return new AccountState(account.Id)
             {
-                _numberId = account.NumberId,
-                _loginName = account.LoginName,
-                _createOn = account.CreateOn,
-                _code = account.Code,
-                _email = account.Email,
-                _mobile = account.Mobile,
-                _name = account.Name,
-                _nickname = account.Nickname,
-                _qq = account.Qq,
-                _blogUrl = account.BlogUrl,
-                _password = account.Password,
-                _auditState = account.AuditState,
-                _allowStartTime = account.AllowStartTime,
-                _allowEndTime = account.AllowEndTime,
-                _lockStartTime = account.LockStartTime,
-                _loginCount = account.LoginCount,
-                _lockEndTime = account.LockEndTime,
-                _priviousLoginOn = account.PreviousLoginOn,
-                _firtLoginOn = account.FirstLoginOn,
-                _ipAddress = account.IpAddress,
-                _isEnabled = account.IsEnabled
-            };
+                _createOn = account.CreateOn
+            }.InternalModify(account);
+        }
+
+        internal AccountState InternalModify(IAccount account)
+        {
+            _numberId = account.NumberId;
+            _loginName = account.LoginName;
+            _code = account.Code;
+            _email = account.Email;
+            _mobile = account.Mobile;
+            _name = account.Name;
+            _nickname = account.Nickname;
+            _qq = account.Qq;
+            _blogUrl = account.BlogUrl;
+            _password = account.Password;
+            _auditState = account.AuditState;
+            _allowStartTime = account.AllowStartTime;
+            _allowEndTime = account.AllowEndTime;
+            _lockStartTime = account.LockStartTime;
+            _loginCount = account.LoginCount;
+            _lockEndTime = account.LockEndTime;
+            _priviousLoginOn = account.PreviousLoginOn;
+            _firtLoginOn = account.FirstLoginOn;
+            _ipAddress = account.IpAddress;
+            _isEnabled = account.IsEnabled;
+
+            return this;
         }
 
         public AcElementType AcElementType
