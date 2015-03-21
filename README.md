@@ -1,4 +1,5 @@
 Anycmd <a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=7c53e6d84b1c9ca2a31a1cd58e33cea5f32ffa9ef8427996a8c0a15d9fe3ef35"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt=".NET 开源权限引擎" title=".NET 开源权限引擎" />QQ交流群:306029222</a>
+<a href="http://www.oschina.net/question/tag/anycmd" target="_blank">Anycmd在oschina的关键字</a>
 ======
 #权限系统干了什么？
 
