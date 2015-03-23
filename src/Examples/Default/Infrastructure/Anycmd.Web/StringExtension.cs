@@ -11,7 +11,7 @@ namespace Anycmd.Web
     /// </summary>
     public static class StringExtension
     {
-        private static readonly Regex stripHTMLExpression = new Regex("<\\S[^><]*>", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Multiline | RegexOptions.CultureInvariant | RegexOptions.Compiled);
+        private static readonly Regex StripHtmlExpression = new Regex("<\\S[^><]*>", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Multiline | RegexOptions.CultureInvariant | RegexOptions.Compiled);
 
         /// <summary>
         /// 
@@ -67,7 +67,7 @@ namespace Anycmd.Web
         [DebuggerStepThrough]
         public static string StripHtml(this string target)
         {
-            return stripHTMLExpression.Replace(target, string.Empty);
+            return StripHtmlExpression.Replace(target, string.Empty);
         }
 
         /// <summary>
