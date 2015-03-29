@@ -231,7 +231,7 @@ namespace Anycmd.Mis.Web.Mvc.Controllers
             g.Dispose();
 
             //产生波形（Add By 51aspx.com）  
-            image = TwistImage(image, true, 8, 4);
+            image = TwistImage(image, false, 8, 4);
 
             return image;
         }
