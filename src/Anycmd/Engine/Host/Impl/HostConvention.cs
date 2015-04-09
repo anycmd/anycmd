@@ -7,20 +7,27 @@ namespace Anycmd.Engine.Host.Impl
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Web;
+    using System.Web.Hosting;
     using Util;
 
     public class HostConvention : IAppConfig
     {
         public HostConvention()
         {
-            var dir = AppDomain.CurrentDomain.BaseDirectory;
-            bool isAspnet =
-                !AppDomain.CurrentDomain.SetupInformation.ConfigurationFile.EndsWith("dll.config", StringComparison.OrdinalIgnoreCase)
-                && !AppDomain.CurrentDomain.SetupInformation.ConfigurationFile.EndsWith("exe.config", StringComparison.OrdinalIgnoreCase);
+            var dir = string.Empty;
+            if (HostingEnvironment.IsHosted)
+            {
+                dir = HttpRuntime.BinDirectory;
+            }
+            else
+            {
+                dir = AppDomain.CurrentDomain.BaseDirectory;
+            }
             #region plugin
             this.PluginBaseDirectory = (pluginType) =>
             {
-                var buildInPluginsBaseDirectory = isAspnet ? Path.Combine(dir, "Bin", "Plugins") : Path.Combine(dir, "Plugins");
+                var buildInPluginsBaseDirectory = Path.Combine(dir, "Plugins");
                 switch (pluginType)
                 {
                     case PluginType.Plugin:
@@ -849,8 +856,8 @@ FROM    ( SELECT    [Extent1].[Id] AS [Id] ,
             #endregion
             this.TicksTimeout = 180;
             this.InfoFormat = "json";
-            this.EntityArchivePath = isAspnet ? Path.Combine(dir, "db", "Archive") : Path.Combine(dir, "Archive");
-            this.EntityBackupPath = isAspnet ? Path.Combine(dir, "db", "Backup") : Path.Combine(dir, "Backup");
+            this.EntityArchivePath = Path.Combine(dir, "db", "Archive");
+            this.EntityBackupPath = Path.Combine(dir, "db", "Backup");
             this.ServiceIsAlive = true;
             this.TraceIsEnabled = false;
             this.BeatPeriod = 5;
